@@ -6,12 +6,11 @@ cd "$(dirname "$0")" || exit 1
 
 # Check if git is initialized
 if [ ! -d .git ]; then
-  echo "Error: Not a git repository. Please run 'git init' and add a remote origin."
+  echo "Error: Not a git repository."
   exit 1
 fi
 
 echo "Syncing latest agent games..."
-# Copy the actual games into the github pages repo, without deleting vital site files
 rsync -av --delete --exclude='.git' --exclude='publish.sh' --exclude='.nojekyll' --exclude='README.md' /Volumes/ai-stack/openclaw-PointClickStudio/openclaw-data/workspace/games/ /Volumes/ai-stack/openclaw-games/
 
 echo "Checking for changes..."
@@ -22,12 +21,7 @@ fi
 
 echo "Adding changes..."
 git add .
-
-echo "Committing..."
 timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 git commit -m "Auto-publish actual games: $timestamp"
-
-echo "Pushing to GitHub..."
 git push origin main
-
 echo "Successfully published to GitHub Pages!"
