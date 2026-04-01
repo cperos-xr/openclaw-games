@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#0d0d1a"/>
+  <!-- carpet -->
+  <rect x="50" y="200" width="540" height="150" fill="#2a2a4a"/>
+  <!-- walls -->
+  <rect x="0" y="0" width="640" height="180" fill="#16213e"/>
+  <!-- neon sign -->
+  <g fill="#ff0055">
+    <rect x="260" y="30" width="120" height="40" fill="#ff0055" opacity="0.8"/>
+    <text x="320" y="58" font-family="monospace" font-size="24" font-weight="bold" text-anchor="middle" fill="#fff">1010</text>
+  </g>
+  <!-- door to room 1010 -->
+  <rect x="400" y="120" width="80" height="120" fill="#1a1a2e" stroke="#0f0" stroke-width="4"/>
+  <text x="440" y="180" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">KEYPAD</text>
+  <!-- keycard on floor -->
+  <g transform="translate(200,250)">
+    <rect x="0" y="0" width="30" height="20" fill="#ffd700" stroke="#0f0" stroke-width="2"/>
+    <text x="15" y="14" font-family="monospace" font-size="6" fill="#000" text-anchor="middle">1010</text>
+  </g>
+  <!-- exit east -->
+  <rect x="500" y="150" width="60" height="80" fill="#1a1a2e" stroke="#0f0" stroke-width="4"/>
+  <text x="530" y="195" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">ROOM</text>
+</svg>

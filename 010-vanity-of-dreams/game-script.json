@@ -1,0 +1,200 @@
+{
+  "title": "The Vanity of Dreams",
+  "slug": "vanity-of-dreams",
+  "number": 10,
+  "setting": "A haunted hotel room 1010 where mirrors show other times. The Hotel Majestic is trapped in a time loop, and only by solving the mirror puzzles can you escape.",
+  "characters": [
+    {
+      "id": "ghost-housekeeper",
+      "name": "Mrs. Gable",
+      "description": "The spectral housekeeper, forever cleaning a room that no longer exists."
+    },
+    {
+      "id": "mirror-entity",
+      "name": "The Reflection",
+      "description": "A malevolent presence that lurks in the mirrors, watching and waiting."
+    }
+  ],
+  "items": [
+    {
+      "id": "mirror-shard",
+      "name": "Mirror Shard",
+      "description": "A sharp piece of broken mirror, still gleaming with an eerie silver light.",
+      "foundIn": "hotel-lobby",
+      "usedIn": "hotel-lobby",
+      "usedOn": "puzzle1"
+    },
+    {
+      "id": "key-1010",
+      "name": "Room 1010 Key",
+      "description": "A brass keycard labeled '1010 - ROOM KEY'.",
+      "foundIn": "hallway-10th",
+      "usedIn": "hallway-10th",
+      "usedOn": "puzzle2"
+    },
+    {
+      "id": "maintenance-log",
+      "name": "Maintenance Log",
+      "description": "A logbook with frantic notes about 'the entities in the mirrors' and a warning to stay out of room 1010.",
+      "foundIn": "room-1010",
+      "usedIn": "room-1010",
+      "usedOn": "puzzle3"
+    },
+    {
+      "id": "fuse",
+      "name": "Circuit Fuse",
+      "description": "A heavy-duty fuse for the elevator's main power circuit.",
+      "foundIn": "service-elevator",
+      "usedIn": "service-elevator",
+      "usedOn": "puzzle4"
+    },
+    {
+      "id": "power-cell",
+      "name": "Auxiliary Power Cell",
+      "description": "A small battery pack used to jumpstart the elevator's auxiliary systems.",
+      "foundIn": "service-elevator",
+      "usedIn": "service-elevator",
+      "usedOn": "puzzle4"
+    },
+    {
+      "id": "elevator-key",
+      "name": "Elevator Override Key",
+      "description": "An ornate key that manually activates the service elevator's final floor.",
+      "foundIn": "boiler-room",
+      "usedIn": "boiler-room",
+      "usedOn": "puzzle5"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "hotel-lobby",
+      "name": "Hotel Lobby",
+      "prose": "You stand in the grand, decaying lobby of the Hotel Majestic. Dust motes swirl in the faint light of a shattered chandelier. The air smells of mildew and something metallic. A reception desk lies cracked, its ledger torn. A large ornate mirror hangs cracked; shards of glass litter the floor. To the north, a heavy door is boarded up, but the boards are loose.",
+      "exits": {"north": "hallway-10th"},
+      "items": ["mirror-shard"],
+      "puzzles": ["puzzle1"],
+      "lookDescriptions": {
+        "reception desk": "Dust covers the registration book.",
+        "chandelier": "Crystal shards dangle, tinkling in the draft.",
+        "shattered mirror": "The mirror is smashed; something about the glass feels alive."
+      }
+    },
+    {
+      "id": "hallway-10th",
+      "name": "10th Floor Hallway",
+      "prose": "The dim hallway stretches east and west, carpeted in faded red. Neon '1010' glows faintly above a door. A brass keycard glints on the floor. The door to room 1010 is reinforced with a keypad lock.",
+      "exits": {"east": "room-1010"},
+      "items": ["key-1010"],
+      "puzzles": ["puzzle2"],
+      "lookDescriptions": {
+        "neon sign": "The number 1010 flickers erratically.",
+        "room 1010 door": "A heavy steel door with a digital keypad."
+      }
+    },
+    {
+      "id": "room-1010",
+      "name": "Room 1010",
+      "prose": "A once-grand suite, now in disarray. The bed is torn, curtains moth-eaten. A writing desk is covered in frantic notes about 'the mirrors'. A maintenance logbook lies open. The door to the service elevator is rusted shut.",
+      "exits": {"south": "service-elevator"},
+      "items": ["maintenance-log"],
+      "puzzles": ["puzzle3"],
+      "lookDescriptions": {
+        "writing desk": "Papers scattered with sketches of eyes watching from mirrors.",
+        "maintenance log": "The final entry reads: 'The entity in room 1010's mirror is not a reflection. It is real.'"
+      }
+    },
+    {
+      "id": "service-elevator",
+      "name": "Service Elevator",
+      "prose": "A cramped, metallic elevator car that smells of ozone. Flickering lights cast long shadows. A control panel with a broken switch. An open fuse box hangs from the wall. Spare parts litter the floor, including a heavy fuse and a small power cell.",
+      "exits": {"down": "boiler-room"},
+      "items": ["fuse", "power-cell"],
+      "puzzles": ["puzzle4"],
+      "lookDescriptions": {
+        "fuse box": "Empty fuse sockets. One is burnt out.",
+        "control panel": "The 'CALL' button is missing its cover."
+      }
+    },
+    {
+      "id": "boiler-room",
+      "name": "Boiler Room",
+      "prose": "Steam hisses from broken pipes in this cavernous space. A massive boiler dominates the room, its pressure gauge cracked. Heavy chains hang from the ceiling. A door to the north bears an ornate lock. An elevator override key hangs on a hook nearby.",
+      "exits": {"north": "ballroom"},
+      "items": ["elevator-key"],
+      "puzzles": ["puzzle5"],
+      "lookDescriptions": {
+        "boiler": "The furnace is cold, but you feel a lingering heat.",
+        "override hook": "A brass hook shaped like a question mark."
+      }
+    },
+    {
+      "id": "ballroom",
+      "name": "Grand Ballroom",
+      "prose": "The grand ballroom is frozen in time. Crystal chandeliers dangle, covered in cobwebs. Polished floors reflect ghostly silhouettes waltzing. A massive gilt-framed mirror dominates the far wall, showing not your reflection, but a nightmarish version of the hotel. The air hums with a low frequency. This is the heart of the curse.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "mirror": "The reflection shows you standing in a different era, but the eyes of the entities follow you.",
+        "chandeliers": "The crystals are actually tiny teeth."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle1",
+      "scene": "hotel-lobby",
+      "requires": ["mirror-shard"],
+      "action": "use mirror-shard on boarded door",
+      "result": "You pry the boards loose with the sharp glass. The door groans open, revealing a darkened hallway beyond.",
+      "reveals": ["hallway-10th"],
+      "blocksExit": {"scene": "hotel-lobby", "direction": "north"},
+      "blockedMessage": "The north exit is blocked by sturdy boards. You need something to pry them."
+    },
+    {
+      "id": "puzzle2",
+      "scene": "hallway-10th",
+      "requires": ["key-1010"],
+      "action": "use key-1010 on door",
+      "result": "The lock clicks. The door to Room 1010 swings inward with a sigh.",
+      "reveals": ["room-1010"],
+      "blocksExit": {"scene": "hallway-10th", "direction": "east"},
+      "blockedMessage": "The door to Room 1010 is locked. You need the key."
+    },
+    {
+      "id": "puzzle3",
+      "scene": "room-1010",
+      "requires": ["maintenance-log"],
+      "action": "use maintenance-log on elevator control panel",
+      "result": "The panel accepts the authorization code from the logbook. The rusted elevator doors grind open.",
+      "reveals": ["service-elevator"],
+      "blocksExit": {"scene": "room-1010", "direction": "south"},
+      "blockedMessage": "The elevator door is rusted shut. It requires an authorization code."
+    },
+    {
+      "id": "puzzle4",
+      "scene": "service-elevator",
+      "requires": ["fuse", "power-cell"],
+      "action": "replace fuse and connect power-cell",
+      "result": "The elevator lights flicker on. A low whine builds as the machinery powers up. The elevator descends to the boiler room level.",
+      "reveals": ["boiler-room"],
+      "blocksExit": {"scene": "service-elevator", "direction": "down"},
+      "blockedMessage": "The elevator is dead. It needs a fuse and a power source."
+    },
+    {
+      "id": "puzzle5",
+      "scene": "boiler-room",
+      "requires": ["elevator-key"],
+      "action": "use elevator-key on override lock",
+      "result": "The key turns smoothly. The boiler-room door to the north unlocks with a heavy clunk.",
+      "reveals": ["ballroom"],
+      "blocksExit": {"scene": "boiler-room", "direction": "north"},
+      "blockedMessage": "The door to the ballroom is locked with an ornate mechanism. You need the override key."
+    }
+  ],
+  "winCondition": {
+    "scene": "ballroom",
+    "requires": [],
+    "description": "As you step into the ballroom, the hotel's timeline collapses. You are thrust out into the night, the building crumbling behind you. You have escaped the Vanity of Dreams."
+  }
+}
