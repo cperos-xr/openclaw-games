@@ -1,0 +1,91 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Dark industrial -->
+  <rect width="640" height="400" fill="#1a1a18"/>
+  
+  <!-- Concrete floor -->
+  <rect x="0" y="320" width="640" height="80" fill="#2a2a25"/>
+  <!-- Floor texture lines -->
+  <g stroke="#333330" stroke-width="1">
+    <line x1="0" y1="340" x2="640" y2="340"/>
+    <line x1="0" y1="360" x2="640" y2="360"/>
+    <line x1="0" y1="380" x2="640" y2="380"/>
+  </g>
+  
+  <!-- Vacuum tubes on far wall - rows -->
+  <g id="vacuum-tubes">
+    <!-- Row 1 -->
+    <rect x="50" y="50" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.8"/>
+    <rect x="90" y="50" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.9"/>
+    <rect x="130" y="50" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.7"/>
+    <rect x="170" y="50" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.85"/>
+    <rect x="210" y="50" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.6"/>
+    <rect x="250" y="50" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.9"/>
+    <rect x="290" y="50" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.7"/>
+    <rect x="330" y="50" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.8"/>
+    <rect x="370" y="50" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.75"/>
+    <rect x="410" y="50" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.85"/>
+    <rect x="450" y="50" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.65"/>
+    <rect x="490" y="50" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.9"/>
+    
+    <!-- Row 2 -->
+    <rect x="50" y="110" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.7"/>
+    <rect x="90" y="110" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.8"/>
+    <rect x="130" y="110" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.75"/>
+    <rect x="170" y="110" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.9"/>
+    <rect x="210" y="110" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.65"/>
+    <rect x="250" y="110" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.85"/>
+    <rect x="290" y="110" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.7"/>
+    <rect x="330" y="110" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.8"/>
+    <rect x="370" y="110" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.75"/>
+    <rect x="410" y="110" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.85"/>
+    <rect x="450" y="110" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.7"/>
+    <rect x="490" y="110" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.9"/>
+    
+    <!-- Row 3 -->
+    <rect x="50" y="170" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.75"/>
+    <rect x="90" y="170" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.85"/>
+    <rect x="130" y="170" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.8"/>
+    <rect x="170" y="170" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.7"/>
+    <rect x="210" y="170" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.85"/>
+    <rect x="250" y="170" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.75"/>
+    <rect x="290" y="170" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.9"/>
+    <rect x="330" y="170" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.8"/>
+    <rect x="370" y="170" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.7"/>
+    <rect x="410" y="170" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.85"/>
+    <rect x="450" y="170" width="20" height="40" fill="#aa00ff" stroke="#7700aa" stroke-width="2" opacity="0.75"/>
+    <rect x="490" y="170" width="20" height="40" fill="#ff8800" stroke="#cc6600" stroke-width="2" opacity="0.9"/>
+  </g>
+  
+  <!-- Broadcasting console at center -->
+  <rect x="220" y="250" width="200" height="70" fill="#2a2a25" stroke="#555550" stroke-width="3"/>
+  <!-- Console dials -->
+  <g stroke="#ff8800" stroke-width="2">
+    <circle cx="270" cy="285" r="15" fill="#1a1a18"/>
+    <circle cx="320" cy="285" r="15" fill="#1a1a18"/>
+    <circle cx="370" cy="285" r="15" fill="#1a1a18"/>
+  </g>
+  <!-- Console switches -->
+  <rect x="240" y="260" width="10" height="20" fill="#333330" stroke="#555550"/>
+  <rect x="260" y="260" width="10" height="20" fill="#333330" stroke="#555550"/>
+  <rect x="400" y="260" width="10" height="20" fill="#333330" stroke="#555550"/>
+  <rect x="420" y="260" width="10" height="20" fill="#333330" stroke="#555550"/>
+  
+  <!-- Cables on floor -->
+  <path d="M100,350 Q150,320 200,350 T300,350 T400,350 T500,350" stroke="#333330" stroke-width="4" fill="none"/>
+  <path d="M80,370 Q130,340 180,370 T280,370" stroke="#444440" stroke-width="3" fill="none"/>
+  
+  <!-- Fuse box on eastern wall -->
+  <rect x="520" y="200" width="60" height="80" fill="#3a3a35" stroke="#555550" stroke-width="3"/>
+  <!-- Rust texture on fuse box -->
+  <rect x="525" y="205" width="50" height="70" fill="#8b4513" opacity="0.3"/>
+  <rect x="530" y="210" width="40" height="60" fill="#2a2a25" stroke="#444440" stroke-width="2"/>
+  <!-- Empty slot -->
+  <rect x="540" y="240" width="20" height="20" fill="#1a1a18" stroke="#ff8800" stroke-width="2"/>
+  <!-- Other slots -->
+  <rect x="540" y="215" width="20" height="15" fill="#333330" stroke="#555550"/>
+  <rect x="540" y="270" width="20" height="15" fill="#333330" stroke="#555550"/>
+  
+  <!-- Ambient glow from tubes -->
+  <circle cx="320" cy="100" r="80" fill="#ff8800" opacity="0.1"/>
+  <circle cx="320" cy="100" r="60" fill="#aa00ff" opacity="0.05"/>
+</svg>

@@ -1,0 +1,237 @@
+{
+  "title": "Pressure Point",
+  "slug": "pressure-point",
+  "number": 6,
+  "setting": "The Benthic, an abandoned deep-sea research station 3,000 meters below the surface. The station was abandoned after a catastrophic containment breach. Water pressure groans against the hull. Something moves in the lower decks.",
+  "characters": [
+    {
+      "id": "dr-aris-thorne",
+      "name": "Dr. Aris Thorne",
+      "description": "Station director. His fragmented logs detail the final hours before the breach and his descent into paranoia."
+    }
+  ],
+  "items": [
+    {
+      "id": "crowbar",
+      "name": "Crowbar",
+      "description": "A heavy steel crowbar, crusted with salt and rust. It feels solid in your grip.",
+      "foundIn": "docking-bay",
+      "usedIn": "crew-quarters",
+      "usedOn": "locked-cabinet"
+    },
+    {
+      "id": "restricted-keycard",
+      "name": "Restricted Keycard",
+      "description": "A plastic keycard with a magnetic strip. The words 'Bio-Lab Access - Level 3' are faded but legible.",
+      "foundIn": "crew-quarters",
+      "usedIn": "bio-lab",
+      "usedOn": "bio-lab-door"
+    },
+    {
+      "id": "sonar-ping-device",
+      "name": "Sonar Ping Device",
+      "description": "A handheld device with a cracked screen. It emits a low, periodic ping when activated.",
+      "foundIn": "bio-lab",
+      "usedIn": "sonar-room",
+      "usedOn": "sonar-panel"
+    },
+    {
+      "id": "maintenance-override-key",
+      "name": "Maintenance Override Key",
+      "description": "A chunky mechanical key stamped with 'Engineering Override - Use Only In Emergency'.",
+      "foundIn": "sonar-room",
+      "usedIn": "engineering-bay",
+      "usedOn": "engineering-door"
+    },
+    {
+      "id": "oxygen-canister",
+      "name": "Oxygen Canister",
+      "description": "A pressurized canister of breathable oxygen. The gauge shows half-full. It hisses faintly when moved.",
+      "foundIn": "engineering-bay",
+      "usedIn": "airlock",
+      "usedOn": "airlock-mechanism"
+    },
+    {
+      "id": "airlock-circuit",
+      "name": "Airlock Circuit",
+      "description": "A makeshift circuit board cobbled together from the sonar ping device and a maintenance key. It hums with unstable power.",
+      "foundIn": "engineering-bay",
+      "usedIn": "airlock",
+      "usedOn": "airlock-mechanism"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "docking-bay",
+      "name": "Docking Bay",
+      "prose": "The outer hatch seals behind you with a hiss that sounds too much like a last breath. You're inside now. The docking bay is a flooded corridor of flickering emergency lights and groaning metal. Water sloshes around your ankles, black and cold, carrying the tang of brine and something else—something chemical, sharp, wrong.\n\nEmergency strobes paint the walls in pulses of bloody red. The ceiling drips, each drop a tiny impact against the water's surface. To your left, a maintenance locker hangs open, tools scattered across the floor. A crowbar lies half-submerged, its steel glinting in the sporadic light.\n\nAhead, the corridor splits. One passage leads deeper into the station, marked by a dangling sign that reads 'Crew Quarters'. The other branches off toward a sealed bulkhead door labeled 'Bio-Lab - RESTRICTED'. The door's status panel blinks a steady, accusing red.\n\nThe station groans. Not a sound, but a vibration that travels up through the water, through your boots, into your bones. It's the pressure of three thousand meters of ocean pressing against the hull. It's the sound of something vast and hungry leaning against the walls, waiting for a single crack.\n\nSomething moves in the water ahead—a ripple that doesn't match your own. You freeze. The ripple stills. The red lights pulse. The groaning deepens.\n\nYou are not alone. The station knows you're here.",
+      "exits": {
+        "north": "crew-quarters",
+        "east": "bio-lab"
+      },
+      "items": ["crowbar"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "water": "Black, cold, sloshing around your ankles. Carries the tang of brine and something chemical.",
+        "lights": "Emergency strobes painting the walls in pulses of bloody red. They flicker, casting long, trembling shadows.",
+        "locker": "A maintenance locker hanging open, tools scattered across the floor.",
+        "crowbar": "A heavy steel crowbar half-submerged in the water, crusted with salt and rust.",
+        "sign": "A dangling sign reading 'Crew Quarters'. The letters are faded, streaked with grime.",
+        "bulkhead": "A sealed bulkhead door labeled 'Bio-Lab - RESTRICTED'. The status panel blinks a steady red.",
+        "groan": "A deep vibration traveling through the hull—the pressure of the ocean outside, waiting for a crack."
+      }
+    },
+    {
+      "id": "crew-quarters",
+      "name": "Crew Quarters",
+      "prose": "The crew quarters feel less like living space and more like a crime scene frozen in time. Bunks are unmade, blankets tossed aside in haste. Personal lockers hang open, spilling clothes and data pads across the floor. A half-eaten meal sits on a fold-out table, the food now a gray, fuzzy mold.\n\nThe air here is thicker, warmer. It carries the scent of unwashed linen, stale sweat, and the faint, sweet rot of forgotten rations. A single emergency light buzzes overhead, casting a sickly yellow pall over everything. Shadows cluster in the corners, refusing to budge.\n\nAgainst the far wall, a metal cabinet stands locked. A heavy padlock secures it, but the door is slightly bent, as if someone tried to pry it open before giving up. A faded label reads 'Restricted Equipment - Authorized Personnel Only'.\n\nOn a desk, a terminal screen flickers with static. Occasionally, a fragment of text appears—'…breach in Sector 7…', '…Thorne's orders…', '…don't trust the water…'. The logs are corrupted, but the desperation is palpable.\n\nA porthole looks out into the blackness. Your own reflection stares back, pale and distorted. Beyond the glass, something moves—a shape too large, too smooth to be machinery. It slides past and vanishes before you can focus.\n\nThe station groans again, a low, aching sound that seems to come from the walls themselves. The cabinet rattles in sympathy. Inside, something shifts.",
+      "exits": {
+        "south": "docking-bay",
+        "east": "sonar-room"
+      },
+      "items": ["restricted-keycard"],
+      "puzzles": ["cabinet-puzzle"],
+      "lookDescriptions": {
+        "bunks": "Unmade, blankets tossed aside in haste. Personal lockers hang open, spilling clothes and data pads.",
+        "cabinet": "A metal cabinet locked with a heavy padlock. The door is slightly bent. Label reads 'Restricted Equipment - Authorized Personnel Only'.",
+        "terminal": "Flickering with static. Fragments of text appear: '…breach in Sector 7…', '…Thorne's orders…', '…don't trust the water…'.",
+        "porthole": "Looks out into blackness. Your reflection stares back, pale and distorted. Something large moved past outside.",
+        "meal": "A half-eaten meal on a fold-out table, now gray mold.",
+        "shadows": "Cluster in the corners, refusing to budge even under the yellow light.",
+        "air": "Thick, warm, smells of unwashed linen, stale sweat, and sweet rot."
+      }
+    },
+    {
+      "id": "bio-lab",
+      "name": "Bio-Lab",
+      "prose": "The bio-lab is a chamber of nightmares suspended in glass. Rows of specimen tanks line the walls, each filled with murky fluid. Within them, shapes float—things that might have been marine life once, now twisted into forms that hurt the eye. Tentacles without bodies, eyes without faces, spines that curl in impossible directions.\n\nThe air is cold and smells of formaldehyde and salt. A fine mist hangs near the ceiling, condensing on the metal surfaces and dripping like slow tears. In the center of the room, a larger tank has cracked. Fluid has leaked across the floor, leaving a sticky, iridescent sheen. Inside the broken tank, something is missing.\n\nWorkstations are littered with petri dishes, microscopes, and hastily abandoned notes. One note, written in frantic handwriting, reads: 'Subject Gamma is conscious. It knows we're here. It's learning the lock codes.'\n\nOn a side table, a handheld device lies discarded—a sonar ping unit, its screen cracked but still functional. It emits a soft, periodic ping that echoes in the chamber.\n\nThe door to the sonar room is sealed, requiring a keycard. The panel beside it glows a soft green, waiting for authorization.\n\nFrom one of the intact tanks, a shape presses against the glass. It has too many eyes, and they all watch you. The sonar ping quickens, as if in response.",
+      "exits": {
+        "west": "docking-bay",
+        "north": "sonar-room"
+      },
+      "items": ["sonar-ping-device"],
+      "puzzles": ["bio-lab-door-puzzle"],
+      "lookDescriptions": {
+        "specimen tanks": "Rows of tanks filled with murky fluid. Shapes float inside—twisted marine life, tentacles without bodies, eyes without faces.",
+        "cracked tank": "A larger tank in the center, cracked. Fluid leaked across the floor, leaving a sticky, iridescent sheen. Something is missing from inside.",
+        "workstations": "Littered with petri dishes, microscopes, and hastily abandoned notes.",
+        "note": "Written in frantic handwriting: 'Subject Gamma is conscious. It knows we're here. It's learning the lock codes.'",
+        "sonar device": "A handheld sonar ping unit with a cracked screen. Emits a soft, periodic ping.",
+        "door": "Sealed door to the sonar room. Requires a keycard. Panel glows soft green.",
+        "shape": "In an intact tank, a shape presses against the glass. Too many eyes, all watching you.",
+        "mist": "A fine mist hangs near the ceiling, condensing and dripping like slow tears."
+      }
+    },
+    {
+      "id": "sonar-room",
+      "name": "Sonar Room",
+      "prose": "The sonar room is a cave of screens and silence. Dozens of monitors line the walls, most of them dark. Those still active display scrolling lines of sonar data—pings mapping the emptiness outside. But the emptiness is not empty. Blips appear at the edges, too fast to be geology, too large to be fish.\n\nThe room is dry, the air stale with the smell of overheated electronics and ozone. A central console hums, its surface covered in dials and switches. One panel is open, revealing a tangle of wires behind. A mechanical key is wedged deep inside, accessible only if you can trigger the release mechanism.\n\nA large sonar screen dominates the far wall. It shows a topographic map of the seafloor around the station. Something massive is circling—a shadow that blots out the contours as it passes. It moves slowly, deliberately, as if tracing the station's outline.\n\nA clipboard hangs from a hook, attached to a faded log sheet. The final entry reads: 'Day 47: The thing outside matches our pings now. It's learning our frequency. Thorne says to keep transmitting. I think he wants it to find us.'\n\nThe door to engineering is a heavy bulkhead, sealed with an override lock. A red light pulses above it, indicating restricted access.\n\nThe sonar ping device in your hand vibrates, its frequency syncing with the blips on the screens. The shadow outside pauses, as if listening.",
+      "exits": {
+        "south": "bio-lab",
+        "west": "crew-quarters",
+        "down": "engineering-bay"
+      },
+      "items": ["maintenance-override-key"],
+      "puzzles": ["sonar-panel-puzzle"],
+      "lookDescriptions": {
+        "monitors": "Dozens of screens, most dark. Active ones display scrolling sonar data with blips at the edges—too fast, too large.",
+        "console": "Central console humming, covered in dials and switches. One panel open, revealing wires and a wedged key inside.",
+        "sonar screen": "Large screen showing topographic map of seafloor. Something massive circles—a shadow blotting out contours.",
+        "clipboard": "Faded log sheet. Final entry: 'Day 47: The thing outside matches our pings now. It's learning our frequency. Thorne says to keep transmitting. I think he wants it to find us.'",
+        "door": "Heavy bulkhead door to engineering, sealed with override lock. Red light pulses above.",
+        "shadow": "On the sonar screen, a massive shadow circles the station, tracing its outline.",
+        "air": "Stale, smells of overheated electronics and ozone."
+      }
+    },
+    {
+      "id": "engineering-bay",
+      "name": "Engineering Bay",
+      "prose": "Engineering is the station's mechanical heart, and it is failing. Pipes line the ceiling, some leaking steam that curls in ghostly tendrils. Generators sit silent, their casings scarred and blackened. The air tastes of oil, metal, and the sharp bite of coolant.\n\nIn the center of the room, a massive pressure valve dominates—a wheel taller than you, rusted in place. Beside it, an oxygen canister is strapped to the wall, its gauge showing half-full. The hiss of escaping gas is a constant whisper.\n\nA workbench is scattered with tools and components. Among them, you see the remains of a sonar ping device and a maintenance key. With the right combination, they could be fashioned into a circuit board—something to bypass the airlock's fried controls.\n\nA viewport looks out into the abyss. The exterior lights are dead, but something outside catches the faint glow from within. A shape, all angles and smooth curves, presses against the glass. It has no eyes, but you feel its attention. It studies you, as you study it.\n\nThe door to the airlock is a circular hatch, sealed with multiple locks. A control panel beside it is dark, its screen cracked. Without power, it won't open.\n\nFrom the depths of the station, a new sound emerges—a deep, resonant thrumming that vibrates through the floor. It's not machinery. It's vocal. The thing outside is calling. And something inside the station is answering.",
+      "exits": {
+        "up": "sonar-room",
+        "north": "airlock"
+      },
+      "items": ["oxygen-canister", "airlock-circuit"],
+      "puzzles": ["engineering-puzzle"],
+      "lookDescriptions": {
+        "pressure valve": "A massive wheel taller than you, rusted in place. Pipes leak steam around it.",
+        "oxygen canister": "Strapped to the wall, gauge half-full. Hisses faintly.",
+        "workbench": "Scattered with tools and components—sonar ping device remains, maintenance key, circuit boards.",
+        "viewport": "Looks out into the abyss. Exterior lights dead. A shape presses against the glass—angles and smooth curves, no eyes, but attentive.",
+        "hatch": "Circular hatch to airlock, sealed with multiple locks. Control panel dark, screen cracked.",
+        "thrumming": "Deep, resonant vibration through the floor—vocal, calling. Something answers from inside.",
+        "generators": "Silent, casings scarred and blackened.",
+        "air": "Tastes of oil, metal, and coolant."
+      }
+    },
+    {
+      "id": "airlock",
+      "name": "Airlock",
+      "prose": "The airlock is a tomb of polished steel and impending decisions. Two doors define your fate: the inner hatch behind you, the outer hatch ahead. Between them, this cylindrical chamber where pressure equalizes and hope either holds or fails.\n\nThe walls are lined with lockers—some open, spilling emergency suits and toolkits. A control console dominates the center, its screens dark. A slot for a circuit board sits empty, waiting for power. Next to it, a receptacle for an oxygen canister gapes like a hungry mouth.\n\nThrough the thick glass of the outer hatch, the abyss stares back. Blackness so complete it feels solid. Occasionally, a flicker of bioluminescence dances at the edge of vision—tiny, doomed sparks in the eternal night.\n\nThe station's groaning is louder here, a chorus of stressed metal and shifting pressures. Something heavy drags against the outer hull. A scrape, slow and deliberate, as if testing the strength of the metal. Then silence. Then another scrape, closer.\n\nThe control console awaits its components. With the airlock circuit installed and oxygen supplied, the outer hatch might cycle open. But opening it means exposing the chamber to the crushing pressure outside. It means trusting the station's failing systems to keep you alive long enough to reach the surface.\n\nIt means leaving. It means escape.\n\nBut the thing outside knows you're here. It presses against the glass, a shape of angles and smooth curves, studying you with a patience that feels ancient. It wants you to stay. It wants you to join the others who never left.\n\nThe inner hatch seals behind you. There is no going back. Only forward, into the black, or deeper into the station's waiting throat.\n\nThe choice is yours. The station holds its breath.",
+      "exits": {},
+      "items": [],
+      "puzzles": ["airlock-puzzle"],
+      "lookDescriptions": {
+        "lockers": "Open lockers spill emergency suits and toolkits. One suit is torn, as if something forced its way out.",
+        "console": "Control console with dark screens. A slot for a circuit board sits empty. A receptacle for an oxygen canister gapes open.",
+        "outer hatch": "Thick glass looking into the abyss. Blackness so complete it feels solid. Occasional bioluminescence flickers at the edge.",
+        "scrape": "Something heavy drags against the outer hull. A slow, deliberate scrape, testing the metal.",
+        "shape": "A shape of angles and smooth curves presses against the glass outside. It studies you with ancient patience.",
+        "inner hatch": "Sealed behind you. No going back.",
+        "air": "Cold, metallic, smells of ozone and stale sweat."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "cabinet-puzzle",
+      "scene": "crew-quarters",
+      "requires": ["crowbar"],
+      "action": "use crowbar on locked cabinet",
+      "result": "The cabinet door groans open, revealing a restricted keycard inside.",
+      "reveals": ["restricted-keycard"],
+      "blocksExit": ""
+    },
+    {
+      "id": "bio-lab-door-puzzle",
+      "scene": "docking-bay",
+      "requires": ["restricted-keycard"],
+      "action": "use restricted keycard on bio-lab door",
+      "result": "The door panel flashes green and the bulkhead seals open with a hiss.",
+      "reveals": ["bio-lab"],
+      "blocksExit": "east"
+    },
+    {
+      "id": "sonar-panel-puzzle",
+      "scene": "sonar-room",
+      "requires": ["sonar-ping-device"],
+      "action": "use sonar ping device on sonar panel",
+      "result": "The panel beeps and a hidden compartment slides open, revealing a maintenance override key.",
+      "reveals": ["maintenance-override-key"],
+      "blocksExit": ""
+    },
+    {
+      "id": "engineering-door-puzzle",
+      "scene": "sonar-room",
+      "requires": ["maintenance-override-key"],
+      "action": "use maintenance override key on engineering door",
+      "result": "The heavy bulkhead grinds open, revealing the engineering bay.",
+      "reveals": ["engineering-bay"],
+      "blocksExit": "down"
+    },
+    {
+      "id": "airlock-puzzle",
+      "scene": "airlock",
+      "requires": ["oxygen-canister", "airlock-circuit"],
+      "action": "install airlock circuit and oxygen canister in control console",
+      "result": "The console powers up. The outer hatch cycles open, revealing the escape pod.",
+      "reveals": ["win"],
+      "blocksExit": ""
+    }
+  ],
+  "winCondition": {
+    "scene": "airlock",
+    "requires": ["oxygen-canister", "airlock-circuit"],
+    "description": "Install the airlock circuit and oxygen canister to power the escape pod and leave the station."
+  }
+}

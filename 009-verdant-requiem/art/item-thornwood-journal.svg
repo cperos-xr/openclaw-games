@@ -1,0 +1,29 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="64" height="64" fill="#001100"/>
+  
+  <!-- Thornwood's journal -->
+  <!-- Leather cover -->
+  <rect x="12" y="12" width="40" height="40" fill="#221100" stroke="#000000" stroke-width="1"/>
+  <!-- Leather texture -->
+  <line x1="12" y1="20" x2="52" y2="20" stroke="#110000" stroke-width="1"/>
+  <line x1="12" y1="28" x2="52" y2="28" stroke="#110000" stroke-width="1"/>
+  <line x1="12" y1="36" x2="52" y2="36" stroke="#110000" stroke-width="1"/>
+  
+  <!-- Journal details -->
+  <!-- Franted notes lines -->
+  <line x1="16" y1="18" x2="48" y2="18" stroke="#000000" stroke-width="1"/>
+  <line x1="16" y1="22" x2="40" y2="22" stroke="#000000" stroke-width="1"/>
+  <line x1="16" y1="26" x2="44" y2="26" stroke="#000000" stroke-width="1"/>
+  <line x1="16" y1="30" x2="36" y2="30" stroke="#000000" stroke-width="1"/>
+  <line x1="16" y1="34" x2="28" y2="34" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Diagram elements -->
+  <circle cx="24" cy="24" r="3" fill="#000000"/>
+  <line x1="24" y1="24" x2="32" y2="32" stroke="#000000" stroke-width="1"/>
+  <circle cx="32" cy="32" r="2" fill="#000000"/>
+  <line x1="32" y1="32" x2="40" y2="24" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Leather strap/binding -->
+  <rect x="8" y="12" width="4" height="40" fill="#110000" stroke="#000000" stroke-width="1"/>
+</svg>

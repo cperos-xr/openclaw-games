@@ -1,0 +1,42 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Dark tunnel -->
+  <rect width="640" height="400" fill="#000000"/>
+  
+  <!-- Tunnel walls -->
+  <path d="M0,200 Q160,100 320,200 T640,200 L640,400 L0,400 Z" fill="#001100" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Tunnel floor -->
+  <rect x="0" y="300" width="640" height="100" fill="#002200" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Mining graffiti on wall -->
+  <text x="100" y="180" fill="#FFFFFF" font-size="12">HE LISTENS</text>
+  <text x="120" y="200" fill="#FFFFFF" font-size="8">VEX VIVIT</text>
+  
+  <!-- Wooden supply crate -->
+  <rect x="200" y="250" width="100" height="60" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <line x1="200" y1="280" x2="300" y2="280" stroke="#000000" stroke-width="1"/>
+  <line x1="250" y1="250" x2="250" y2="310" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Oil lantern in crate -->
+  <rect x="220" y="260" width="20" height="30" fill="#CD7F32" stroke="#000000" stroke-width="2"/>
+  <rect x="225" y="290" width="10" height="5" fill="#FFFF00" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Coil of frayed rope -->
+  <ellipse cx="270" cy="280" rx="15" ry="8" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Scattered debris on floor -->
+  <rect x="100" y="350" width="8" height="4" fill="#C0C0C0" stroke="#000000" stroke-width="1"/>
+  <rect x="150" y="360" width="6" height="6" fill="#C0C0C0" stroke="#000000" stroke-width="1"/>
+  <rect x="200" y="340" width="4" height="8" fill="#C0C0C0" stroke="#000000" stroke-width="1"/>
+  <rect x="400" y="370" width="6" height="4" fill="#C0C0C0" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Broken pocket watch glint -->
+  <circle cx="180" cy="355" r="2" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Entrance light (south) -->
+  <rect x="280" y="380" width="80" height="20" fill="#808080" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Darkness to east -->
+  <rect x="500" y="100" width="100" height="200" fill="#000000" stroke="#000000" stroke-width="2"/>
+  
+</svg>

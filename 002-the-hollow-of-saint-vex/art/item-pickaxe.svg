@@ -1,0 +1,13 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Pickaxe handle -->
+  <rect x="28" y="10" width="8" height="40" fill="#8B4513" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Pickaxe head -->
+  <rect x="24" y="8" width="16" height="8" fill="#C0C0C0" stroke="#000000" stroke-width="1"/>
+  <polygon points="24,16 32,4 40,16" fill="#C0C0C0" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Wear on handle -->
+  <rect x="28" y="20" width="8" height="4" fill="#A0522D" stroke="#000000" stroke-width="1"/>
+  <rect x="28" y="30" width="8" height="4" fill="#A0522D" stroke="#000000" stroke-width="1"/>
+  
+</svg>

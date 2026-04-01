@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The Clockwork Lighthouse</title>
+    <style>
+        /* Apple II CRT aesthetic */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            height: 100%; background: #000; color: #33ff33;
+            font-family: 'Courier New', monospace;
+            font-size: 14px; line-height: 1.4;
+            overflow: hidden;
+        }
+        body::after {
+            content: ''; position: fixed; inset: 0; z-index: 9999;
+            background: repeating-linear-gradient(
+                transparent, transparent 2px, rgba(0,0,0,0.12) 2px, rgba(0,0,0,0.12) 4px
+            );
+            pointer-events: none;
+        }
+        #game-container {
+            display: flex; flex-direction: column;
+            height: 100vh; max-width: 900px; margin: 0 auto;
+            padding: 10px;
+        }
+        #art-display {
+            flex: 0 0 300px; background: #000; border: 2px solid #33ff33;
+            margin-bottom: 10px; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        #art-display svg, #art-display img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        #scene-name {
+            color: #ffff33; font-size: 16px; font-weight: bold;
+            margin-bottom: 5px; text-align: center;
+        }
+        #text-display {
+            flex: 1; background: #000; border: 2px solid #33ff33;
+            padding: 10px; overflow-y: auto; margin-bottom: 10px;
+        }
+        #text-display p { margin-bottom: 8px; }
+        .system { color: #33ffff; }
+        .success { color: #ffff33; font-weight: bold; }
+        .error { color: #ff3333; }
+        .look-target { color: #ff9933; cursor: pointer; text-decoration: underline; }
+        .look-target:hover { color: #ffcc33; }
+        #command-bar {
+            display: flex; gap: 10px; margin-bottom: 10px;
+        }
+        .cmd-btn {
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 5px 10px; cursor: pointer; font-family: 'Courier New';
+        }
+        .cmd-btn.active { background: #33ff33; color: #000; }
+        .cmd-btn:disabled { color: #226622; border-color: #226622; }
+        #exits-bar {
+            display: flex; gap: 10px; margin-bottom: 10px;
+        }
+        .exit-btn {
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 5px 10px; cursor: pointer;
+        }
+        .exit-btn.available:hover { background: #33ff33; color: #000; }
+        .exit-btn:disabled { color: #226622; border-color: #226622; cursor: default; }
+        #inventory-bar {
+            flex: 0 0 40px; background: #000; border: 2px solid #33ff33;
+            padding: 5px; display: flex; align-items: center; gap: 10px;
+            overflow-x: auto;
+        }
+        .inv-item {
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 3px 8px; cursor: pointer; white-space: nowrap;
+        }
+        .inv-item.selected { background: #33ff33; color: #000; }
+        #inv-empty { color: #226622; font-style: italic; }
+        .hint {
+            color: #FFAA00 !important;
+            font-style: italic;
+            border-left: 2px solid #FFAA00;
+            padding-left: 8px;
+            margin: 5px 0;
+        }
+        .hint::before {
+            content: "🤔 HINT: ";
+            font-weight: bold;
+        }
+        #hint-toggle {
+            background: #000;
+            color: #33ff33;
+            border: 1px solid #33ff33;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: 'Courier New';
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="art-display"></div>
+        <div id="scene-name"></div>
+        <div id="text-display"></div>
+        <div id="command-bar">
+            <button class="cmd-btn" data-cmd="look">LOOK</button>
+            <button class="cmd-btn" data-cmd="take">TAKE</button>
+            <button class="cmd-btn" data-cmd="use">USE</button>
+            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+            <button id="hint-toggle" class="cmd-btn">HINTS: ON</button>
+        </div>
+        <div id="exits-bar"></div>
+        <div id="inventory-bar">
+            <span id="inv-empty">Inventory empty</span>
+        </div>
+    </div>
+
+    <script>
+        // Embedded game data
+        window.GAME_DATA = {
+        "title": "The Clockwork Lighthouse",
+        "slug": "clockwork-lighthouse",
+        "number": 1,
+        "setting": "A mechanical lighthouse on a stormy coastline, trapped in a time loop. The lighthouse keeper has vanished, and the player must solve time-manipulation puzzles to escape.",
+        "characters": [
+                {
+                        "id": "alistair-chronos",
+                        "name": "Alistair Chronos",
+                        "description": "The vanished lighthouse keeper, a brilliant but obsessive inventor who discovered how to manipulate time using the lighthouse's gear mechanisms."
+                }
+        ],
+        "items": [
+                {
+                        "id": "brass-key",
+                        "name": "Brass Key",
+                        "description": "A tarnished brass key with intricate clockwork engravings.",
+                        "foundIn": "workshop",
+                        "usedIn": "library",
+                        "usedOn": "library-door"
+                },
+                {
+                        "id": "chronometer",
+                        "name": "Chronometer",
+                        "description": "A precision timekeeping device with multiple dials and gears. It hums with a faint temporal energy.",
+                        "foundIn": "library",
+                        "usedIn": "gear-chamber",
+                        "usedOn": "central-gear"
+                },
+                {
+                        "id": "lens-crystal",
+                        "name": "Lens Crystal",
+                        "description": "A large, perfectly cut crystal that glows with internal blue light. It fits into the lighthouse beacon.",
+                        "foundIn": "living-quarters",
+                        "usedIn": "lantern-room",
+                        "usedOn": "beacon"
+                },
+                {
+                        "id": "alistairs-journal",
+                        "name": "Alistair's Journal",
+                        "description": "A leather-bound journal filled with mechanical diagrams, temporal equations, and increasingly frantic entries.",
+                        "foundIn": "multiple",
+                        "usedIn": "multiple",
+                        "usedOn": "story-reveal"
+                }
+        ],
+        "scenes": [
+                {
+                        "id": "exterior",
+                        "name": "Lighthouse Exterior",
+                        "prose": "The storm claws at the cliffside, a howling beast of wind and salt. Rain is hurled, needle-sharp, lashing your face. Below, the black Atlantic churns, waves exploding against jagged teeth of rock. And above it all, the Clockwork Lighthouse rises.\n\nIt is a wrong thing. Not merely old, but *other*. Its skeleton is brass and copper, gleaming with a sickly, rain-slick sheen. Gargoyles of intricate gearwork perch along its circumference, their blank, cogwheel eyes watching you. From the lantern room at its peak, a faint blue light pulses—a slow, arrhythmic heartbeat that seems to sync with the thunder, then fight against it.\n\nThe door is a slab of burnished brass, taller than two men, etched with spirals that make your eyes ache. It stands slightly ajar, revealing a sliver of deeper black within. A broken wooden sign hangs crooked beside it, swinging madly in the gale. You can just make out the carved letters: **ALISTAIR CHRONOS — KEEPER OF TIME**. The last word is split by a crack, as if time itself has fractured here.\n\nYou hear it before you see it: a deep, grinding rumble from within the tower's guts. Not the thunder—this is mechanical, a sound of immense weights turning, of pistons driving against resistance. It rises and falls, a metallic breath beneath the storm's roar. The smell hits you next—ozone and hot oil, the scent of a machine that should not be alive.\n\nYour goal is simple: enter. The door beckons, that sliver of darkness promising shelter from the tempest. But every instinct screams that the true storm is inside, waiting in the ticking dark. The wrongness is not in the wind or the waves. It is in the light that pulses against nature, in the gears that grind beneath stone, in the silence behind that heavy, slightly open door.\n\nThe lighthouse does not want you. But it will take you anyway.",
+                        "exits": {
+                                "south": "workshop"
+                        },
+                        "items": [],
+                        "puzzles": [],
+                        "lookDescriptions": {
+                                "door": "A slab of burnished brass, taller than two men, etched with spirals that make your eyes ache. It stands slightly ajar, revealing a sliver of deeper black within.",
+                                "sign": "A broken wooden sign hanging crooked beside the door. The carved letters read: ALISTAIR CHRONOS — KEEPER OF TIME. The last word is split by a crack.",
+                                "lighthouse": "A wrong thing of brass and copper, gleaming with a sickly, rain-slick sheen. Gargoyles of intricate gearwork perch along its circumference with blank, cogwheel eyes.",
+                                "light": "A faint blue light pulses from the lantern room—a slow, arrhythmic heartbeat that seems to sync with the thunder, then fight against it."
+                        }
+                },
+                {
+                        "id": "workshop",
+                        "name": "Ground Floor Workshop",
+                        "prose": "The door groans open on rusted hinges, and the smell hits you like a fist — iron filings, hot oil, and underneath it all, something sharp and electric, like the air before a lightning strike that never comes. You step inside and the floor vibrates beneath your boots. Not a tremor. A *pulse*. The grinding gears below are louder now, louder than any machine should be, and they don't sound like they're working. They sound like they're *chewing*.\n\nThe workshop is a catastrophe of interrupted genius. Two workbenches flank the room, drowning in brass gears, coiled springs, and fittings that look more like surgical instruments than clockwork. A wrench lies on the floor beside an overturned stool, as if someone dropped it mid-repair and simply... left. No. Not left. A smear of something dark trails from the center mechanism toward the far wall, too thin to be blood, too deliberate to be oil.\n\nAt the room's heart sits the broken gear mechanism — a beautiful, terrible thing the size of a wagon wheel, its interlocking teeth frozen mid-rotation. One gear is cracked clean through. Another has slipped its housing entirely. You can see deep inside it, into the guts of the machine, where something metallic catches the gaslight. A glint of brass that shouldn't be there.\n\nAgainst the back wall, a spiral staircase winds upward, choked with fallen timbers and shattered glass. Not usable yet. Not safely.\n\nPages flutter near your feet — torn from a leather journal, handwriting cramped and urgent. The first line reads: *\"If you're reading this, don't trust the sound. It learns.\"*\n\nOn the wall above the mechanism, a rectangle of clean paint. Something hung here for years. A key, you realize. A key that now lives inside the broken machine.\n\nThe grinding shifts pitch. Just slightly. Just enough.\n\nYou are not alone in this room. You never were.",
+                        "exits": {
+                                "north": "exterior",
+                                "up": "library"
+                        },
+                        "items": [
+                                "brass-key"
+                        ],
+                        "puzzles": [
+                                "workshop-puzzle"
+                        ],
+                        "lookDescriptions": {
+                                "mechanism": "A broken gear mechanism the size of a wagon wheel, its interlocking teeth frozen mid-rotation. One gear is cracked clean through. Another has slipped its housing. Something metallic glints deep inside.",
+                                "workbench": "Two workbenches drowning in brass gears, coiled springs, and fittings that look more like surgical instruments than clockwork.",
+                                "staircase": "A spiral staircase winding upward, choked with fallen timbers and shattered glass. Not safely usable yet.",
+                                "journal": "Pages torn from a leather journal, handwriting cramped and urgent. The first line reads: 'If you're reading this, don't trust the sound. It learns.'",
+                                "wall": "A rectangle of clean paint where something hung for years. A key once hung here — now hidden inside the broken mechanism.",
+                                "smear": "A smear of something dark trailing from the center mechanism toward the far wall. Too thin to be blood, too deliberate to be oil."
+                        }
+                },
+                {
+                        "id": "library",
+                        "name": "Library & Observatory",
+                        "prose": "The brass key turns with a reluctant *click*, and the door swings inward on air that smells of old paper, machine oil, and something else — ozone, maybe, or the memory of lightning. The second floor of the lighthouse is a single circular room, and it has no right to feel this large. Bookshelves climb the curved walls from floor to domed ceiling, crammed with leather spines whose titles your eyes slide off of — *Paradox Mechanics*, *The Cartography of Hours*, *On the Inward Geometry of Temporal Collapse*. They lean against each other like drunks, spilling loose pages across every surface.\n\nA brass telescope, thick as your thigh and green with age, dominates the room's center, pointing not out through a window but *up* — at the painted dome above. And the dome is wrong. You recognize Ursa Major, but one star has been painted in a position it has never occupied. Orion carries a third sword that doesn't belong. Constellations you've never seen — *The Jaw*, *The Pendulum*, something that looks disturbingly like an eye — have been rendered in oils that seem to shift when you look at them from the corner of your vision. The pattern they form, if you connect them all, resembles a vast spiral tightening inward. Toward what? Toward *here.*\n\nOn a pedestal near the telescope, a chronometer sits ticking. Not *buzzing* or *clicking* — *ticking*, with the organic rhythm of a heartbeat. Its brass casing hums against your fingertips when you lift it, warm and alive. It was waiting for you.\n\nA leather journal lies open on a desk, pages torn free, but the remaining entry is written in a hand that started steady and ended frantic:\n\n*\"Day 1,247. The chronometer works. The gears turn in the correct sequence and the stars align for three seconds — I can SEE it, the shape in the sky, the jaw opening. It's not coming. It's already here. It was always here. I just needed the right clock to find it.\"*\n\nA locked door at the back of the room hums in sympathy with the chronometer. Something waits beyond it, grinding slowly, patiently, forever.",
+                        "exits": {
+                                "down": "workshop",
+                                "up": "gear-chamber"
+                        },
+                        "items": [
+                                "chronometer",
+                                "alistairs-journal-1"
+                        ],
+                        "puzzles": [
+                                "library-puzzle"
+                        ],
+                        "lookDescriptions": {
+                                "telescope": "A brass telescope, thick as your thigh and green with age, pointing up at the painted dome ceiling.",
+                                "star chart": "The dome is painted with constellations — but wrong. Ursa Major has a star in the wrong position. Orion carries a third sword. Unknown constellations — The Jaw, The Pendulum, something like an eye — form a vast spiral tightening inward. Toward here.",
+                                "chronometer": "A precision chronometer sitting on a pedestal, ticking with the organic rhythm of a heartbeat. Its brass casing hums, warm and alive.",
+                                "journal": "A leather journal, pages torn free. The remaining entry reads: 'Day 1,247. The chronometer works. The gears turn in the correct sequence and the stars align for three seconds — I can SEE it, the shape in the sky, the jaw opening. It's not coming. It's already here. It was always here. I just needed the right clock to find it.'",
+                                "books": "Leather spines with titles that slide off the eye — Paradox Mechanics, The Cartography of Hours, On the Inward Geometry of Temporal Collapse.",
+                                "door": "A locked door at the back of the room, humming in sympathy with the chronometer."
+                        }
+                },
+                {
+                        "id": "gear-chamber",
+                        "name": "Gear Chamber",
+                        "prose": "The floor falls away.\n\nNot literally — iron grating holds beneath your feet, rusted and trembling with the vibration of something *enormous* — but the space above and below is so vast, so vertiginously deep, that your hindbrain screams you're standing on nothing. You are inside a throat. A mechanical throat lined with teeth the size of coffins.\n\nGears. Everywhere, gears. They fill the vertical shaft like the rings of some impossible tree, each one interlocking with its neighbors in a pattern that hurts to follow — forward, backward, sideways through grooves that shouldn't exist. Cartwheels of brass mesh with giants taller than you, and together they turn with a sound that isn't quite a sound. It's a pressure. A weight behind your eardrums. The kind of grinding that makes your fillings ache and your thoughts skip like a scratched record.\n\nBlue light from the lantern room above slices down through the gaps, painting the mechanism in fractured cobalt. It makes the gears look wet. Alive. They *breathe* — you're sure of it — each rotation accompanied by a faint exhalation of hot air that smells of ozone and old pennies and the moment just before a sneeze. Temporal static. You don't know how you know that, but you know it in your *teeth*.\n\nThe iron walkway shudders as you edge along it. Below, the pit drops into nothing — a throat without a bottom. Above, the gears climb into darkness, and somewhere past them, a passage leads up. Locked. The gears themselves are the lock, their alignment holding a door shut the way a held breath holds back a scream.\n\nTo your left, a control panel. Brass dials. A slot — rectangular, precise, the exact dimensions of the chronometer in your pocket. Behind you, wedged between two grinding teeth where no hand should have reached: a journal page, ink frantic, edges singed.\n\nThe mechanism wants feeding. You can feel it watching.",
+                        "exits": {
+                                "down": "library",
+                                "up": "living-quarters"
+                        },
+                        "items": [
+                                "alistairs-journal-2"
+                        ],
+                        "puzzles": [
+                                "gear-chamber-puzzle"
+                        ],
+                        "lookDescriptions": {
+                                "gears": "Gears fill the vertical shaft like the rings of some impossible tree, interlocking in patterns that hurt to follow — forward, backward, sideways through grooves that shouldn't exist. They breathe. Each rotation accompanied by hot air that smells of ozone and old pennies.",
+                                "control panel": "A brass panel with dials and a rectangular slot — the exact dimensions of the chronometer. The mechanism wants feeding.",
+                                "pit": "Below the iron grating, the pit drops into nothing. A throat without a bottom.",
+                                "journal": "A journal page wedged between two grinding teeth where no hand should have reached. Ink frantic, edges singed.",
+                                "walkway": "Iron grating shuddering with the vibration of something enormous. Rusted railings.",
+                                "passage": "A passage leads up through the gears, currently locked. The gears themselves are the lock."
+                        }
+                },
+                {
+                        "id": "living-quarters",
+                        "name": "Living Quarters",
+                        "prose": "The cot is made so perfectly you could bounce a sovereign off it. The sheets are tucked at corners sharp enough to cut — hospital corners, the kind you learn in the navy or the asylum. The pillow holds no indentation. No one has slept here in a long time. Or someone sleeps here every night and the pillow simply refuses to remember.\n\nThe writing desk faces the window. Cobalt light pools across its surface like something poured. A cup of tea sits half-finished, and when you pass your hand near it, warmth rises — not from the cup, but from the desk itself, as though the wood remembers the heat and refuses to let it go. Beside the cup, a leather journal lies open. The handwriting inside begins precise and controlled, each letter drawn with the care of a cartographer. By the final page, the letters crawl. Words overlap. Sentences abandon themselves halfway through and begin again in the margin, desperate, circling. *I have folded the lens three times now and each fold shows me the same thing — a room exactly like this one, but the cot is not empty.* The last line is a single word, written so hard the pen tore through the page: *LISTEN.*\n\nYou do not want to look in the mirror, so of course you do. Your reflection arrives a half-breath late — you've already turned away by the time it lifts its head. In the silver glass, the room behind your reflection is darker. And there is something on the cot.\n\nThe pocket watch on the nightstand reads 3:17. It has read 3:17 since you entered. It read 3:17 before you existed.\n\nThe wardrobe door sticks, then yields. Inside: a greatcoat, wool, moth-eaten at the shoulders. And behind it, wrapped in velvet the color of dried blood — a crystal the size of a fist. It catches the cobalt light and does something wrong with it. The light comes out the other side older.\n\nA narrow staircase spirals up through the ceiling, toward the Lantern Room. Each step groans under your weight like it has been waiting.",
+                        "exits": {
+                                "down": "gear-chamber",
+                                "up": "lantern-room"
+                        },
+                        "items": [
+                                "lens-crystal",
+                                "alistairs-journal-3"
+                        ],
+                        "puzzles": [],
+                        "lookDescriptions": {
+                                "cot": "Made with military precision. Hospital corners. The pillow holds no indentation. No one has slept here — or the pillow refuses to remember.",
+                                "desk": "A writing desk facing the window, cobalt light pooling across its surface. A half-finished cup of tea still radiates warmth from the wood itself.",
+                                "journal": "The handwriting begins precise and controlled. By the final page, words overlap and sentences abandon themselves. The last line, written so hard the pen tore through: LISTEN.",
+                                "mirror": "Your reflection arrives a half-breath late. In the glass, the room behind you is darker. There is something on the cot.",
+                                "pocket watch": "Reads 3:17. It has read 3:17 since you entered. It read 3:17 before you existed.",
+                                "wardrobe": "A greatcoat inside, moth-eaten at the shoulders. Behind it, wrapped in velvet the color of dried blood — a crystal that catches light and makes it come out older.",
+                                "staircase": "A narrow spiral staircase leading up through the ceiling toward the Lantern Room. Each step groans like it has been waiting.",
+                                "hearth": "Cold ashes forming gear-shaped patterns in the grate."
+                        }
+                },
+                {
+                        "id": "lantern-room",
+                        "name": "Lighthouse Lantern Room",
+                        "prose": "The circular room is not a room. It is a wound.\n\nGlass walls curve around you like the ribs of something enormous, and through them the storm repeats — not *rages*, repeats. The same bolt of lightning splits the same seam of sky. The same wave hammers the same rock. You have seen this before. You have always been seeing this. The storm is a scar that will not heal, and you are standing in the place where the blade went in.\n\nThe beacon dominates everything. Brass and crystal, mechanical and organic, it rises from the center of the floor like a spine that remembers being a tower. Its lens housing gapes open — six crystal facets arranged in a ring, one socket empty, yawning, obscene. Blue light pulses from the beacon's heart. Not steady. Never steady. A heartbeat searching for its rhythm. *Thu-thump. Thu-thu-thump. Thu-thump.*\n\nBelow you, through the iron floor, the gears grind. You can feel them in your teeth. But the sound has changed. It is not the mechanical clatter of the Gear Chamber. It is *breathing*. Deep, patient, tidal. The lighthouse breathes, and something breathes with it.\n\nA shadow in the corner.\n\nYou look directly at it and it is only a shadow — the projection of the beacon housing against curved glass. But when you glance away, it shifts. When you blink, it is closer. It has no face, but it has a shape, and the shape is wrong in the way a person is wrong when they are standing in a place a person should not be standing. You feel it watching. You feel it *recognizing*.\n\nThe Lens Crystal in your hand pulses in time with the beacon. Older light leaks from its facets. It wants to go home. The empty socket wants to receive it. The mechanism wants to complete.\n\nYou know now what Alistair did. He folded time like cloth, pressed moment against moment until something slipped through the crease. The beacon is not a lighthouse. It is a lock — and the storm is the key turned halfway, frozen, the door open just enough for whatever waits in the fold to press its face against the gap and breathe into your world for a century.\n\nThe shadow moves again. Closer.\n\nYour hand trembles above the lens housing. The crystal hums. The gears below shift from breathing to *anticipation* — a held breath, a waiting.\n\nInstall the crystal. Light the beacon. Break the loop.\n\nBut the light will shine both ways.\n\nThe shadow tilts its head — a gesture so human it stops your heart — and you realize it is not Alistair. It is not anything that was ever human. It is the thing that answered when Alistair knocked. The thing that has been learning the sound. The thing that was always here.\n\n*Thu-thu-thump.*\n\nYou slot the crystal into the empty socket.\n\nThe world does not explode. It *unfolds*.\n\nBlue-white light erupts from the beacon like a scream made visible, piercing the glass walls, lancing through the storm. The repeating bolt of lightning fractures — splits — *stops*. The wave freezes mid-crash, then dissolves into mist. The storm that has held this place captive begins to tear itself apart, pulling away like a curtain, and behind it — behind it is not darkness.\n\nIt is dawn.\n\nPale gold light spills across a sea that has never seen it. The gears below you shudder, slow, and fall silent — not the silence of death, but the silence of rest. The lighthouse exhales one final time and is still.\n\nThe shadow is gone.\n\nBut as the beacon's blue light fades — as the last pulse of that arrhythmic heartbeat winds down to nothing — you see something in the dying glow. A shape. Standing at the edge of the light where it meets the dawn. Watching. Not moving toward you. Not moving away.\n\n*Learning.*\n\nThe storm breaks. The loop ends. Dawn comes to a sea that has waited a hundred years.\n\nSomething watches from the light as it fades.\n\nYou are free. You are *seen*. And the door, at last, is shut.",
+                        "exits": {
+                                "down": "living-quarters"
+                        },
+                        "items": [],
+                        "puzzles": [
+                                "beacon-puzzle"
+                        ],
+                        "lookDescriptions": {
+                                "beacon": "Brass and crystal, mechanical and organic, rising from the floor like a spine. Its lens housing gapes open — six crystal facets in a ring, one socket empty.",
+                                "storm": "Through the glass walls, the storm repeats. The same bolt. The same wave. The storm is a scar that will not heal.",
+                                "shadow": "A shadow in the corner that shifts when you glance away, moves closer when you blink. It tilts its head — a gesture so human it stops your heart.",
+                                "lens housing": "Six crystal facets in a ring. One socket empty, yawning, waiting for the Lens Crystal.",
+                                "light": "Blue light pulses from the beacon's heart. Thu-thump. Thu-thu-thump. Thu-thump. A heartbeat searching for its rhythm.",
+                                "gears": "Below the iron floor, the gears have shifted from grinding to breathing. Deep, patient, tidal. The lighthouse breathes, and something breathes with it."
+                        }
+                }
+        ],
+        "puzzles": [
+                {
+                        "id": "workshop-puzzle",
+                        "scene": "workshop",
+                        "requires": [],
+                        "action": "Repair the broken gear mechanism using scattered tools",
+                        "result": "Access to the brass key hidden in the mechanism",
+                        "reveals": [
+                                "brass-key"
+                        ]
+                },
+                {
+                        "id": "library-puzzle",
+                        "scene": "library",
+                        "requires": [
+                                "brass-key"
+                        ],
+                        "action": "Use the chronometer with the telescope to decode the star chart",
+                        "result": "Reveals the correct gear sequence for the Gear Chamber",
+                        "reveals": [
+                                "gear-sequence"
+                        ]
+                },
+                {
+                        "id": "gear-chamber-puzzle",
+                        "scene": "gear-chamber",
+                        "requires": [
+                                "chronometer",
+                                "gear-sequence"
+                        ],
+                        "action": "Synchronize the central gears to the correct temporal alignment",
+                        "result": "Unlocks access to the Living Quarters",
+                        "reveals": [
+                                "living-quarters"
+                        ]
+                },
+                {
+                        "id": "beacon-puzzle",
+                        "scene": "lantern-room",
+                        "requires": [
+                                "lens-crystal"
+                        ],
+                        "action": "Install the lens crystal and activate the beacon",
+                        "result": "Breaks the time loop and allows escape from the lighthouse",
+                        "reveals": [
+                                "win"
+                        ]
+                }
+        ],
+        "winCondition": {
+                "scene": "lantern-room",
+                "requires": [
+                        "lens-crystal"
+                ],
+                "description": "Activate the beacon with the lens crystal to break the time loop and escape the lighthouse"
+        },
+        "hints": {
+          "exterior": [
+            {"delay": 30, "text": "The door is ajar. Or are you waiting for an engraved invitation?"},
+            {"delay": 60, "text": "Try moving SOUTH. The door is open, you know."},
+            {"delay": 90, "text": "Fine, you quitter: click the SOUTH exit button. That's it. That's the whole puzzle."}
+          ],
+          "workshop": [
+            {"delay": 30, "text": "That broken gear mechanism seems awfully important. Maybe you should poke it."},
+            {"delay": 60, "text": "USE the mechanism. Click USE, then click the mechanism. It's not rocket science."},
+            {"delay": 90, "text": "Alright, genius: USE → Mechanism. The key is inside. Now go."}
+          ],
+          "library": [
+            {"delay": 30, "text": "That chronometer is ticking. Maybe it wants to be used on something star-shaped."},
+            {"delay": 60, "text": "USE the chronometer on the telescope. Yes, the big brass tube pointing at the ceiling."},
+            {"delay": 90, "text": "USE → Chronometer → Telescope. The star chart will reveal the gear sequence. Happy?"}
+          ],
+          "gear-chamber": [
+            {"delay": 30, "text": "The control panel has a slot that looks suspiciously chronometer-shaped."},
+            {"delay": 60, "text": "Insert the chronometer into the slot. Then align the gears using the sequence you learned."},
+            {"delay": 90, "text": "USE → Chronometer → Control Panel. The gears will align, unlocking the way up."}
+          ],
+          "living-quarters": [
+            {"delay": 30, "text": "The wardrobe looks like it's hiding something. Maybe open it?"},
+            {"delay": 60, "text": "TAKE the lens crystal from the wardrobe. It's the glowing thing."},
+            {"delay": 90, "text": "Click TAKE, then click the Lens Crystal. Or just stare at it forever."}
+          ],
+          "lantern-room": [
+            {"delay": 30, "text": "The beacon's empty socket is practically begging for the crystal."},
+            {"delay": 60, "text": "USE the lens crystal on the beacon. It's the only way to end this."},
+            {"delay": 90, "text": "USE → Lens Crystal → Beacon. Congratulations, you've finished the game. Now leave."}
+          ]
+        }
+};
+        window.GAME_ART = {
+        "item-alistairs-journal": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <defs>\n    <!-- Leather Pattern -->\n    <pattern id=\"leatherPattern\" patternUnits=\"userSpaceOnUse\" width=\"20\" height=\"20\">\n      <rect width=\"20\" height=\"20\" fill=\"#8B4513\"/>\n      <path d=\"M0 0L20 20M20 0L0 20\" stroke=\"#5D2906\" stroke-width=\"1\"/>\n    </pattern>\n    \n    <!-- Diagram Pattern -->\n    <pattern id=\"diagramPattern\" patternUnits=\"userSpaceOnUse\" width=\"10\" height=\"10\">\n      <line x1=\"0\" y1=\"5\" x2=\"10\" y2=\"5\" stroke=\"#000000\" stroke-width=\"1\"/>\n      <line x1=\"5\" y1=\"0\" x2=\"5\" y2=\"10\" stroke=\"#000000\" stroke-width=\"1\"/>\n    </pattern>\n    \n    <!-- Equation Pattern -->\n    <pattern id=\"equationPattern\" patternUnits=\"userSpaceOnUse\" width=\"15\" height=\"15\">\n      <text x=\"2\" y=\"10\" font-family=\"monospace\" font-size=\"10\" fill=\"#000000\">∫=∞</text>\n    </pattern>\n  </defs>\n  \n  <!-- Journal Cover -->\n  <rect x=\"150\" y=\"80\" width=\"340\" height=\"240\" rx=\"10\" ry=\"10\" fill=\"url(#leatherPattern)\" stroke=\"#5D2906\" stroke-width=\"4\"/>\n  \n  <!-- Cover Details -->\n  <rect x=\"170\" y=\"100\" width=\"300\" height=\"200\" fill=\"#A0522D\" stroke=\"none\"/>\n  \n  <!-- Mechanical Diagrams -->\n  <rect x=\"180\" y=\"110\" width=\"80\" height=\"80\" fill=\"url(#diagramPattern)\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"280\" y=\"110\" width=\"80\" height=\"80\" fill=\"url(#diagramPattern)\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Temporal Equations -->\n  <rect x=\"180\" y=\"210\" width=\"120\" height=\"60\" fill=\"url(#equationPattern)\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"320\" y=\"210\" width=\"120\" height=\"60\" fill=\"url(#equationPattern)\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Frantic Entries -->\n  <path d=\"M180 290 Q220 270 260 290 Q300 310 340 290 Q380 270 420 290\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <path d=\"M180 310 Q220 290 260 310 Q300 330 340 310 Q380 290 420 310\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <path d=\"M180 330 Q220 310 260 330 Q300 350 340 330 Q380 310 420 330\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Binding -->\n  <rect x=\"150\" y=\"80\" width=\"20\" height=\"240\" fill=\"#5D2906\" stroke=\"none\"/>\n  <rect x=\"470\" y=\"80\" width=\"20\" height=\"240\" fill=\"#5D2906\" stroke=\"none\"/>\n  \n  <!-- Spine Text (simplified) -->\n  <text x=\"160\" y=\"100\" font-family=\"monospace\" font-size=\"12\" fill=\"#FFFFFF\" transform=\"rotate(90 160 100)\">ALISTAIR</text>\n  <text x=\"480\" y=\"100\" font-family=\"monospace\" font-size=\"12\" fill=\"#FFFFFF\" transform=\"rotate(90 480 100)\">CHRONOS</text>\n</svg>",
+        "item-brass-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <defs>\n    <!-- Brass Pattern -->\n    <pattern id=\"brassPattern\" patternUnits=\"userSpaceOnUse\" width=\"8\" height=\"8\">\n      <rect width=\"8\" height=\"8\" fill=\"#FF8800\"/>\n      <path d=\"M0 0L8 8M8 0L0 8\" stroke=\"#AA00FF\" stroke-width=\"1\"/>\n    </pattern>\n    \n    <!-- Engraving Pattern -->\n    <pattern id=\"engravingPattern\" patternUnits=\"userSpaceOnUse\" width=\"4\" height=\"4\">\n      <circle cx=\"1\" cy=\"1\" r=\"0.5\" fill=\"#000000\"/>\n    </pattern>\n  </defs>\n  \n  <!-- Key Blade -->\n  <rect x=\"200\" y=\"150\" width=\"200\" height=\"40\" fill=\"url(#brassPattern)\" stroke=\"#000000\" stroke-width=\"3\"/>\n  \n  <!-- Key Handle -->\n  <circle cx=\"440\" cy=\"170\" r=\"30\" fill=\"url(#brassPattern)\" stroke=\"#000000\" stroke-width=\"3\"/>\n  \n  <!-- Key Shaft Details -->\n  <rect x=\"220\" y=\"160\" width=\"20\" height=\"20\" fill=\"url(#engravingPattern)\" stroke=\"none\"/>\n  <rect x=\"260\" y=\"160\" width=\"20\" height=\"20\" fill=\"url(#engravingPattern)\" stroke=\"none\"/>\n  <rect x=\"300\" y=\"160\" width=\"20\" height=\"20\" fill=\"url(#engravingPattern)\" stroke=\"none\"/>\n  \n  <!-- Key Teeth -->\n  <rect x=\"340\" y=\"150\" width=\"10\" height=\"10\" fill=\"#000000\"/>\n  <rect x=\"350\" y=\"160\" width=\"10\" height=\"10\" fill=\"#000000\"/>\n  <rect x=\"360\" y=\"170\" width=\"10\" height=\"10\" fill=\"#000000\"/>\n  \n  <!-- Handle Details -->\n  <circle cx=\"440\" cy=\"170\" r=\"15\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"440\" cy=\"170\" r=\"8\" fill=\"url(#engravingPattern)\" stroke=\"none\"/>\n</svg>",
+        "item-chronometer": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <defs>\n    <!-- Brass Base -->\n    <pattern id=\"brassBase\" patternUnits=\"userSpaceOnUse\" width=\"8\" height=\"8\">\n      <rect width=\"8\" height=\"8\" fill=\"#FF8800\"/>\n      <path d=\"M0 4L4 0L8 4L4 8Z\" fill=\"#AA00FF\" fill-opacity=\"0.3\"/>\n    </pattern>\n    \n    <!-- Gear Pattern -->\n    <pattern id=\"gearPattern\" patternUnits=\"userSpaceOnUse\" width=\"10\" height=\"10\">\n      <circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1\"/>\n      <rect x=\"4\" y=\"0\" width=\"2\" height=\"3\" fill=\"#000000\"/>\n      <rect x=\"4\" y=\"7\" width=\"2\" height=\"3\" fill=\"#000000\"/>\n      <rect x=\"0\" y=\"4\" width=\"3\" height=\"2\" fill=\"#000000\"/>\n      <rect x=\"7\" y=\"4\" width=\"3\" height=\"2\" fill=\"#000000\"/>\n    </pattern>\n    \n    <!-- Temporal Energy -->\n    <radialGradient id=\"temporalGlow\" cx=\"50%\" cy=\"50%\" r=\"50%\">\n      <stop offset=\"0%\" stop-color=\"#0000FF\" stop-opacity=\"0.5\"/>\n      <stop offset=\"100%\" stop-color=\"#0000FF\" stop-opacity=\"0\"/>\n    </radialGradient>\n  </defs>\n  \n  <!-- Chronometer Base -->\n  <rect x=\"170\" y=\"100\" width=\"300\" height=\"200\" rx=\"20\" ry=\"20\" fill=\"url(#brassBase)\" stroke=\"#000000\" stroke-width=\"4\"/>\n  \n  <!-- Temporal Energy Glow -->\n  <circle cx=\"320\" cy=\"200\" r=\"80\" fill=\"url(#temporalGlow)\"/>\n  \n  <!-- Main Dial -->\n  <circle cx=\"320\" cy=\"200\" r=\"60\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"55\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Hour Markings -->\n  <line x1=\"320\" y1=\"145\" x2=\"320\" y2=\"155\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"375\" y1=\"200\" x2=\"365\" y2=\"200\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"320\" y1=\"255\" x2=\"320\" y2=\"245\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"265\" y1=\"200\" x2=\"275\" y2=\"200\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Sub-Dials -->\n  <circle cx=\"270\" cy=\"160\" r=\"25\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"370\" cy=\"160\" r=\"25\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Gear Details -->\n  <rect x=\"200\" y=\"240\" width=\"40\" height=\"40\" fill=\"url(#gearPattern)\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"400\" y=\"240\" width=\"40\" height=\"40\" fill=\"url(#gearPattern)\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Control Knobs -->\n  <circle cx=\"220\" cy=\"130\" r=\"10\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"420\" cy=\"130\" r=\"10\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Central Hand -->\n  <line x1=\"320\" y1=\"200\" x2=\"350\" y2=\"180\" stroke=\"#000000\" stroke-width=\"3\"/>\n</svg>",
+        "item-lens-crystal": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"#000088\"/>\n  <polygon points=\"32,8 56,32 32,56 8,32\" fill=\"#00FF00\"/>\n  <polygon points=\"32,12 52,32 32,52 12,32\" fill=\"#000088\"/>\n  <polygon points=\"32,16 48,32 32,48 16,32\" fill=\"#00FF00\"/>\n  <polygon points=\"32,20 44,32 32,44 20,32\" fill=\"#000088\"/>\n  <polygon points=\"32,24 40,32 32,40 24,32\" fill=\"#00FF00\"/>\n  <polygon points=\"32,28 36,32 32,36 28,32\" fill=\"#000088\"/>\n  <line x1=\"32\" y1=\"8\" x2=\"32\" y2=\"56\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"8\" y1=\"32\" x2=\"56\" y2=\"32\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"8\" x2=\"56\" y2=\"32\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"56\" y1=\"32\" x2=\"32\" y2=\"56\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"56\" x2=\"8\" y2=\"32\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"8\" y1=\"32\" x2=\"32\" y2=\"8\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n</svg>",
+        "scene-exterior": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#000088\"/>\n  <rect x=\"200\" y=\"100\" width=\"240\" height=\"300\" fill=\"#AA00FF\"/>\n  <rect x=\"220\" y=\"120\" width=\"200\" height=\"260\" fill=\"#000000\"/>\n  <rect x=\"240\" y=\"140\" width=\"160\" height=\"220\" fill=\"#AA00FF\"/>\n  <rect x=\"260\" y=\"160\" width=\"120\" height=\"180\" fill=\"#000000\"/>\n  <rect x=\"280\" y=\"180\" width=\"80\" height=\"140\" fill=\"#AA00FF\"/>\n  <rect x=\"300\" y=\"200\" width=\"40\" height=\"100\" fill=\"#000000\"/>\n  <rect x=\"320\" y=\"220\" width=\"20\" height=\"60\" fill=\"#AA00FF\"/>\n  <rect x=\"200\" y=\"100\" width=\"240\" height=\"20\" fill=\"#FF8800\"/>\n  <rect x=\"200\" y=\"120\" width=\"20\" height=\"260\" fill=\"#FF8800\"/>\n  <rect x=\"420\" y=\"120\" width=\"20\" height=\"260\" fill=\"#FF8800\"/>\n  <line x1=\"200\" y1=\"100\" x2=\"440\" y2=\"100\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"200\" y1=\"380\" x2=\"440\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"200\" y1=\"100\" x2=\"200\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"440\" y1=\"100\" x2=\"440\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <rect x=\"220\" y=\"360\" width=\"200\" height=\"20\" fill=\"#FF8800\"/>\n  <line x1=\"220\" y1=\"360\" x2=\"420\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"220\" y1=\"360\" x2=\"220\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"420\" y1=\"360\" x2=\"420\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <text x=\"240\" y=\"375\" font-family=\"Arial\" font-size=\"12\" fill=\"#FFFFFF\">ALISTAIR CHRONOS</text>\n  <text x=\"240\" y=\"390\" font-family=\"Arial\" font-size=\"12\" fill=\"#FFFFFF\">KEEPER OF TIME</text>\n  <line x1=\"200\" y1=\"100\" x2=\"220\" y2=\"120\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"440\" y1=\"100\" x2=\"420\" y2=\"120\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"220\" y1=\"120\" x2=\"220\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"420\" y1=\"120\" x2=\"420\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"220\" y1=\"360\" x2=\"240\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"420\" y1=\"360\" x2=\"400\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"240\" y1=\"380\" x2=\"400\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"200\" y1=\"100\" x2=\"220\" y2=\"120\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"440\" y1=\"100\" x2=\"420\" y2=\"120\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"220\" y1=\"120\" x2=\"220\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"420\" y1=\"120\" x2=\"420\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"220\" y1=\"360\" x2=\"240\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"420\" y1=\"360\" x2=\"400\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"240\" y1=\"380\" x2=\"400\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"200\" y1=\"100\" x2=\"220\" y2=\"120\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"440\" y1=\"100\" x2=\"420\" y2=\"120\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"220\" y1=\"120\" x2=\"220\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"420\" y1=\"120\" x2=\"420\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"220\" y1=\"360\" x2=\"240\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"420\" y1=\"360\" x2=\"400\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"240\" y1=\"380\" x2=\"400\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n</svg>",
+        "scene-gear-chamber": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#000088\"/>\n  <rect x=\"50\" y=\"0\" width=\"540\" height=\"400\" fill=\"#AA00FF\"/>\n  <rect x=\"70\" y=\"20\" width=\"500\" height=\"360\" fill=\"#000000\"/>\n  <rect x=\"90\" y=\"40\" width=\"460\" height=\"320\" fill=\"#AA00FF\"/>\n  <rect x=\"110\" y=\"60\" width=\"420\" height=\"280\" fill=\"#000000\"/>\n  <rect x=\"130\" y=\"80\" width=\"380\" height=\"240\" fill=\"#AA00FF\"/>\n  <rect x=\"150\" y=\"100\" width=\"340\" height=\"200\" fill=\"#000000\"/>\n  <rect x=\"170\" y=\"120\" width=\"300\" height=\"160\" fill=\"#AA00FF\"/>\n  <rect x=\"190\" y=\"140\" width=\"260\" height=\"120\" fill=\"#000000\"/>\n  <rect x=\"210\" y=\"160\" width=\"220\" height=\"80\" fill=\"#AA00FF\"/>\n  <rect x=\"230\" y=\"180\" width=\"180\" height=\"40\" fill=\"#000000\"/>\n  <rect x=\"250\" y=\"200\" width=\"140\" height=\"20\" fill=\"#AA00FF\"/>\n  <rect x=\"270\" y=\"220\" width=\"100\" height=\"10\" fill=\"#000000\"/>\n  <line x1=\"50\" y1=\"0\" x2=\"590\" y2=\"0\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"50\" y1=\"400\" x2=\"590\" y2=\"400\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"50\" y1=\"0\" x2=\"50\" y2=\"400\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"590\" y1=\"0\" x2=\"590\" y2=\"400\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"70\" y1=\"20\" x2=\"570\" y2=\"20\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"70\" y1=\"380\" x2=\"570\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"70\" y1=\"20\" x2=\"70\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"570\" y1=\"20\" x2=\"570\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"90\" y1=\"40\" x2=\"550\" y2=\"40\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"90\" y1=\"360\" x2=\"550\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"90\" y1=\"40\" x2=\"90\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"550\" y1=\"40\" x2=\"550\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"110\" y1=\"60\" x2=\"530\" y2=\"60\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"110\" y1=\"340\" x2=\"530\" y2=\"340\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"110\" y1=\"60\" x2=\"110\" y2=\"340\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"530\" y1=\"60\" x2=\"530\" y2=\"340\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"130\" y1=\"80\" x2=\"510\" y2=\"80\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"130\" y1=\"320\" x2=\"510\" y2=\"320\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"130\" y1=\"80\" x2=\"130\" y2=\"320\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"510\" y1=\"80\" x2=\"510\" y2=\"320\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"150\" y1=\"100\" x2=\"490\" y2=\"100\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"150\" y1=\"300\" x2=\"490\" y2=\"300\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"150\" y1=\"100\" x2=\"150\" y2=\"300\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"490\" y1=\"100\" x2=\"490\" y2=\"300\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"170\" y1=\"120\" x2=\"470\" y2=\"120\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"170\" y1=\"280\" x2=\"470\" y2=\"280\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"170\" y1=\"120\" x2=\"170\" y2=\"280\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"470\" y1=\"120\" x2=\"470\" y2=\"280\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"190\" y1=\"140\" x2=\"450\" y2=\"140\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"190\" y1=\"260\" x2=\"450\" y2=\"260\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"190\" y1=\"140\" x2=\"190\" y2=\"260\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"450\" y1=\"140\" x2=\"450\" y2=\"260\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"210\" y1=\"160\" x2=\"430\" y2=\"160\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"210\" y1=\"240\" x2=\"430\" y2=\"240\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"210\" y1=\"160\" x2=\"210\" y2=\"240\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"430\" y1=\"160\" x2=\"430\" y2=\"240\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"230\" y1=\"180\" x2=\"410\" y2=\"180\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"230\" y1=\"220\" x2=\"410\" y2=\"220\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"230\" y1=\"180\" x2=\"230\" y2=\"220\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"410\" y1=\"180\" x2=\"410\" y2=\"220\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"250\" y1=\"200\" x2=\"390\" y2=\"200\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"250\" y1=\"220\" x2=\"390\" y2=\"220\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"250\" y1=\"200\" x2=\"250\" y2=\"220\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"390\" y1=\"200\" x2=\"390\" y2=\"220\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"270\" y1=\"220\" x2=\"370\" y2=\"220\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"270\" y1=\"230\" x2=\"370\" y2=\"230\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"270\" y1=\"220\" x2=\"270\" y2=\"230\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"370\" y1=\"220\" x2=\"370\" y2=\"230\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n</svg>",
+        "scene-lantern-room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#000088\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"180\" fill=\"#AA00FF\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"160\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"140\" fill=\"#AA00FF\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"120\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"100\" fill=\"#AA00FF\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"80\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"60\" fill=\"#AA00FF\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"40\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"20\" fill=\"#AA00FF\"/>\n  <line x1=\"320\" y1=\"20\" x2=\"320\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"200\" x2=\"620\" y2=\"200\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"320\" y1=\"20\" x2=\"340\" y2=\"40\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"320\" y1=\"380\" x2=\"340\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"200\" x2=\"40\" y2=\"220\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"620\" y1=\"200\" x2=\"600\" y2=\"220\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"320\" y1=\"20\" x2=\"300\" y2=\"40\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"320\" y1=\"380\" x2=\"300\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"200\" x2=\"40\" y2=\"180\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"620\" y1=\"200\" x2=\"600\" y2=\"180\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"160\" y1=\"60\" x2=\"480\" y2=\"340\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"480\" y1=\"60\" x2=\"160\" y2=\"340\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"10\" fill=\"#FFFFFF\"/>\n</svg>",
+        "scene-library": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#000088\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"180\" fill=\"#AA00FF\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"160\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"140\" fill=\"#AA00FF\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"120\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"100\" fill=\"#AA00FF\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"80\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"60\" fill=\"#AA00FF\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"40\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"20\" fill=\"#AA00FF\"/>\n  <line x1=\"320\" y1=\"20\" x2=\"320\" y2=\"380\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"200\" x2=\"620\" y2=\"200\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"320\" y1=\"20\" x2=\"340\" y2=\"40\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"320\" y1=\"380\" x2=\"340\" y2=\"360\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"200\" x2=\"40\" y2=\"220\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"620\" y1=\"200\" x2=\"600\" y2=\"180\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n</svg>",
+        "scene-living-quarters": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#000088\"/>\n  <rect x=\"50\" y=\"50\" width=\"540\" height=\"300\" fill=\"#AA00FF\"/>\n  <rect x=\"70\" y=\"70\" width=\"500\" height=\"260\" fill=\"#000000\"/>\n  <rect x=\"90\" y=\"90\" width=\"460\" height=\"220\" fill=\"#AA00FF\"/>\n  <rect x=\"110\" y=\"110\" width=\"420\" height=\"180\" fill=\"#000000\"/>\n  <rect x=\"130\" y=\"130\" width=\"380\" height=\"140\" fill=\"#AA00FF\"/>\n  <rect x=\"150\" y=\"150\" width=\"340\" height=\"100\" fill=\"#000000\"/>\n  <rect x=\"170\" y=\"170\" width=\"300\" height=\"60\" fill=\"#AA00FF\"/>\n  <rect x=\"190\" y=\"190\" width=\"260\" height=\"20\" fill=\"#000000\"/>\n  <rect x=\"210\" y=\"210\" width=\"220\" height=\"10\" fill=\"#AA00FF\"/>\n  <line x1=\"50\" y1=\"50\" x2=\"590\" y2=\"50\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"50\" y1=\"350\" x2=\"590\" y2=\"350\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"50\" y1=\"50\" x2=\"50\" y2=\"350\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"590\" y1=\"50\" x2=\"590\" y2=\"350\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"70\" y1=\"70\" x2=\"570\" y2=\"70\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"70\" y1=\"330\" x2=\"570\" y2=\"330\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"70\" y1=\"70\" x2=\"70\" y2=\"330\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"570\" y1=\"70\" x2=\"570\" y2=\"330\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"90\" y1=\"90\" x2=\"550\" y2=\"90\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"90\" y1=\"310\" x2=\"550\" y2=\"310\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"90\" y1=\"90\" x2=\"90\" y2=\"310\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"550\" y1=\"90\" x2=\"550\" y2=\"310\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"110\" y1=\"110\" x2=\"530\" y2=\"110\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"110\" y1=\"290\" x2=\"530\" y2=\"290\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"110\" y1=\"110\" x2=\"110\" y2=\"290\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"530\" y1=\"110\" x2=\"530\" y2=\"290\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"130\" y1=\"130\" x2=\"510\" y2=\"130\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"130\" y1=\"270\" x2=\"510\" y2=\"270\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"130\" y1=\"130\" x2=\"130\" y2=\"270\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"510\" y1=\"130\" x2=\"510\" y2=\"270\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"150\" y1=\"150\" x2=\"490\" y2=\"150\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"150\" y1=\"250\" x2=\"490\" y2=\"250\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"150\" y1=\"150\" x2=\"150\" y2=\"250\" stroke=\"#FFFFFF\" stroke-width=\"2",
+        "scene-workshop": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#000088\"/>\n  <rect x=\"50\" y=\"50\" width=\"200\" height=\"300\" fill=\"#AA00FF\"/>\n  <rect x=\"390\" y=\"50\" width=\"200\" height=\"300\" fill=\"#AA00FF\"/>\n  <rect x=\"70\" y=\"70\" width=\"160\" height=\"260\" fill=\"#000000\"/>\n  <rect x=\"410\" y=\"70\" width=\"160\" height=\"260\" fill=\"#000000\"/>\n  <rect x=\"90\" y=\"90\" width=\"120\" height=\"220\" fill=\"#AA00FF\"/>\n  <rect x=\"430\" y=\"90\" width=\"120\" height=\"220\" fill=\"#AA00FF\"/>\n  <rect x=\"110\" y=\"110\" width=\"80\" height=\"180\" fill=\"#000000\"/>\n  <rect x=\"450\" y=\"110\" width=\"80\" height=\"180\" fill=\"#000000\"/>\n  <rect x=\"130\" y=\"130\" width=\"40\" height=\"140\" fill=\"#AA00FF\"/>\n  <rect x=\"470\" y=\"130\" width=\"40\" height=\"140\" fill=\"#AA00FF\"/>\n  <rect x=\"150\" y=\"150\" width=\"20\" height=\"100\" fill=\"#000000\"/>\n  <rect x=\"490\" y=\"150\" width=\"20\" height=\"100\" fill=\"#000000\"/>\n  <rect x=\"170\" y=\"170\" width=\"10\" height=\"60\" fill=\"#AA00FF\"/>\n  <rect x=\"510\" y=\"170\" width=\"10\" height=\"60\" fill=\"#AA00FF\"/>\n  <line x1=\"50\" y1=\"50\" x2=\"250\" y2=\"50\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"50\" y1=\"350\" x2=\"250\" y2=\"350\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"50\" y1=\"50\" x2=\"50\" y2=\"350\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"250\" y1=\"50\" x2=\"250\" y2=\"350\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"390\" y1=\"50\" x2=\"590\" y2=\"50\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"390\" y1=\"350\" x2=\"590\" y2=\"350\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"390\" y1=\"50\" x2=\"390\" y2=\"350\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"590\" y1=\"50\" x2=\"590\" y2=\"350\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"130\" y1=\"130\" x2=\"170\" y2=\"170\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"470\" y1=\"130\" x2=\"510\" y2=\"170\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"170\" y1=\"170\" x2=\"170\" y2=\"230\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"510\" y1=\"170\" x2=\"510\" y2=\"230\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"170\" y1=\"230\" x2=\"130\" y2=\"270\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"510\" y1=\"230\" x2=\"470\" y2=\"270\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"130\" y1=\"270\" x2=\"130\" y2=\"310\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"470\" y1=\"270\" x2=\"470\" y2=\"310\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"130\" y1=\"310\" x2=\"170\" y2=\"350\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"470\" y1=\"310\" x2=\"510\" y2=\"350\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"170\" y1=\"350\" x2=\"170\" y2=\"390\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"510\" y1=\"350\" x2=\"510\" y2=\"390\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"170\" y1=\"390\" x2=\"130\" y2=\"430\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"510\" y1=\"390\" x2=\"470\" y2=\"430\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n</svg>"
+};
+    </script>
+    <script>
+        // Embedded game logic
+        // ============================================================
+// CLOCKWORK LIGHTHOUSE - Game Logic
+// ============================================================
+
+// Game data will be embedded here by the Game Assembler
+// Game data already loaded in window.GAME_DATA
+
+// ---- Game State ----
+const state = {
+  currentScene: 'exterior',
+  inventory: [],
+  solvedPuzzles: [],
+  visitedScenes: ['exterior'],
+  activeCommand: null,
+  selectedItem: null,
+  won: false,
+  hintsEnabled: true,
+  hintTimeouts: []
+};
+
+// ---- DOM References ----
+const artDisplay = document.getElementById('art-display');
+const sceneName = document.getElementById('scene-name');
+const textDisplay = document.getElementById('text-display');
+const invBar = document.getElementById('inventory-bar');
+const exitsBar = document.getElementById('exits-bar');
+
+// ---- Hint System ----
+function clearHintTimers() {
+  state.hintTimeouts.forEach(timeout => clearTimeout(timeout));
+  state.hintTimeouts = [];
+}
+
+function showHint(sceneId, index) {
+  if (!state.hintsEnabled) return;
+  const hints = GAME_DATA.hints && GAME_DATA.hints[sceneId];
+  if (!hints || index >= hints.length) return;
+  const hint = hints[index];
+  addText(hint.text, 'hint');
+}
+
+function startHintTimer(sceneId) {
+  clearHintTimers();
+  const hints = GAME_DATA.hints && GAME_DATA.hints[sceneId];
+  if (!hints || !state.hintsEnabled) return;
+  hints.forEach((hint, idx) => {
+    const timeout = setTimeout(() => showHint(sceneId, idx), hint.delay * 1000);
+    state.hintTimeouts.push(timeout);
+  });
+}
+
+function toggleHints() {
+  state.hintsEnabled = !state.hintsEnabled;
+  const btn = document.getElementById('hint-toggle');
+  if (btn) btn.textContent = state.hintsEnabled ? 'HINTS: ON' : 'HINTS: OFF';
+  if (!state.hintsEnabled) {
+    clearHintTimers();
+  } else {
+    startHintTimer(state.currentScene);
+  }
+}
+
+// ---- Display Functions ----
+function addText(text, cls = '') {
+  const p = document.createElement('p');
+  p.className = cls;
+  p.innerHTML = text;
+  textDisplay.appendChild(p);
+  textDisplay.scrollTop = textDisplay.scrollHeight;
+}
+
+function clearText() { textDisplay.innerHTML = ''; }
+
+function renderScene(sceneId) {
+  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
+  if (!scene) { addText('ERROR: Scene not found!', 'error'); return; }
+
+  state.currentScene = sceneId;
+  if (!state.visitedScenes.includes(sceneId)) state.visitedScenes.push(sceneId);
+
+  // Hint timer
+  clearHintTimers();
+  startHintTimer(sceneId);
+
+  // Update scene name
+  sceneName.textContent = scene.name.toUpperCase();
+
+  // Update art
+  const artKey = 'scene-' + sceneId.replace('scene-', '');
+  if (window.GAME_ART && window.GAME_ART[artKey]) {
+    artDisplay.innerHTML = window.GAME_ART[artKey];
+  } else {
+    artDisplay.innerHTML = '<span class="no-art">[ ' + scene.name.toUpperCase() + ' ]</span>';
+  }
+
+  // Display prose
+  clearText();
+  addText(scene.prose);
+
+  // Show available items (not yet taken)
+  const availableItems = (scene.items || []).filter(itemId =>
+    !state.inventory.includes(itemId)
+  );
+  if (availableItems.length > 0) {
+    const itemNames = availableItems.map(id => {
+      const item = GAME_DATA.items.find(i => i.id === id);
+      return item ? `<span class="look-target" data-look="${id}">${item.name}</span>` : id;
+    });
+    addText('You notice: ' + itemNames.join(', '), 'system');
+  }
+
+  // Show unsolved puzzles
+  const scenePuzzles = (scene.puzzles || []).filter(pid =>
+    !state.solvedPuzzles.includes(pid)
+  );
+  scenePuzzles.forEach(pid => {
+    const puzzle = GAME_DATA.puzzles.find(p => p.id === pid);
+    if (puzzle) {
+      addText('There is something here that catches your attention...', 'system');
+    }
+  });
+
+  // Render exits
+  renderExits(scene.exits || {});
+
+  // Render inventory
+  renderInventory();
+
+  // Check win condition
+  checkWin();
+
+  // Save state
+  saveState();
+}
+
+function renderExits(exits) {
+  exitsBar.innerHTML = '';
+  const directions = ['north', 'south', 'east', 'west', 'up', 'down'];
+  directions.forEach(dir => {
+    const btn = document.createElement('button');
+    btn.className = 'exit-btn' + (exits[dir] ? ' available' : '');
+    btn.textContent = dir.toUpperCase();
+    btn.disabled = !exits[dir];
+    if (exits[dir]) {
+      btn.onclick = () => go(exits[dir]);
+    }
+    exitsBar.appendChild(btn);
+  });
+}
+
+function renderInventory() {
+  const items = invBar.querySelectorAll('.inv-item');
+  items.forEach(el => el.remove());
+  const empty = document.getElementById('inv-empty');
+
+  if (state.inventory.length === 0) {
+    empty.style.display = '';
+  } else {
+    empty.style.display = 'none';
+    state.inventory.forEach(itemId => {
+      const item = GAME_DATA.items.find(i => i.id === itemId);
+      if (!item) return;
+      const el = document.createElement('span');
+      el.className = 'inv-item' + (state.selectedItem === itemId ? ' selected' : '');
+      el.textContent = item.name;
+      el.onclick = () => selectItem(itemId);
+      invBar.appendChild(el);
+    });
+  }
+}
+
+// ---- Command Handlers ----
+function setCommand(cmd) {
+  state.activeCommand = cmd;
+  document.querySelectorAll('.cmd-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.cmd === cmd);
+  });
+  if (cmd === 'look') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    if (scene && scene.lookDescriptions) {
+      const targets = Object.keys(scene.lookDescriptions);
+      if (targets.length > 0) {
+        addText('You can examine: ' + targets.map(t =>
+          `<span class="look-target" data-look="${t}">${t}</span>`
+        ).join(', '), 'system');
+      }
+    }
+  } else if (cmd === 'use') {
+    if (state.inventory.length > 0) {
+      addText('Select an item from your inventory, then click what to use it on.', 'system');
+    } else {
+      addText('You have nothing to use.', 'system');
+    }
+  } else if (cmd === 'take') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    const available = (scene.items || []).filter(id => !state.inventory.includes(id));
+    if (available.length > 0) {
+      available.forEach(id => takeItem(id));
+    } else {
+      addText('Nothing here to take.', 'system');
+    }
+  }
+}
+
+function selectItem(itemId) {
+  state.selectedItem = state.selectedItem === itemId ? null : itemId;
+  renderInventory();
+  if (state.selectedItem) {
+    const item = GAME_DATA.items.find(i => i.id === itemId);
+    addText(`Selected: ${item.name}. Click USE, then a target.`, 'system');
+  }
+}
+
+function takeItem(itemId) {
+  if (state.inventory.includes(itemId)) return;
+  const item = GAME_DATA.items.find(i => i.id === itemId);
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (!scene || !(scene.items || []).includes(itemId)) return;
+
+  state.inventory.push(itemId);
+  if (item) {
+    addText(`You picked up: ${item.name} — ${item.description}`, 'success');
+  } else {
+    // Handle items referenced in scenes but not defined in items array
+    addText(`You picked up: ${itemId.replace('-', ' ')}`, 'success');
+  }
+  renderInventory();
+  saveState();
+}
+
+function lookAt(target) {
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (scene && scene.lookDescriptions && scene.lookDescriptions[target]) {
+    addText(scene.lookDescriptions[target]);
+  } else {
+    // Check if it's an item
+    const item = GAME_DATA.items.find(i => i.id === target);
+    if (item) {
+      addText(item.description);
+    } else if (target.startsWith('alistairs-journal')) {
+      // Handle journal entries not in items array
+      addText('A page from Alistair\'s journal, filled with frantic handwriting about time loops and mechanisms.', 'system');
+    } else if (target === 'gear-sequence') {
+      addText('A sequence of gear positions needed to align the central mechanism in the Gear Chamber.', 'system');
+    } else if (target === 'win') {
+      addText('The win condition for the game.', 'system');
+    } else {
+      addText('Nothing interesting about that.', 'system');
+    }
+  }
+}
+
+function useItemOn(itemId, targetId) {
+  const puzzle = GAME_DATA.puzzles.find(p =>
+    p.scene === state.currentScene &&
+    p.requires.includes(itemId) &&
+    p.id === targetId &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+
+  if (puzzle && puzzle.requires.every(req => state.inventory.includes(req))) {
+    state.solvedPuzzles.push(puzzle.id);
+    addText(puzzle.result, 'success');
+    // Handle puzzle reveals
+    (puzzle.reveals || []).forEach(revealId => {
+      // Check if revealId is an item
+      const revealItem = GAME_DATA.items.find(i => i.id === revealId);
+      if (revealItem) {
+        if (!state.inventory.includes(revealId)) {
+          state.inventory.push(revealId);
+          addText(`You found: ${revealItem.name}!`, 'success');
+        }
+      } else if (revealId === 'win') {
+        // Special case: win condition revealed
+        checkWin();
+      } else {
+        // Could be a scene or other reveal - handle as needed
+        addText(`Something has been revealed: ${revealId}`, 'system');
+      }
+    });
+    renderInventory();
+    checkWin();
+    saveState();
+  } else {
+    addText("That doesn't seem to work.", 'system');
+  }
+}
+
+function go(sceneId) {
+  addText('---', 'system');
+  renderScene(sceneId);
+}
+
+function checkWin() {
+  if (state.won) return;
+  const wc = GAME_DATA.winCondition;
+  if (!wc) return;
+  if (state.currentScene === wc.scene && 
+      wc.requires.every(req => state.inventory.includes(req))) {
+    state.won = true;
+    addText('', '');
+    addText('*** ' + wc.description + ' ***', 'success');
+    addText('', '');
+    addText('CONGRATULATIONS! YOU HAVE COMPLETED THE GAME!', 'success');
+    addText('Type /restart to play again.', 'system');
+  }
+}
+
+// ---- Persistence ----
+function saveState() {
+  try {
+    localStorage.setItem('game-' + GAME_DATA.slug, JSON.stringify(state));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('game-' + GAME_DATA.slug);
+    if (saved) {
+      const s = JSON.parse(saved);
+      Object.assign(state, s);
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+// ---- Event Listeners ----
+document.querySelectorAll('.cmd-btn').forEach(btn => {
+  btn.onclick = () => setCommand(btn.dataset.cmd);
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('look-target')) {
+    const target = e.target.dataset.look;
+    if (state.activeCommand === 'use' && state.selectedItem) {
+      useItemOn(state.selectedItem, target);
+    } else {
+      lookAt(target);
+    }
+  }
+});
+
+document.getElementById('hint-toggle').addEventListener('click', toggleHints);
+
+// ---- Initialize ----
+function init() {
+  if (Object.keys(GAME_DATA).length === 0) {
+    addText('ERROR: No game data loaded. This is a template file.', 'error');
+    addText('The Gameplay Coder will embed game data here.', 'system');
+    return;
+  }
+
+  addText('=== ' + GAME_DATA.title.toUpperCase() + ' ===', 'success');
+  addText(GAME_DATA.setting, 'system');
+  addText('', '');
+  addText('Commands: LOOK | TAKE | USE | EXAMINE', 'system');
+  addText('Click exits to move between rooms.', 'system');
+  addText('---', 'system');
+
+  if (!loadState()) {
+    renderScene('exterior');
+  } else {
+    renderScene(state.currentScene);
+    addText('[Game restored from save]', 'system');
+  }
+}
+
+init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frostbite Station | Game #008</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            padding: 20px;
+            max-width: 1024px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        h2 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #0f0;
+        }
+
+        #scene-name {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #0f0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .game-container {
+            display: flex;
+            flex: 1;
+            gap: 20px;
+            min-height: 0;
+        }
+
+        .art-panel {
+            flex: 1;
+            border: 2px solid #0f0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        #art-display svg,
+        #art-display img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .text-panel {
+            flex: 1;
+            border: 2px solid #0f0;
+            background-color: #000;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #text-display {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #0f0;
+            padding-bottom: 10px;
+        }
+
+        #text-display p {
+            margin-bottom: 10px;
+            color: #0f0;
+        }
+
+        #text-display .system {
+            color: #0a0;
+            font-style: italic;
+        }
+
+        #text-display .success {
+            color: #0f0;
+            font-weight: bold;
+            animation: itemGlow 1s infinite alternate;
+        }
+
+        #text-display .locked {
+            color: #f00;
+            font-weight: bold;
+        }
+
+        #text-display .error {
+            color: #f00;
+        }
+
+        #text-display .hint {
+            color: #FFAA00;
+            font-style: italic;
+        }
+
+        .hint-toggle {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 2px 6px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .hint-toggle:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .command-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .cmd-btn {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 5px 10px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cmd-btn:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .cmd-btn.active {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .inventory-panel {
+            border: 2px solid #0f0;
+            background-color: #000;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .inventory-panel h3 {
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #0f0;
+        }
+
+        #inventory-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 20px;
+        }
+
+        .inv-item {
+            border: 1px solid #0f0;
+            padding: 3px 6px;
+            font-size: 10px;
+            cursor: pointer;
+            background-color: #000;
+            color: #0f0;
+        }
+
+        .inv-item.selected {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .exits-panel {
+            border: 2px solid #0f0;
+            background-color: #000;
+            padding: 10px;
+        }
+
+        .exits-panel h3 {
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #0f0;
+        }
+
+        #exits-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .exit-btn {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 5px 10px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .exit-btn.available:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .look-target {
+            color: #0af;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .look-target:hover {
+            color: #0ff;
+        }
+
+        @keyframes puzzle-solved {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(2); }
+            100% { filter: brightness(1); }
+        }
+
+        @keyframes unlockPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes itemGlow {
+            0% { text-shadow: 0 0 5px #0f0; }
+            100% { text-shadow: 0 0 15px #0f0; }
+        }
+
+        .puzzle-solved {
+            animation: puzzle-solved 0.6s ease-in-out;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 10px;
+            color: #080;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FROSTBITE STATION</h1>
+        <h2>Game #008</h2>
+        <button id="hint-toggle" class="hint-toggle">HINTS: ON</button>
+    </header>
+
+    <div id="scene-name">LANDING PAD</div>
+
+    <div class="game-container">
+        <div class="art-panel">
+            <div id="art-display">
+                <!-- Art will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="text-panel">
+            <div id="text-display">
+                <!-- Game text will appear here -->
+            </div>
+
+            <div class="command-bar">
+                <button class="cmd-btn" data-cmd="look">LOOK</button>
+                <button class="cmd-btn" data-cmd="take">TAKE</button>
+                <button class="cmd-btn" data-cmd="use">USE</button>
+                <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+            </div>
+
+            <div class="inventory-panel">
+                <h3>INVENTORY</h3>
+                <div id="inventory-bar">
+                    <span id="inv-empty">(empty)</span>
+                </div>
+            </div>
+
+            <div class="exits-panel">
+                <h3>EXITS</h3>
+                <div id="exits-bar">
+                    <!-- Exit buttons will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Use the command buttons or click on highlighted words. Click exits to move.
+        Type /restart in the text area to reset the game.
+    </footer>
+
+    <script>
+// ============================================================
+// GAME DATA
+const GAME_DATA = {
+  "title": "Frostbite Station",
+  "slug": "frostbite-station",
+  "number": 8,
+  "setting": "An abandoned Arctic research station built over a frozen lake. The crew discovered something ancient in the ice that thawed out and now moves in the darkness.",
+  "characters": [
+    {
+      "id": "dr-okafor",
+      "name": "Dr. Elara Okafor",
+      "description": "Lead researcher of Frostbite Station. Her research journal suggests she uncovered something terrifying in the ice core samples."
+    },
+    {
+      "id": "watcher-ice",
+      "name": "The Watcher in the Ice",
+      "description": "An ancient entity frozen for millennia, now thawed and stalking the station's corridors. It moves silently, leaving frost patterns and cold spots."
+    }
+  ],
+  "items": [
+    {
+      "id": "flare-torch",
+      "name": "Flare Torch",
+      "description": "A red emergency flare with a striker wheel. Produces intense heat that can thaw frozen mechanisms.",
+      "foundIn": "landing-pad",
+      "usedIn": "landing-pad",
+      "usedOn": "puzzle-thaw-door"
+    },
+    {
+      "id": "keycard-maintenance",
+      "name": "Maintenance Keycard (MAINT-04)",
+      "description": "An amber-glowing keycard with frost-damaged edges. Security clearance for maintenance areas.",
+      "foundIn": "main-corridor",
+      "usedIn": "main-corridor",
+      "usedOn": "puzzle-unlock-lab"
+    },
+    {
+      "id": "sample-drill",
+      "name": "Sample Drill",
+      "description": "A heavy-duty coring drill with diamond-tipped bit. Used for extracting ice samples from permafrost.",
+      "foundIn": "laboratory",
+      "usedIn": "laboratory",
+      "usedOn": "puzzle-extract-core"
+    },
+    {
+      "id": "ice-core-artifact",
+      "name": "Ice Core Artifact",
+      "description": "A cylindrical ice sample containing a dark, organic-looking mass frozen within. Feels unnaturally cold to the touch.",
+      "foundIn": "laboratory",
+      "usedIn": "frozen-chamber",
+      "usedOn": "puzzle-win"
+    },
+    {
+      "id": "research-journal",
+      "name": "Dr. Okafor's Research Journal",
+      "description": "A leather-bound journal with frantic handwriting. Contains frequency codes (7.83 Hz, 14.3 Hz) and notes about 'resonance patterns' and 'awakening something'.",
+      "foundIn": "laboratory",
+      "usedIn": "generator-room",
+      "usedOn": "puzzle-power-generator"
+    },
+    {
+      "id": "frequency-transmitter",
+      "name": "Frequency Transmitter",
+      "description": "A portable device that can broadcast specific low-frequency signals. Used for geological resonance experiments.",
+      "foundIn": "comm-room",
+      "usedIn": "generator-room",
+      "usedOn": "puzzle-power-generator"
+    },
+    {
+      "id": "emergency-fuse",
+      "name": "Emergency Fuse",
+      "description": "A heavy ceramic fuse rated for high-voltage systems. Found in the lab's spare parts cabinet.",
+      "foundIn": "laboratory",
+      "usedIn": "generator-room",
+      "usedOn": "puzzle-power-generator"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "landing-pad",
+      "name": "Landing Pad",
+      "prose": "The wind howls across the frozen landing pad, biting through your thermal gear with needles of ice. Frostbite Station looms before you\u2014a cluster of brutalist concrete structures half-buried in snowdrifts, their windows dark and vacant. The main entrance is a steel blast door sealed shut, ice glazing its edges like a frosted tomb. To the north, the corridor entrance waits behind a layer of thick, milky ice that has swollen in the frame. Crates lie overturned, their contents spilled and frozen solid: rations, tools, a scattering of personal effects abandoned in haste. Wedged between two crates, a red cylinder catches your eye\u2014a flare torch, its striker wheel crusted with rime but still functional. The wind carries a sound that isn't wind: a low, resonant hum, felt more than heard, vibrating up through the packed snow under your boots. The station isn't empty. Something is awake inside.",
+      "exits": {
+        "north": "main-corridor"
+      },
+      "items": [
+        "flare-torch"
+      ],
+      "puzzles": [
+        "puzzle-thaw-door"
+      ],
+      "lookDescriptions": {
+        "flare-torch": "A red emergency flare with a metal striker wheel. The label reads 'EXTREME HEAT - USE FOR ICE EMERGENCIES'.",
+        "crates": "Overturned supply crates, contents frozen into indistinguishable lumps. One crate lid is smashed, revealing mangled equipment inside.",
+        "blast-door": "The main station entrance, sealed with thick ice around the edges. No visible handles or controls\u2014likely opened from inside.",
+        "snowdrifts": "Deep, wind-sculpted snow piles against the station walls. Strange, swirling patterns are etched into their surfaces, as if something has moved through them without leaving footprints."
+      }
+    },
+    {
+      "id": "main-corridor",
+      "name": "Main Corridor",
+      "prose": "Dim red emergency lighting casts long shadows down the corridor, painting everything in the color of old blood. Frost webs across the walls, thick and crystalline, catching the light like frozen capillaries. Three doors branch off: to the west, a door labeled COMM ROOM hangs slightly ajar, darkness pooling beyond; to the east, a sealed door marked LAB glows with the amber light of a card reader, locked; ahead, a heavy reinforced door labeled GENERATOR ROOM vibrates with a low, mechanical pulse. The air is dead-cold and still, smelling of ozone and something organic, like wet soil and decay. A locker has toppled over, spilling jackets and tools. Near it, an amber-glowing keycard lies on the frost-rimed floor\u2014MAINTENANCE-04, dropped in someone's flight. The red light makes the frost patterns on the walls seem to writhe if you stare too long.",
+      "exits": {
+        "south": "landing-pad",
+        "west": "comm-room",
+        "east": "laboratory",
+        "north": "generator-room"
+      },
+      "items": [
+        "keycard-maintenance"
+      ],
+      "puzzles": [
+        "puzzle-unlock-lab"
+      ],
+      "lookDescriptions": {
+        "keycard": "An amber keycard labeled MAINT-04. Frost has crept into its chip slot, but the LED still glows weakly.",
+        "locker": "A fallen metal locker, contents spilled: thermal jackets, a broken flashlight, a half\u2011frozen coffee mug.",
+        "frost-patterns": "Intricate, fern\u2011like frost crystals covering the walls. They seem to grow thicker near the generator room door.",
+        "card-reader": "The lab door's electronic lock. Amber light pulses slowly, waiting for a valid keycard."
+      }
+    },
+    {
+      "id": "comm-room",
+      "name": "Communications Room",
+      "prose": "Banks of dead radio equipment line the walls, their screens dark and dusty. A central console dominates the room, its surface littered with papers\u2014frequency charts, call logs, a handwritten note in a desperate, sprawling script: 'DON'T TRANSMIT BELOW 10 Hz\u2014IT HEARS.' The chair is pushed back as if someone stood up quickly, a thermal mug knocked over, its contents frozen in a brown spill across the floor. On a smaller side table sits a portable frequency transmitter, its display still lit with a soft green glow, showing a standby frequency of 1.00 Hz. A large world map on the wall is dotted with pins marking other research stations, all in the Arctic circle. One pin, red and larger than the rest, marks Frostbite Station. Someone has drawn a circle around it in black marker, and written a single word: 'GROUND ZERO.'",
+      "exits": {
+        "east": "main-corridor"
+      },
+      "items": [
+        "frequency-transmitter"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "frequency-transmitter": "A portable device with a digital display and tuning dials. Label: 'RESONANCE EMITTER - GEO\u2011ACOUSTIC STUDIES'.",
+        "console": "The main communications console. Power is off, but a spare battery pack still has charge.",
+        "note": "A handwritten note: 'DON'T TRANSMIT BELOW 10 Hz\u2014IT HEARS. Okafor ordered full silence. Too late now.'",
+        "world-map": "A map of the Arctic with research stations marked. Frostbite Station is circled in black with 'GROUND ZERO' scrawled beside it."
+      }
+    },
+    {
+      "id": "laboratory",
+      "name": "Laboratory",
+      "prose": "The lab is a disaster of shattered glass and overturned equipment. Sample jars lie broken on the floor, their contents\u2014ice cores, geological specimens\u2014scattered and melting into foul\u2011smelling puddles. In the center of the room, a massive permafrost\u2011sampling rig stands intact, its drill bit pointed at a section of exposed bedrock wall. The wall shows clear drill marks, and at its center, a cylindrical borehole glistens with fresh ice. On a workbench, a heavy sample drill rests beside a spilled toolbox. A cabinet labeled 'SPARE PARTS' hangs open; inside, among fuses and wiring, you spot a ceramic emergency fuse. Cold radiates from the borehole in waves, and the air tastes metallic, like blood and ozone. Frost creeps across the floor in intricate, spiral patterns, converging on the drill site.",
+      "exits": {
+        "west": "main-corridor"
+      },
+      "items": [
+        "sample-drill",
+        "emergency-fuse"
+      ],
+      "puzzles": [
+        "puzzle-extract-core"
+      ],
+      "lookDescriptions": {
+        "sample-drill": "A heavy coring drill with a diamond\u2011tipped bit. The motor is cold but seems operational.",
+        "permafrost-wall": "A section of exposed bedrock with a fresh borehole. Ice glints deep within the hole, something dark suspended inside.",
+        "spare-parts-cabinet": "An open cabinet containing electrical components. The emergency fuse is the largest, rated for 10kV.",
+        "broken-samples": "Shattered ice\u2011core jars. The melting ice smells wrong\u2014sweet and rotten, like decayed fruit."
+      }
+    },
+    {
+      "id": "generator-room",
+      "name": "Generator Room",
+      "prose": "The generator room thrums with latent power. A massive diesel generator occupies the center, its casing frosted over but still emitting a deep, sub\u2011sonic vibration that shakes the floor. Control panels line the walls, their gauges frozen at zero. One panel has been ripped open, exposing burnt wiring and a missing fuse socket. To the south, a heavy vault door stands sealed, its surface etched with the same swirling frost patterns seen elsewhere, but here they form something almost glyph\u2011like. A workbench holds tools and a frequency\u2011coupling unit\u2014a device clearly meant to interface the transmitter with the generator. The air is thick with the smell of diesel and ozone, and the vibration gets into your bones, making your teeth ache. The vault door has no handle, only a small, frosted\u2011over viewport that shows darkness beyond.",
+      "exits": {
+        "south": "frozen-chamber",
+        "west": "main-corridor"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-power-generator"
+      ],
+      "lookDescriptions": {
+        "generator": "A massive diesel generator, frosted over but still producing a low vibration. The missing fuse socket is clearly visible.",
+        "vault-door": "A heavy circular door with frost\u2011etched glyphs. The viewport is clouded with ice, but something dark moves beyond.",
+        "frequency-coupler": "A rack\u2011mounted unit with input ports for a transmitter and output leads to the generator.",
+        "control-panels": "Frost\u2011covered gauges and switches. One panel is smashed, wires hanging out like black intestines."
+      }
+    },
+    {
+      "id": "frozen-chamber",
+      "name": "Frozen Chamber",
+      "prose": "The vault door opens onto a vast, natural cavern, its walls sheathed in blue\u2011white ice that glows with an internal phosphorescence. In the center of the chamber, an ancient device of black stone and frozen metal rises from the ice\u2014a machine of impossible geometry, all sharp angles and non\u2011Euclidean curves. Before it, a pedestal holds a recessed slot exactly the size of the ice\u2011core artifact. The air is deathly still and so cold it burns your lungs. The ice walls are not empty: shadows move within them, elongated humanoid shapes frozen mid\u2011stride, faces pressed against the ice as if trying to break through. The Watcher is here\u2014a presence felt rather than seen, a pressure in the air, a whispering at the edge of hearing. The device hums, awaiting the final key. This is where it all ends, or begins.",
+      "exits": {},
+      "items": [],
+      "puzzles": [
+        "puzzle-win"
+      ],
+      "lookDescriptions": {
+        "ancient-device": "A structure of black stone and frozen metal, covered in glyphs that swim when you look away. A pedestal before it has a cylindrical slot.",
+        "ice-walls": "Glowing blue ice containing frozen shadows\u2014humanoid shapes trapped forever, their faces distorted in silent screams.",
+        "pedestal": "A stone pedestal with a slot exactly matching the ice\u2011core artifact. Glyphs around it pulse with faint light.",
+        "cavern": "A vast natural chamber, the ceiling lost in darkness. The ice underfoot is treacherously smooth, and the cold is absolute."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-thaw-door",
+      "scene": "landing-pad",
+      "requires": [
+        "flare-torch"
+      ],
+      "action": "use flare-torch on frozen-door",
+      "result": "The flare ignites with a hissing roar, pouring intense heat onto the ice\u2011sealed door. The ice melts rapidly, steaming away to reveal the corridor entrance. The door groans open, releasing a gust of frigid, stale air.",
+      "reveals": [
+        "main-corridor"
+      ],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-unlock-lab",
+      "scene": "main-corridor",
+      "requires": [
+        "keycard-maintenance"
+      ],
+      "action": "use keycard-maintenance on lab-door",
+      "result": "The keycard clicks home. The amber light flashes green, and the lab door slides open with a whisper of compressed air. Cold, metallic\u2011scented air washes out from the darkness within.",
+      "reveals": [
+        "laboratory"
+      ],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-extract-core",
+      "scene": "laboratory",
+      "requires": [
+        "sample-drill"
+      ],
+      "action": "use sample-drill on permafrost-wall",
+      "result": "The drill whines to life, biting into the ice\u2011filled borehole. With a crack, the core breaks free\u2014a cylinder of clear ice containing a dark, organic mass. As you lift it, a leather\u2011bound journal, frozen inside the ice, falls to the floor. You now have the ice\u2011core artifact and Dr. Okafor's research journal.",
+      "reveals": [
+        "ice-core-artifact",
+        "research-journal"
+      ],
+      "blocksExit": null
+    },
+    {
+      "id": "puzzle-power-generator",
+      "scene": "generator-room",
+      "requires": [
+        "emergency-fuse",
+        "frequency-transmitter",
+        "research-journal"
+      ],
+      "action": "install fuse and tune transmitter to 7.83 Hz",
+      "result": "The fuse slots into the generator with a heavy click. The transmitter, tuned to the frequency from the journal, feeds a low hum into the coupling unit. Lights flicker on across the control panels, and the vault door's frost patterns glow with blue light before sliding open with a deep rumble.",
+      "reveals": [
+        "frozen-chamber"
+      ],
+      "blocksExit": "south"
+    },
+    {
+      "id": "puzzle-win",
+      "scene": "frozen-chamber",
+      "requires": [
+        "ice-core-artifact",
+        "frequency-transmitter"
+      ],
+      "action": "place ice-core artifact in pedestal and activate transmitter",
+      "result": "The artifact slots perfectly into the pedestal. The transmitter, still tuned to the resonance frequency, activates the ancient device. The black stone structure awakens, glyphs burning with cold blue fire. The Watcher's presence intensifies, then dissolves into a sigh of escaping cold. The device falls silent, the threat contained\u2014for now. You have survived Frostbite Station.",
+      "reveals": [],
+      "blocksExit": null
+    }
+  ],
+  "winCondition": {
+    "scene": "frozen-chamber",
+    "requires": [
+      "ice-core-artifact",
+      "frequency-transmitter"
+    ],
+    "description": "Place the ice\u2011core artifact into the pedestal and activate the frequency transmitter to resonate with the ancient device, sealing the Watcher back into the ice."
+  }
+};
+
+// ============================================================
+// GAME ART
+const GAME_ART = {
+  "landing-pad": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark Arctic sky -->\n  <rect width=\"640\" height=\"400\" fill=\"#000088\"/>\n  \n  <!-- Snow-covered ground -->\n  <rect y=\"300\" width=\"640\" height=\"100\" fill=\"#FFFFFF\" opacity=\"0.8\"/>\n  \n  <!-- Frostbite Station buildings -->\n  <!-- Main building -->\n  <rect x=\"150\" y=\"100\" width=\"300\" height=\"200\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"4\"/>\n  <!-- Building details -->\n  <rect x=\"160\" y=\"120\" width=\"280\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"160\" y=\"160\" width=\"100\" height=\"40\" fill=\"#1A1A1A\"/>\n  <rect x=\"380\" y=\"160\" width=\"100\" height=\"40\" fill=\"#1A1A1A\"/>\n  <!-- Windows -->\n  <rect x=\"180\" y=\"140\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  <rect x=\"230\" y=\"140\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  <rect x=\"280\" y=\"140\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  <rect x=\"330\" y=\"140\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  \n  <!-- Blast door -->\n  <rect x=\"270\" y=\"220\" width=\"80\" height=\"100\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Ice on door -->\n  <rect x=\"270\" y=\"220\" width=\"80\" height=\"20\" fill=\"#E0F8FF\" opacity=\"0.7\"/>\n  \n  <!-- Frozen corridor entrance -->\n  <rect x=\"250\" y=\"180\" width=\"120\" height=\"60\" fill=\"#E0F8FF\" opacity=\"0.6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Snow drifts -->\n  <path d=\"M50,300 Q100,250 150,300 T250,300 Q300,250 350,300 T450,300 Q500,250 550,300 T640,300 L640,400 L0,400 Z\" fill=\"#FFFFFF\" opacity=\"0.9\"/>\n  \n  <!-- Overturned crates -->\n  <rect x=\"100\" y=\"260\" width=\"80\" height=\"40\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"100\" y=\"260\" width=\"20\" height=\"40\" fill=\"#654321\"/>\n  <rect x=\"200\" y=\"240\" width=\"60\" height=\"60\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"200\" y=\"240\" width=\"15\" height=\"60\" fill=\"#654321\"/>\n  \n  <!-- Flare torch -->\n  <rect x=\"180\" y=\"250\" width=\"12\" height=\"30\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"178\" y=\"280\" width=\"16\" height=\"8\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Wind lines -->\n  <line x1=\"0\" y1=\"50\" x2=\"640\" y2=\"50\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"20\" y1=\"100\" x2=\"620\" y2=\"100\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"40\" y1=\"150\" x2=\"600\" y2=\"150\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n</svg>",
+  "main-corridor": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark corridor -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#1A1A1A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#000000\"/>\n  \n  <!-- Red emergency lighting effect -->\n  <rect y=\"0\" width=\"640\" height=\"350\" fill=\"#8B0000\" opacity=\"0.2\"/>\n  \n  <!-- Frost patterns on walls -->\n  <path d=\"M50,100 Q70,80 90,100 T130,100 Q150,80 170,100 T210,100 Q230,80 250,100 T290,100 Q310,80 330,100 T370,100 Q390,80 410,100 T450,100 Q470,80 490,100 T530,100 Q550,80 570,100 T610,100\" stroke=\"#8B0000\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M80,150 Q100,130 120,150 T160,150 Q180,130 200,150 T240,150 Q260,130 280,150 T320,150 Q340,130 360,150 T400,150 Q420,130 440,150 T480,150 Q500,130 520,150 T560,150 Q580,130 600,150\" stroke=\"#8B0000\" stroke-width=\"2\" fill=\"none\"/>\n  \n  <!-- Doors -->\n  <!-- Comm room door (west) -->\n  <rect x=\"20\" y=\"150\" width=\"60\" height=\"100\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <text x=\"30\" y=\"210\" text-anchor=\"middle\" transform=\"rotate(-90 30,210)\" fill=\"#FFFFFF\" font-size=\"10\">COMM</text>\n  \n  <!-- Lab door (east) -->\n  <rect x=\"560\" y=\"150\" width=\"60\" height=\"100\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"570\" y=\"160\" width=\"40\" height=\"20\" fill=\"#FF8800\"/>\n  <text x=\"590\" y=\"175\" text-anchor=\"middle\" fill=\"#000000\" font-size=\"8\">LAB</text>\n  \n  <!-- Generator room door (north) -->\n  <rect x=\"290\" y=\"20\" width=\"60\" height=\"100\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"300\" y=\"30\" width=\"40\" height=\"20\" fill=\"#FF0000\"/>\n  \n  <!-- Fallen locker -->\n  <rect x=\"100\" y=\"280\" width=\"80\" height=\"60\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\" transform=\"rotate(15 100,280)\">\n    <animateTransform attributeName=\"transform\" type=\"rotate\" from \"0 100 280\" to \"15 100 280\" dur=\"2s\" repeatCount=\"indefinite\"/>\n  </rect>\n  <rect x=\"100\" y=\"280\" width=\"20\" height=\"60\" fill=\"#654321\" transform=\"rotate(15 100,280)\"/>\n  \n  <!-- Spilled items from locker -->\n  <rect x=\"120\" y=\"320\" width=\"25\" height=\"15\" fill=\"#000080\"/>\n  <rect x=\"150\" y=\"320\" width=\"15\" height=\"10\" fill=\"#FFFFFF\"/>\n  <rect x=\"170\" y=\"325\" width=\"10\" height=\"5\" fill=\"#8B4513\"/>\n  \n  <!-- Maintenance keycard -->\n  <rect x=\"320\" y=\"340\" width=\"20\" height=\"12\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"322\" y=\"342\" width=\"16\" height=\"8\" fill=\"#FFFF00\"/>\n  \n  <!-- Corridor perspective lines -->\n  <line x1=\"0\" y1=\"200\" x2=\"320\" y2=\"200\" stroke=\"#404040\" stroke-width=\"1\"/>\n  <line x1=\"0\" y1=\"250\" x2=\"320\" y2=\"250\" stroke=\"#404040\" stroke-width=\"1\"/>\n  <line x1=\"320\" y1=\"200\" x2=\"640\" y2=\"100\" stroke=\"#404040\" stroke-width=\"1\"/>\n  <line x1=\"320\" y1=\"250\" x2=\"640\" y2=\"150\" stroke=\"#404040\" stroke-width=\"1\"/>\n</svg>",
+  "comm-room": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark room -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#1A1A1A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#000000\"/>\n  \n  <!-- Equipment racks -->\n  <!-- Left rack -->\n  <rect x=\"50\" y=\"50\" width=\"100\" height=\"250\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"55\" y=\"60\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"90\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"120\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"150\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"180\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"210\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  \n  <!-- Right rack -->\n  <rect x=\"490\" y=\"50\" width=\"100\" height=\"250\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"495\" y=\"60\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"90\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"120\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"150\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"180\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"210\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  \n  <!-- Central console -->\n  <rect x=\"250\" y=\"150\" width=\"140\" height=\"100\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"260\" y=\"160\" width=\"120\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"260\" y=\"190\" width=\"120\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"260\" y=\"220\" width=\"120\" height=\"20\" fill=\"#1A1A1A\"/>\n  \n  <!-- Frozen spill on floor -->\n  <ellipse cx=\"320\" cy=\"370\" rx=\"30\" ry=\"15\" fill=\"#8B4513\" opacity=\"0.7\"/>\n  \n  <!-- Frequency transmitter -->\n  <rect x=\"300\" y=\"280\" width=\"40\" height=\"30\" fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"305\" y=\"285\" width=\"30\" height=\"20\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"295\" r=\"3\" fill=\"#00FF00\"/>\n  \n  <!-- World map on wall -->\n  <rect x=\"200\" y=\"80\" width=\"240\" height=\"120\" fill=\"#000080\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Map details -->\n  <rect x=\"210\" y=\"90\" width=\"10\" height=\"10\" fill=\"#FF0000\"/> <!-- Frostbite Station -->\n  <circle cx=\"220\" cy=\"100\" r=\"3\" fill=\"#FFFFFF\"/>\n  <circle cx=\"250\" cy=\"110\" r=\"2\" fill=\"#FFFFFF\"/>\n  <circle cx=\"280\" cy=\"95\" r=\"2\" fill=\"#FFFFFF\"/>\n  <circle cx=\"310\" cy=\"105\" r=\"2\" fill=\"#FFFFFF\"/>\n  <circle cx=\"350\" cy=\"100\" r=\"2\" fill=\"#FFFFFF\"/>\n  <!-- Circle around Frostbite Station -->\n  <ellipse cx=\"215\" cy=\"95\" rx=\"20\" ry=\"15\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- GROUND ZERO text area -->\n  <rect x=\"240\" y=\"110\" width=\"80\" height=\"20\" fill=\"#000000\"/>\n  \n  <!-- Note on console -->\n  <rect x=\"270\" y=\"170\" width=\"100\" height=\"30\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Chair -->\n  <rect x=\"300\" y=\"230\" width=\"40\" height=\"20\" fill=\"#8B0000\"/>\n  <rect x=\"295\" y=\"250\" width=\"50\" height=\"10\" fill=\"#8B0000\"/>\n</svg>",
+  "laboratory": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark laboratory -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#1A1A1A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#000000\"/>\n  \n  <!-- Permafrost sampling rig (center) -->\n  <rect x=\"270\" y=\"50\" width=\"100\" height=\"250\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"280\" y=\"60\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"90\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"120\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"150\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"180\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"210\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"240\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  \n  <!-- Drill bit -->\n  <rect x=\"305\" y=\"30\" width=\"10\" height=\"30\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"310,30 300,50 320,50\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Borehole in wall -->\n  <rect x=\"315\" y=\"100\" width=\"10\" height=\"80\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Dark mass in borehole -->\n  <rect x=\"315\" y=\"150\" width=\"10\" height=\"30\" fill=\"#2F2F2F\"/>\n  \n  <!-- Workbench -->\n  <rect x=\"100\" y=\"280\" width=\"200\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"110\" y=\"290\" width=\"180\" height=\"10\" fill=\"#654321\"/>\n  \n  <!-- Sample drill on workbench -->\n  <rect x=\"120\" y=\"250\" width=\"60\" height=\"20\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"125\" y=\"255\" width=\"50\" height=\"10\" fill=\"#2F2F2F\"/>\n  <rect x=\"130\" y=\"240\" width=\"40\" height=\"5\" fill=\"#C0C0C0\"/>\n  \n  <!-- Spilled toolbox -->\n  <rect x=\"200\" y=\"270\" width=\"80\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"205\" y=\"275\" width=\"20\" height=\"10\" fill=\"#C0C0C0\"/> <!-- wrench -->\n  <rect x=\"230\" y=\"275\" width=\"15\" height=\"10\" fill=\"#C0C0C0\"/> <!-- screwdriver -->\n  <rect x=\"250\" y=\"275\" width=\"10\" height=\"10\" fill=\"#C0C0C0\"/> <!-- pliers -->\n  \n  <!-- Spare parts cabinet -->\n  <rect x=\"400\" y=\"100\" width=\"100\" height=\"150\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"405\" y=\"105\" width=\"90\" height=\"20\" fill=\"#654321\"/> <!-- door -->\n  <rect x=\"410\" y=\"130\" width=\"20\" height=\"10\" fill=\"#FF0000\"/> <!-- fuse -->\n  <rect x=\"440\" y=\"130\" width=\"10\" height=\"10\" fill=\"#0000FF\"/> <!-- wire -->\n  <rect x=\"460\" y=\"130\" width=\"10\" height=\"10\" fill=\"#00FF00\"/> <!-- wire -->\n  \n  <!-- Broken sample jars -->\n  <rect x=\"500\" y=\"300\" width=\"30\" height=\"20\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"505\" y=\"305\" width=\"20\" height=\"10\" fill=\"#FFFFFF\"/> <!-- ice -->\n  <polygon points=\"500,320 510,300 530,300 540,320\" fill=\"#8B0000\"/> <!-- shattered glass -->\n  \n  <rect x=\"540\" y=\"300\" width=\"30\" height=\"20\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"545\" y=\"305\" width=\"20\" height=\"10\" fill=\"#FFFFFF\"/> <!-- ice -->\n  <polygon points=\"540,320 550,300 570,300 580,320\" fill=\"#8B0000\"/> <!-- shattered glass -->\n  \n  <!-- Frost spirals on floor -->\n  <path d=\"M320,350 C340,320 300,280 320,250 C340,220 300,180 320,150\" fill=\"none\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n  <path d=\"300,350 C320,320 280,280 300,250 C320,220 280,180 300,150\" fill=\"none\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n</svg>",
+  "generator-room": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark generator room -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#1A1A1A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#000000\"/>\n  \n  <!-- Massive diesel generator (center) -->\n  <rect x=\"220\" y=\"100\" width=\"200\" height=\"200\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"4\"/>\n  <!-- Generator details -->\n  <rect x=\"230\" y=\"110\" width=\"180\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"230\" y=\"140\" width=\"180\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"230\" y=\"170\" width=\"180\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"230\" y=\"200\" width=\"180\" height=\"20\" fill=\"#1A1A1A\"/>\n  <!-- Frost on generator -->\n  <rect x=\"220\" y=\"100\" width=\"200\" height=\"20\" fill=\"#E0F8FF\" opacity=\"0.5\"/>\n  \n  <!-- Control panels -->\n  <!-- Left panel -->\n  <rect x=\"50\" y=\"100\" width=\"120\" height=\"200\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"60\" y=\"110\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/> <!-- gauges -->\n  <rect x=\"60\" y=\"135\" width=\"100\" height=\"15> fill=\"#1A1A1A\"/>\n  <rect x=\"60\" y=\"160\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"60\" y=\"185\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"60\" y=\"210\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <!-- Smashed panel -->\n  <rect x=\"80\" y=\"160\" width=\"60\" height=\"40\" fill=\"#000000\"/>\n  <line x1=\"80\" y1=\"160\" x2=\"140\" y2=\"200\" stroke=\"#FF0000\" stroke-width=\"2\"/>\n  <line x1=\"140\" y1=\"160\" x2=\"80\" y2=\"200\" stroke=\"#FF0000\" stroke-width=\"2\"/>\n  \n  <!-- Right panel -->\n  <rect x=\"470\" y=\"100\" width=\"120\" height=\"200\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"480\" y=\"110\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"480\" y=\"135\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"480\" y=\"160\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"480\" y=\"185\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"480\" y=\"210\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  \n  <!-- Vault door (south) -->\n  <rect x=\"290\" y=\"250\" width=\"60\" height=\"100\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Frost glyphs on vault door -->\n  <path d=\"M300,270 Q310,250 320,270 T330,270 Q340,250 350,270\" fill=\"none\" sting=\"#0000FF\" stroke-width=\"2\"/>\n  <path d=\"M305,290 Q310,270 315,290 T320,290 Q325,270 330,290 T335,290 Q340,270 345,290\" fill=\"none\" stroke=\"#0000FF\" stroke-width=\"2\"/>\n  <!-- Viewport -->\n  <ellipse cx=\"320\" cy=\"300\" rx=\"20\" ry=\"15\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Workbench -->\n  <rect x=\"100\" y=\"280\" width=\"150\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"110\" y=\"290\" width=\"130\" height=\"10\" fill=\"#654321\"/>\n  \n  <!-- Frequency coupler -->\n  <rect x=\"120\" y=\"240\" width=\"60\" height=\"40\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"125\" y=\"245\" width=\"10\" height=\"30\" fill=\"#00FF00\"/> <!-- input -->\n  <rect x=\"155\" y=\"245\" width=\"10\" height=\"30\" fill=\"#0000FF\"/> <!-- output -->\n  \n  <!-- Vibration lines -->\n  <path d=\"M220,180 Q270,150 320,180 T370,180 Q420,150 470,180\" fill=\"none\" stroke=\"#FFFF00\" stroke-width=\"2\" opacity=\"0.7\"/>\n  <path d=\"M220,200 Q270,170 320,200 T370,200 Q420,170 470,200\" fill=\"none\" stroke=\"#FFFF00\" stroke-width=\"2\" opacity=\"0.5\"/>\n  \n  <!-- Power lines -->\n  <line x1=\"0\" y1=\"200\" x2=\"640\" y2=\"200\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"0\" y1=\"220\" x2=\"640\" y2=\"220\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n</svg>",
+  "frozen-chamber": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark cavern -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Ice floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#E0F8FF\" opacity=\"0.8\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Ice walls (glowing) -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#E0F8FF\"/>\n  <!-- Inner dark layer for depth -->\n  <rect x=\"20\" y=\"20\" width=\"600\" height=\"310\" fill=\"#000080\" opacity=\"0.3\"/>\n  \n  <!-- Frozen shadows in ice -->\n  <path d=\"M100,100 Q120,80 140,100 T180,100 Q200,80 220,100 T260,100 Q280,80 300,100 T340,100 Q360,80 380,100 T420,100 Q440,80 460,100 T500,100 Q520,80 540,100 T580,100\" fill=\"#000080\" opacity=\"0.6\"/>\n  <path d=\"M150,200 Q170,180 190,200 T230,200 Q250,180 270,200 T310,200 Q330,180 350,200 T390,200 Q410,180 430,200 T470,200 Q490,180 510,200 T550,200 Q570,180 590,200\" fill=\"#000080\" opacity=\"0.5\"/>\n  \n  <!-- Ancient device (center) -->\n  <rect x=\"270\" y=\"100\" width=\"100\" height=\"150\" fill=\"#000000\" stroke=\"#0000FF\" stroke-width=\"3\"/>\n  <!-- Device details -->\n  <rect x=\"280\" y=\"110\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"140\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"170\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"200\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"230\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  \n  <!-- Glyphs on device -->\n  <path d=\"M285,120 Q295,100 305,120 T315,120 Q325,100 335,120\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  <path d=\"M290,140 Q300,120 310,140 T320,140 Q330,120 340,140\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  <path d=\"M295,160 Q305,140 315,160 T325,160 Q335,140 345,160\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  <path d=\"M300,180 Q310,160 320,180 T330,180 Q340,160 350,180\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  <path d=\"M305,200 Q315,180 325,200 T335,200 Q345,180 355,200\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  \n  <!-- Pedestal -->\n  <rect x=\"295\" y=\"260\" width=\"50\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Slot in pedestal -->\n  <rect x=\"305\" y=\"260\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  \n  <!-- Ice core artifact in pedestal -->\n  <rect x=\"307\" y=\"262\" width=\"26\" height=\"26\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Dark mass inside -->\n  <rect x=\"310\" y=\"270\" width=\"20\" height=\"10\" fill=\"#2F2F2F\"/>\n  \n  <!-- Pulsing light around pedestal -->\n  <ellipse cx=\"320\" cy=\"280\" rx=\"35\" ry=\"25\" fill=\"#00FFFF\" opacity=\"0.3\"/>\n  \n  <!-- Cold breath lines -->\n  <path d=\"M100,300 Q150,250 200,300 T300,300 Q350,250 400,300 T500,300 Q550,250 600,300\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.5\"/>\n  <path d=\"M120,320 Q170,270 220,320 T320,320 Q370,270 420,320 T520,320 Q570,270 620,320\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.4\"/>\n</svg>",
+  "flare-torch": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Flare torch body -->\n  <rect x=\"26\" y=\"10\" width=\"12\" height=\"30\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Striker wheel -->\n  <rect x=\"24\" y=\"40\" width=\"16\" height=\"8\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Label area -->\n  <rect x=\"27\" y=\"15\" width=\"10\" height=\"20\" fill=\"#FFFF00\"/>\n  <!-- Text representation -->\n  <rect x=\"28\" y=\"18\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"31\" y=\"18\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"28\" y=\"22\" width=\"5\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"28\" y=\"26\" width=\"5\" height=\"2\" fill=\"#000000\"/>\n</svg>",
+  "keycard-maintenance": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Keycard -->\n  <rect x=\"22\" y=\"18\" width=\"20\" height=\"12\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Chip area with frost -->\n  <rect x=\"24\" y=\"20\" width=\"16\" height=\"8\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"25\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"29\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"25\" y=\"24\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"29\" y=\"24\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <!-- Frost damage -->\n  <rect x=\"22\" y=\"18\" width=\"3\" height=\"12\" fill=\"#E0F8FF\" opacity=\"0.7\"/>\n  <rect x=\"39\" y=\"18\" width=\"3\" height=\"12\" fill=\"#E0F8FF\" opacity=\"0.7\"/>\n  <!-- Text -->\n  <rect x=\"23\" y=\"23\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- M -->\n  <rect x=\"27\" y=\"23\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- A -->\n  <rect x=\"31\" y=\"23\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- I -->\n  <rect x=\"35\" y=\"23\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- N -->\n  <rect x=\"23\" y=\"26\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- T -->\n  <rect x=\"27\" y=\"26\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- - -->\n  <rect x=\"29\" y=\"26\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- 0 -->\n  <rect x=\"33\" y=\"26\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- 4 -->\n</svg>",
+  "sample-drill": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Drill body -->\n  <rect x=\"27\" y=\"10\" width=\"10\" height=\"30\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Handle -->\n  <rect x=\"24\" y=\"40\" width=\"16\" height=\"8\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Drill bit -->\n  <rect x=\"30\" y=\"5\" width=\"4\" height=\"10\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"32,5 28,15 36,15\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Motor housing -->\n  <rect x=\"25\" y=\"15\" width=\"14\" height=\"10\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Ventilation slots -->\n  <rect x=\"27\" y=\"17\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"33\" y=\"17\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"27\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"33\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n</svg>",
+  "ice-core-artifact": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Ice core cylinder -->\n  <rect x=\"22\" y=\"20\" width=\"20\" height=\"24\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- End caps -->\n  <rect x=\"20\" y=\"20\" width=\"4\" height=\"24\" fill=\"#B0E0FF\"/>\n  <rect x=\"40\" y=\"20\" width=\"4\" height=\"24\" fill=\"#B0E0FF\"/>\n  <!-- Dark organic mass inside -->\n  <rect x=\"25\" y=\"25\" width=\"14\" height=\"14\" fill=\"#2F2F2F\"/>\n  <!-- Surface texture -->\n  <line x1=\"22\" y1=\"22\" x2=\"42\" y2=\"22\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"26\" x2=\"42\" y2=\"26\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"30\" x2=\"42\" y2=\"30\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"34\" x2=\"42\" y2=\"34\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"38\" x2=\"42\" y2=\"38\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"42\" x2=\"42\" y2=\"42\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
+  "research-journal": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Journal cover -->\n  <rect x=\"18\" y=\"20\" width=\"28\" height=\"24\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Leather texture -->\n  <rect x=\"20\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"24\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"28\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"32\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"36\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"20\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"24\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"28\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"32\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"36\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"20\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"24\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"28\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"32\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"36\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"20\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"24\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"28\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"32\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"36\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <!-- Spine -->\n  <rect x=\"18\" y=\"20\" width=\"4\" height=\"24\" fill=\"#654321\"/>\n  <!-- Page edges -->\n  <rect x=\"22\" y=\"24\" width=\"20\" height=\"16\" fill=\"#FFFFFF\"/>\n  <!-- Writing/lines -->\n  <line x1=\"24\" y1=\"28\" x2=\"40\" y2=\"28\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"32\" x2=\"40\" y2=\"32\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"36\" x2=\"40\" y2=\"36\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Frequency notes -->\n  <rect x=\"25\" y=\"29\" width=\"3\" height=\"3\" fill=\"#000000\"/> <!-- 7 -->\n  <rect x=\"30\" y=\"29\" width=\"1\" height=\"3\" fill=\"#000000\"/> <!-- . -->\n  <rect x=\"32\" y=\"29\" width=\"3\" height=\"3\" fill=\"#000000\"/> <!-- 8 -->\n  <rect x=\"36\" y=\"29\" width=\"1\" height=\"3\" fill=\"#000000\"/> <!-- . -->\n  <rect x=\"38\" y=\"29\" width=\"3\" height=\"3\" fill=\"#000000\"/> <!-- 3 -->\n</svg>",
+  "frequency-transmitter": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Transmitter body -->\n  <rect x=\"20\" y=\"18\" width=\"24\" height=\"28\" fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Screen/display -->\n  <rect x=\"24\" y=\"22\" width=\"16\" height=\"8\" fill=\"#000000\"/>\n  <!-- Frequency display -->\n  <rect x=\"26\" y=\"24\" width=\"2\" height=\"2\" fill=\"#00FF00\"/> <!-- 1 -->\n  <rect x=\"29\" y=\"24\" width=\"1\" height=\"2\" fill=\"#00FF00\"/> <!-- . -->\n  <rect x=\"31\" y=\"24\" width=\"2\" height=\"2\" fill=\"#00FF00\"/> <!-- 0 -->\n  <rect x=\"34\" y=\"24\" width=\"1\" height=\"2\" fill=\"#00FF00\"/> <!-- . -->\n  <rect x=\"36\" y=\"24\" width=\"2\" height=\"2\" fill=\"#00FF00\"/> <!-- 0 -->\n  <!-- Knobs/dials -->\n  <circle cx=\"24\" cy=\"30\" r=\"2\" fill=\"#2F2F2F\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"2\" fill=\"#2F2F2F\"/>\n  <!-- Antenna -->\n  <rect x=\"31\" y=\"10\" width=\"2\" height=\"8\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"8\" width=\"4\" height=\"2\" fill=\"#2F2F2F\"/>\n  <!-- Label area -->\n  <rect x=\"22\" y=\"16\" width=\"20\" height=\"2\" fill=\"#FFFF00\"/>\n  <!-- Text representation -->\n  <rect x=\"23\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- R -->\n  <rect x=\"26\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- E -->\n  <rect x=\"29\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- S -->\n  <rect x=\"32\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- O -->\n  <rect x=\"35\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- N -->\n</svg>",
+  "emergency-fuse": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Fuse body -->\n  <rect x=\"26\" y=\"18\" width=\"12\" height=\"28\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Ceramic ends -->\n  <rect x=\"24\" y=\"16\" width=\"16\" height=\"4\" fill=\"#8B4513\"/>\n  <rect x=\"24\" y=\"44\" width=\"16\" height=\"4\" fill=\"#8B4513\"/>\n  <!-- Metal caps -->\n  <rect x=\"22\" y=\"18\" width=\"4\" height=\"28\" fill=\"#C0C0C0\"/>\n  <rect x=\"38\" y=\"18\" width=\"4\" height=\"28\" fill=\"#C0C0C0\"/>\n  <!-- Fuse element (visible through glass) -->\n  <rect x=\"28\" y=\"24\" width=\"8\" height=\"2\" fill=\"#FF0000\"/>\n  <!-- Label -->\n  <rect x=\"27\" y=\"20\" width=\"10\" height=\"8\" fill=\"#FF8800\"/>\n  <rect x=\"28\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- 1 -->\n  <rect x=\"31\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- 0 -->\n  <rect x=\"28\" y=\"24\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- k -->\n  <rect x=\"31\" y=\"24\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- V -->\n</svg>"
+};
+
+// ============================================================
+// GAME LOGIC
+// ============================================================
+// FROSTBITE STATION — game-logic.js
+// Generated by Hex Corbin (gameplay-coder)
+// Data-driven adventure engine for 008-frostbite-station
+// ============================================================
+
+const GAME_DATA = {
+  "title": "Frostbite Station",
+  "slug": "frostbite-station",
+  "number": 8,
+  "setting": "An abandoned Arctic research station built over a frozen lake. The crew discovered something ancient in the ice that thawed out and now moves in the darkness.",
+  "characters": [
+    {
+      "id": "dr-okafor",
+      "name": "Dr. Elara Okafor",
+      "description": "Lead researcher of Frostbite Station. Her research journal suggests she uncovered something terrifying in the ice core samples."
+    },
+    {
+      "id": "watcher-ice",
+      "name": "The Watcher in the Ice",
+      "description": "An ancient entity frozen for millennia, now thawed and stalking the station's corridors. It moves silently, leaving frost patterns and cold spots."
+    }
+  ],
+  "items": [
+    {
+      "id": "flare-torch",
+      "name": "Flare Torch",
+      "description": "A red emergency flare with a striker wheel. Produces intense heat that can thaw frozen mechanisms.",
+      "foundIn": "landing-pad",
+      "usedIn": "landing-pad",
+      "usedOn": "puzzle-thaw-door"
+    },
+    {
+      "id": "keycard-maintenance",
+      "name": "Maintenance Keycard (MAINT-04)",
+      "description": "An amber-glowing keycard with frost-damaged edges. Security clearance for maintenance areas.",
+      "foundIn": "main-corridor",
+      "usedIn": "main-corridor",
+      "usedOn": "puzzle-unlock-lab"
+    },
+    {
+      "id": "sample-drill",
+      "name": "Sample Drill",
+      "description": "A heavy-duty coring drill with diamond-tipped bit. Used for extracting ice samples from permafrost.",
+      "foundIn": "laboratory",
+      "usedIn": "laboratory",
+      "usedOn": "puzzle-extract-core"
+    },
+    {
+      "id": "ice-core-artifact",
+      "name": "Ice Core Artifact",
+      "description": "A cylindrical ice sample containing a dark, organic-looking mass frozen within. Feels unnaturally cold to the touch.",
+      "foundIn": "laboratory",
+      "usedIn": "frozen-chamber",
+      "usedOn": "puzzle-win"
+    },
+    {
+      "id": "research-journal",
+      "name": "Dr. Okafor's Research Journal",
+      "description": "A leather-bound journal with frantic handwriting. Contains frequency codes (7.83 Hz, 14.3 Hz) and notes about 'resonance patterns' and 'awakening something'.",
+      "foundIn": "laboratory",
+      "usedIn": "generator-room",
+      "usedOn": "puzzle-power-generator"
+    },
+    {
+      "id": "frequency-transmitter",
+      "name": "Frequency Transmitter",
+      "description": "A portable device that can broadcast specific low-frequency signals. Used for geological resonance experiments.",
+      "foundIn": "comm-room",
+      "usedIn": "generator-room",
+      "usedOn": "puzzle-power-generator"
+    },
+    {
+      "id": "emergency-fuse",
+      "name": "Emergency Fuse",
+      "description": "A heavy ceramic fuse rated for high-voltage systems. Found in the lab's spare parts cabinet.",
+      "foundIn": "laboratory",
+      "usedIn": "generator-room",
+      "usedOn": "puzzle-power-generator"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "landing-pad",
+      "name": "Landing Pad",
+      "prose": "The wind howls across the frozen landing pad, biting through your thermal gear with needles of ice. Frostbite Station looms before you\u2014a cluster of brutalist concrete structures half-buried in snowdrifts, their windows dark and vacant. The main entrance is a steel blast door sealed shut, ice glazing its edges like a frosted tomb. To the north, the corridor entrance waits behind a layer of thick, milky ice that has swollen in the frame. Crates lie overturned, their contents spilled and frozen solid: rations, tools, a scattering of personal effects abandoned in haste. Wedged between two crates, a red cylinder catches your eye\u2014a flare torch, its striker wheel crusted with rime but still functional. The wind carries a sound that isn't wind: a low, resonant hum, felt more than heard, vibrating up through the packed snow under your boots. The station isn't empty. Something is awake inside.",
+      "exits": {
+        "north": "main-corridor"
+      },
+      "items": ["flare-torch"],
+      "puzzles": ["puzzle-thaw-door"],
+      "lookDescriptions": {
+        "flare-torch": "A red emergency flare with a metal striker wheel. The label reads 'EXTREME HEAT - USE FOR ICE EMERGENCIES'.",
+        "crates": "Overturned supply crates, contents frozen into indistinguishable lumps. One crate lid is smashed, revealing mangled equipment inside.",
+        "blast-door": "The main station entrance, sealed with thick ice around the edges. No visible handles or controls\u2014likely opened from inside.",
+        "snowdrifts": "Deep, wind-sculpted snow piles against the station walls. Strange, swirling patterns are etched into their surfaces, as if something has moved through them without leaving footprints.",
+        "frozen-door": "The corridor entrance, blocked by a thick wall of milky ice. The ice has swollen in the frame, sealing it shut."
+      }
+    },
+    {
+      "id": "main-corridor",
+      "name": "Main Corridor",
+      "prose": "Dim red emergency lighting casts long shadows down the corridor, painting everything in the color of old blood. Frost webs across the walls, thick and crystalline, catching the light like frozen capillaries. Three doors branch off: to the west, a door labeled COMM ROOM hangs slightly ajar, darkness pooling beyond; to the east, a sealed door marked LAB glows with the amber light of a card reader, locked; ahead, a heavy reinforced door labeled GENERATOR ROOM vibrates with a low, mechanical pulse. The air is dead-cold and still, smelling of ozone and something organic, like wet soil and decay. A locker has toppled over, spilling jackets and tools. Near it, an amber-glowing keycard lies on the frost-rimed floor\u2014MAINTENANCE-04, dropped in someone's flight. The red light makes the frost patterns on the walls seem to writhe if you stare too long.",
+      "exits": {
+        "south": "landing-pad",
+        "west": "comm-room",
+        "east": "laboratory",
+        "north": "generator-room"
+      },
+      "items": ["keycard-maintenance"],
+      "puzzles": ["puzzle-unlock-lab"],
+      "lookDescriptions": {
+        "keycard-maintenance": "An amber keycard labeled MAINT-04. Frost has crept into its chip slot, but the LED still glows weakly.",
+        "locker": "A fallen metal locker, contents spilled: thermal jackets, a broken flashlight, a half-frozen coffee mug.",
+        "frost-patterns": "Intricate, fern-like frost crystals covering the walls. They seem to grow thicker near the generator room door.",
+        "card-reader": "The lab door's electronic lock. Amber light pulses slowly, waiting for a valid keycard.",
+        "lab-door": "A sealed door marked LAB, its card reader glowing amber. Locked."
+      }
+    },
+    {
+      "id": "comm-room",
+      "name": "Communications Room",
+      "prose": "Banks of dead radio equipment line the walls, their screens dark and dusty. A central console dominates the room, its surface littered with papers\u2014frequency charts, call logs, a handwritten note in a desperate, sprawling script: 'DON'T TRANSMIT BELOW 10 Hz\u2014IT HEARS.' The chair is pushed back as if someone stood up quickly, a thermal mug knocked over, its contents frozen in a brown spill across the floor. On a smaller side table sits a portable frequency transmitter, its display still lit with a soft green glow, showing a standby frequency of 1.00 Hz. A large world map on the wall is dotted with pins marking other research stations, all in the Arctic circle. One pin, red and larger than the rest, marks Frostbite Station. Someone has drawn a circle around it in black marker, and written a single word: 'GROUND ZERO.'",
+      "exits": {
+        "east": "main-corridor"
+      },
+      "items": ["frequency-transmitter"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "frequency-transmitter": "A portable device with a digital display and tuning dials. Label: 'RESONANCE EMITTER - GEO-ACOUSTIC STUDIES'.",
+        "console": "The main communications console. Power is off, but a spare battery pack still has charge.",
+        "note": "A handwritten note: 'DON'T TRANSMIT BELOW 10 Hz\u2014IT HEARS. Okafor ordered full silence. Too late now.'",
+        "world-map": "A map of the Arctic with research stations marked. Frostbite Station is circled in black with 'GROUND ZERO' scrawled beside it."
+      }
+    },
+    {
+      "id": "laboratory",
+      "name": "Laboratory",
+      "prose": "The lab is a disaster of shattered glass and overturned equipment. Sample jars lie broken on the floor, their contents\u2014ice cores, geological specimens\u2014scattered and melting into foul-smelling puddles. In the center of the room, a massive permafrost-sampling rig stands intact, its drill bit pointed at a section of exposed bedrock wall. The wall shows clear drill marks, and at its center, a cylindrical borehole glistens with fresh ice. On a workbench, a heavy sample drill rests beside a spilled toolbox. A cabinet labeled 'SPARE PARTS' hangs open; inside, among fuses and wiring, you spot a ceramic emergency fuse. Cold radiates from the borehole in waves, and the air tastes metallic, like blood and ozone. Frost creeps across the floor in intricate, spiral patterns, converging on the drill site.",
+      "exits": {
+        "west": "main-corridor"
+      },
+      "items": ["sample-drill", "emergency-fuse"],
+      "puzzles": ["puzzle-extract-core"],
+      "lookDescriptions": {
+        "sample-drill": "A heavy coring drill with a diamond-tipped bit. The motor is cold but seems operational.",
+        "permafrost-wall": "A section of exposed bedrock with a fresh borehole. Ice glints deep within the hole, something dark suspended inside.",
+        "spare-parts-cabinet": "An open cabinet containing electrical components. The emergency fuse is the largest, rated for 10kV.",
+        "broken-samples": "Shattered ice-core jars. The melting ice smells wrong\u2014sweet and rotten, like decayed fruit.",
+        "borehole": "A cylindrical hole drilled into the permafrost wall. Something dark is frozen inside the ice deep within."
+      }
+    },
+    {
+      "id": "generator-room",
+      "name": "Generator Room",
+      "prose": "The generator room thrums with latent power. A massive diesel generator occupies the center, its casing frosted over but still emitting a deep, sub-sonic vibration that shakes the floor. Control panels line the walls, their gauges frozen at zero. One panel has been ripped open, exposing burnt wiring and a missing fuse socket. To the south, a heavy vault door stands sealed, its surface etched with the same swirling frost patterns seen elsewhere, but here they form something almost glyph-like. A workbench holds tools and a frequency-coupling unit\u2014a device clearly meant to interface the transmitter with the generator. The air is thick with the smell of diesel and ozone, and the vibration gets into your bones, making your teeth ache. The vault door has no handle, only a small, frosted-over viewport that shows darkness beyond.",
+      "exits": {
+        "south": "frozen-chamber",
+        "west": "main-corridor"
+      },
+      "items": [],
+      "puzzles": ["puzzle-power-generator"],
+      "lookDescriptions": {
+        "generator": "A massive diesel generator, frosted over but still producing a low vibration. The missing fuse socket is clearly visible.",
+        "vault-door": "A heavy circular door with frost-etched glyphs. The viewport is clouded with ice, but something dark moves beyond.",
+        "frequency-coupler": "A rack-mounted unit with input ports for a transmitter and output leads to the generator.",
+        "control-panels": "Frost-covered gauges and switches. One panel is smashed, wires hanging out like black intestines."
+      }
+    },
+    {
+      "id": "frozen-chamber",
+      "name": "Frozen Chamber",
+      "prose": "The vault door opens onto a vast, natural cavern, its walls sheathed in blue-white ice that glows with an internal phosphorescence. In the center of the chamber, an ancient device of black stone and frozen metal rises from the ice\u2014a machine of impossible geometry, all sharp angles and non-Euclidean curves. Before it, a pedestal holds a recessed slot exactly the size of the ice-core artifact. The air is deathly still and so cold it burns your lungs. The ice walls are not empty: shadows move within them, elongated humanoid shapes frozen mid-stride, faces pressed against the ice as if trying to break through. The Watcher is here\u2014a presence felt rather than seen, a pressure in the air, a whispering at the edge of hearing. The device hums, awaiting the final key. This is where it all ends, or begins.",
+      "exits": {
+        "north": "generator-room"
+      },
+      "items": [],
+      "puzzles": ["puzzle-win"],
+      "lookDescriptions": {
+        "ancient-device": "A structure of black stone and frozen metal, covered in glyphs that swim when you look away. A pedestal before it has a cylindrical slot.",
+        "ice-walls": "Glowing blue ice containing frozen shadows\u2014humanoid shapes trapped forever, their faces distorted in silent screams.",
+        "pedestal": "A stone pedestal with a slot exactly matching the ice-core artifact. Glyphs around it pulse with faint light.",
+        "cavern": "A vast natural chamber, the ceiling lost in darkness. The ice underfoot is treacherously smooth, and the cold is absolute."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-thaw-door",
+      "scene": "landing-pad",
+      "requires": ["flare-torch"],
+      "action": "use flare-torch on frozen-door",
+      "result": "The flare ignites with a hissing roar, pouring intense heat onto the ice-sealed door. The ice melts rapidly, steaming away to reveal the corridor entrance. The door groans open, releasing a gust of frigid, stale air.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "landing-pad",
+        "direction": "north",
+        "blockedMessage": "The corridor entrance is sealed shut by a thick wall of ice. You need something to melt it."
+      }
+    },
+    {
+      "id": "puzzle-unlock-lab",
+      "scene": "main-corridor",
+      "requires": ["keycard-maintenance"],
+      "action": "use keycard-maintenance on lab-door",
+      "result": "The keycard clicks home. The amber light flashes green, and the lab door slides open with a whisper of compressed air. Cold, metallic-scented air washes out from the darkness within.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "main-corridor",
+        "direction": "east",
+        "blockedMessage": "The lab door is locked. Its card reader pulses amber, waiting for a valid keycard."
+      }
+    },
+    {
+      "id": "puzzle-extract-core",
+      "scene": "laboratory",
+      "requires": ["sample-drill"],
+      "action": "use sample-drill on permafrost-wall",
+      "result": "The drill whines to life, biting into the ice-filled borehole. With a crack, the core breaks free\u2014a cylinder of clear ice containing a dark, organic mass. As you lift it, a leather-bound journal, frozen inside the ice, falls to the floor. You now have the ice-core artifact and Dr. Okafor's research journal.",
+      "reveals": ["ice-core-artifact", "research-journal"],
+      "blocksExit": null
+    },
+    {
+      "id": "puzzle-power-generator",
+      "scene": "generator-room",
+      "requires": ["emergency-fuse", "frequency-transmitter", "research-journal"],
+      "action": "install fuse and tune transmitter to 7.83 Hz",
+      "result": "The fuse slots into the generator with a heavy click. The transmitter, tuned to the frequency from the journal, feeds a low hum into the coupling unit. Lights flicker on across the control panels, and the vault door's frost patterns glow with blue light before sliding open with a deep rumble.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "generator-room",
+        "direction": "south",
+        "blockedMessage": "The vault door is sealed shut, its frost-etched glyphs pulsing faintly. The generator needs power to open it."
+      }
+    },
+    {
+      "id": "puzzle-win",
+      "scene": "frozen-chamber",
+      "requires": ["ice-core-artifact", "frequency-transmitter"],
+      "action": "place ice-core artifact in pedestal and activate transmitter",
+      "result": "The artifact slots perfectly into the pedestal. The transmitter, still tuned to the resonance frequency, activates the ancient device. The black stone structure awakens, glyphs burning with cold blue fire. The Watcher's presence intensifies, then dissolves into a sigh of escaping cold. The device falls silent, the threat contained\u2014for now. You have survived Frostbite Station.",
+      "reveals": [],
+      "blocksExit": null
+    }
+  ],
+  "winCondition": {
+    "scene": "frozen-chamber",
+    "requires": ["ice-core-artifact", "frequency-transmitter"],
+    "description": "Place the ice-core artifact into the pedestal and activate the frequency transmitter to resonate with the ancient device, sealing the Watcher back into the ice."
+  }
+};
+
+// ---- Game State ----
+const state = {
+  currentScene: 'landing-pad',
+  inventory: [],
+  solvedPuzzles: [],
+  visitedScenes: ['landing-pad'],
+  activeCommand: null,
+  selectedItem: null,
+  won: false
+};
+
+// ---- DOM References ----
+const artDisplay = document.getElementById('art-display');
+const sceneName = document.getElementById('scene-name');
+const textDisplay = document.getElementById('text-display');
+const invBar = document.getElementById('inventory-bar');
+const exitsBar = document.getElementById('exits-bar');
+
+// ---- Display Functions ----
+function addText(text, cls = '') {
+  const p = document.createElement('p');
+  p.className = cls;
+  p.innerHTML = text;
+  textDisplay.appendChild(p);
+  textDisplay.scrollTop = textDisplay.scrollHeight;
+}
+
+function clearText() { textDisplay.innerHTML = ''; }
+
+// ---- Locked Exit Check ----
+function canExit(sceneId, direction) {
+  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
+  if (!scene || !scene.exits || !scene.exits[direction]) return false;
+
+  // Check if any unsolved puzzle blocks this exit
+  const blocker = GAME_DATA.puzzles.find(p =>
+    p.blocksExit &&
+    p.blocksExit.scene === sceneId &&
+    p.blocksExit.direction === direction &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+
+  if (blocker) {
+    addText('[The way ' + direction + ' is blocked. ' + (blocker.blocksExit.blockedMessage || 'Something prevents you from going that way.') + ']', 'locked');
+    return false;
+  }
+
+  return true;
+}
+
+// ---- Visual State Changes ----
+function flashPuzzleSolved() {
+  if (artDisplay) {
+    artDisplay.classList.add('puzzle-solved');
+    setTimeout(() => artDisplay.classList.remove('puzzle-solved'), 600);
+  }
+}
+
+function highlightNewlyUnlocked() {
+  // Mark exit buttons that were just unlocked
+  setTimeout(() => {
+    document.querySelectorAll('.exit-btn').forEach(btn => {
+      if (btn.classList.contains('available')) {
+        btn.classList.add('newly-unlocked');
+        setTimeout(() => btn.classList.remove('newly-unlocked'), 3000);
+      }
+    });
+  }, 100);
+}
+
+function highlightNewItem(itemId) {
+  setTimeout(() => {
+    document.querySelectorAll('.inv-item').forEach(el => {
+      if (el.dataset.item === itemId) {
+        el.classList.add('item-new');
+        setTimeout(() => el.classList.remove('item-new'), 2000);
+      }
+    });
+  }, 100);
+}
+
+// ---- Scene Rendering ----
+function renderScene(sceneId) {
+  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
+  if (!scene) { addText('ERROR: Scene not found!', 'error'); return; }
+
+  state.currentScene = sceneId;
+  if (!state.visitedScenes.includes(sceneId)) state.visitedScenes.push(sceneId);
+
+  // Update scene name
+  sceneName.textContent = scene.name.toUpperCase();
+
+  // Update art
+  const artKey = 'scene-' + sceneId.replace('scene-', '');
+  if (window.GAME_ART && window.GAME_ART[artKey]) {
+    artDisplay.innerHTML = window.GAME_ART[artKey];
+  } else {
+    artDisplay.innerHTML = '<span class="no-art">[ ' + scene.name.toUpperCase() + ' ]</span>';
+  }
+
+  // Display prose
+  clearText();
+  addText(scene.prose);
+
+  // Show available items (not yet taken)
+  const availableItems = (scene.items || []).filter(itemId =>
+    !state.inventory.includes(itemId)
+  );
+  if (availableItems.length > 0) {
+    const itemNames = availableItems.map(id => {
+      const item = GAME_DATA.items.find(i => i.id === id);
+      return item ? '<span class="look-target" data-look="' + id + '">' + item.name + '</span>' : id;
+    });
+    addText('You notice: ' + itemNames.join(', '), 'system');
+  }
+
+  // Show unsolved puzzles
+  const scenePuzzles = (scene.puzzles || []).filter(pid =>
+    !state.solvedPuzzles.includes(pid)
+  );
+  scenePuzzles.forEach(pid => {
+    const puzzle = GAME_DATA.puzzles.find(p => p.id === pid);
+    if (puzzle) {
+      // Don't show hint text for puzzle scenes that just need items used
+    }
+  });
+
+  // Render exits
+  renderExits(scene.exits || {});
+
+  // Render inventory
+  renderInventory();
+
+  // Check win condition
+  checkWin();
+
+  // Save state
+  saveState();
+}
+
+function renderExits(exits) {
+  exitsBar.innerHTML = '';
+  const directions = ['north', 'south', 'east', 'west'];
+  directions.forEach(dir => {
+    const targetSceneId = exits[dir];
+    if (!targetSceneId) return; // Don't show non-existent exits
+
+    const btn = document.createElement('button');
+    btn.className = 'exit-btn';
+
+    // Check if this exit is blocked by an unsolved puzzle
+    const blocker = GAME_DATA.puzzles.find(p =>
+      p.blocksExit &&
+      p.blocksExit.scene === state.currentScene &&
+      p.blocksExit.direction === dir &&
+      !state.solvedPuzzles.includes(p.id)
+    );
+
+    if (blocker) {
+      // Exit exists but is locked
+      btn.textContent = dir.toUpperCase() + ' [LOCKED]';
+      btn.style.borderColor = '#666';
+      btn.style.color = '#666';
+      btn.onclick = () => canExit(state.currentScene, dir); // Will show blocked message
+    } else {
+      btn.textContent = dir.toUpperCase();
+      btn.classList.add('available');
+      btn.onclick = () => go(targetSceneId);
+    }
+
+    exitsBar.appendChild(btn);
+  });
+}
+
+function renderInventory() {
+  const items = invBar.querySelectorAll('.inv-item');
+  items.forEach(el => el.remove());
+  const empty = document.getElementById('inv-empty');
+
+  if (state.inventory.length === 0) {
+    if (empty) empty.style.display = '';
+  } else {
+    if (empty) empty.style.display = 'none';
+    state.inventory.forEach(itemId => {
+      const item = GAME_DATA.items.find(i => i.id === itemId);
+      if (!item) return;
+      const el = document.createElement('span');
+      el.className = 'inv-item' + (state.selectedItem === itemId ? ' selected' : '');
+      el.dataset.item = itemId;
+      el.textContent = item.name;
+      el.onclick = () => selectItem(itemId);
+      invBar.appendChild(el);
+    });
+  }
+}
+
+// ---- Command Handlers ----
+function setCommand(cmd) {
+  state.activeCommand = cmd;
+  document.querySelectorAll('.cmd-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.cmd === cmd);
+  });
+
+  if (cmd === 'look') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    if (scene && scene.lookDescriptions) {
+      const targets = Object.keys(scene.lookDescriptions);
+      if (targets.length > 0) {
+        addText('You can examine: ' + targets.map(t =>
+          '<span class="look-target" data-look="' + t + '">' + t + '</span>'
+        ).join(', '), 'system');
+      }
+    }
+  } else if (cmd === 'use') {
+    if (state.inventory.length > 0) {
+      addText('Select an item from your inventory, then click what to use it on.', 'system');
+    } else {
+      addText('You have nothing to use.', 'system');
+    }
+  } else if (cmd === 'take') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    const available = (scene.items || []).filter(id => !state.inventory.includes(id));
+    if (available.length > 0) {
+      available.forEach(id => takeItem(id));
+    } else {
+      addText('Nothing here to take.', 'system');
+    }
+  }
+}
+
+function selectItem(itemId) {
+  state.selectedItem = state.selectedItem === itemId ? null : itemId;
+  renderInventory();
+  if (state.selectedItem) {
+    const item = GAME_DATA.items.find(i => i.id === itemId);
+    addText('Selected: ' + item.name + '. Click USE, then a target.', 'system');
+  }
+}
+
+function takeItem(itemId) {
+  if (state.inventory.includes(itemId)) return;
+  const item = GAME_DATA.items.find(i => i.id === itemId);
+  if (!item) return;
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (!scene || !(scene.items || []).includes(itemId)) return;
+
+  state.inventory.push(itemId);
+  addText('You picked up: ' + item.name + ' \u2014 ' + item.description, 'success');
+  renderInventory();
+  saveState();
+}
+
+function lookAt(target) {
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (scene && scene.lookDescriptions && scene.lookDescriptions[target]) {
+    addText(scene.lookDescriptions[target]);
+  } else {
+    // Check if it's an item
+    const item = GAME_DATA.items.find(i => i.id === target);
+    if (item) {
+      addText(item.description);
+    } else {
+      addText('Nothing interesting about that.', 'system');
+    }
+  }
+}
+
+function useItemOn(itemId, targetId) {
+  // Check for puzzle matching
+  const puzzle = GAME_DATA.puzzles.find(p =>
+    p.scene === state.currentScene &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+
+  if (!puzzle) {
+    addText("That doesn't work here.", 'system');
+    return;
+  }
+
+  // For multi-item puzzles, we need all required items
+  const allItemsRequired = puzzle.requires.every(req => state.inventory.includes(req));
+
+  // Check if this specific item is part of this puzzle and we're using on correct target
+  const isCorrectItem = puzzle.requires.includes(itemId);
+  const isCorrectTarget = (puzzle.id === targetId) ||
+    (targetId === puzzle.scene) ||
+    (puzzle.action && puzzle.action.includes(targetId));
+
+  if (isCorrectItem && allItemsRequired) {
+    solvePuzzle(puzzle);
+  } else if (!isCorrectItem) {
+    addText("That item doesn't seem useful here.", 'system');
+  } else if (!allItemsRequired) {
+    const missing = puzzle.requires.filter(req => !state.inventory.includes(req));
+    const missingNames = missing.map(id => {
+      const item = GAME_DATA.items.find(i => i.id === id);
+      return item ? item.name : id;
+    });
+    addText("You don't have everything you need. Missing: " + missingNames.join(', '), 'system');
+  }
+}
+
+function solvePuzzle(puzzle) {
+  state.solvedPuzzles.push(puzzle.id);
+  addText(puzzle.result, 'success');
+
+  // Visual feedback
+  flashPuzzleSolved();
+
+  // Reveal items
+  (puzzle.reveals || []).forEach(revealId => {
+    const revealItem = GAME_DATA.items.find(i => i.id === revealId);
+    if (revealItem && !state.inventory.includes(revealId)) {
+      state.inventory.push(revealId);
+      addText('You found: ' + revealItem.name + '!', 'success');
+      highlightNewItem(revealId);
+    }
+  });
+
+  renderInventory();
+  highlightNewlyUnlocked();
+  checkWin();
+  saveState();
+}
+
+function go(sceneId) {
+  if (!canExit(state.currentScene, getDirection(state.currentScene, sceneId))) {
+    return;
+  }
+  addText('---', 'system');
+  renderScene(sceneId);
+}
+
+function getDirection(fromScene, toScene) {
+  const scene = GAME_DATA.scenes.find(s => s.id === fromScene);
+  if (!scene || !scene.exits) return null;
+  for (const [dir, target] of Object.entries(scene.exits)) {
+    if (target === toScene) return dir;
+  }
+  return null;
+}
+
+function checkWin() {
+  if (state.won) return;
+  const wc = GAME_DATA.winCondition;
+  if (!wc) return;
+  if (state.currentScene === wc.scene &&
+      wc.requires.every(req => state.inventory.includes(req))) {
+    state.won = true;
+    addText('', '');
+    addText('*** ' + wc.description + ' ***', 'success');
+    addText('', '');
+    addText('CONGRATULATIONS! YOU HAVE COMPLETED FROSTBITE STATION!', 'success');
+    addText('Type /restart to play again.', 'system');
+  }
+}
+
+// ---- Persistence ----
+function saveState() {
+  try {
+    localStorage.setItem('game-' + GAME_DATA.slug, JSON.stringify(state));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('game-' + GAME_DATA.slug);
+    if (saved) {
+      const s = JSON.parse(saved);
+      Object.assign(state, s);
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+// ---- Event Listeners ----
+document.querySelectorAll('.cmd-btn').forEach(btn => {
+  btn.onclick = () => setCommand(btn.dataset.cmd);
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('look-target')) {
+    const target = e.target.dataset.look;
+    if (state.activeCommand === 'use' && state.selectedItem) {
+      useItemOn(state.selectedItem, target);
+    } else {
+      lookAt(target);
+    }
+  }
+});
+
+// ---- Initialize ----
+function init() {
+  addText('=== FROSTBITE STATION ===', 'success');
+  addText(GAME_DATA.setting, 'system');
+  addText('', '');
+  addText('Commands: LOOK | TAKE | USE | EXAMINE', 'system');
+  addText('Click exits to move between rooms.', 'system');
+  addText('---', 'system');
+
+  if (!loadState()) {
+    renderScene('landing-pad');
+  } else {
+    renderScene(state.currentScene);
+    addText('[Game restored from save]', 'system');
+  }
+}
+
+init();
+
+    </script>
+</body>
+</html>

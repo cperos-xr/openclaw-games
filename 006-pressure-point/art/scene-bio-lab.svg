@@ -1,0 +1,57 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Cold, sterile environment -->
+  <rect width="640" height="400" fill="#000022"/>
+  
+  <!-- Ceiling with mist -->
+  <rect x="0" y="0" width="640" height="30" fill="#000011"/>
+  <ellipse cx="320" cy="20" rx="300" ry="20" fill="#003366" opacity="0.1"/>
+  
+  <!-- Left wall - Specimen tanks -->
+  <rect x="30" y="60" width="60" height="120" fill="#000033" stroke="#0066CC" stroke-width="2"/>
+  <rect x="30" y="60" width="60" height="120" fill="#003366" opacity="0.3"/>
+  <ellipse cx="60" cy="120" rx="15" ry="30" fill="#00FF00" opacity="0.2"/>
+  
+  <rect x="110" y="60" width="60" height="120" fill="#000033" stroke="#0066CC" stroke-width="2"/>
+  <rect x="110" y="60" width="60" height="120" fill="#003366" opacity="0.3"/>
+  <ellipse cx="140" cy="100" rx="10" ry="20" fill="#00FF00" opacity="0.2"/>
+  
+  <!-- Right wall - More tanks -->
+  <rect x="450" y="60" width="60" height="120" fill="#000033" stroke="#0066CC" stroke-width="2"/>
+  <rect x="450" y="60" width="60" height="120" fill="#003366" opacity="0.3"/>
+  <ellipse cx="480" cy="110" rx="12" ry="25" fill="#00FF00" opacity="0.2"/>
+  
+  <rect x="530" y="60" width="60" height="120" fill="#000033" stroke="#0066CC" stroke-width="2"/>
+  <rect x="530" y="60" width="60" height="120" fill="#003366" opacity="0.3"/>
+  <ellipse cx="560" cy="130" rx="18" ry="35" fill="#00FF00" opacity="0.2"/>
+  
+  <!-- Center - Cracked tank -->
+  <rect x="240" y="80" width="160" height="100" fill="#000033" stroke="#0066CC" stroke-width="2"/>
+  <line x1="260" y1="80" x2="280" y2="180" stroke="#0066CC" stroke-width="3"/>
+  <line x1="280" y1="80" x2="300" y2="160" stroke="#0066CC" stroke-width="2"/>
+  <rect x="240" y="180" width="160" height="20" fill="#003366" opacity="0.5"/>
+  
+  <!-- Fluid on floor -->
+  <path d="M240,200 Q320,220 400,200 Q380,240 240,200" fill="#00FF00" opacity="0.1"/>
+  
+  <!-- Workstations -->
+  <rect x="100" y="220" width="120" height="40" fill="#000022" stroke="#220000" stroke-width="2"/>
+  <ellipse cx="160" cy="210" rx="15" ry="8" fill="#000033" stroke="#220000" stroke-width="1"/>
+  <rect x="140" y="230" width="40" height="20" fill="#000033" stroke="#220000" stroke-width="1"/>
+  
+  <!-- Sonar ping device -->
+  <rect x="250" y="240" width="40" height="20" fill="#4A4A4A" stroke="#220000" stroke-width="1"/>
+  <rect x="260" y="245" width="20" height="10" fill="#000000"/>
+  <circle cx="270" cy="250" r="3" fill="#00FF00" opacity="0.5"/>
+  
+  <!-- Door panel -->
+  <rect x="500" y="250" width="60" height="40" fill="#000022" stroke="#220000" stroke-width="2"/>
+  <rect x="520" y="260" width="20" height="20" fill="#00FF00" opacity="0.3"/>
+  
+  <!-- Floor details -->
+  <rect x="0" y="380" width="640" height="20" fill="#000011"/>
+  
+  <!-- Dripping condensation -->
+  <line x1="100" y1="30" x2="100" y2="50" stroke="#003366" stroke-width="1"/>
+  <line x1="300" y1="30" x2="300" y2="60" stroke="#003366" stroke-width="1"/>
+  <line x1="500" y1="30" x2="500" y2="40" stroke="#003366" stroke-width="1"/>
+</svg>

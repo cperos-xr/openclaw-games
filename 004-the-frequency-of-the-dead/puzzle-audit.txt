@@ -1,0 +1,64 @@
+Puzzle Dependency Graph Analysis for "The Frequency of the Dead"
+=========================================================
+
+SOLVABLE
+
+Dependencies Analysis:
+---------------------
+
+1. brass-relay:
+   - Found in: lobby
+   - Required for: puzzle-1 in transmitter-room
+   - Unlocks: power-fuse (revealed after puzzle-1 completion)
+
+2. power-fuse:
+   - Found in: transmitter-room (revealed after puzzle-1)
+   - Required for: puzzle-2 in control-booth
+   - Unlocks: studio-key (revealed after puzzle-2 completion)
+
+3. studio-key:
+   - Found in: control-booth (revealed after puzzle-2)
+   - Required for: puzzle-3 in control-booth
+   - Unlocks: sound-booth (access)
+
+4. frequency-code-scroll:
+   - Found in: sound-booth
+   - Required for: puzzle-4 in archives
+   - Unlocks: maintenance-wrench and antenna-crystal (revealed after puzzle-4 completion)
+
+5. maintenance-wrench:
+   - Found in: archives (revealed after puzzle-4)
+   - Required for: puzzle-5 in antenna-tower
+   - Unlocks: win condition
+
+6. antenna-crystal:
+   - Found in: archives (revealed after puzzle-4)
+   - Required for: puzzle-5 in antenna-tower
+   - Unlocks: win condition
+
+Solve Path:
+----------
+
+1. Start in lobby → take brass-relay
+2. Go to transmitter-room → use brass-relay on fuse-box (puzzle-1) → get power-fuse
+3. Go to control-booth → use power-fuse on mixing-board (puzzle-2) → get studio-key
+4. Use studio-key on sound-booth-door (puzzle-3) → enter sound-booth
+5. Take frequency-code-scroll from sound-booth
+6. Go to archives (down from control-booth) → enter code 7-3-1-9 on lockbox (puzzle-4) → get maintenance-wrench and antenna-crystal
+7. Go to rooftop → enter antenna-tower
+8. Use maintenance-wrench and antenna-crystal on service panel and crystalline socket (puzzle-5) → Win
+
+Verification Results:
+-------------------
+
+✓ All items are findable before they are needed.
+✓ All puzzles have their required items available in preceding locations.
+✓ The win condition is reachable.
+✓ No circular dependencies exist.
+✓ Linear progression with clear item dependencies.
+✓ All puzzles properly unlock subsequent areas or items.
+
+Conclusion:
+----------
+
+The puzzle dependency graph for "The Frequency of the Dead" is well-structured and solvable. The game follows a clear linear progression where each puzzle solution reveals the necessary items for the next puzzle. The dependency chain is logical and free of dead ends or circular references. Players can complete the game by following the solve path outlined above.

@@ -1,0 +1,47 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Dark cavern -->
+  <rect width="640" height="400" fill="#000000"/>
+  
+  <!-- Stone pillars -->
+  <rect x="100" y="50" width="30" height="300" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <rect x="250" y="50" width="30" height="300" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <rect x="400" y="50" width="30" height="300" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <rect x="550" y="50" width="30" height="300" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Ankle-deep black water -->
+  <rect x="0" y="250" width="640" height="150" fill="#000033" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Stalactites from ceiling -->
+  <polygon points="115,50 100,0 130,0" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <polygon points="265,50 250,0 280,0" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <polygon points="415,50 400,0 430,0" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <polygon points="565,50 550,0 580,0" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Ripples in water -->
+  <ellipse cx="200" cy="300" rx="20" ry="5" fill="none" stroke="#006600" stroke-width="1"/>
+  <ellipse cx="200" cy="300" rx="15" ry="4" fill="none" stroke="#006600" stroke-width="1"/>
+  <ellipse cx="200" cy="300" rx="10" ry="3" fill="none" stroke="#006600" stroke-width="1"/>
+  
+  <ellipse cx="440" cy="320" rx="25" ry="6" fill="none" stroke="#006600" stroke-width="1"/>
+  <ellipse cx="440" cy="320" rx="20" ry="5" fill="none" stroke="#006600" stroke-width="1"/>
+  <ellipse cx="440" cy="320" rx="15" ry="4" fill="none" stroke="#006600" stroke-width="1"/>
+  
+  <!-- Grand stone lectern -->
+  <rect x="300" y="100" width="40" height="150" fill="#000000" stroke="#000000" stroke-width="3"/>
+  
+  <!-- Weeping faces on lectern (simple representation) -->
+  <circle cx="310" cy="120" r="5" fill="#8B4513" stroke="#000000" stroke-width="1"/>
+  <circle cx="330" cy="120" r="5" fill="#8B4513" stroke="#000000" stroke-width="1"/>
+  <line x1="305" y1="115" x2="315" y2="125" stroke="#000000" stroke-width="1"/>
+  <line x1="325" y1="115" x2="335" y2="125" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Leather-bound book on lectern -->
+  <rect x="305" y="230" width="30" height="20" fill="#8B0000" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Feeling of something watching (eyes in ceiling shadow) -->
+  <circle cx="200" cy="80" r="4" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+  <circle cx="200" cy="80" r="2" fill="#000000"/>
+  <circle cx="440" cy="80" r="4" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+  <circle cx="440" cy="80" r="2" fill="#000000"/>
+  
+</svg>

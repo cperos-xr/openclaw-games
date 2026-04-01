@@ -1,0 +1,27 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="64" height="64" fill="#1a1a18"/>
+  
+  <!-- Crystal body (clear quartz) -->
+  <polygon points="32,8 44,28 40,48 24,48 20,28" fill="#e0e0e0" stroke="#a0a0a0" stroke-width="3"/>
+  
+  <!-- Crystal facets -->
+  <line x1="32" y1="8" x2="24" y2="48" stroke="#a0a0a0" stroke-width="1" opacity="0.5"/>
+  <line x1="32" y1="8" x2="40" y2="48" stroke="#a0a0a0" stroke-width="1" opacity="0.5"/>
+  <line x1="20" y1="28" x2="44" y2="28" stroke="#a0a0a0" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Inner light glow -->
+  <circle cx="32" cy="28" r="12" fill="#ffffff" opacity="0.4"/>
+  <circle cx="32" cy="28" r="8" fill="#ffffff" opacity="0.6"/>
+  <circle cx="32" cy="28" r="4" fill="#ffffff" opacity="0.8"/>
+  
+  <!-- Pulsing light effect -->
+  <circle cx="32" cy="28" r="16" fill="#ff8800" opacity="0.1"/>
+  <circle cx="32" cy="28" r="20" fill="#aa00ff" opacity="0.05"/>
+  
+  <!-- Crystal tip highlight -->
+  <circle cx="32" cy="12" r="3" fill="#ffffff" opacity="0.9"/>
+  
+  <!-- Base of crystal -->
+  <rect x="24" y="48" width="16" height="4" fill="#a0a0a0" stroke="#707070" stroke-width="1"/>
+</svg>

@@ -1,0 +1,18 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bell body -->
+  <ellipse cx="32" cy="30" rx="18" ry="22" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Bell crown -->
+  <rect x="28" y="10" width="8" height="12" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Bell loop -->
+  <ellipse cx="32" cy="12" rx="6" ry="4" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Inscription: MISERICORDIA -->
+  <text x="32" y="34" text-anchor="middle" fill="#000000" font-size="6" font-weight="bold">MISERICORDIA</text>
+  
+  <!-- Pure clear chime representation -->
+  <circle cx="32" cy="50" r="8" fill="#FFFFFF" stroke="#000000" stroke-width="1" opacity="0.5"/>
+  <circle cx="32" cy="50" r="4" fill="#FFFFFF" stroke="#000000" stroke-width="1" opacity="0.7"/>
+  
+</svg>

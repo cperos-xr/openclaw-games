@@ -1,0 +1,18 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bell body -->
+  <ellipse cx="32" cy="30" rx="18" ry="22" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Bell crown -->
+  <rect x="28" y="10" width="8" height="12" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Bell loop -->
+  <ellipse cx="32" cy="12" rx="6" ry="4" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Skeletal motifs etching -->
+  <path d="M24,24 L26,20 L28,24 L30,20 L32,24 L34,20 L36,24 L38,20 L40,24" stroke="#000000" stroke-width="1" fill="none"/>
+  
+  <!-- Brittle sharp tone representation -->
+  <path d="M32,52 Q28,48 32,44" stroke="#FFFFFF" stroke-width="1" fill="none"/>
+  <path d="M32,52 Q36,48 32,44" stroke="#FFFFFF" stroke-width="1" fill="none"/>
+  
+</svg>

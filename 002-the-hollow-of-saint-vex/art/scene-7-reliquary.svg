@@ -1,0 +1,60 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Dark stone chamber -->
+  <rect width="640" height="400" fill="#000000"/>
+  
+  <!-- Stone walls -->
+  <rect x="0" y="0" width="640" height="400" fill="#001100" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Shelves with jars -->
+  <rect x="50" y="50" width="120" height="300" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <rect x="470" y="50" width="120" height="300" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Shelf divisions -->
+  <line x1="50" y1="150" x2="170" y2="150" stroke="#000000" stroke-width="1"/>
+  <line x1="50" y1="250" x2="170" y2="250" stroke="#000000" stroke-width="1"/>
+  <line x1="470" y1="150" x2="590" y2="150" stroke="#000000" stroke-width="1"/>
+  <line x1="470" y1="250" x2="590" y2="250" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Jars on shelves (representative samples) -->
+  <rect x="70" y="70" width="20" height="30" fill="#8B4513" stroke="#000000" stroke-width="1"/>
+  <rect x="100" y="70" width="20" height="30" fill="#8B4513" stroke="#000000" stroke-width="1"/>
+  <rect x="70" y="120" width="20" height="30" fill="#8B4513" stroke="#000000" stroke-width="1"/>
+  <rect x="100" y="120" width="20" height="30" fill="#8B4513" stroke="#000000" stroke-width="1"/>
+  
+  <rect x="490" y="70" width="20" height="30" fill="#8B4513" stroke="#000000" stroke-width="1"/>
+  <rect x="520" y="70" width="20" height="30" fill="#8B4513" stroke="#000000" stroke-width="1"/>
+  <rect x="490" y="120" width="20" height="30" fill="#8B4513" stroke="#000000" stroke-width="1"/>
+  <rect x="520" y="120" width="20" height="30" fill="#8B4513" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Labels on jars (simple text) -->
+  <text x="75" y="90" fill="#FFFFFF" font-size="6">ORGAN</text>
+  <text x="105" y="90" fill="#FFFFFF" font-size="6">SOIL</text>
+  <text x="75" y="140" fill="#FFFFFF" font-size="6">ORGAN</text>
+  <text x="105" y="140" fill="#FFFFFF" font-size="6">SOIL</text>
+  
+  <text x="495" y="90" fill="#FFFFFF" font-size="6">ORGAN</text>
+  <text x="525" y="90" fill="#FFFFFF" font-size="6">SOIL</text>
+  <text x="495" y="140" fill="#FFFFFF" font-size="6">ORGAN</text>
+  <text x="525" y="140" fill="#FFFFFF" font-size="6">SOIL</text>
+  
+  <!-- White salt circle -->
+  <circle cx="320" cy="250" r="60" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Second, larger altar -->
+  <rect x="280" y="200" width="80" height="20" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Stone pedestal -->
+  <rect x="300" y="100" width="40" height="100" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Velvet cushion -->
+  <rect x="305" y="180" width="30" height="10" fill="#8B0000" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Final silver bell -->
+  <ellipse cx="320" cy="160" rx="25" ry="15" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  <rect x="310" y="160" width="20" height="8" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  <rect x="313" y="152" width="14" height="8" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Light absorption effect around bell -->
+  <circle cx="320" cy="160" r="35" fill="#000000" opacity="0.3" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+  
+</svg>

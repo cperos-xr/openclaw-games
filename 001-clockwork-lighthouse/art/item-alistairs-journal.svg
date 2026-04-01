@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <!-- Leather Pattern -->
+    <pattern id="leatherPattern" patternUnits="userSpaceOnUse" width="20" height="20">
+      <rect width="20" height="20" fill="#8B4513"/>
+      <path d="M0 0L20 20M20 0L0 20" stroke="#5D2906" stroke-width="1"/>
+    </pattern>
+    
+    <!-- Diagram Pattern -->
+    <pattern id="diagramPattern" patternUnits="userSpaceOnUse" width="10" height="10">
+      <line x1="0" y1="5" x2="10" y2="5" stroke="#000000" stroke-width="1"/>
+      <line x1="5" y1="0" x2="5" y2="10" stroke="#000000" stroke-width="1"/>
+    </pattern>
+    
+    <!-- Equation Pattern -->
+    <pattern id="equationPattern" patternUnits="userSpaceOnUse" width="15" height="15">
+      <text x="2" y="10" font-family="monospace" font-size="10" fill="#000000">∫=∞</text>
+    </pattern>
+  </defs>
+  
+  <!-- Journal Cover -->
+  <rect x="150" y="80" width="340" height="240" rx="10" ry="10" fill="url(#leatherPattern)" stroke="#5D2906" stroke-width="4"/>
+  
+  <!-- Cover Details -->
+  <rect x="170" y="100" width="300" height="200" fill="#A0522D" stroke="none"/>
+  
+  <!-- Mechanical Diagrams -->
+  <rect x="180" y="110" width="80" height="80" fill="url(#diagramPattern)" stroke="#000000" stroke-width="1"/>
+  <rect x="280" y="110" width="80" height="80" fill="url(#diagramPattern)" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Temporal Equations -->
+  <rect x="180" y="210" width="120" height="60" fill="url(#equationPattern)" stroke="#000000" stroke-width="1"/>
+  <rect x="320" y="210" width="120" height="60" fill="url(#equationPattern)" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Frantic Entries -->
+  <path d="M180 290 Q220 270 260 290 Q300 310 340 290 Q380 270 420 290" fill="none" stroke="#000000" stroke-width="2"/>
+  <path d="M180 310 Q220 290 260 310 Q300 330 340 310 Q380 290 420 310" fill="none" stroke="#000000" stroke-width="2"/>
+  <path d="M180 330 Q220 310 260 330 Q300 350 340 330 Q380 310 420 330" fill="none" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Binding -->
+  <rect x="150" y="80" width="20" height="240" fill="#5D2906" stroke="none"/>
+  <rect x="470" y="80" width="20" height="240" fill="#5D2906" stroke="none"/>
+  
+  <!-- Spine Text (simplified) -->
+  <text x="160" y="100" font-family="monospace" font-size="12" fill="#FFFFFF" transform="rotate(90 160 100)">ALISTAIR</text>
+  <text x="480" y="100" font-family="monospace" font-size="12" fill="#FFFFFF" transform="rotate(90 480 100)">CHRONOS</text>
+</svg>

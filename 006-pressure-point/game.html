@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pressure Point | Game #006</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            padding: 20px;
+            max-width: 1024px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        h2 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #0f0;
+        }
+
+        #scene-name {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #0f0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .game-container {
+            display: flex;
+            flex: 1;
+            gap: 20px;
+            min-height: 0;
+        }
+
+        .art-panel {
+            flex: 1;
+            border: 2px solid #0f0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        #art-display svg,
+        #art-display img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .text-panel {
+            flex: 1;
+            border: 2px solid #0f0;
+            background-color: #000;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #text-display {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #0f0;
+            padding-bottom: 10px;
+        }
+
+        #text-display p {
+            margin-bottom: 10px;
+            color: #0f0;
+        }
+
+        #text-display .system {
+            color: #0a0;
+            font-style: italic;
+        }
+
+        #text-display .success {
+            color: #0f0;
+            font-weight: bold;
+            animation: itemGlow 1s infinite alternate;
+        }
+
+        #text-display .locked {
+            color: #f00;
+            font-weight: bold;
+        }
+
+        #text-display .error {
+            color: #f00;
+        }
+
+        #text-display .hint {
+            color: #FFAA00;
+            font-style: italic;
+        }
+
+        .hint-toggle {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 2px 6px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .hint-toggle:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .command-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .cmd-btn {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 5px 10px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cmd-btn:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .cmd-btn.active {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .inventory-panel {
+            border: 2px solid #0f0;
+            background-color: #000;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .inventory-panel h3 {
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #0f0;
+        }
+
+        #inventory-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 20px;
+        }
+
+        .inv-item {
+            border: 1px solid #0f0;
+            padding: 3px 6px;
+            font-size: 10px;
+            cursor: pointer;
+            background-color: #000;
+            color: #0f0;
+        }
+
+        .inv-item.selected {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .exits-panel {
+            border: 2px solid #0f0;
+            background-color: #000;
+            padding: 10px;
+        }
+
+        .exits-panel h3 {
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #0f0;
+        }
+
+        #exits-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .exit-btn {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 5px 10px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .exit-btn.available:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .look-target {
+            color: #0af;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .look-target:hover {
+            color: #0ff;
+        }
+
+        /* Animations */
+        @keyframes puzzle-solved {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(2); }
+            100% { filter: brightness(1); }
+        }
+
+        @keyframes unlockPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes itemGlow {
+            0% { text-shadow: 0 0 5px #0f0; }
+            100% { text-shadow: 0 0 15px #0f0; }
+        }
+
+        .puzzle-solved {
+            animation: puzzle-solved 0.6s ease-in-out;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 10px;
+            color: #080;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PRESSURE POINT</h1>
+        <h2>Game #006</h2>
+        <button id="hint-toggle" class="hint-toggle">HINTS: ON</button>
+    </header>
+
+    <div id="scene-name">DOCKING BAY</div>
+
+    <div class="game-container">
+        <div class="art-panel">
+            <div id="art-display">
+                <!-- Art will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="text-panel">
+            <div id="text-display">
+                <!-- Game text will appear here -->
+            </div>
+
+            <div class="command-bar">
+                <button class="cmd-btn" data-cmd="look">LOOK</button>
+                <button class="cmd-btn" data-cmd="take">TAKE</button>
+                <button class="cmd-btn" data-cmd="use">USE</button>
+                <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+            </div>
+
+            <div class="inventory-panel">
+                <h3>INVENTORY</h3>
+                <div id="inventory-bar">
+                    <span id="inv-empty">(empty)</span>
+                </div>
+            </div>
+
+            <div class="exits-panel">
+                <h3>EXITS</h3>
+                <div id="exits-bar">
+                    <!-- Exit buttons will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Use the command buttons or click on highlighted words. Click exits to move.
+        Type /restart in the text area to reset the game.
+    </footer>
+
+    <script>
+// ============================================================
+// GAME DATA
+const GAME_DATA = {
+  "title": "Pressure Point",
+  "slug": "pressure-point",
+  "number": 6,
+  "setting": "The Benthic, an abandoned deep-sea research station 3,000 meters below the surface. The station was abandoned after a catastrophic containment breach. Water pressure groans against the hull. Something moves in the lower decks.",
+  "characters": [
+    {
+      "id": "dr-aris-thorne",
+      "name": "Dr. Aris Thorne",
+      "description": "Station director. His fragmented logs detail the final hours before the breach and his descent into paranoia."
+    }
+  ],
+  "items": [
+    {
+      "id": "crowbar",
+      "name": "Crowbar",
+      "description": "A heavy steel crowbar, crusted with salt and rust. It feels solid in your grip.",
+      "foundIn": "docking-bay",
+      "usedIn": "crew-quarters",
+      "usedOn": "locked-cabinet"
+    },
+    {
+      "id": "restricted-keycard",
+      "name": "Restricted Keycard",
+      "description": "A plastic keycard with a magnetic strip. The words 'Bio-Lab Access - Level 3' are faded but legible.",
+      "foundIn": "crew-quarters",
+      "usedIn": "bio-lab",
+      "usedOn": "bio-lab-door"
+    },
+    {
+      "id": "sonar-ping-device",
+      "name": "Sonar Ping Device",
+      "description": "A handheld device with a cracked screen. It emits a low, periodic ping when activated.",
+      "foundIn": "bio-lab",
+      "usedIn": "sonar-room",
+      "usedOn": "sonar-panel"
+    },
+    {
+      "id": "maintenance-override-key",
+      "name": "Maintenance Override Key",
+      "description": "A chunky mechanical key stamped with 'Engineering Override - Use Only In Emergency'.",
+      "foundIn": "sonar-room",
+      "usedIn": "engineering-bay",
+      "usedOn": "engineering-door"
+    },
+    {
+      "id": "oxygen-canister",
+      "name": "Oxygen Canister",
+      "description": "A pressurized canister of breathable oxygen. The gauge shows half-full. It hisses faintly when moved.",
+      "foundIn": "engineering-bay",
+      "usedIn": "airlock",
+      "usedOn": "airlock-mechanism"
+    },
+    {
+      "id": "airlock-circuit",
+      "name": "Airlock Circuit",
+      "description": "A makeshift circuit board cobbled together from the sonar ping device and a maintenance key. It hums with unstable power.",
+      "foundIn": "engineering-bay",
+      "usedIn": "airlock",
+      "usedOn": "airlock-mechanism"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "docking-bay",
+      "name": "Docking Bay",
+      "prose": "The outer hatch seals behind you with a hiss that sounds too much like a last breath. You're inside now. The docking bay is a flooded corridor of flickering emergency lights and groaning metal. Water sloshes around your ankles, black and cold, carrying the tang of brine and something else\u2014something chemical, sharp, wrong.\n\nEmergency strobes paint the walls in pulses of bloody red. The ceiling drips, each drop a tiny impact against the water's surface. To your left, a maintenance locker hangs open, tools scattered across the floor. A crowbar lies half-submerged, its steel glinting in the sporadic light.\n\nAhead, the corridor splits. One passage leads deeper into the station, marked by a dangling sign that reads 'Crew Quarters'. The other branches off toward a sealed bulkhead door labeled 'Bio-Lab - RESTRICTED'. The door's status panel blinks a steady, accusing red.\n\nThe station groans. Not a sound, but a vibration that travels up through the water, through your boots, into your bones. It's the pressure of three thousand meters of ocean pressing against the hull. It's the sound of something vast and hungry leaning against the walls, waiting for a single crack.\n\nSomething moves in the water ahead\u2014a ripple that doesn't match your own. You freeze. The ripple stills. The red lights pulse. The groaning deepens.\n\nYou are not alone. The station knows you're here.",
+      "exits": {
+        "north": "crew-quarters",
+        "east": "bio-lab"
+      },
+      "items": [
+        "crowbar"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "water": "Black, cold, sloshing around your ankles. Carries the tang of brine and something chemical.",
+        "lights": "Emergency strobes painting the walls in pulses of bloody red. They flicker, casting long, trembling shadows.",
+        "locker": "A maintenance locker hanging open, tools scattered across the floor.",
+        "crowbar": "A heavy steel crowbar half-submerged in the water, crusted with salt and rust.",
+        "sign": "A dangling sign reading 'Crew Quarters'. The letters are faded, streaked with grime.",
+        "bulkhead": "A sealed bulkhead door labeled 'Bio-Lab - RESTRICTED'. The status panel blinks a steady red.",
+        "groan": "A deep vibration traveling through the hull\u2014the pressure of the ocean outside, waiting for a crack."
+      }
+    },
+    {
+      "id": "crew-quarters",
+      "name": "Crew Quarters",
+      "prose": "The crew quarters feel less like living space and more like a crime scene frozen in time. Bunks are unmade, blankets tossed aside in haste. Personal lockers hang open, spilling clothes and data pads across the floor. A half-eaten meal sits on a fold-out table, the food now a gray, fuzzy mold.\n\nThe air here is thicker, warmer. It carries the scent of unwashed linen, stale sweat, and the faint, sweet rot of forgotten rations. A single emergency light buzzes overhead, casting a sickly yellow pall over everything. Shadows cluster in the corners, refusing to budge.\n\nAgainst the far wall, a metal cabinet stands locked. A heavy padlock secures it, but the door is slightly bent, as if someone tried to pry it open before giving up. A faded label reads 'Restricted Equipment - Authorized Personnel Only'.\n\nOn a desk, a terminal screen flickers with static. Occasionally, a fragment of text appears\u2014'\u2026breach in Sector 7\u2026', '\u2026Thorne's orders\u2026', '\u2026don't trust the water\u2026'. The logs are corrupted, but the desperation is palpable.\n\nA porthole looks out into the blackness. Your own reflection stares back, pale and distorted. Beyond the glass, something moves\u2014a shape too large, too smooth to be machinery. It slides past and vanishes before you can focus.\n\nThe station groans again, a low, aching sound that seems to come from the walls themselves. The cabinet rattles in sympathy. Inside, something shifts.",
+      "exits": {
+        "south": "docking-bay",
+        "east": "sonar-room"
+      },
+      "items": [
+        "restricted-keycard"
+      ],
+      "puzzles": [
+        "cabinet-puzzle"
+      ],
+      "lookDescriptions": {
+        "bunks": "Unmade, blankets tossed aside in haste. Personal lockers hang open, spilling clothes and data pads.",
+        "cabinet": "A metal cabinet locked with a heavy padlock. The door is slightly bent. Label reads 'Restricted Equipment - Authorized Personnel Only'.",
+        "terminal": "Flickering with static. Fragments of text appear: '\u2026breach in Sector 7\u2026', '\u2026Thorne's orders\u2026', '\u2026don't trust the water\u2026'.",
+        "porthole": "Looks out into blackness. Your reflection stares back, pale and distorted. Something large moved past outside.",
+        "meal": "A half-eaten meal on a fold-out table, now gray mold.",
+        "shadows": "Cluster in the corners, refusing to budge even under the yellow light.",
+        "air": "Thick, warm, smells of unwashed linen, stale sweat, and sweet rot."
+      }
+    },
+    {
+      "id": "bio-lab",
+      "name": "Bio-Lab",
+      "prose": "The bio-lab is a chamber of nightmares suspended in glass. Rows of specimen tanks line the walls, each filled with murky fluid. Within them, shapes float\u2014things that might have been marine life once, now twisted into forms that hurt the eye. Tentacles without bodies, eyes without faces, spines that curl in impossible directions.\n\nThe air is cold and smells of formaldehyde and salt. A fine mist hangs near the ceiling, condensing on the metal surfaces and dripping like slow tears. In the center of the room, a larger tank has cracked. Fluid has leaked across the floor, leaving a sticky, iridescent sheen. Inside the broken tank, something is missing.\n\nWorkstations are littered with petri dishes, microscopes, and hastily abandoned notes. One note, written in frantic handwriting, reads: 'Subject Gamma is conscious. It knows we're here. It's learning the lock codes.'\n\nOn a side table, a handheld device lies discarded\u2014a sonar ping unit, its screen cracked but still functional. It emits a soft, periodic ping that echoes in the chamber.\n\nThe door to the sonar room is sealed, requiring a keycard. The panel beside it glows a soft green, waiting for authorization.\n\nFrom one of the intact tanks, a shape presses against the glass. It has too many eyes, and they all watch you. The sonar ping quickens, as if in response.",
+      "exits": {
+        "west": "docking-bay",
+        "north": "sonar-room"
+      },
+      "items": [
+        "sonar-ping-device"
+      ],
+      "puzzles": [
+        "bio-lab-door-puzzle"
+      ],
+      "lookDescriptions": {
+        "specimen tanks": "Rows of tanks filled with murky fluid. Shapes float inside\u2014twisted marine life, tentacles without bodies, eyes without faces.",
+        "cracked tank": "A larger tank in the center, cracked. Fluid leaked across the floor, leaving a sticky, iridescent sheen. Something is missing from inside.",
+        "workstations": "Littered with petri dishes, microscopes, and hastily abandoned notes.",
+        "note": "Written in frantic handwriting: 'Subject Gamma is conscious. It knows we're here. It's learning the lock codes.'",
+        "sonar device": "A handheld sonar ping unit with a cracked screen. Emits a soft, periodic ping.",
+        "door": "Sealed door to the sonar room. Requires a keycard. Panel glows soft green.",
+        "shape": "In an intact tank, a shape presses against the glass. Too many eyes, all watching you.",
+        "mist": "A fine mist hangs near the ceiling, condensing and dripping like slow tears."
+      }
+    },
+    {
+      "id": "sonar-room",
+      "name": "Sonar Room",
+      "prose": "The sonar room is a cave of screens and silence. Dozens of monitors line the walls, most of them dark. Those still active display scrolling lines of sonar data\u2014pings mapping the emptiness outside. But the emptiness is not empty. Blips appear at the edges, too fast to be geology, too large to be fish.\n\nThe room is dry, the air stale with the smell of overheated electronics and ozone. A central console hums, its surface covered in dials and switches. One panel is open, revealing a tangle of wires behind. A mechanical key is wedged deep inside, accessible only if you can trigger the release mechanism.\n\nA large sonar screen dominates the far wall. It shows a topographic map of the seafloor around the station. Something massive is circling\u2014a shadow that blots out the contours as it passes. It moves slowly, deliberately, as if tracing the station's outline.\n\nA clipboard hangs from a hook, attached to a faded log sheet. The final entry reads: 'Day 47: The thing outside matches our pings now. It's learning our frequency. Thorne says to keep transmitting. I think he wants it to find us.'\n\nThe door to engineering is a heavy bulkhead, sealed with an override lock. A red light pulses above it, indicating restricted access.\n\nThe sonar ping device in your hand vibrates, its frequency syncing with the blips on the screens. The shadow outside pauses, as if listening.",
+      "exits": {
+        "south": "bio-lab",
+        "west": "crew-quarters",
+        "down": "engineering-bay"
+      },
+      "items": [
+        "maintenance-override-key"
+      ],
+      "puzzles": [
+        "sonar-panel-puzzle"
+      ],
+      "lookDescriptions": {
+        "monitors": "Dozens of screens, most dark. Active ones display scrolling sonar data with blips at the edges\u2014too fast, too large.",
+        "console": "Central console humming, covered in dials and switches. One panel open, revealing wires and a wedged key inside.",
+        "sonar screen": "Large screen showing topographic map of seafloor. Something massive circles\u2014a shadow blotting out contours.",
+        "clipboard": "Faded log sheet. Final entry: 'Day 47: The thing outside matches our pings now. It's learning our frequency. Thorne says to keep transmitting. I think he wants it to find us.'",
+        "door": "Heavy bulkhead door to engineering, sealed with override lock. Red light pulses above.",
+        "shadow": "On the sonar screen, a massive shadow circles the station, tracing its outline.",
+        "air": "Stale, smells of overheated electronics and ozone."
+      }
+    },
+    {
+      "id": "engineering-bay",
+      "name": "Engineering Bay",
+      "prose": "Engineering is the station's mechanical heart, and it is failing. Pipes line the ceiling, some leaking steam that curls in ghostly tendrils. Generators sit silent, their casings scarred and blackened. The air tastes of oil, metal, and the sharp bite of coolant.\n\nIn the center of the room, a massive pressure valve dominates\u2014a wheel taller than you, rusted in place. Beside it, an oxygen canister is strapped to the wall, its gauge showing half-full. The hiss of escaping gas is a constant whisper.\n\nA workbench is scattered with tools and components. Among them, you see the remains of a sonar ping device and a maintenance key. With the right combination, they could be fashioned into a circuit board\u2014something to bypass the airlock's fried controls.\n\nA viewport looks out into the abyss. The exterior lights are dead, but something outside catches the faint glow from within. A shape, all angles and smooth curves, presses against the glass. It has no eyes, but you feel its attention. It studies you, as you study it.\n\nThe door to the airlock is a circular hatch, sealed with multiple locks. A control panel beside it is dark, its screen cracked. Without power, it won't open.\n\nFrom the depths of the station, a new sound emerges\u2014a deep, resonant thrumming that vibrates through the floor. It's not machinery. It's vocal. The thing outside is calling. And something inside the station is answering.",
+      "exits": {
+        "up": "sonar-room",
+        "north": "airlock"
+      },
+      "items": [
+        "oxygen-canister",
+        "airlock-circuit"
+      ],
+      "puzzles": [
+        "engineering-puzzle"
+      ],
+      "lookDescriptions": {
+        "pressure valve": "A massive wheel taller than you, rusted in place. Pipes leak steam around it.",
+        "oxygen canister": "Strapped to the wall, gauge half-full. Hisses faintly.",
+        "workbench": "Scattered with tools and components\u2014sonar ping device remains, maintenance key, circuit boards.",
+        "viewport": "Looks out into the abyss. Exterior lights dead. A shape presses against the glass\u2014angles and smooth curves, no eyes, but attentive.",
+        "hatch": "Circular hatch to airlock, sealed with multiple locks. Control panel dark, screen cracked.",
+        "thrumming": "Deep, resonant vibration through the floor\u2014vocal, calling. Something answers from inside.",
+        "generators": "Silent, casings scarred and blackened.",
+        "air": "Tastes of oil, metal, and coolant."
+      }
+    },
+    {
+      "id": "airlock",
+      "name": "Airlock",
+      "prose": "The airlock is a tomb of polished steel and impending decisions. Two doors define your fate: the inner hatch behind you, the outer hatch ahead. Between them, this cylindrical chamber where pressure equalizes and hope either holds or fails.\n\nThe walls are lined with lockers\u2014some open, spilling emergency suits and toolkits. A control console dominates the center, its screens dark. A slot for a circuit board sits empty, waiting for power. Next to it, a receptacle for an oxygen canister gapes like a hungry mouth.\n\nThrough the thick glass of the outer hatch, the abyss stares back. Blackness so complete it feels solid. Occasionally, a flicker of bioluminescence dances at the edge of vision\u2014tiny, doomed sparks in the eternal night.\n\nThe station's groaning is louder here, a chorus of stressed metal and shifting pressures. Something heavy drags against the outer hull. A scrape, slow and deliberate, as if testing the strength of the metal. Then silence. Then another scrape, closer.\n\nThe control console awaits its components. With the airlock circuit installed and oxygen supplied, the outer hatch might cycle open. But opening it means exposing the chamber to the crushing pressure outside. It means trusting the station's failing systems to keep you alive long enough to reach the surface.\n\nIt means leaving. It means escape.\n\nBut the thing outside knows you're here. It presses against the glass, a shape of angles and smooth curves, studying you with a patience that feels ancient. It wants you to stay. It wants you to join the others who never left.\n\nThe inner hatch seals behind you. There is no going back. Only forward, into the black, or deeper into the station's waiting throat.\n\nThe choice is yours. The station holds its breath.",
+      "exits": {},
+      "items": [],
+      "puzzles": [
+        "airlock-puzzle"
+      ],
+      "lookDescriptions": {
+        "lockers": "Open lockers spill emergency suits and toolkits. One suit is torn, as if something forced its way out.",
+        "console": "Control console with dark screens. A slot for a circuit board sits empty. A receptacle for an oxygen canister gapes open.",
+        "outer hatch": "Thick glass looking into the abyss. Blackness so complete it feels solid. Occasional bioluminescence flickers at the edge.",
+        "scrape": "Something heavy drags against the outer hull. A slow, deliberate scrape, testing the metal.",
+        "shape": "A shape of angles and smooth curves presses against the glass outside. It studies you with ancient patience.",
+        "inner hatch": "Sealed behind you. No going back.",
+        "air": "Cold, metallic, smells of ozone and stale sweat."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "cabinet-puzzle",
+      "scene": "crew-quarters",
+      "requires": [
+        "crowbar"
+      ],
+      "action": "use crowbar on locked cabinet",
+      "result": "The cabinet door groans open, revealing a restricted keycard inside.",
+      "reveals": [
+        "restricted-keycard"
+      ],
+      "blocksExit": ""
+    },
+    {
+      "id": "bio-lab-door-puzzle",
+      "scene": "docking-bay",
+      "requires": [
+        "restricted-keycard"
+      ],
+      "action": "use restricted keycard on bio-lab door",
+      "result": "The door panel flashes green and the bulkhead seals open with a hiss.",
+      "reveals": [
+        "bio-lab"
+      ],
+      "blocksExit": "east"
+    },
+    {
+      "id": "sonar-panel-puzzle",
+      "scene": "sonar-room",
+      "requires": [
+        "sonar-ping-device"
+      ],
+      "action": "use sonar ping device on sonar panel",
+      "result": "The panel beeps and a hidden compartment slides open, revealing a maintenance override key.",
+      "reveals": [
+        "maintenance-override-key"
+      ],
+      "blocksExit": ""
+    },
+    {
+      "id": "engineering-door-puzzle",
+      "scene": "sonar-room",
+      "requires": [
+        "maintenance-override-key"
+      ],
+      "action": "use maintenance override key on engineering door",
+      "result": "The heavy bulkhead grinds open, revealing the engineering bay.",
+      "reveals": [
+        "engineering-bay"
+      ],
+      "blocksExit": "down"
+    },
+    {
+      "id": "airlock-puzzle",
+      "scene": "airlock",
+      "requires": [
+        "oxygen-canister",
+        "airlock-circuit"
+      ],
+      "action": "install airlock circuit and oxygen canister in control console",
+      "result": "The console powers up. The outer hatch cycles open, revealing the escape pod.",
+      "reveals": [
+        "win"
+      ],
+      "blocksExit": ""
+    }
+  ],
+  "hints": {
+    "docking-bay": [
+      { "delay": 30, "text": "That crowbar looks useful for prying things open. Maybe there's a cabinet somewhere that needs persuasion." },
+      { "delay": 60, "text": "Take the crowbar, go north to crew quarters, USE it on the locked cabinet." },
+      { "delay": 90, "text": "Crowbar → Cabinet. North to crew quarters. USE crowbar on cabinet. Get the keycard." }
+    ],
+    "crew-quarters": [
+      { "delay": 30, "text": "The cabinet is locked. You have something to pry it open, don't you?" },
+      { "delay": 60, "text": "USE crowbar on the cabinet. The keycard is inside." },
+      { "delay": 90, "text": "Pry it open with the crowbar. Take the restricted keycard." }
+    ],
+    "bio-lab": [
+      { "delay": 30, "text": "The sonar device might be useful in a room full of sonar screens." },
+      { "delay": 60, "text": "Take the sonar ping device, go north to the sonar room." },
+      { "delay": 90, "text": "Go north, USE sonar device on the sonar panel to get the maintenance key." }
+    ],
+    "sonar-room": [
+      { "delay": 30, "text": "That maintenance key is stuck in the panel. The sonar device could trigger the release." },
+      { "delay": 60, "text": "USE sonar ping device on the sonar panel to extract the maintenance override key." },
+      { "delay": 90, "text": "Activate the sonar device on the panel. The key will pop out. Then use it on the engineering door." }
+    ],
+    "engineering-bay": [
+      { "delay": 30, "text": "Oxygen and a circuit board—these look essential for the airlock. Grab them and proceed north." },
+      { "delay": 60, "text": "Collect the oxygen canister and airlock circuit, then head north to the airlock." },
+      { "delay": 90, "text": "Pick up both items, go north to airlock, USE them on the console to escape." }
+    ],
+    "airlock": [
+      { "delay": 30, "text": "The console is waiting for an oxygen supply and a circuit. Do you have both?" },
+      { "delay": 60, "text": "USE airlock circuit and oxygen canister on the console to power the escape pod." },
+      { "delay": 90, "text": "Insert the circuit board and connect the oxygen. The hatch cycles open. You're free." }
+    ]
+  },
+  "winCondition": {
+    "scene": "airlock",
+    "requires": [
+      "oxygen-canister",
+      "airlock-circuit"
+    ],
+    "description": "Install the airlock circuit and oxygen canister to power the escape pod and leave the station."
+  }
+};
+
+// ============================================================
+// GAME ART
+const GAME_ART = {
+  "docking-bay": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Deep sea dark blue -->\n  <rect width=\"640\" height=\"400\" fill=\"#000033\"/>\n  \n  <!-- Water level -->\n  <rect x=\"0\" y=\"200\" width=\"640\" height=\"200\" fill=\"#000066\" opacity=\"0.3\"/>\n  \n  <!-- Water details -->\n  <path d=\"M0,200 Q160,180 320,200 T640,200\" stroke=\"#003366\" stroke-width=\"1\" fill=\"none\"/>\n  \n  <!-- Emergency lights (red strobes) -->\n  <rect x=\"50\" y=\"50\" width=\"20\" height=\"80\" fill=\"#8B0000\"/>\n  <rect x=\"200\" y=\"30\" width=\"20\" height=\"100\" fill=\"#8B0000\"/>\n  <rect x=\"350\" y=\"70\" width=\"20\" height=\"60\" fill=\"#8B0000\"/>\n  <rect x=\"500\" y=\"40\" width=\"20\" height=\"90\" fill=\"#8B0000\"/>\n  \n  <!-- Ceiling details -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"20\" fill=\"#000011\"/>\n  <line x1=\"0\" y1=\"10\" x2=\"640\" y2=\"10\" stroke=\"#000022\" stroke-width=\"1\"/>\n  \n  <!-- Left wall - maintenance locker -->\n  <rect x=\"50\" y=\"150\" width=\"100\" height=\"100\" fill=\"#000022\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <line x1=\"50\" y1=\"180\" x2=\"150\" y2=\"180\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <line x1=\"50\" y1=\"210\" x2=\"150\" y2=\"210\" stroke=\"#003366\" stroke-width=\"1\"/>\n  \n  <!-- Scattered tools -->\n  <rect x=\"70\" y=\"220\" width=\"20\" height=\"5\" fill=\"#666666\"/>\n  <rect x=\"90\" y=\"200\" width=\"5\" height=\"25\" fill=\"#666666\"/>\n  <rect x=\"110\" y=\"210\" width=\"15\" height=\"3\" fill=\"#666666\"/>\n  \n  <!-- Crowbar in water -->\n  <rect x=\"120\" y=\"230\" width=\"30\" height=\"4\" fill=\"#8B8B83\"/>\n  <rect x=\"145\" y=\"225\" width=\"4\" height=\"10\" fill=\"#8B8B83\"/>\n  \n  <!-- Right side - Crew Quarters sign -->\n  <rect x=\"400\" y=\"100\" width=\"80\" height=\"20\" fill=\"#000022\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <text x=\"410\" y=\"115\" font-family=\"monospace\" font-size=\"8\" fill=\"#00FF00\">CREW</text>\n  <text x=\"410\" y=\"125\" font-family=\"monospace\" font-size=\"8\" fill=\"#00FF00\">QUARTERS</text>\n  \n  <!-- Bio-Lab door -->\n  <rect x=\"500\" y=\"150\" width=\"60\" height=\"100\" fill=\"#000011\" stroke=\"#FF0000\" stroke-width=\"2\"/>\n  <rect x=\"520\" y=\"180\" width=\"20\" height=\"20\" fill=\"#FF0000\"/>\n  <text x=\"525\" y=\"195\" font-family=\"monospace\" font-size=\"6\" fill=\"#000000\">RESTRICTED</text>\n  \n  <!-- Water ripples -->\n  <circle cx=\"200\" cy=\"250\" radius=\"10\" fill=\"none\" stroke=\"#0066CC\" stroke-width=\"1\"/>\n  <circle cx=\"400\" cy=\"300\" radius=\"15\" fill=\"none\" stroke=\"#0066CC\" stroke-width=\"1\"/>\n  \n  <!-- Floor details -->\n  <rect x=\"0\" y=\"380\" width=\"640\" height=\"20\" fill=\"#000011\"/>\n</svg>",
+  "crew-quarters": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Warmer, sickly tones -->\n  <rect width=\"640\" height=\"400\" fill=\"#110000\"/>\n  \n  <!-- Ceiling with flickering light -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"30\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"15\" width=\"40\" height=\"20\" fill=\"#FFFF00\" opacity=\"0.7\"/>\n  <line x1=\"0\" y1=\"30\" x2=\"640\" y2=\"30\" stroke=\"#220000\" stroke-width=\"1\"/>\n  \n  <!-- Left wall - bunks and lockers -->\n  <rect x=\"20\" y=\"50\" width=\"100\" height=\"60\" fill=\"#000011\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"120\" width=\"100\" height=\"60\" fill=\"#000011\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"80\" x2=\"120\" y2=\"80\" stroke=\"#220000\" stroke-width=\"1\" stroke-dasharray=\"2,2\"/>\n  <line x1=\"20\" y1=\"100\" x2=\"120\" y2=\"100\" stroke=\"#220000\" stroke-width=\"1\" stroke-dasharray=\"2,2\"/>\n  <line x1=\"20\" y1=\"150\" x2=\"120\" y2=\"150\" stroke=\"#220000\" stroke-width=\"1\" stroke-dasharray=\"2,2\"/>\n  <line x1=\"20\" y1=\"170\" x2=\"120\" y2=\"170\" stroke=\"#220000\" stroke-width=\"1\" stroke-dasharray=\"2,2\"/>\n  \n  <!-- Scattered items on floor -->\n  <rect x=\"30\" y=\"180\" width=\"20\" height=\"5\" fill=\"#666666\"/>\n  <rect x=\"60\" y=\"170\" width=\"15\" height=\"3\" fill=\"#666666\"/>\n  <rect x=\"80\" y=\"190\" width=\"10\" height=\"2\" fill=\"#666666\"/>\n  \n  <!-- Right side - Locked cabinet -->\n  <rect x=\"480\" y=\"80\" width=\"80\" height=\"120\" fill=\"#000022\" stroke=\"#220000\" stroke-width=\"3\"/>\n  <rect x=\"500\" y=\"100\" width=\"40\" height=\"20\" fill=\"#4A4A4A\"/>\n  <rect x=\"520\" y=\"130\" width=\"20\" height=\"10\" fill=\"#8B0000\"/>\n  <line x1=\"480\" y1=\"140\" x2=\"560\" y2=\"140\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <text x=\"490\" y=\"155\" font-family=\"monospace\" font-size=\"6\" fill=\"#00FF00\">RESTRICTED</text>\n  <text x=\"490\" y=\"165\" font-family=\"monospace\" font-size=\"6\" fill=\"#00FF00\">EQUIPMENT</text>\n  \n  <!-- Desk and terminal -->\n  <rect x=\"200\" y=\"200\" width=\"180\" height=\"20\" fill=\"#000011\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <rect x=\"210\" y=\"210\" width=\"160\" height=\"10\" fill=\"#000000\"/>\n  <text x=\"220\" y=\"218\" font-family=\"monospace\" font-size=\"6\" fill=\"#00FF00\">...</text>\n  <text x=\"220\" y=\"226\" font-family=\"monospace\" font-size=\"6\" fill=\"#00FF00\">BREACH</text>\n  <text x=\"220\" y=\"234\" font-family=\"monospace\" font-size=\"6\" fill=\"#00FF00\">THORNE</text>\n  \n  <!-- Porthole -->\n  <circle cx=\"550\" cy=\"300\" radius=\"40\" fill=\"#000022\" stroke=\"#220000\" stroke-width=\"3\"/>\n  <circle cx=\"550\" cy=\"300\" radius=\"30\" fill=\"#000000\"/>\n  <path d=\"M550,260 Q570,280 550,300 Q530,280 550,260 Z\" fill=\"#001100\" opacity=\"0.5\"/>\n  \n  <!-- Shadows in corners -->\n  <rect x=\"0\" y=\"350\" width=\"60\" height=\"50\" fill=\"#000000\" opacity=\"0.5\"/>\n  <rect x=\"580\" y=\"350\" width=\"60\" height=\"50\" fill=\"#000000\" opacity=\"0.5\"/>\n  \n  <!-- Floor details -->\n  <rect x=\"0\" y=\"380\" width=\"640\" height=\"20\" fill=\"#000011\"/>\n  \n  <!-- Mold details on desk -->\n  <ellipse cx=\"250\" cy=\"205\" radius=\"8\" radiusY=\"3\" fill=\"#006600\" opacity=\"0.3\"/>\n  <ellipse cx=\"270\" cy=\"205\" radius=\"6\" radiusY=\"2\" fill=\"#006600\" opacity=\"0.3\"/>\n</svg>",
+  "bio-lab": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Cold, sterile environment -->\n  <rect width=\"640\" height=\"400\" fill=\"#000022\"/>\n  \n  <!-- Ceiling with mist -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"30\" fill=\"#000011\"/>\n  <ellipse cx=\"320\" cy=\"20\" rx=\"300\" ry=\"20\" fill=\"#003366\" opacity=\"0.1\"/>\n  \n  <!-- Left wall - Specimen tanks -->\n  <rect x=\"30\" y=\"60\" width=\"60\" height=\"120\" fill=\"#000033\" stroke=\"#0066CC\" stroke-width=\"2\"/>\n  <rect x=\"30\" y=\"60\" width=\"60\" height=\"120\" fill=\"#003366\" opacity=\"0.3\"/>\n  <ellipse cx=\"60\" cy=\"120\" rx=\"15\" ry=\"30\" fill=\"#00FF00\" opacity=\"0.2\"/>\n  \n  <rect x=\"110\" y=\"60\" width=\"60\" height=\"120\" fill=\"#000033\" stroke=\"#0066CC\" stroke-width=\"2\"/>\n  <rect x=\"110\" y=\"60\" width=\"60\" height=\"120\" fill=\"#003366\" opacity=\"0.3\"/>\n  <ellipse cx=\"140\" cy=\"100\" rx=\"10\" ry=\"20\" fill=\"#00FF00\" opacity=\"0.2\"/>\n  \n  <!-- Right wall - More tanks -->\n  <rect x=\"450\" y=\"60\" width=\"60\" height=\"120\" fill=\"#000033\" stroke=\"#0066CC\" stroke-width=\"2\"/>\n  <rect x=\"450\" y=\"60\" width=\"60\" height=\"120\" fill=\"#003366\" opacity=\"0.3\"/>\n  <ellipse cx=\"480\" cy=\"110\" rx=\"12\" ry=\"25\" fill=\"#00FF00\" opacity=\"0.2\"/>\n  \n  <rect x=\"530\" y=\"60\" width=\"60\" height=\"120\" fill=\"#000033\" stroke=\"#0066CC\" stroke-width=\"2\"/>\n  <rect x=\"530\" y=\"60\" width=\"60\" height=\"120\" fill=\"#003366\" opacity=\"0.3\"/>\n  <ellipse cx=\"560\" cy=\"130\" rx=\"18\" ry=\"35\" fill=\"#00FF00\" opacity=\"0.2\"/>\n  \n  <!-- Center - Cracked tank -->\n  <rect x=\"240\" y=\"80\" width=\"160\" height=\"100\" fill=\"#000033\" stroke=\"#0066CC\" stroke-width=\"2\"/>\n  <line x1=\"260\" y1=\"80\" x2=\"280\" y2=\"180\" stroke=\"#0066CC\" stroke-width=\"3\"/>\n  <line x1=\"280\" y1=\"80\" x2=\"300\" y2=\"160\" stroke=\"#0066CC\" stroke-width=\"2\"/>\n  <rect x=\"240\" y=\"180\" width=\"160\" height=\"20\" fill=\"#003366\" opacity=\"0.5\"/>\n  \n  <!-- Fluid on floor -->\n  <path d=\"M240,200 Q320,220 400,200 Q380,240 240,200\" fill=\"#00FF00\" opacity=\"0.1\"/>\n  \n  <!-- Workstations -->\n  <rect x=\"100\" y=\"220\" width=\"120\" height=\"40\" fill=\"#000022\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <ellipse cx=\"160\" cy=\"210\" rx=\"15\" ry=\"8\" fill=\"#000033\" stroke=\"#220000\" stroke-width=\"1\"/>\n  <rect x=\"140\" y=\"230\" width=\"40\" height=\"20\" fill=\"#000033\" stroke=\"#220000\" stroke-width=\"1\"/>\n  \n  <!-- Sonar ping device -->\n  <rect x=\"250\" y=\"240\" width=\"40\" height=\"20\" fill=\"#4A4A4A\" stroke=\"#220000\" stroke-width=\"1\"/>\n  <rect x=\"260\" y=\"245\" width=\"20\" height=\"10\" fill=\"#000000\"/>\n  <circle cx=\"270\" cy=\"250\" r=\"3\" fill=\"#00FF00\" opacity=\"0.5\"/>\n  \n  <!-- Door panel -->\n  <rect x=\"500\" y=\"250\" width=\"60\" height=\"40\" fill=\"#000022\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <rect x=\"520\" y=\"260\" width=\"20\" height=\"20\" fill=\"#00FF00\" opacity=\"0.3\"/>\n  \n  <!-- Floor details -->\n  <rect x=\"0\" y=\"380\" width=\"640\" height=\"20\" fill=\"#000011\"/>\n  \n  <!-- Dripping condensation -->\n  <line x1=\"100\" y1=\"30\" x2=\"100\" y2=\"50\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <line x1=\"300\" y1=\"30\" x2=\"300\" y2=\"60\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <line x1=\"500\" y1=\"30\" x2=\"500\" y2=\"40\" stroke=\"#003366\" stroke-width=\"1\"/>\n</svg>",
+  "sonar-room": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark electronics room -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Ceiling -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"20\" fill=\"#000011\"/>\n  \n  <!-- Left wall - Monitor bank -->\n  <rect x=\"20\" y=\"50\" width=\"120\" height=\"80\" fill=\"#000000\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <rect x=\"25\" y=\"55\" width=\"110\" height=\"70\" fill=\"#000022\"/>\n  <line x1=\"30\" y1=\"60\" x2=\"130\" y2=\"60\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"30\" y1=\"70\" x2=\"130\" y2=\"70\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"30\" y1=\"80\" x2=\"130\" y2=\"80\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"30\" y1=\"90\" x2=\"130\" y2=\"90\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"30\" y1=\"100\" x2=\"130\" y2=\"100\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"30\" y1=\"110\" x2=\"130\" y2=\"110\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"30\" y1=\"120\" x2=\"130\" y2=\"120\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  \n  <rect x=\"20\" y=\"150\" width=\"120\" height=\"80\" fill=\"#000000\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <rect x=\"25\" y=\"155\" width=\"110\" height=\"70\" fill=\"#000022\"/>\n  <circle cx=\"80\" cy=\"190\" r=\"20\" fill=\"#00FF00\" opacity=\"0.1\"/>\n  <line x1=\"60\" y1=\"190\" x2=\"100\" y2=\"190\" stroke=\"#00FF00\" stroke-width=\"2\"/>\n  \n  <!-- Center - Console -->\n  <rect x=\"200\" y=\"200\" width=\"240\" height=\"100\" fill=\"#000022\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <rect x=\"210\" y=\"210\" width=\"220\" height=\"80\" fill=\"#000011\"/>\n  \n  <!-- Console dials and switches -->\n  <circle cx=\"240\" cy=\"250\" r=\"15\" fill=\"#000000\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <circle cx=\"280\" cy=\"250\" r=\"15\" fill=\"#000000\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <circle cx=\"320\" cy=\"250\" r=\"15\" fill=\"#000000\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <rect x=\"350\" y=\"240\" width=\"30\" height=\"20\" fill=\"#000000\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <rect x=\"390\" y=\"240\" width=\"30\" height=\"20\" fill=\"#000000\" stroke=\"#003366\" stroke-width=\"1\"/>\n  \n  <!-- Open panel with wires -->\n  <rect x=\"210\" y=\"280\" width=\"80\" height=\"20\" fill=\"#000000\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <line x1=\"220\" y1=\"285\" x2=\"220\" y2=\"295\" stroke=\"#FF0000\" stroke-width=\"2\"/>\n  <line x1=\"240\" y1=\"285\" x2=\"240\" y2=\"295\" stroke=\"#00FF00\" stroke-width=\"2\"/>\n  <line x1=\"260\" y1=\"285\" x2=\"260\" y2=\"295\" stroke=\"#0000FF\" stroke-width=\"2\"/>\n  <line x1=\"280\" y1=\"285\" x2=\"280\" y2=\"295\" stroke=\"#FFFF00\" stroke-width=\"2\"/>\n  \n  <!-- Large sonar screen -->\n  <rect x=\"450\" y=\"50\" width=\"160\" height=\"120\" fill=\"#000000\" stroke=\"#003366\" stroke-width=\"3\"/>\n  <rect x=\"455\" y=\"55\" width=\"150\" height=\"110\" fill=\"#000022\"/>\n  <circle cx=\"530\" cy=\"110\" r=\"40\" fill=\"none\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <circle cx=\"530\" cy=\"110\" r=\"30\" fill=\"none\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <circle cx=\"530\" cy=\"110\" r=\"20\" fill=\"none\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <circle cx=\"530\" cy=\"110\" r=\"10\" fill=\"#00FF00\" opacity=\"0.5\"/>\n  \n  <!-- Shadow on sonar -->\n  <path d=\"M500,80 Q520,60 540,80 Q560,100 540,120 Q520,140 500,120 Q480,100 500,80\" fill=\"#000000\" opacity=\"0.7\"/>\n  \n  <!-- Clipboard -->\n  <rect x=\"480\" y=\"200\" width=\"40\" height=\"60\" fill=\"#000022\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <line x1=\"485\" y1=\"210\" x2=\"515\" y2=\"210\" stroke=\"#00FF00\" stroke-width=\"1\"/>\n  <line x1=\"485\" y1=\"220\" x2=\"515\" y2=\"220\" stroke=\"#00FF00\" stroke-width=\"1\"/>\n  <line x1=\"485\" y1=\"230\" x2=\"515\" y2=\"230\" stroke=\"#00FF00\" stroke-width=\"1\"/>\n  \n  <!-- Engineering door -->\n  <rect x=\"500\" y=\"300\" width=\"60\" height=\"80\" fill=\"#000022\" stroke=\"#FF0000\" stroke-width=\"3\"/>\n  <rect x=\"520\" y=\"320\" width=\"20\" height=\"20\" fill=\"#FF0000\" opacity=\"0.5\"/>\n  <text x=\"510\" y=\"355\" font-family=\"monospace\" font-size=\"6\" fill=\"#FF0000\">ENGINEERING</text>\n  \n  <!-- Floor details -->\n  <rect x=\"0\" y=\"380\" width=\"640\" height=\"20\" fill=\"#000011\"/>\n</svg>",
+  "engineering-bay": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Industrial mechanical space -->\n  <rect width=\"640\" height=\"400\" fill=\"#000011\"/>\n  \n  <!-- Ceiling with pipes -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"30\" fill=\"#000000\"/>\n  <rect x=\"0\" y=\"30\" width=\"640\" height=\"5\" fill=\"#222222\"/>\n  <rect x=\"0\" y=\"35\" width=\"640\" height=\"3\" fill=\"#333333\"/>\n  <rect x=\"0\" y=\"38\" width=\"640\" height=\"2\" fill=\"#444444\"/>\n  \n  <!-- Steam/steam tendrils -->\n  <path d=\"M100,40 Q110,80 100,120 Q90,160 100,200\" stroke=\"#666666\" stroke-width=\"1\" fill=\"none\" opacity=\"0.3\"/>\n  <path d=\"M200,40 Q210,70 200,100 Q190,130 200,160\" stroke=\"#666666\" stroke-width=\"1\" fill=\"none\" opacity=\"0.3\"/>\n  <path d=\"M400,40 Q410,90 400,140 Q390,190 400,240\" stroke=\"#666666\" stroke-width=\"1\" fill=\"none\" opacity=\"0.3\"/>\n  <path d=\"M500,40 Q510,60 500,80 Q490,100 500,120\" stroke=\"#666666\" stroke-width=\"1\" fill=\"none\" opacity=\"0.3\"/>\n  \n  <!-- Central pressure valve -->\n  <circle cx=\"320\" cy=\"200\" r=\"60\" fill=\"#000022\" stroke=\"#222222\" stroke-width=\"4\"/>\n  <circle cx=\"320\" cy=\"200\" r=\"50\" fill=\"#000011\" stroke=\"#333333\" stroke-width=\"2\"/>\n  <line x1=\"320\" y1=\"150\" x2=\"320\" y2=\"250\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <line x1=\"270\" y1=\"200\" x2=\"370\" y2=\"200\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <rect x=\"310\" y=\"140\" width=\"20\" height=\"20\" fill=\"#4A4A4A\"/>\n  \n  <!-- Oxygen canister -->\n  <rect x=\"500\" y=\"150\" width=\"40\" height=\"100\" fill=\"#000022\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <rect x=\"510\" y=\"160\" width=\"20\" height=\"10\" fill=\"#00FF00\" opacity=\"0.5\"/>\n  <line x1=\"500\" y1=\"200\" x2=\"540\" y2=\"200\" stroke=\"#222222\" stroke-width=\"1\"/>\n  <line x1=\"500\" y1=\"220\" x2=\"540\" y2=\"220\" stroke=\"#222222\" stroke-width=\"1\"/>\n  <rect x=\"515\" y=\"250\" width=\"10\" height=\"5\" fill=\"#00FF00\"/>\n  \n  <!-- Workbench -->\n  <rect x=\"100\" y=\"280\" width=\"180\" height=\"60\" fill=\"#000022\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <rect x=\"110\" y=\"290\" width=\"160\" height=\"40\" fill=\"#000011\"/>\n  \n  <!-- Tools and components on workbench -->\n  <rect x=\"120\" y=\"295\" width=\"15\" height=\"5\" fill=\"#666666\"/>\n  <rect x=\"140\" y=\"295\" width=\"10\" height=\"8\" fill=\"#666666\"/>\n  <rect x=\"160\" y=\"295\" width=\"20\" height=\"5\" fill=\"#4A4A4A\"/>\n  <rect x=\"190\" y=\"295\" width=\"15\" height=\"10\" fill=\"#000022\" stroke=\"#222222\" stroke-width=\"1\"/>\n  <rect x=\"220\" y=\"295\" width=\"10\" height=\"5\" fill=\"#666666\"/>\n  <rect x=\"240\" y=\"295\" width=\"20\" height=\"10\" fill=\"#000022\" stroke=\"#222222\" stroke-width=\"1\"/>\n  \n  <!-- Generator casings -->\n  <rect x=\"20\" y=\"100\" width=\"80\" height=\"120\" fill=\"#000022\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <rect x=\"30\" y=\"110\" width=\"60\" height=\"20\" fill=\"#000011\"/>\n  <rect x=\"30\" y=\"140\" width=\"60\" height=\"20\" fill=\"#000011\"/>\n  <rect x=\"30\" y=\"170\" width=\"60\" height=\"20\" fill=\"#000011\"/>\n  \n  <rect x=\"540\" y=\"100\" width=\"80\" height=\"120\" fill=\"#000022\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <rect x=\"550\" y=\"110\" width=\"60\" height=\"20\" fill=\"#000011\"/>\n  <rect x=\"550\" y=\"140\" width=\"60\" height=\"20\" fill=\"#000011\"/>\n  <rect x=\"550\" y=\"170\" width=\"60\" height=\"20\" fill=\"#000011\"/>\n  \n  <!-- Viewport to abyss -->\n  <rect x=\"350\" y=\"100\" width=\"120\" height=\"80\" fill=\"#000000\" stroke=\"#222222\" stroke-width=\"3\"/>\n  <rect x=\"355\" y=\"105\" width=\"110\" height=\"70\" fill=\"#000000\"/>\n  <path d=\"M380,140 Q400,120 420,140 Q440,160 420,180 Q400,200 380,180 Q360,160 380,140\" fill=\"#001100\" opacity=\"0.5\"/>\n  \n  <!-- Airlock hatch -->\n  <rect x=\"20\" y=\"320\" width=\"60\" height=\"60\" fill=\"#000022\" stroke=\"#FF0000\" stroke-width=\"3\"/>\n  <circle cx=\"50\" cy=\"350\" r=\"15\" fill=\"#000000\" stroke=\"#FF0000\" stroke-width=\"2\"/>\n  <text x=\"30\" y=\"395\" font-family=\"monospace\" font-size=\"6\" fill=\"#FF0000\">AIRLOCK</text>\n  \n  <!-- Floor details -->\n  <rect x=\"0\" y=\"380\" width=\"640\" height=\"20\" fill=\"#000011\"/>\n</svg>",
+  "airlock": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Cylindrical chamber -->\n  <rect width=\"640\" height=\"400\" fill=\"#000011\"/>\n  \n  <!-- Curved walls of airlock -->\n  <path d=\"M0,0 Q320,50 640,0 L640,400 Q320,350 0,400 Z\" fill=\"#000022\" stroke=\"#003366\" stroke-width=\"2\"/>\n  \n  <!-- Inner hatch (behind) -->\n  <rect x=\"280\" y=\"350\" width=\"80\" height=\"50\" fill=\"#000022\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"320\" cy=\"375\" r=\"15\" fill=\"#000000\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <text x=\"290\" y=\"395\" font-family=\"monospace\" font-size=\"6\" fill=\"#222222\">INNER</text>\n  \n  <!-- Control console -->\n  <rect x=\"200\" y=\"200\" width=\"240\" height=\"80\" fill=\"#000022\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <rect x=\"210\" y=\"210\" width=\"220\" height=\"60\" fill=\"#000011\"/>\n  \n  <!-- Dark screens -->\n  <rect x=\"220\" y=\"220\" width=\"80\" height=\"40\" fill=\"#000000\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <rect x=\"320\" y=\"220\" width=\"80\" height=\"40\" fill=\"#000000\" stroke=\"#003366\" stroke-width=\"1\"/>\n  \n  <!-- Circuit board slot -->\n  <rect x=\"230\" y=\"250\" width=\"60\" height=\"15\" fill=\"#000000\" stroke=\"#00FF00\" stroke-width=\"1\"/>\n  <text x=\"235\" y=\"260\" font-family=\"monospace\" font-size=\"5\" fill=\"#00FF00\">CIRCUIT</text>\n  \n  <!-- Oxygen canister receptacle -->\n  <rect x=\"340\" y=\"250\" width=\"50\" height=\"20\" fill=\"#000000\" stroke=\"#00FF00\" stroke-width=\"1\"/>\n  <text x=\"345\" y=\"263\" font-family=\"monospace\" font-size=\"5\" fill=\"#00FF00\">O2</text>\n  \n  <!-- Lockers -->\n  <rect x=\"20\" y=\"100\" width=\"80\" height=\"150\" fill=\"#000022\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"150\" x2=\"100\" y2=\"150\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"200\" x2=\"100\" y2=\"200\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"110\" width=\"60\" height=\"30\" fill=\"#000011\"/>\n  <rect x=\"30\" y=\"160\" width=\"60\" height=\"30\" fill=\"#000011\"/>\n  <rect x=\"30\" y=\"210\" width=\"60\" height=\"30\" fill=\"#000011\"/>\n  \n  <rect x=\"540\" y=\"100\" width=\"80\" height=\"150\" fill=\"#000022\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <line x1=\"540\" y1=\"150\" x2=\"620\" y2=\"150\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <line x1=\"540\" y1=\"200\" x2=\"620\" y2=\"200\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <rect x=\"550\" y=\"110\" width=\"60\" height=\"30\" fill=\"#000011\"/>\n  <rect x=\"550\" y=\"160\" width=\"60\" height=\"30\" fill=\"#000011\"/>\n  <rect x=\"550\" y=\"210\" width=\"60\" height=\"30\" fill=\"#000011\"/>\n  \n  <!-- Torn emergency suit -->\n  <path d=\"M50,300 Q60,280 70,300 Q80,320 70,340 Q60,360 50,340 Q40,320 50,300\" fill=\"#000022\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <line x1=\"55\" y1=\"310\" x2=\"65\" y2=\"330\" stroke=\"#FF0000\" stroke-width=\"2\"/>\n  \n  <!-- Outer hatch (main viewport) -->\n  <circle cx=\"320\" cy=\"120\" r=\"80\" fill=\"#000000\" stroke=\"#003366\" stroke-width=\"4\"/>\n  <circle cx=\"320\" cy=\"120\" r=\"70\" fill=\"#000000\"/>\n  \n  <!-- Bioluminescence outside -->\n  <circle cx=\"280\" cy=\"100\" r=\"5\" fill=\"#00FF00\" opacity=\"0.3\"/>\n  <circle cx=\"350\" cy=\"130\" r=\"3\" fill=\"#00FF00\" opacity=\"0.2\"/>\n  <circle cx=\"300\" cy=\"150\" r=\"4\" fill=\"#00FF00\" opacity=\"0.4\"/>\n  <circle cx=\"340\" cy=\"80\" r=\"2\" fill=\"#00FF00\" opacity=\"0.2\"/>\n  \n  <!-- Shape pressing against glass -->\n  <path d=\"M250,120 Q270,100 290,120 Q310,140 290,160 Q270,180 250,160 Q230,140 250,120\" fill=\"#001100\" opacity=\"0.5\"/>\n  \n  <!-- Floor details -->\n  <rect x=\"0\" y=\"380\" width=\"640\" height=\"20\" fill=\"#000011\"/>\n</svg>",
+  "crowbar": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Crowbar - heavy steel tool -->\n  <rect x=\"10\" y=\"28\" width=\"44\" height=\"8\" fill=\"#8B8B83\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"50\" y=\"26\" width=\"6\" height=\"12\" fill=\"#8B8B83\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"10\" y1=\"32\" x2=\"52\" y2=\"32\" stroke=\"#666666\" stroke-width=\"1\"/>\n  <line x1=\"10\" y1=\"34\" x2=\"52\" y2=\"34\" stroke=\"#666666\" stroke-width=\"1\"/>\n  <!-- Rust and salt texture -->\n  <rect x=\"15\" y=\"29\" width=\"8\" height=\"2\" fill=\"#8B4513\" opacity=\"0.5\"/>\n  <rect x=\"30\" y=\"31\" width=\"6\" height=\"2\" fill=\"#8B4513\" opacity=\"0.5\"/>\n  <rect x=\"40\" y=\"29\" width=\"5\" height=\"3\" fill=\"#FFFFFF\" opacity=\"0.2\"/>\n</svg>",
+  "restricted-keycard": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Restricted Keycard -->\n  <rect x=\"10\" y=\"16\" width=\"44\" height=\"32\" fill=\"#000080\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"16\" width=\"44\" height=\"8\" fill=\"#000060\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"15\" y=\"28\" width=\"34\" height=\"16\" fill=\"#000080\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Magnetic strip -->\n  <rect x=\"15\" y=\"28\" width=\"34\" height=\"4\" fill=\"#000000\"/>\n  <!-- Text -->\n  <text x=\"18\" y=\"40\" font-family=\"monospace\" font-size=\"5\" fill=\"#FFFFFF\">BIO-LAB</text>\n  <text x=\"18\" y=\"48\" font-family=\"monospace\" font-size=\"5\" fill=\"#FFFFFF\">ACCESS L3</text>\n  <!-- Faded effect -->\n  <rect x=\"10\" y=\"16\" width=\"44\" height=\"32\" fill=\"#FFFFFF\" opacity=\"0.1\"/>\n</svg>",
+  "sonar-ping-device": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Sonar Ping Device -->\n  <rect x=\"14\" y=\"12\" width=\"36\" height=\"40\" fill=\"#4A4A4A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"16\" y=\"14\" width=\"32\" height=\"20\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Cracked screen -->\n  <line x1=\"20\" y1=\"18\" x2=\"30\" y2=\"28\" stroke=\"#666666\" stroke-width=\"1\"/>\n  <line x1=\"30\" y1=\"18\" x2=\"20\" y2=\"28\" stroke=\"#666666\" stroke-width=\"1\"/>\n  <!-- Ping indicator -->\n  <circle cx=\"32\" cy=\"44\" r=\"8\" fill=\"#00FF00\" opacity=\"0.3\"/>\n  <circle cx=\"32\" cy=\"44\" r=\"5\" fill=\"#00FF00\" opacity=\"0.2\"/>\n  <circle cx=\"32\" cy=\"44\" r=\"2\" fill=\"#00FF00\" opacity=\"0.5\"/>\n  <!-- Buttons -->\n  <rect x=\"18\" y=\"40\" width=\"10\" height=\"6\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"36\" y=\"40\" width=\"10\" height=\"6\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
+  "maintenance-override-key": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Maintenance Override Key -->\n  <rect x=\"16\" y=\"12\" width=\"32\" height=\"20\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"16\" width=\"24\" height=\"12\" fill=\"#A0522D\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Key shaft -->\n  <rect x=\"28\" y=\"32\" width=\"8\" height=\"20\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Key teeth -->\n  <rect x=\"24\" y=\"48\" width=\"6\" height=\"6\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"34\" y=\"44\" width=\"6\" height=\"10\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Text -->\n  <text x=\"18\" y=\"26\" font-family=\"monospace\" font-size=\"4\" fill=\"#FFFFFF\">ENGINEERING</text>\n  <text x=\"22\" y=\"32\" font-family=\"monospace\" font-size=\"4\" fill=\"#FFFFFF\">OVERRIDE</text>\n</svg>",
+  "oxygen-canister": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Oxygen Canister -->\n  <rect x=\"20\" y=\"8\" width=\"24\" height=\"48\" fill=\"#2E8B57\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"22\" y=\"10\" width=\"20\" height=\"44\" fill=\"#3CB371\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Gauge -->\n  <circle cx=\"32\" cy=\"25\" r=\"8\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"32\" cy=\"25\" r=\"6\" fill=\"#000000\"/>\n  <!-- Half-full indicator -->\n  <path d=\"M26,25 A6,6 0 0,1 38,25 L38,28 A6,6 0 0,1 26,28 Z\" fill=\"#00FF00\" opacity=\"0.7\"/>\n  <!-- Valve -->\n  <rect x=\"26\" y=\"4\" width=\"12\" height=\"6\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"28\" y=\"2\" width=\"8\" height=\"4\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Hiss lines -->\n  <line x1=\"28\" y1=\"56\" x2=\"28\" y2=\"60\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"32\" y1=\"58\" x2=\"32\" y2=\"62\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.2\"/>\n  <line x1=\"36\" y1=\"56\" x2=\"36\" y2=\"60\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n</svg>",
+  "airlock-circuit": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Airlock Circuit -->\n  <rect x=\"8\" y=\"16\" width=\"48\" height=\"32\" fill=\"#006400\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Circuit traces -->\n  <line x1=\"12\" y1=\"20\" x2=\"20\" y2=\"20\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"20\" y2=\"30\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"30\" x2=\"30\" y2=\"30\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <line x1=\"30\" y1=\"30\" x2=\"30\" y2=\"40\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <line x1=\"30\" y1=\"40\" x2=\"40\" y2=\"40\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <line x1=\"40\" y1=\"40\" x2=\"40\" y2=\"20\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <line x1=\"40\" y1=\"20\" x2=\"52\" y2=\"20\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <!-- Components -->\n  <rect x=\"22\" y=\"22\" width=\"8\" height=\"6\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"32\" y=\"32\" width=\"8\" height=\"6\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"44\" cy=\"30\" r=\"4\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Unstable power glow -->\n  <circle cx=\"32\" cy=\"32\" r=\"15\" fill=\"#00FF00\" opacity=\"0.1\"/>\n  <circle cx=\"32\" cy=\"32\" r=\"10\" fill=\"#00FF00\" opacity=\"0.05\"/>\n  <!-- Edge connectors -->\n  <rect x=\"10\" y=\"46\" width=\"6\" height=\"4\" fill=\"#FFD700\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"20\" y=\"46\" width=\"6\" height=\"4\" fill=\"#FFD700\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"46\" width=\"6\" height=\"4\" fill=\"#FFD700\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"40\" y=\"46\" width=\"6\" height=\"4\" fill=\"#FFD700\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>"
+};
+
+// ============================================================
+// GAME LOGIC
+// ============================================================
+// PRESSURE POINT - GAME LOGIC
+// Gameplay Coder: Hex Corbin
+// ============================================================
+
+// Game data will be embedded here by the Game Assembler
+const GAME_DATA = {}; // Replace with actual game-script.json contents
+
+// ---- Game State ----
+const state = {
+  currentScene: 'docking-bay',
+  inventory: [],
+  solvedPuzzles: [],
+  visitedScenes: ['docking-bay'],
+  activeCommand: null,
+  selectedItem: null,
+  won: false,
+  hintsEnabled: true,
+  hintTimer: null,
+  hintIndex: 0
+};
+
+// ---- DOM References ----
+const artDisplay = document.getElementById('art-display');
+const sceneName = document.getElementById('scene-name');
+const textDisplay = document.getElementById('text-display');
+const invBar = document.getElementById('inventory-bar');
+const exitsBar = document.getElementById('exits-bar');
+
+// ---- Display Functions ----
+function addText(text, cls = '') {
+  const p = document.createElement('p');
+  p.className = cls;
+  p.innerHTML = text;
+  textDisplay.appendChild(p);
+  textDisplay.scrollTop = textDisplay.scrollHeight;
+}
+
+function clearText() { textDisplay.innerHTML = ''; }
+
+// ---- Hint System ----
+function clearHintTimer() {
+  if (state.hintTimer) { clearTimeout(state.hintTimer); state.hintTimer = null; }
+  state.hintIndex = 0;
+}
+
+function startHintTimer(sceneId) {
+  clearHintTimer();
+  if (!state.hintsEnabled || !GAME_DATA.hints || !GAME_DATA.hints[sceneId]) return;
+  const hints = GAME_DATA.hints[sceneId];
+  if (!hints.length) return;
+  state.hintTimer = setTimeout(() => showHint(sceneId, 0), hints[0].delay * 1000);
+}
+
+function showHint(sceneId, index) {
+  if (!state.hintsEnabled || !GAME_DATA.hints || !GAME_DATA.hints[sceneId]) return;
+  const hints = GAME_DATA.hints[sceneId];
+  if (index >= hints.length) return;
+  const hint = hints[index];
+  addText(`🤔 HINT: ${hint.text}`, 'hint');
+  state.hintIndex = index + 1;
+  if (state.hintIndex < hints.length) {
+    state.hintTimer = setTimeout(() => showHint(sceneId, state.hintIndex), hints[state.hintIndex].delay * 1000);
+  }
+}
+
+function renderScene(sceneId) {
+  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
+  if (!scene) { addText('ERROR: Scene not found!', 'error'); return; }
+
+  clearHintTimer();
+  state.currentScene = sceneId;
+  if (!state.visitedScenes.includes(sceneId)) state.visitedScenes.push(sceneId);
+
+  // Update scene name
+  sceneName.textContent = scene.name.toUpperCase();
+
+  // Update art
+  const artKey = 'scene-' + sceneId.replace('scene-', '');
+  if (window.GAME_ART && window.GAME_ART[artKey]) {
+    artDisplay.innerHTML = window.GAME_ART[artKey];
+  } else {
+    artDisplay.innerHTML = '<span class="no-art">[ ' + scene.name.toUpperCase() + ' ]</span>';
+  }
+
+  // Display prose
+  clearText();
+  addText(scene.prose);
+
+  // Show available items (not yet taken)
+  const availableItems = (scene.items || []).filter(itemId =>
+    !state.inventory.includes(itemId)
+  );
+  if (availableItems.length > 0) {
+    const itemNames = availableItems.map(id => {
+      const item = GAME_DATA.items.find(i => i.id === id);
+      return item ? `<span class="look-target" data-look="${id}">${item.name}</span>` : id;
+    });
+    addText('You notice: ' + itemNames.join(', '), 'system');
+  }
+
+  // Show unsolved puzzles
+  const scenePuzzles = (scene.puzzles || []).filter(pid =>
+    !state.solvedPuzzles.includes(pid)
+  );
+  scenePuzzles.forEach(pid => {
+    const puzzle = GAME_DATA.puzzles.find(p => p.id === pid);
+    if (puzzle) {
+      addText('There is something here that catches your attention...', 'system');
+    }
+  });
+
+  // Render exits with locked exit checking
+  renderExits(scene.exits || {});
+
+  // Render inventory
+  renderInventory();
+
+  // Check win condition
+  checkWin();
+
+  // Start hint timer
+  startHintTimer(sceneId);
+
+  // Save state
+  saveState();
+}
+
+function renderExits(exits) {
+  exitsBar.innerHTML = '';
+  const directions = ['north', 'south', 'east', 'west'];
+  directions.forEach(dir => {
+    // Check if exit is locked by an unsolved puzzle
+    const canGo = canExit(sceneName.textContent.toLowerCase().replace(' ', '-'), dir);
+    
+    const btn = document.createElement('button');
+    btn.className = 'exit-btn' + (exits[dir] && canGo ? ' available' : '');
+    btn.textContent = dir.toUpperCase();
+    btn.disabled = !(exits[dir] && canGo);
+    if (exits[dir] && canGo) {
+      btn.onclick = () => go(exits[dir]);
+    }
+    exitsBar.appendChild(btn);
+  });
+}
+
+function canExit(sceneId, direction) {
+  const exit = GAME_DATA.scenes.find(s => s.id === sceneId)?.exits?.[direction];
+  if (!exit) return false;
+  // Check if any unsolved puzzle blocks this exit
+  const blocker = GAME_DATA.puzzles.find(p =>
+    p.blocksExit?.scene === sceneId &&
+    p.blocksExit?.direction === direction &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+  if (blocker) {
+    addText(`[The way ${direction} is blocked. ${blocker.blockedMessage || 'Something prevents you from going that way.'}]`, 'locked');
+    return false;
+  }
+  return true;
+}
+
+function renderInventory() {
+  const items = invBar.querySelectorAll('.inv-item');
+  items.forEach(el => el.remove());
+  const empty = document.getElementById('inv-empty');
+
+  if (state.inventory.length === 0) {
+    empty.style.display = '';
+  } else {
+    empty.style.display = 'none';
+    state.inventory.forEach(itemId => {
+      const item = GAME_DATA.items.find(i => i.id === itemId);
+      if (!item) return;
+      const el = document.createElement('span');
+      el.className = 'inv-item' + (state.selectedItem === itemId ? ' selected' : '');
+      el.textContent = item.name;
+      el.onclick = () => selectItem(itemId);
+      invBar.appendChild(el);
+    });
+  }
+}
+
+// ---- Command Handlers ----
+function setCommand(cmd) {
+  state.activeCommand = cmd;
+  document.querySelectorAll('.cmd-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.cmd === cmd);
+  });
+  if (cmd === 'look') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    if (scene && scene.lookDescriptions) {
+      const targets = Object.keys(scene.lookDescriptions);
+      if (targets.length > 0) {
+        addText('You can examine: ' + targets.map(t =>
+          `<span class="look-target" data-look="${t}">${t}</span>`
+        ).join(', '), 'system');
+      }
+    }
+  } else if (cmd === 'use') {
+    if (state.inventory.length > 0) {
+      addText('Select an item from your inventory, then click what to use it on.', 'system');
+    } else {
+      addText('You have nothing to use.', 'system');
+    }
+  } else if (cmd === 'take') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    const available = (scene.items || []).filter(id => !state.inventory.includes(id));
+    if (available.length > 0) {
+      available.forEach(id => takeItem(id));
+    } else {
+      addText('Nothing here to take.', 'system');
+    }
+  }
+}
+
+function selectItem(itemId) {
+  state.selectedItem = state.selectedItem === itemId ? null : itemId;
+  renderInventory();
+  if (state.selectedItem) {
+    const item = GAME_DATA.items.find(i => i.id === itemId);
+    addText(`Selected: ${item.name}. Click USE, then a target.`, 'system');
+  }
+}
+
+function takeItem(itemId) {
+  if (state.inventory.includes(itemId)) return;
+  const item = GAME_DATA.items.find(i => i.id === itemId);
+  if (!item) return;
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (!scene || !(scene.items || []).includes(itemId)) return;
+
+  state.inventory.push(itemId);
+  addText(`You picked up: ${item.name} — ${item.description}`, 'success');
+  renderInventory();
+  saveState();
+}
+
+function lookAt(target) {
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (scene && scene.lookDescriptions && scene.lookDescriptions[target]) {
+    addText(scene.lookDescriptions[target]);
+  } else {
+    // Check if it's an item
+    const item = GAME_DATA.items.find(i => i.id === target);
+    if (item) {
+      addText(item.description);
+    } else {
+      addText('Nothing interesting about that.', 'system');
+    }
+  }
+}
+
+function useItemOn(itemId, targetId) {
+  const puzzle = GAME_DATA.puzzles.find(p =>
+    p.scene === state.currentScene &&
+    p.requires.includes(itemId) &&
+    p.id === targetId &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+
+  if (puzzle && puzzle.requires.every(req => state.inventory.includes(req))) {
+    // Apply puzzle solution with visual feedback
+    state.solvedPuzzles.push(puzzle.id);
+    addText(puzzle.result, 'success');
+    
+    // Flash effect for puzzle solved
+    artDisplay.classList.add('puzzle-solved');
+    setTimeout(() => {
+      artDisplay.classList.remove('puzzle-solved');
+    }, 600);
+    
+    // Reveal items or unlock scenes
+    (puzzle.reveals || []).forEach(revealId => {
+      const revealItem = GAME_DATA.items.find(i => i.id === revealId);
+      if (revealItem) {
+        state.inventory.push(revealId);
+        addText(`You found: ${revealItem.name}!`, 'success');
+        
+        // Item glow effect for newly revealed items
+        setTimeout(() => {
+          const invItem = document.querySelector(`.inv-item:nth-child(${state.inventory.indexOf(revealId) + 3})`);
+          if (invItem) {
+            invItem.classList.add('item-new');
+            setTimeout(() => {
+              invItem.classList.remove('item-new');
+            }, 1000);
+          }
+        }, 100);
+      }
+    });
+    
+    // Update exit availability (newly unlocked exits)
+    renderExits(GAME_DATA.scenes.find(s => s.id === state.currentScene)?.exits || {});
+    checkWin();
+    saveState();
+  } else {
+    addText("That doesn't seem to work.", 'system');
+  }
+}
+
+function go(sceneId) {
+  addText('---', 'system');
+  renderScene(sceneId);
+}
+
+function checkWin() {
+  if (state.won) return;
+  const wc = GAME_DATA.winCondition;
+  if (!wc) return;
+  if (state.currentScene === wc.scene &&
+      wc.requires.every(req => state.inventory.includes(req))) {
+    state.won = true;
+    addText('', '');
+    addText('*** ' + wc.description + ' ***', 'success');
+    addText('', '');
+    addText('CONGRATULATIONS! YOU HAVE COMPLETED THE GAME!', 'success');
+    addText('Type /restart to play again.', 'system');
+  }
+}
+
+// ---- Persistence ----
+function saveState() {
+  try {
+    localStorage.setItem('game-' + GAME_DATA.slug, JSON.stringify(state));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('game-' + GAME_DATA.slug);
+    if (saved) {
+      const s = JSON.parse(saved);
+      Object.assign(state, s);
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+// ---- Event Listeners ----
+document.querySelectorAll('.cmd-btn').forEach(btn => {
+  btn.onclick = () => setCommand(btn.dataset.cmd);
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('look-target')) {
+    const target = e.target.dataset.look;
+    if (state.activeCommand === 'use' && state.selectedItem) {
+      useItemOn(state.selectedItem, target);
+    } else {
+      lookAt(target);
+    }
+  }
+});
+
+// ---- Initialize ----
+function init() {
+  if (Object.keys(GAME_DATA).length === 0) {
+    addText('ERROR: No game data loaded. This is a template file.', 'error');
+    addText('The Gameplay Coder will embed game data here.', 'system');
+    return;
+  }
+
+  addText('=== ' + GAME_DATA.title.toUpperCase() + ' ===', 'success');
+  addText(GAME_DATA.setting, 'system');
+  addText('', '');
+  addText('Commands: LOOK | TAKE | USE | EXAMINE', 'system');
+  addText('Click exits to move between rooms.', 'system');
+  addText('---', 'system');
+
+  if (!loadState()) {
+    renderScene('docking-bay');
+  } else {
+    renderScene(state.currentScene);
+    addText('[Game restored from save]', 'system');
+  }
+
+  // Hint toggle button
+  const hintToggle = document.getElementById('hint-toggle');
+  if (hintToggle) {
+    hintToggle.textContent = state.hintsEnabled ? 'HINTS: ON' : 'HINTS: OFF';
+    hintToggle.addEventListener('click', () => {
+      state.hintsEnabled = !state.hintsEnabled;
+      hintToggle.textContent = state.hintsEnabled ? 'HINTS: ON' : 'HINTS: OFF';
+      if (!state.hintsEnabled) clearHintTimer();
+      else startHintTimer(state.currentScene);
+      saveState();
+    });
+  }
+}
+
+init();
+    </script>
+</body>
+</html>

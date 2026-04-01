@@ -1,0 +1,22 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="64" height="64" fill="#001100"/>
+  
+  <!-- Phosphorus fertilizer pouch -->
+  <!-- Pouch outline -->
+  <path d="M16,20 Q24,8 32,20 Q40,8 48,20 Q56,20 56,44 Q48,52 32,52 Q16,52 16,20 Z" fill="#221100" stroke="#000000" stroke-width="1"/>
+  <!-- Pouch closure -->
+  <line x1="32" y1="20" x2="32" y2="12" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Glowing blue powder visible -->
+  <circle cx="24" cy="30" r="3" fill="#00ffff" opacity="0.8"/>
+  <circle cx="40" cy="30" r="3" fill="#00ffff" opacity="0.8"/>
+  <circle cx="32" cy="40" r="3" fill="#00ffff" opacity="0.8"/>
+  <circle cx="24" cy="40" r="2" fill="#00ffff" opacity="0.8"/>
+  <circle cx="40" cy="40" r="2" fill="#00ffff" opacity="0.8"/>
+  
+  <!-- Pouch texture/stitching -->
+  <line x1="20" y1="24" x2="20" y2="48" stroke="#000000" stroke-width="1"/>
+  <line x1="44" y1="24" x2="44" y2="48" stroke="#000000" stroke-width="1"/>
+  <line x1="16" y1="32" x2="48" y2="32" stroke="#000000" stroke-width="1"/>
+</svg>

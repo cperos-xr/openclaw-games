@@ -1,0 +1,105 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Dark archives room -->
+  <rect width="640" height="400" fill="#1a1a18"/>
+  
+  <!-- Floor -->
+  <rect x="0" y="340" width="640" height="60" fill="#2a2a25"/>
+  <g stroke="#333330" stroke-width="1">
+    <line x1="0" y1="360" x2="640" y2="360"/>
+    <line x1="0" y1="380" x2="640" y2="380"/>
+  </g>
+  
+  <!-- Filing cabinets on left wall -->
+  <g id="filing-cabinets">
+    <rect x="20" y="100" width="120" height="200" fill="#2a2a25" stroke="#555550" stroke-width="3"/>
+    <!-- Cabinet drawers -->
+    <rect x="30" y="110" width="100" height="35" fill="#3a3a35" stroke="#444440" stroke-width="1"/>
+    <rect x="30" y="155" width="100" height="35" fill="#3a3a35" stroke="#444440" stroke-width="1"/>
+    <rect x="30" y="200" width="100" height="35" fill="#3a3a35" stroke="#444440" stroke-width="1"/>
+    <rect x="30" y="245" width="100" height="35" fill="#3a3a35" stroke="#444440" stroke-width="1"/>
+    <rect x="30" y="290" width="100" height="35" fill="#3a3a35" stroke="#444440" stroke-width="1"/>
+    <!-- Labels -->
+    <rect x="50" y="115" width="60" height="10" fill="#d4af37" opacity="0.5"/>
+    <rect x="50" y="160" width="60" height="10" fill="#d4af37" opacity="0.5"/>
+    <rect x="50" y="205" width="60" height="10" fill="#d4af37" opacity="0.5"/>
+    <rect x="50" y="250" width="60" height="10" fill="#d4af37" opacity="0.5"/>
+    <rect x="50" y="295" width="60" height="10" fill="#d4af37" opacity="0.5"/>
+  </g>
+  
+  <!-- Second filing cabinet -->
+  <g id="filing-cabinets-2">
+    <rect x="150" y="100" width="120" height="200" fill="#2a2a25" stroke="#555550" stroke-width="3"/>
+    <rect x="160" y="110" width="100" height="35" fill="#3a3a35" stroke="#444440" stroke-width="1"/>
+    <rect x="160" y="155" width="100" height="35" fill="#3a3a35" stroke="#444440" stroke-width="1"/>
+    <rect x="160" y="200" width="100" height="35" fill="#3a3a35" stroke="#444440" stroke-width="1"/>
+    <rect x="160" y="245" width="100" height="35" fill="#3a3a35" stroke="#444440" stroke-width="1"/>
+    <rect x="160" y="290" width="100" height="35" fill="#3a3a35" stroke="#444440" stroke-width="1"/>
+  </g>
+  
+  <!-- Oak desk -->
+  <rect x="250" y="200" width="180" height="80" fill="#8b4513" stroke="#5a2d0c" stroke-width="3"/>
+  <!-- Desk top -->
+  <rect x="255" y="205" width="170" height="10" fill="#a0522d" stroke="#5a2d0c" stroke-width="1"/>
+  
+  <!-- Dr. Holloway's journal (open) -->
+  <rect x="280" y="210" width="60" height="40" fill="#d4af37" stroke="#b8860b" stroke-width="2"/>
+  <line x1="310" y1="210" x2="310" y2="250" stroke="#b8860b" stroke-width="1"/>
+  <!-- Handwriting lines -->
+  <line x1="285" y1="220" x2="305" y2="220" stroke="#000000" stroke-width="1" opacity="0.6"/>
+  <line x1="285" y1="225" x2="305" y2="225" stroke="#000000" stroke-width="1" opacity="0.6"/>
+  <line x1="315" y1="220" x2="335" y2="220" stroke="#000000" stroke-width="1" opacity="0.6"/>
+  <line x1="315" y1="225" x2="335" y2="225" stroke="#000000" stroke-width="1" opacity="0.6"/>
+  <line x1="285" y1="235" x2="305" y2="235" stroke="#000000" stroke-width="1" opacity="0.4"/>
+  <!-- Final entry trailing off -->
+  <line x1="315" y1="240" x2="330" y2="240" stroke="#000000" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Steel lockbox -->
+  <rect x="350" y="220" width="60" height="40" fill="#4a4a45" stroke="#666660" stroke-width="3"/>
+  <!-- Combination dial -->
+  <circle cx="380" cy="240" r="12" fill="#2a2a25" stroke="#555550" stroke-width="2"/>
+  <circle cx="380" cy="240" r="8" fill="#3a3a35" stroke="#555550" stroke-width="1"/>
+  <!-- Dial indicator -->
+  <line x1="380" y1="240" x2="380" y2="230" stroke="#ff8800" stroke-width="2"/>
+  
+  <!-- Concrete stairs leading up -->
+  <g id="stairs">
+    <rect x="500" y="280" width="120" height="20" fill="#3a3a35" stroke="#555550" stroke-width="2"/>
+    <rect x="500" y="260" width="120" height="20" fill="#3a3a35" stroke="#555550" stroke-width="2"/>
+    <rect x="500" y="240" width="120" height="20" fill="#3a3a35" stroke="#555550" stroke-width="2"/>
+    <rect x="500" y="220" width="120" height="20" fill="#3a3a35" stroke="#555550" stroke-width="2"/>
+    <rect x="500" y="200" width="120" height="20" fill="#3a3a35" stroke="#555550" stroke-width="2"/>
+  </g>
+  <!-- Railing -->
+  <line x1="610" y1="200" x2="610" y2="300" stroke="#4a4a45" stroke-width="3"/>
+  <line x1="610" y1="200" x2="580" y2="200" stroke="#4a4a45" stroke-width="2"/>
+  
+  <!-- Reel-to-reel tapes stacked like vertebrae -->
+  <g id="tapes">
+    <rect x="450" y="120" width="40" height="30" fill="#2a2a25" stroke="#555550" stroke-width="2"/>
+    <rect x="450" y="150" width="40" height="30" fill="#2a2a25" stroke="#555550" stroke-width="2"/>
+    <rect x="450" y="180" width="40" height="30" fill="#2a2a25" stroke="#555550" stroke-width="2"/>
+    <rect x="450" y="210" width="40" height="30" fill="#2a2a25" stroke="#555550" stroke-width="2"/>
+    <!-- Labels in erratic hand -->
+    <rect x="455" y="125" width="30" height="8" fill="#d4af37" opacity="0.4"/>
+    <rect x="455" y="155" width="30" height="8" fill="#d4af37" opacity="0.5"/>
+    <rect x="455" y="185" width="30" height="8" fill="#d4af37" opacity="0.3"/>
+    <rect x="455" y="215" width="30" height="8" fill="#d4af37" opacity="0.6"/>
+  </g>
+  
+  <!-- Items: maintenance wrench and antenna crystal -->
+  <!-- Wrench -->
+  <rect x="300" y="300" width="60" height="10" fill="#708090" stroke="#4a5568" stroke-width="2"/>
+  <rect x="355" y="295" width="15" height="20" fill="#708090" stroke="#4a5568" stroke-width="2"/>
+  <!-- Rust stains -->
+  <rect x="310" y="302" width="20" height="6" fill="#8b4513" opacity="0.5"/>
+  
+  <!-- Antenna crystal -->
+  <polygon points="400,310 410,280 420,310 410,320" fill="#e0e0e0" stroke="#a0a0a0" stroke-width="2"/>
+  <circle cx="410" cy="295" r="5" fill="#ffffff" opacity="0.8"/>
+  
+  <!-- Dust particles -->
+  <circle cx="200" cy="300" r="2" fill="#808080" opacity="0.5"/>
+  <circle cx="250" cy="250" r="1.5" fill="#808080" opacity="0.4"/>
+  <circle cx="350" cy="180" r="2" fill="#808080" opacity="0.6"/>
+  <circle cx="450" cy="250" r="1.5" fill="#808080" opacity="0.3"/>
+</svg>

@@ -1,0 +1,34 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: dark earth -->
+  <rect width="640" height="400" fill="#001100"/>
+  
+  <!-- Tangled roots coiling across floor and walls -->
+  <!-- Floor roots -->
+  <path d="M50,350 Q100,300 150,350 Q200,300 250,350 Q300,350 350,300 Q400,350 450,300 Q500,350 550,300 Q600,350" fill="none" stroke="#332200" stroke-width="5"/>
+  <path d="M80,380 Q130,330 180,380 Q230,330 280,380 Q330,330 380,380 Q430,330 480,380 Q530,330 580,380" fill="none" stroke="#332200" stroke-width="5"/>
+  
+  <!-- Wall roots -->
+  <path d="M50,50 Q0,100 50,150 Q100,200 150,150 Q200,100 250,150 Q300,200 350,150 Q400,100 450,150 Q500,200 550,150 Q600,100" fill="none" stroke="#332200" stroke-width="5"/>
+  <path d="M50,100 Q0,150 50,200 Q100,250 150,200 Q200,150 250,200 Q300,250 350,200 Q400,150 450,200 Q500,250 550,200 Q600,150" fill="none" stroke="#332200" stroke-width="5"/>
+  
+  <!-- Wall of roots (north) -->
+  <path d="M0,0 Q100,50 200,0 Q300,50 400,0 Q500,50 600,0" fill="none" stroke="#003300" stroke-width="8"/>
+  <path d="M0,20 Q100,70 200,20 Q300,70 400,20 Q500,70 600,20" fill="none" stroke="#003300" stroke-width="8"/>
+  <path d="M0,40 Q100,100 200,40 Q300,100 400,40 Q500,100 600,40" fill="none" stroke="#003300" stroke-width="8"/>
+  
+  <!-- Barren soil patch -->
+  <circle cx="320" cy="300" r="40" fill="#221100" stroke="#000000" stroke-width="3"/>
+  <!-- Intentional preparation marks -->
+  <line x1="280" y1="300" x2="360" y2="300" stroke="#000000" stroke-width="1"/>
+  <line x1="320" y1="260" x2="320" y2="340" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Glowing nodules on roots -->
+  <circle cx="150" cy="200" r="8" fill="#00ff00" opacity="0.7"/>
+  <circle cx="250" cy="100" r="8" fill="#00ff00" opacity="0.7"/>
+  <circle cx="350" cy="300" r="8" fill="#00ff00" opacity="0.7"/>
+  <circle cx="450" cy="150" r="8" fill="#00ff00" opacity="0.7"/>
+  <circle cx="550" cy="50" r="8" fill="#00ff00" opacity="0.7"/>
+  
+  <!-- Floor -->
+  <rect x="0" y="380" width="640" height="20" fill="#002200" stroke="#000000" stroke-width="2"/>
+</svg>

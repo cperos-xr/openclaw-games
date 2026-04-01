@@ -1,0 +1,47 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Dark cavern opening -->
+  <rect width="640" height="400" fill="#000000"/>
+  
+  <!-- Natural chimney-like cavern -->
+  <path d="M200,0 Q320,-100 440,0 L440,400 L200,400 Z" fill="#001100" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Bronze framework -->
+  <rect x="180" y="50" width="280" height="20" fill="#CD7F32" stroke="#000000" stroke-width="2"/>
+  <rect x="180" y="330" width="280" height="20" fill="#CD7F32" stroke="#000000" stroke-width="2"/>
+  <line x1="180" y1="50" x2="180" y2="330" stroke="#CD7F32" stroke-width="3"/>
+  <line x1="460" y1="50" x2="460" y2="330" stroke="#CD7F32" stroke-width="3"/>
+  
+  <!-- Vertical supports -->
+  <line x1="250" y1="50" x2="250" y2="330" stroke="#CD7F32" stroke-width="2"/>
+  <line x1="320" y1="50" x2="320" y2="330" stroke="#CD7F32" stroke-width="2"/>
+  <line x1="390" y1="50" x2="390" y2="330" stroke="#CD7F32" stroke-width="2"/>
+  
+  <!-- Single silver bell hanging from center -->
+  <ellipse cx="320" cy="180" rx="30" ry="20" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  <rect x="310" y="180" width="20" height="10" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  <rect x="315" y="170" width="10" height="10" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Sound waves (faint ringing in skull) -->
+  <path d="M320,160 Q300,120 320,80" stroke="#FFFFFF" stroke-width="1" fill="none" opacity="0.5"/>
+  <path d="M320,160 Q340,120 320,80" stroke="#FFFFFF" stroke-width="1" fill="none" opacity="0.5"/>
+  
+  <!-- Moonlight from crack high above -->
+  <rect x="310" y="0" width="20" height="50" fill="#ADD8E6" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Dust motes in moonlight -->
+  <circle cx="315" cy="20" r="1" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+  <circle cx="325" cy="30" r="1" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+  <circle cx="305" cy="25" r="1" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Narrow bridge of planks -->
+  <rect x="460" y="200" width="100" height="10" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <line x1="460" y1="205" x2="560" y2="205" stroke="#8B4513" stroke-width="1"/>
+  <line x1="460" y1="210" x2="560" y2="210" stroke="#8B4513" stroke-width="1"/>
+  
+  <!-- Chamber of intense pressure (east) -->
+  <rect x="560" y="150" width="80" height="100" fill="#800080" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Bottomless chasm below bridge -->
+  <rect x="460" y="210" width="180" height="190" fill="#000000" stroke="#000000" stroke-width="2"/>
+  
+</svg>

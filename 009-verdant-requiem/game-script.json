@@ -1,0 +1,219 @@
+{
+  "title": "Verdant Requiem",
+  "slug": "verdant-requiem",
+  "number": 9,
+  "setting": "An abandoned Victorian botanical conservatory where the plants have grown unnaturally sentient and hostile after a botanical experiment gone wrong.",
+  "characters": [
+    {
+      "id": "player",
+      "name": "The Player",
+      "description": "You, trapped in the conservatory after seeking shelter from a storm."
+    },
+    {
+      "id": "thornwood",
+      "name": "Dr. Alistair Thornwood",
+      "description": "The conservatory's former director. His ghost haunts the orchid laboratory, a remnant of his failed experiments."
+    },
+    {
+      "id": "gardener",
+      "name": "The Gardener",
+      "description": "A shadowy figure seen through fogged glass, moving silently among the plants. Its intentions are unknown."
+    }
+  ],
+  "items": [
+    {
+      "id": "pruning-shears",
+      "name": "Rusted Pruning Shears",
+      "description": "Heavy, iron shears coated in orange rust. The blades still look sharp enough to cut through tough vegetation.",
+      "foundIn": "entrance",
+      "usedIn": "palm-house",
+      "usedOn": "puzzle-1"
+    },
+    {
+      "id": "watering-can",
+      "name": "Watering Can",
+      "description": "A tarnished brass watering can. It contains a small amount of murky liquid that smells of chemicals and decay.",
+      "foundIn": "cactus-wing",
+      "usedIn": "cactus-wing",
+      "usedOn": "puzzle-2"
+    },
+    {
+      "id": "brass-key",
+      "name": "Brass Key",
+      "description": "An ornate key, green with age. It's engraved with a single orchid bloom.",
+      "foundIn": "cactus-wing",
+      "usedIn": "orchid-lab",
+      "usedOn": "puzzle-3"
+    },
+    {
+      "id": "phosphorus-fertilizer",
+      "name": "Phosphorus Fertilizer Pouch",
+      "description": "A small cloth pouch filled with glowing blue powder. It hums with unnatural energy.",
+      "foundIn": "orchid-lab",
+      "usedIn": "root-cellar",
+      "usedOn": "puzzle-5"
+    },
+    {
+      "id": "thornwood-journal",
+      "name": "Thornwood's Journal",
+      "description": "A leather-bound journal filled with frantic notes and diagrams. Pages detail experiments with 'bioluminescent hybridization' and warnings about 'the waking green'.",
+      "foundIn": "orchid-lab",
+      "usedIn": "fern-grotto",
+      "usedOn": "puzzle-4"
+    },
+    {
+      "id": "seed-pods",
+      "name": "Dried Seed Pods",
+      "description": "A cluster of brittle, papery seed pods. They rattle faintly, as if something still lives inside.",
+      "foundIn": "orchid-lab",
+      "usedIn": "root-cellar",
+      "usedOn": "puzzle-5"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "entrance",
+      "name": "Grand Entrance Hall",
+      "prose": "The grand entrance hall of Thornwood Conservatory stretches before you, a cathedral of glass and iron gone to ruin. Moonlight filters through cracked panes above, casting distorted shadows across flagstones slick with moss. To the east, a pair of ornate glass doors stand ajar, leading deeper into the conservatory. A workbench against the wall holds rusted gardening tools. The air smells of damp earth and something sweetly rotten, like overripe fruit left to ferment.",
+      "exits": {
+        "east": "palm-house"
+      },
+      "items": ["pruning-shears"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "workbench": "A sturdy wooden bench littered with rusted trowels, empty pots, and a single pair of pruning shears.",
+        "glass doors": "The doors are etched with floral patterns. Beyond, you see only darkness and the vague shapes of large plants.",
+        "flagstones": "The stone floor is uneven, cracked by roots that have pushed up from below."
+      }
+    },
+    {
+      "id": "palm-house",
+      "name": "Tropical Palm House",
+      "prose": "Humid, oppressive heat wraps around you in the palm house. Giant fronds loom in the half-light, their edges browned and curling. A dead fern sprawls across the northern path, its dry branches forming a thorny barrier. To the east, a darker opening suggests another wing, but a tangle of vines blocks it completely. Water drips from somewhere above, each drop echoing in the stagnant air. The scent of decay is stronger here, almost floral in its wrongness.",
+      "exits": {
+        "north": "cactus-wing"
+      },
+      "items": [],
+      "puzzles": ["puzzle-1"],
+      "lookDescriptions": {
+        "dead fern": "A massive fern, long dead, its brittle stems interlocked like a barricade. It blocks the northern passage completely.",
+        "giant fronds": "The palm leaves are unnaturally large, some as wide as doors. Their surfaces are mottled with dark, oily spots.",
+        "tangle of vines": "A thick curtain of living vines seals the eastern opening. They writhe slowly, as if sensing your presence."
+      }
+    },
+    {
+      "id": "cactus-wing",
+      "name": "Cactus and Succulent Wing",
+      "prose": "Dry heat replaces the humidity as you enter the cactus wing. Rows of spiny forms stand like silent sentinels, some swollen to grotesque proportions. One particularly large cactus has withered, its skin puckered and gray. A metal watering can rests on a stone bench, its surface filmed with dust. The eastern exit is sealed by a heavy wooden door, its lock rusted shut. The air tastes of chalk and thirst.",
+      "exits": {
+        "south": "palm-house",
+        "east": "orchid-lab"
+      },
+      "items": ["watering-can"],
+      "puzzles": ["puzzle-2"],
+      "lookDescriptions": {
+        "withered cactus": "This cactus is twice your height, but its flesh has collapsed inward. A deep crack runs down its side, revealing darkness within.",
+        "stone bench": "A rough-hewn bench carved from local stone. The watering can sits atop it, forgotten.",
+        "wooden door": "A solid oak door, its iron fittings crusted with rust. A keyhole glints in the dim light."
+      }
+    },
+    {
+      "id": "orchid-lab",
+      "name": "Orchid Laboratory",
+      "prose": "The orchid laboratory feels more like a surgical theater than a garden. Glass cases line the walls, their interiors fogged with condensation. Within, strange orchids pulse with faint bioluminescence. A locked cabinet dominates the far wall, its brass keyhole tarnished. Dr. Thornwood's journal lies open on a central table, its pages filled with frantic diagrams. The southern exit is barred by a heavy iron gate.",
+      "exits": {
+        "west": "cactus-wing",
+        "south": "fern-grotto"
+      },
+      "items": ["thornwood-journal"],
+      "puzzles": ["puzzle-3"],
+      "lookDescriptions": {
+        "locked cabinet": "A tall oak cabinet with a brass lock. Through the glass doors, you can see pouches and seed packets inside.",
+        "glass cases": "Each case contains a single orchid specimen, their roots visible in clear gel. Some move, slowly.",
+        "iron gate": "A wrought-iron gate, intricately patterned with floral motifs. It's locked from this side."
+      }
+    },
+    {
+      "id": "fern-grotto",
+      "name": "Fern Grotto",
+      "prose": "Moisture drips from every surface in the fern grotto. Giant ferns crowd the space, their fronds brushing your shoulders with unsettling intimacy. An ancient, gnarled tree dominates the center, its bark carved with strange symbols. A panel of stone buttons sits at its base, each marked with an unfamiliar glyph. The northern passage is choked with thick roots. The air is thick with spores that glimmer in the faint light.",
+      "exits": {
+        "north": "root-cellar"
+      },
+      "items": [],
+      "puzzles": ["puzzle-4"],
+      "lookDescriptions": {
+        "ancient tree": "The tree's bark is deeply furrowed, and the carved symbols seem to shift when you look away.",
+        "stone buttons": "Five stone buttons, each with a unique glyph: a spiral, a triangle, a crescent, a star, and a circle.",
+        "thick roots": "A dense weave of roots blocks the northern passage. They pulse rhythmically, like sleeping arteries."
+      }
+    },
+    {
+      "id": "root-cellar",
+      "name": "Root Cellar",
+      "prose": "The root cellar is a cavern of tangled roots and dark earth. Thick tendrils coil across the floor and walls, pulsing with a slow, vegetative rhythm. At the far end, a wall of roots blocks what might have been an exit, but a patch of barren soil lies before it. The only sound is the creak of growing wood. Here, deep beneath the conservatory, the wrongness feels most alive, most hungry.",
+      "exits": {
+        "north": "win"
+      },
+      "items": [],
+      "puzzles": ["puzzle-5"],
+      "lookDescriptions": {
+        "wall of roots": "A dense mat of intertwined roots completely seals the northern wall. They seem to twitch occasionally.",
+        "barren soil": "A circle of dark, dry soil, devoid of any growth. It looks intentionally prepared.",
+        "tangled roots": "The roots throughout the room are thick as arms, some with nodules that glow with a sickly green light."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-1",
+      "scene": "palm-house",
+      "requires": ["pruning-shears"],
+      "action": "Use pruning shears on dead fern",
+      "result": "The dead fern crumbles under the shears, clearing the northern path. Beyond lies the dry heat of the cactus wing.",
+      "reveals": ["cactus-wing"],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-2",
+      "scene": "cactus-wing",
+      "requires": ["watering-can"],
+      "action": "Use watering can on withered cactus",
+      "result": "The cactus absorbs the liquid with a hiss. Its flesh swells, and a brass key drops from a newly opened crevice.",
+      "reveals": ["brass-key"],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-3",
+      "scene": "orchid-lab",
+      "requires": ["brass-key"],
+      "action": "Use brass key on locked cabinet",
+      "result": "The cabinet unlocks with a satisfying click. Inside, you find a pouch of phosphorus fertilizer and a cluster of dried seed pods. The iron gate swings open.",
+      "reveals": ["phosphorus-fertilizer", "seed-pods", "fern-grotto"],
+      "blocksExit": "south"
+    },
+    {
+      "id": "puzzle-4",
+      "scene": "fern-grotto",
+      "requires": ["thornwood-journal"],
+      "action": "Enter glyph sequence from journal on stone buttons",
+      "result": "The buttons depress in the correct order: spiral, crescent, star. The ancient tree groans, and its roots retract, revealing the northern passage.",
+      "reveals": ["root-cellar"],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-5",
+      "scene": "root-cellar",
+      "requires": ["phosphorus-fertilizer", "seed-pods"],
+      "action": "Use fertilizer and seed pods on barren soil",
+      "result": "The powder ignites in the soil, and the seed pods burst. A thick, living vine erupts, weaving through the root wall to form a climbable bridge to freedom.",
+      "reveals": ["win"],
+      "blocksExit": "north"
+    }
+  ],
+  "winCondition": {
+    "scene": "root-cellar",
+    "requires": ["phosphorus-fertilizer", "seed-pods"],
+    "description": "Grow a living vine bridge through the root wall to escape the conservatory."
+  }
+}

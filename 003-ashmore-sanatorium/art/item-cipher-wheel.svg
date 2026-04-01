@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Cipher Wheel - Inventory Icon -->
+  <rect x="0" y="0" width="64" height="64" fill="#2A2A44"/>
+  <!-- Outer brass ring -->
+  <circle cx="32" cy="32" r="22" fill="#B8860B" stroke="#000000" stroke-width="2"/>
+  <!-- Middle glass ring -->
+  <circle cx="32" cy="32" r="16" fill="#AAEEFF" opacity="0.4" stroke="#000000" stroke-width="1"/>
+  <!-- Inner brass ring -->
+  <circle cx="32" cy="32" r="10" fill="#DAA520" stroke="#000000" stroke-width="2"/>
+  <!-- Center crystal -->
+  <circle cx="32" cy="32" r="5" fill="#AAEEFF" stroke="#000000" stroke-width="1"/>
+  <!-- Dial markers -->
+  <line x1="32" y1="12" x2="32" y2="18" stroke="#000000" stroke-width="2"/>
+  <line x1="32" y1="46" x2="32" y2="52" stroke="#000000" stroke-width="2"/>
+  <line x1="12" y1="32" x2="18" y2="32" stroke="#000000" stroke-width="2"/>
+  <line x1="46" y1="32" x2="52" y2="32" stroke="#000000" stroke-width="2"/>
+  <!-- Frozen dials -->
+  <circle cx="32" cy="20" r="2" fill="#FFFFFF"/>
+  <circle cx="44" cy="32" r="2" fill="#FFFFFF"/>
+  <circle cx="32" cy="44" r="2" fill="#FFFFFF"/>
+  <circle cx="20" cy="32" r="2" fill="#FFFFFF"/>
+  <!-- Frost on edges -->
+  <rect x="10" y="28" width="6" height="8" fill="#AAEEFF" opacity="0.3"/>
+</svg>

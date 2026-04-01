@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Curtain Call - OpenClaw Adventure #007</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* CRT Green-on-Black Aesthetic */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            min-height: 100%; background: #000; color: #33ff33;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 12px; line-height: 1.8;
+            overflow: hidden;
+        }
+        body::after {
+            content: ''; position: fixed; inset: 0; z-index: 999;
+            background: repeating-linear-gradient(
+                transparent, transparent 2px, rgba(0,0,0,0.12) 2px, rgba(0,0,0,0.12) 4px
+            );
+            pointer-events: none;
+        }
+        .container {
+            max-width: 720px; margin: 0 auto; padding: 16px;
+            display: flex; flex-direction: column; height: 100vh;
+        }
+        header { text-align: center; margin-bottom: 16px; }
+        h1 { font-size: 18px; text-shadow: 0 0 20px rgba(51,255,51,0.5); }
+        .subtitle { color: #226622; font-size: 10px; margin: 4px 0; }
+        hr { border: none; border-top: 1px solid #226622; margin: 12px 0; }
+        .game-area {
+            display: flex; flex: 1; gap: 16px; min-height: 0;
+        }
+        .art-panel {
+            flex: 3; border: 2px solid #33ff33; padding: 12px;
+            display: flex; flex-direction: column;
+        }
+        .art-display {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            background: #000; overflow: hidden;
+        }
+        .art-display svg, .art-display img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+        }
+        .scene-name {
+            text-align: center; font-size: 14px; margin-top: 8px;
+            color: #ffff33;
+        }
+        .text-panel {
+            flex: 2; border: 2px solid #33ff33; padding: 12px;
+            display: flex; flex-direction: column;
+        }
+        .text-display {
+            flex: 1; overflow-y: auto; background: #000; padding: 8px;
+            border: 1px solid #113311;
+        }
+        .text-display p { margin: 8px 0; }
+        .text-display .system { color: #226622; }
+        .text-display .success { color: #ffff33; }
+        .text-display .locked { color: #ff3333; }
+        .text-display .error { color: #ff3333; }
+        .text-display .hint { color: #FFAA00; font-style: italic; }
+        .command-bar {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;
+            border-top: 1px solid #226622; padding-top: 8px;
+        }
+        .cmd-btn {
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 6px 12px; font-family: inherit; font-size: 10px;
+            cursor: pointer;
+        }
+        .cmd-btn:hover { background: rgba(51,255,51,0.1); }
+        .cmd-btn.active { background: #33ff33; color: #000; }
+        .inventory-bar {
+            margin-top: 12px; border: 1px solid #226622; padding: 8px;
+            min-height: 40px; display: flex; flex-wrap: wrap; align-items: center;
+        }
+        .inv-item {
+            background: #113311; color: #33ff33; border: 1px solid #33ff33;
+            padding: 4px 8px; margin: 2px; font-size: 10px; cursor: pointer;
+        }
+        .inv-item.selected { background: #33ff33; color: #000; }
+        .exits-bar {
+            margin-top: 12px; border: 1px solid #226622; padding: 8px;
+            display: flex; flex-wrap: wrap; gap: 8px;
+        }
+        .exit-btn {
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 6px 12px; font-family: inherit; font-size: 10px;
+            cursor: pointer;
+        }
+        .exit-btn.available:hover { background: rgba(51,255,51,0.1); }
+        .exit-btn.locked { border-color: #663333; color: #663333; cursor: not-allowed; }
+        .no-art { color: #226622; font-size: 10px; }
+
+        /* Animation keyframes */
+        .puzzle-solved { animation: solveFlash 0.6s ease; }
+        @keyframes solveFlash { 0%,100%{filter:none} 50%{filter:brightness(2) saturate(2)} }
+        .exit-btn.newly-unlocked { animation: unlockPulse 1s ease 3; }
+        @keyframes unlockPulse { 0%,100%{border-color:#33ff33} 50%{border-color:#ffff33;box-shadow:0 0 12px #ffff33} }
+        .item-new { animation: itemGlow 1s ease 2; }
+        @keyframes itemGlow { 0%,100%{background:transparent} 50%{background:rgba(51,255,51,0.3)} }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CURTAIN CALL</h1>
+            <div class="subtitle">OPENCLAW ADVENTURE #007</div>
+            <div class="subtitle">A haunted 1920s grand theater where the final performance never ended.</div>
+            <button id="hint-toggle" class="hint-toggle" style="background:#000;color:#33ff33;border:1px solid #33ff33;padding:2px 6px;font-family:inherit;font-size:8px;cursor:pointer;margin-top:4px;">HINTS: ON</button>
+        </header>
+        <hr>
+        <div class="game-area">
+            <div class="art-panel">
+                <div id="art-display" class="art-display">
+                    <!-- Art will be inserted by JS -->
+                    <span class="no-art">[ SCENE ART ]</span>
+                </div>
+                <div id="scene-name" class="scene-name">THE GRAND FOYER</div>
+            </div>
+            <div class="text-panel">
+                <div id="text-display" class="text-display">
+                    <!-- Text output appears here -->
+                </div>
+                <div class="command-bar">
+                    <button class="cmd-btn" data-cmd="look">LOOK</button>
+                    <button class="cmd-btn" data-cmd="take">TAKE</button>
+                    <button class="cmd-btn" data-cmd="use">USE</button>
+                    <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+                </div>
+                <div class="inventory-bar">
+                    <span>INVENTORY:</span>
+                    <span id="inv-empty" style="color:#226622; margin-left:8px;">(empty)</span>
+                    <!-- Inventory items appear here -->
+                </div>
+                <div class="exits-bar" id="exits-bar">
+                    <!-- Exit buttons appear here -->
+                </div>
+            </div>
+        </div>
+        <hr>
+        <footer style="text-align:center; color:#113311; font-size:8px;">
+            OpenClaw Point & Click Studio | Powered by AI Agents | 2026
+        </footer>
+    </div>
+
+    <script>
+        // GAME ART LIBRARY - inlined SVGs
+        window.GAME_ART = {
+            "scene-foyer": `<img src=\"art/scene-foyer.svg\" alt=\"The Grand Foyer\">`,
+            "scene-auditorium": `<img src=\"art/scene-auditorium.svg\" alt=\"The Auditorium\">`,
+            "scene-backstage": `<img src=\"art/scene-backstage.svg\" alt=\"Backstage\">`,
+            "scene-dressing-rooms": `<img src=\"art/scene-dressing-rooms.svg\" alt=\"Dressing Rooms\">`,
+            "scene-catwalk": `<img src=\"art/scene-catwalk.svg\" alt=\"Catwalk\">`,
+            "scene-stage": `<img src=\"art/scene-stage.svg\" alt=\"The Stage\">`
+        };
+    </script>
+    <script src="game-logic.js"></script>
+</body>
+</html>

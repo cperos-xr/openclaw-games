@@ -1,0 +1,29 @@
+# Solvability Report: The Hollow of Saint Vex
+
+## Verdict: SOLVABLE
+
+## Dependency Chain Walkthrough:
+1. Start in "The Collapsed Entrance" scene
+2. Use "item-pickaxe" to solve "puzzle-clear-collapse" to access "The Supply Tunnel"
+3. In "The Supply Tunnel", obtain "item-lantern"
+4. Move to "The Equipment Room" and obtain "item-matches" and "item-bell-hollow"
+5. Return to "The Supply Tunnel" and use "item-matches" and "item-lantern" to solve "puzzle-light-lantern"
+6. Move to "The Chapel Antechamber" and obtain "item-crowbar" and "item-bell-saint-vex"
+7. Return to "The Equipment Room" and use "item-crowbar" to solve "puzzle-open-crate"
+8. Move to "The Flooded Nave" and obtain "item-ritual-book"
+9. Use "item-lantern" to solve "puzzle-read-book" (reveals bell ringing sequence)
+10. Move to "The Bell Tower" and obtain "item-bell-bone"
+11. Move to "The Reliquary" and obtain "item-bell-mercy"
+12. Use all four bells in the correct order to solve "puzzle-ring-bells"
+
+## Win Condition:
+Ring the bells in the correct order (Mercy, Bone, Saint Vex, Hollow) to defeat Saint Vex
+
+## Orphaned Items:
+None
+
+## Unreachable Content:
+None
+
+## Specific Bugs Found:
+None - all items and puzzles are logically connected with a clear progression path

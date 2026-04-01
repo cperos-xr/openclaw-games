@@ -1,0 +1,58 @@
+# Puzzle Audit for The Ashmore Sanatorium
+
+## Puzzle Dependency Analysis
+
+### Puzzle Graph
+1. unlock-records (foyer)
+   - Requires: master-key
+   - Unlocks: records-room
+   - Solvable: Yes
+   - Solve Path: master-key is found in foyer → use on records door
+
+2. decode-cipher (records-room)
+   - Requires: cipher-wheel
+   - Unlocks: battery-cell (revealed item)
+   - Solvable: Yes
+   - Solve Path: cipher-wheel is found in records-room → use on desk → reveals battery-cell location
+
+3. power-generator (electrotherapy-chamber)
+   - Requires: battery-cell
+   - Unlocks: ice-cellar
+   - Solvable: Yes
+   - Solve Path: battery-cell is found in electrotherapy-chamber → use in generator → unlocks cellar door
+
+4. open-safe (ice-cellar)
+   - Requires: patient-ledger
+   - Unlocks: resonance-key
+   - Solvable: Yes
+   - Solve Path: patient-ledger is found in ice-cellar → use on safe → reveals resonance-key
+
+5. unlock-observatory (observatory)
+   - Requires: resonance-key
+   - Unlocks: Win condition
+   - Solvable: Yes
+   - Solve Path: resonance-key is found in directors-office → use in control panel → win
+
+### Item Acquisition Order
+1. master-key (found in foyer)
+2. cipher-wheel (found in records-room, accessible after using master-key)
+3. battery-cell (revealed by cipher-wheel puzzle in records-room, found in electrotherapy-chamber)
+4. patient-ledger (found in ice-cellar, accessible after powering generator)
+5. resonance-key (revealed by safe puzzle in ice-cellar, found in directors-office)
+
+### Dependency Chain Validation
+- All items are findable before they are needed
+- All puzzles have a clear solution path
+- The win condition is reachable
+- No circular dependencies exist
+
+### Linear Progression Path
+foyer → records-room → electrotherapy-chamber → ice-cellar → directors-office → observatory (win)
+
+## Issues Found
+None. The puzzle dependency graph is well-structured with a clear linear progression that ensures each item needed to solve a puzzle is obtainable before that puzzle is encountered.
+
+## Verdict
+SOLVABLE
+
+The puzzle design is coherent and complete, with each puzzle logically leading to the next in a clear progression toward the final objective.

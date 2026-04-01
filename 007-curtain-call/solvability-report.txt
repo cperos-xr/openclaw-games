@@ -1,0 +1,27 @@
+# Solvability Report: Curtain Call
+
+## Verdict: SOLVABLE
+
+## Dependency Chain Walkthrough:
+1. Start in "The Grand Foyer" scene
+2. Obtain "theater-key" and use it to solve "puzzle-1" to access "The Auditorium"
+3. In "The Auditorium", obtain "ghost-light"
+4. Use "ghost-light" to solve "puzzle-2" to access "Backstage"
+5. Move to "Backstage" (cannot go up to catwalk due to broken ladder)
+6. Move to "Dressing Rooms" and obtain "makeup-kit"
+7. Return to "Backstage" and combine "ghost-light" with "makeup-kit" to create "illuminated-mirror" and solve "puzzle-3" to access "Catwalk"
+8. In "Catwalk", obtain "cue-sheet" and "conductor-baton"
+9. Use "cue-sheet" to solve "puzzle-4" to access "The Stage"
+10. In "The Stage", use "illuminated-mirror" and "conductor-baton" to solve "puzzle-5"
+
+## Win Condition:
+Break the curse by using the illuminated mirror and conductor's baton on the ornate mirror upstage
+
+## Orphaned Items:
+None
+
+## Unreachable Content:
+None
+
+## Specific Bugs Found:
+None - all items and puzzles are logically connected with a clear progression path

@@ -1,0 +1,24 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Clear -->
+  <rect width="64" height="64" fill="none"/>
+  
+  <!-- Brass key body -->
+  <rect x="20" y="20" width="24" height="8" fill="#FF8800" stroke="#8B004B" stroke-width="2"/>
+  
+  <!-- Key bow (handle) -->
+  <circle cx="32" cy="16" r="8" fill="#FF8800" stroke="#8B004B" stroke-width="2"/>
+  
+  <!-- Key bit -->
+  <rect x="32" y="24" width="12" height="12" fill="#FF8800" stroke="#8B004B" stroke-width="2"/>
+  
+  <!-- Key teeth -->
+  <rect x="32" y="24" width="4" height="4" fill="#8B004B"/>
+  <rect x="40" y="24" width="4" height="4" fill="#8B004B"/>
+  
+  <!-- Key hole -->
+  <circle cx="36" y="30" r="2" fill="#0A0008"/>
+  
+  <!-- Filigree details -->
+  <circle cx="24" y="24" r="2" fill="#8B004B"/>
+  <circle cx="40" y="24" r="2" fill="#8B004B"/>
+</svg>

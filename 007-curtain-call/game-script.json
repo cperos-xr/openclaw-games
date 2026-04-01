@@ -1,0 +1,218 @@
+{
+  "title": "Curtain Call",
+  "slug": "curtain-call",
+  "number": 7,
+  "setting": "A haunted 1920s grand theater where the final performance never ended. The audience is frozen in time, the actors trapped in their roles, and the show must go on... forever.",
+  "characters": [
+    {
+      "id": "stage-manager",
+      "name": "The Stage Manager",
+      "description": "A ghostly figure in a black vest, forever checking his watch. He appears only in the catwalk, muttering about cues and missed entrances."
+    },
+    {
+      "id": "leading-lady",
+      "name": "Eleanor Vance",
+      "description": "The theater's star, trapped in her dressing room mirror. Her faint humming can be heard, singing the same aria on loop."
+    }
+  ],
+  "items": [
+    {
+      "id": "theater-key",
+      "name": "Brass Theater Key",
+      "description": "A heavy brass key with intricate filigree. It smells of old metal and dust.",
+      "foundIn": "foyer",
+      "usedIn": "foyer",
+      "usedOn": "puzzle-1"
+    },
+    {
+      "id": "ghost-light",
+      "name": "Ghost Light",
+      "description": "A single bare bulb on a metal stand, casting a pale glow. It's warm to the touch.",
+      "foundIn": "auditorium",
+      "usedIn": "auditorium",
+      "usedOn": "puzzle-2"
+    },
+    {
+      "id": "makeup-kit",
+      "name": "Makeup Kit",
+      "description": "A vintage tin filled with greasepaint, powder, and rouge. The mirror inside is cracked.",
+      "foundIn": "dressing-rooms",
+      "usedIn": "backstage",
+      "usedOn": "puzzle-3"
+    },
+    {
+      "id": "cue-sheet",
+      "name": "Lighting Cue Sheet",
+      "description": "A sheet of paper with symbols: circle, triangle, square, cross. Handwritten notes indicate a sequence.",
+      "foundIn": "catwalk",
+      "usedIn": "catwalk",
+      "usedOn": "puzzle-4"
+    },
+    {
+      "id": "conductor-baton",
+      "name": "Conductor's Baton",
+      "description": "A slender ebony baton with a silver tip. It feels unnaturally cold.",
+      "foundIn": "catwalk",
+      "usedIn": "stage",
+      "usedOn": "puzzle-5"
+    },
+    {
+      "id": "illuminated-mirror",
+      "name": "Illuminated Mirror",
+      "description": "The ghost light reflected in the makeup kit's mirror, creating a beam of focused light. It hums softly.",
+      "foundIn": null,
+      "usedIn": "stage",
+      "usedOn": "puzzle-5"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "foyer",
+      "name": "The Grand Foyer",
+      "prose": "The grand theater foyer is frozen in time. Dust motes hang in the amber light of a single chandelier. A ticket booth's window is smashed, glass scattered like ice. Marble floors reflect the hollow silence. To the north, ornate double doors lead to the auditorium, but a heavy chain and padlock secure them. A brass key glints inside the ticket booth. The air smells of old velvet and something else—burnt wiring, maybe, or distant ozone. A staircase to the east climbs into darkness, but the way is blocked by fallen scenery flats.",
+      "exits": {
+        "north": "auditorium"
+      },
+      "items": ["theater-key"],
+      "puzzles": ["puzzle-1"],
+      "lookDescriptions": {
+        "ticket booth": "The glass is shattered inward. Inside, a brass key rests on a dusty ledger.",
+        "chandelier": "One bulb still glows, casting long shadows. The crystals are clouded with grime.",
+        "chain": "A thick chain wraps the auditorium doors' handles, secured with a heavy padlock.",
+        "staircase": "The stairs lead up to a mezzanine, but collapsed scenery blocks the way entirely."
+      }
+    },
+    {
+      "id": "auditorium",
+      "name": "The Auditorium",
+      "prose": "The auditorium stretches away into velvet darkness. Rows of empty seats face a stage where a single ghost light glows—a bare bulb on a stand, casting long shadows. The curtain is half-raised, revealing a dusty proscenium. A faint scent of perfume and mothballs lingers. To the east, a door marked 'BACKSTAGE' stands ajar, but no light comes from within. The ghost light seems movable. On the stage floor, a single white rose lies wilted. From the catwalk above, a soft creaking suggests something moving in the grid.",
+      "exits": {
+        "east": "backstage"
+      },
+      "items": ["ghost-light"],
+      "puzzles": ["puzzle-2"],
+      "lookDescriptions": {
+        "ghost light": "A traditional theater superstition—a single bulb left on stage to ward off ghosts. It's warm, as if recently lit.",
+        "seats": "Velvet upholstery, worn thin. Some seats have playbills left behind, faded to illegibility.",
+        "stage": "The wooden boards are scarred from decades of use. A faint outline of chalk marks remains.",
+        "rose": "A white rose, perfectly preserved though wilted. No stem—just the blossom.",
+        "backstage door": "A heavy metal door with a push-bar. The sign is faded but legible."
+      }
+    },
+    {
+      "id": "backstage",
+      "name": "Backstage",
+      "prose": "Backstage is a labyrinth of ropes, pulleys, and forgotten props. A large mirror hangs cracked on one wall, reflecting distorted glimpses of the space. Wooden flats lean against walls—painted forests, castle interiors. A ladder leads up to the catwalk, but several rungs are missing, making it impassable. To the south, a hallway leads to dressing rooms. The air is thick with the smell of greasepaint and dust. A workbench holds scattered tools: a screwdriver, a coil of rope, a tin of stage blood dried black.",
+      "exits": {
+        "south": "dressing-rooms",
+        "up": "catwalk"
+      },
+      "items": [],
+      "puzzles": ["puzzle-3"],
+      "lookDescriptions": {
+        "mirror": "A full-length mirror, its surface cracked like a spiderweb. Your reflection looks distorted, wavering.",
+        "ladder": "The lower rungs are broken off. You'd need something to extend it to reach the catwalk.",
+        "workbench": "Tools lie as if dropped mid‑repair. The stage blood tin is rusted shut.",
+        "ropes": "Heavy hemp ropes, some still tied off. They smell of resin and old sweat."
+      }
+    },
+    {
+      "id": "dressing-rooms",
+      "name": "Dressing Rooms",
+      "prose": "A narrow hallway lined with dressing room doors, each marked with a star. One door is slightly open; inside, a vanity table littered with makeup tins, powder puffs, and a silver hairbrush. A costume rack holds sequined gowns and moth‑eaten tuxedos. A faint humming seems to come from the mirror—a woman's voice, singing a tune you don't recognize. The air is cold. On the vanity, a makeup kit sits open, its contents still vibrant. The hallway continues but ends at a bricked‑up archway.",
+      "exits": {
+        "north": "backstage"
+      },
+      "items": ["makeup-kit"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "vanity table": "The mirror is spotted with age. Lipstick stains the edge. A photograph—a woman in a glittering dress—is tucked into the frame.",
+        "makeup kit": "A hinged tin with compartments for powders and creams. The mirror inside is small but intact.",
+        "costume rack": "Garments hung with care, now dusty and fragile. A sequined dress sparkles even in the dim light.",
+        "humming": "The sound seems to emanate from the mirror itself. It's a sad, slow aria."
+      }
+    },
+    {
+      "id": "catwalk",
+      "name": "Catwalk",
+      "prose": "High above the stage, the catwalk is a metal gridwalk suspended in darkness. A lighting control board blinks with dead indicators. A cue sheet is pinned nearby, scribbled with symbols. Far below, the ghost light is a tiny beacon. A conductor's baton rests on a railing, as if just set down. The grid stretches east over the stage, but a section has collapsed, blocking access. The air hums with residual electricity. From here, the whole theater feels like a carcass waiting to be filled.",
+      "exits": {
+        "east": "stage"
+      },
+      "items": ["cue-sheet", "conductor-baton"],
+      "puzzles": ["puzzle-4"],
+      "lookDescriptions": {
+        "lighting board": "A console of sliders and buttons. Most are dark; a few LEDs flicker weakly.",
+        "cue sheet": "Handwritten symbols: circle, triangle, square, cross. An arrow points to the sequence circle‑triangle‑square‑cross.",
+        "baton": "An elegant ebony baton. The silver tip is tarnished. It feels colder than the surrounding air.",
+        "collapsed grid": "A section of the catwalk has given way, leaving a gap too wide to cross."
+      }
+    },
+    {
+      "id": "stage",
+      "name": "The Stage",
+      "prose": "The stage is a pool of dark velvet. A single spotlight hangs dead above. The curtain ropes dangle like nooses. A sense of profound stillness weighs the air—the kind that comes before a scream. A large, ornate mirror stands upstage, its surface clouded as if breathed on. At center stage, a music stand holds a scorched score. This is where it happened—where the performance froze. To win, you must break the curse. Use the illuminated mirror and conductor's baton to shatter the spell holding the theater in time.",
+      "exits": {},
+      "items": [],
+      "puzzles": ["puzzle-5"],
+      "lookDescriptions": {
+        "spotlight": "A heavy‑duty theatrical light, its lens cracked. It points straight down at a mark on the floor.",
+        "curtain ropes": "Thick ropes that raise and lower the main curtain. They're knotted in complex patterns.",
+        "ornate mirror": "A gilded mirror, taller than a person. The glass is fogged, but something moves in its depths.",
+        "music stand": "A black metal stand holding a sheet of music. The notes are blurred, as if melted by heat."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-1",
+      "scene": "foyer",
+      "requires": ["theater-key"],
+      "action": "Use brass theater key on padlocked chain",
+      "result": "The padlock clicks open. The chain slithers to the floor with a heavy thud. The auditorium doors swing inward, revealing darkness beyond.",
+      "reveals": ["auditorium"],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-2",
+      "scene": "auditorium",
+      "requires": ["ghost-light"],
+      "action": "Place ghost light in front of backstage door",
+      "result": "The ghost light's glow spills through the door's window, illuminating a power panel inside. A relay clicks, and the door's electronic lock disengages.",
+      "reveals": ["backstage"],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-3",
+      "scene": "backstage",
+      "requires": ["ghost-light", "makeup-kit"],
+      "action": "Combine ghost light with makeup kit at the cracked mirror",
+      "result": "The ghost light's reflection in the makeup kit's mirror creates a beam of focused light that illuminates the broken ladder. The missing rungs reappear as shimmering outlines, solid enough to climb.",
+      "reveals": ["illuminated-mirror", "catwalk"],
+      "blocksExit": "up"
+    },
+    {
+      "id": "puzzle-4",
+      "scene": "catwalk",
+      "requires": ["cue-sheet"],
+      "action": "Input symbol sequence on lighting board",
+      "result": "The board powers up. Lights snap on across the stage, revealing a previously hidden walkway across the collapsed grid.",
+      "reveals": ["stage"],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-5",
+      "scene": "stage",
+      "requires": ["illuminated-mirror", "conductor-baton"],
+      "action": "Use illuminated mirror and conductor's baton on the ornate mirror",
+      "result": "The mirror shatters with a sound like breaking ice. The curse lifts; the theater breathes again. The ghosts fade, finally at peace.",
+      "reveals": [],
+      "blocksExit": null
+    }
+  ],
+  "winCondition": {
+    "scene": "stage",
+    "requires": ["illuminated-mirror", "conductor-baton"],
+    "description": "Break the curse by using the illuminated mirror and conductor's baton on the ornate mirror upstage."
+  }
+}

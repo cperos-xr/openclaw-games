@@ -1,0 +1,237 @@
+{
+  "title": "The Frequency of the Dead",
+  "slug": "the-frequency-of-the-dead",
+  "number": 4,
+  "setting": "WXBH — an abandoned 1930s coastal radio broadcast station perched on a fog-shrouded cliff. Art Deco decay, phantom broadcasts, electromagnetic dread.",
+  "characters": [
+    {
+      "id": "dead-announcer",
+      "name": "Marcus Webb",
+      "description": "WXBH's final announcer. Found as a perfect dust outline in the control booth. His last broadcast echoes through the static, a man who talked into the void until the void answered back."
+    },
+    {
+      "id": "dr-holloway",
+      "name": "Dr. Helen Holloway",
+      "description": "Parapsychologist who was studying the station's supernatural phenomena. Her journal in the archives reveals her attempt to contact the dead through radio frequency manipulation. Her final entry is frantic and unfinished."
+    }
+  ],
+  "items": [
+    {
+      "id": "brass-relay",
+      "name": "Brass Relay Switch",
+      "description": "A heavy brass relay switch, tarnished with age. It fits perfectly in the transmitter room's fuse box.",
+      "foundIn": "lobby",
+      "usedIn": "transmitter-room",
+      "usedOn": "puzzle-1"
+    },
+    {
+      "id": "power-fuse",
+      "name": "Power Fuse",
+      "description": "A ceramic power fuse with copper contacts. When installed, it restores electricity to the control booth.",
+      "foundIn": "transmitter-room",
+      "usedIn": "control-booth",
+      "usedOn": "puzzle-2"
+    },
+    {
+      "id": "studio-key",
+      "name": "Studio Key",
+      "description": "A simple brass key labeled 'SOUND BOOTH.' It fits the locked door in the control booth.",
+      "foundIn": "control-booth",
+      "usedIn": "control-booth",
+      "usedOn": "puzzle-3"
+    },
+    {
+      "id": "frequency-code-scroll",
+      "name": "Frequency Code Scroll",
+      "description": "A yellowed scroll with the numbers 7-3-1-9 written in shaky ink. This is the combination for the archives lockbox.",
+      "foundIn": "sound-booth",
+      "usedIn": "archives",
+      "usedOn": "puzzle-4"
+    },
+    {
+      "id": "maintenance-wrench",
+      "name": "Maintenance Wrench",
+      "description": "A heavy steel wrench, its jaws stained with rust. It fits the bolts on the antenna tower's service panel.",
+      "foundIn": "archives",
+      "usedIn": "antenna-tower",
+      "usedOn": "puzzle-5"
+    },
+    {
+      "id": "antenna-crystal",
+      "name": "Antenna Crystal",
+      "description": "A clear quartz crystal that pulses with faint inner light. It belongs in the antenna tower's empty socket.",
+      "foundIn": "archives",
+      "usedIn": "antenna-tower",
+      "usedOn": "puzzle-5"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "lobby",
+      "name": "The Lobby",
+      "prose": "The fog pours through the cracked windows like something alive, curling across the Art Deco tiles of WXBH's lobby. Wallpaper peels in long, curling strips, revealing dark plaster beneath — as if the station is shedding its skin. A reception desk sits at the room's center, dust-coated and gray, its appointments ledger swollen with moisture. Behind it, mounted on a frayed pad of velvet, a brass relay switch catches the dying light. The air smells of salt, rot, and ozone. Beyond the desk, a heavy steel door bears stenciled letters: TRANSMITTER ROOM. It's locked. The silence here is wrong — thick, expectant — as though the station remembers filling this air with voices, and resents their absence.",
+      "exits": {
+        "east": "transmitter-room"
+      },
+      "items": ["brass-relay"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "reception desk": "A heavy oak desk coated in dust. The appointments ledger shows entries stopping abruptly on October 31, 1937.",
+        "brass relay": "A tarnished brass switch, about the size of your palm. It feels cold to the touch.",
+        "transmitter room door": "A heavy steel door with stenciled lettering. A thick padlock secures it, but the lock looks mechanical — there must be a way to open it from here."
+      }
+    },
+    {
+      "id": "transmitter-room",
+      "name": "Transmitter Room",
+      "prose": "The transmitter room opens before you like the ribcage of some iron leviathan. Vacuum tubes line the far wall in rows — dozens of them — and several pulse with a faint amber glow, though nothing here has drawn power in decades. Thick cables snake across the concrete floor, slick with condensation. A broadcasting console squats at the center, its dials frozen at impossible frequencies. On the eastern wall, you spot a fuse box, its metal face pitted with rust. One slot gapes empty — a missing relay, maybe. The door to the west leads toward what was once the control booth, but darkness swallows the corridor whole. Something hums. Not from the equipment. From beneath the floor.",
+      "exits": {
+        "west": "control-booth",
+        "south": "lobby"
+      },
+      "items": ["power-fuse"],
+      "puzzles": ["puzzle-1", "puzzle-2"],
+      "lookDescriptions": {
+        "fuse box": "A rusted metal box with multiple slots for relays and fuses. The bottom-right slot is empty, waiting for a component.",
+        "broadcasting console": "A massive control panel with dozens of dials and switches. They're all frozen at strange, impossible frequencies that don't correspond to any known radio band.",
+        "vacuum tubes": "Rows of glass tubes that pulse with amber light. They shouldn't be glowing without power. Something else is feeding them.",
+        "cables": "Thick rubber-coated cables that snake across the floor. They feel warm to the touch."
+      }
+    },
+    {
+      "id": "control-booth",
+      "name": "Control Booth",
+      "prose": "The mixing board stretches before you like an altar, its faders frozen mid-burn. Scorch marks crawl across the dials in blackened fingers — fire kissed this equipment once, and nobody bothered to clean up. Through the thick glass, the sound booth waits in darkness. Two reel-to-reel machines sit idle, tape spooled tight as clenched teeth. On the floor beside the board, dust has settled into a shape — a body, arms at its sides, head tilted toward the microphone that's no longer there. Marcus Webb. He laid down and never got up. The outline is perfect, preserved beneath decades of grime like a chalk drawing at a crime scene nobody closed. A brass studio key hangs from a hook near the glass. Beside it, the sound booth door — locked.",
+      "exits": {
+        "east": "transmitter-room",
+        "north": "sound-booth",
+        "down": "archives"
+      },
+      "items": ["studio-key"],
+      "puzzles": ["puzzle-3"],
+      "lookDescriptions": {
+        "mixing board": "A massive audio mixing console covered in scorch marks. The faders are fused in place, as if something surged through them.",
+        "reel-to-reel machines": "Two professional tape decks, their reels full of magnetic tape. One machine has tape stretched taut, as if it snapped during playback.",
+        "Marcus Webb's outline": "A perfect silhouette in dust. The shape of a man who lay down and never rose. His head is tilted toward where a microphone once stood.",
+        "studio key": "A simple brass key hanging from a hook. It's labeled 'SOUND BOOTH' in faint engraving."
+      }
+    },
+    {
+      "id": "sound-booth",
+      "name": "Sound Booth",
+      "prose": "The door seals behind you with a pneumatic hiss, and the world goes dead. Sound doesn't exist here — it's been murdered, packed into the diamond-patterned foam that lines every surface like some geometric disease. Your breathing vanishes. Your footsteps vanish. Only your heartbeat remains, trapped inside your skull, hammering against bone like it wants out. A microphone stand rises from the floor, skeletal, grasping at nothing. Beside it, a scroll of yellowed paper waits as if left for you. On the far wall, the foam shifts in tone — darker, disturbed. Scratched deep into the material: numbers. 7-3-1-9. Almost invisible unless you're looking. The foam absorbs everything. Sound. Light. Thought. You feel it pulling at the edges of your mind, trying to swallow you whole.",
+      "exits": {
+        "south": "control-booth"
+      },
+      "items": ["frequency-code-scroll"],
+      "puzzles": ["puzzle-4"],
+      "lookDescriptions": {
+        "microphone stand": "A skeletal metal stand reaching upward, as if grasping for a microphone that's long gone.",
+        "acoustic foam": "Diamond-patterned foam covering every surface. It feels unnervingly soft, like dead flesh.",
+        "frequency code": "The numbers 7-3-1-9 scratched deep into the foam. Someone left this here deliberately, a clue for whoever would follow.",
+        "scroll of paper": "A yellowed scroll beside the microphone stand, blank except for a few faint pencil lines where someone might copy something down."
+      }
+    },
+    {
+      "id": "archives",
+      "name": "The Archives",
+      "prose": "The filing cabinets groan under decades of yellowed research. Reel-to-reel tapes are stacked like vertebrae, each labeled in Dr. Holloway's increasingly erratic hand. Her journal lies open on the oak desk — clinical observations devolving into desperation, the final entry trailing off mid-sentence. A steel lockbox sits before you, its combination dial waiting. Beyond the desk, concrete stairs climb upward into darkness, leading to the rooftop. The air down here is thick with dust and something else — the faint hum of frequencies long since silenced. Every paper in this room is proof: she found something. And it found her back.",
+      "exits": {
+        "up": "rooftop",
+        "upstairs": "control-booth"
+      },
+      "items": ["maintenance-wrench", "antenna-crystal"],
+      "puzzles": ["puzzle-5"],
+      "lookDescriptions": {
+        "filing cabinets": "Rows of metal cabinets stuffed with research papers. Each drawer is labeled with frequency ranges and dates from 1935-1937.",
+        "Dr. Holloway's journal": "A leather-bound journal open to the final page. The handwriting grows progressively shakier, ending mid-sentence: 'The frequency is not empty. It's watching—'",
+        "lockbox": "A heavy steel lockbox with a four-digit combination dial. It waits patiently.",
+        "stairs": "Concrete stairs leading up to the rooftop. Cold air drifts down from above, carrying the scent of salt and ozone."
+      }
+    },
+    {
+      "id": "rooftop",
+      "name": "The Rooftop",
+      "prose": "The wind screams across the rooftop like the last breath of a dying god. Fog clings to the steel lattice of the antenna tower, curling through its bones like something alive. Below, the cliff falls three hundred feet into black water that gnaws the rock with white teeth. Inside the tower, the great transmission coil rises overhead — a cathedral of rust and silence. The service panel hangs ajar, bolts stripped long ago, revealing a hollow cavity within. A crystalline socket sits at its heart, dark and empty, patient as a grave. The coil hums. Not sound. Memory. The station has been waiting decades for someone to finish what Marcus Webb started. The fog rolls in. The cliff waits.",
+      "exits": {
+        "down": "archives",
+        "into": "antenna-tower"
+      },
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "antenna tower": "A steel lattice structure housing the massive transmission coil. Fog coils around its struts like living mist.",
+        "transmission coil": "A copper coil that stretches from floor to ceiling. It hums with residual energy, a low vibration you feel in your bones.",
+        "service panel": "A metal panel hanging open. The bolts have been stripped, as if someone tried to force it open in a hurry.",
+        "crystalline socket": "An empty socket at the heart of the service panel, shaped for a crystal of precise dimensions. It's dark and waiting."
+      }
+    },
+    {
+      "id": "antenna-tower",
+      "name": "Antenna Tower",
+      "prose": "You stand inside the tower's skeletal frame. The transmission coil dominates the space, copper windings gleaming dully in the fog-light. The service panel hangs fully open now, revealing the crystalline socket waiting at its center. This is where it ends — or begins. The station has held its breath since 1937, trapped between transmission and reception. The coil hums louder as you approach, a vibration that travels up your spine. Marcus Webb's final broadcast hangs in the air, unfinished. The cliff waits. The fog waits. The frequency waits. All it needs is completion.",
+      "exits": {
+        "out": "rooftop"
+      },
+      "items": [],
+      "puzzles": ["puzzle-5"],
+      "lookDescriptions": {
+        "transmission coil": "Massive copper windings that hum with latent energy. They seem to pulse in time with your heartbeat.",
+        "crystalline socket": "Now occupied by the antenna crystal, which glows with soft inner light. The crystal vibrates in harmony with the coil.",
+        "service panel": "Fully opened, revealing the intricate workings of the antenna. Everything is ready for the final transmission."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-1",
+      "scene": "transmitter-room",
+      "requires": ["brass-relay"],
+      "action": "use brass-relay on fuse-box",
+      "result": "The brass relay clicks into place with a satisfying thunk. Lights flicker to life across the transmitter room — the vacuum tubes glow brighter, and a soft hum fills the air. From a hidden compartment in the fuse box, a ceramic power fuse drops into your hand.",
+      "reveals": ["power-fuse"],
+      "blocksExit": "west"
+    },
+    {
+      "id": "puzzle-2",
+      "scene": "control-booth",
+      "requires": ["power-fuse"],
+      "action": "use power-fuse on mixing-board power-port",
+      "result": "You slot the power fuse into the mixing board's port. With a crackle of static, the board lights up — dials glow amber, and the scorch marks seem to pulse. From a hook beside the sound booth window, a brass studio key falls, clattering to the floor.",
+      "reveals": ["studio-key"],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-3",
+      "scene": "control-booth",
+      "requires": ["studio-key"],
+      "action": "use studio-key on sound-booth-door",
+      "result": "The key turns smoothly in the lock. The sound booth door swings open with a pneumatic hiss, revealing the acoustic chamber beyond. The air from inside feels unnaturally still, as if sound itself has been vacuumed out.",
+      "reveals": ["sound-booth"],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-4",
+      "scene": "archives",
+      "requires": ["frequency-code-scroll"],
+      "action": "enter code 7-3-1-9 on lockbox",
+      "result": "You dial 7-3-1-9 on the lockbox. With a sharp click, the lid pops open. Inside, you find a heavy maintenance wrench and a clear quartz crystal that pulses with faint inner light.",
+      "reveals": ["maintenance-wrench", "antenna-crystal"],
+      "blocksExit": ""
+    },
+    {
+      "id": "puzzle-5",
+      "scene": "antenna-tower",
+      "requires": ["maintenance-wrench", "antenna-crystal"],
+      "action": "use maintenance-wrench on service-panel, then antenna-crystal on crystalline-socket",
+      "result": "You tighten the service panel bolts with the wrench, securing the panel fully open. Then you place the antenna crystal into the socket. It slots home perfectly. The crystal erupts with brilliant white light, and the transmission coil hums to life — a deep, resonant frequency that shakes the entire tower. Through the static, a voice emerges: Marcus Webb's final broadcast, completing the sentence he left unfinished decades ago: '...and now I see you.' The broadcast completes. The fog parts. The station falls silent at last.",
+      "reveals": [],
+      "blocksExit": ""
+    }
+  ],
+  "winCondition": {
+    "scene": "antenna-tower",
+    "requires": ["maintenance-wrench", "antenna-crystal"],
+    "description": "Repair the antenna tower by securing the service panel with the wrench and installing the antenna crystal. This completes Marcus Webb's final broadcast, freeing the station from its decades-long haunting."
+  }
+}

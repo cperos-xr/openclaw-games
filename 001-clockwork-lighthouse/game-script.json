@@ -1,0 +1,200 @@
+{
+  "title": "The Clockwork Lighthouse",
+  "slug": "clockwork-lighthouse",
+  "number": 1,
+  "setting": "A mechanical lighthouse on a stormy coastline, trapped in a time loop. The lighthouse keeper has vanished, and the player must solve time-manipulation puzzles to escape.",
+  "characters": [
+    {
+      "id": "alistair-chronos",
+      "name": "Alistair Chronos",
+      "description": "The vanished lighthouse keeper, a brilliant but obsessive inventor who discovered how to manipulate time using the lighthouse's gear mechanisms."
+    }
+  ],
+  "items": [
+    {
+      "id": "brass-key",
+      "name": "Brass Key",
+      "description": "A tarnished brass key with intricate clockwork engravings.",
+      "foundIn": "workshop",
+      "usedIn": "library",
+      "usedOn": "library-door"
+    },
+    {
+      "id": "chronometer",
+      "name": "Chronometer",
+      "description": "A precision timekeeping device with multiple dials and gears. It hums with a faint temporal energy.",
+      "foundIn": "library",
+      "usedIn": "gear-chamber",
+      "usedOn": "central-gear"
+    },
+    {
+      "id": "lens-crystal",
+      "name": "Lens Crystal",
+      "description": "A large, perfectly cut crystal that glows with internal blue light. It fits into the lighthouse beacon.",
+      "foundIn": "living-quarters",
+      "usedIn": "lantern-room",
+      "usedOn": "beacon"
+    },
+    {
+      "id": "alistairs-journal",
+      "name": "Alistair's Journal",
+      "description": "A leather-bound journal filled with mechanical diagrams, temporal equations, and increasingly frantic entries.",
+      "foundIn": "multiple",
+      "usedIn": "multiple",
+      "usedOn": "story-reveal"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "exterior",
+      "name": "Lighthouse Exterior",
+      "prose": "The storm hurls salt and rain against your face as the Atlantic churns below. Above the cliff, the Clockwork Lighthouse rises — and it is wrong. Not old, but *other*. Its skeleton is brass and copper, slick with rain, crowned with gearwork gargoyles whose cogwheel eyes track you. From the lantern room, a faint blue light pulses in arrhythmic beats, fighting the thunder. The brass door stands ajar, spirals etched deep enough to make your eyes ache. A sign reads: ALISTAIR CHRONOS — KEEPER OF TIME. The last word is cracked clean through.",
+      "exits": {
+        "south": "workshop"
+      },
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "door": "A slab of burnished brass, taller than two men, etched with spirals that make your eyes ache. It stands slightly ajar, revealing a sliver of deeper black within.",
+        "sign": "A broken wooden sign hanging crooked beside the door. The carved letters read: ALISTAIR CHRONOS — KEEPER OF TIME. The last word is split by a crack.",
+        "lighthouse": "A wrong thing of brass and copper, gleaming with a sickly, rain-slick sheen. Gargoyles of intricate gearwork perch along its circumference with blank, cogwheel eyes.",
+        "light": "A faint blue light pulses from the lantern room — a slow, arrhythmic heartbeat that seems to sync with the thunder, then fight against it."
+      }
+    },
+    {
+      "id": "workshop",
+      "name": "Ground Floor Workshop",
+      "prose": "The smell hits you first — hot oil, iron filings, and something electric, like air before a lightning strike that never comes. The floor vibrates beneath your boots, a pulse from grinding gears below that don't sound like they're working. They sound like they're *chewing*. Two workbenches overflow with brass gears and tools that look more like surgical instruments. A wrench lies beside an overturned stool, and a dark smear trails from a broken gear mechanism toward the wall — too thin to be blood, too deliberate to be oil. The mechanism is frozen mid-rotation, one gear cracked clean through. Something metallic glints deep inside it. A brass key.",
+      "exits": {
+        "north": "exterior",
+        "up": "library"
+      },
+      "items": ["brass-key"],
+      "puzzles": ["workshop-puzzle"],
+      "lookDescriptions": {
+        "mechanism": "A broken gear mechanism the size of a wagon wheel, its interlocking teeth frozen mid-rotation. One gear is cracked clean through. Another has slipped its housing. Something metallic glints deep inside.",
+        "workbench": "Two workbenches drowning in brass gears, coiled springs, and fittings that look more like surgical instruments than clockwork.",
+        "staircase": "A spiral staircase winding upward, choked with fallen timbers and shattered glass. Not safely usable yet.",
+        "journal": "Pages torn from a leather journal, handwriting cramped and urgent. The first line reads: 'If you're reading this, don't trust the sound. It learns.'",
+        "wall": "A rectangle of clean paint where something hung for years. A key once hung here — now hidden inside the broken mechanism.",
+        "smear": "A smear of something dark trailing from the center mechanism toward the far wall. Too thin to be blood, too deliberate to be oil."
+      }
+    },
+    {
+      "id": "library",
+      "name": "Library & Observatory",
+      "prose": "The door opens on air thick with old paper, machine oil, and ozone. Bookshelves line the curved walls, packed with volumes whose titles your eyes slide off — *Paradox Mechanics*, *The Cartography of Hours*, *On the Inward Geometry of Temporal Collapse*. A brass telescope points not through a window but up at the painted dome — and the dome is wrong. Ursa Major has a star in the wrong position. Orion carries a third sword. Unknown constellations — *The Jaw*, *The Pendulum*, something like an eye — form a spiral tightening inward, toward *here*. On a pedestal, a chronometer ticks with the organic rhythm of a heartbeat, warm and alive against your fingertips.",
+      "exits": {
+        "down": "workshop",
+        "up": "gear-chamber"
+      },
+      "items": ["chronometer", "alistairs-journal-1"],
+      "puzzles": ["library-puzzle"],
+      "lookDescriptions": {
+        "telescope": "A brass telescope, thick as your thigh and green with age, pointing up at the painted dome ceiling.",
+        "star chart": "The dome is painted with constellations — but wrong. Ursa Major has a star in the wrong position. Orion carries a third sword. Unknown constellations — The Jaw, The Pendulum, something like an eye — form a vast spiral tightening inward. Toward here.",
+        "chronometer": "A precision chronometer sitting on a pedestal, ticking with the organic rhythm of a heartbeat. Its brass casing hums, warm and alive.",
+        "journal": "A leather journal, pages torn free. The remaining entry reads: 'Day 1,247. The chronometer works. The gears turn in the correct sequence and the stars align for three seconds — I can SEE it, the shape in the sky, the jaw opening. It's not coming. It's already here. It was always here. I just needed the right clock to find it.'",
+        "books": "Leather spines with titles that slide off the eye — Paradox Mechanics, The Cartography of Hours, On the Inward Geometry of Temporal Collapse.",
+        "door": "A locked door at the back of the room, humming in sympathy with the chronometer."
+      }
+    },
+    {
+      "id": "gear-chamber",
+      "name": "Gear Chamber",
+      "prose": "You step inside and your hindbrain screams. The vertical shaft drops into darkness below and climbs into more darkness above, lined with gears the size of coffins. They interlock in patterns that hurt to follow — forward, backward, sideways through grooves that shouldn't exist. The vibration isn't a sound; it's a pressure behind your eardrums, the kind of grinding that makes your fillings ache. Blue light from above paints everything in fractured cobalt, making the gears look wet. Alive. They *breathe* — each rotation accompanied by a faint exhalation of ozone and old pennies. Temporal static. A control panel to your left holds a slot the exact size of the chronometer. The mechanism wants feeding.",
+      "exits": {
+        "down": "library",
+        "up": "living-quarters"
+      },
+      "items": ["alistairs-journal-2"],
+      "puzzles": ["gear-chamber-puzzle"],
+      "lookDescriptions": {
+        "gears": "Gears fill the vertical shaft like the rings of some impossible tree, interlocking in patterns that hurt to follow. They breathe — each rotation accompanied by hot air that smells of ozone and old pennies.",
+        "control panel": "A brass panel with dials and a rectangular slot — the exact dimensions of the chronometer. The mechanism wants feeding.",
+        "pit": "Below the iron grating, the pit drops into nothing. A throat without a bottom.",
+        "journal": "A journal page wedged between two grinding teeth where no hand should have reached. Ink frantic, edges singed.",
+        "walkway": "Iron grating shuddering with the vibration of something enormous. Rusted railings.",
+        "passage": "A passage leads up through the gears, currently locked. The gears themselves are the lock."
+      }
+    },
+    {
+      "id": "living-quarters",
+      "name": "Living Quarters",
+      "prose": "The cot is made with military precision — hospital corners sharp enough to cut. No one has slept here. Or someone sleeps here every night and the pillow refuses to remember. A writing desk faces the window, cobalt light pooling across its surface. A half-finished cup of tea still radiates warmth from the wood itself, as if the desk remembers the heat and won't let go. The journal beside it starts precise and ends frantic — the last word, pressed so hard the pen tore through: *LISTEN*. Your reflection in the mirror arrives a half-breath late. In the glass, there is something on the cot. The pocket watch reads 3:17. It has always read 3:17.",
+      "exits": {
+        "down": "gear-chamber",
+        "up": "lantern-room"
+      },
+      "items": ["lens-crystal", "alistairs-journal-3"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "cot": "Made with military precision. Hospital corners. The pillow holds no indentation. No one has slept here — or the pillow refuses to remember.",
+        "desk": "A writing desk facing the window, cobalt light pooling across its surface. A half-finished cup of tea still radiates warmth from the wood itself.",
+        "journal": "The handwriting begins precise and controlled. By the final page, words overlap and sentences abandon themselves. The last line, written so hard the pen tore through: LISTEN.",
+        "mirror": "Your reflection arrives a half-breath late. In the glass, the room behind you is darker. There is something on the cot.",
+        "pocket watch": "Reads 3:17. It has read 3:17 since you entered. It read 3:17 before you existed.",
+        "wardrobe": "A greatcoat inside, moth-eaten at the shoulders. Behind it, wrapped in velvet the color of dried blood — a crystal that catches light and makes it come out older.",
+        "staircase": "A narrow spiral staircase leading up through the ceiling toward the Lantern Room. Each step groans like it has been waiting.",
+        "hearth": "Cold ashes forming gear-shaped patterns in the grate."
+      }
+    },
+    {
+      "id": "lantern-room",
+      "name": "Lighthouse Lantern Room",
+      "prose": "Glass walls curve around you like ribs. Through them, the storm *repeats* — the same lightning bolt, the same wave, the same crash, over and over. The beacon dominates the room: brass and crystal, its lens housing gaping open with one empty socket among six facets. Blue light pulses from its heart — *thu-thump, thu-thu-thump* — a heartbeat searching for its rhythm. Below the iron floor, the gears have shifted from grinding to breathing. Deep. Patient. Tidal. A shadow in the corner shifts when you look away. Moves closer when you blink. The Lens Crystal in your hand pulses in time with the beacon. It wants to go home. The empty socket wants to receive it. Install the crystal. Break the loop.",
+      "exits": {
+        "down": "living-quarters"
+      },
+      "items": [],
+      "puzzles": ["beacon-puzzle"],
+      "lookDescriptions": {
+        "beacon": "Brass and crystal, mechanical and organic, rising from the floor like a spine. Its lens housing gapes open — six crystal facets in a ring, one socket empty.",
+        "storm": "Through the glass walls, the storm repeats. The same bolt. The same wave. The storm is a scar that will not heal.",
+        "shadow": "A shadow in the corner that shifts when you glance away, moves closer when you blink. It tilts its head — a gesture so human it stops your heart.",
+        "lens housing": "Six crystal facets in a ring. One socket empty, yawning, waiting for the Lens Crystal.",
+        "light": "Blue light pulses from the beacon's heart. Thu-thump. Thu-thu-thump. Thu-thump. A heartbeat searching for its rhythm.",
+        "gears": "Below the iron floor, the gears have shifted from grinding to breathing. Deep, patient, tidal. The lighthouse breathes, and something breathes with it."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "workshop-puzzle",
+      "scene": "workshop",
+      "requires": [],
+      "action": "Repair the broken gear mechanism using scattered tools",
+      "result": "Access to the brass key hidden in the mechanism",
+      "reveals": ["brass-key"]
+    },
+    {
+      "id": "library-puzzle",
+      "scene": "library",
+      "requires": ["brass-key"],
+      "action": "Use the chronometer with the telescope to decode the star chart",
+      "result": "Reveals the correct gear sequence for the Gear Chamber",
+      "reveals": ["gear-sequence"]
+    },
+    {
+      "id": "gear-chamber-puzzle",
+      "scene": "gear-chamber",
+      "requires": ["chronometer", "gear-sequence"],
+      "action": "Synchronize the central gears to the correct temporal alignment",
+      "result": "Unlocks access to the Living Quarters",
+      "reveals": ["living-quarters"]
+    },
+    {
+      "id": "beacon-puzzle",
+      "scene": "lantern-room",
+      "requires": ["lens-crystal"],
+      "action": "Install the lens crystal and activate the beacon",
+      "result": "Breaks the time loop and allows escape from the lighthouse",
+      "reveals": ["win"]
+    }
+  ],
+  "winCondition": {
+    "scene": "lantern-room",
+    "requires": ["lens-crystal"],
+    "description": "Activate the beacon with the lens crystal to break the time loop and escape the lighthouse"
+  }
+}

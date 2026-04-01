@@ -1,0 +1,27 @@
+# Solvability Report: The Ashmore Sanatorium
+
+## Verdict: SOLVABLE
+
+## Dependency Chain Walkthrough:
+1. Start in "The Foyer" scene
+2. Obtain "master-key" and use it to solve "unlock-records" puzzle to access "Records Room"
+3. In "Records Room", obtain "cipher-wheel"
+4. Use "cipher-wheel" to solve "decode-cipher" puzzle to reveal location of "battery-cell"
+5. Move to "Electrotherapy Chamber" and obtain "battery-cell"
+6. Use "battery-cell" to solve "power-generator" puzzle to access "Ice Cellar"
+7. In "Ice Cellar", obtain "patient-ledger"
+8. Use "patient-ledger" to solve "open-safe" puzzle to obtain "resonance-key"
+9. Move to "Director's Office" and obtain "resonance-key"
+10. Use "resonance-key" to solve "unlock-observatory" puzzle in the "Observatory" scene
+
+## Win Condition:
+Insert the resonance key into the Frostwell's control panel to seal the supernatural cold
+
+## Orphaned Items:
+None
+
+## Unreachable Content:
+None
+
+## Specific Bugs Found:
+None - all items and puzzles are logically connected with a clear progression path

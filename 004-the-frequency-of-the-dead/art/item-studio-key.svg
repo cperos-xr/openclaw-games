@@ -1,0 +1,25 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="64" height="64" fill="#1a1a18"/>
+  
+  <!-- Key blade -->
+  <rect x="28" y="24" width="20" height="4" fill="#d4af37" stroke="#b8860b" stroke-width="2"/>
+  <!-- Key teeth -->
+  <rect x="44" y="24" width="4" height="8" fill="#d4af37" stroke="#b8860b" stroke-width="1"/>
+  <rect x="40" y="28" width="4" height="4" fill="#d4af37" stroke="#b8860b" stroke-width="1"/>
+  
+  <!-- Key bow (handle) -->
+  <circle cx="24" cy="26" r="8" fill="#d4af37" stroke="#b8860b" stroke-width="3"/>
+  <circle cx="24" cy="26" r="5" fill="#1a1a18" stroke="#b8860b" stroke-width="1"/>
+  
+  <!-- Key neck -->
+  <rect x="32" y="22" width="8" height="8" fill="#d4af37" stroke="#b8860b" stroke-width="2"/>
+  
+  <!-- Engraving: SOUND BOOTH -->
+  <text x="24" y="44" font-family="monospace" font-size="6" fill="#b8860b" text-anchor="middle">SOUND</text>
+  <text x="24" y="52" font-family="monospace" font-size="6" fill="#b8860b" text-anchor="middle">BOOTH</text>
+  
+  <!-- Tarnish -->
+  <rect x="20" y="20" width="8" height="12" fill="#b8860b" opacity="0.3"/>
+  <line x1="28" y1="24" x2="48" y2="24" stroke="#8b6914" stroke-width="1" opacity="0.5"/>
+</svg>

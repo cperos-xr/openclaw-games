@@ -1,0 +1,26 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Transmitter body -->
+  <rect x="20" y="18" width="24" height="28" fill="#00FF00" stroke="#000000" stroke-width="2"/>
+  <!-- Screen/display -->
+  <rect x="24" y="22" width="16" height="8" fill="#000000"/>
+  <!-- Frequency display -->
+  <rect x="26" y="24" width="2" height="2" fill="#00FF00"/> <!-- 1 -->
+  <rect x="29" y="24" width="1" height="2" fill="#00FF00"/> <!-- . -->
+  <rect x="31" y="24" width="2" height="2" fill="#00FF00"/> <!-- 0 -->
+  <rect x="34" y="24" width="1" height="2" fill="#00FF00"/> <!-- . -->
+  <rect x="36" y="24" width="2" height="2" fill="#00FF00"/> <!-- 0 -->
+  <!-- Knobs/dials -->
+  <circle cx="24" cy="30" r="2" fill="#2F2F2F"/>
+  <circle cx="40" cy="30" r="2" fill="#2F2F2F"/>
+  <!-- Antenna -->
+  <rect x="31" y="10" width="2" height="8" fill="#2F2F2F" stroke="#000000" stroke-width="1"/>
+  <rect x="30" y="8" width="4" height="2" fill="#2F2F2F"/>
+  <!-- Label area -->
+  <rect x="22" y="16" width="20" height="2" fill="#FFFF00"/>
+  <!-- Text representation -->
+  <rect x="23" y="17" width="2" height="1" fill="#000000"/> <!-- R -->
+  <rect x="26" y="17" width="2" height="1" fill="#000000"/> <!-- E -->
+  <rect x="29" y="17" width="2" height="1" fill="#000000"/> <!-- S -->
+  <rect x="32" y="17" width="2" height="1" fill="#000000"/> <!-- O -->
+  <rect x="35" y="17" width="2" height="1" fill="#000000"/> <!-- N -->
+</svg>

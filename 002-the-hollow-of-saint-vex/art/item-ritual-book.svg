@@ -1,0 +1,24 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Book cover -->
+  <rect x="16" y="20" width="32" height="32" fill="#8B0000" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Leather texture -->
+  <line x1="16" y1="24" x2="48" y2="24" stroke="#000000" stroke-width="1"/>
+  <line x1="16" y1="28" x2="48" y2="28" stroke="#000000" stroke-width="1"/>
+  <line x1="16" y1="32" x2="48" y2="32" stroke="#000000" stroke-width="1"/>
+  <line x1="16" y1="36" x2="48" y2="36" stroke="#000000" stroke-width="1"/>
+  <line x1="16" y1="40" x2="48" y2="40" stroke="#000000" stroke-width="1"/>
+  <line x1="16" y1="44" x2="48" y2="44" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Water stains -->
+  <rect x="20" y="24" width="8" height="4" fill="#654321" opacity="0.5"/>
+  <rect x="36" y="32" width="6" height="6" fill="#654321" opacity="0.5"/>
+  
+  <!-- Occult diagram (simple pentagram) -->
+  <path d="M32,24 L28,32 L20,28 L24,20 L32,16 L40,20 L44,28 L36,32 Z" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Latin incantations (represented as lines) -->
+  <line x1="20" y1="40" x2="44" y2="40" stroke="#FFFFFF" stroke-width="1"/>
+  <line x1="20" y1="44" x2="44" y2="44" stroke="#FFFFFF" stroke-width="1"/>
+  
+</svg>

@@ -1,0 +1,66 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Dark gridwalk -->
+  <rect width="640" height="400" fill="#0A0008"/>
+  
+  <!-- Catwalk grid (metal walkway) -->
+  <rect x="20" y="150" width="600" height="20" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
+  <rect x="20" y="200" width="600" height="20" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
+  <rect x="20" y="250" width="600" height="20" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
+  
+  <!-- Grid supports -->
+  <rect x="40" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
+  <rect x="120" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
+  <rect x="200" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
+  <rect x="280" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
+  <rect x="360" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
+  <rect x="440" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
+  <rect x="520" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
+  <rect x="600" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
+  
+  <!-- Lighting control board -->
+  <rect x="50" y="100" width="100" height="80" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
+  <rect x="60" y="110" width="20" height="10" fill="#330028"/> <!-- Dead indicators -->
+  <rect x="60" y="130" width="20" height="10" fill="#330028"/>
+  <rect x="90" y="110" width="20" height="10" fill="#330028"/>
+  <rect x="90" y="130" width="20" height="10" fill="#FF0000"/> <!-- Few LEDs flickering weakly -->
+  <rect x="60" y="150" width="20" height="10" fill="#330028"/>
+  <rect x="90" y="150" width="20" height="10" fill="#00FF00"/> <!-- Few LEDs flickering weakly -->
+  
+  <!-- Cue sheet -->
+  <rect x="180" y="100" width="60" height="40" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
+  <rect x="190" y="110" width="10" height="20" fill="#FFFFFF"/> <!-- Circle -->
+  <rect x="210" y="110" width="20" height="20" fill="#FFFFFF"/> <!-- Triangle basis -->
+  <polygon points="220,110 240,130 200,130" fill="#FFFFFF"/> <!-- Triangle -->
+  <rect x="240" y="110" width="20" height="20" fill="#FFFFFF"/> <!-- Square -->
+  <rect x="260" y="110" width="20" height="20" fill="#FFFFFF"/> <!-- Cross basis -->
+  <rect x="260" y="120" width="20" height="5" fill="#FFFFFF"/>
+  <rect x="270" y="110" width="5" height="20" fill="#FFFFFF"/>
+  <line x1="190" y1="100" x2="230" y2="140" stroke="#FFFFFF" stroke-width="1"/> <!-- Crack lines -->
+  <line x1="230" y1="100" x2="190" y2="140" stroke="#FFFFFF" stroke-width="1"/>
+  
+  <!-- Ghost light (far below, tiny beacon) -->
+  <circle cx="320" cy="350" r="3" fill="#FFFF00"/>
+  <circle cx="320" cy="350" r="1" fill="#FFFFFF"/>
+  
+  <!-- Conductor's baton (on railing) -->
+  <rect x="400" y="140" width="5" height="30" fill="#0A0008" stroke="#FFFFFF" stroke-width="1"/> <!-- Ebony baton -->
+  <rect x="395" y="168" width="15" height="3" fill="#C0C0C0"/> <!-- Silver tip -->
+  
+  <!-- Grid stretching east over stage -->
+  <rect x="20" y="200" width="200" height="20" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
+  <rect x="20" y="250" width="200" height="20" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
+  
+  <!-- Collapsed grid (gap) -->
+  <line x1="220" y1="200" x2="220" y2="260" stroke="#FFFFFF" stroke-width="2"/>
+  <line x1="260" y1="200" x2="260" y2="260" stroke="#FFFFFF" stroke-width="2"/>
+  <line x1="220" y1="230" x2="260" y2="230" stroke="#2B001E" stroke-width="10"/> <!-- Gap -->
+  
+  <!-- Residual electricity hum (subtle lines) -->
+  <line x1="100" y1="80" x2="120" y2="90" stroke="#00FFFF" stroke-width="1"/>
+  <line x1="120" y1="90" x2="140" y2="80" stroke="#00FFFF" stroke-width="1"/>
+  <line x1="500" y1="80" x2="520" y2="90" stroke="#00FFFF" stroke-width="1"/>
+  <line x1="520" y1="90" x2="540" y2="80" stroke="#00FFFF" stroke-width="1"/>
+  
+  <!-- East exit to stage -->
+  <rect x="600" y="200" width="20" height="80" fill="#0A0008" stroke="#4A0035" stroke-width="2"/>
+</svg>

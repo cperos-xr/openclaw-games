@@ -1,0 +1,212 @@
+{
+  "title": "The Ashmore Sanatorium",
+  "slug": "ashmore-sanatorium",
+  "number": 3,
+  "setting": "A decaying mountain sanatorium from the 1930s, frozen in perpetual winter. Dr. Elara Ashmore conducted experiments merging cryogenic science with consciousness transfer. The building is locked in supernatural cold.",
+  "characters": [
+    {
+      "id": "ashmore",
+      "name": "Dr. Elara Ashmore",
+      "description": "The missing director; her voice echoes through recordings and journals."
+    },
+    {
+      "id": "warden",
+      "name": "The Warden",
+      "description": "A hulking orderly frozen mid-stride; his eyes follow you, but he never moves."
+    }
+  ],
+  "items": [
+    {
+      "id": "master-key",
+      "name": "Master Key",
+      "description": "A large, tarnished key hanging behind the reception desk. It feels heavy and cold.",
+      "foundIn": "foyer",
+      "usedIn": "records-room",
+      "usedOn": "unlock-records"
+    },
+    {
+      "id": "cipher-wheel",
+      "name": "Cipher Wheel",
+      "description": "A brass-and-glass device with frozen dials. It seems meant to decode numeric sequences.",
+      "foundIn": "records-room",
+      "usedIn": "records-room",
+      "usedOn": "decode-cipher"
+    },
+    {
+      "id": "battery-cell",
+      "name": "Battery Cell",
+      "description": "A heavy cylindrical cell with a faint blue glow inside. It still holds a charge.",
+      "foundIn": "electrotherapy-chamber",
+      "usedIn": "electrotherapy-chamber",
+      "usedOn": "power-generator"
+    },
+    {
+      "id": "patient-ledger",
+      "name": "Patient Ledger",
+      "description": "A leather‑bound log of patient admissions. One entry is circled in red ink.",
+      "foundIn": "ice-cellar",
+      "usedIn": "ice-cellar",
+      "usedOn": "open-safe"
+    },
+    {
+      "id": "resonance-key",
+      "name": "Resonance Key",
+      "description": "A tuning‑fork‑shaped device that glows with a pale light. It hums softly in your hand.",
+      "foundIn": "directors-office",
+      "usedIn": "observatory",
+      "usedOn": "unlock-observatory"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "foyer",
+      "name": "The Foyer",
+      "prose": "The front door slams behind you, and the sound echoes through the cavernous foyer like a gunshot. Frost coats everything—the peeling floral wallpaper, the cracked marble floor, the wrought-iron banister of a staircase that vanishes into shadow above. A massive chandelier hangs from the ceiling, each crystal weeping a stalactite of ice. The air is so cold it burns your lungs.\n\nTo your left, a reception desk crouches beneath a layer of dust and rime. A leather-bound guest book lies open, its pages frozen together. Behind the desk, on a brass hook, hangs a large, tarnished **master key**.\n\nAcross the room, a heavy oak door is marked “RECORDS” in faded gold lettering. It’s locked.\n\nAnd then you see him.\n\nNear the foot of the stairs, a hulking figure stands rigid, one foot raised as if caught mid-stride. An orderly’s uniform, stiff with frost. His eyes are open, wide and glassy, fixed on you. He does not move. He does not breathe. You feel the weight of his stare like a physical pressure.\n\nSomewhere deeper in the sanatorium, a pipe groans. The cold seeps through your clothes, into your bones. The only way forward is east—through that locked door. The key waits behind the desk. The Warden watches.",
+      "exits": {
+        "east": "records-room"
+      },
+      "items": ["master-key"],
+      "puzzles": ["unlock-records"],
+      "lookDescriptions": {
+        "reception desk": "A heavy oak desk buried under dust and frost. The guest book lies open, its pages frozen together.",
+        "master key": "A large, tarnished key hanging from a brass hook behind the desk.",
+        "warden": "A hulking orderly frozen mid‑stride. His eyes are open, fixed on you. He does not move."
+      }
+    },
+    {
+      "id": "records-room",
+      "name": "Records Room",
+      "prose": "The records room smells of mildew and old paper. Rows of filing cabinets line the walls, their drawers slightly ajar, spilling brittle patient files onto the floor. A large wooden desk dominates the center of the room, its surface cluttered with a rusted typewriter, a stack of yellowed forms, and a strange mechanical device—a **cipher wheel** made of brass and frosted glass.\n\nOne wall is entirely covered by a floor-to-ceiling map of the sanatorium, its once‑vivid colors now bleached by time. Red pins mark certain rooms; a trail of them leads from the foyer down to a sub‑level labeled “ICE CELLAR.”\n\nOn the desk, beside the cipher wheel, lies an open journal. The handwriting is precise, clinical:\n\n*“December 3, 1938 — The resonance frequency stabilizes. Subject Seven shows no degradation after 72 hours at –40°C. Consciousness appears preserved, though communication remains impossible. The Warden… reacts. He watches them. I must recalibrate the generator before the core fails.”*\n\nA heavy metal door to the north is marked “ELECTROTHERAPY.” It’s sealed shut, no visible lock. To the south, a narrow staircase descends into darkness, but a chain and padlock bar the way.\n\nThe cipher wheel’s dials are frozen. It seems meant to decode something—perhaps the scribbled numbers in the journal’s margin.",
+      "exits": {
+        "north": "electrotherapy-chamber",
+        "south": "ice-cellar"
+      },
+      "items": ["cipher-wheel"],
+      "puzzles": ["decode-cipher"],
+      "lookDescriptions": {
+        "filing cabinets": "Rows of metal cabinets spilling brittle patient files. The names are faded, the dates all from the late 1930s.",
+        "desk": "Cluttered with a rusted typewriter, yellowed forms, and the cipher wheel.",
+        "cipher wheel": "A brass-and-glass device with several dials, all frozen in place.",
+        "map": "A large floor-to-ceiling map of the sanatorium. Red pins trace a path to the Ice Cellar.",
+        "journal": "Dr. Ashmore’s clinical notes. The margins are filled with scribbled numbers."
+      }
+    },
+    {
+      "id": "electrotherapy-chamber",
+      "name": "Electrotherapy Chamber",
+      "prose": "The electrotherapy chamber feels like a prison. Metal gurneys line the walls, each fitted with leather restraints stiffened by cold. Wires dangle from the ceiling, their copper ends frayed and blackened. In the center of the room stands a massive generator, its steel housing streaked with rust and frost. A panel on its side hangs open, revealing empty battery terminals.\n\nAlong the far wall, a bank of monitoring equipment sits dark—dials dead, glass faces cracked. Above them, a large schematic diagram shows the sanatorium’s electrical grid. One line, highlighted in red, runs from this room down to the Ice Cellar. The label reads “CRYO‑FEED.”\n\nA **battery cell** rests on a shelf beside the generator. It’s heavy, cold to the touch, and still holds a faint blue glow deep within its casing.\n\nTo the east, a reinforced door bears the symbol of a snowflake and the words “ICE CELLAR ACCESS.” It’s sealed, but a keyhole beside it suggests it can be unlocked—if power is restored.\n\nThe air hums with residual static, the ghost of a thousand volts. From somewhere beyond the cellar door comes a low, rhythmic thump—like a heartbeat muffled by ice.",
+      "exits": {
+        "east": "ice-cellar"
+      },
+      "items": ["battery-cell"],
+      "puzzles": ["power-generator"],
+      "lookDescriptions": {
+        "generator": "A massive steel housing streaked with rust and frost. The battery terminals inside are empty.",
+        "battery cell": "A heavy cylindrical cell resting on a shelf. A faint blue glow pulses within.",
+        "monitoring equipment": "A bank of dead dials and cracked glass faces.",
+        "schematic": "Shows the electrical grid. A red line labeled “CRYO‑FEED” runs to the Ice Cellar.",
+        "cellar door": "A reinforced door marked with a snowflake. A keyhole sits beside it."
+      }
+    },
+    {
+      "id": "ice-cellar",
+      "name": "Ice Cellar",
+      "prose": "The Ice Cellar is a tomb of white. Thick layers of rime crust the walls, the floor, the ceiling. Rows of storage lockers line the room, their doors sealed shut under sheets of ice. In the center, a single metal autopsy table stands bare, its surface polished to a mirror finish by the cold.\n\nAt the far end of the cellar, a large wall safe is embedded in the stone. Its combination dial is frozen, but a small placard above it reads: “Patient records — authorized personnel only.” Tucked into a crevice beside the safe is a leather‑bound **patient ledger**, its pages brittle but legible.\n\nThe ledger lists names, admission dates, and cryptic codes. One entry is circled in red ink:\n\n*“Vargas, Emil. Admitted 11/14/1938. Assigned to Resonance Trial Gamma. Result: Partial integration. Consciousness anchored to frequency 7.3 kHz. Requires stabilization key.”*\n\nNext to the entry, someone has scribbled three numbers: 7‑3‑9.\n\nA heavy door to the north is marked “DIRECTOR’S OFFICE.” It’s locked with a complex mechanical bolt—no ordinary keyhole, but a slot shaped like a tuning fork.\n\nThe cold here is absolute. Your breath crystallizes the moment it leaves your lips. From inside one of the lockers, a faint scratching sound echoes, slow and relentless.",
+      "exits": {
+        "north": "directors-office"
+      },
+      "items": ["patient-ledger"],
+      "puzzles": ["open-safe"],
+      "lookDescriptions": {
+        "storage lockers": "Rows of lockers sealed shut under thick ice. From one comes a faint, slow scratching.",
+        "autopsy table": "A metal table polished to a mirror finish by the cold.",
+        "safe": "A large wall safe with a frozen combination dial. A placard reads “Patient records — authorized personnel only.”",
+        "patient ledger": "A leather‑bound log. One entry is circled in red, with the numbers 7‑3‑9 scribbled beside it.",
+        "office door": "A heavy door marked “DIRECTOR’S OFFICE.” The lock is a slot shaped like a tuning fork."
+      }
+    },
+    {
+      "id": "directors-office",
+      "name": "Director's Office",
+      "prose": "Dr. Ashmore’s office is a frozen still‑life of interrupted work. A massive oak desk faces a wall of windows that now look out onto a solid wall of ice. Papers are scattered across the desk—blueprints, frequency charts, pages of dense equations. In the center of the chaos rests a small, intricate device: a **resonance key**, shaped like a tuning fork, its prongs glowing with a soft, pale light.\n\nA large phonograph sits on a side table, its turntable still holding a wax cylinder. A note beside it reads, in elegant cursive: “Final log. The Warden is fully integrated. The Frostwell cannot be closed from inside. The key must reach the observatory.”\n\nTo the north, a spiral staircase leads upward. A metal gate blocks it, but the gate has a slot that matches the shape of the resonance key.\n\nOn the wall behind the desk hangs a portrait of Dr. Elara Ashmore—severe, intelligent eyes, a mouth set in a line of grim determination. The frame is dusted with frost, but the eyes seem to follow you as you move.\n\nThe air here is different—not just cold, but charged, like the moment before a lightning strike. The resonance key hums faintly in your hand, vibrating in tune with some deeper frequency that runs through the very bones of the sanatorium.",
+      "exits": {
+        "north": "observatory"
+      },
+      "items": ["resonance-key"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "desk": "Scattered with blueprints, frequency charts, and equations. The resonance key rests in the center.",
+        "phonograph": "A large phonograph with a wax cylinder still on the turntable.",
+        "note": "Elegant cursive: “Final log. The Warden is fully integrated. The Frostwell cannot be closed from inside. The key must reach the observatory.”",
+        "portrait": "Dr. Elara Ashmore—severe, intelligent eyes that seem to follow you.",
+        "spiral staircase": "Leads upward, blocked by a metal gate with a tuning‑fork‑shaped slot."
+      }
+    },
+    {
+      "id": "observatory",
+      "name": "Observatory",
+      "prose": "The observatory crowns the sanatorium—a circular room of glass and steel, now encased in ice. A massive telescope points upward, its lens frosted over. But the real focus of the room is the center: a cylindrical apparatus of gleaming brass and crystal, pulsing with a deep, rhythmic blue light. This is the Frostwell.\n\nA control panel stands before it, covered in dials, switches, and a single keyhole shaped like a tuning fork. Above the panel, a plaque reads: “Resonance Stabilization Array — Insert key to initiate sealing protocol.”\n\nWhen you slide the resonance key into the slot, the entire room thrums. The Frostwell’s light intensifies, climbing from blue to white. The ice on the windows begins to fracture, then evaporate, revealing a night sky choked with stars.\n\nFrom below, you hear a sound—a long, shuddering sigh that seems to rise through the floors, through the walls, through your own ribs. It is the sound of the sanatorium letting go.\n\nThe light from the Frostwell solidifies into a beam that spears upward, piercing the clouds. The cold retreats, replaced by a weary, ancient warmth. Outside, the first hints of dawn tinge the horizon.\n\nYou have sealed the Frostwell. The resonance is broken. The sanatorium falls silent at last.",
+      "exits": {},
+      "items": [],
+      "puzzles": ["unlock-observatory"],
+      "lookDescriptions": {
+        "telescope": "A massive telescope, its lens frosted over.",
+        "Frostwell": "A cylindrical apparatus of brass and crystal, pulsing with deep blue light.",
+        "control panel": "Covered in dials and switches. A keyhole shaped like a tuning fork waits for the resonance key.",
+        "plaque": "“Resonance Stabilization Array — Insert key to initiate sealing protocol.”"
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "unlock-records",
+      "scene": "foyer",
+      "requires": ["master-key"],
+      "action": "use master-key on records door",
+      "result": "The heavy oak door creaks open, revealing the records room beyond.",
+      "reveals": ["records-room"],
+      "blocksExit": "east"
+    },
+    {
+      "id": "decode-cipher",
+      "scene": "records-room",
+      "requires": ["cipher-wheel"],
+      "action": "use cipher-wheel on desk",
+      "result": "The dials thaw and click into place, decoding the numbers in the journal. They point to the battery cell in the electrotherapy chamber.",
+      "reveals": ["battery-cell"],
+      "blocksExit": "south"
+    },
+    {
+      "id": "power-generator",
+      "scene": "electrotherapy-chamber",
+      "requires": ["battery-cell"],
+      "action": "use battery-cell in generator",
+      "result": "The generator whirs to life, blue light flickering across the dials. The cellar‑access door unlocks with a heavy thunk.",
+      "reveals": ["ice-cellar"],
+      "blocksExit": "east"
+    },
+    {
+      "id": "open-safe",
+      "scene": "ice-cellar",
+      "requires": ["patient-ledger"],
+      "action": "use patient-ledger on safe",
+      "result": "The numbers 7‑3‑9 from the ledger work. The safe clicks open, revealing the resonance key inside.",
+      "reveals": ["resonance-key"],
+      "blocksExit": "north"
+    },
+    {
+      "id": "unlock-observatory",
+      "scene": "observatory",
+      "requires": ["resonance-key"],
+      "action": "use resonance-key in control panel",
+      "result": "The resonance key slides home. The Frostwell flares, sealing the supernatural cold. You have won.",
+      "reveals": [],
+      "blocksExit": ""
+    }
+  ],
+  "winCondition": {
+    "scene": "observatory",
+    "requires": ["resonance-key"],
+    "description": "Insert the resonance key into the Frostwell's control panel to seal the supernatural cold and escape the sanatorium."
+  }
+}

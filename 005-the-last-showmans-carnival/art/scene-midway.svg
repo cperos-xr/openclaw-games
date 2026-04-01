@@ -1,0 +1,68 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Dark sky -->
+  <rect width="640" height="400" fill="#000000"/>
+  
+  <!-- Ground -->
+  <rect y="320" width="640" height="80" fill="#006600"/>
+  
+  <!-- Ticket Booth -->
+  <rect x="50" y="200" width="80" height="100" fill="#8B0000" stroke="#000000" stroke-width="3"/>
+  <rect x="55" y="205" width="70" height="20" fill="#654321" stroke="#000000" stroke-width="2"/> <!-- Counter -->
+  <line x1="50" y1="230" x2="130" y2="230" stroke="#FFFFFF" stroke-width="2"/> <!-- Broken window -->
+  <rect x="60" y="210" width="20" height="30" fill="#FFFFFF" stroke="#000000" stroke-width="1"/> <!-- Poster -->
+  
+  <!-- Kudzu vines -->
+  <path d="M100,280 Q120,260 140,280 Q160,300 180,280" fill="none" stroke="#006600" stroke-width="3"/>
+  <path d="M150,300 Q170,280 190,300 Q210,320 230,300" fill="none" stroke="#006600" stroke-width="3"/>
+  
+  <!-- Rusted game booths -->
+  <rect x="200" y="220" width="60" height="80" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <rect x="270" y="200" width="60" height="100" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <rect x="340" y="210" width="60" height="90" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Food stalls -->
+  <rect x="410" y="230" width="50" height="70" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <rect x="470" y="220" width="50" height="80" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Ferris wheel -->
+  <circle cx="550" cy="150" radius="80" fill="none" stroke="#000000" stroke-width="3"/>
+  <line x1="550" y1="70" x2="550" y2="230" stroke="#000000" stroke-width="3"/>
+  <line x1="470" y1="150" x2="630" y2="150" stroke="#000000" stroke-width="3"/>
+  <line x1="550" y1="70" x2="470" y2="110" stroke="#000000" stroke-width="2"/>
+  <line x1="550" y1="70" x2="630" y2="110" stroke="#000000" stroke-width="2"/>
+  <line x1="550" y1="230" x2="470" y2="190" stroke="#000000" stroke-width="2"/>
+  <line x1="550" y1="230" x2="630" y2="190" stroke="#000000" stroke-width="2"/>
+  <!-- Gondolas -->
+  <rect x="470" y="65" width="20" height="30" fill="#FF0000" stroke="#000000" stroke-width="1"/>
+  <rect x="550" y="65" width="20" height="30" fill="#FF0000" stroke="#000000" stroke-width="1"/>
+  <rect x="610" y="65" width="20" height="30" fill="#FF0000" stroke="#000000" stroke-width="1"/>
+  <rect x="470" y="235" width="20" height="30" fill="#FF0000" stroke="#000000" stroke-width="1"/>
+  <rect x="550" y="235" width="20" height="30" fill="#FF0000" stroke="#000000" stroke-width="1"/>
+  <rect x="610" y="235" width="20" height="30" fill="#FF0000" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Lamp post -->
+  <rect x="300" y="100" width="4" height="120" fill="#000000" stroke="#000000" stroke-width="2"/>
+  <circle cx="302" cy="100" radius="8" fill="#FFFF00" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Funhouse -->
+  <rect x="100" y="180" width="120" height="100" fill="#DEB887" stroke="#000000" stroke-width="3"/>
+  <rect x="110" y="190" width="100" height="20" fill="#FF8C00" stroke="#000000" stroke-width="2"/> <!-- Clown paint -->
+  <rect x="140" y="210" width="40" height="50" fill="#8B0000" stroke="#000000" stroke-width="2"/> <!-- Door -->
+  <rect x="150" y="220" width="20" height="30" fill="#000000" stroke="#000000" stroke-width="2"/> <!-- Padlock -->
+  <line x1="160" y1="200" x2="160" y2="250" stroke="#000000" stroke-width="3"/> <!-- Chain -->
+  
+  <!-- Carousel (in distance) -->
+  <rect x="400" y="150" width="60" height="60" fill="#DAA520" stroke="#000000" stroke-width="2"/>
+  <circle cx="430" cy="180" radius="30" fill="none" stroke="#000000" stroke-width="2"/>
+  <line x1="430" y1="150" x2="430" y2="210" stroke="#000000" stroke-width="2"/>
+  <line x1="400" y1="180" x2="460" y2="180" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Big Top Tent (in distance) -->
+  <line x1="500" y1="80" x2="580" y2="150" stroke="#000000" stroke-width="2"/>
+  <line x1="580" y1="150" x2="500" y2="220" stroke="#000000" stroke-width="2"/>
+  <line x1="500" y1="80" x2="500" y2="220" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Fortune Teller Wagon (in distance) -->
+  <rect x="80" y="220" width="60" height="40" fill="#9400D3" stroke="#000000" stroke-width="2"/>
+  <rect x="90" y="200" width="40" height="20" fill="#9400D3" stroke="#000000" stroke-width="2"/>
+</svg>

@@ -1,0 +1,46 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Dark Arctic sky -->
+  <rect width="640" height="400" fill="#000088"/>
+  
+  <!-- Snow-covered ground -->
+  <rect y="300" width="640" height="100" fill="#FFFFFF" opacity="0.8"/>
+  
+  <!-- Frostbite Station buildings -->
+  <!-- Main building -->
+  <rect x="150" y="100" width="300" height="200" fill="#2F2F2F" stroke="#000000" stroke-width="4"/>
+  <!-- Building details -->
+  <rect x="160" y="120" width="280" height="20" fill="#1A1A1A"/>
+  <rect x="160" y="160" width="100" height="40" fill="#1A1A1A"/>
+  <rect x="380" y="160" width="100" height="40" fill="#1A1A1A"/>
+  <!-- Windows -->
+  <rect x="180" y="140" width="30" height="30" fill="#000000"/>
+  <rect x="230" y="140" width="30" height="30" fill="#000000"/>
+  <rect x="280" y="140" width="30" height="30" fill="#000000"/>
+  <rect x="330" y="140" width="30" height="30" fill="#000000"/>
+  
+  <!-- Blast door -->
+  <rect x="270" y="220" width="80" height="100" fill="#8B0000" stroke="#000000" stroke-width="3"/>
+  <!-- Ice on door -->
+  <rect x="270" y="220" width="80" height="20" fill="#E0F8FF" opacity="0.7"/>
+  
+  <!-- Frozen corridor entrance -->
+  <rect x="250" y="180" width="120" height="60" fill="#E0F8FF" opacity="0.6" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Snow drifts -->
+  <path d="M50,300 Q100,250 150,300 T250,300 Q300,250 350,300 T450,300 Q500,250 550,300 T640,300 L640,400 L0,400 Z" fill="#FFFFFF" opacity="0.9"/>
+  
+  <!-- Overturned crates -->
+  <rect x="100" y="260" width="80" height="40" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <rect x="100" y="260" width="20" height="40" fill="#654321"/>
+  <rect x="200" y="240" width="60" height="60" fill="#8B4513" stroke="#000000" stroke-width="2"/>
+  <rect x="200" y="240" width="15" height="60" fill="#654321"/>
+  
+  <!-- Flare torch -->
+  <rect x="180" y="250" width="12" height="30" fill="#FF0000" stroke="#000000" stroke-width="2"/>
+  <rect x="178" y="280" width="16" height="8" fill="#FF8800" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Wind lines -->
+  <line x1="0" y1="50" x2="640" y2="50" stroke="#FFFFFF" stroke-width="1" opacity="0.3"/>
+  <line x1="20" y1="100" x2="620" y2="100" stroke="#FFFFFF" stroke-width="1" opacity="0.3"/>
+  <line x1="40" y1="150" x2="600" y2="150" stroke="#FFFFFF" stroke-width="1" opacity="0.3"/>
+</svg>

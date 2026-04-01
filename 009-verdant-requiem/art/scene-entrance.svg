@@ -1,0 +1,35 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: dark mossy green -->
+  <rect width="640" height="400" fill="#003300"/>
+  
+  <!-- Glass ceiling with cracks -->
+  <rect x="0" y="0" width="640" height="80" fill="#006600" stroke="#000000" stroke-width="3"/>
+  <!-- Cracks in glass -->
+  <line x1="100" y1="0" x2="100" y2="80" stroke="#000000" stroke-width="2"/>
+  <line x1="300" y1="0" x2="300" y2="80" stroke="#000000" stroke-width="2"/>
+  <line x1="500" y1="0" x2="500" y2="80" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Mossy flagstones -->
+  <rect x="0" y="320" width="640" height="80" fill="#004400" stroke="#002200" stroke-width="2"/>
+  <!-- Cracks in flagstones -->
+  <line x1="0" y1="360" x2="640" y2="360" stroke="#002200" stroke-width="1"/>
+  <line x1="320" y1="320" x2="320" y2="400" stroke="#002200" stroke-width="1"/>
+  
+  <!-- Workbench -->
+  <rect x="50" y="280" width="200" height="40" fill="#332200" stroke="#000000" stroke-width="3"/>
+  <!-- Tools on workbench -->
+  <rect x="60" y="290" width="20" height="30" fill="#664400" stroke="#000000" stroke-width="2"/> <!-- trowel -->
+  <rect x="100" y="285" width="15" height="40" fill="#664400" stroke="#000000" stroke-width="2"/> <!-- trowel -->
+  <rect x="140" y="295" width="10" height="30" fill="#884400" stroke="#000000" stroke-width="2"/> <!-- pruning shears -->
+  
+  <!-- Glass doors (east) -->
+  <rect x="550" y="100" width="60" height="200" fill="#004400" stroke="#000000" stroke-width="3"/>
+  <!-- Door frame -->
+  <rect x="545" y="95" width="70" height="210" fill="none" stroke="#000000" stroke-width="3"/>
+  <!-- Floral etching on doors -->
+  <circle cx="580" cy="150" r="8" fill="#002200"/>
+  <circle cx="580" cy="200" r="6" fill="#002200"/>
+  
+  <!-- Moonlight -->
+  <circle cx="320" cy="40" r="50" fill="#ffffff" opacity="0.3"/>
+</svg>

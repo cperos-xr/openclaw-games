@@ -1,0 +1,13 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Flare torch body -->
+  <rect x="26" y="10" width="12" height="30" fill="#FF0000" stroke="#000000" stroke-width="2"/>
+  <!-- Striker wheel -->
+  <rect x="24" y="40" width="16" height="8" fill="#FF8800" stroke="#000000" stroke-width="1"/>
+  <!-- Label area -->
+  <rect x="27" y="15" width="10" height="20" fill="#FFFF00"/>
+  <!-- Text representation -->
+  <rect x="28" y="18" width="2" height="2" fill="#000000"/>
+  <rect x="31" y="18" width="2" height="2" fill="#000000"/>
+  <rect x="28" y="22" width="5" height="2" fill="#000000"/>
+  <rect x="28" y="26" width="5" height="2" fill="#000000"/>
+</svg>

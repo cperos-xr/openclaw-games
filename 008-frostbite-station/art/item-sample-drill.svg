@@ -1,0 +1,16 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Drill body -->
+  <rect x="27" y="10" width="10" height="30" fill="#8B0000" stroke="#000000" stroke-width="2"/>
+  <!-- Handle -->
+  <rect x="24" y="40" width="16" height="8" fill="#8B4513" stroke="#000000" stroke-width="1"/>
+  <!-- Drill bit -->
+  <rect x="30" y="5" width="4" height="10" fill="#C0C0C0" stroke="#000000" stroke-width="1"/>
+  <polygon points="32,5 28,15 36,15" fill="#C0C0C0" stroke="#000000" stroke-width="1"/>
+  <!-- Motor housing -->
+  <rect x="25" y="15" width="14" height="10" fill="#2F2F2F" stroke="#000000" stroke-width="1"/>
+  <!-- Ventilation slots -->
+  <rect x="27" y="17" width="2" height="2" fill="#000000"/>
+  <rect x="33" y="17" width="2" height="2" fill="#000000"/>
+  <rect x="27" y="21" width="2" height="2" fill="#000000"/>
+  <rect x="33" y="21" width="2" height="2" fill="#000000"/>
+</svg>
