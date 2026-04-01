@@ -358,9 +358,11 @@ function renderScene(sceneId) {
   sceneName.textContent = scene.name.toUpperCase();
 
   const artKey = sceneId.startsWith('scene-') ? sceneId : 'scene-' + sceneId; 
-  if (window.GAME_ART && window.GAME_ART[artKey]) {
-    artDisplay.innerHTML = window.GAME_ART[artKey];
-  } else {
+  let artHtml = null;
+  if (typeof GAME_ART !== 'undefined' && GAME_ART[artKey]) { artHtml = GAME_ART[artKey]; }
+  else if (window.GAME_ART && window.GAME_ART[artKey]) { artHtml = window.GAME_ART[artKey]; }
+  
+  if (artHtml) { artDisplay.innerHTML = artHtml; } else {
     artDisplay.innerHTML = `<span class="no-art">[ ${scene.name.toUpperCase()} ]</span>`;
   }
 
