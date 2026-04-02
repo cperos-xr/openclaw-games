@@ -94,6 +94,22 @@
             font-family: 'Courier New';
             margin-left: 10px;
         }
+
+        /* ── MOBILE FIX v3.0 ─────────────────────────────────────────
+         * Base layout above locks to 100vh + overflow:hidden (desktop fine).
+         * These overrides restore normal scroll on phones.
+         * ─────────────────────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            html, body { overflow-y: auto !important; height: auto !important; }
+            #game-container { height: auto !important; min-height: 100dvh; padding: 8px !important; }
+            #art-display { flex: none !important; width: 100% !important; aspect-ratio: 8 / 5; max-height: 56vw !important; }
+            #command-bar { flex-wrap: wrap !important; gap: 6px !important; }
+            .cmd-btn { min-height: 44px !important; flex: 1 !important; padding: 8px 10px !important; }
+            #exits-bar { flex-wrap: wrap !important; gap: 6px !important; }
+            .exit-btn { min-height: 44px !important; padding: 8px 12px !important; }
+            #inventory-bar { flex: none !important; height: auto !important; overflow: visible !important; flex-wrap: wrap !important; }
+        }
+        @media (max-width: 400px) { #art-display { max-height: 50vw !important; } }
     </style>
 </head>
 <body>
