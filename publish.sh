@@ -11,7 +11,17 @@ if [ ! -d .git ]; then
 fi
 
 echo "Syncing latest agent games..."
-rsync -avL --delete --exclude='.git' --exclude='publish.sh' --exclude='.nojekyll' --exclude='README.md' /Volumes/ai-stack/openclaw-PointClickStudio/openclaw-data/workspace/games/ /Volumes/ai-stack/openclaw-games/
+rsync -avL --delete \
+  --exclude='.git' \
+  --exclude='publish.sh' \
+  --exclude='.nojekyll' \
+  --exclude='README.md' \
+  --exclude='qa-test-suite.js' \
+  --exclude='GAME-TEMPLATE.html' \
+  --exclude='pipeline-state.json' \
+  --exclude='001-lighthouse-blackwater-point/' \
+  --exclude='001-the-clockwork-lighthouse/' \
+  /Volumes/ai-stack/openclaw-PointClickStudio/openclaw-data/workspace/games/ /Volumes/ai-stack/openclaw-games/
 
 echo "Checking for changes..."
 if [ -z "$(git status --porcelain)" ]; then

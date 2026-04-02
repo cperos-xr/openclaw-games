@@ -275,6 +275,26 @@
             font-size: 10px;
             color: #080;
         }
+
+        /* ── MOBILE FIX v3.0 ─────────────────────────────────────────
+         * The base layout above assumes desktop (height:100vh, side-by-side).
+         * These overrides restore a sane scrollable layout on mobile.
+         * ─────────────────────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            body { height: auto !important; min-height: 100vh; overflow-y: auto !important; overflow-x: hidden !important; padding: 8px !important; }
+            h1 { font-size: 13px !important; }
+            h2 { font-size: 11px !important; }
+            #scene-name { font-size: 12px !important; }
+            .game-container { flex-direction: column !important; gap: 8px !important; flex: none !important; }
+            .art-panel { flex: none !important; min-height: 0 !important; width: 100% !important; aspect-ratio: 8 / 5; max-height: 56vw !important; }
+            .text-panel { flex: none !important; overflow: visible !important; padding: 10px !important; }
+            #text-display { max-height: 40vh !important; overflow-y: auto !important; }
+            .command-bar { flex-wrap: wrap !important; }
+            .cmd-btn { min-height: 44px !important; padding: 8px 10px !important; flex: 1 !important; font-size: 9px !important; }
+            .exit-btn { min-height: 44px !important; padding: 8px 10px !important; font-size: 9px !important; }
+            .inv-item { min-height: 36px !important; padding: 6px 8px !important; }
+        }
+        @media (max-width: 400px) { .art-panel { max-height: 50vw !important; } }
     </style>
 </head>
 <body>
