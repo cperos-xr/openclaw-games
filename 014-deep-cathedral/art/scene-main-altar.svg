@@ -1,33 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
-  <rect width="640" height="400" fill="#0a1a2a"/>
-  <!-- dome with glowing plankton -->
-  <ellipse cx="320" cy="120" rx="200" ry="80" fill="#1a3a2a" stroke="#0f0" stroke-width="2"/>
-  <g opacity="0.7">
-    <circle cx="300" cy="100" r="5" fill="#ff0"/>
-    <circle cx="340" cy="110" r="3" fill="#0ff"/>
-    <circle cx="320" cy="130" r="4" fill="#ff0"/>
-  </g>
-  <!-- altar -->
-  <g transform="translate(260,220)">
-    <rect x="0" y="0" width="120" height="60" fill="#2a3a4a" stroke="#d4af37" stroke-width="4"/>
-    <!-- keystone in compartment -->
-    <g transform="translate(40,20)">
-      <rect x="0" y="0" width="40" height="20" fill="#3a4a5a" stroke="#d4af37" stroke-width="2"/>
-      <text x="20" y="12" font-family="monospace" font-size="6" fill="#d4af37" text-anchor="middle">KEY</text>
-    </g>
-    <!-- sacred charm floating -->
-    <g transform="translate(70,10)">
-      <ellipse cx="10" cy="10" rx="8" ry="6" fill="#ffd700" stroke="#0f0" stroke-width="1"/>
-    </g>
-  </g>
-  <!-- mosaics on walls -->
-  <g fill="#4a5a6a">
-    <polygon points="100,200 120,250 140,200"/>
-    <polygon points="500,200 520,250 540,200"/>
-  </g>
-  <!-- exits -->
-  <rect x="200" y="320" width="80" height="60" fill="#0a1a2a" stroke="#0f0" stroke-width="4"/>
-  <text x="240" y="355" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">SACR</text>
-  <rect x="300" y="320" width="80" height="60" fill="#0a1a2a" stroke="#0f0" stroke-width="4"/>
-  <text x="340" y="355" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">DEPTHS</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+<rect width="640" height="400" fill="#06050a"/>
+<!-- Massive cathedral altar room - larger scale -->
+<rect x="40" y="30" width="560" height="370" fill="#0a0a14"/>
+<!-- Grand vaulted arch ceiling -->
+<path d="M40 30 Q320 -20 600 30" fill="none" stroke="#121218" stroke-width="3"/>
+<path d="M40 70 Q320 20 600 70" fill="none" stroke="#0e0e16" stroke-width="2"/>
+<path d="M40 110 Q320 60 600 110" fill="none" stroke="#0e0e16" stroke-width="2"/>
+<!-- Massive altar table -->
+<rect x="220" y="200" width="200" height="80" fill="#1a1828" rx="6"/>
+<rect x="230" y="185" width="180" height="20" fill="#1c1a30" rx="3"/>
+<!-- Golden crucifix on altar -->
+<rect x="317" y="80" width="6" height="100" fill="#cc8833" opacity="0.5"/>
+<rect x="290" y="100" width="60" height="6" fill="#cc8833" opacity="0.5"/>
+<!-- Altar cloth -->
+<rect x="235" y="185" width="170" height="15" fill="#331525" opacity="0.4"/>
+<!-- Candles flanking altar -->
+<rect x="240" y="160" width="5" height="25" fill="#ddd8c0"/>
+<circle cx="242" cy="159" r="4" fill="#ffaa44"/>
+<rect x="395" y="160" width="5" height="25" fill="#ddd8c0"/>
+<circle cx="397" cy="159" r="4" fill="#ffaa44"/>
+<!-- Rows of pews receding to viewer -->
+<rect x="80" y="280" width="120" height="15" fill="#15131e"/>
+<rect x="440" y="280" width="120" height="15" fill="#15131e"/>
+<rect x="60" y="320" width="160" height="15" fill="#15131e"/>
+<rect x="420" y="320" width="160" height="15" fill="#15131e"/>
+<rect x="40" y="360" width="200" height="15" fill="#15131e"/>
+<rect x="400" y="360" width="200" height="15" fill="#15131e"/>
+<!-- Rose window (circular stained glass) above altar -->
+<circle cx="320" cy="55" r="35" fill="#120e20" stroke="#1a1520" stroke-width="2"/>
+<circle cx="320" cy="55" r="25" fill="#1a1530"/>
+<!-- Rose window petal patterns -->
+<line x1="320" y1="35" x2="320" y2="60" stroke="#331555" stroke-width="2" opacity="0.6"/>
+<line x1="300" y1="55" x2="340" y2="55" stroke="#551533" stroke-width="2" opacity="0.6"/>
+<line x1="305" y1="40" x2="335" y2="70" stroke="#331555" stroke-width="2" opacity="0.6"/>
+<line x1="305" y1="70" x2="335" y2="40" stroke="#153355" stroke-width="2" opacity="0.6"/>
+<!-- Dramatic light beam from rose window -->
+<polygon points="305,90 335,90 380,200 260,200" fill="#331555" opacity="0.08"/>
+<!-- Stone steps -->
+<rect x="200" y="280" width="240" height="12" fill="#121018"/>
+<rect x="180" y="292" width="280" height="12" fill="#0e0c14"/>
+<rect x="160" y="304" width="320" height="12" fill="#0a0a10"/>
 </svg>

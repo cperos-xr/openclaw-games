@@ -1,31 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
-  <rect width="640" height="400" fill="#0a1a2a"/>
-  <!-- water -->
-  <rect x="0" y="0" width="640" height="400" fill="#0d1a2a"/>
-  <!-- benches rows -->
-  <g fill="#1a2a3a" stroke="#d4af37" stroke-width="1">
-    <rect x="50" y="100" width="150" height="40"/>
-    <rect x="50" y="160" width="150" height="40"/>
-    <rect x="440" y="100" width="150" height="40"/>
-    <rect x="440" y="160" width="150" height="40"/>
-  </g>
-  <!-- ghostly monks (simple ellipses) -->
-  <g fill="#4a5a7a" opacity="0.6">
-    <ellipse cx="120" cy="120" rx="15" ry="25"/>
-    <ellipse cx="140" cy="120" rx="15" ry="25"/>
-    <ellipse cx="520" cy="120" rx="15" ry="25"/>
-    <ellipse cx="540" cy="120" rx="15" ry="25"/>
-  </g>
-  <!-- bell on floor -->
-  <g transform="translate(300,200)">
-    <ellipse cx="15" cy="25" rx="15" ry="10" fill="#bc8f8f" stroke="#d4af37" stroke-width="2"/>
-    <text x="15" y="30" font-family="monospace" font-size="6" fill="#d4af37" text-anchor="middle">RITUAL</text>
-  </g>
-  <!-- exits -->
-  <rect x="100" y="300" width="80" height="60" fill="#0d1a2a" stroke="#0f0" stroke-width="4"/>
-  <text x="140" y="335" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">ENTRANCE</text>
-  <rect x="400" y="280" width="80" height="60" fill="#0d1a2a" stroke="#0f0" stroke-width="4"/>
-  <text x="440" y="315" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">CHANCEL</text>
-  <rect x="500" y="180" width="80" height="60" fill="#0d1a2a" stroke="#0f0" stroke-width="4"/>
-  <text x="540" y="215" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">SACRISTY</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+<rect width="640" height="400" fill="#08080f"/>
+<!-- Long cathedral nave receding to vanishing point -->
+<rect x="100" y="40" width="440" height="360" fill="#0e0e16"/>
+<!-- Side walls -->
+<rect x="100" y="40" width="5" height="360" fill="#151520"/>
+<rect x="535" y="40" width="5" height="360" fill="#151520"/>
+<!-- Rows of stone pillars -->
+<rect x="120" y="120" width="20" height="280" fill="#1a1828" rx="4"/>
+<rect x="200" y="120" width="20" height="280" fill="#1a1828" rx="4"/>
+<rect x="420" y="120" width="20" height="280" fill="#1a1828" rx="4"/>
+<rect x="500" y="120" width="20" height="280" fill="#1a1828" rx="4"/>
+<!-- Arches between pillars -->
+<path d="M140 140 Q160 110 200 140" fill="none" stroke="#1a1520" stroke-width="3"/>
+<path d="M220 140 Q240 110 280 140" fill="none" stroke="#1a1520" stroke-width="3"/>
+<path d="M360 140 Q400 110 420 140" fill="none" stroke="#1a1520" stroke-width="3"/>
+<path d="M440 140 Q460 110 500 140" fill="none" stroke="#1a1520" stroke-width="3"/>
+<!-- Gothic vaulted ceiling -->
+<polygon points="320,40 280,80 360,80" fill="#0c0c14"/>
+<!-- Stained glass window at far end -->
+<rect x="290" y="60" width="60" height="120" fill="#1a1525" rx="30"/>
+<rect x="295" y="65" width="50" height="110" fill="#221530" rx="25"/>
+<!-- Colored glass fragments -->
+<rect x="300" y="75" width="15" height="30" fill="#331555" opacity="0.6"/>
+<rect x="325" y="75" width="15" height="30" fill="#551533" opacity="0.6"/>
+<rect x="300" y="110" width="15" height="30" fill="#153355" opacity="0.6"/>
+<rect x="325" y="110" width="15" height="30" fill="#553315" opacity="0.6"/>
+<rect x="310" y="145" width="20" height="25" fill="#333315" opacity="0.6"/>
+<!-- Faint light from window -->
+<circle cx="320" cy="160" r="80" fill="#221530" opacity="0.1"/>
+<!-- Stone floor with perspective lines -->
+<line x1="80" y1="400" x2="560" y2="400" stroke="#151520" stroke-width="2"/>
+<line x1="140" y1="400" x2="500" y2="400" stroke="#151520" stroke-width="1"/>
+<line x1="200" y1="400" x2="440" y2="400" stroke="#151520" stroke-width="1"/>
+<!-- Candlelight pools -->
+<circle cx="200" cy="150" r="6" fill="#cc8833" opacity="0.8"/>
+<circle cx="200" cy="150" r="3" fill="#ffaa55"/>
+<circle cx="440" cy="150" r="6" fill="#cc8833" opacity="0.8"/>
+<circle cx="440" cy="150" r="3" fill="#ffaa55"/>
 </svg>

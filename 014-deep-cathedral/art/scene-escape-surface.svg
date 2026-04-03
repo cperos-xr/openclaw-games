@@ -1,24 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
-  <rect width="640" height="400" fill="#0a1a2a"/>
-  <!-- night sky -->
-  <rect x="0" y="0" width="640" height="200" fill="#000"/>
-  <!-- stars -->
-  <g fill="#fff">
-    <circle cx="100" cy="50" r="2"/>
-    <circle cx="200" cy="80" r="1.5"/>
-    <circle cx="300" cy="30" r="2"/>
-    <circle cx="400" cy="70" r="1"/>
-    <circle cx="500" cy="40" r="2"/>
-    <circle cx="600" cy="90" r="1.5"/>
-  </g>
-  <!-- ocean surface -->
-  <rect x="0" y="200" width="640" height="200" fill="#0a1a2a"/>
-  <!-- waves -->
-  <g fill="#1a2a3a">
-    <path d="M0,220 Q100,200 200,220 T400,220 T600,220 T800,220" stroke="#0f0" stroke-width="2" fill="none"/>
-  </g>
-  <!-- cathedral sinking -->
-  <g transform="translate(400,250)">
-    <polygon points="0,80 40,0 80,80" fill="#2a3a4a"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+<rect width="640" height="400" fill="#0a0a18"/>
+<!-- Emerging from underground to surface - twilight sky -->
+<!-- Sky gradient (dark to lighter) -->
+<rect x="0" y="0" width="640" height="200" fill="#1a1530"/>
+<rect x="0" y="50" width="640" height="150" fill="#221835"/>
+<rect x="0" y="100" width="640" height="100" fill="#2a1a40"/>
+<!-- Stars -->
+<circle cx="80" cy="30" r="1.5" fill="#ffffff" opacity="0.7"/>
+<circle cx="200" cy="15" r="1" fill="#ffffff" opacity="0.5"/>
+<circle cx="350" cy="40" r="1.2" fill="#ffffff" opacity="0.6"/>
+<circle cx="450" cy="25" r="1.5" fill="#ffffff" opacity="0.8"/>
+<circle cx="550" cy="50" r="1" fill="#ffffff" opacity="0.4"/>
+<circle cx="130" cy="60" r="1.2" fill="#ffffff" opacity="0.5"/>
+<circle cx="500" cy="80" r="1" fill="#ffffff" opacity="0.3"/>
+<!-- Stone arch opening - exit from underground -->
+<path d="M200 400 L200 200 Q320 120 440 200 L440 400Z" fill="#0e0c14"/>
+<path d="M220 400 L220 220 Q320 140 420 220 L420 400Z" fill="#121018"/>
+<!-- Darkness inside the arch -->
+<ellipse cx="320" cy="300" rx="60" ry="80" fill="#05050c"/>
+<!-- Stone steps rising upward -->
+<rect x="240" y="350" width="160" height="15" fill="#14121c"/>
+<rect x="250" y="325" width="140" height="15" fill="#121018"/>
+<rect x="260" y="300" width="120" height="15" fill="#100e16"/>
+<!-- Cathedral exterior silhouette above -->
+<path d="M280 200 L280 140 L300 140 L300 160 L320 130 L340 160 L340 140 L360 140 L360 200Z" fill="#0a0814"/>
+<!-- Spire top -->
+<path d="M315 130 L320 100 L325 130" fill="#0a0814"/>
+<line x1="320" y1="100" x2="320" y2="90" stroke="#1a1520" stroke-width="2"/>
+<!-- Faint moonlight -->
+<circle cx="520" cy="60" r="18" fill="#c8c0a0" opacity="0.15"/>
+<!-- Ground outside - grassy hill -->
+<path d="M0 370 Q100 340 200 380 L200 400 L0 400Z" fill="#0a1410"/>
+<path d="M440 340 Q540 360 640 330 L640 400 L440 400Z" fill="#0a1410"/>
+<!-- Trees silhouettes at edges -->
+<path d="M50 370 L50 300 L30 340 L45 330 L20 350 L50 320" fill="#061008"/>
+<path d="M590 330 L590 280 L570 320 L580 310 L560 340 L590 290" fill="#061008"/>
 </svg>

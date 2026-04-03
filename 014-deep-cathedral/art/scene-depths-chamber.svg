@@ -1,19 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
-  <rect width="640" height="400" fill="#000000"/>
-  <!-- abyssal blackness -->
-  <!-- beast silhouette -->
-  <g transform="translate(220,100)">
-    <ellipse cx="100" cy="100" rx="120" ry="80" fill="#1a2a3a" stroke="#d4af37" stroke-width="3"/>
-    <!-- eyes -->
-    <circle cx="80" cy="90" r="10" fill="#d4af37"/>
-    <circle cx="120" cy="90" r="10" fill="#d4af37"/>
-    <!-- bioluminescent patches -->
-    <ellipse cx="60" cy="150" rx="20" ry="10" fill="#0ff"/>
-    <ellipse cx="140" cy="160" rx="15" ry="8" fill="#0ff"/>
-  </g>
-  <!-- pressure lines -->
-  <g stroke="#444" stroke-width="1">
-    <line x1="0" y1="100" x2="200" y2="100"/>
-    <line x1="440" y1="100" x2="640" y2="100"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+<rect width="640" height="400" fill="#020208"/>
+<!-- The depths - underground chamber beneath cathedral -->
+<!-- Rough cave walls -->
+<path d="M0 0 L0 400 L100 400 L120 250 L100 150 L80 80 L120 40 L200 20 L320 0 L440 20 L520 40 L560 80 L540 150 L520 250 L540 400 L640 400 L640 0Z" fill="#0a0814"/>
+<!-- Central pit / abyss -->
+<ellipse cx="320" cy="320" rx="160" ry="70" fill="#000006"/>
+<ellipse cx="320" cy="320" rx="140" ry="60" fill="#020010"/>
+<!-- Green glow from the depths -->
+<ellipse cx="320" cy="320" rx="120" ry="50" fill="#113322" opacity="0.15"/>
+<circle cx="320" cy="310" r="40" fill="#226644" opacity="0.08"/>
+<circle cx="320" cy="300" r="15" fill="#33aa66" opacity="0.1"/>
+<!-- Chains hanging from ceiling -->
+<line x1="200" y1="40" x2="200" y2="120" stroke="#222233" stroke-width="2"/>
+<line x1="200" y1="120" x2="200" y2="200" stroke="#222233" stroke-width="2" opacity="0.5"/>
+<line x1="440" y1="60" x2="440" y2="140" stroke="#222233" stroke-width="2"/>
+<line x1="440" y1="140" x2="440" y2="220" stroke="#222233" stroke-width="2" opacity="0.5"/>
+<line x1="320" y1="30" x2="320" y2="100" stroke="#222233" stroke-width="2"/>
+<!-- Stone arch remnants -->
+<path d="M150 250 Q320 150 490 250" fill="none" stroke="#121018" stroke-width="3"/>
+<path d="M130 280 Q320 170 510 280" fill="none" stroke="#121018" stroke-width="2"/>
+<!-- Strange organic shapes growing from walls -->
+<path d="M100 180 Q120 200 90 240 Q100 220 120 210 Q110 190 100 180Z" fill="#112211" opacity="0.6"/>
+<path d="M540 160 Q520 190 550 230 Q530 210 520 190 Q535 175 540 160Z" fill="#112211" opacity="0.6"/>
+<!-- Faint light sources - moss glow -->
+<circle cx="100" cy="200" r="4" fill="#33aa66" opacity="0.3"/>
+<circle cx="540" cy="200" r="4" fill="#33aa66" opacity="0.3"/>
+<circle cx="150" cy="260" r="3" fill="#228855" opacity="0.2"/>
+<circle cx="490" cy="260" r="3" fill="#228855" opacity="0.2"/>
+<!-- Stone ledge around pit -->
+<rect x="0" y="295" width="170" height="20" fill="#0e0c14"/>
+<rect x="470" y="295" width="170" height="20" fill="#0e0c14"/>
 </svg>

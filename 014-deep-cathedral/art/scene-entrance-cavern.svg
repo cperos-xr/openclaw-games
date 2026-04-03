@@ -1,29 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
-  <rect width="640" height="400" fill="#0a1a2a"/>
-  <!-- underwater cavern -->
-  <rect x="0" y="0" width="640" height="250" fill="#1a2a3a"/>
-  <rect x="0" y="250" width="640" height="150" fill="#0d1a2a"/>
-  <!-- stalactites -->
-  <g fill="#2a3a4a">
-    <polygon points="100,0 110,80 120,0"/>
-    <polygon points="300,0 315,100 330,0"/>
-    <polygon points="500,0 515,80 530,0"/>
-  </g>
-  <!-- railing with fish motifs -->
-  <g transform="translate(200,200)" stroke="#d4af37" stroke-width="2">
-    <line x1="0" y1="0" x2="200" y2="0"/>
-    <circle cx="50" cy="0" r="5"/>
-    <circle cx="100" cy="0" r="5"/>
-    <circle cx="150" cy="0" r="5"/>
-  </g>
-  <!-- crystal lantern on rock -->
-  <g transform="translate(150,250)">
-    <rect x="0" y="0" width="20" height="20" fill="#4a5a7a" stroke="#0f0" stroke-width="2"/>
-    <ellipse cx="10" cy="10" rx="5" ry="3" fill="#0ff"/>
-  </g>
-  <!-- exits -->
-  <rect x="400" y="150" width="100" height="80" fill="#1a2a3a" stroke="#0f0" stroke-width="4"/>
-  <text x="450" y="195" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">CHOIR</text>
-  <rect x="200" y="300" width="80" height="60" fill="#0d1a2a" stroke="#0f0" stroke-width="4"/>
-  <text x="240" y="335" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">DEPTHS</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+<rect width="640" height="400" fill="#08080f"/>
+<!-- Rock ceiling arch -->
+<path d="M320 40 Q480 80 580 200 L580 400 L60 400 L60 200 Q160 80 320 40Z" fill="#12121a" stroke="#1a1a28" stroke-width="2"/>
+<!-- Cave walls converging downward -->
+<polygon points="60,200 0,400 640,400 580,200 320,40" fill="none" stroke="#1a1520" stroke-width="1"/>
+<!-- Stalactites from ceiling -->
+<polygon points="200,60 210,90 190,90" fill="#15151f"/>
+<polygon points="350,45 355,80 345,80" fill="#15151f"/>
+<polygon points="450,65 460,110 440,110" fill="#15151f"/>
+<polygon points="280,50 295,95 265,95" fill="#15151f"/>
+<!-- Stone archway / gate -->
+<path d="M220 400 L220 250 Q320 200 420 250 L420 400" fill="none" stroke="#2a2030" stroke-width="4"/>
+<path d="M240 400 L240 270 Q320 220 400 270 L400 400" fill="none" stroke="#1a1520" stroke-width="2"/>
+<!-- Torches on walls -->
+<circle cx="140" cy="180" r="8" fill="#cc6633" opacity="0.7"/>
+<circle cx="140" cy="180" r="4" fill="#ffaa44" opacity="0.9"/>
+<circle cx="500" cy="180" r="8" fill="#cc6633" opacity="0.7"/>
+<circle cx="500" cy="180" r="4" fill="#ffaa44" opacity="0.9"/>
+<!-- Torch glow -->
+<circle cx="140" cy="180" r="30" fill="#cc6633" opacity="0.05"/>
+<circle cx="500" cy="180" r="30" fill="#cc6633" opacity="0.05"/>
+<!-- Ground - stone floor -->
+<rect x="0" y="360" width="640" height="40" fill="#100e18"/>
+<line x1="100" y1="370" x2="540" y2="370" stroke="#181824" stroke-width="1"/>
+<line x1="150" y1="380" x2="490" y2="380" stroke="#181824" stroke-width="1"/>
+<!-- Stone debris -->
+<polygon points="270,390 290,380 310,395 280,398" fill="#1a1828"/>
+<polygon points="340,388 360,382 375,392 345,396" fill="#1a1828"/>
+<!-- Deep darkness beyond the arch -->
+<ellipse cx="320" cy="300" rx="70" ry="50" fill="#05050c"/>
 </svg>
