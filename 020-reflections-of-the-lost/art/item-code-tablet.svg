@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<!-- Code tablet - small slate with four symbols -->
+<!-- Slate body -->
+<rect x="10" y="12" width="44" height="40" fill="#3a3a3a" stroke="#505050" stroke-width="2" rx="2"/>
+<!-- Etched surface -->
+<rect x="13" y="15" width="38" height="34" fill="#353535" rx="1"/>
+<!-- Four symbols: spiral, eye, mouth, hand -->
+<!-- Spiral symbol -->
+<path d="M 19,25 Q 22,22 25,25 Q 25,29 22,29 Q 19,29 19,26" fill="none" stroke="#808080" stroke-width="1.5"/>
+<!-- Eye symbol -->
+<ellipse cx="32" cy="26" rx="5" ry="3.5" fill="none" stroke="#808080" stroke-width="1.5"/>
+<circle cx="32" cy="26" r="1.5" fill="#808080"/>
+<!-- Mouth symbol -->
+<path d="M 42,23 Q 45,30 48,23" fill="none" stroke="#808080" stroke-width="1.5" stroke-linecap="round"/>
+<!-- Hand symbol -->
+<polyline points="18,36 18,42 22,42 22,38 26,38 26,44 30,44 30,36" fill="none" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<!-- Additional etching texture -->
+<line x1="36" y1="35" x2="36" y2="44" stroke="#808080" stroke-width="1.5"/>
+<line x1="36" y1="39" x2="40" y2="39" stroke="#808080" stroke-width="1.5"/>
+<line x1="36" y1="43" x2="40" y2="43" stroke="#808080" stroke-width="1.5"/>
+</svg>

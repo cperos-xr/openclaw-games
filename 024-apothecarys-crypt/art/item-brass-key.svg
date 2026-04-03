@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Skull-shaped bow (ring) -->
+  <circle cx="18" cy="20" r="10" fill="none" stroke="#FF8800" stroke-width="3"/>
+  <circle cx="18" cy="20" r="5" fill="none" stroke="#FF8800" stroke-width="2"/>
+  <!-- Skull face details -->
+  <circle cx="15" cy="18" r="2" fill="#CC5500"/>
+  <circle cx="21" cy="18" r="2" fill="#CC5500"/>
+  <rect x="17" y="21" width="2" height="3" fill="#CC5500"/>
+  
+  <!-- Key shaft -->
+  <rect x="28" y="18" width="30" height="4" fill="#FF8800" rx="1"/>
+  
+  <!-- Key teeth -->
+  <rect x="50" y="22" width="4" height="8" fill="#FF8800"/>
+  <rect x="54" y="22" width="4" height="6" fill="#FF8800"/>
+  
+  <!-- Tarnish texture -->
+  <rect x="32" y="19" width="4" height="2" fill="#CC5500" opacity="0.5"/>
+  <rect x="42" y="19" width="3" height="2" fill="#CC5500" opacity="0.4"/>
+  <rect x="38" y="19" width="2" height="2" fill="#CC5500" opacity="0.3"/>
+  
+  <!-- Cold glow hint -->
+  <circle cx="18" cy="20" r="12" fill="#FF8800" opacity="0.05"/>
+</svg>

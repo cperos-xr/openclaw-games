@@ -1,0 +1,46 @@
+{
+  "game": "023-clockwork-crypt",
+  "title": "The Clockwork Crypt",
+  "number": 23,
+  "timestamp": "2026-04-03T17:23:58.098Z",
+  "solvabilityValidation": {
+    "status": "PASS",
+    "validator": "standard-game-validation.mjs",
+    "details": "23 passing, 0 failing"
+  },
+  "assetVerification": {
+    "sceneImages": 6,
+    "itemImages": 7,
+    "allPresent": true,
+    "noSymlinks": true
+  },
+  "playthroughVerdict": "PASS",
+  "issues": [],
+  "passedChecks": [
+    "All 6 scene PNGs present",
+    "All 7 item SVGs present",
+    "No symlinks in art/",
+    "game-script.json valid and complete",
+    "Standard validation: PASS (23 games)",
+    "All scenes visited in playthrough",
+    "All 7 items collected",
+    "All 5 puzzles solved in correct order",
+    "Win scene reached with required item (stop-sigil)",
+    "Exit gates properly unlocked by puzzle solutions",
+    "All look descriptions present and accessible",
+    "Puzzle dependency graph is acyclic"
+  ],
+  "stats": {
+    "scenesVisited": 6,
+    "itemsCollected": 7,
+    "puzzlesSolved": 5,
+    "inWinScene": true,
+    "hasAllWinItems": true
+  },
+  "knownNonBlockingIssues": [
+    "QA suite flags missing inline CSS animations — provided by shared standard-game-style.css",
+    "QA suite flags missing max-width — provided by shared standard-game-style.css",
+    "Advisory: thin SVG strokes on item-pendulum-weight.svg and item-wound-key.svg (LOW severity)"
+  ],
+  "verdict": "PASS"
+}

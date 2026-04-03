@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<!-- Patient ledger - leather-bound book -->
+<!-- Book body -->
+<rect x="14" y="8" width="36" height="48" fill="#2a1a10" stroke="#1a0d05" stroke-width="2" rx="2"/>
+<!-- Spine -->
+<rect x="14" y="8" width="5" height="48" fill="#1a0d05" rx="1"/>
+<!-- Cover edge -->
+<rect x="48" y="10" width="2" height="44" fill="#3a2a18"/>
+<!-- Binding lines -->
+<line x1="22" y1="12" x2="48" y2="12" stroke="#1a0d05" stroke-width="1"/>
+<line x1="22" y1="52" x2="48" y2="52" stroke="#1a0d05" stroke-width="1"/>
+<!-- Title on cover -->
+<text x="33" y="26" text-anchor="middle" fill="#d0c0a0" font-size="5" font-family="serif">PATIENT</text>
+<text x="33" y="33" text-anchor="middle" fill="#d0c0a0" font-size="5" font-family="serif">LEDGER</text>
+<!-- Decorative lines -->
+<line x1="24" y1="37" x2="42" y2="37" stroke="#806040" stroke-width="0.5"/>
+<line x1="24" y1="40" x2="42" y2="40" stroke="#806040" stroke-width="0.5"/>
+<!-- Page edge hint -->
+<rect x="46" y="12" width="3" height="40" fill="#d0c0a0" opacity="0.2"/>
+</svg>

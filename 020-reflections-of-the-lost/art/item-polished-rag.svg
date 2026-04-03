@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<!-- Polished rag - silk soaked in silver polish, gleaming -->
+<path d="M 16,16 Q 20,10 32,12 Q 44,10 48,16 Q 52,24 48,36 Q 44,48 32,50 Q 20,48 16,36 Q 12,24 16,16 Z" fill="#e0d8c0" stroke="#c0b890" stroke-width="1.5"/>
+<!-- Silver polish gleam -->
+<ellipse cx="32" cy="30" rx="10" ry="12" fill="#fff" opacity="0.35"/>
+<ellipse cx="32" cy="28" rx="6" ry="8" fill="#fff" opacity="0.2"/>
+<!-- Dripping polish hints -->
+<ellipse cx="24" cy="40" rx="4" ry="6" fill="#c0c0c0" opacity="0.3"/>
+<ellipse cx="40" cy="38" rx="3" ry="5" fill="#c0c0c0" opacity="0.25"/>
+</svg>

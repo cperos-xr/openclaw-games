@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <pattern id="wood-planks" width="80" height="40" patternUnits="userSpaceOnUse">
+      <rect width="80" height="40" fill="#1a0d00"/>
+      <line x1="0" y1="0" x2="80" y2="0" stroke="#0d0600" stroke-width="3"/>
+      <line x1="0" y1="20" x2="80" y2="20" stroke="#0d0600" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <!-- Layer 1: Background wall -->
+  <rect width="640" height="400" fill="#000000"/>
+  <rect x="0" y="0" width="640" height="280" fill="#0a0500"/>
+  <!-- Wall panel lines -->
+  <line x1="0" y1="50" x2="640" y2="50" stroke="#0d0600" stroke-width="2"/>
+  <line x1="0" y1="100" x2="640" y2="100" stroke="#0d0600" stroke-width="1"/>
+  <line x1="0" y1="150" x2="640" y2="150" stroke="#0d0600" stroke-width="1"/>
+  <line x1="0" y1="200" x2="640" y2="200" stroke="#0d0600" stroke-width="1"/>
+  <!-- Layer 2: Floor -->
+  <rect x="0" y="280" width="640" height="120" fill="url(#wood-planks)"/>
+  <rect x="0" y="360" width="640" height="40" fill="#000000" opacity="0.3"/>
+  <!-- Layer 3: Left wall shelf with hanging tools -->
+  <rect x="20" y="80" width="100" height="8" fill="#331a00" stroke="#000" stroke-width="2"/>
+  <rect x="20" y="88" width="8" height="60" fill="#331a00" stroke="#000" stroke-width="1"/>
+  <rect x="112" y="88" width="8" height="60" fill="#331a00" stroke="#000" stroke-width="1"/>
+  <!-- Suspended tools -->
+  <rect x="30" y="50" width="4" height="30" fill="#FF8800" opacity="0.7"/>
+  <rect x="28" y="48" width="8" height="6" fill="#FF8800"/>
+  <rect x="50" y="55" width="4" height="25" fill="#FF8800" opacity="0.6"/>
+  <rect x="48" y="53" width="8" height="6" fill="#FF8800"/>
+  <rect x="70" y="45" width="4" height="35" fill="#FF8800" opacity="0.65"/>
+  <rect x="68" y="43" width="8" height="6" fill="#FF8800"/>
+  <rect x="95" y="52" width="4" height="28" fill="#FF8800" opacity="0.6"/>
+  <rect x="93" y="50" width="8" height="6" fill="#FF8800"/>
+  <!-- Right wall shelf -->
+  <rect x="520" y="80" width="100" height="8" fill="#331a00" stroke="#000" stroke-width="2"/>
+  <rect x="520" y="88" width="8" height="60" fill="#331a00" stroke="#000" stroke-width="1"/>
+  <rect x="612" y="88" width="8" height="60" fill="#331a00" stroke="#000" stroke-width="1"/>
+  <rect x="540" y="50" width="4" height="30" fill="#FF8800" opacity="0.7"/>
+  <rect x="538" y="48" width="8" height="6" fill="#FF8800"/>
+  <rect x="560" y="55" width="4" height="25" fill="#FF8800" opacity="0.6"/>
+  <rect x="558" y="53" width="8" height="6" fill="#FF8800"/>
+  <rect x="580" y="48" width="4" height="32" fill="#FF8800" opacity="0.65"/>
+  <rect x="578" y="46" width="8" height="6" fill="#FF8800"/>
+  <!-- Layer 4: Main workbench -->
+  <rect x="80" y="220" width="180" height="8" fill="#331a00" stroke="#000" stroke-width="2"/>
+  <rect x="80" y="228" width="8" height="60" fill="#331a00" stroke="#000" stroke-width="2"/>
+  <rect x="252" y="228" width="8" height="60" fill="#331a00" stroke="#000" stroke-width="2"/>
+  <!-- Hand silhouette on workbench -->
+  <rect x="140" y="214" width="60" height="10" fill="#000000" opacity="0.5" rx="2"/>
+  <!-- Blueprints -->
+  <rect x="95" y="212" width="30" height="10" fill="#33FF33" opacity="0.3"/>
+  <line x1="95" y1="216" x2="125" y2="216" stroke="#33FF33" stroke-width="1" opacity="0.5"/>
+  <line x1="95" y1="219" x2="120" y2="219" stroke="#33FF33" stroke-width="1" opacity="0.4"/>
+  <rect x="135" y="212" width="25" height="10" fill="#33FF33" opacity="0.25"/>
+  <circle cx="148" cy="217" r="5" fill="none" stroke="#33FF33" stroke-width="1" opacity="0.4"/>
+  <!-- Empty Void Jar -->
+  <rect x="220" y="200" width="16" height="22" fill="#AA00FF" opacity="0.15" stroke="#AA00FF" stroke-width="1" rx="2"/>
+  <line x1="222" y1="202" x2="234" y2="202" stroke="#AA00FF" stroke-width="1" opacity="0.5"/>
+  <line x1="222" y1="206" x2="234" y2="206" stroke="#AA00FF" stroke-width="1" opacity="0.5"/>
+  <line x1="222" y1="210" x2="234" y2="210" stroke="#AA00FF" stroke-width="1" opacity="0.5"/>
+  <line x1="222" y1="214" x2="234" y2="214" stroke="#AA00FF" stroke-width="1" opacity="0.5"/>
+  <line x1="222" y1="218" x2="234" y2="218" stroke="#AA00FF" stroke-width="1" opacity="0.5"/>
+  <rect x="218" y="220" width="20" height="4" fill="#AA00FF" rx="1" opacity="0.6"/>
+  <!-- Layer 5: Stasis Field with Chronos Spark -->
+  <ellipse cx="370" cy="200" rx="60" ry="60" fill="#33FF33" opacity="0.06"/>
+  <ellipse cx="370" cy="200" rx="45" ry="45" fill="#33FF33" opacity="0.1"/>
+  <circle cx="370" cy="200" r="30" fill="#33FF33" opacity="0.12" stroke="#33FF33" stroke-width="2"/>
+  <!-- Lightning spark -->
+  <line x1="355" y1="185" x2="368" y2="198" stroke="#FFFF00" stroke-width="2.5"/>
+  <line x1="368" y1="198" x2="358" y2="210" stroke="#FFFF00" stroke-width="2.5"/>
+  <line x1="358" y1="210" x2="375" y2="205" stroke="#FFFF00" stroke-width="2.5"/>
+  <line x1="375" y1="205" x2="365" y2="220" stroke="#FFFF00" stroke-width="2"/>
+  <line x1="365" y1="220" x2="380" y2="215" stroke="#FFFF00" stroke-width="2"/>
+  <circle cx="368" cy="202" r="5" fill="#FFFF00" opacity="0.5"/>
+  <!-- Layer 6: Doorway south -->
+  <rect x="540" y="220" width="80" height="60" fill="#000000" stroke="#333" stroke-width="3"/>
+  <!-- Ghost light -->
+  <circle cx="320" cy="30" r="6" fill="#FF8800" opacity="0.4"/>
+  <ellipse cx="320" cy="50" rx="60" ry="100" fill="#FF8800" opacity="0.04"/>
+  <!-- Dust particles -->
+  <circle cx="200" cy="120" r="1.5" fill="#FF8800" opacity="0.3"/>
+  <circle cx="280" cy="100" r="1" fill="#FF8800" opacity="0.25"/>
+  <circle cx="450" cy="130" r="1.5" fill="#FF8800" opacity="0.2"/>
+  <circle cx="150" cy="160" r="1" fill="#FFFFFF" opacity="0.15"/>
+  <circle cx="500" cy="100" r="1" fill="#FFFFFF" opacity="0.15"/>
+</svg>

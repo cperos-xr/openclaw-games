@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <!-- Layer 1: Dark background -->
+  <rect width="640" height="400" fill="#08080f"/>
+  
+  <!-- Layer 2: Left wall mirrors -->
+  <rect x="0" y="0" width="140" height="360" fill="#15151f"/>
+  <!-- Mirror 1 left -->
+  <rect x="10" y="40" width="120" height="200" fill="#1a1a28" stroke="#888840" stroke-width="4"/>
+  <rect x="14" y="44" width="112" height="192" fill="#1e1e30" opacity="0.7"/>
+  <!-- Reflection hint - wrong eye gap -->
+  <circle cx="60" cy="130" r="12" fill="#2a2a40" opacity="0.3"/>
+  <circle cx="70" cy="130" r="3" fill="#ffffff" opacity="0.15"/>
+  <circle cx="80" cy="130" r="3" fill="#ffffff" opacity="0.15"/>
+  
+  <!-- Mirror 2 left -->
+  <rect x="10" y="260" width="120" height="60" fill="#1a1a28" stroke="#888840" stroke-width="4"/>
+  <rect x="14" y="264" width="112" height="52" fill="#1e1e30" opacity="0.6"/>
+  
+  <!-- Layer 3: Right wall mirrors -->
+  <rect x="500" y="0" width="140" height="360" fill="#15151f"/>
+  <!-- Mirror 1 right -->
+  <rect x="510" y="40" width="120" height="200" fill="#1a1a28" stroke="#888840" stroke-width="4"/>
+  <rect x="514" y="44" width="112" height="192" fill="#202035" opacity="0.7"/>
+  <!-- Reflection hint - mouth moving -->
+  <circle cx="570" cy="125" r="3" fill="#ffffff" opacity="0.12"/>
+  <circle cx="580" cy="125" r="3" fill="#ffffff" opacity="0.12"/>
+  <ellipse cx="575" cy="140" rx="8" ry="4" fill="#111120" opacity="0.3"/>
+  
+  <!-- Mirror 2 right -->
+  <rect x="510" y="260" width="120" height="60" fill="#1a1a28" stroke="#888840" stroke-width="4"/>
+  <rect x="514" y="264" width="112" height="52" fill="#1e1e30" opacity="0.6"/>
+  
+  <!-- Layer 4: East door -->
+  <rect x="160" y="100" width="60" height="220" fill="#0d0d15" stroke="#2a2020" stroke-width="3"/>
+  <line x1="190" y1="100" x2="190" y2="320" stroke="#3a2020" stroke-width="2"/>
+  <circle cx="210" cy="210" r="5" fill="#404040"/>
+  
+  <!-- West door -->
+  <rect x="420" y="100" width="60" height="220" fill="#0d0d15" stroke="#202a20" stroke-width="3"/>
+  <line x1="450" y1="100" x2="450" y2="320" stroke="#203a20" stroke-width="2"/>
+  <circle cx="460" cy="210" r="5" fill="#404040"/>
+  
+  <!-- Layer 5: South archway -->
+  <rect x="240" y="280" width="160" height="120" fill="#0a0a12"/>
+  <path d="M 240 280 Q 320 240 400 280" fill="none" stroke="#333340" stroke-width="4"/>
+  <!-- Restricted sign area -->
+  <rect x="280" y="260" width="80" height="24" fill="#1a0d0d" stroke="#550000" stroke-width="1"/>
+  <text x="320" y="277" text-anchor="middle" fill="#550000" font-size="8" font-family="monospace">RESTRICTED</text>
+  
+  <!-- Layer 6: Floor -->
+  <rect x="0" y="360" width="640" height="40" fill="#10100f"/>
+  <line x1="140" y1="360" x2="240" y2="400" stroke="#1a1a15" stroke-width="1"/>
+  <line x1="500" y1="360" x2="400" y2="400" stroke="#1a1a15" stroke-width="1"/>
+  <line x1="300" y1="360" x2="300" y2="400" stroke="#151510" stroke-width="1"/>
+  <line x1="340" y1="360" x2="340" y2="400" stroke="#151510" stroke-width="1"/>
+  
+  <!-- Layer 7: Supernatural atmosphere -->
+  <ellipse cx="320" cy="180" rx="60" ry="100" fill="#AA00FF" opacity="0.03"/>
+  <!-- Sweat-condensation on mirrors -->
+  <circle cx="35" cy="150" r="2" fill="#c0c0c0" opacity="0.15"/>
+  <circle cx="50" cy="170" r="1.5" fill="#c0c0c0" opacity="0.12"/>
+  <circle cx="40" cy="190" r="1" fill="#c0c0c0" opacity="0.1"/>
+  <circle cx="605" cy="150" r="2" fill="#c0c0c0" opacity="0.15"/>
+  <circle cx="590" cy="175" r="1.5" fill="#c0c0c0" opacity="0.12"/>
+  <circle cx="600" cy="190" r="1" fill="#c0c0c0" opacity="0.1"/>
+</svg>

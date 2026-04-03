@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Cipher Tablet - slate with skull, gear, eye symbols -->
+  <!-- Tablet body -->
+  <rect x="8" y="12" width="48" height="40" fill="#4a4a4a" stroke="#222222" stroke-width="2" rx="2"/>
+  <!-- Slate texture -->
+  <rect x="10" y="14" width="44" height="36" fill="#3a3a3a" rx="1"/>
+  <!-- Skull symbol (left) -->
+  <circle cx="20" cy="28" r="5" fill="#222222"/>
+  <circle cx="18" cy="27" r="1.5" fill="#555555"/>
+  <circle cx="22" cy="27" r="1.5" fill="#555555"/>
+  <rect x="18" y="31" width="4" height="2" fill="#555555"/>
+  <!-- Gear symbol (center) -->
+  <circle cx="32" cy="28" r="5" fill="none" stroke="#222222" stroke-width="2"/>
+  <circle cx="32" cy="28" r="2" fill="#222222"/>
+  <!-- Gear teeth -->
+  <line x1="32" y1="22" x2="32" y2="24" stroke="#222222" stroke-width="2"/>
+  <line x1="32" y1="32" x2="32" y2="34" stroke="#222222" stroke-width="2"/>
+  <line x1="26" y1="28" x2="28" y2="28" stroke="#222222" stroke-width="2"/>
+  <line x1="36" y1="28" x2="38" y2="28" stroke="#222222" stroke-width="2"/>
+  <!-- Eye symbol (right) -->
+  <ellipse cx="44" cy="28" rx="6" ry="4" fill="none" stroke="#222222" stroke-width="2"/>
+  <circle cx="44" cy="28" r="2" fill="#222222"/>
+  <!-- Cracked edges -->
+  <line x1="8" y1="20" x2="12" y2="18" stroke="#222222" stroke-width="1"/>
+  <line x1="52" y1="40" x2="54" y2="44" stroke="#222222" stroke-width="1"/>
+</svg>

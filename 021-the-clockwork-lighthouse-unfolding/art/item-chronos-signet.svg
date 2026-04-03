@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Chronos Signet - Gold ring with clock-face seal -->
+  <!-- Ring band -->
+  <circle cx="32" cy="36" r="14" fill="none" stroke="#FF8800" stroke-width="4"/>
+  <circle cx="32" cy="36" r="10" fill="none" stroke="#FF8800" stroke-width="1.5" opacity="0.5"/>
+  <!-- Clock-face seal on top -->
+  <circle cx="32" cy="22" r="10" fill="#FF8800" stroke="#000" stroke-width="2"/>
+  <circle cx="32" cy="22" r="8" fill="none" stroke="#000" stroke-width="1"/>
+  <!-- Clock hands -->
+  <line x1="32" y1="22" x2="32" y2="16" stroke="#000" stroke-width="2"/>
+  <line x1="32" y1="22" x2="37" y2="22" stroke="#000" stroke-width="1.5"/>
+  <!-- Hour markers -->
+  <line x1="32" y1="14" x2="32" y2="16" stroke="#000" stroke-width="1"/>
+  <line x1="32" y1="28" x2="32" y2="30" stroke="#000" stroke-width="1"/>
+  <line x1="22" y1="22" x2="24" y2="22" stroke="#000" stroke-width="1"/>
+  <line x1="40" y1="22" x2="42" y2="22" stroke="#000" stroke-width="1"/>
+  <!-- Gold highlight -->
+  <circle cx="35" cy="19" r="2" fill="#FFFF00" opacity="0.25"/>
+  <!-- Ring connecting to seal -->
+  <line x1="32" y1="32" x2="32" y2="36" stroke="#FF8800" stroke-width="4"/>
+</svg>

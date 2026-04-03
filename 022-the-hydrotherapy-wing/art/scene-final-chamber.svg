@@ -1,0 +1,110 @@
+<svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Layer 1: Background - dark chamber -->
+  <rect width="640" height="400" fill="#020305"/>
+  
+  <!-- Layer 2: Circular chamber walls -->
+  <!-- Left curved wall -->
+  <path d="M 0 0 L 0 400 L 80 400 Q 100 200 80 0 Z" fill="#0a0a0a" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Right curved wall -->
+  <path d="M 640 0 L 640 400 L 560 400 Q 540 200 560 0 Z" fill="#0a0a0a" stroke="#1a1a1a" stroke-width="2"/>
+  
+  <!-- Layer 3: Stained glass windows (left and right) -->
+  <!-- Left stained glass window -->
+  <path d="M 20 60 Q 40 40 60 60 L 60 200 Q 40 220 20 200 Z" fill="#000088" stroke="#333333" stroke-width="3"/>
+  <path d="M 25 70 Q 40 55 55 70 L 55 110 Q 40 120 25 110 Z" fill="#AA00FF" opacity="0.4"/>
+  <path d="M 25 120 Q 40 110 55 120 L 55 160 Q 40 170 25 160 Z" fill="#0000FF" opacity="0.4"/>
+  <path d="M 25 170 Q 40 160 55 170 L 55 195 Q 40 205 25 195 Z" fill="#AA00FF" opacity="0.3"/>
+  <!-- Window crossbars -->
+  <line x1="40" y1="60" x2="40" y2="200" stroke="#333333" stroke-width="2"/>
+  <line x1="20" y1="115" x2="60" y2="115" stroke="#333333" stroke-width="2"/>
+  <line x1="22" y1="165" x2="58" y2="165" stroke="#333333" stroke-width="2"/>
+  
+  <!-- Right stained glass window -->
+  <path d="M 580 60 Q 600 40 620 60 L 620 200 Q 600 220 580 200 Z" fill="#000088" stroke="#333333" stroke-width="3"/>
+  <path d="M 585 70 Q 600 55 615 70 L 615 110 Q 600 120 585 110 Z" fill="#0000FF" opacity="0.4"/>
+  <path d="M 585 120 Q 600 110 615 120 L 615 160 Q 600 170 585 160 Z" fill="#AA00FF" opacity="0.4"/>
+  <path d="M 585 170 Q 600 160 615 170 L 615 195 Q 600 205 585 195 Z" fill="#000088" opacity="0.3"/>
+  <line x1="600" y1="60" x2="600" y2="200" stroke="#333333" stroke-width="2"/>
+  <line x1="580" y1="115" x2="620" y2="115" stroke="#333333" stroke-width="2"/>
+  <line x1="582" y1="165" x2="618" y2="165" stroke="#333333" stroke-width="2"/>
+  
+  <!-- Light beams from stained glass -->
+  <polygon points="30,200 50,200 120,400 80,400" fill="#0000FF" opacity="0.06"/>
+  <polygon points="590,200 610,200 640,400 560,400" fill="#000088" opacity="0.05"/>
+  
+  <!-- Layer 4: Floor -->
+  <rect x="0" y="340" width="640" height="60" fill="#0d0d0d"/>
+  
+  <!-- Layer 5: Sunken pool (center) -->
+  <ellipse cx="320" cy="360" rx="180" ry="30" fill="#000088" stroke="#222222" stroke-width="3"/>
+  <!-- Pool rim -->
+  <ellipse cx="320" cy="355" rx="190" ry="35" fill="none" stroke="#444444" stroke-width="4"/>
+  <!-- Black murky water -->
+  <ellipse cx="320" cy="360" rx="175" ry="28" fill="#000044" opacity="0.8"/>
+  
+  <!-- Something glimmering beneath surface -->
+  <circle cx="320" cy="362" r="5" fill="#FFFF00" opacity="0.4"/>
+  <circle cx="320" cy="362" r="3" fill="#FFFFFF" opacity="0.3"/>
+  
+  <!-- Water reflection from windows -->
+  <ellipse cx="200" cy="358" rx="40" ry="5" fill="#0000FF" opacity="0.1"/>
+  <ellipse cx="440" cy="358" rx="40" ry="5" fill="#AA00FF" opacity="0.08"/>
+  
+  <!-- Layer 6: Mechanical gears and chains on walls -->
+  <!-- Left wall gears -->
+  <circle cx="100" cy="100" r="30" fill="none" stroke="#444444" stroke-width="3"/>
+  <circle cx="100" cy="100" r="20" fill="none" stroke="#333333" stroke-width="2"/>
+  <!-- Gear teeth left -->
+  <rect x="95" y="68" width="10" height="6" fill="#444444"/>
+  <rect x="125" y="95" width="6" height="10" fill="#444444"/>
+  <rect x="95" y="126" width="10" height="6" fill="#444444"/>
+  <rect x="69" y="95" width="6" height="10" fill="#444444"/>
+  <rect x="78" y="78" width="8" height="8" fill="#444444" transform="rotate(45 82 82)"/>
+  <rect x="114" y="78" width="8" height="8" fill="#444444" transform="rotate(45 118 82)"/>
+  <rect x="78" y="114" width="8" height="8" fill="#444444" transform="rotate(45 82 118)"/>
+  <rect x="114" y="114" width="8" height="8" fill="#444444" transform="rotate(45 118 118)"/>
+  
+  <!-- Right wall gears -->
+  <circle cx="540" cy="100" r="25" fill="none" stroke="#444444" stroke-width="3"/>
+  <circle cx="540" cy="100" r="16" fill="none" stroke="#333333" stroke-width="2"/>
+  <!-- Gear teeth right -->
+  <rect x="535" y="73" width="10" height="5" fill="#444444"/>
+  <rect x="562" y="95" width="5" height="10" fill="#444444"/>
+  <rect x="535" y="122" width="10" height="5" fill="#444444"/>
+  <rect x="513" y="95" width="5" height="10" fill="#444444"/>
+  
+  <!-- Chains hanging on walls -->
+  <circle cx="150" cy="80" r="4" fill="none" stroke="#555555" stroke-width="2"/>
+  <circle cx="150" cy="92" r="4" fill="none" stroke="#555555" stroke-width="2"/>
+  <circle cx="150" cy="104" r="4" fill="none" stroke="#555555" stroke-width="2"/>
+  <circle cx="150" cy="116" r="4" fill="none" stroke="#555555" stroke-width="2"/>
+  <circle cx="150" cy="128" r="4" fill="none" stroke="#555555" stroke-width="2"/>
+  
+  <circle cx="490" cy="75" r="4" fill="none" stroke="#555555" stroke-width="2"/>
+  <circle cx="490" cy="87" r="4" fill="none" stroke="#555555" stroke-width="2"/>
+  <circle cx="490" cy="99" r="4" fill="none" stroke="#555555" stroke-width="2"/>
+  <circle cx="490" cy="111" r="4" fill="none" stroke="#555555" stroke-width="2"/>
+  <circle cx="490" cy="123" r="4" fill="none" stroke="#555555" stroke-width="2"/>
+  
+  <!-- Layer 7: Additional machinery around pool -->
+  <!-- Machine housing left of pool -->
+  <rect x="120" y="280" width="80" height="70" fill="#1a1a1a" stroke="#333333" stroke-width="2"/>
+  <circle cx="140" cy="300" r="10" fill="#222222" stroke="#444444" stroke-width="2"/>
+  <circle cx="160" cy="300" r="10" fill="#222222" stroke="#444444" stroke-width="2"/>
+  <circle cx="180" cy="300" r="10" fill="#222222" stroke="#444444" stroke-width="2"/>
+  <circle cx="140" cy="325" r="10" fill="#222222" stroke="#444444" stroke-width="2"/>
+  <circle cx="160" cy="325" r="10" fill="#222222" stroke="#444444" stroke-width="2"/>
+  <circle cx="180" cy="325" r="10" fill="#222222" stroke="#444444" stroke-width="2"/>
+  
+  <!-- Machine housing right of pool -->
+  <rect x="440" y="280" width="80" height="70" fill="#1a1a1a" stroke="#333333" stroke-width="2"/>
+  <circle cx="460" cy="300" r="10" fill="#222222" stroke="#444444" stroke-width="2"/>
+  <circle cx="480" cy="300" r="10" fill="#222222" stroke="#444444" stroke-width="2"/>
+  <circle cx="500" cy="300" r="10" fill="#222222" stroke="#444444" stroke-width="2"/>
+  <circle cx="460" cy="325" r="10" fill="#222222" stroke="#444444" stroke-width="2"/>
+  <circle cx="480" cy="325" r="10" fill="#222222" stroke="#444444" stroke-width="2"/>
+  <circle cx="500" cy="325" r="10" fill="#222222" stroke="#444444" stroke-width="2"/>
+  
+  <!-- Layer 8: Atmospheric darkness -->
+  <ellipse cx="320" cy="200" rx="180" ry="100" fill="#000000" opacity="0.4"/>
+</svg>

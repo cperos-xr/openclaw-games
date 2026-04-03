@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <!-- Layer 1: Background -->
+  <rect width="640" height="400" fill="#0a0a0f"/>
+  
+  <!-- Layer 2: Left wall mirror - shows clean past -->
+  <rect x="0" y="0" width="180" height="360" fill="#151520"/>
+  <rect x="10" y="30" width="160" height="280" fill="#252535" stroke="#a0a080" stroke-width="4"/>
+  <!-- Reflection of clean ward -->
+  <rect x="20" y="100" width="140" height="160" fill="#2a3030" opacity="0.5"/>
+  <rect x="30" y="110" width="60" height="80" fill="#304040" opacity="0.3" rx="2"/>
+  <rect x="95" y="110" width="60" height="80" fill="#304040" opacity="0.3" rx="2"/>
+  <!-- Nurse figure reflection -->
+  <rect x="55" y="50" width="15" height="50" fill="#3a4050" opacity="0.25" rx="3"/>
+  <circle cx="62" cy="45" r="8" fill="#405060" opacity="0.2"/>
+  
+  <!-- Right wall mirror - wrong furniture -->
+  <rect x="460" y="0" width="180" height="360" fill="#151520"/>
+  <rect x="470" y="30" width="160" height="280" fill="#252535" stroke="#a0a080" stroke-width="4"/>
+  <!-- Rearranged furniture reflection -->
+  <rect x="480" y="80" width="140" height="180" fill="#2a3030" opacity="0.45"/>
+  <rect x="495" y="95" width="50" height="70" fill="#304045" opacity="0.35" rx="2"/>
+  <rect x="560" y="100" width="45" height="60" fill="#2a3a40" opacity="0.3" rx="2"/>
+  
+  <!-- Layer 3: Current beds (decay visible) -->
+  <!-- Bed left foreground -->
+  <rect x="200" y="220" width="100" height="120" fill="#1a1a15" stroke="#2a2a25" stroke-width="2"/>
+  <rect x="205" y="230" width="90" height="90" fill="#151510" rx="2"/>
+  <rect x="210" y="240" width="40" height="20" fill="#8888cc" opacity="0.4" rx="3"/>
+  <rect x="255" y="240" width="35" height="20" fill="#666699" opacity="0.3" rx="3"/>
+  <!-- Silk handkerchief folded neatly -->
+  <rect x="250" y="235" width="28" height="20" fill="#f0e8d0" stroke="#c0c0a0" stroke-width="1" rx="2"/>
+  <!-- Embroidery hint -->
+  <text x="264" y="249" text-anchor="middle" fill="#4466aa" font-size="5" font-family="serif">D.V.</text>
+  
+  <!-- Bed right -->
+  <rect x="380" y="200" width="70" height="100" fill="#1a1a15" stroke="#2a2a25" stroke-width="2"/>
+  <rect x="385" y="210" width="60" height="75" fill="#151510" rx="2"/>
+  
+  <!-- Layer 4: Floor -->
+  <rect x="0" y="340" width="640" height="60" fill="#121210"/>
+  <line x1="0" y1="355" x2="640" y2="355" stroke="#0a0a08" stroke-width="1"/>
+  <line x1="0" y1="370" x2="640" y2="370" stroke="#0a0a08" stroke-width="1"/>
+  
+  <!-- Layer 5: Wrong shadows -->
+  <ellipse cx="250" cy="350" rx="60" ry="8" fill="#000000" opacity="0.5"/>
+  <ellipse cx="400" cy="320" rx="40" ry="6" fill="#000000" opacity="0.4"/>
+  <!-- Figure standing behind (not really there) -->
+  <rect x="170" y="80" width="12" height="60" fill="#111118" opacity="0.15" rx="3"/>
+  <circle cx="176" cy="72" r="10" fill="#151520" opacity="0.12"/>
+  
+  <!-- Layer 6: Mirror edge highlights -->
+  <line x1="170" y1="30" x2="170" y2="310" stroke="#c0c0b0" stroke-width="1"/>
+  <line x1="470" y1="30" x2="470" y2="310" stroke="#c0c0b0" stroke-width="1"/>
+</svg>

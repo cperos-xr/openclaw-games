@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Chain Link - rusted iron, warm and vibrating -->
+  <!-- Main chain link (elongated oval) -->
+  <ellipse cx="32" cy="32" rx="20" ry="14" fill="none" stroke="#8B4513" stroke-width="5"/>
+  <!-- Inner edge for depth -->
+  <ellipse cx="32" cy="32" rx="16" ry="10" fill="none" stroke="#5C2E0A" stroke-width="2"/>
+  <!-- Rust texture spots -->
+  <circle cx="18" cy="26" r="2" fill="#A0522D" opacity="0.6"/>
+  <circle cx="46" cy="38" r="2" fill="#A0522D" opacity="0.6"/>
+  <circle cx="24" cy="40" r="1.5" fill="#A0522D" opacity="0.5"/>
+  <!-- Warm vibration glow -->
+  <ellipse cx="32" cy="32" rx="22" ry="16" fill="#FF4400" opacity="0.1"/>
+  <!-- Connected partial link hint (showing it's part of chain) -->
+  <path d="M 12 28 Q 8 32 12 36" fill="none" stroke="#8B4513" stroke-width="3"/>
+</svg>

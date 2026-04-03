@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <pattern id="metal-grate" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#003300"/>
+      <line x1="0" y1="0" x2="10" y2="0" stroke="#000" stroke-width="1"/>
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#000" stroke-width="1"/>
+    </pattern>
+    <pattern id="gear-tooth-pattern" width="16" height="16" patternUnits="userSpaceOnUse">
+      <rect width="16" height="16" fill="#333333"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#FF8800" stroke-width="2"/>
+      <line x1="8" y1="0" x2="8" y2="4" stroke="#FF8800" stroke-width="2"/>
+      <line x1="8" y1="4" x2="16" y2="4" stroke="#FF8800" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <!-- Layer 1: Background -->
+  <rect width="640" height="400" fill="#000000"/>
+  <!-- Hot ambient glow from machinery -->
+  <rect x="0" y="0" width="640" height="300" fill="#FF8800" opacity="0.02"/>
+  <!-- Layer 2: Metal grate floor -->
+  <rect x="0" y="300" width="640" height="100" fill="url(#metal-grate)"/>
+  <rect x="0" y="380" width="640" height="20" fill="#000000" opacity="0.5"/>
+  <!-- Layer 3: Massive gears -->
+  <!-- Large gear left -->
+  <circle cx="120" cy="180" r="80" fill="none" stroke="#FF8800" stroke-width="4"/>
+  <circle cx="120" cy="180" r="65" fill="none" stroke="#FF8800" stroke-width="2" opacity="0.5"/>
+  <circle cx="120" cy="180" r="20" fill="#1a0d00" stroke="#FF8800" stroke-width="3"/>
+  <!-- Gear teeth - left gear -->
+  <rect x="116" y="96" width="8" height="12" fill="#FF8800"/>
+  <rect x="116" y="252" width="8" height="12" fill="#FF8800"/>
+  <rect x="36" y="176" width="12" height="8" fill="#FF8800"/>
+  <rect x="192" y="176" width="12" height="8" fill="#FF8800"/>
+  <!-- Diagonal teeth -->
+  <rect x="60" y="120" width="10" height="10" fill="#FF8800" transform="rotate(45 65 125)"/>
+  <rect x="170" y="120" width="10" height="10" fill="#FF8800" transform="rotate(-45 175 125)"/>
+  <rect x="60" y="230" width="10" height="10" fill="#FF8800" transform="rotate(-45 65 235)"/>
+  <rect x="170" y="230" width="10" height="10" fill="#FF8800" transform="rotate(45 175 235)"/>
+  <!-- Gear spokes -->
+  <line x1="120" y1="110" x2="120" y2="140" stroke="#FF8800" stroke-width="3"/>
+  <line x1="120" y1="220" x2="120" y2="250" stroke="#FF8800" stroke-width="3"/>
+  <line x1="50" y1="180" x2="80" y2="180" stroke="#FF8800" stroke-width="3"/>
+  <line x1="160" y1="180" x2="190" y2="180" stroke="#FF8800" stroke-width="3"/>
+  <!-- Large gear right -->
+  <circle cx="520" cy="180" r="75" fill="none" stroke="#FF8800" stroke-width="4"/>
+  <circle cx="520" cy="180" r="60" fill="none" stroke="#FF8800" stroke-width="2" opacity="0.5"/>
+  <circle cx="520" cy="180" r="18" fill="#1a0d00" stroke="#FF8800" stroke-width="3"/>
+  <!-- Gear teeth - right gear -->
+  <rect x="516" y="101" width="8" height="12" fill="#FF8800"/>
+  <rect x="516" y="247" width="8" height="12" fill="#FF8800"/>
+  <rect x="441" y="176" width="12" height="8" fill="#FF8800"/>
+  <rect x="587" y="176" width="12" height="8" fill="#FF8800"/>
+  <rect x="468" y="128" width="10" height="10" fill="#FF8800" transform="rotate(45 473 133)"/>
+  <rect x="562" y="128" width="10" height="10" fill="#FF8800" transform="rotate(-45 567 133)"/>
+  <rect x="468" y="222" width="10" height="10" fill="#FF8800" transform="rotate(-45 473 227)"/>
+  <rect x="562" y="222" width="10" height="10" fill="#FF8800" transform="rotate(45 567 227)"/>
+  <!-- Gear spokes right -->
+  <line x1="520" y1="115" x2="520" y2="145" stroke="#FF8800" stroke-width="3"/>
+  <line x1="520" y1="215" x2="520" y2="245" stroke="#FF8800" stroke-width="3"/>
+  <line x1="455" y1="180" x2="485" y2="180" stroke="#FF8800" stroke-width="3"/>
+  <line x1="555" y1="180" x2="585" y2="180" stroke="#FF8800" stroke-width="3"/>
+  <!-- Medium gear center-top -->
+  <circle cx="320" cy="80" r="50" fill="none" stroke="#33FF33" stroke-width="3" opacity="0.6"/>
+  <circle cx="320" cy="80" r="38" fill="none" stroke="#33FF33" stroke-width="2" opacity="0.4"/>
+  <circle cx="320" cy="80" r="12" fill="#0d0600" stroke="#33FF33" stroke-width="2" opacity="0.7"/>
+  <!-- Center gear teeth -->
+  <rect x="316" y="26" width="8" height="10" fill="#33FF33" opacity="0.5"/>
+  <rect x="316" y="124" width="8" height="10" fill="#33FF33" opacity="0.5"/>
+  <rect x="266" y="76" width="10" height="8" fill="#33FF33" opacity="0.5"/>
+  <rect x="364" y="76" width="10" height="8" fill="#33FF33" opacity="0.5"/>
+  <!-- Layer 4: Memory Mirror (center) -->
+  <ellipse cx="320" cy="220" rx="50" ry="65" fill="#000000" stroke="#FF8800" stroke-width="3"/>
+  <!-- Mirror frame - intertwined hands -->
+  <path d="M 285 200 Q 275 220 285 240" fill="none" stroke="#FF8800" stroke-width="3"/>
+  <path d="M 355 200 Q 365 220 355 240" fill="none" stroke="#FF8800" stroke-width="3"/>
+  <path d="M 290 165 Q 320 155 350 165" fill="none" stroke="#FF8800" stroke-width="3"/>
+  <path d="M 290 275 Q 320 285 350 275" fill="none" stroke="#FF8800" stroke-width="3"/>
+  <!-- Mirror dark glass surface -->
+  <ellipse cx="320" cy="220" rx="45" ry="60" fill="#1a1a1a" opacity="0.8"/>
+  <!-- Death loop - cracked reflection pattern -->
+  <line x1="305" y1="195" x2="330" y2="230" stroke="#FF8800" stroke-width="1" opacity="0.3"/>
+  <line x1="330" y1="195" x2="305" y2="230" stroke="#FF8800" stroke-width="1" opacity="0.3"/>
+  <line x1="300" y1="210" x2="340" y2="210" stroke="#FF8800" stroke-width="0.5" opacity="0.2"/>
+  <line x1="310" y1="240" x2="330" y2="250" stroke="#FF8800" stroke-width="1" opacity="0.25"/>
+  <!-- Cracks in mirror -->
+  <line x1="318" y1="170" x2="322" y2="190" stroke="#FFFFFF" stroke-width="0.8" opacity="0.4"/>
+  <line x1="322" y1="190" x2="328" y2="185" stroke="#FFFFFF" stroke-width="0.8" opacity="0.3"/>
+  <line x1="328" y1="185" x2="334" y2="195" stroke="#FFFFFF" stroke-width="0.5" opacity="0.25"/>
+  <!-- Mirror glow -->
+  <ellipse cx="320" cy="220" rx="55" ry="70" fill="#FF8800" opacity="0.05"/>
+  <!-- Layer 5: Sparks from gear teeth -->
+  <circle cx="100" cy="160" r="2" fill="#FFFF00" opacity="0.6"/>
+  <circle cx="540" cy="155" r="2" fill="#FFFF00" opacity="0.6"/>
+  <circle cx="320" cy="70" r="1.5" fill="#FFFF00" opacity="0.5"/>
+  <circle cx="95" cy="165" r="1" fill="#FFFF00" opacity="0.4"/>
+  <circle cx="545" cy="160" r="1" fill="#FFFF00" opacity="0.4"/>
+  <!-- Layer 6: Iron ladder (right side, leading up) -->
+  <rect x="590" y="100" width="4" height="200" fill="#663300" stroke="#000" stroke-width="1"/>
+  <rect x="610" y="100" width="4" height="200" fill="#663300" stroke="#000" stroke-width="1"/>
+  <!-- Ladder rungs -->
+  <rect x="590" y="120" width="24" height="4" fill="#663300" stroke="#000" stroke-width="1"/>
+  <rect x="590" y="145" width="24" height="4" fill="#663300" stroke="#000" stroke-width="1"/>
+  <rect x="590" y="170" width="24" height="4" fill="#663300" stroke="#000" stroke-width="1"/>
+  <rect x="590" y="195" width="24" height="4" fill="#663300" stroke="#000" stroke-width="1"/>
+  <rect x="590" y="220" width="24" height="4" fill="#663300" stroke="#000" stroke-width="1"/>
+  <rect x="590" y="245" width="24" height="4" fill="#663300" stroke="#000" stroke-width="1"/>
+  <rect x="590" y="270" width="24" height="4" fill="#663300" stroke="#000" stroke-width="1"/>
+  <!-- Ladder glow from machinery heat -->
+  <rect x="585" y="100" width="34" height="200" fill="#FF8800" opacity="0.03"/>
+  <!-- Layer 7: Shifting shadows -->
+  <ellipse cx="100" cy="350" rx="60" ry="15" fill="#000000" opacity="0.5"/>
+  <ellipse cx="540" cy="350" rx="60" ry="15" fill="#000000" opacity="0.5"/>
+  <ellipse cx="320" cy="370" rx="80" ry="12" fill="#000000" opacity="0.4"/>
+  <!-- Ghostly fire from gears -->
+  <circle cx="120" cy="180" r="3" fill="#33FF33" opacity="0.15"/>
+  <circle cx="520" cy="180" r="3" fill="#33FF33" opacity="0.15"/>
+  <!-- Ozone/blue electrical glow accents -->
+  <ellipse cx="320" cy="80" rx="40" ry="10" fill="#0000FF" opacity="0.05"/>
+  <circle cx="200" cy="150" r="8" fill="#0000FF" opacity="0.03"/>
+  <circle cx="440" cy="150" r="8" fill="#0000FF" opacity="0.03"/>
+</svg>

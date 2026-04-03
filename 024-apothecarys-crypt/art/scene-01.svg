@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <pattern id="hatch-dark" width="4" height="4" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="4" y2="0" stroke="#000000" stroke-width="1"/>
+    </pattern>
+    <pattern id="stone" width="40" height="20" patternUnits="userSpaceOnUse">
+      <rect width="40" height="20" fill="#1a1a1a"/>
+      <rect x="0" y="0" width="38" height="18" fill="#222222" stroke="#000" stroke-width="1"/>
+      <rect x="20" y="10" width="18" height="8" fill="#2a2a2a" stroke="#000" stroke-width="1"/>
+    </pattern>
+  </defs>
+  
+  <!-- Layer 1: Background - Night sky and church silhouettes -->
+  <rect width="640" height="400" fill="#000088"/>
+  <rect x="0" y="320" width="640" height="80" fill="#000000"/>
+  
+  <!-- Church silhouette in background -->
+  <rect x="280" y="100" width="80" height="220" fill="#000000"/>
+  <polygon points="320,40 280,100 360,100" fill="#000000"/>
+  <rect x="315" y="20" width="10" height="40" fill="#000000"/>
+  
+  <!-- Layer 2: Descending stone stairs -->
+  <rect x="200" y="280" width="240" height="120" fill="url(#stone)"/>
+  <line x1="200" y1="300" x2="440" y2="300" stroke="#000" stroke-width="2"/>
+  <line x1="210" y1="320" x2="430" y2="320" stroke="#000" stroke-width="2"/>
+  <line x1="220" y1="340" x2="420" y2="340" stroke="#000" stroke-width="2"/>
+  <line x1="240" y1="360" x2="400" y2="360" stroke="#000" stroke-width="2"/>
+  
+  <!-- Layer 3: Iron gate with skull motifs -->
+  <rect x="150" y="160" width="340" height="200" fill="none" stroke="#333" stroke-width="6"/>
+  <line x1="200" y1="160" x2="200" y2="360" stroke="#555" stroke-width="4"/>
+  <line x1="260" y1="160" x2="260" y2="360" stroke="#555" stroke-width="4"/>
+  <line x1="320" y1="160" x2="320" y2="360" stroke="#555" stroke-width="4"/>
+  <line x1="380" y1="160" x2="380" y2="360" stroke="#555" stroke-width="4"/>
+  <line x1="440" y1="160" x2="440" y2="360" stroke="#555" stroke-width="4"/>
+  <!-- Horizontal bars -->
+  <line x1="150" y1="200" x2="490" y2="200" stroke="#555" stroke-width="4"/>
+  <line x1="150" y1="260" x2="490" y2="260" stroke="#555" stroke-width="4"/>
+  <line x1="150" y1="320" x2="490" y2="320" stroke="#555" stroke-width="4"/>
+  <!-- Skull motif on gate -->
+  <circle cx="320" cy="230" r="15" fill="#666" stroke="#000" stroke-width="2"/>
+  <circle cx="315" cy="227" r="3" fill="#000"/>
+  <circle cx="325" cy="227" r="3" fill="#000"/>
+  <rect x="318" y="230" width="4" height="8" fill="#000"/>
+  <!-- Padlock -->
+  <rect x="310" y="260" width="20" height="28" fill="#FF8800" stroke="#000" stroke-width="2" rx="2"/>
+  <circle cx="320" cy="250" r="8" fill="none" stroke="#FF8800" stroke-width="3"/>
+  
+  <!-- Layer 4: Frescoes on walls -->
+  <rect x="20" y="160" width="120" height="180" fill="url(#hatch-dark)" opacity="0.3" stroke="#444" stroke-width="2"/>
+  <!-- Faded saint figures (only chalice-holding figure intact) -->
+  <rect x="40" y="180" width="20" height="60" fill="#333333"/>
+  <circle cx="50" cy="170" r="10" fill="#333333"/>
+  <!-- Chalice figure - the one with intact face -->
+  <rect x="80" y="175" width="20" height="65" fill="#555555"/>
+  <circle cx="90" cy="165" r="12" fill="#666666" stroke="#FF8800" stroke-width="1"/>
+  <rect x="85" y="190" width="10" height="15" fill="#FF8800"/>
+  
+  <rect x="500" y="160" width="120" height="180" fill="url(#hatch-dark)" opacity="0.3" stroke="#444" stroke-width="2"/>
+  <rect x="520" y="180" width="20" height="60" fill="#333333"/>
+  <circle cx="530" cy="170" r="10" fill="#333333" opacity="0.5"/>
+  <rect x="560" y="175" width="20" height="65" fill="#333333" opacity="0.5"/>
+  <circle cx="570" cy="165" r="10" fill="#333333" opacity="0.5"/>
+  
+  <!-- Layer 5: Brass key on flagstones -->
+  <rect x="260" y="370" width="60" height="15" fill="#333333" opacity="0.5"/>
+  <circle cx="275" cy="375" r="8" fill="none" stroke="#FF8800" stroke-width="3"/>
+  <rect x="283" y="373" width="35" height="4" fill="#FF8800" rx="1"/>
+  <rect x="312" y="375" width="4" height="7" fill="#FF8800"/>
+  <rect x="316" y="375" width="3" height="5" fill="#FF8800"/>
+  
+  <!-- Dark puddle -->
+  <ellipse cx="290" cy="385" rx="30" ry="8" fill="#000000" opacity="0.7"/>
+  
+  <!-- Layer 6: Atmospheric shadows and moonlight -->
+  <ellipse cx="320" cy="350" rx="120" ry="40" fill="#000088" opacity="0.2"/>
+  <ellipse cx="100" cy="380" rx="60" ry="15" fill="#000000" opacity="0.5"/>
+  <ellipse cx="540" cy="380" rx="60" ry="15" fill="#000000" opacity="0.5"/>
+</svg>

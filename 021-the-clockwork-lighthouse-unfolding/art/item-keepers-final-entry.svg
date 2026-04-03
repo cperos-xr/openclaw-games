@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Keeper's Final Entry - Tattered journal page with upward-flowing ink -->
+  <!-- Parchment page - slightly torn -->
+  <rect x="10" y="8" width="44" height="48" fill="#FFFF00" opacity="0.3" stroke="#FF8800" stroke-width="1.5" rx="1"/>
+  <!-- Aged parchment color -->
+  <rect x="10" y="8" width="44" height="48" fill="#FF8800" opacity="0.15" stroke="none" rx="1"/>
+  <!-- Torn edges -->
+  <line x1="10" y1="15" x2="8" y2="18" stroke="#000" stroke-width="1" opacity="0.5"/>
+  <line x1="8" y1="25" x2="10" y2="28" stroke="#000" stroke-width="1" opacity="0.4"/>
+  <line x1="54" y1="20" x2="56" y2="23" stroke="#000" stroke-width="1" opacity="0.4"/>
+  <line x1="56" y1="35" x2="54" y2="38" stroke="#000" stroke-width="1" opacity="0.3"/>
+  <!-- Bottom tear -->
+  <line x1="15" y1="56" x2="18" y2="58" stroke="#000" stroke-width="1" opacity="0.4"/>
+  <line x1="40" y1="56" x2="43" y2="58" stroke="#000" stroke-width="1" opacity="0.3"/>
+  <!-- Handwriting lines -->
+  <line x1="14" y1="14" x2="48" y2="14" stroke="#000" stroke-width="1" opacity="0.7"/>
+  <line x1="14" y1="19" x2="44" y2="19" stroke="#000" stroke-width="0.8" opacity="0.6"/>
+  <line x1="14" y1="24" x2="46" y2="24" stroke="#000" stroke-width="0.8" opacity="0.55"/>
+  <line x1="14" y1="29" x2="40" y2="29" stroke="#000" stroke-width="0.8" opacity="0.5"/>
+  <line x1="14" y1="34" x2="42" y2="34" stroke="#000" stroke-width="0.8" opacity="0.45"/>
+  <line x1="14" y1="39" x2="38" y2="39" stroke="#000" stroke-width="0.8" opacity="0.4"/>
+  <!-- Ink still flowing upward - prismatic sheen -->
+  <!-- Droplet trailing upward from bottom of text -->
+  <line x1="35" y1="42" x2="34" y2="39" stroke="#AA00FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="34" cy="38" r="1.5" fill="#AA00FF" opacity="0.3"/>
+  <line x1="34" y1="37" x2="33" y2="35" stroke="#0000FF" stroke-width="0.8" opacity="0.3"/>
+  <circle cx="33" cy="34" r="1" fill="#0000FF" opacity="0.25"/>
+  <!-- Oily prismatic sheen accent -->
+  <line x1="14" y1="14" x2="48" y2="14" stroke="#33FF33" stroke-width="0.5" opacity="0.2"/>
+  <line x1="14" y1="29" x2="40" y2="29" stroke="#FF0000" stroke-width="0.4" opacity="0.15"/>
+  <!-- Yellowed edges - aging -->
+  <rect x="10" y="8" width="44" height="3" fill="#000000" opacity="0.15"/>
+  <rect x="10" y="53" width="44" height="3" fill="#000000" opacity="0.12"/>
+  <rect x="10" y="8" width="3" height="48" fill="#000000" opacity="0.1"/>
+  <rect x="51" y="8" width="3" height="48" fill="#000000" opacity="0.1"/>
+</svg>

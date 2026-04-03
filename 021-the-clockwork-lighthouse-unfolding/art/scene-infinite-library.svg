@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <pattern id="book-spine" width="12" height="40" patternUnits="userSpaceOnUse">
+      <rect width="12" height="40" fill="#1a0d00"/>
+      <line x1="0" y1="0" x2="0" y2="40" stroke="#0d0600" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <!-- Layer 1: Background - void sky -->
+  <rect width="640" height="400" fill="#000000"/>
+  <!-- Layer 2: Infinite bookshelves spiraling into darkness -->
+  <!-- Left wall shelves -->
+  <rect x="0" y="40" width="80" height="280" fill="#1a0d00" stroke="#333" stroke-width="2"/>
+  <rect x="10" y="50" width="12" height="35" fill="#FF0000"/>
+  <rect x="24" y="50" width="10" height="35" fill="#0000FF"/>
+  <rect x="36" y="50" width="14" height="35" fill="#006600"/>
+  <rect x="52" y="50" width="8" height="35" fill="#AA00FF"/>
+  <rect x="62" y="50" width="12" height="35" fill="#FF8800"/>
+  <!-- Shelf 2 -->
+  <rect x="10" y="100" width="12" height="35" fill="#006600"/>
+  <rect x="24" y="100" width="8" height="35" fill="#FF0000"/>
+  <rect x="34" y="100" width="14" height="35" fill="#AA00FF"/>
+  <rect x="50" y="100" width="10" height="35" fill="#FFFF00"/>
+  <rect x="62" y="100" width="12" height="35" fill="#0000FF"/>
+  <!-- Shelf 3 -->
+  <rect x="10" y="150" width="12" height="35" fill="#FF8800"/>
+  <rect x="24" y="150" width="10" height="35" fill="#006600"/>
+  <rect x="36" y="150" width="8" height="35" fill="#FFFFFF" opacity="0.3"/>
+  <rect x="46" y="150" width="14" height="35" fill="#33FF33" opacity="0.4"/>
+  <rect x="62" y="150" width="12" height="35" fill="#FF0000"/>
+  <!-- Shelf 4 -->
+  <rect x="10" y="200" width="12" height="35" fill="#AA00FF"/>
+  <rect x="24" y="200" width="14" height="35" fill="#FF8800"/>
+  <rect x="40" y="200" width="8" height="35" fill="#0000FF"/>
+  <rect x="50" y="200" width="10" height="35" fill="#006600"/>
+  <rect x="62" y="200" width="12" height="35" fill="#FFFFFF" opacity="0.2"/>
+  <!-- Shelf 5 -->
+  <rect x="10" y="250" width="12" height="35" fill="#006600"/>
+  <rect x="24" y="250" width="14" height="35" fill="#FF0000"/>
+  <rect x="40" y="250" width="10" height="35" fill="#FFFF00"/>
+  <rect x="52" y="250" width="8" height="35" fill="#AA00FF"/>
+  <rect x="62" y="250" width="12" height="35" fill="#FF8800"/>
+  <!-- Right wall shelves -->
+  <rect x="560" y="40" width="80" height="280" fill="#1a0d00" stroke="#333" stroke-width="2"/>
+  <rect x="570" y="50" width="12" height="35" fill="#0000FF"/>
+  <rect x="584" y="50" width="10" height="35" fill="#FF8800"/>
+  <rect x="596" y="50" width="14" height="35" fill="#006600"/>
+  <rect x="612" y="50" width="8" height="35" fill="#FF0000"/>
+  <rect x="622" y="50" width="12" height="35" fill="#AA00FF"/>
+  <rect x="570" y="100" width="10" height="35" fill="#FFFF00"/>
+  <rect x="582" y="100" width="14" height="35" fill="#006600"/>
+  <rect x="598" y="100" width="8" height="35" fill="#FF0000"/>
+  <rect x="608" y="100" width="12" height="35" fill="#33FF33" opacity="0.4"/>
+  <rect x="622" y="100" width="12" height="35" fill="#0000FF"/>
+  <rect x="570" y="150" width="12" height="35" fill="#AA00FF"/>
+  <rect x="584" y="150" width="8" height="35" fill="#FF8800"/>
+  <rect x="594" y="150" width="14" height="35" fill="#FFFFFF" opacity="0.25"/>
+  <rect x="610" y="150" width="10" height="35" fill="#006600"/>
+  <rect x="622" y="150" width="12" height="35" fill="#FF0000"/>
+  <rect x="570" y="200" width="14" height="35" fill="#FF8800"/>
+  <rect x="586" y="200" width="10" height="35" fill="#0000FF"/>
+  <rect x="598" y="200" width="12" height="35" fill="#FFFF00"/>
+  <rect x="612" y="200" width="8" height="35" fill="#33FF33" opacity="0.35"/>
+  <rect x="622" y="200" width="12" height="35" fill="#AA00FF"/>
+  <rect x="570" y="250" width="12" height="35" fill="#006600"/>
+  <rect x="584" y="250" width="10" height="35" fill="#FF0000"/>
+  <rect x="596" y="250" width="14" height="35" fill="#FF8800"/>
+  <rect x="612" y="250" width="8" height="35" fill="#0000FF"/>
+  <rect x="622" y="250" width="12" height="35" fill="#FFFFFF" opacity="0.2"/>
+  <!-- Back wall shelves (vanishing perspective) -->
+  <rect x="100" y="30" width="440" height="15" fill="#1a0d00" stroke="#333" stroke-width="1" opacity="0.7"/>
+  <rect x="110" y="33" width="8" height="10" fill="#AA00FF" opacity="0.5"/>
+  <rect x="120" y="33" width="6" height="10" fill="#FF8800" opacity="0.5"/>
+  <rect x="128" y="33" width="10" height="10" fill="#006600" opacity="0.5"/>
+  <rect x="140" y="33" width="8" height="10" fill="#FF0000" opacity="0.5"/>
+  <rect x="480" y="33" width="8" height="10" fill="#0000FF" opacity="0.5"/>
+  <rect x="490" y="33" width="10" height="10" fill="#FF8800" opacity="0.5"/>
+  <rect x="502" y="33" width="6" height="10" fill="#33FF33" opacity="0.4" opacity="0.5"/>
+  <!-- Upper shelves receding -->
+  <rect x="140" y="70" width="360" height="12" fill="#1a0d00" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <rect x="180" y="72" width="8" height="8" fill="#006600" opacity="0.4"/>
+  <rect x="190" y="72" width="6" height="8" fill="#FFFF00" opacity="0.4"/>
+  <rect x="440" y="72" width="8" height="8" fill="#AA00FF" opacity="0.4"/>
+  <rect x="450" y="72" width="10" height="8" fill="#FF0000" opacity="0.4"/>
+  <!-- Deeper shelves -->
+  <rect x="180" y="100" width="280" height="10" fill="#1a0d00" stroke="#333" stroke-width="1" opacity="0.35"/>
+  <rect x="220" y="102" width="6" height="7" fill="#FF8800" opacity="0.3"/>
+  <rect x="380" y="102" width="8" height="7" fill="#0000FF" opacity="0.3"/>
+  <!-- Vanishing point shelves -->
+  <rect x="220" y="125" width="200" height="8" fill="#1a0d00" stroke="#333" stroke-width="1" opacity="0.25"/>
+  <rect x="260" y="126" width="5" height="6" fill="#FFFFFF" opacity="0.2"/>
+  <rect x="360" y="126" width="6" height="6" fill="#FF0000" opacity="0.2"/>
+  <rect x="250" y="145" width="140" height="6" fill="#1a0d00" stroke="#333" stroke-width="1" opacity="0.18"/>
+  <rect x="290" y="146" width="4" height="4" fill="#AA00FF" opacity="0.15"/>
+  <rect x="300" y="146" width="5" height="4" fill="#006600" opacity="0.15"/>
+  <!-- Layer 3: Floor -->
+  <rect x="0" y="320" width="640" height="80" fill="#0d0600"/>
+  <line x1="0" y1="340" x2="640" y2="340" stroke="#000000" stroke-width="2"/>
+  <line x1="0" y1="360" x2="640" y2="360" stroke="#000000" stroke-width="1"/>
+  <line x1="0" y1="380" x2="640" y2="380" stroke="#000000" stroke-width="1"/>
+  <!-- Perspective floor lines -->
+  <line x1="80" y1="320" x2="280" y2="200" stroke="#1a0d00" stroke-width="1" opacity="0.3"/>
+  <line x1="560" y1="320" x2="360" y2="200" stroke="#1a0d00" stroke-width="1" opacity="0.3"/>
+  <!-- Layer 4: Stone lectern center -->
+  <rect x="280" y="250" width="80" height="10" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+  <rect x="290" y="260" width="60" height="60" fill="#222222" stroke="#333" stroke-width="2"/>
+  <rect x="280" y="315" width="80" height="10" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+  <!-- Lectern top surface -->
+  <rect x="295" y="240" width="50" height="15" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+  <!-- Keeper's Final Entry - parchment -->
+  <rect x="305" y="235" width="30" height="18" fill="#FFFF00" opacity="0.4" stroke="#000" stroke-width="1"/>
+  <!-- Ink lines on parchment -->
+  <line x1="308" y1="238" x2="330" y2="238" stroke="#000" stroke-width="0.8" opacity="0.6"/>
+  <line x1="308" y1="241" x2="328" y2="241" stroke="#000" stroke-width="0.8" opacity="0.5"/>
+  <line x1="308" y1="244" x2="326" y2="244" stroke="#000" stroke-width="0.8" opacity="0.4"/>
+  <line x1="308" y1="247" x2="324" y2="247" stroke="#000" stroke-width="0.8" opacity="0.3"/>
+  <!-- Glass dome over entry -->
+  <ellipse cx="320" cy="238" rx="20" ry="14" fill="#FFFFFF" opacity="0.05" stroke="#FFFFFF" stroke-width="1" opacity="0.3"/>
+  <line x1="305" y1="240" x2="335" y2="240" stroke="#FFFFFF" stroke-width="0.5" opacity="0.2"/>
+  <!-- Crack in dome -->
+  <line x1="318" y1="228" x2="322" y2="235" stroke="#FFFFFF" stroke-width="0.5" opacity="0.4"/>
+  <line x1="322" y1="235" x2="326" y2="232" stroke="#FFFFFF" stroke-width="0.5" opacity="0.3"/>
+  <!-- Layer 5: Dust / atmosphere -->
+  <circle cx="200" cy="150" r="1.5" fill="#FFFFFF" opacity="0.15"/>
+  <circle cx="250" cy="120" r="1" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="350" cy="100" r="1.5" fill="#FFFFFF" opacity="0.15"/>
+  <circle cx="400" cy="160" r="1" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="450" cy="130" r="1.2" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="180" cy="200" r="1" fill="#FFFF00" opacity="0.08"/>
+  <circle cx="460" cy="200" r="1" fill="#FFFF00" opacity="0.08"/>
+  <!-- Stars in the void above -->
+  <circle cx="300" cy="10" r="1" fill="#FFFFFF" opacity="0.4"/>
+  <circle cx="330" cy="6" r="0.8" fill="#FFFFFF" opacity="0.35"/>
+  <circle cx="360" cy="12" r="1" fill="#FFFFFF" opacity="0.3"/>
+  <circle cx="250" cy="15" r="0.8" fill="#FFFFFF" opacity="0.25"/>
+  <circle cx="400" cy="8" r="0.8" fill="#FFFFFF" opacity="0.3"/>
+  <!-- Warm book glow at eye level -->
+  <rect x="80" y="140" width="40" height="50" fill="#FF8800" opacity="0.03"/>
+  <rect x="520" y="140" width="40" height="50" fill="#FF8800" opacity="0.03"/>
+</svg>

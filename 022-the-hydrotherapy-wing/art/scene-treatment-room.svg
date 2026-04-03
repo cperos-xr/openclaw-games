@@ -1,0 +1,107 @@
+<svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Layer 1: Background -->
+  <rect width="640" height="400" fill="#0a0a0a"/>
+  
+  <!-- Layer 2: Cracked white tile walls -->
+  <rect x="0" y="0" width="200" height="350" fill="#222222"/>
+  <rect x="440" y="0" width="200" height="350" fill="#222222"/>
+  
+  <!-- Tile grid pattern left wall -->
+  <line x1="40" y1="0" x2="40" y2="350" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="80" y1="0" x2="80" y2="350" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="120" y1="0" x2="120" y2="350" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="160" y1="0" x2="160" y2="350" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="0" y1="70" x2="200" y2="70" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="0" y1="140" x2="200" y2="140" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="0" y1="210" x2="200" y2="210" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="0" y1="280" x2="200" y2="280" stroke="#1a1a1a" stroke-width="1"/>
+  
+  <!-- Tile grid pattern right wall -->
+  <line x1="480" y1="0" x2="480" y2="350" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="520" y1="0" x2="520" y2="350" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="560" y1="0" x2="560" y2="350" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="600" y1="0" x2="600" y2="350" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="440" y1="70" x2="640" y2="70" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="440" y1="140" x2="640" y2="140" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="440" y1="210" x2="640" y2="210" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="440" y1="280" x2="640" y2="280" stroke="#1a1a1a" stroke-width="1"/>
+  
+  <!-- Brown stain marks on tiles -->
+  <ellipse cx="60" cy="200" rx="15" ry="30" fill="#FF0000" opacity="0.15"/>
+  <ellipse cx="140" cy="250" rx="20" ry="25" fill="#FF0000" opacity="0.12"/>
+  <ellipse cx="500" cy="180" rx="18" ry="35" fill="#FF0000" opacity="0.15"/>
+  <ellipse cx="580" cy="260" rx="12" ry="20" fill="#FF0000" opacity="0.12"/>
+  
+  <!-- Layer 3: Floor -->
+  <rect x="0" y="350" width="640" height="50" fill="#1a1a1a"/>
+  <line x1="0" y1="360" x2="640" y2="360" stroke="#111111" stroke-width="1"/>
+  <line x1="0" y1="375" x2="640" y2="375" stroke="#111111" stroke-width="1"/>
+  
+  <!-- Layer 4: Rusted iron bathtub -->
+  <!-- Tub body -->
+  <rect x="200" y="220" width="240" height="130" rx="10" fill="#333333" stroke="#555555" stroke-width="3"/>
+  <!-- Tub interior (darker) -->
+  <rect x="210" y="230" width="220" height="20" fill="#1a1a1a"/>
+  <!-- Tub feet -->
+  <rect x="215" y="345" width="15" height="15" fill="#444444"/>
+  <rect x="410" y="345" width="15" height="15" fill="#444444"/>
+  <!-- Rust stains on tub -->
+  <rect x="220" y="240" width="30" height="80" fill="#FF8800" opacity="0.2"/>
+  <rect x="350" y="250" width="25" height="60" fill="#FF8800" opacity="0.15"/>
+  <rect x="400" y="230" width="20" height="90" fill="#FF8800" opacity="0.25"/>
+  
+  <!-- Layer 5: Medical instruments hanging on wall -->
+  <!-- Hooks on left wall -->
+  <line x1="170" y1="100" x2="185" y2="100" stroke="#555555" stroke-width="3"/>
+  <line x1="170" y1="140" x2="185" y2="140" stroke="#555555" stroke-width="3"/>
+  <line x1="170" y1="180" x2="185" y2="180" stroke="#555555" stroke-width="3"/>
+  <!-- Hooks on right wall -->
+  <line x1="455" y1="100" x2="470" y2="100" stroke="#555555" stroke-width="3"/>
+  <line x1="455" y1="140" x2="470" y2="140" stroke="#555555" stroke-width="3"/>
+  <line x1="455" y1="180" x2="470" y2="180" stroke="#555555" stroke-width="3"/>
+  
+  <!-- Forceps (left wall top) -->
+  <rect x="175" y="90" width="3" height="25" fill="#AAAAAA"/>
+  <rect x="182" y="90" width="3" height="25" fill="#AAAAAA"/>
+  <line x1="176" y1="115" x2="184" y2="115" stroke="#AAAAAA" stroke-width="2"/>
+  
+  <!-- Scalpel (left wall middle) -->
+  <rect x="178" y="132" width="2" height="18" fill="#CCCCCC"/>
+  <rect x="176" y="150" width="6" height="4" fill="#888888"/>
+  
+  <!-- Syringe (left wall bottom) -->
+  <rect x="179" y="172" width="2" height="20" fill="#CCCCCC"/>
+  <circle cx="180" cy="172" r="2" fill="#AAAAAA"/>
+  
+  <!-- Forceps (right wall top) -->
+  <rect x="462" y="90" width="3" height="25" fill="#AAAAAA"/>
+  <rect x="469" y="90" width="3" height="25" fill="#AAAAAA"/>
+  <line x1="463" y1="115" x2="471" y2="115" stroke="#AAAAAA" stroke-width="2"/>
+  
+  <!-- Saw (right wall middle) -->
+  <rect x="460" y="132" width="12" height="4" fill="#999999"/>
+  <line x1="460" y1="136" x2="472" y2="136" stroke="#666666" stroke-width="1"/>
+  <line x1="462" y1="137" x2="462" y2="139" stroke="#666666" stroke-width="1"/>
+  <line x1="465" y1="137" x2="465" y2="139" stroke="#666666" stroke-width="1"/>
+  <line x1="468" y1="137" x2="468" y2="139" stroke="#666666" stroke-width="1"/>
+  
+  <!-- Scissors (right wall bottom) -->
+  <circle cx="461" cy="185" r="4" fill="none" stroke="#AAAAAA" stroke-width="2"/>
+  <circle cx="471" cy="185" r="4" fill="none" stroke="#AAAAAA" stroke-width="2"/>
+  <line x1="461" y1="181" x2="467" y2="170" stroke="#AAAAAA" stroke-width="2"/>
+  <line x1="471" y1="181" x2="465" y2="170" stroke="#AAAAAA" stroke-width="2"/>
+  
+  <!-- Layer 6: Medical cabinet on right wall -->
+  <rect x="520" y="220" width="80" height="100" fill="#1a0d00" stroke="#444444" stroke-width="2"/>
+  <rect x="525" y="225" width="70" height="90" fill="#0d0600" stroke="#333333" stroke-width="1"/>
+  <!-- Cabinet lock -->
+  <circle cx="592" cy="270" r="4" fill="#FF8800"/>
+  <rect x="590" y="272" width="4" height="8" fill="#FF8800"/>
+  
+  <!-- Layer 7: Atmospheric shadow -->
+  <ellipse cx="320" cy="380" rx="80" ry="10" fill="#000000" opacity="0.5"/>
+  
+  <!-- Layer 8: Dim overhead light source -->
+  <circle cx="320" cy="40" r="10" fill="#FFFF00" opacity="0.3"/>
+  <ellipse cx="320" cy="80" rx="40" ry="60" fill="#FFFF00" opacity="0.05"/>
+</svg>

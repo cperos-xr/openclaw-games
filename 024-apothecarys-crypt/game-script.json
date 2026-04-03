@@ -1,0 +1,212 @@
+{
+  "title": "The Apothecary's Crypt",
+  "slug": "apothecarys-crypt",
+  "number": 24,
+  "layout": "standard",
+  "setting": "A sealed Victorian apothecary beneath St. Jude's church, where Dr. Alistair Vane conducted forbidden experiments with alchemical preservation of the dead.",
+  "characters": [
+    {
+      "id": "dr-vane",
+      "name": "Dr. Alistair Vane",
+      "description": "The deceased apothecary who sought immortality through forbidden alchemy. His journals remain, his body does not—or perhaps it does, in some form."
+    }
+  ],
+  "items": [
+    {
+      "id": "brass-key",
+      "name": "Brass Key",
+      "description": "A tarnished brass key with a skull-shaped bow. Cold to the touch.",
+      "foundIn": "scene-01",
+      "usedIn": "scene-01",
+      "usedOn": "puzzle-1"
+    },
+    {
+      "id": "bone-crowbar",
+      "name": "Bone Crowbar",
+      "description": "A crowbar, impossibly, carved from polished femur bone. Stained dark at the tip.",
+      "foundIn": "scene-02",
+      "usedIn": "scene-02",
+      "usedOn": "puzzle-2"
+    },
+    {
+      "id": "mortar-and-pestle",
+      "name": "Mortar and Pestle",
+      "description": "Heavy stone mortar and pestle, stained with old chemical residue that smells of bitter almonds.",
+      "foundIn": "scene-03",
+      "usedIn": "scene-03",
+      "usedOn": "puzzle-3"
+    },
+    {
+      "id": "preservation-jar",
+      "name": "Preservation Jar",
+      "description": "A glass jar stoppered with wax, containing a cloudy fluid and something suspended inside. The label reads 'A. Vane.'",
+      "foundIn": "scene-05",
+      "usedIn": "scene-03",
+      "usedOn": "puzzle-3"
+    },
+    {
+      "id": "glyph-tablet",
+      "name": "Glyph Tablet",
+      "description": "A flat stone tablet etched with three indecipherable symbols. Vibrates faintly when held.",
+      "foundIn": "scene-04",
+      "usedIn": "scene-04",
+      "usedOn": "puzzle-5"
+    },
+    {
+      "id": "silver-chalice",
+      "name": "Silver Chalice",
+      "description": "An ornate silver chalice inscribed with the seal of St. Jude. Heavy, cold, and humming with an energy you cannot name.",
+      "foundIn": "scene-06",
+      "usedIn": "scene-06",
+      "usedOn": "win-condition"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "scene-01",
+      "name": "Crypt Entrance",
+      "prose": "Iron gates bar the descent into St. Jude's undercroft. The air smells of wet stone and something metallic—old, like rusted pennies left in blood. A brass key glints on the flagstones at your feet, half-submerged in a puddle of dark, congealed fluid. Above, the church bells toll midnight, each note vibrating through the stone beneath your boots. The iron gate groans softly, as though breathing in the dark. Beyond it, steps drop away into blackness that swallows the candlelight. The walls are lined with fading frescoes of saints, their eyes scraped away by vandals or by something that did not want to be seen.",
+      "exits": {
+        "east": "scene-02"
+      },
+      "items": ["brass-key"],
+      "puzzles": ["puzzle-1"],
+      "lookDescriptions": {
+        "iron-gate": "Wrought iron with skull motifs, held shut by a heavy padlock. The keyhole is shaped like a skull's eye socket.",
+        "brass-key": "A tarnished brass key with a skull-shaped bow. Cold to the touch, it seems to pull toward the gate's lock.",
+        "frescoes": "Faded paintings of saints, their faces deliberately scratched out. One figure holds a chalice—it is the only face left intact."
+      }
+    },
+    {
+      "id": "scene-02",
+      "name": "Embalming Chamber",
+      "prose": "A long copper slab dominates the center of the room, stained brown and crusted with residue no scrubbing could remove. Surgical tools hang from hooks on the wall, each precisely labeled in spidery hand—names you do not recognize, dates from the 1870s. A door to the south is wrapped in rusted chain, the links thick with oxidation. On a tray beside the slab, a bone-white crowbar gleams under flickering candlelight. The candles are wax, but they smell of tallow and old meat. Dr. Vane's ledger lies open on a side table, its pages brittle. The air is suffocatingly still, thick with the weight of things done here.",
+      "exits": {
+        "west": "scene-01",
+        "south": "scene-03"
+      },
+      "items": ["bone-crowbar"],
+      "puzzles": ["puzzle-2"],
+      "lookDescriptions": {
+        "copper-slab": "An embalming table, scored and stained. There are drain channels cut into its surface, converging on a central pipe.",
+        "surgical-tools": "Scalpels, forceps, and bone saws, each with a name tag. The tags read names you do not recognize, dates from the 1870s.",
+        "chained-door": "The door is sealed with thick chains and a padlock. The chain is rusted through in places. Pry it with enough leverage and it should give."
+      }
+    },
+    {
+      "id": "scene-03",
+      "name": "Apothecary Lab",
+      "prose": "Shelves of apothecary jars line every wall—hundreds of them, each filled with cloudy liquids and dark shapes suspended inside. The labels have faded to ghosts, but you make out 'liver,' 'heart,' 'brain,' written in a hand that trembled. In the room's center, a grinding station holds a heavy mortar and pestle, stained with dried compounds that smell of bitter almonds and something chemical. A sealed iron grate blocks the eastern passage, locked by a mechanism with two circular depressions waiting for specific items. To the west, a bookshelf seems slightly misaligned, displaced from the wall. Its spines form a deliberate pattern, three books standing out among the rest.",
+      "exits": {
+        "north": "scene-02",
+        "east": "scene-04",
+        "west": "scene-05"
+      },
+      "items": ["mortar-and-pestle"],
+      "puzzles": ["puzzle-3", "puzzle-4"],
+      "lookDescriptions": {
+        "apothecary-jars": "Rows upon rows of glass, each holding something preserved in cloudy fluid. The labels are in Latin. One jar bears the name 'A. Vane'—the fluid inside moves on its own.",
+        "grinding-station": "A heavy stone mortar and pestle on a wooden base. Two circular depressions beside it suggest it accepts specific items. Ancient residue smells of bitter almonds.",
+        "bookshelf": "The books are old—medical texts, herbals, and occult grimoires. Three books stand out: one bound in black (raven), one in green (serpent), one in white (skull). They seem placed deliberately."
+      }
+    },
+    {
+      "id": "scene-04",
+      "name": "Preservation Vault",
+      "prose": "Circular and cold, this chamber holds six sarcophagi set into the walls. Each is open. Empty. In the center, a stone altar bears a recess shaped like a flat tablet. The walls are carved with the same symbols as the glyph tablet you carry. The northern wall has an enormous door, sealed with the same three symbols. The air here is frigid, and your breath forms visible clouds. Something scratched the inside of the sarcophagi—deep grooves, as if someone tried to climb out.",
+      "exits": {
+        "west": "scene-03",
+        "north": "scene-06"
+      },
+      "items": ["glyph-tablet"],
+      "puzzles": ["puzzle-5"],
+      "lookDescriptions": {
+        "sarcophagi": "Six stone coffins, each open and empty. The interiors are gouged with frantic scratches—fingernail marks, deep and desperate.",
+        "stone-altar": "A circular stone altar with a recessed slot. The slot matches the shape of the glyph tablet. Three symbols are carved around its edge.",
+        "northern-door": "A massive stone door sealed with three symbols: a raven, a serpent, and a skull. There is a slot beneath the symbols—waiting for something to be placed."
+      }
+    },
+    {
+      "id": "scene-05",
+      "name": "Study Library",
+      "prose": "Dr. Vane's personal sanctum, preserved as though he stepped out moments ago. Bookshelves overflow with leather-bound volumes—alchemical diagrams, funeral rites, and journals bound in what looks uncomfortably like human skin, stretched and tanned. A desk dominates the room, covered in sketches of a silver chalice, each annotated with chemical formulae in Vane's frantic hand. On the shelf above the desk sits a glass jar stoppered with sealing wax: the Preservation Jar. Its label reads 'A. Vane' in careful script. Something in the cloudy fluid inside swirls when you enter, then settles as though pretending to be still. The room feels watched, though there is no one here. You are certain of it.",
+      "exits": {
+        "east": "scene-03"
+      },
+      "items": ["preservation-jar"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "bookshelves": "Hundreds of books—medical, alchemical, and occult. Several are bound in material that looks like skin. A journal titled 'On the Preservation of Consciousness' lies open.",
+        "desk": "Covered in sketches of the Silver Chalice, with chemical annotations. Dr. Vane's notes describe it as 'the key to unbinding death's seal.'",
+        "preservation-jar": "A glass jar containing cloudy fluid and something suspended inside. The label reads 'A. Vane.' The contents move when you look directly, then go still."
+      }
+    },
+    {
+      "id": "scene-06",
+      "name": "Inner Sanctum",
+      "prose": "The sanctum is a domed chamber lit by a single shaft of moonlight through a high oculus. In the center, on a pedestal of black stone, sits the Silver Chalice of St. Jude. It gleams with an inner light. The walls are covered in frescoes depicting Dr. Vane's experiments—each frame showing a preserved body, each labeled with a name and date. The last frame is blank. The chalice hums when you approach. Its presence is a weight in the room, a presence that is not quite empty.",
+      "exits": {
+        "south": "scene-04"
+      },
+      "items": ["silver-chalice"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "silver-chalice": "An ornate silver chalice inscribed with the seal of St. Jude. Heavy, cold, and humming with an energy that makes your teeth ache. This is what Dr. Vane died for.",
+        "frescoes": "A sequence of paintings showing Dr. Vane's experiments—preserved bodies in various states. Each is labeled. The last frame is blank, waiting for a name.",
+        "pedestal": "Black stone, polished to a mirror finish. The chalice sits upon it, held by three silver claws shaped like grasping hands."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-1",
+      "scene": "scene-01",
+      "requires": ["brass-key"],
+      "action": "use brass-key on iron-gate",
+      "result": "The key turns with a groan. The iron gate swings open, revealing steps descending into darkness.",
+      "reveals": ["scene-02"],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-2",
+      "scene": "scene-02",
+      "requires": ["bone-crowbar"],
+      "action": "use bone-crowbar on chained-door",
+      "result": "The crowbar pries the rusted chain loose. Something wet drips from beyond the door.",
+      "reveals": ["scene-03"],
+      "blocksExit": "south"
+    },
+    {
+      "id": "puzzle-3",
+      "scene": "scene-03",
+      "requires": ["mortar-and-pestle", "preservation-jar"],
+      "action": "use mortar-and-pestle on mixing-station",
+      "result": "You grind the jar's contents. The mixture smokes, then clears—and the sealed grate in the floor grinds open.",
+      "reveals": ["scene-04"],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-4",
+      "scene": "scene-03",
+      "requires": [],
+      "action": "arrange books in order: raven, serpent, skull",
+      "result": "The bookshelf slides aside with a click, revealing a hidden alcove.",
+      "reveals": ["scene-05"],
+      "blocksExit": "west"
+    },
+    {
+      "id": "puzzle-5",
+      "scene": "scene-04",
+      "requires": ["glyph-tablet"],
+      "action": "place glyph-tablet on altar-slot",
+      "result": "The tablet fits perfectly. The altar splits open, revealing a chamber beyond.",
+      "reveals": ["scene-06"],
+      "blocksExit": "north"
+    }
+  ],
+  "winCondition": {
+    "scene": "scene-06",
+    "requires": ["silver-chalice"],
+    "description": "You hold the Silver Chalice of St. Jude—the artifact Dr. Vane died trying to claim. The frescoes on the walls shift as you take it. You have escaped the apothecary with its cursed relic. But the chalice hums, and the blank frame on the wall seems to wait."
+  }
+}

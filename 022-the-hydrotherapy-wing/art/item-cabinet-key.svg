@@ -1,0 +1,24 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="64" height="64" fill="#000000" stroke="#FFFFFF" stroke-width="1"/>
+  
+  <!-- Small brass key - clean, medical cabinet key -->
+  <!-- Tag/label -->
+  <rect x="8" y="18" width="12" height="8" fill="#B8860B" stroke="#DAA520" stroke-width="1"/>
+  <text x="14" y="24" text-anchor="middle" fill="#000000" font-size="5" font-family="monospace">MED</text>
+  
+  <!-- Key bow (small circle) -->
+  <circle cx="28" cy="28" r="8" fill="none" stroke="#DAA520" stroke-width="3"/>
+  <circle cx="28" cy="28" r="4" fill="none" stroke="#DAA520" stroke-width="2"/>
+  
+  <!-- Key shaft -->
+  <rect x="34" y="26" width="22" height="4" fill="#DAA520" rx="1"/>
+  
+  <!-- Clean brass teeth -->
+  <rect x="50" y="30" width="3" height="5" fill="#DAA520"/>
+  <rect x="54" y="30" width="3" height="4" fill="#DAA520"/>
+  
+  <!-- Highlight on clean brass -->
+  <rect x="36" y="27" width="5" height="1" fill="#FFD700" opacity="0.5"/>
+  <rect x="28" y="22" width="4" height="1" fill="#FFD700" opacity="0.4"/>
+</svg>

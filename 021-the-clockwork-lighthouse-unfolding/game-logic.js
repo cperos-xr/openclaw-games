@@ -1,0 +1,323 @@
+// game-logic.js — The Clockwork Lighthouse, Part II — The Unfolding
+// Sets up window.GAME_DATA and window.GAME_ART for the standard runtime.
+
+(function () {
+  'use strict';
+
+  /* ------------------------------------------------------------------ */
+  /*  GAME_DATA                                                         */
+  /* ------------------------------------------------------------------ */
+  window.GAME_DATA = {
+    "title": "The Clockwork Lighthouse, Part II — The Unfolding",
+    "slug": "clockwork-lighthouse-unfolding",
+    "number": 21,
+    "setting": "A fractured, Victorian-gothic lighthouse where time has become a physical, predatory architectural force.",
+    "layout": "standard",
+
+    "characters": [
+      {
+        "id": "the-keeper",
+        "name": "The Keeper",
+        "description": "A silhouette of gears and grief, flickering in and out of the lighthouse's distorted reality."
+      }
+    ],
+
+    "items": [
+      {
+        "id": "chronos-signet",
+        "name": "Chronos Signet",
+        "description": "A heavy gold ring with a clock-face seal that ticks against your skin.",
+        "foundIn": "beach-of-echoes",
+        "usedIn": "unfolding-beacon",
+        "usedOn": "reality-console"
+      },
+      {
+        "id": "empty-void-jar",
+        "name": "Empty Void Jar",
+        "description": "A glass canister lined with silver filigree, designed to contain things that shouldn't exist.",
+        "foundIn": "echo-workshop",
+        "usedIn": "echo-workshop",
+        "usedOn": "stasis-field"
+      },
+      {
+        "id": "captured-spark",
+        "name": "Captured Chronos Spark",
+        "description": "A jagged bolt of frozen lightning thrumming inside the glass jar.",
+        "foundIn": "echo-workshop",
+        "usedIn": "memory-cellar",
+        "usedOn": "liquid-time-flood"
+      },
+      {
+        "id": "library-keycard",
+        "name": "Library Keycard",
+        "description": "A punch-card made of brass and bone, cold to the touch.",
+        "foundIn": "memory-cellar",
+        "usedIn": "memory-cellar",
+        "usedOn": "cellar-door"
+      },
+      {
+        "id": "keepers-final-entry",
+        "name": "The Keeper's Final Entry",
+        "description": "A scrap of parchment where the ink still flows upward, containing a sequence of shifting numbers.",
+        "foundIn": "infinite-library",
+        "usedIn": "gear-heart",
+        "usedOn": "memory-mirror"
+      },
+      {
+        "id": "beacon-alignment-code",
+        "name": "Beacon Alignment Code",
+        "description": "A geometric pattern burned into your mind, the key to stabilizing the lighthouse.",
+        "foundIn": "gear-heart",
+        "usedIn": "unfolding-beacon",
+        "usedOn": "reality-console"
+      }
+    ],
+
+    "scenes": [
+      {
+        "id": "beach-of-echoes",
+        "name": "The Beach of Echoes",
+        "prose": "The world begins with a sound that isn't there. You stand upon the Beach of Echoes, where the shore is not sand, but a billion pulverized shards of glass that hum under your boots like a dying choir. To the east, the sea is a flat, leaden mirror; waves rise in slow-motion peaks but never break, suspended in a hateful, silent tension. Before you stands the Lighthouse. It has changed since you last saw it. No longer stone and mortar, it has become a prismatic spear thrust into the throat of the sky, its edges blurring into oily rainbows as it vibrates at a frequency that makes your teeth ache. A skeletal hand protrudes from a mound of glass sand nearby, clutching a glinting ring. The only path forward is through the Heavy Iron Door at the base of the tower, which groans with the sound of grinding gears.",
+        "exits": {
+          "north": "echo-workshop"
+        },
+        "items": [
+          "chronos-signet"
+        ],
+        "puzzles": [],
+        "lookDescriptions": {
+          "glass-sand": "Countless microscopic prisms. If you stare too long, you can see your own face reflected a thousand times, each one a second older than the last.",
+          "silent-waves": "Statues of water. They are gray, cold, and utterly motionless, as if the Atlantic has finally lost the will to move.",
+          "prismatic-lighthouse": "The tower shimmers with a violent, wrong light. It looks less like a building and more like a wound in the atmosphere.",
+          "skeletal-hand": "Bleached white and brittle. It holds the Chronos Signet with a rhythmic, desperate grip, even in death.",
+          "heavy-iron-door": "The door is pitted with rust and etched with clockwork diagrams. It vibrates gently, smelling of ozone and old blood."
+        }
+      },
+      {
+        "id": "echo-workshop",
+        "name": "The Echo Workshop",
+        "prose": "The workshop is a cathedral of stalled motion. Tools\u2014wrenches, hammers, and delicate brass calipers\u2014hang suspended in mid-air, caught in the invisible amber of a fractured timeline. The smell of hot grease and dry parchment is suffocating. In the center of the room, a jagged bolt of white-blue lightning\u2014the Chronos Spark\u2014is frozen within a shimmering Stasis Field, its crackle muted to a low, rhythmic throb. Workbenches line the walls, cluttered with the discarded blueprints of a man trying to build a cage for eternity. On the main workbench sits an Empty Void Jar, its silver filigree dull under the flickering ghost-light of the workshop. To the west, a narrow stairwell leads down into the damp dark of the cellar, while the way back to the beach lies south.",
+        "exits": {
+          "south": "beach-of-echoes",
+          "down": "memory-cellar"
+        },
+        "items": [
+          "empty-void-jar"
+        ],
+        "puzzles": [
+          "capture-spark"
+        ],
+        "lookDescriptions": {
+          "floating-tools": "Rusted implements of creation, hovering at eye-level. They drift slightly if you walk past, as if longing to fall.",
+          "stasis-field": "A sphere of distorted air, humming with a sub-bass frequency. Inside, a single moment of electrical discharge is held captive.",
+          "chronos-spark": "A splinter of pure, raw time. It is beautiful, terrifying, and looks like it would burn through a normal container in seconds.",
+          "main-workbench": "Deeply scarred wood. There is a silhouette burned into the surface\u2014a man's hands, caught in a final, frantic gesture.",
+          "empty-void-jar": "The glass is thick and clouded. The silver etchings represent the 'Great Ouroboros', the snake that eats its own tail."
+        }
+      },
+      {
+        "id": "memory-cellar",
+        "name": "The Memory Cellar",
+        "prose": "Step by step, you descend into a nightmare of fluid history. The cellar is flooded, but not with water. A thick, cerulean 'liquid time' fills the room waist-high, swirling with the slow, viscous grace of spilled mercury. Thousands of Memory Jars bob in the blue gloom like bioluminescent jellyfish, each containing a muffled scream or a flicker of a lost afternoon. The pressure of the fluid against your legs is immense, cold enough to numb the bone. Submerged near the far wall, a locked Cellar Door blocks the way deeper into the tower's foundations. Through the shimmering blue haze of the flood, you can see the Library Keycard resting on a submerged pedestal, just out of reach unless the liquid can be stilled. The air tastes of copper and forgotten birthdays.",
+        "exits": {
+          "up": "echo-workshop",
+          "north": "infinite-library"
+        },
+        "items": [
+          "library-keycard"
+        ],
+        "puzzles": [
+          "freeze-the-flood",
+          "unlock-cellar-door"
+        ],
+        "lookDescriptions": {
+          "liquid-time": "A heavy, glowing blue substance. It doesn't wet your clothes; it stains your memories. Tiny bubbles of 'yesterday' rise to the surface and pop silently.",
+          "memory-jars": "Glass spheres containing swirling mists. One shows a child's birthday; another, the burning of a letter. All are drowning.",
+          "submerged-pedestal": "A marble column carved with the image of an hourglass being shattered by a hammer.",
+          "cellar-door": "A heavy slab of oak reinforced with brass. It has no keyhole, only a thin slot designed for a specific rectangular card.",
+          "library-keycard": "It glints beneath the blue fluid, its brass punch-holes forming a pattern that looks remarkably like a constellation."
+        }
+      },
+      {
+        "id": "infinite-library",
+        "name": "The Infinite Library",
+        "prose": "The door opens to a spatial impossibility. The library stretches upward and outward into a geometric void, shelves of dark mahogany spiraling into an abyss where stars should be. This is the Lighthouse's mind, and it is unraveling. Millions of books line the walls; most are blank, their ink bled dry by the temporal leak. Others are 'Memory Books', their pages fluttering frantically like the wings of trapped birds, whispering the secrets of everyone who ever looked upon the lighthouse's light. At the center of this impossible space, a heavy stone lectern holds The Keeper's Final Entry preserved under a dome of cracked glass. The silence here is heavy, broken only by the dry rustle of paper and the distant, rhythmic thud of a giant heart beating somewhere above. A brass-fitted elevator stands ready to take you to the tower's summit.",
+        "exits": {
+          "south": "memory-cellar",
+          "up": "gear-heart"
+        },
+        "items": [
+          "keepers-final-entry"
+        ],
+        "puzzles": [],
+        "lookDescriptions": {
+          "infinite-bookshelves": "Rows of wood that defy gravity, curving into the horizon. They smell of dust, vanilla, and old leather.",
+          "blank-books": "Volumes titled with names of people not yet born. Their pages are terrifyingly empty, waiting for a history that may never happen.",
+          "memory-books": "These books pulse with a faint, warm light. To touch one is to feel a phantom limb, a ghost of a sensation that isn't yours.",
+          "stone-lectern": "A monolithic block of basalt, scarred by fire and time. It feels like the only anchor in this shifting room.",
+          "the-keepers-final-entry": "The parchment is yellowed and brittle. The handwriting is frantic, the ink still wet and shimmering with an oily, prismatic sheen."
+        }
+      },
+      {
+        "id": "gear-heart",
+        "name": "The Gear Heart",
+        "prose": "You emerge into the Gear Heart\u2014the lighthouse's engine room, transformed into a cathedral of rhythmic grinding and shifting shadows. Massive gears, some the size of houses, churn in a complex, interlocking dance that maintains the illusion of reality. The air is hot, smelling of friction and ozone. Standing in the center of the chamber is the Memory Mirror\u2014a towering oval of silvered glass that doesn't reflect the room. Instead, it shows a looped image of the lighthouse's destruction, a silent explosion of stone and fire that resets every few seconds. By studying the loop and the notes you carry, the Beacon Alignment Code can be deciphered from the mirror's fractured surface. A ladder of rusted iron rungs leads up to the final chamber, where the wind of the void howls through the cracks in the world.",
+        "exits": {
+          "down": "infinite-library",
+          "up": "unfolding-beacon"
+        },
+        "items": [
+          "beacon-alignment-code"
+        ],
+        "puzzles": [
+          "decipher-the-code"
+        ],
+        "lookDescriptions": {
+          "massive-gears": "Titans of brass and iron. Their teeth are worn smooth by eons of turning, sparking occasionally with a pale, ghostly fire.",
+          "memory-mirror": "The frame is made of intertwined metallic hands. The glass is dark, deep, and smells faintly of sea-salt and burning wood.",
+          "tower-death-loop": "A terrifying vision: the lighthouse shattering like glass. You see your own shadow in the blast, over and over again.",
+          "shifting-shadows": "The shadows here move independently of the light. They seem to be searching the floor for something they lost.",
+          "iron-ladder": "Warm to the touch. It vibrates with the power of the machinery, hummed by a thousand hidden springs."
+        }
+      },
+      {
+        "id": "unfolding-beacon",
+        "name": "The Unfolding Beacon",
+        "prose": "This is the end of all things. The lantern room has been torn open, not by wind, but by the sheer weight of failing time. A Hole in Reality\u2014a jagged, black tear in the center of the room\u2014is slowly expanding, consuming the floor and the walls. Beyond the tear lies nothing: a gray, howling gale of un-existence. In the center of the remaining floor stands the Reality Console, a complex array of brass levers, ticking dials, and a single, heavy ring-socket. The light of the beacon is gone, replaced by the Expanding Tear's hungry silence. To save the world, you must use the alignment code and the signet to stitch the wound shut before the lighthouse, and you with it, are completely unfolded. The lighthouse groans one last time, a sound of structural and spiritual collapse.",
+        "exits": {
+          "down": "gear-heart"
+        },
+        "items": [],
+        "puzzles": [
+          "stitch-time"
+        ],
+        "lookDescriptions": {
+          "hole-in-reality": "A gap where the universe ends. It pulsates with a blackness so absolute it feels like a physical weight on your eyes.",
+          "expanding-tear": "The edges of the hole are feathered with white static. Every few seconds, a piece of the lighthouse floor simply... ceases.",
+          "reality-console": "A masterpiece of clockwork desperation. It features a sequence of numbered dials and a slot shaped exactly like the Chronos Signet.",
+          "void-gale": "A wind that carries no scent and makes no sound, though you can feel it stripping the heat from your very soul.",
+          "ring-socket": "A circular indentation at the heart of the console, lined with gold and humming in sympathy with the ring on your finger."
+        }
+      }
+    ],
+
+    "puzzles": [
+      {
+        "id": "capture-spark",
+        "scene": "echo-workshop",
+        "requires": [
+          "empty-void-jar"
+        ],
+        "action": "use empty-void-jar on stasis-field",
+        "result": "The silver filigree on the jar flares bright white as it draws the spark inside. The lightning thrashes behind the glass, then settles into a rhythmic, icy glow.",
+        "reveals": [
+          "captured-spark"
+        ]
+      },
+      {
+        "id": "freeze-the-flood",
+        "scene": "memory-cellar",
+        "requires": [
+          "captured-spark"
+        ],
+        "action": "use captured-spark on liquid-time-flood",
+        "result": "As the spark touches the blue fluid, a shockwave of frost ripples outward. The 'liquid time' solidifies instantly into a translucent sapphire glass, revealing the keycard frozen within reach.",
+        "reveals": [
+          "library-keycard"
+        ]
+      },
+      {
+        "id": "unlock-cellar-door",
+        "scene": "memory-cellar",
+        "requires": [
+          "library-keycard"
+        ],
+        "action": "use library-keycard on cellar-door",
+        "result": "The brass card clicks into the slot. The door groans, the wood folding inward like origami to reveal the spiral stairs of the library.",
+        "reveals": [
+          "infinite-library"
+        ],
+        "blocksExit": {
+          "scene": "memory-cellar",
+          "direction": "north",
+          "blockedMessage": "The cellar door is locked. The liquid time churns violently, preventing you from reaching it."
+        }
+      },
+      {
+        "id": "decipher-the-code",
+        "scene": "gear-heart",
+        "requires": [
+          "keepers-final-entry"
+        ],
+        "action": "use keepers-final-entry on memory-mirror",
+        "result": "By holding the entry against the mirror's loop of destruction, the shifting numbers on the page align with the cracks in the glass. The sequence is seared into your memory.",
+        "reveals": [
+          "beacon-alignment-code"
+        ]
+      },
+      {
+        "id": "stitch-time",
+        "scene": "unfolding-beacon",
+        "requires": [
+          "beacon-alignment-code",
+          "chronos-signet"
+        ],
+        "action": "use chronos-signet on reality-console",
+        "result": "You input the code and twist the signet. The console screams as gears grind against the void. The black tear begins to shrink, drawing the edges of reality back together with the sound of a closing wound.",
+        "reveals": []
+      }
+    ],
+
+    "winCondition": {
+      "scene": "unfolding-beacon",
+      "requires": [
+        "beacon-alignment-code",
+        "chronos-signet"
+      ],
+      "description": "Reality reasserts itself with a deafening silence. The lighthouse is stone once more, and the glass sand beneath has turned back into simple, warm earth. The cycle is broken."
+    }
+  };
+
+  /* ------------------------------------------------------------------ */
+  /*  GAME_ART                                                          */
+  /*  Placeholder SVGs — the real art is injected by the Game Assembler */
+  /*  via the art/ folder.  These ensure the runtime never crashes on   */
+  /*  a missing art slot.                                                */
+  /* ------------------------------------------------------------------ */
+  window.GAME_ART = {};
+
+  // Utility: generate a simple placeholder SVG
+  function placeholder(label, bg, fg) {
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" style="width:100%;height:100%;">' +
+      '<rect width="800" height="500" fill="' + bg + '"/>' +
+      '<text x="400" y="260" text-anchor="middle" fill="' + fg + '" font-family="monospace" font-size="28">' +
+      label + '</text></svg>';
+  }
+
+  // Scene placeholders
+  var _sceneIds = [
+    'beach-of-echoes',
+    'echo-workshop',
+    'memory-cellar',
+    'infinite-library',
+    'gear-heart',
+    'unfolding-beacon'
+  ];
+  _sceneIds.forEach(function (id) {
+    window.GAME_ART[id] = placeholder('[ ' + id.toUpperCase() + ' ]', '#111', '#3af');
+  });
+
+  // Item placeholders
+  var _itemIds = [
+    'chronos-signet',
+    'empty-void-jar',
+    'captured-spark',
+    'library-keycard',
+    'keepers-final-entry',
+    'beacon-alignment-code'
+  ];
+  _itemIds.forEach(function (id) {
+    window.GAME_ART['item-' + id] = placeholder('[ ' + id.toUpperCase() + ' ]', '#111', '#fa3');
+  });
+
+})();

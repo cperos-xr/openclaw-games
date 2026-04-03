@@ -1,0 +1,27 @@
+{
+  "game": "023-clockwork-crypt",
+  "title": "The Clockwork Crypt",
+  "timestamp": "2026-04-03T17:23:00.892Z",
+  "playthroughVerdict": "FAIL",
+  "issues": [
+    {
+      "id": "PLAY-001",
+      "description": "Step 9: Exit blocked by puzzle puzzle-3"
+    },
+    {
+      "id": "PLAY-002",
+      "description": "Step 14: Exit blocked by puzzle puzzle-2"
+    },
+    {
+      "id": "PLAY-003",
+      "description": "Step 24: Exit blocked by puzzle puzzle-3"
+    }
+  ],
+  "stats": {
+    "scenesVisited": 6,
+    "itemsCollected": 7,
+    "puzzlesSolved": 3,
+    "inWinScene": true,
+    "hasAllWinItems": true
+  }
+}

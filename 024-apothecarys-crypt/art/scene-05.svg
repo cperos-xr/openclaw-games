@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <pattern id="wood-shelf" width="4" height="2" patternUnits="userSpaceOnUse">
+      <rect width="4" height="2" fill="#1a0d00"/>
+      <rect x="0" y="0" width="3" height="1" fill="#221400"/>
+    </pattern>
+  </defs>
+  
+  <!-- Layer 1: Background - Dr. Vane's study library -->
+  <rect width="640" height="400" fill="#0a0805"/>
+  
+  <!-- Layer 2: Floor -->
+  <rect x="0" y="320" width="640" height="80" fill="#1a0d00"/>
+  <line x1="0" y1="340" x2="640" y2="340" stroke="#0d0600" stroke-width="2"/>
+  <line x1="0" y1="365" x2="640" y2="365" stroke="#0d0600" stroke-width="2"/>
+  
+  <!-- Layer 3: Left wall bookshelves -->
+  <rect x="10" y="30" width="160" height="280" fill="#1a0d00" stroke="#333" stroke-width="2"/>
+  <!-- Shelves -->
+  <line x1="15" y1="80" x2="165" y2="80" stroke="#333" stroke-width="2"/>
+  <line x1="15" y1="130" x2="165" y2="130" stroke="#333" stroke-width="2"/>
+  <line x1="15" y1="180" x2="165" y2="180" stroke="#333" stroke-width="2"/>
+  <line x1="15" y1="230" x2="165" y2="230" stroke="#333" stroke-width="2"/>
+  <line x1="15" y1="280" x2="165" y2="280" stroke="#333" stroke-width="2"/>
+  <!-- Books (medical, alchemical, occult) -->
+  <rect x="18" y="42" width="8" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="27" y="42" width="10" height="38" fill="#000088" stroke="#111" stroke-width="1"/>
+  <rect x="38" y="42" width="7" height="38" fill="#AA00FF" stroke="#111" stroke-width="1"/>
+  <rect x="46" y="42" width="9" height="38" fill="#331100" stroke="#111" stroke-width="1"/>
+  <rect x="56" y="42" width="8" height="38" fill="#006600" stroke="#111" stroke-width="1"/>
+  <rect x="65" y="42" width="10" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="76" y="42" width="7" height="38" fill="#222222" stroke="#111" stroke-width="1"/>
+  <rect x="84" y="42" width="9" height="38" fill="#FF8800" stroke="#111" stroke-width="1"/>
+  <rect x="94" y="42" width="8" height="38" fill="#331100" stroke="#111" stroke-width="1"/>
+  <rect x="103" y="42" width="10" height="38" fill="#000088" stroke="#111" stroke-width="1"/>
+  <rect x="114" y="42" width="7" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="122" y="42" width="9" height="38" fill="#222" stroke="#111" stroke-width="1"/>
+  <rect x="132" y="42" width="8" height="38" fill="#006600" stroke="#111" stroke-width="1"/>
+  <rect x="141" y="42" width="10" height="38" fill="#AA00FF" stroke="#111" stroke-width="1"/>
+  <!-- Skin-bound books (darker, ominous) -->
+  <rect x="20" y="92" width="10" height="38" fill="#3a2020" stroke="#221" stroke-width="1"/>
+  <rect x="31" y="92" width="8" height="38" fill="#2a1818" stroke="#221" stroke-width="1"/>
+  <rect x="40" y="92" width="10" height="38" fill="#3a2020" stroke="#221" stroke-width="1"/>
+  <rect x="51" y="92" width="9" height="38" fill="#2a1818" stroke="#221" stroke-width="1"/>
+  <rect x="61" y="92" width="8" height="38" fill="#3a2020" stroke="#221" stroke-width="1"/>
+  <rect x="70" y="92" width="10" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="81" y="92" width="9" height="38" fill="#222" stroke="#111" stroke-width="1"/>
+  <rect x="91" y="92" width="8" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="100" y="92" width="10" height="38" fill="#3a2020" stroke="#221" stroke-width="1"/>
+  <rect x="111" y="92" width="8" height="38" fill="#2a1818" stroke="#221" stroke-width="1"/>
+  <rect x="120" y="92" width="9" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="130" y="92" width="10" height="38" fill="#222" stroke="#111" stroke-width="1"/>
+  <rect x="141" y="92" width="8" height="38" fill="#3a2020" stroke="#221" stroke-width="1"/>
+  <!-- More shelves with books -->
+  <rect x="18" y="142" width="9" height="38" fill="#222" stroke="#111" stroke-width="1"/>
+  <rect x="28" y="142" width="10" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="39" y="142" width="8" height="38" fill="#000088" stroke="#111" stroke-width="1"/>
+  <rect x="48" y="142" width="9" height="38" fill="#AA00FF" stroke="#111" stroke-width="1"/>
+  <rect x="58" y="142" width="10" height="38" fill="#331100" stroke="#111" stroke-width="1"/>
+  <rect x="69" y="142" width="8" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="78" y="142" width="9" height="38" fill="#222" stroke="#111" stroke-width="1"/>
+  <rect x="88" y="142" width="10" height="38" fill="#006600" stroke="#111" stroke-width="1"/>
+  <rect x="99" y="142" width="8" height="38" fill="#FF8800" stroke="#111" stroke-width="1"/>
+  <rect x="108" y="142" width="9" height="38" fill="#3a2020" stroke="#221" stroke-width="1"/>
+  <rect x="118" y="142" width="10" height="38" fill="#2a1818" stroke="#221" stroke-width="1"/>
+  <rect x="129" y="142" width="8" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="138" y="142" width="9" height="38" fill="#222" stroke="#111" stroke-width="1"/>
+  
+  <!-- Layer 4: Right wall bookshelves -->
+  <rect x="470" y="30" width="160" height="280" fill="#1a0d00" stroke="#333" stroke-width="2"/>
+  <line x1="475" y1="80" x2="625" y2="80" stroke="#333" stroke-width="2"/>
+  <line x1="475" y1="130" x2="625" y2="130" stroke="#333" stroke-width="2"/>
+  <line x1="475" y1="180" x2="625" y2="180" stroke="#333" stroke-width="2"/>
+  <line x1="475" y1="230" x2="625" y2="230" stroke="#333" stroke-width="2"/>
+  <line x1="475" y1="280" x2="625" y2="280" stroke="#333" stroke-width="2"/>
+  <!-- Books right side -->
+  <rect x="478" y="42" width="9" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="488" y="42" width="8" height="38" fill="#222" stroke="#111" stroke-width="1"/>
+  <rect x="497" y="42" width="10" height="38" fill="#000088" stroke="#111" stroke-width="1"/>
+  <rect x="508" y="42" width="9" height="38" fill="#331100" stroke="#111" stroke-width="1"/>
+  <rect x="518" y="42" width="8" height="38" fill="#3a2020" stroke="#221" stroke-width="1"/>
+  <rect x="527" y="42" width="10" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="538" y="42" width="9" height="38" fill="#2a1818" stroke="#221" stroke-width="1"/>
+  <rect x="548" y="42" width="8" height="38" fill="#AA00FF" stroke="#111" stroke-width="1"/>
+  <rect x="557" y="42" width="10" height="38" fill="#222" stroke="#111" stroke-width="1"/>
+  <rect x="568" y="42" width="9" height="38" fill="#006600" stroke="#111" stroke-width="1"/>
+  <rect x="578" y="42" width="8" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="587" y="42" width="10" height="38" fill="#3a2020" stroke="#221" stroke-width="1"/>
+  <rect x="598" y="42" width="9" height="38" fill="#2a1818" stroke="#221" stroke-width="1"/>
+  <rect x="608" y="42" width="8" height="38" fill="#222" stroke="#111" stroke-width="1"/>
+  <rect x="480" y="92" width="10" height="38" fill="#222" stroke="#111" stroke-width="1"/>
+  <rect x="491" y="92" width="9" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="501" y="92" width="8" height="38" fill="#000088" stroke="#111" stroke-width="1"/>
+  <rect x="510" y="92" width="10" height="38" fill="#331100" stroke="#111" stroke-width="1"/>
+  <rect x="521" y="92" width="9" height="38" fill="#222" stroke="#111" stroke-width="1"/>
+  <rect x="531" y="92" width="8" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="540" y="92" width="10" height="38" fill="#3a2020" stroke="#221" stroke-width="1"/>
+  <rect x="551" y="92" width="9" height="38" fill="#2a1818" stroke="#221" stroke-width="1"/>
+  <rect x="561" y="92" width="8" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="570" y="92" width="10" height="38" fill="#AA00FF" stroke="#111" stroke-width="1"/>
+  <rect x="581" y="92" width="9" height="38" fill="#006600" stroke="#111" stroke-width="1"/>
+  <rect x="591" y="92" width="8" height="38" fill="#222" stroke="#111" stroke-width="1"/>
+  <rect x="600" y="92" width="10" height="38" fill="#1a0d00" stroke="#111" stroke-width="1"/>
+  <rect x="611" y="92" width="8" height="38" fill="#3a2020" stroke="#221" stroke-width="1"/>
+  
+  <!-- Layer 5: Desk (center) -->
+  <rect x="200" y="280" width="240" height="40" fill="#1a0d00" stroke="#333" stroke-width="3"/>
+  <rect x="210" y="310" width="20" height="15" fill="#1a0d00"/>
+  <rect x="410" y="310" width="20" height="15" fill="#1a0d00"/>
+  <!-- Desk surface -->
+  <rect x="210" y="275" width="220" height="8" fill="#221400" stroke="#333" stroke-width="1"/>
+  <!-- Sketches of silver chalice on desk -->
+  <!-- Chalice drawing 1 -->
+  <ellipse cx="260" cy="265" rx="15" ry="8" fill="#CCCCCC" stroke="#999" stroke-width="1"/>
+  <rect x="257" y="252" width="6" height="13" fill="#CCCCCC"/>
+  <rect x="253" y="255" width="14" height="3" fill="#CCCCCC"/>
+  <rect x="255" y="265" width="10" height="3" fill="#CCCCCC"/>
+  <!-- Annotations in frantic hand -->
+  <line x1="285" y1="255" x2="310" y2="255" stroke="#666" stroke-width="0.8"/>
+  <line x1="285" y1="259" x2="305" y2="259" stroke="#666" stroke-width="0.8"/>
+  <line x1="285" y1="263" x2="300" y2="263" stroke="#666" stroke-width="0.8"/>
+  <!-- Chalice drawing 2 -->
+  <ellipse cx="360" cy="265" rx="15" ry="8" fill="#CCCCCC" stroke="#999" stroke-width="1"/>
+  <rect x="357" y="252" width="6" height="13" fill="#CCCCCC"/>
+  <rect x="353" y="255" width="14" height="3" fill="#CCCCCC"/>
+  <rect x="355" y="265" width="10" height="3" fill="#CCCCCC"/>
+  <!-- Chemical formulae -->
+  <line x1="385" y1="255" x2="410" y2="255" stroke="#666" stroke-width="0.8"/>
+  <line x1="385" y1="259" x2="405" y2="259" stroke="#666" stroke-width="0.8"/>
+  <line x1="385" y1="263" x2="400" y2="263" stroke="#666" stroke-width="0.8"/>
+  
+  <!-- Layer 6: Preservation jar on shelf above desk -->
+  <rect x="270" y="220" width="60" height="50" fill="#1a0d00" stroke="#333" stroke-width="1"/>
+  <!-- Shelf -->
+  <line x1="265" y1="238" x2="335" y2="238" stroke="#333" stroke-width="2"/>
+  <!-- Glass jar on shelf -->
+  <ellipse cx="290" cy="230" rx="12" ry="10" fill="#444444" stroke="#666" stroke-width="1.5"/>
+  <ellipse cx="290" cy="229" rx="12" ry="4" fill="#555555" opacity="0.4"/>
+  <ellipse cx="290" cy="226" rx="8" ry="2" fill="#666666" opacity="0.3"/>
+  <!-- Cloudy fluid with suspended something -->
+  <ellipse cx="290" cy="232" rx="8" ry="6" fill="#888888" opacity="0.3"/>
+  <rect x="287" y="230" width="6" height="4" fill="#667766" opacity="0.5"/>
+  <!-- Sealing wax stopper -->
+  <ellipse cx="290" cy="220" rx="10" ry="3" fill="#CC5500" stroke="#AA4400" stroke-width="1"/>
+  <ellipse cx="290" cy="218" rx="8" ry="2" fill="#DD6600"/>
+  <!-- Label: A. Vane -->
+  <rect x="278" y="238" width="24" height="8" fill="#d4c5a0" stroke="#333" stroke-width="0.5"/>
+  <line x1="280" y1="241" x2="300" y2="241" stroke="#333" stroke-width="0.5"/>
+  <line x1="282" y1="243" x2="298" y2="243" stroke="#333" stroke-width="0.5"/>
+  
+  <!-- Layer 7: Open journal on shelf -->
+  <rect x="340" y="215" width="30" height="20" fill="#d4c5a0" stroke="#333" stroke-width="1"/>
+  <line x1="345" y1="220" x2="365" y2="220" stroke="#333" stroke-width="0.5"/>
+  <line x1="345" y1="223" x2="363" y2="223" stroke="#333" stroke-width="0.5"/>
+  <line x1="345" y1="226" x2="360" y2="226" stroke="#333" stroke-width="0.5"/>
+  <line x1="345" y1="229" x2="357" y2="229" stroke="#333" stroke-width="0.5"/>
+  
+  <!-- Layer 8: Atmospheric - feeling of being watched -->
+  <ellipse cx="320" cy="200" rx="160" ry="80" fill="#000000" opacity="0.2"/>
+  <!-- Subtle eye-like shapes in shadows -->
+  <circle cx="100" cy="100" r="3" fill="#333" opacity="0.4"/>
+  <circle cx="104" cy="98" r="1" fill="#555" opacity="0.4"/>
+  <circle cx="540" cy="100" r="3" fill="#333" opacity="0.4"/>
+  <circle cx="536" cy="98" r="1" fill="#555" opacity="0.4"/>
+  
+  <!-- Floor shadows -->
+  <ellipse cx="320" cy="375" rx="100" ry="20" fill="#000000" opacity="0.4"/>
+</svg>

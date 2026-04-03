@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<!-- Mirror shard - jagged glass fragment -->
+<polygon points="18,12 30,8 44,18 40,35 28,44 14,35" fill="#c0c0c0" stroke="#e0e0e0" stroke-width="2"/>
+<polygon points="22,16 30,12 40,20 37,33 28,40 18,33" fill="#d0d0d0" opacity="0.6"/>
+<!-- Sharp edges highlighted -->
+<line x1="18" y1="12" x2="30" y2="8" stroke="#fff" stroke-width="1"/>
+<line x1="30" y1="8" x2="44" y2="18" stroke="#fff" stroke-width="1"/>
+<!-- Reflection glint -->
+<polygon points="26,18 34,16 36,24 28,26" fill="#fff" opacity="0.3"/>
+</svg>

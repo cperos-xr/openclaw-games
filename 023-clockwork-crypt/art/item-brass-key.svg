@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Brass Key - shaped like a tiny clock hand -->
+  <!-- Key bow (circular with clock-hand motif) -->
+  <circle cx="18" cy="20" r="10" fill="none" stroke="#FF8800" stroke-width="3"/>
+  <circle cx="18" cy="20" r="5" fill="none" stroke="#FF8800" stroke-width="2"/>
+  <!-- Clock hand pointer extending from bow -->
+  <line x1="18" y1="10" x2="18" y2="5" stroke="#FF8800" stroke-width="2"/>
+  <!-- Key shaft -->
+  <rect x="26" y="18" width="30" height="4" fill="#FF8800" rx="1"/>
+  <!-- Key teeth -->
+  <rect x="48" y="22" width="4" height="6" fill="#FF8800"/>
+  <rect x="52" y="22" width="4" height="4" fill="#FF8800"/>
+  <!-- Tarnish/warmth texture -->
+  <rect x="30" y="19" width="3" height="2" fill="#CC5500" opacity="0.5"/>
+  <rect x="40" y="19" width="2" height="2" fill="#CC5500" opacity="0.5"/>
+</svg>

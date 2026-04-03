@@ -1,0 +1,231 @@
+{
+  "title": "The Clockwork Crypt",
+  "slug": "clockwork-crypt",
+  "number": 23,
+  "layout": "standard",
+  "setting": "A decaying Victorian clocktower's underground crypt, where a mad horologist's time-stopping machine fused bone with brass.",
+  "artStyle": "HYBRID",
+  "characters": [
+    {
+      "id": "horologist",
+      "name": "The Horologist",
+      "description": "A skeletal figure fused into the main gear mechanism, half-man half-machine, still ticking after death."
+    },
+    {
+      "id": "charnel-keeper",
+      "name": "The Charnel-Keeper",
+      "description": "A shadowy figure in the Charnel Room, tending to bone-piles that whisper in tick-tock rhythm."
+    }
+  ],
+  "items": [
+    {
+      "id": "brass-key",
+      "name": "Brass Key",
+      "description": "A tarnished brass key, warm to the touch, shaped like a tiny clock hand.",
+      "foundIn": "vestibule",
+      "usedIn": "vestibule",
+      "usedOn": "puzzle-1"
+    },
+    {
+      "id": "oil-flask",
+      "name": "Oil Flask",
+      "description": "A cracked glass flask of thick black oil, smelling of old machinery and decay.",
+      "foundIn": "gear-chamber",
+      "usedIn": "gear-chamber",
+      "usedOn": "puzzle-2"
+    },
+    {
+      "id": "cipher-tablet",
+      "name": "Cipher Tablet",
+      "description": "A slate tablet engraved with cryptic symbols: a skull, a gear, an eye.",
+      "foundIn": "gear-chamber",
+      "usedIn": "gear-chamber",
+      "usedOn": "puzzle-3"
+    },
+    {
+      "id": "pendulum-weight",
+      "name": "Pendulum Weight",
+      "description": "A heavy brass pendulum bob, etched with the names of the dead.",
+      "foundIn": "charnel-room",
+      "usedIn": "charnel-room",
+      "usedOn": "puzzle-4"
+    },
+    {
+      "id": "chain-link",
+      "name": "Chain Link",
+      "description": "A rusted iron chain-link, warm and vibrating with residual motion from the gears above.",
+      "foundIn": "pendulum-gallery",
+      "usedIn": "charnel-room",
+      "usedOn": "puzzle-4"
+    },
+    {
+      "id": "wound-key",
+      "name": "Wound Key",
+      "description": "A winding key for a clockwork mechanism, its handle carved from human bone.",
+      "foundIn": "pendulum-gallery",
+      "usedIn": "pendulum-gallery",
+      "usedOn": "puzzle-5"
+    },
+    {
+      "id": "stop-sigil",
+      "name": "Stop Sigil",
+      "description": "A lead medallion stamped with a STOP symbol, cold and heavy — the horologist's abort mechanism.",
+      "foundIn": "echo-vault",
+      "usedIn": "horologist-sanctum",
+      "usedOn": "puzzle-5"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "vestibule",
+      "name": "The Vestibule",
+      "prose": "Cold stone presses in from all sides. A single gas lamp sputters above, casting long shadows across damp flagstones. The air tastes of wet earth and rusted iron. Before you, an iron gate bars the passage east — its lock crusted with age and something darker. On a hook near the entrance hangs a tarnished brass key, shaped like a clock hand, humming faintly with residual warmth. Beyond the gate, you hear it: a slow, grinding tick-tock that seems to come from everywhere and nowhere at once. The crypt awaits.",
+      "exits": {
+        "east": "gear-chamber"
+      },
+      "items": ["brass-key"],
+      "puzzles": ["puzzle-1"],
+      "lookDescriptions": {
+        "iron-gate": "Iron bars, black with rust and sealed by a heavy padlock. Something scratches at it from the other side.",
+        "gas-lamp": "A brass gas lamp, its flame flickering in a rhythm too regular to be natural — like a heartbeat.",
+        "brass-key": "Warm brass, shaped like a clock hand. It vibrates slightly in your grip, eager to turn."
+      }
+    },
+    {
+      "id": "gear-chamber",
+      "name": "The Gear Chamber",
+      "prose": "Gears the size of carriage wheels fill the space, their teeth interlocked with bone fragments that gleam white in the dim light. A massive central gear stands seized, frozen mid-rotation by decades of neglect. To the south, a passage yawns dark and waiting. To the north, a crypt-door bears three symbol-locks. A cracked glass flask of black oil rests on a workbench, its contents thick and viscous. Nearby, a slate tablet shows three symbols: skull, gear, eye. The grinding from above has grown louder here, more insistent.",
+      "exits": {
+        "west": "vestibule",
+        "south": "charnel-room",
+        "north": "pendulum-gallery"
+      },
+      "items": ["oil-flask", "cipher-tablet"],
+      "puzzles": ["puzzle-2", "puzzle-3"],
+      "lookDescriptions": {
+        "seized-gear": "The central gear is jammed solid, bone shards wedged between its teeth. It groans like a dying animal.",
+        "crypt-door": "A stone door set with three rotating symbol-locks. The correct sequence must be found.",
+        "workbench": "A rotting wooden bench scattered with tools and a flask of black oil that smells of old death."
+      }
+    },
+    {
+      "id": "charnel-room",
+      "name": "The Charnel Room",
+      "prose": "Bones are stacked in careful pyramids against each wall, their surfaces polished smooth by something's touch. A skeletal figure in tattered robes tends silently to the piles, arranging femurs with clockwork precision. The air is thick with the whisper of teeth clicking together in a slow, rhythmic pattern. In the center of the room, a brass scale-mechanism sits atop a stone pedestal, its pans empty and waiting. A heavy pendulum weight rests among the bone-piles, its surface engraved with names you almost recognize. The eastern passage is blocked by a counterweight door.",
+      "exits": {
+        "north": "gear-chamber",
+        "east": "echo-vault"
+      },
+      "items": ["pendulum-weight"],
+      "puzzles": ["puzzle-4"],
+      "lookDescriptions": {
+        "bone-piles": "Hundreds of bones, sorted by size and age. They click together softly, as if counting seconds.",
+        "scale-mechanism": "A brass balance scale, its pans empty. It requires specific weights to tip — and unlock the eastern door.",
+        "charnel-keeper": "The robed skeleton does not look up. Its fingers click bone against bone in perfect tick-tock rhythm."
+      }
+    },
+    {
+      "id": "pendulum-gallery",
+      "name": "The Pendulum Gallery",
+      "prose": "Dozens of pendulums swing in impossible synchronization, their brass bobs carving arcs through air that smells of ozone and old blood. Each swing produces a soft tick that echoes from the vaulted ceiling. A rusted chain-link hangs from one pendulum's suspension rod, warm to the touch. On a marble plinth nearby rests a wound-key, its handle carved from yellowed bone. To the west, a heavy door bears an ornate lock shaped for a winding key. The Horologist's Sanctum lies beyond. The pendulums slow as you enter, as if sensing your presence.",
+      "exits": {
+        "south": "gear-chamber",
+        "west": "horologist-sanctum"
+      },
+      "items": ["chain-link", "wound-key"],
+      "puzzles": ["puzzle-5"],
+      "lookDescriptions": {
+        "pendulums": "Brass pendulums swinging in perfect unison, their bobs etched with names of the dead. They slow as you approach.",
+        "sanctum-door": "A massive oak door reinforced with brass, its lock shaped for a winding key. Something ticks behind it.",
+        "marble-plinth": "White marble, cracked with age. The wound-key rests upon it, waiting for a hand brave enough to take it."
+      }
+    },
+    {
+      "id": "echo-vault",
+      "name": "The Echo Vault",
+      "prose": "A circular chamber where every sound repeats exactly three times before fading into silence. Your footsteps echo: step, step, step. In the center of the vault, a stone pedestal holds a lead medallion stamped with a single word: STOP. The stop-sigil is cold enough to burn your fingers. The walls are lined with clock faces, each showing a different time, each ticking at a different speed. One face shows midnight. Another shows noon. A third shows a time that hasn't happened yet. The air is thick with the weight of moments that never were.",
+      "exits": {
+        "west": "charnel-room"
+      },
+      "items": ["stop-sigil"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "stop-sigil": "A lead medallion, cold and heavy. The word STOP is stamped in letters that seem to shift when you're not looking directly at them.",
+        "clock-faces": "Dozens of clocks, each showing different times. One shows a future moment. You try not to look too long.",
+        "stone-pedestal": "Carved from the same bone-white stone as the charnel room. The stop-sigil rests upon it, humming with abort-energy."
+      }
+    },
+    {
+      "id": "horologist-sanctum",
+      "name": "The Horologist's Sanctum",
+      "prose": "The heart-clock dominates the room — a monstrous mechanism of brass and bone, its gears turning slowly in the chest cavity of the Horologist himself. His skeleton is fused into the machine, fingers still clutching levers, skull tilted as if listening for a sound only he can hear. The main gear grinds with a wet, organic noise. Candles burn in reverse, their flames drawing wax upward into solid form. On the wall, a plaque reads: TIME IS MERCY. THE MACHINE WAS MEANT TO END IT. The stop-sigil in your hand grows warmer as you approach the heart-clock.",
+      "exits": {
+        "east": "pendulum-gallery"
+      },
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "heart-clock": "The central mechanism, half-machine half-corpsse. The Horologist's ribcage forms the clock's frame. It ticks with a dying rhythm.",
+        "horologist": "A skeleton in tattered Victorian dress, fused into the gears. His skull turns slowly toward you. He has been waiting.",
+        "reversed-candles": "Wax flows upward, reforming into solid candles. Time moves backward here — or it did, before the machine broke."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-1",
+      "scene": "vestibule",
+      "type": "KEY-LOCK",
+      "requires": ["brass-key"],
+      "action": "use brass-key on iron-gate",
+      "result": "The gate groans open, its hinges screaming like dying birds. Cold air rushes in from the Gear Chamber beyond.",
+      "reveals": ["gear-chamber"],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-2",
+      "scene": "gear-chamber",
+      "type": "ENVIRONMENTAL",
+      "requires": ["oil-flask"],
+      "action": "use oil-flask on seized-gear",
+      "result": "Black oil seeps into the seized gear. With a wet crunch, it turns — and the south passage grinds open, releasing the scent of bone-dust and old death.",
+      "reveals": ["charnel-room"],
+      "blocksExit": "south"
+    },
+    {
+      "id": "puzzle-3",
+      "scene": "gear-chamber",
+      "type": "PATTERN/CODE",
+      "requires": ["cipher-tablet"],
+      "action": "use cipher-tablet on crypt-door",
+      "result": "The symbols align: skull, gear, eye. The northern door slides open with a hiss of escaping steam, revealing swinging pendulums beyond.",
+      "reveals": ["pendulum-gallery"],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-4",
+      "scene": "charnel-room",
+      "type": "INVENTORY COMBINATION",
+      "requires": ["pendulum-weight", "chain-link"],
+      "action": "use pendulum-weight with chain-link on scale-mechanism",
+      "result": "The combined weight tips the scale. The eastern door to the Echo Vault groans open, releasing a sigh of cold, echoing air.",
+      "reveals": ["echo-vault"],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-5",
+      "scene": "pendulum-gallery",
+      "type": "KEY-LOCK",
+      "requires": ["wound-key"],
+      "action": "use wound-key on sanctum-lock",
+      "result": "The key turns with a sickening crack. The western door to the Horologist's Sanctum swings open, revealing the heart-clock and the Horologist himself.",
+      "reveals": ["horologist-sanctum"],
+      "blocksExit": "west"
+    }
+  ],
+  "winCondition": {
+    "scene": "horologist-sanctum",
+    "requires": ["stop-sigil"],
+    "description": "With the stop-sigil in hand, you approach the heart-clock. The Horologist's skeletal fingers twitch as you raise the medallion. The gears slow. The ticks fade to silence. Time stops. You escape the crypt as the clockwork collapses behind you, freeing the souls trapped in its mechanism."
+  }
+}

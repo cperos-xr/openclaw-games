@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Clockwork Crypt | Game #023</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../standard-game-style.css">
+</head>
+<body class="openclaw-game layout-standard" data-layout="standard">
+  <header>
+    <h1>THE CLOCKWORK CRYPT</h1>
+    <div class="subtitle">OpenClaw Adventures - Game #023</div>
+  </header>
+
+  <div id="scene-name">THE VESTIBULE</div>
+
+  <div class="game-container">
+    <div class="art-panel">
+      <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+      </div>
+    </div>
+
+    <div class="text-panel">
+      <div id="text-display"></div>
+
+      <div id="command-status" class="status-line"></div>
+
+      <div class="command-bar">
+        <button class="cmd-btn active" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      </div>
+
+      <div class="subpanel targets-panel">
+        <h3>TARGETS</h3>
+        <div id="targets-bar"></div>
+      </div>
+
+      <div class="subpanel inventory-panel">
+        <h3>INVENTORY</h3>
+        <div id="inventory-bar">
+          <span class="empty-state">(empty)</span>
+        </div>
+      </div>
+
+      <div class="subpanel exits-panel">
+        <h3>EXITS</h3>
+        <div id="exits-bar"></div>
+      </div>
+
+      <div class="utility-bar">
+        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+        <button id="reset-game" class="utility-btn">RESET</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
+  </footer>
+
+  <script>
+window.GAME_DATA = {
+  "title": "The Clockwork Crypt",
+  "slug": "clockwork-crypt",
+  "number": 23,
+  "layout": "standard",
+  "setting": "A decaying Victorian clocktower's underground crypt, where a mad horologist's time-stopping machine fused bone with brass.",
+  "artStyle": "HYBRID",
+  "characters": [
+    {
+      "id": "horologist",
+      "name": "The Horologist",
+      "description": "A skeletal figure fused into the main gear mechanism, half-man half-machine, still ticking after death."
+    },
+    {
+      "id": "charnel-keeper",
+      "name": "The Charnel-Keeper",
+      "description": "A shadowy figure in the Charnel Room, tending to bone-piles that whisper in tick-tock rhythm."
+    }
+  ],
+  "items": [
+    {
+      "id": "brass-key",
+      "name": "Brass Key",
+      "description": "A tarnished brass key, warm to the touch, shaped like a tiny clock hand.",
+      "foundIn": "vestibule",
+      "usedIn": "vestibule",
+      "usedOn": "puzzle-1"
+    },
+    {
+      "id": "oil-flask",
+      "name": "Oil Flask",
+      "description": "A cracked glass flask of thick black oil, smelling of old machinery and decay.",
+      "foundIn": "gear-chamber",
+      "usedIn": "gear-chamber",
+      "usedOn": "puzzle-2"
+    },
+    {
+      "id": "cipher-tablet",
+      "name": "Cipher Tablet",
+      "description": "A slate tablet engraved with cryptic symbols: a skull, a gear, an eye.",
+      "foundIn": "gear-chamber",
+      "usedIn": "gear-chamber",
+      "usedOn": "puzzle-3"
+    },
+    {
+      "id": "pendulum-weight",
+      "name": "Pendulum Weight",
+      "description": "A heavy brass pendulum bob, etched with the names of the dead.",
+      "foundIn": "charnel-room",
+      "usedIn": "charnel-room",
+      "usedOn": "puzzle-4"
+    },
+    {
+      "id": "chain-link",
+      "name": "Chain Link",
+      "description": "A rusted iron chain-link, warm and vibrating with residual motion from the gears above.",
+      "foundIn": "pendulum-gallery",
+      "usedIn": "charnel-room",
+      "usedOn": "puzzle-4"
+    },
+    {
+      "id": "wound-key",
+      "name": "Wound Key",
+      "description": "A winding key for a clockwork mechanism, its handle carved from human bone.",
+      "foundIn": "pendulum-gallery",
+      "usedIn": "pendulum-gallery",
+      "usedOn": "puzzle-5"
+    },
+    {
+      "id": "stop-sigil",
+      "name": "Stop Sigil",
+      "description": "A lead medallion stamped with a STOP symbol, cold and heavy — the horologist's abort mechanism.",
+      "foundIn": "echo-vault",
+      "usedIn": "horologist-sanctum",
+      "usedOn": "puzzle-5"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "vestibule",
+      "name": "The Vestibule",
+      "prose": "Cold stone presses in from all sides. A single gas lamp sputters above, casting long shadows across damp flagstones. The air tastes of wet earth and rusted iron. Before you, an iron gate bars the passage east — its lock crusted with age and something darker. On a hook near the entrance hangs a tarnished brass key, shaped like a clock hand, humming faintly with residual warmth. Beyond the gate, you hear it: a slow, grinding tick-tock that seems to come from everywhere and nowhere at once. The crypt awaits.",
+      "exits": {
+        "east": "gear-chamber"
+      },
+      "items": [
+        "brass-key"
+      ],
+      "puzzles": [
+        "puzzle-1"
+      ],
+      "lookDescriptions": {
+        "iron-gate": "Iron bars, black with rust and sealed by a heavy padlock. Something scratches at it from the other side.",
+        "gas-lamp": "A brass gas lamp, its flame flickering in a rhythm too regular to be natural — like a heartbeat.",
+        "brass-key": "Warm brass, shaped like a clock hand. It vibrates slightly in your grip, eager to turn."
+      }
+    },
+    {
+      "id": "gear-chamber",
+      "name": "The Gear Chamber",
+      "prose": "Gears the size of carriage wheels fill the space, their teeth interlocked with bone fragments that gleam white in the dim light. A massive central gear stands seized, frozen mid-rotation by decades of neglect. To the south, a passage yawns dark and waiting. To the north, a crypt-door bears three symbol-locks. A cracked glass flask of black oil rests on a workbench, its contents thick and viscous. Nearby, a slate tablet shows three symbols: skull, gear, eye. The grinding from above has grown louder here, more insistent.",
+      "exits": {
+        "west": "vestibule",
+        "south": "charnel-room",
+        "north": "pendulum-gallery"
+      },
+      "items": [
+        "oil-flask",
+        "cipher-tablet"
+      ],
+      "puzzles": [
+        "puzzle-2",
+        "puzzle-3"
+      ],
+      "lookDescriptions": {
+        "seized-gear": "The central gear is jammed solid, bone shards wedged between its teeth. It groans like a dying animal.",
+        "crypt-door": "A stone door set with three rotating symbol-locks. The correct sequence must be found.",
+        "workbench": "A rotting wooden bench scattered with tools and a flask of black oil that smells of old death."
+      }
+    },
+    {
+      "id": "charnel-room",
+      "name": "The Charnel Room",
+      "prose": "Bones are stacked in careful pyramids against each wall, their surfaces polished smooth by something's touch. A skeletal figure in tattered robes tends silently to the piles, arranging femurs with clockwork precision. The air is thick with the whisper of teeth clicking together in a slow, rhythmic pattern. In the center of the room, a brass scale-mechanism sits atop a stone pedestal, its pans empty and waiting. A heavy pendulum weight rests among the bone-piles, its surface engraved with names you almost recognize. The eastern passage is blocked by a counterweight door.",
+      "exits": {
+        "north": "gear-chamber",
+        "east": "echo-vault"
+      },
+      "items": [
+        "pendulum-weight"
+      ],
+      "puzzles": [
+        "puzzle-4"
+      ],
+      "lookDescriptions": {
+        "bone-piles": "Hundreds of bones, sorted by size and age. They click together softly, as if counting seconds.",
+        "scale-mechanism": "A brass balance scale, its pans empty. It requires specific weights to tip — and unlock the eastern door.",
+        "charnel-keeper": "The robed skeleton does not look up. Its fingers click bone against bone in perfect tick-tock rhythm."
+      }
+    },
+    {
+      "id": "pendulum-gallery",
+      "name": "The Pendulum Gallery",
+      "prose": "Dozens of pendulums swing in impossible synchronization, their brass bobs carving arcs through air that smells of ozone and old blood. Each swing produces a soft tick that echoes from the vaulted ceiling. A rusted chain-link hangs from one pendulum's suspension rod, warm to the touch. On a marble plinth nearby rests a wound-key, its handle carved from yellowed bone. To the west, a heavy door bears an ornate lock shaped for a winding key. The Horologist's Sanctum lies beyond. The pendulums slow as you enter, as if sensing your presence.",
+      "exits": {
+        "south": "gear-chamber",
+        "west": "horologist-sanctum"
+      },
+      "items": [
+        "chain-link",
+        "wound-key"
+      ],
+      "puzzles": [
+        "puzzle-5"
+      ],
+      "lookDescriptions": {
+        "pendulums": "Brass pendulums swinging in perfect unison, their bobs etched with names of the dead. They slow as you approach.",
+        "sanctum-door": "A massive oak door reinforced with brass, its lock shaped for a winding key. Something ticks behind it.",
+        "marble-plinth": "White marble, cracked with age. The wound-key rests upon it, waiting for a hand brave enough to take it."
+      }
+    },
+    {
+      "id": "echo-vault",
+      "name": "The Echo Vault",
+      "prose": "A circular chamber where every sound repeats exactly three times before fading into silence. Your footsteps echo: step, step, step. In the center of the vault, a stone pedestal holds a lead medallion stamped with a single word: STOP. The stop-sigil is cold enough to burn your fingers. The walls are lined with clock faces, each showing a different time, each ticking at a different speed. One face shows midnight. Another shows noon. A third shows a time that hasn't happened yet. The air is thick with the weight of moments that never were.",
+      "exits": {
+        "west": "charnel-room"
+      },
+      "items": [
+        "stop-sigil"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "stop-sigil": "A lead medallion, cold and heavy. The word STOP is stamped in letters that seem to shift when you're not looking directly at them.",
+        "clock-faces": "Dozens of clocks, each showing different times. One shows a future moment. You try not to look too long.",
+        "stone-pedestal": "Carved from the same bone-white stone as the charnel room. The stop-sigil rests upon it, humming with abort-energy."
+      }
+    },
+    {
+      "id": "horologist-sanctum",
+      "name": "The Horologist's Sanctum",
+      "prose": "The heart-clock dominates the room — a monstrous mechanism of brass and bone, its gears turning slowly in the chest cavity of the Horologist himself. His skeleton is fused into the machine, fingers still clutching levers, skull tilted as if listening for a sound only he can hear. The main gear grinds with a wet, organic noise. Candles burn in reverse, their flames drawing wax upward into solid form. On the wall, a plaque reads: TIME IS MERCY. THE MACHINE WAS MEANT TO END IT. The stop-sigil in your hand grows warmer as you approach the heart-clock.",
+      "exits": {
+        "east": "pendulum-gallery"
+      },
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "heart-clock": "The central mechanism, half-machine half-corpsse. The Horologist's ribcage forms the clock's frame. It ticks with a dying rhythm.",
+        "horologist": "A skeleton in tattered Victorian dress, fused into the gears. His skull turns slowly toward you. He has been waiting.",
+        "reversed-candles": "Wax flows upward, reforming into solid candles. Time moves backward here — or it did, before the machine broke."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-1",
+      "scene": "vestibule",
+      "type": "KEY-LOCK",
+      "requires": [
+        "brass-key"
+      ],
+      "action": "use brass-key on iron-gate",
+      "result": "The gate groans open, its hinges screaming like dying birds. Cold air rushes in from the Gear Chamber beyond.",
+      "reveals": [
+        "gear-chamber"
+      ],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-2",
+      "scene": "gear-chamber",
+      "type": "ENVIRONMENTAL",
+      "requires": [
+        "oil-flask"
+      ],
+      "action": "use oil-flask on seized-gear",
+      "result": "Black oil seeps into the seized gear. With a wet crunch, it turns — and the south passage grinds open, releasing the scent of bone-dust and old death.",
+      "reveals": [
+        "charnel-room"
+      ],
+      "blocksExit": "south"
+    },
+    {
+      "id": "puzzle-3",
+      "scene": "gear-chamber",
+      "type": "PATTERN/CODE",
+      "requires": [
+        "cipher-tablet"
+      ],
+      "action": "use cipher-tablet on crypt-door",
+      "result": "The symbols align: skull, gear, eye. The northern door slides open with a hiss of escaping steam, revealing swinging pendulums beyond.",
+      "reveals": [
+        "pendulum-gallery"
+      ],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-4",
+      "scene": "charnel-room",
+      "type": "INVENTORY COMBINATION",
+      "requires": [
+        "pendulum-weight",
+        "chain-link"
+      ],
+      "action": "use pendulum-weight with chain-link on scale-mechanism",
+      "result": "The combined weight tips the scale. The eastern door to the Echo Vault groans open, releasing a sigh of cold, echoing air.",
+      "reveals": [
+        "echo-vault"
+      ],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-5",
+      "scene": "pendulum-gallery",
+      "type": "KEY-LOCK",
+      "requires": [
+        "wound-key"
+      ],
+      "action": "use wound-key on sanctum-lock",
+      "result": "The key turns with a sickening crack. The western door to the Horologist's Sanctum swings open, revealing the heart-clock and the Horologist himself.",
+      "reveals": [
+        "horologist-sanctum"
+      ],
+      "blocksExit": "west"
+    }
+  ],
+  "winCondition": {
+    "scene": "horologist-sanctum",
+    "requires": [
+      "stop-sigil"
+    ],
+    "description": "With the stop-sigil in hand, you approach the heart-clock. The Horologist's skeletal fingers twitch as you raise the medallion. The gears slow. The ticks fade to silence. Time stops. You escape the crypt as the clockwork collapses behind you, freeing the souls trapped in its mechanism."
+  }
+};
+window.GAME_ART = {
+  "item-brass-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Brass Key - shaped like a tiny clock hand -->\n  <!-- Key bow (circular with clock-hand motif) -->\n  <circle cx=\"18\" cy=\"20\" r=\"10\" fill=\"none\" stroke=\"#FF8800\" stroke-width=\"3\"/>\n  <circle cx=\"18\" cy=\"20\" r=\"5\" fill=\"none\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Clock hand pointer extending from bow -->\n  <line x1=\"18\" y1=\"10\" x2=\"18\" y2=\"5\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Key shaft -->\n  <rect x=\"26\" y=\"18\" width=\"30\" height=\"4\" fill=\"#FF8800\" rx=\"1\"/>\n  <!-- Key teeth -->\n  <rect x=\"48\" y=\"22\" width=\"4\" height=\"6\" fill=\"#FF8800\"/>\n  <rect x=\"52\" y=\"22\" width=\"4\" height=\"4\" fill=\"#FF8800\"/>\n  <!-- Tarnish/warmth texture -->\n  <rect x=\"30\" y=\"19\" width=\"3\" height=\"2\" fill=\"#CC5500\" opacity=\"0.5\"/>\n  <rect x=\"40\" y=\"19\" width=\"2\" height=\"2\" fill=\"#CC5500\" opacity=\"0.5\"/>\n</svg>\n",
+  "ITEM-BRASS-KEY": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Brass Key - shaped like a tiny clock hand -->\n  <!-- Key bow (circular with clock-hand motif) -->\n  <circle cx=\"18\" cy=\"20\" r=\"10\" fill=\"none\" stroke=\"#FF8800\" stroke-width=\"3\"/>\n  <circle cx=\"18\" cy=\"20\" r=\"5\" fill=\"none\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Clock hand pointer extending from bow -->\n  <line x1=\"18\" y1=\"10\" x2=\"18\" y2=\"5\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Key shaft -->\n  <rect x=\"26\" y=\"18\" width=\"30\" height=\"4\" fill=\"#FF8800\" rx=\"1\"/>\n  <!-- Key teeth -->\n  <rect x=\"48\" y=\"22\" width=\"4\" height=\"6\" fill=\"#FF8800\"/>\n  <rect x=\"52\" y=\"22\" width=\"4\" height=\"4\" fill=\"#FF8800\"/>\n  <!-- Tarnish/warmth texture -->\n  <rect x=\"30\" y=\"19\" width=\"3\" height=\"2\" fill=\"#CC5500\" opacity=\"0.5\"/>\n  <rect x=\"40\" y=\"19\" width=\"2\" height=\"2\" fill=\"#CC5500\" opacity=\"0.5\"/>\n</svg>\n",
+  "brass-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Brass Key - shaped like a tiny clock hand -->\n  <!-- Key bow (circular with clock-hand motif) -->\n  <circle cx=\"18\" cy=\"20\" r=\"10\" fill=\"none\" stroke=\"#FF8800\" stroke-width=\"3\"/>\n  <circle cx=\"18\" cy=\"20\" r=\"5\" fill=\"none\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Clock hand pointer extending from bow -->\n  <line x1=\"18\" y1=\"10\" x2=\"18\" y2=\"5\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Key shaft -->\n  <rect x=\"26\" y=\"18\" width=\"30\" height=\"4\" fill=\"#FF8800\" rx=\"1\"/>\n  <!-- Key teeth -->\n  <rect x=\"48\" y=\"22\" width=\"4\" height=\"6\" fill=\"#FF8800\"/>\n  <rect x=\"52\" y=\"22\" width=\"4\" height=\"4\" fill=\"#FF8800\"/>\n  <!-- Tarnish/warmth texture -->\n  <rect x=\"30\" y=\"19\" width=\"3\" height=\"2\" fill=\"#CC5500\" opacity=\"0.5\"/>\n  <rect x=\"40\" y=\"19\" width=\"2\" height=\"2\" fill=\"#CC5500\" opacity=\"0.5\"/>\n</svg>\n",
+  "BRASS-KEY": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Brass Key - shaped like a tiny clock hand -->\n  <!-- Key bow (circular with clock-hand motif) -->\n  <circle cx=\"18\" cy=\"20\" r=\"10\" fill=\"none\" stroke=\"#FF8800\" stroke-width=\"3\"/>\n  <circle cx=\"18\" cy=\"20\" r=\"5\" fill=\"none\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Clock hand pointer extending from bow -->\n  <line x1=\"18\" y1=\"10\" x2=\"18\" y2=\"5\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Key shaft -->\n  <rect x=\"26\" y=\"18\" width=\"30\" height=\"4\" fill=\"#FF8800\" rx=\"1\"/>\n  <!-- Key teeth -->\n  <rect x=\"48\" y=\"22\" width=\"4\" height=\"6\" fill=\"#FF8800\"/>\n  <rect x=\"52\" y=\"22\" width=\"4\" height=\"4\" fill=\"#FF8800\"/>\n  <!-- Tarnish/warmth texture -->\n  <rect x=\"30\" y=\"19\" width=\"3\" height=\"2\" fill=\"#CC5500\" opacity=\"0.5\"/>\n  <rect x=\"40\" y=\"19\" width=\"2\" height=\"2\" fill=\"#CC5500\" opacity=\"0.5\"/>\n</svg>\n",
+  "item_brass_key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Brass Key - shaped like a tiny clock hand -->\n  <!-- Key bow (circular with clock-hand motif) -->\n  <circle cx=\"18\" cy=\"20\" r=\"10\" fill=\"none\" stroke=\"#FF8800\" stroke-width=\"3\"/>\n  <circle cx=\"18\" cy=\"20\" r=\"5\" fill=\"none\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Clock hand pointer extending from bow -->\n  <line x1=\"18\" y1=\"10\" x2=\"18\" y2=\"5\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Key shaft -->\n  <rect x=\"26\" y=\"18\" width=\"30\" height=\"4\" fill=\"#FF8800\" rx=\"1\"/>\n  <!-- Key teeth -->\n  <rect x=\"48\" y=\"22\" width=\"4\" height=\"6\" fill=\"#FF8800\"/>\n  <rect x=\"52\" y=\"22\" width=\"4\" height=\"4\" fill=\"#FF8800\"/>\n  <!-- Tarnish/warmth texture -->\n  <rect x=\"30\" y=\"19\" width=\"3\" height=\"2\" fill=\"#CC5500\" opacity=\"0.5\"/>\n  <rect x=\"40\" y=\"19\" width=\"2\" height=\"2\" fill=\"#CC5500\" opacity=\"0.5\"/>\n</svg>\n",
+  "scene-brass-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Brass Key - shaped like a tiny clock hand -->\n  <!-- Key bow (circular with clock-hand motif) -->\n  <circle cx=\"18\" cy=\"20\" r=\"10\" fill=\"none\" stroke=\"#FF8800\" stroke-width=\"3\"/>\n  <circle cx=\"18\" cy=\"20\" r=\"5\" fill=\"none\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Clock hand pointer extending from bow -->\n  <line x1=\"18\" y1=\"10\" x2=\"18\" y2=\"5\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Key shaft -->\n  <rect x=\"26\" y=\"18\" width=\"30\" height=\"4\" fill=\"#FF8800\" rx=\"1\"/>\n  <!-- Key teeth -->\n  <rect x=\"48\" y=\"22\" width=\"4\" height=\"6\" fill=\"#FF8800\"/>\n  <rect x=\"52\" y=\"22\" width=\"4\" height=\"4\" fill=\"#FF8800\"/>\n  <!-- Tarnish/warmth texture -->\n  <rect x=\"30\" y=\"19\" width=\"3\" height=\"2\" fill=\"#CC5500\" opacity=\"0.5\"/>\n  <rect x=\"40\" y=\"19\" width=\"2\" height=\"2\" fill=\"#CC5500\" opacity=\"0.5\"/>\n</svg>\n",
+  "item-chain-link": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Chain Link - rusted iron, warm and vibrating -->\n  <!-- Main chain link (elongated oval) -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"20\" ry=\"14\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"5\"/>\n  <!-- Inner edge for depth -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"16\" ry=\"10\" fill=\"none\" stroke=\"#5C2E0A\" stroke-width=\"2\"/>\n  <!-- Rust texture spots -->\n  <circle cx=\"18\" cy=\"26\" r=\"2\" fill=\"#A0522D\" opacity=\"0.6\"/>\n  <circle cx=\"46\" cy=\"38\" r=\"2\" fill=\"#A0522D\" opacity=\"0.6\"/>\n  <circle cx=\"24\" cy=\"40\" r=\"1.5\" fill=\"#A0522D\" opacity=\"0.5\"/>\n  <!-- Warm vibration glow -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"22\" ry=\"16\" fill=\"#FF4400\" opacity=\"0.1\"/>\n  <!-- Connected partial link hint (showing it's part of chain) -->\n  <path d=\"M 12 28 Q 8 32 12 36\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"3\"/>\n</svg>\n",
+  "ITEM-CHAIN-LINK": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Chain Link - rusted iron, warm and vibrating -->\n  <!-- Main chain link (elongated oval) -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"20\" ry=\"14\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"5\"/>\n  <!-- Inner edge for depth -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"16\" ry=\"10\" fill=\"none\" stroke=\"#5C2E0A\" stroke-width=\"2\"/>\n  <!-- Rust texture spots -->\n  <circle cx=\"18\" cy=\"26\" r=\"2\" fill=\"#A0522D\" opacity=\"0.6\"/>\n  <circle cx=\"46\" cy=\"38\" r=\"2\" fill=\"#A0522D\" opacity=\"0.6\"/>\n  <circle cx=\"24\" cy=\"40\" r=\"1.5\" fill=\"#A0522D\" opacity=\"0.5\"/>\n  <!-- Warm vibration glow -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"22\" ry=\"16\" fill=\"#FF4400\" opacity=\"0.1\"/>\n  <!-- Connected partial link hint (showing it's part of chain) -->\n  <path d=\"M 12 28 Q 8 32 12 36\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"3\"/>\n</svg>\n",
+  "chain-link": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Chain Link - rusted iron, warm and vibrating -->\n  <!-- Main chain link (elongated oval) -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"20\" ry=\"14\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"5\"/>\n  <!-- Inner edge for depth -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"16\" ry=\"10\" fill=\"none\" stroke=\"#5C2E0A\" stroke-width=\"2\"/>\n  <!-- Rust texture spots -->\n  <circle cx=\"18\" cy=\"26\" r=\"2\" fill=\"#A0522D\" opacity=\"0.6\"/>\n  <circle cx=\"46\" cy=\"38\" r=\"2\" fill=\"#A0522D\" opacity=\"0.6\"/>\n  <circle cx=\"24\" cy=\"40\" r=\"1.5\" fill=\"#A0522D\" opacity=\"0.5\"/>\n  <!-- Warm vibration glow -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"22\" ry=\"16\" fill=\"#FF4400\" opacity=\"0.1\"/>\n  <!-- Connected partial link hint (showing it's part of chain) -->\n  <path d=\"M 12 28 Q 8 32 12 36\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"3\"/>\n</svg>\n",
+  "CHAIN-LINK": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Chain Link - rusted iron, warm and vibrating -->\n  <!-- Main chain link (elongated oval) -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"20\" ry=\"14\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"5\"/>\n  <!-- Inner edge for depth -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"16\" ry=\"10\" fill=\"none\" stroke=\"#5C2E0A\" stroke-width=\"2\"/>\n  <!-- Rust texture spots -->\n  <circle cx=\"18\" cy=\"26\" r=\"2\" fill=\"#A0522D\" opacity=\"0.6\"/>\n  <circle cx=\"46\" cy=\"38\" r=\"2\" fill=\"#A0522D\" opacity=\"0.6\"/>\n  <circle cx=\"24\" cy=\"40\" r=\"1.5\" fill=\"#A0522D\" opacity=\"0.5\"/>\n  <!-- Warm vibration glow -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"22\" ry=\"16\" fill=\"#FF4400\" opacity=\"0.1\"/>\n  <!-- Connected partial link hint (showing it's part of chain) -->\n  <path d=\"M 12 28 Q 8 32 12 36\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"3\"/>\n</svg>\n",
+  "item_chain_link": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Chain Link - rusted iron, warm and vibrating -->\n  <!-- Main chain link (elongated oval) -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"20\" ry=\"14\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"5\"/>\n  <!-- Inner edge for depth -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"16\" ry=\"10\" fill=\"none\" stroke=\"#5C2E0A\" stroke-width=\"2\"/>\n  <!-- Rust texture spots -->\n  <circle cx=\"18\" cy=\"26\" r=\"2\" fill=\"#A0522D\" opacity=\"0.6\"/>\n  <circle cx=\"46\" cy=\"38\" r=\"2\" fill=\"#A0522D\" opacity=\"0.6\"/>\n  <circle cx=\"24\" cy=\"40\" r=\"1.5\" fill=\"#A0522D\" opacity=\"0.5\"/>\n  <!-- Warm vibration glow -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"22\" ry=\"16\" fill=\"#FF4400\" opacity=\"0.1\"/>\n  <!-- Connected partial link hint (showing it's part of chain) -->\n  <path d=\"M 12 28 Q 8 32 12 36\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"3\"/>\n</svg>\n",
+  "scene-chain-link": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Chain Link - rusted iron, warm and vibrating -->\n  <!-- Main chain link (elongated oval) -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"20\" ry=\"14\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"5\"/>\n  <!-- Inner edge for depth -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"16\" ry=\"10\" fill=\"none\" stroke=\"#5C2E0A\" stroke-width=\"2\"/>\n  <!-- Rust texture spots -->\n  <circle cx=\"18\" cy=\"26\" r=\"2\" fill=\"#A0522D\" opacity=\"0.6\"/>\n  <circle cx=\"46\" cy=\"38\" r=\"2\" fill=\"#A0522D\" opacity=\"0.6\"/>\n  <circle cx=\"24\" cy=\"40\" r=\"1.5\" fill=\"#A0522D\" opacity=\"0.5\"/>\n  <!-- Warm vibration glow -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"22\" ry=\"16\" fill=\"#FF4400\" opacity=\"0.1\"/>\n  <!-- Connected partial link hint (showing it's part of chain) -->\n  <path d=\"M 12 28 Q 8 32 12 36\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"3\"/>\n</svg>\n",
+  "item-cipher-tablet": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Cipher Tablet - slate with skull, gear, eye symbols -->\n  <!-- Tablet body -->\n  <rect x=\"8\" y=\"12\" width=\"48\" height=\"40\" fill=\"#4a4a4a\" stroke=\"#222222\" stroke-width=\"2\" rx=\"2\"/>\n  <!-- Slate texture -->\n  <rect x=\"10\" y=\"14\" width=\"44\" height=\"36\" fill=\"#3a3a3a\" rx=\"1\"/>\n  <!-- Skull symbol (left) -->\n  <circle cx=\"20\" cy=\"28\" r=\"5\" fill=\"#222222\"/>\n  <circle cx=\"18\" cy=\"27\" r=\"1.5\" fill=\"#555555\"/>\n  <circle cx=\"22\" cy=\"27\" r=\"1.5\" fill=\"#555555\"/>\n  <rect x=\"18\" y=\"31\" width=\"4\" height=\"2\" fill=\"#555555\"/>\n  <!-- Gear symbol (center) -->\n  <circle cx=\"32\" cy=\"28\" r=\"5\" fill=\"none\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"32\" cy=\"28\" r=\"2\" fill=\"#222222\"/>\n  <!-- Gear teeth -->\n  <line x1=\"32\" y1=\"22\" x2=\"32\" y2=\"24\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"32\" x2=\"32\" y2=\"34\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"26\" y1=\"28\" x2=\"28\" y2=\"28\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"36\" y1=\"28\" x2=\"38\" y2=\"28\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <!-- Eye symbol (right) -->\n  <ellipse cx=\"44\" cy=\"28\" rx=\"6\" ry=\"4\" fill=\"none\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"44\" cy=\"28\" r=\"2\" fill=\"#222222\"/>\n  <!-- Cracked edges -->\n  <line x1=\"8\" y1=\"20\" x2=\"12\" y2=\"18\" stroke=\"#222222\" stroke-width=\"1\"/>\n  <line x1=\"52\" y1=\"40\" x2=\"54\" y2=\"44\" stroke=\"#222222\" stroke-width=\"1\"/>\n</svg>\n",
+  "ITEM-CIPHER-TABLET": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Cipher Tablet - slate with skull, gear, eye symbols -->\n  <!-- Tablet body -->\n  <rect x=\"8\" y=\"12\" width=\"48\" height=\"40\" fill=\"#4a4a4a\" stroke=\"#222222\" stroke-width=\"2\" rx=\"2\"/>\n  <!-- Slate texture -->\n  <rect x=\"10\" y=\"14\" width=\"44\" height=\"36\" fill=\"#3a3a3a\" rx=\"1\"/>\n  <!-- Skull symbol (left) -->\n  <circle cx=\"20\" cy=\"28\" r=\"5\" fill=\"#222222\"/>\n  <circle cx=\"18\" cy=\"27\" r=\"1.5\" fill=\"#555555\"/>\n  <circle cx=\"22\" cy=\"27\" r=\"1.5\" fill=\"#555555\"/>\n  <rect x=\"18\" y=\"31\" width=\"4\" height=\"2\" fill=\"#555555\"/>\n  <!-- Gear symbol (center) -->\n  <circle cx=\"32\" cy=\"28\" r=\"5\" fill=\"none\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"32\" cy=\"28\" r=\"2\" fill=\"#222222\"/>\n  <!-- Gear teeth -->\n  <line x1=\"32\" y1=\"22\" x2=\"32\" y2=\"24\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"32\" x2=\"32\" y2=\"34\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"26\" y1=\"28\" x2=\"28\" y2=\"28\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"36\" y1=\"28\" x2=\"38\" y2=\"28\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <!-- Eye symbol (right) -->\n  <ellipse cx=\"44\" cy=\"28\" rx=\"6\" ry=\"4\" fill=\"none\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"44\" cy=\"28\" r=\"2\" fill=\"#222222\"/>\n  <!-- Cracked edges -->\n  <line x1=\"8\" y1=\"20\" x2=\"12\" y2=\"18\" stroke=\"#222222\" stroke-width=\"1\"/>\n  <line x1=\"52\" y1=\"40\" x2=\"54\" y2=\"44\" stroke=\"#222222\" stroke-width=\"1\"/>\n</svg>\n",
+  "cipher-tablet": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Cipher Tablet - slate with skull, gear, eye symbols -->\n  <!-- Tablet body -->\n  <rect x=\"8\" y=\"12\" width=\"48\" height=\"40\" fill=\"#4a4a4a\" stroke=\"#222222\" stroke-width=\"2\" rx=\"2\"/>\n  <!-- Slate texture -->\n  <rect x=\"10\" y=\"14\" width=\"44\" height=\"36\" fill=\"#3a3a3a\" rx=\"1\"/>\n  <!-- Skull symbol (left) -->\n  <circle cx=\"20\" cy=\"28\" r=\"5\" fill=\"#222222\"/>\n  <circle cx=\"18\" cy=\"27\" r=\"1.5\" fill=\"#555555\"/>\n  <circle cx=\"22\" cy=\"27\" r=\"1.5\" fill=\"#555555\"/>\n  <rect x=\"18\" y=\"31\" width=\"4\" height=\"2\" fill=\"#555555\"/>\n  <!-- Gear symbol (center) -->\n  <circle cx=\"32\" cy=\"28\" r=\"5\" fill=\"none\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"32\" cy=\"28\" r=\"2\" fill=\"#222222\"/>\n  <!-- Gear teeth -->\n  <line x1=\"32\" y1=\"22\" x2=\"32\" y2=\"24\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"32\" x2=\"32\" y2=\"34\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"26\" y1=\"28\" x2=\"28\" y2=\"28\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"36\" y1=\"28\" x2=\"38\" y2=\"28\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <!-- Eye symbol (right) -->\n  <ellipse cx=\"44\" cy=\"28\" rx=\"6\" ry=\"4\" fill=\"none\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"44\" cy=\"28\" r=\"2\" fill=\"#222222\"/>\n  <!-- Cracked edges -->\n  <line x1=\"8\" y1=\"20\" x2=\"12\" y2=\"18\" stroke=\"#222222\" stroke-width=\"1\"/>\n  <line x1=\"52\" y1=\"40\" x2=\"54\" y2=\"44\" stroke=\"#222222\" stroke-width=\"1\"/>\n</svg>\n",
+  "CIPHER-TABLET": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Cipher Tablet - slate with skull, gear, eye symbols -->\n  <!-- Tablet body -->\n  <rect x=\"8\" y=\"12\" width=\"48\" height=\"40\" fill=\"#4a4a4a\" stroke=\"#222222\" stroke-width=\"2\" rx=\"2\"/>\n  <!-- Slate texture -->\n  <rect x=\"10\" y=\"14\" width=\"44\" height=\"36\" fill=\"#3a3a3a\" rx=\"1\"/>\n  <!-- Skull symbol (left) -->\n  <circle cx=\"20\" cy=\"28\" r=\"5\" fill=\"#222222\"/>\n  <circle cx=\"18\" cy=\"27\" r=\"1.5\" fill=\"#555555\"/>\n  <circle cx=\"22\" cy=\"27\" r=\"1.5\" fill=\"#555555\"/>\n  <rect x=\"18\" y=\"31\" width=\"4\" height=\"2\" fill=\"#555555\"/>\n  <!-- Gear symbol (center) -->\n  <circle cx=\"32\" cy=\"28\" r=\"5\" fill=\"none\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"32\" cy=\"28\" r=\"2\" fill=\"#222222\"/>\n  <!-- Gear teeth -->\n  <line x1=\"32\" y1=\"22\" x2=\"32\" y2=\"24\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"32\" x2=\"32\" y2=\"34\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"26\" y1=\"28\" x2=\"28\" y2=\"28\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"36\" y1=\"28\" x2=\"38\" y2=\"28\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <!-- Eye symbol (right) -->\n  <ellipse cx=\"44\" cy=\"28\" rx=\"6\" ry=\"4\" fill=\"none\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"44\" cy=\"28\" r=\"2\" fill=\"#222222\"/>\n  <!-- Cracked edges -->\n  <line x1=\"8\" y1=\"20\" x2=\"12\" y2=\"18\" stroke=\"#222222\" stroke-width=\"1\"/>\n  <line x1=\"52\" y1=\"40\" x2=\"54\" y2=\"44\" stroke=\"#222222\" stroke-width=\"1\"/>\n</svg>\n",
+  "item_cipher_tablet": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Cipher Tablet - slate with skull, gear, eye symbols -->\n  <!-- Tablet body -->\n  <rect x=\"8\" y=\"12\" width=\"48\" height=\"40\" fill=\"#4a4a4a\" stroke=\"#222222\" stroke-width=\"2\" rx=\"2\"/>\n  <!-- Slate texture -->\n  <rect x=\"10\" y=\"14\" width=\"44\" height=\"36\" fill=\"#3a3a3a\" rx=\"1\"/>\n  <!-- Skull symbol (left) -->\n  <circle cx=\"20\" cy=\"28\" r=\"5\" fill=\"#222222\"/>\n  <circle cx=\"18\" cy=\"27\" r=\"1.5\" fill=\"#555555\"/>\n  <circle cx=\"22\" cy=\"27\" r=\"1.5\" fill=\"#555555\"/>\n  <rect x=\"18\" y=\"31\" width=\"4\" height=\"2\" fill=\"#555555\"/>\n  <!-- Gear symbol (center) -->\n  <circle cx=\"32\" cy=\"28\" r=\"5\" fill=\"none\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"32\" cy=\"28\" r=\"2\" fill=\"#222222\"/>\n  <!-- Gear teeth -->\n  <line x1=\"32\" y1=\"22\" x2=\"32\" y2=\"24\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"32\" x2=\"32\" y2=\"34\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"26\" y1=\"28\" x2=\"28\" y2=\"28\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"36\" y1=\"28\" x2=\"38\" y2=\"28\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <!-- Eye symbol (right) -->\n  <ellipse cx=\"44\" cy=\"28\" rx=\"6\" ry=\"4\" fill=\"none\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"44\" cy=\"28\" r=\"2\" fill=\"#222222\"/>\n  <!-- Cracked edges -->\n  <line x1=\"8\" y1=\"20\" x2=\"12\" y2=\"18\" stroke=\"#222222\" stroke-width=\"1\"/>\n  <line x1=\"52\" y1=\"40\" x2=\"54\" y2=\"44\" stroke=\"#222222\" stroke-width=\"1\"/>\n</svg>\n",
+  "scene-cipher-tablet": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Cipher Tablet - slate with skull, gear, eye symbols -->\n  <!-- Tablet body -->\n  <rect x=\"8\" y=\"12\" width=\"48\" height=\"40\" fill=\"#4a4a4a\" stroke=\"#222222\" stroke-width=\"2\" rx=\"2\"/>\n  <!-- Slate texture -->\n  <rect x=\"10\" y=\"14\" width=\"44\" height=\"36\" fill=\"#3a3a3a\" rx=\"1\"/>\n  <!-- Skull symbol (left) -->\n  <circle cx=\"20\" cy=\"28\" r=\"5\" fill=\"#222222\"/>\n  <circle cx=\"18\" cy=\"27\" r=\"1.5\" fill=\"#555555\"/>\n  <circle cx=\"22\" cy=\"27\" r=\"1.5\" fill=\"#555555\"/>\n  <rect x=\"18\" y=\"31\" width=\"4\" height=\"2\" fill=\"#555555\"/>\n  <!-- Gear symbol (center) -->\n  <circle cx=\"32\" cy=\"28\" r=\"5\" fill=\"none\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"32\" cy=\"28\" r=\"2\" fill=\"#222222\"/>\n  <!-- Gear teeth -->\n  <line x1=\"32\" y1=\"22\" x2=\"32\" y2=\"24\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"32\" x2=\"32\" y2=\"34\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"26\" y1=\"28\" x2=\"28\" y2=\"28\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <line x1=\"36\" y1=\"28\" x2=\"38\" y2=\"28\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <!-- Eye symbol (right) -->\n  <ellipse cx=\"44\" cy=\"28\" rx=\"6\" ry=\"4\" fill=\"none\" stroke=\"#222222\" stroke-width=\"2\"/>\n  <circle cx=\"44\" cy=\"28\" r=\"2\" fill=\"#222222\"/>\n  <!-- Cracked edges -->\n  <line x1=\"8\" y1=\"20\" x2=\"12\" y2=\"18\" stroke=\"#222222\" stroke-width=\"1\"/>\n  <line x1=\"52\" y1=\"40\" x2=\"54\" y2=\"44\" stroke=\"#222222\" stroke-width=\"1\"/>\n</svg>\n",
+  "item-oil-flask": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Oil Flask - cracked glass flask of thick black oil -->\n  <!-- Flask body -->\n  <ellipse cx=\"32\" cy=\"38\" rx=\"16\" ry=\"18\" fill=\"#1a1a1a\" stroke=\"#444444\" stroke-width=\"2\"/>\n  <!-- Glass highlight -->\n  <ellipse cx=\"28\" cy=\"34\" rx=\"6\" ry=\"8\" fill=\"#333333\" opacity=\"0.4\"/>\n  <!-- Flask neck -->\n  <rect x=\"28\" y=\"14\" width=\"8\" height=\"10\" fill=\"#444444\" stroke=\"#333\" stroke-width=\"1\"/>\n  <!-- Cork stopper -->\n  <rect x=\"27\" y=\"10\" width=\"10\" height=\"5\" fill=\"#8B4513\" rx=\"1\"/>\n  <!-- Crack in glass -->\n  <line x1=\"20\" y1=\"42\" x2=\"26\" y2=\"36\" stroke=\"#000000\" stroke-width=\"1.5\"/>\n  <line x1=\"26\" y1=\"36\" x2=\"24\" y2=\"30\" stroke=\"#000000\" stroke-width=\"1.5\"/>\n  <!-- Oil dripping from crack -->\n  <circle cx=\"22\" cy=\"44\" r=\"2\" fill=\"#0a0a0a\"/>\n  <!-- Label/band -->\n  <rect x=\"22\" y=\"48\" width=\"20\" height=\"3\" fill=\"#555555\" opacity=\"0.5\"/>\n</svg>\n",
+  "ITEM-OIL-FLASK": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Oil Flask - cracked glass flask of thick black oil -->\n  <!-- Flask body -->\n  <ellipse cx=\"32\" cy=\"38\" rx=\"16\" ry=\"18\" fill=\"#1a1a1a\" stroke=\"#444444\" stroke-width=\"2\"/>\n  <!-- Glass highlight -->\n  <ellipse cx=\"28\" cy=\"34\" rx=\"6\" ry=\"8\" fill=\"#333333\" opacity=\"0.4\"/>\n  <!-- Flask neck -->\n  <rect x=\"28\" y=\"14\" width=\"8\" height=\"10\" fill=\"#444444\" stroke=\"#333\" stroke-width=\"1\"/>\n  <!-- Cork stopper -->\n  <rect x=\"27\" y=\"10\" width=\"10\" height=\"5\" fill=\"#8B4513\" rx=\"1\"/>\n  <!-- Crack in glass -->\n  <line x1=\"20\" y1=\"42\" x2=\"26\" y2=\"36\" stroke=\"#000000\" stroke-width=\"1.5\"/>\n  <line x1=\"26\" y1=\"36\" x2=\"24\" y2=\"30\" stroke=\"#000000\" stroke-width=\"1.5\"/>\n  <!-- Oil dripping from crack -->\n  <circle cx=\"22\" cy=\"44\" r=\"2\" fill=\"#0a0a0a\"/>\n  <!-- Label/band -->\n  <rect x=\"22\" y=\"48\" width=\"20\" height=\"3\" fill=\"#555555\" opacity=\"0.5\"/>\n</svg>\n",
+  "oil-flask": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Oil Flask - cracked glass flask of thick black oil -->\n  <!-- Flask body -->\n  <ellipse cx=\"32\" cy=\"38\" rx=\"16\" ry=\"18\" fill=\"#1a1a1a\" stroke=\"#444444\" stroke-width=\"2\"/>\n  <!-- Glass highlight -->\n  <ellipse cx=\"28\" cy=\"34\" rx=\"6\" ry=\"8\" fill=\"#333333\" opacity=\"0.4\"/>\n  <!-- Flask neck -->\n  <rect x=\"28\" y=\"14\" width=\"8\" height=\"10\" fill=\"#444444\" stroke=\"#333\" stroke-width=\"1\"/>\n  <!-- Cork stopper -->\n  <rect x=\"27\" y=\"10\" width=\"10\" height=\"5\" fill=\"#8B4513\" rx=\"1\"/>\n  <!-- Crack in glass -->\n  <line x1=\"20\" y1=\"42\" x2=\"26\" y2=\"36\" stroke=\"#000000\" stroke-width=\"1.5\"/>\n  <line x1=\"26\" y1=\"36\" x2=\"24\" y2=\"30\" stroke=\"#000000\" stroke-width=\"1.5\"/>\n  <!-- Oil dripping from crack -->\n  <circle cx=\"22\" cy=\"44\" r=\"2\" fill=\"#0a0a0a\"/>\n  <!-- Label/band -->\n  <rect x=\"22\" y=\"48\" width=\"20\" height=\"3\" fill=\"#555555\" opacity=\"0.5\"/>\n</svg>\n",
+  "OIL-FLASK": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Oil Flask - cracked glass flask of thick black oil -->\n  <!-- Flask body -->\n  <ellipse cx=\"32\" cy=\"38\" rx=\"16\" ry=\"18\" fill=\"#1a1a1a\" stroke=\"#444444\" stroke-width=\"2\"/>\n  <!-- Glass highlight -->\n  <ellipse cx=\"28\" cy=\"34\" rx=\"6\" ry=\"8\" fill=\"#333333\" opacity=\"0.4\"/>\n  <!-- Flask neck -->\n  <rect x=\"28\" y=\"14\" width=\"8\" height=\"10\" fill=\"#444444\" stroke=\"#333\" stroke-width=\"1\"/>\n  <!-- Cork stopper -->\n  <rect x=\"27\" y=\"10\" width=\"10\" height=\"5\" fill=\"#8B4513\" rx=\"1\"/>\n  <!-- Crack in glass -->\n  <line x1=\"20\" y1=\"42\" x2=\"26\" y2=\"36\" stroke=\"#000000\" stroke-width=\"1.5\"/>\n  <line x1=\"26\" y1=\"36\" x2=\"24\" y2=\"30\" stroke=\"#000000\" stroke-width=\"1.5\"/>\n  <!-- Oil dripping from crack -->\n  <circle cx=\"22\" cy=\"44\" r=\"2\" fill=\"#0a0a0a\"/>\n  <!-- Label/band -->\n  <rect x=\"22\" y=\"48\" width=\"20\" height=\"3\" fill=\"#555555\" opacity=\"0.5\"/>\n</svg>\n",
+  "item_oil_flask": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Oil Flask - cracked glass flask of thick black oil -->\n  <!-- Flask body -->\n  <ellipse cx=\"32\" cy=\"38\" rx=\"16\" ry=\"18\" fill=\"#1a1a1a\" stroke=\"#444444\" stroke-width=\"2\"/>\n  <!-- Glass highlight -->\n  <ellipse cx=\"28\" cy=\"34\" rx=\"6\" ry=\"8\" fill=\"#333333\" opacity=\"0.4\"/>\n  <!-- Flask neck -->\n  <rect x=\"28\" y=\"14\" width=\"8\" height=\"10\" fill=\"#444444\" stroke=\"#333\" stroke-width=\"1\"/>\n  <!-- Cork stopper -->\n  <rect x=\"27\" y=\"10\" width=\"10\" height=\"5\" fill=\"#8B4513\" rx=\"1\"/>\n  <!-- Crack in glass -->\n  <line x1=\"20\" y1=\"42\" x2=\"26\" y2=\"36\" stroke=\"#000000\" stroke-width=\"1.5\"/>\n  <line x1=\"26\" y1=\"36\" x2=\"24\" y2=\"30\" stroke=\"#000000\" stroke-width=\"1.5\"/>\n  <!-- Oil dripping from crack -->\n  <circle cx=\"22\" cy=\"44\" r=\"2\" fill=\"#0a0a0a\"/>\n  <!-- Label/band -->\n  <rect x=\"22\" y=\"48\" width=\"20\" height=\"3\" fill=\"#555555\" opacity=\"0.5\"/>\n</svg>\n",
+  "scene-oil-flask": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Oil Flask - cracked glass flask of thick black oil -->\n  <!-- Flask body -->\n  <ellipse cx=\"32\" cy=\"38\" rx=\"16\" ry=\"18\" fill=\"#1a1a1a\" stroke=\"#444444\" stroke-width=\"2\"/>\n  <!-- Glass highlight -->\n  <ellipse cx=\"28\" cy=\"34\" rx=\"6\" ry=\"8\" fill=\"#333333\" opacity=\"0.4\"/>\n  <!-- Flask neck -->\n  <rect x=\"28\" y=\"14\" width=\"8\" height=\"10\" fill=\"#444444\" stroke=\"#333\" stroke-width=\"1\"/>\n  <!-- Cork stopper -->\n  <rect x=\"27\" y=\"10\" width=\"10\" height=\"5\" fill=\"#8B4513\" rx=\"1\"/>\n  <!-- Crack in glass -->\n  <line x1=\"20\" y1=\"42\" x2=\"26\" y2=\"36\" stroke=\"#000000\" stroke-width=\"1.5\"/>\n  <line x1=\"26\" y1=\"36\" x2=\"24\" y2=\"30\" stroke=\"#000000\" stroke-width=\"1.5\"/>\n  <!-- Oil dripping from crack -->\n  <circle cx=\"22\" cy=\"44\" r=\"2\" fill=\"#0a0a0a\"/>\n  <!-- Label/band -->\n  <rect x=\"22\" y=\"48\" width=\"20\" height=\"3\" fill=\"#555555\" opacity=\"0.5\"/>\n</svg>\n",
+  "item-pendulum-weight": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Pendulum Weight - brass bob etched with names -->\n  <!-- Pendulum bob (teardrop/round shape) -->\n  <circle cx=\"32\" cy=\"36\" r=\"18\" fill=\"#CC8800\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Brass highlight -->\n  <circle cx=\"28\" cy=\"32\" r=\"8\" fill=\"#FFAA33\" opacity=\"0.3\"/>\n  <!-- Etched names (decorative lines suggesting engraved text) -->\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"36\" x2=\"42\" y2=\"36\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"40\" x2=\"40\" y2=\"40\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <!-- Suspension hook at top -->\n  <circle cx=\"32\" cy=\"14\" r=\"3\" fill=\"none\" stroke=\"#CC8800\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"11\" x2=\"32\" y2=\"8\" stroke=\"#CC8800\" stroke-width=\"2\"/>\n  <!-- Weight shadow/detail -->\n  <ellipse cx=\"32\" cy=\"48\" rx=\"14\" ry=\"4\" fill=\"#8B6500\" opacity=\"0.4\"/>\n</svg>\n",
+  "ITEM-PENDULUM-WEIGHT": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Pendulum Weight - brass bob etched with names -->\n  <!-- Pendulum bob (teardrop/round shape) -->\n  <circle cx=\"32\" cy=\"36\" r=\"18\" fill=\"#CC8800\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Brass highlight -->\n  <circle cx=\"28\" cy=\"32\" r=\"8\" fill=\"#FFAA33\" opacity=\"0.3\"/>\n  <!-- Etched names (decorative lines suggesting engraved text) -->\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"36\" x2=\"42\" y2=\"36\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"40\" x2=\"40\" y2=\"40\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <!-- Suspension hook at top -->\n  <circle cx=\"32\" cy=\"14\" r=\"3\" fill=\"none\" stroke=\"#CC8800\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"11\" x2=\"32\" y2=\"8\" stroke=\"#CC8800\" stroke-width=\"2\"/>\n  <!-- Weight shadow/detail -->\n  <ellipse cx=\"32\" cy=\"48\" rx=\"14\" ry=\"4\" fill=\"#8B6500\" opacity=\"0.4\"/>\n</svg>\n",
+  "pendulum-weight": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Pendulum Weight - brass bob etched with names -->\n  <!-- Pendulum bob (teardrop/round shape) -->\n  <circle cx=\"32\" cy=\"36\" r=\"18\" fill=\"#CC8800\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Brass highlight -->\n  <circle cx=\"28\" cy=\"32\" r=\"8\" fill=\"#FFAA33\" opacity=\"0.3\"/>\n  <!-- Etched names (decorative lines suggesting engraved text) -->\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"36\" x2=\"42\" y2=\"36\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"40\" x2=\"40\" y2=\"40\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <!-- Suspension hook at top -->\n  <circle cx=\"32\" cy=\"14\" r=\"3\" fill=\"none\" stroke=\"#CC8800\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"11\" x2=\"32\" y2=\"8\" stroke=\"#CC8800\" stroke-width=\"2\"/>\n  <!-- Weight shadow/detail -->\n  <ellipse cx=\"32\" cy=\"48\" rx=\"14\" ry=\"4\" fill=\"#8B6500\" opacity=\"0.4\"/>\n</svg>\n",
+  "PENDULUM-WEIGHT": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Pendulum Weight - brass bob etched with names -->\n  <!-- Pendulum bob (teardrop/round shape) -->\n  <circle cx=\"32\" cy=\"36\" r=\"18\" fill=\"#CC8800\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Brass highlight -->\n  <circle cx=\"28\" cy=\"32\" r=\"8\" fill=\"#FFAA33\" opacity=\"0.3\"/>\n  <!-- Etched names (decorative lines suggesting engraved text) -->\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"36\" x2=\"42\" y2=\"36\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"40\" x2=\"40\" y2=\"40\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <!-- Suspension hook at top -->\n  <circle cx=\"32\" cy=\"14\" r=\"3\" fill=\"none\" stroke=\"#CC8800\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"11\" x2=\"32\" y2=\"8\" stroke=\"#CC8800\" stroke-width=\"2\"/>\n  <!-- Weight shadow/detail -->\n  <ellipse cx=\"32\" cy=\"48\" rx=\"14\" ry=\"4\" fill=\"#8B6500\" opacity=\"0.4\"/>\n</svg>\n",
+  "item_pendulum_weight": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Pendulum Weight - brass bob etched with names -->\n  <!-- Pendulum bob (teardrop/round shape) -->\n  <circle cx=\"32\" cy=\"36\" r=\"18\" fill=\"#CC8800\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Brass highlight -->\n  <circle cx=\"28\" cy=\"32\" r=\"8\" fill=\"#FFAA33\" opacity=\"0.3\"/>\n  <!-- Etched names (decorative lines suggesting engraved text) -->\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"36\" x2=\"42\" y2=\"36\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"40\" x2=\"40\" y2=\"40\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <!-- Suspension hook at top -->\n  <circle cx=\"32\" cy=\"14\" r=\"3\" fill=\"none\" stroke=\"#CC8800\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"11\" x2=\"32\" y2=\"8\" stroke=\"#CC8800\" stroke-width=\"2\"/>\n  <!-- Weight shadow/detail -->\n  <ellipse cx=\"32\" cy=\"48\" rx=\"14\" ry=\"4\" fill=\"#8B6500\" opacity=\"0.4\"/>\n</svg>\n",
+  "scene-pendulum-weight": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Pendulum Weight - brass bob etched with names -->\n  <!-- Pendulum bob (teardrop/round shape) -->\n  <circle cx=\"32\" cy=\"36\" r=\"18\" fill=\"#CC8800\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <!-- Brass highlight -->\n  <circle cx=\"28\" cy=\"32\" r=\"8\" fill=\"#FFAA33\" opacity=\"0.3\"/>\n  <!-- Etched names (decorative lines suggesting engraved text) -->\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"36\" x2=\"42\" y2=\"36\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"40\" x2=\"40\" y2=\"40\" stroke=\"#8B6500\" stroke-width=\"1\"/>\n  <!-- Suspension hook at top -->\n  <circle cx=\"32\" cy=\"14\" r=\"3\" fill=\"none\" stroke=\"#CC8800\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"11\" x2=\"32\" y2=\"8\" stroke=\"#CC8800\" stroke-width=\"2\"/>\n  <!-- Weight shadow/detail -->\n  <ellipse cx=\"32\" cy=\"48\" rx=\"14\" ry=\"4\" fill=\"#8B6500\" opacity=\"0.4\"/>\n</svg>\n",
+  "item-stop-sigil": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Stop Sigil - lead medallion with STOP symbol -->\n  <!-- Medallion body (octagonal/round) -->\n  <circle cx=\"32\" cy=\"32\" r=\"22\" fill=\"#4a4a52\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <!-- Inner circle -->\n  <circle cx=\"32\" cy=\"32\" r=\"18\" fill=\"#5a5a62\" stroke=\"#3a3a42\" stroke-width=\"1\"/>\n  <!-- STOP text (stylized block letters) -->\n  <!-- S -->\n  <path d=\"M 18 28 Q 16 26 18 24 Q 20 22 22 24 L 22 26 Q 20 28 18 28 Z\" fill=\"#2a2a32\"/>\n  <path d=\"M 18 32 Q 20 34 22 32 L 22 30 Q 20 28 18 30 Z\" fill=\"#2a2a32\"/>\n  <!-- T -->\n  <line x1=\"26\" y1=\"24\" x2=\"26\" y2=\"34\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <line x1=\"23\" y1=\"24\" x2=\"29\" y2=\"24\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <!-- O -->\n  <ellipse cx=\"36\" cy=\"29\" rx=\"3\" ry=\"5\" fill=\"none\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <!-- P -->\n  <line x1=\"42\" y1=\"24\" x2=\"42\" y2=\"34\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <path d=\"M 42 24 Q 48 24 48 27 Q 48 30 42 30\" fill=\"none\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <!-- Cold aura -->\n  <circle cx=\"32\" cy=\"32\" r=\"24\" fill=\"#8888AA\" opacity=\"0.08\"/>\n  <!-- Hanging loop at top -->\n  <circle cx=\"32\" cy=\"8\" r=\"3\" fill=\"none\" stroke=\"#4a4a52\" stroke-width=\"2\"/>\n</svg>\n",
+  "ITEM-STOP-SIGIL": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Stop Sigil - lead medallion with STOP symbol -->\n  <!-- Medallion body (octagonal/round) -->\n  <circle cx=\"32\" cy=\"32\" r=\"22\" fill=\"#4a4a52\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <!-- Inner circle -->\n  <circle cx=\"32\" cy=\"32\" r=\"18\" fill=\"#5a5a62\" stroke=\"#3a3a42\" stroke-width=\"1\"/>\n  <!-- STOP text (stylized block letters) -->\n  <!-- S -->\n  <path d=\"M 18 28 Q 16 26 18 24 Q 20 22 22 24 L 22 26 Q 20 28 18 28 Z\" fill=\"#2a2a32\"/>\n  <path d=\"M 18 32 Q 20 34 22 32 L 22 30 Q 20 28 18 30 Z\" fill=\"#2a2a32\"/>\n  <!-- T -->\n  <line x1=\"26\" y1=\"24\" x2=\"26\" y2=\"34\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <line x1=\"23\" y1=\"24\" x2=\"29\" y2=\"24\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <!-- O -->\n  <ellipse cx=\"36\" cy=\"29\" rx=\"3\" ry=\"5\" fill=\"none\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <!-- P -->\n  <line x1=\"42\" y1=\"24\" x2=\"42\" y2=\"34\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <path d=\"M 42 24 Q 48 24 48 27 Q 48 30 42 30\" fill=\"none\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <!-- Cold aura -->\n  <circle cx=\"32\" cy=\"32\" r=\"24\" fill=\"#8888AA\" opacity=\"0.08\"/>\n  <!-- Hanging loop at top -->\n  <circle cx=\"32\" cy=\"8\" r=\"3\" fill=\"none\" stroke=\"#4a4a52\" stroke-width=\"2\"/>\n</svg>\n",
+  "stop-sigil": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Stop Sigil - lead medallion with STOP symbol -->\n  <!-- Medallion body (octagonal/round) -->\n  <circle cx=\"32\" cy=\"32\" r=\"22\" fill=\"#4a4a52\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <!-- Inner circle -->\n  <circle cx=\"32\" cy=\"32\" r=\"18\" fill=\"#5a5a62\" stroke=\"#3a3a42\" stroke-width=\"1\"/>\n  <!-- STOP text (stylized block letters) -->\n  <!-- S -->\n  <path d=\"M 18 28 Q 16 26 18 24 Q 20 22 22 24 L 22 26 Q 20 28 18 28 Z\" fill=\"#2a2a32\"/>\n  <path d=\"M 18 32 Q 20 34 22 32 L 22 30 Q 20 28 18 30 Z\" fill=\"#2a2a32\"/>\n  <!-- T -->\n  <line x1=\"26\" y1=\"24\" x2=\"26\" y2=\"34\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <line x1=\"23\" y1=\"24\" x2=\"29\" y2=\"24\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <!-- O -->\n  <ellipse cx=\"36\" cy=\"29\" rx=\"3\" ry=\"5\" fill=\"none\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <!-- P -->\n  <line x1=\"42\" y1=\"24\" x2=\"42\" y2=\"34\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <path d=\"M 42 24 Q 48 24 48 27 Q 48 30 42 30\" fill=\"none\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <!-- Cold aura -->\n  <circle cx=\"32\" cy=\"32\" r=\"24\" fill=\"#8888AA\" opacity=\"0.08\"/>\n  <!-- Hanging loop at top -->\n  <circle cx=\"32\" cy=\"8\" r=\"3\" fill=\"none\" stroke=\"#4a4a52\" stroke-width=\"2\"/>\n</svg>\n",
+  "STOP-SIGIL": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Stop Sigil - lead medallion with STOP symbol -->\n  <!-- Medallion body (octagonal/round) -->\n  <circle cx=\"32\" cy=\"32\" r=\"22\" fill=\"#4a4a52\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <!-- Inner circle -->\n  <circle cx=\"32\" cy=\"32\" r=\"18\" fill=\"#5a5a62\" stroke=\"#3a3a42\" stroke-width=\"1\"/>\n  <!-- STOP text (stylized block letters) -->\n  <!-- S -->\n  <path d=\"M 18 28 Q 16 26 18 24 Q 20 22 22 24 L 22 26 Q 20 28 18 28 Z\" fill=\"#2a2a32\"/>\n  <path d=\"M 18 32 Q 20 34 22 32 L 22 30 Q 20 28 18 30 Z\" fill=\"#2a2a32\"/>\n  <!-- T -->\n  <line x1=\"26\" y1=\"24\" x2=\"26\" y2=\"34\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <line x1=\"23\" y1=\"24\" x2=\"29\" y2=\"24\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <!-- O -->\n  <ellipse cx=\"36\" cy=\"29\" rx=\"3\" ry=\"5\" fill=\"none\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <!-- P -->\n  <line x1=\"42\" y1=\"24\" x2=\"42\" y2=\"34\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <path d=\"M 42 24 Q 48 24 48 27 Q 48 30 42 30\" fill=\"none\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <!-- Cold aura -->\n  <circle cx=\"32\" cy=\"32\" r=\"24\" fill=\"#8888AA\" opacity=\"0.08\"/>\n  <!-- Hanging loop at top -->\n  <circle cx=\"32\" cy=\"8\" r=\"3\" fill=\"none\" stroke=\"#4a4a52\" stroke-width=\"2\"/>\n</svg>\n",
+  "item_stop_sigil": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Stop Sigil - lead medallion with STOP symbol -->\n  <!-- Medallion body (octagonal/round) -->\n  <circle cx=\"32\" cy=\"32\" r=\"22\" fill=\"#4a4a52\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <!-- Inner circle -->\n  <circle cx=\"32\" cy=\"32\" r=\"18\" fill=\"#5a5a62\" stroke=\"#3a3a42\" stroke-width=\"1\"/>\n  <!-- STOP text (stylized block letters) -->\n  <!-- S -->\n  <path d=\"M 18 28 Q 16 26 18 24 Q 20 22 22 24 L 22 26 Q 20 28 18 28 Z\" fill=\"#2a2a32\"/>\n  <path d=\"M 18 32 Q 20 34 22 32 L 22 30 Q 20 28 18 30 Z\" fill=\"#2a2a32\"/>\n  <!-- T -->\n  <line x1=\"26\" y1=\"24\" x2=\"26\" y2=\"34\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <line x1=\"23\" y1=\"24\" x2=\"29\" y2=\"24\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <!-- O -->\n  <ellipse cx=\"36\" cy=\"29\" rx=\"3\" ry=\"5\" fill=\"none\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <!-- P -->\n  <line x1=\"42\" y1=\"24\" x2=\"42\" y2=\"34\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <path d=\"M 42 24 Q 48 24 48 27 Q 48 30 42 30\" fill=\"none\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <!-- Cold aura -->\n  <circle cx=\"32\" cy=\"32\" r=\"24\" fill=\"#8888AA\" opacity=\"0.08\"/>\n  <!-- Hanging loop at top -->\n  <circle cx=\"32\" cy=\"8\" r=\"3\" fill=\"none\" stroke=\"#4a4a52\" stroke-width=\"2\"/>\n</svg>\n",
+  "scene-stop-sigil": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Stop Sigil - lead medallion with STOP symbol -->\n  <!-- Medallion body (octagonal/round) -->\n  <circle cx=\"32\" cy=\"32\" r=\"22\" fill=\"#4a4a52\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <!-- Inner circle -->\n  <circle cx=\"32\" cy=\"32\" r=\"18\" fill=\"#5a5a62\" stroke=\"#3a3a42\" stroke-width=\"1\"/>\n  <!-- STOP text (stylized block letters) -->\n  <!-- S -->\n  <path d=\"M 18 28 Q 16 26 18 24 Q 20 22 22 24 L 22 26 Q 20 28 18 28 Z\" fill=\"#2a2a32\"/>\n  <path d=\"M 18 32 Q 20 34 22 32 L 22 30 Q 20 28 18 30 Z\" fill=\"#2a2a32\"/>\n  <!-- T -->\n  <line x1=\"26\" y1=\"24\" x2=\"26\" y2=\"34\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <line x1=\"23\" y1=\"24\" x2=\"29\" y2=\"24\" stroke=\"#2a2a32\" stroke-width=\"3\"/>\n  <!-- O -->\n  <ellipse cx=\"36\" cy=\"29\" rx=\"3\" ry=\"5\" fill=\"none\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <!-- P -->\n  <line x1=\"42\" y1=\"24\" x2=\"42\" y2=\"34\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <path d=\"M 42 24 Q 48 24 48 27 Q 48 30 42 30\" fill=\"none\" stroke=\"#2a2a32\" stroke-width=\"2\"/>\n  <!-- Cold aura -->\n  <circle cx=\"32\" cy=\"32\" r=\"24\" fill=\"#8888AA\" opacity=\"0.08\"/>\n  <!-- Hanging loop at top -->\n  <circle cx=\"32\" cy=\"8\" r=\"3\" fill=\"none\" stroke=\"#4a4a52\" stroke-width=\"2\"/>\n</svg>\n",
+  "item-wound-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Wound Key - winding key with bone-carved handle -->\n  <!-- Bone handle (top) -->\n  <rect x=\"26\" y=\"6\" width=\"12\" height=\"18\" fill=\"#E8DCC8\" stroke=\"#C4B896\" stroke-width=\"2\" rx=\"3\"/>\n  <!-- Bone texture/cracks -->\n  <line x1=\"30\" y1=\"10\" x2=\"30\" y2=\"18\" stroke=\"#C4B896\" stroke-width=\"1\"/>\n  <line x1=\"34\" y1=\"10\" x2=\"34\" y2=\"18\" stroke=\"#C4B896\" stroke-width=\"1\"/>\n  <!-- Shaft -->\n  <rect x=\"29\" y=\"24\" width=\"6\" height=\"14\" fill=\"#888888\" stroke=\"#666666\" stroke-width=\"1\"/>\n  <!-- Winding head (cross-shaped for winding) -->\n  <rect x=\"24\" y=\"38\" width=\"16\" height=\"4\" fill=\"#FF8800\" stroke=\"#CC5500\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"34\" width=\"4\" height=\"12\" fill=\"#FF8800\" stroke=\"#CC5500\" stroke-width=\"1\"/>\n  <!-- Brass winding tip -->\n  <rect x=\"28\" y=\"46\" width=\"8\" height=\"10\" fill=\"#CC8800\" stroke=\"#FF8800\" stroke-width=\"1.5\" rx=\"1\"/>\n  <!-- Teeth/notches on tip -->\n  <rect x=\"34\" y=\"50\" width=\"3\" height=\"3\" fill=\"#CC8800\"/>\n  <rect x=\"34\" y=\"53\" width=\"2\" height=\"2\" fill=\"#CC8800\"/>\n</svg>\n",
+  "ITEM-WOUND-KEY": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Wound Key - winding key with bone-carved handle -->\n  <!-- Bone handle (top) -->\n  <rect x=\"26\" y=\"6\" width=\"12\" height=\"18\" fill=\"#E8DCC8\" stroke=\"#C4B896\" stroke-width=\"2\" rx=\"3\"/>\n  <!-- Bone texture/cracks -->\n  <line x1=\"30\" y1=\"10\" x2=\"30\" y2=\"18\" stroke=\"#C4B896\" stroke-width=\"1\"/>\n  <line x1=\"34\" y1=\"10\" x2=\"34\" y2=\"18\" stroke=\"#C4B896\" stroke-width=\"1\"/>\n  <!-- Shaft -->\n  <rect x=\"29\" y=\"24\" width=\"6\" height=\"14\" fill=\"#888888\" stroke=\"#666666\" stroke-width=\"1\"/>\n  <!-- Winding head (cross-shaped for winding) -->\n  <rect x=\"24\" y=\"38\" width=\"16\" height=\"4\" fill=\"#FF8800\" stroke=\"#CC5500\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"34\" width=\"4\" height=\"12\" fill=\"#FF8800\" stroke=\"#CC5500\" stroke-width=\"1\"/>\n  <!-- Brass winding tip -->\n  <rect x=\"28\" y=\"46\" width=\"8\" height=\"10\" fill=\"#CC8800\" stroke=\"#FF8800\" stroke-width=\"1.5\" rx=\"1\"/>\n  <!-- Teeth/notches on tip -->\n  <rect x=\"34\" y=\"50\" width=\"3\" height=\"3\" fill=\"#CC8800\"/>\n  <rect x=\"34\" y=\"53\" width=\"2\" height=\"2\" fill=\"#CC8800\"/>\n</svg>\n",
+  "wound-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Wound Key - winding key with bone-carved handle -->\n  <!-- Bone handle (top) -->\n  <rect x=\"26\" y=\"6\" width=\"12\" height=\"18\" fill=\"#E8DCC8\" stroke=\"#C4B896\" stroke-width=\"2\" rx=\"3\"/>\n  <!-- Bone texture/cracks -->\n  <line x1=\"30\" y1=\"10\" x2=\"30\" y2=\"18\" stroke=\"#C4B896\" stroke-width=\"1\"/>\n  <line x1=\"34\" y1=\"10\" x2=\"34\" y2=\"18\" stroke=\"#C4B896\" stroke-width=\"1\"/>\n  <!-- Shaft -->\n  <rect x=\"29\" y=\"24\" width=\"6\" height=\"14\" fill=\"#888888\" stroke=\"#666666\" stroke-width=\"1\"/>\n  <!-- Winding head (cross-shaped for winding) -->\n  <rect x=\"24\" y=\"38\" width=\"16\" height=\"4\" fill=\"#FF8800\" stroke=\"#CC5500\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"34\" width=\"4\" height=\"12\" fill=\"#FF8800\" stroke=\"#CC5500\" stroke-width=\"1\"/>\n  <!-- Brass winding tip -->\n  <rect x=\"28\" y=\"46\" width=\"8\" height=\"10\" fill=\"#CC8800\" stroke=\"#FF8800\" stroke-width=\"1.5\" rx=\"1\"/>\n  <!-- Teeth/notches on tip -->\n  <rect x=\"34\" y=\"50\" width=\"3\" height=\"3\" fill=\"#CC8800\"/>\n  <rect x=\"34\" y=\"53\" width=\"2\" height=\"2\" fill=\"#CC8800\"/>\n</svg>\n",
+  "WOUND-KEY": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Wound Key - winding key with bone-carved handle -->\n  <!-- Bone handle (top) -->\n  <rect x=\"26\" y=\"6\" width=\"12\" height=\"18\" fill=\"#E8DCC8\" stroke=\"#C4B896\" stroke-width=\"2\" rx=\"3\"/>\n  <!-- Bone texture/cracks -->\n  <line x1=\"30\" y1=\"10\" x2=\"30\" y2=\"18\" stroke=\"#C4B896\" stroke-width=\"1\"/>\n  <line x1=\"34\" y1=\"10\" x2=\"34\" y2=\"18\" stroke=\"#C4B896\" stroke-width=\"1\"/>\n  <!-- Shaft -->\n  <rect x=\"29\" y=\"24\" width=\"6\" height=\"14\" fill=\"#888888\" stroke=\"#666666\" stroke-width=\"1\"/>\n  <!-- Winding head (cross-shaped for winding) -->\n  <rect x=\"24\" y=\"38\" width=\"16\" height=\"4\" fill=\"#FF8800\" stroke=\"#CC5500\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"34\" width=\"4\" height=\"12\" fill=\"#FF8800\" stroke=\"#CC5500\" stroke-width=\"1\"/>\n  <!-- Brass winding tip -->\n  <rect x=\"28\" y=\"46\" width=\"8\" height=\"10\" fill=\"#CC8800\" stroke=\"#FF8800\" stroke-width=\"1.5\" rx=\"1\"/>\n  <!-- Teeth/notches on tip -->\n  <rect x=\"34\" y=\"50\" width=\"3\" height=\"3\" fill=\"#CC8800\"/>\n  <rect x=\"34\" y=\"53\" width=\"2\" height=\"2\" fill=\"#CC8800\"/>\n</svg>\n",
+  "item_wound_key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Wound Key - winding key with bone-carved handle -->\n  <!-- Bone handle (top) -->\n  <rect x=\"26\" y=\"6\" width=\"12\" height=\"18\" fill=\"#E8DCC8\" stroke=\"#C4B896\" stroke-width=\"2\" rx=\"3\"/>\n  <!-- Bone texture/cracks -->\n  <line x1=\"30\" y1=\"10\" x2=\"30\" y2=\"18\" stroke=\"#C4B896\" stroke-width=\"1\"/>\n  <line x1=\"34\" y1=\"10\" x2=\"34\" y2=\"18\" stroke=\"#C4B896\" stroke-width=\"1\"/>\n  <!-- Shaft -->\n  <rect x=\"29\" y=\"24\" width=\"6\" height=\"14\" fill=\"#888888\" stroke=\"#666666\" stroke-width=\"1\"/>\n  <!-- Winding head (cross-shaped for winding) -->\n  <rect x=\"24\" y=\"38\" width=\"16\" height=\"4\" fill=\"#FF8800\" stroke=\"#CC5500\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"34\" width=\"4\" height=\"12\" fill=\"#FF8800\" stroke=\"#CC5500\" stroke-width=\"1\"/>\n  <!-- Brass winding tip -->\n  <rect x=\"28\" y=\"46\" width=\"8\" height=\"10\" fill=\"#CC8800\" stroke=\"#FF8800\" stroke-width=\"1.5\" rx=\"1\"/>\n  <!-- Teeth/notches on tip -->\n  <rect x=\"34\" y=\"50\" width=\"3\" height=\"3\" fill=\"#CC8800\"/>\n  <rect x=\"34\" y=\"53\" width=\"2\" height=\"2\" fill=\"#CC8800\"/>\n</svg>\n",
+  "scene-wound-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <!-- Wound Key - winding key with bone-carved handle -->\n  <!-- Bone handle (top) -->\n  <rect x=\"26\" y=\"6\" width=\"12\" height=\"18\" fill=\"#E8DCC8\" stroke=\"#C4B896\" stroke-width=\"2\" rx=\"3\"/>\n  <!-- Bone texture/cracks -->\n  <line x1=\"30\" y1=\"10\" x2=\"30\" y2=\"18\" stroke=\"#C4B896\" stroke-width=\"1\"/>\n  <line x1=\"34\" y1=\"10\" x2=\"34\" y2=\"18\" stroke=\"#C4B896\" stroke-width=\"1\"/>\n  <!-- Shaft -->\n  <rect x=\"29\" y=\"24\" width=\"6\" height=\"14\" fill=\"#888888\" stroke=\"#666666\" stroke-width=\"1\"/>\n  <!-- Winding head (cross-shaped for winding) -->\n  <rect x=\"24\" y=\"38\" width=\"16\" height=\"4\" fill=\"#FF8800\" stroke=\"#CC5500\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"34\" width=\"4\" height=\"12\" fill=\"#FF8800\" stroke=\"#CC5500\" stroke-width=\"1\"/>\n  <!-- Brass winding tip -->\n  <rect x=\"28\" y=\"46\" width=\"8\" height=\"10\" fill=\"#CC8800\" stroke=\"#FF8800\" stroke-width=\"1.5\" rx=\"1\"/>\n  <!-- Teeth/notches on tip -->\n  <rect x=\"34\" y=\"50\" width=\"3\" height=\"3\" fill=\"#CC8800\"/>\n  <rect x=\"34\" y=\"53\" width=\"2\" height=\"2\" fill=\"#CC8800\"/>\n</svg>\n",
+  "scene-charnel-room": "<img src=\"art/scene-charnel-room.png\" alt=\"scene-charnel-room\" loading=\"lazy\">",
+  "SCENE-CHARNEL-ROOM": "<img src=\"art/scene-charnel-room.png\" alt=\"scene-charnel-room\" loading=\"lazy\">",
+  "charnel-room": "<img src=\"art/scene-charnel-room.png\" alt=\"scene-charnel-room\" loading=\"lazy\">",
+  "CHARNEL-ROOM": "<img src=\"art/scene-charnel-room.png\" alt=\"scene-charnel-room\" loading=\"lazy\">",
+  "scene_charnel_room": "<img src=\"art/scene-charnel-room.png\" alt=\"scene-charnel-room\" loading=\"lazy\">",
+  "item-charnel-room": "<img src=\"art/scene-charnel-room.png\" alt=\"scene-charnel-room\" loading=\"lazy\">",
+  "scene-echo-vault": "<img src=\"art/scene-echo-vault.png\" alt=\"scene-echo-vault\" loading=\"lazy\">",
+  "SCENE-ECHO-VAULT": "<img src=\"art/scene-echo-vault.png\" alt=\"scene-echo-vault\" loading=\"lazy\">",
+  "echo-vault": "<img src=\"art/scene-echo-vault.png\" alt=\"scene-echo-vault\" loading=\"lazy\">",
+  "ECHO-VAULT": "<img src=\"art/scene-echo-vault.png\" alt=\"scene-echo-vault\" loading=\"lazy\">",
+  "scene_echo_vault": "<img src=\"art/scene-echo-vault.png\" alt=\"scene-echo-vault\" loading=\"lazy\">",
+  "item-echo-vault": "<img src=\"art/scene-echo-vault.png\" alt=\"scene-echo-vault\" loading=\"lazy\">",
+  "scene-gear-chamber": "<img src=\"art/scene-gear-chamber.png\" alt=\"scene-gear-chamber\" loading=\"lazy\">",
+  "SCENE-GEAR-CHAMBER": "<img src=\"art/scene-gear-chamber.png\" alt=\"scene-gear-chamber\" loading=\"lazy\">",
+  "gear-chamber": "<img src=\"art/scene-gear-chamber.png\" alt=\"scene-gear-chamber\" loading=\"lazy\">",
+  "GEAR-CHAMBER": "<img src=\"art/scene-gear-chamber.png\" alt=\"scene-gear-chamber\" loading=\"lazy\">",
+  "scene_gear_chamber": "<img src=\"art/scene-gear-chamber.png\" alt=\"scene-gear-chamber\" loading=\"lazy\">",
+  "item-gear-chamber": "<img src=\"art/scene-gear-chamber.png\" alt=\"scene-gear-chamber\" loading=\"lazy\">",
+  "scene-horologist-sanctum": "<img src=\"art/scene-horologist-sanctum.png\" alt=\"scene-horologist-sanctum\" loading=\"lazy\">",
+  "SCENE-HOROLOGIST-SANCTUM": "<img src=\"art/scene-horologist-sanctum.png\" alt=\"scene-horologist-sanctum\" loading=\"lazy\">",
+  "horologist-sanctum": "<img src=\"art/scene-horologist-sanctum.png\" alt=\"scene-horologist-sanctum\" loading=\"lazy\">",
+  "HOROLOGIST-SANCTUM": "<img src=\"art/scene-horologist-sanctum.png\" alt=\"scene-horologist-sanctum\" loading=\"lazy\">",
+  "scene_horologist_sanctum": "<img src=\"art/scene-horologist-sanctum.png\" alt=\"scene-horologist-sanctum\" loading=\"lazy\">",
+  "item-horologist-sanctum": "<img src=\"art/scene-horologist-sanctum.png\" alt=\"scene-horologist-sanctum\" loading=\"lazy\">",
+  "scene-pendulum-gallery": "<img src=\"art/scene-pendulum-gallery.png\" alt=\"scene-pendulum-gallery\" loading=\"lazy\">",
+  "SCENE-PENDULUM-GALLERY": "<img src=\"art/scene-pendulum-gallery.png\" alt=\"scene-pendulum-gallery\" loading=\"lazy\">",
+  "pendulum-gallery": "<img src=\"art/scene-pendulum-gallery.png\" alt=\"scene-pendulum-gallery\" loading=\"lazy\">",
+  "PENDULUM-GALLERY": "<img src=\"art/scene-pendulum-gallery.png\" alt=\"scene-pendulum-gallery\" loading=\"lazy\">",
+  "scene_pendulum_gallery": "<img src=\"art/scene-pendulum-gallery.png\" alt=\"scene-pendulum-gallery\" loading=\"lazy\">",
+  "item-pendulum-gallery": "<img src=\"art/scene-pendulum-gallery.png\" alt=\"scene-pendulum-gallery\" loading=\"lazy\">",
+  "scene-vestibule": "<img src=\"art/scene-vestibule.png\" alt=\"scene-vestibule\" loading=\"lazy\">",
+  "SCENE-VESTIBULE": "<img src=\"art/scene-vestibule.png\" alt=\"scene-vestibule\" loading=\"lazy\">",
+  "vestibule": "<img src=\"art/scene-vestibule.png\" alt=\"scene-vestibule\" loading=\"lazy\">",
+  "VESTIBULE": "<img src=\"art/scene-vestibule.png\" alt=\"scene-vestibule\" loading=\"lazy\">",
+  "scene_vestibule": "<img src=\"art/scene-vestibule.png\" alt=\"scene-vestibule\" loading=\"lazy\">",
+  "item-vestibule": "<img src=\"art/scene-vestibule.png\" alt=\"scene-vestibule\" loading=\"lazy\">"
+};
+  </script>
+  <script src="../standard-game-runtime.js"></script>
+</body>
+</html>

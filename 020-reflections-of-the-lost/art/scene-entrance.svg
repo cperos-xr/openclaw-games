@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <pattern id="wood-plank" width="40" height="8" patternUnits="userSpaceOnUse">
+      <rect width="40" height="8" fill="#1a0d00"/>
+      <line x1="0" y1="7" x2="40" y2="7" stroke="#0d0600" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <!-- Layer 1: Dark background -->
+  <rect width="640" height="400" fill="#0a0a0f"/>
+  
+  <!-- Layer 2: Walls and boarded windows -->
+  <!-- Left wall with boards -->
+  <rect x="0" y="0" width="80" height="320" fill="#15151f"/>
+  <rect x="10" y="60" width="60" height="100" fill="url(#wood-plank)" stroke="#0d0600" stroke-width="2"/>
+  <!-- Right wall with boards -->
+  <rect x="560" y="0" width="80" height="320" fill="#15151f"/>
+  <rect x="570" y="60" width="60" height="100" fill="url(#wood-plank)" stroke="#0d0600" stroke-width="2"/>
+  
+  <!-- Layer 3: Rear wall -->
+  <rect x="80" y="0" width="480" height="260" fill="#1a1a25"/>
+  <!-- Back door frame -->
+  <rect x="260" y="40" width="120" height="220" fill="#111118" stroke="#2a2a3a" stroke-width="3"/>
+  
+  <!-- Layer 4: Reception desk collapse -->
+  <rect x="180" y="240" width="180" height="80" fill="#1a1510" stroke="#0d0600" stroke-width="2"/>
+  <rect x="180" y="220" width="140" height="20" fill="#221a15" stroke="#0d0600" stroke-width="2" transform="rotate(-5 250 230)"/>
+  <!-- Debris pile -->
+  <rect x="160" y="300" width="40" height="15" fill="#1a1510" rx="2"/>
+  <rect x="200" y="305" width="50" height="12" fill="#221a15" rx="2"/>
+  <rect x="250" y="298" width="35" height="18" fill="#1a1510" rx="2"/>
+  <rect x="285" y="305" width="25" height="12" fill="#0d0805" rx="2"/>
+  
+  <!-- Layer 5: Mirror shard glinting -->
+  <polygon points="230,310 238,302 242,308 235,315" fill="#c0c0c0" stroke="#e0e0e0" stroke-width="1"/>
+  <polygon points="232,308 237,304 239,307 234,312" fill="#d0d0d0" opacity="0.7"/>
+  
+  <!-- Layer 6: Dust motes -->
+  <circle cx="120" cy="150" r="1.5" fill="#aaaaaa" opacity="0.4"/>
+  <circle cx="200" cy="180" r="1" fill="#aaaaaa" opacity="0.3"/>
+  <circle cx="340" cy="120" r="1.5" fill="#aaaaaa" opacity="0.35"/>
+  <circle cx="450" cy="160" r="1" fill="#aaaaaa" opacity="0.3"/>
+  <circle cx="500" cy="130" r="1.5" fill="#aaaaaa" opacity="0.4"/>
+  <circle cx="300" cy="200" r="1" fill="#ffffff" opacity="0.2"/>
+  <circle cx="150" cy="220" r="1" fill="#ffffff" opacity="0.15"/>
+  
+  <!-- Layer 7: Floor -->
+  <rect x="0" y="320" width="640" height="80" fill="#121210"/>
+  <line x1="0" y1="340" x2="640" y2="340" stroke="#0a0a08" stroke-width="1"/>
+  <line x1="0" y1="360" x2="640" y2="360" stroke="#0a0a08" stroke-width="1"/>
+  <line x1="0" y1="380" x2="640" y2="380" stroke="#0a0a08" stroke-width="1"/>
+  
+  <!-- Shadow pools -->
+  <ellipse cx="100" cy="370" rx="60" ry="12" fill="#000000" opacity="0.4"/>
+  <ellipse cx="540" cy="370" rx="60" ry="12" fill="#000000" opacity="0.4"/>
+</svg>

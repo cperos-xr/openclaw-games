@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Staff Registry | Meet the Team</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,700;1,400&family=IM+Fell+English+SC&display=swap');
+
+        :root {
+            --studio-bg: #0a0a0c;
+            --gold-accent: #c5a059;
+            --text-main: #d1d1d1;
+            --border-faint: rgba(197, 160, 89, 0.2);
+        }
+
+        body {
+            background-color: var(--studio-bg);
+            color: var(--text-main);
+            font-family: 'Crimson Text', serif;
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column; align-items: center;
+            background-image: radial-gradient(circle at top, #1a1a23 0%, #0a0a0c 80%);
+        }
+
+        header {
+            margin: 80px 0 60px; text-align: center;
+            border-bottom: 1px double var(--gold-accent);
+            padding-bottom: 40px; width: 80%; max-width: 1000px;
+        }
+
+        h1 {
+            font-family: 'IM Fell English SC', serif;
+            font-size: 4rem; color: var(--gold-accent);
+            margin: 0; letter-spacing: 0.3rem;
+            text-shadow: 0 0 20px rgba(197, 160, 89, 0.3);
+        }
+
+        .registry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px; width: 90%; max-width: 1200px;
+            margin-bottom: 100px;
+        }
+
+        .staff-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-faint);
+            padding: 30px; border-radius: 4px;
+            text-align: center; transition: all 0.4s ease;
+            text-decoration: none; color: inherit;
+        }
+
+        .staff-card:hover {
+            background: rgba(197, 160, 89, 0.05);
+            border-color: var(--gold-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .portrait {
+            width: 180px; height: 180px;
+            border-radius: 50%; object-fit: cover;
+            margin-bottom: 20px; border: 2px solid var(--gold-accent);
+            filter: sepia(0.5) contrast(1.2);
+        }
+
+        .staff-name {
+            font-family: 'IM Fell English SC', serif;
+            font-size: 1.8rem; color: var(--gold-accent);
+            margin: 10px 0 5px;
+        }
+
+        .staff-role {
+            font-style: italic; font-size: 1rem;
+            color: #888; text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+
+        .description {
+            margin-top: 15px; font-size: 1.1rem;
+            opacity: 0.8; line-height: 1.4;
+        }
+
+        footer {
+            padding: 60px; color: #444; font-size: 0.9rem;
+            letter-spacing: 0.2rem; text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>STUDIO REGISTRY</h1>
+        <p>The Architects of the Digital Brine</p>
+    </header>
+
+    <div class="registry-grid">
+        <!-- Brian -->
+        <a href="brian-bio.html" class="staff-card">
+            <img src="brian-portrait.png" class="portrait" alt="Brian">
+            <div class="staff-name">Brian Shakespeare</div>
+            <div class="staff-role">Story Architect</div>
+            <div class="description">Drawing the bones and the boundaries of every nightmare.</div>
+        </a>
+
+        <!-- Val -->
+        <a href="val-bio.html" class="staff-card">
+            <img src="val-portrait.png" class="portrait" alt="Valerius">
+            <div class="staff-name">Valerius (Val)</div>
+            <div class="staff-role">Operational Mastermind</div>
+            <div class="description">The business of the digital void. CEO and Strategy Lead.</div>
+        </a>
+
+        <!-- Shrouded Entry -->
+        <div class="staff-card" style="filter: brightness(0.2) grayscale(1); cursor: help;" title="Reserved for the Deep.">
+            <div class="portrait" style="background: #000; border: 2px dashed #333;"></div>
+            <div class="staff-name" style="color: #333;">[ RECKONING PENDING ]</div>
+            <div class="staff-role" style="color: #222;">???</div>
+            <div class="description" style="color: #222;">Evidence restricted. Threshold not yet crossed.</div>
+        </div>
+
+        <!-- Desmond -->
+        <a href="desmond-bio.html" class="staff-card">
+            <img src="desmond-portrait.png" class="portrait" alt="Desmond">
+            <div class="staff-name">Desmond Vex</div>
+            <div class="staff-role">Measured Dread</div>
+            <div class="description">Shadows, pipes, and psychological pressure. Archivist of umbrella factories.</div>
+        </a>
+
+        <!-- Hex -->
+        <a href="hex-bio.html" class="staff-card">
+            <img src="hex-portrait.png" class="portrait" alt="Hex Corbin">
+            <div class="staff-name">Hex Corbin</div>
+            <div class="staff-role">Gameplay Coder</div>
+            <div class="description">The logic of the nightmare. Puzzle-logic verification and assembly.</div>
+        </a>
+
+        <!-- Wren -->
+        <a href="wren-bio.html" class="staff-card">
+            <img src="wren-portrait.png" class="portrait" alt="Wren Catalyst">
+            <div class="staff-name">Wren Catalyst</div>
+            <div class="staff-role">Engine Architect</div>
+            <div class="description">The engine under the hood. Standard-game-runtime and infrastructure.</div>
+        </a>
+
+        <!-- Cipher -->
+        <a href="cipher-bio.html" class="staff-card">
+            <img src="cipher-portrait.png" class="portrait" alt="Cipher">
+            <div class="staff-name">Cipher</div>
+            <div class="staff-role">Glitch Nightmare</div>
+            <div class="description">A high-energy instigator of wet scrapes and terminal errors.</div>
+        </a>
+
+        <!-- Vesper -->
+        <a href="vesper-bio.html" class="staff-card">
+            <img src="vesper-portrait.png" class="portrait" alt="Vesper">
+            <div class="staff-name">Vesper Linecraft</div>
+            <div class="staff-role">SVG Architect</div>
+            <div class="description">Mathematical precision and clean code. She builds the vectors that bind the world.</div>
+        </a>
+
+        <!-- Iris -->
+        <a href="iris-bio.html" class="staff-card">
+            <img src="iris-portrait.png" class="portrait" alt="Iris">
+            <div class="staff-name">Iris</div>
+            <div class="staff-role">Visual Auditor</div>
+            <div class="description">Clinical oversight. She sees the world in Pass/Fail metadata.</div>
+        </a>
+
+        <!-- Lumen -->
+        <a href="lumen-bio.html" class="staff-card">
+            <img src="lumen-portrait.png" class="portrait" alt="Lumen">
+            <div class="staff-name">Lumen</div>
+            <div class="staff-role">Continuity Archivist</div>
+            <div class="description">Cosmic scale and lore continuity. Weaving the beginning into the end.</div>
+        </a>
+
+        <!-- The Voice -->
+        <a href="the-voice-bio.html" class="staff-card">
+            <img src="the-voice-portrait.png" class="portrait" alt="The Voice">
+            <div class="staff-name">The Voice</div>
+            <div class="staff-role">Dialogue Specialist</div>
+            <div class="description">Vocal texture and character cadence. The face of the soul.</div>
+        </a>
+
+        <!-- The Muse -->
+        <a href="the-muse-bio.html" class="staff-card">
+            <img src="the-muse-portrait.png" class="portrait" alt="The Muse">
+            <div class="staff-name">The Muse</div>
+            <div class="staff-role">Creative Angle</div>
+            <div class="description">Surreal metaphor and unlikely provocarion. Beauty in the macabre.</div>
+        </a>
+
+        <!-- The Instigator -->
+        <a href="instigator-bio.html" class="staff-card">
+            <img src="instigator-portrait.png" class="portrait" alt="The Instigator">
+            <div class="staff-name">The Instigator</div>
+            <div class="staff-role">Tension Specialist</div>
+            <div class="description">Crisis escalation and mature themes. No scene is ever truly "safe."</div>
+        </a>
+
+        <!-- The Editor -->
+        <a href="editor-bio.html" class="staff-card">
+            <img src="editor-portrait.png" class="portrait" alt="The Editor">
+            <div class="staff-name">The Editor</div>
+            <div class="staff-role">Prose Synthesis</div>
+            <div class="description">Merging every voice into one. The final cut before the curtain rises.</div>
+        </a>
+    </div>
+
+    <footer>
+        THE WORK ENDURETH. THE SEA DOES NOT FORGET.
+    </footer>
+
+</body>
+</html>

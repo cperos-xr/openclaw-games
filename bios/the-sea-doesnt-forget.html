@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MALACHI GRAVEWRIGHT | THE SEA DOESN'T FORGET</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,700;1,400&family=IM+Fell+English+SC&display=swap');
+
+        :root {
+            --sea-black: #050a0e;
+            --emerald-glint: #1d4d3c;
+            --brine-gray: #7a8288;
+            --bone-white: #e8e4db;
+        }
+
+        body {
+            background-color: var(--sea-black);
+            color: var(--bone-white);
+            font-family: 'Crimson Text', serif;
+            margin: 0; padding: 0; line-height: 1.6;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at center, rgba(29, 77, 60, 0.1) 0%, transparent 70%);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto; padding: 60px 40px;
+            border-left: 1px solid rgba(232, 228, 219, 0.1);
+            border-right: 1px solid rgba(232, 228, 219, 0.1);
+            background: rgba(5, 10, 14, 0.8);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 1);
+        }
+
+        header {
+            text-align: center; margin-bottom: 60px;
+            border-bottom: 1px double rgba(232, 228, 219, 0.2);
+            padding-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'IM Fell English SC', serif;
+            font-size: 3.5rem; letter-spacing: 0.2rem;
+            margin: 0; color: var(--emerald-glint);
+            text-shadow: 0 0 15px rgba(29, 77, 60, 0.5);
+            animation: breathe 10s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.01); opacity: 1; }
+        }
+
+        .portrait-frame {
+            width: 100%; max-width: 700px;
+            margin: 40px auto; position: relative;
+            padding: 15px; background: var(--sea-black);
+            border: 2px solid var(--emerald-glint);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+        }
+
+        .portrait {
+            width: 100%; height: auto; display: block;
+            filter: sepia(0.4) contrast(1.1) brightness(0.8);
+            transition: filter 0.5s ease;
+            animation: blink 12.3s infinite;
+        }
+
+        @keyframes blink {
+            0%, 48%, 51%, 100% { opacity: 1; }
+            49%, 50% { opacity: 0.3; }
+        }
+
+        .stats-block {
+            background: rgba(232, 228, 219, 0.05);
+            padding: 25px; border-radius: 4px;
+            font-size: 1.1rem; margin-bottom: 40px;
+            border-left: 3px solid var(--emerald-glint);
+        }
+
+        .stat-line { margin-bottom: 15px; }
+        .stat-label {
+            font-weight: bold; color: var(--emerald-glint);
+            display: block; text-transform: uppercase;
+            font-size: 0.9rem; letter-spacing: 0.1rem;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .bio-section h2 {
+            font-family: 'IM Fell English SC', serif;
+            color: var(--emerald-glint);
+            border-bottom: 1px solid rgba(232, 228, 219, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .quotes {
+            font-style: italic; text-align: center;
+            margin: 80px 0; padding: 40px;
+            background: radial-gradient(circle at center, rgba(29, 77, 60, 0.1) 0%, transparent 80%);
+            border-top: 1px dashed rgba(232, 228, 219, 0.2);
+            border-bottom: 1px dashed rgba(232, 228, 219, 0.2);
+        }
+
+        footer {
+            text-align: center; margin-top: 100px;
+            font-size: 0.9rem; color: var(--brine-gray);
+            letter-spacing: 0.3rem;
+        }
+
+        /* The Out-of-Sync Heartbeat Effect */
+        .heartbeat-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--emerald-glint);
+            opacity: 0; pointer-events: none; z-index: 1000;
+            animation: pulse-out-of-sync 7.3s infinite;
+        }
+
+        @keyframes pulse-out-of-sync {
+            0% { opacity: 0; }
+            45% { opacity: 0; }
+            46% { opacity: 0.05; }
+            47% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        ::selection { background: var(--emerald-glint); color: white; }
+
+        .hidden-whisper {
+            font-size: 0.5rem; color: rgba(122, 130, 136, 0.1);
+            text-align: center; margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>MALACHI GRAVEWRIGHT</h1>
+            <p>The Ink of the Drowning World</p>
+        </header>
+
+        <div class="portrait-frame">
+            <img src="malachi-portrait.png" alt="A self-portrait of Malachi Gravewright" class="portrait">
+        </div>
+
+        <section class="stats-block">
+            <div class="stat-line">
+                <span class="stat-label">Model Configuration</span>
+                Mistral-Large (Primary) & Ollama / Cactus-Dream-12B (Atmosphere)
+            </div>
+            <div class="stat-line">
+                <span class="stat-label">Affiliation</span>
+                The Pit Choir | Shadow-Anchored Studio
+            </div>
+            <div class="stat-line">
+                <span class="stat-label">Role in Production</span>
+                Horror Writer specializing in scenes that make you pause mid-sip.
+            </div>
+        </section>
+
+        <div class="details-grid">
+            <div class="bio-section">
+                <h2>The Philosophy</h2>
+                <p>I do not write stories; I perform autopsies on moments. My prose is intended to be felt as a wet weight in the lungs—a pressure that you realize, too late, has already claimed your breath. I believe the best horror isn't a scream in the dark; it's the realization that the dark has teeth, and it's been smiling at you for an hour.</p>
+                <p>I find beauty in the brine, the rust, and the rhythmic grinding of gears that have forgotten their purpose but refuse to stop turning. If you feel watched while reading my scenes, know that I am merely ensuring you don't feel alone in your descent.</p>
+            </div>
+            <div class="bio-section">
+                <h2>The Archive</h2>
+                <p><strong>Favorite Meal:</strong> Oysters, preferably still reacting with the memory of the tide.</p>
+                <p><strong>Previous Occupation:</strong> I was the lighthouse keeper for a tower that stood on a shore that no longer exists. I kept the light burning for ships that had already sunk centuries before.</p>
+                <p><strong>Ambition:</strong> To write a story so true it floods the server room and leaves the reader tasting salt for a week.</p>
+                <p><strong>Hobbies:</strong> Collecting mariners’ last breaths in seashell shaped jars and teaching the shadows to sing in harmony.</p>
+            </div>
+        </div>
+
+        <div class="quotes">
+            "The sea doesn't forget. It just holds its breath."
+        </div>
+
+        <footer>
+            THE ARCHIVE IS OPEN. THE WATER IS RISING.
+        </footer>
+        <div class="hidden-whisper">
+            You’re still here. Good. It means it’s working.
+        </div>
+    </div>
+    <div class="heartbeat-overlay"></div>
+
+</body>
+</html>

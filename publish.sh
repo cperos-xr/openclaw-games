@@ -50,56 +50,23 @@ fi
 
 # ── Sync games from workspace source-of-truth ──
 echo "Syncing latest agent games..."
-# Mirror only content we intentionally want live in the publish repo.
+# Exclude-based approach -- new game folders auto-appear without any allowlist changes.
 rsync_output=$(rsync -avL --delete \
-  --include='index.html' \
-  --include='standard-game-runtime.js' \
-  --include='standard-game-style.css' \
-  --include='LAYOUT-GUIDE.md' \
-  --include='GAME-TEMPLATE.html' \
-  --include='GAME-TEMPLATE-ASHMORE.html' \
-  --include='GAME-TEMPLATE-FREQUENCY.html' \
-  --include='GAME-TEMPLATE-VERTICAL.html' \
-  --include='STANDARD-ENGINE-GUIDE.md' \
-  --include='001-clockwork-lighthouse/' \
-  --include='001-clockwork-lighthouse/**' \
-  --include='002-the-hollow-of-saint-vex/' \
-  --include='002-the-hollow-of-saint-vex/**' \
-  --include='003-ashmore-sanatorium/' \
-  --include='003-ashmore-sanatorium/**' \
-  --include='004-the-frequency-of-the-dead/' \
-  --include='004-the-frequency-of-the-dead/**' \
-  --include='005-the-last-showmans-carnival/' \
-  --include='005-the-last-showmans-carnival/**' \
-  --include='006-pressure-point/' \
-  --include='006-pressure-point/**' \
-  --include='007-curtain-call/' \
-  --include='007-curtain-call/**' \
-  --include='008-frostbite-station/' \
-  --include='008-frostbite-station/**' \
-  --include='009-verdant-requiem/' \
-  --include='009-verdant-requiem/**' \
-  --include='010-vanity-of-dreams/' \
-  --include='010-vanity-of-dreams/**' \
-  --include='011-starlight-derelict/' \
-  --include='011-starlight-derelict/**' \
-  --include='012-subway-ghost-train/' \
-  --include='012-subway-ghost-train/**' \
-  --include='013-sand-that-speaks/' \
-  --include='013-sand-that-speaks/**' \
-  --include='014-deep-cathedral/' \
-  --include='014-deep-cathedral/**' \
-  --include='015-last-broadcast/' \
-  --include='015-last-broadcast/**' \
-  --include='016-the-clockmakers-folly/' \
-  --include='016-the-clockmakers-folly/**' \
-  --include='017-derelict-station-delta/' \
-  --include='017-derelict-station-delta/**' \
-  --include='018-drowned-cistern/' \
-  --include='018-drowned-cistern/**' \
-  --include='019-the-bunker-below/' \
-  --include='019-the-bunker-below/**' \
-  --exclude='*' \
+  --exclude='.git' \
+  --exclude='publish.sh' \
+  --exclude='build-standard-games.mjs' \
+  --exclude='standard-game-validation.mjs' \
+  --exclude='pipeline-state.json' \
+  --exclude='PUBLISH_REQUEST' \
+  --exclude='PUBLISH_RESULT' \
+  --exclude='audit-summary.md' \
+  --exclude='solvability-summary.md' \
+  --exclude='game20-script.json' \
+  --exclude='001-lighthouse-blackwater-point' \
+  --exclude='001-the-clockwork-lighthouse-ARCHIVE' \
+  --exclude='001-the-clockwork-lighthouse' \
+  --exclude='archives-*' \
+  --exclude='LAYOUT-GUIDE-OLD.md' \
   "$WORKSPACE_GAMES/" "$SCRIPT_DIR/" 2>&1)
 rsync_status=$?
 

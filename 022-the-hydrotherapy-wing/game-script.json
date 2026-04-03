@@ -1,0 +1,261 @@
+{
+  "id": "022-the-hydrotherapy-wing",
+  "title": "The Hydrotherapy Wing",
+  "description": "A Victorian-era sanatorium's abandoned hydrotherapy wing, where water-based treatments turned sinister.",
+  "artMode": "VECTOR",
+  "scenes": [
+    {
+      "id": "entrance-hall",
+      "name": "Entrance Hall",
+      "prose": "A grand Victorian entrance hall with marble floors and ornate tilework. Tall windows let in cold moonlight, casting long shadows across cracked plaster walls. A rusted iron gate blocks the passage to the hydrotherapy chambers.",
+      "exits": {
+        "north": "corridor"
+      },
+      "items": [
+        "rusted-key"
+      ],
+      "puzzles": [
+        "gate"
+      ],
+      "lookDescriptions": {
+        "room": "The once-elegant entrance is now decayed. Broken glass litters the floor. An iron gate stands partially open, leading deeper into the wing.",
+        "detail1": "The darkness presses against the edges of your vision.",
+        "detail2": "Something waits in the shadows ahead."
+      }
+    },
+    {
+      "id": "corridor",
+      "name": "Main Corridor",
+      "prose": "A long, dark corridor lined with peeling green paint and rusted copper pipes running along the ceiling. Broken porcelain tiles crunch underfoot. At the far end, a heavy wooden door stands ajar.",
+      "exits": {
+        "south": "entrance-hall",
+        "west": "treatment-room",
+        "east": "shower-chamber"
+      },
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "room": "The corridor stretches ahead, pipes dripping condensation. Water stains the walls in eerie patterns. A treatment room door is visible to the left.",
+        "detail1": "The darkness presses against the edges of your vision.",
+        "detail2": "Something waits in the shadows ahead."
+      }
+    },
+    {
+      "id": "treatment-room",
+      "name": "Treatment Room",
+      "prose": "A cramped treatment room with a rusted iron bathtub bolted to the floor. Medical instruments hang from hooks on cracked white tiles. Dried brown stains mar the porcelain surfaces.",
+      "exits": {
+        "east": "corridor"
+      },
+      "items": [
+        "cabinet-key"
+      ],
+      "puzzles": [
+        "cabinet"
+      ],
+      "lookDescriptions": {
+        "room": "The iron tub is stained with corrosion. Medical tools\u2014forceps, scalpels\u2014hang in a row. A small cabinet against the wall is locked.",
+        "detail1": "The darkness presses against the edges of your vision.",
+        "detail2": "Something waits in the shadows ahead."
+      }
+    },
+    {
+      "id": "shower-chamber",
+      "name": "Shower Chamber",
+      "prose": "A large tiled chamber with multiple shower heads descending from the ceiling like iron stalactites. The floor drains are clogged with dark debris. Steam wisps rise from cracks in the cold tiles.",
+      "exits": {
+        "west": "corridor",
+        "down": "plumbing-access"
+      },
+      "items": [
+        "floor-grate"
+      ],
+      "puzzles": [
+        "grate"
+      ],
+      "lookDescriptions": {
+        "room": "The shower heads loom overhead, rusted and menacing. The tilework shows intricate Victorian patterns now covered in grime. A floor grate is loose in one corner.",
+        "detail1": "The darkness presses against the edges of your vision.",
+        "detail2": "Something waits in the shadows ahead."
+      }
+    },
+    {
+      "id": "plumbing-access",
+      "name": "Plumbing Access Room",
+      "prose": "A cramped maintenance crawlspace beneath the hydrotherapy chambers. Thick pipes converge in a tangle of valves and pressure gauges. The air is thick with the smell of stagnant water and rust.",
+      "exits": {
+        "up": "shower-chamber",
+        "down": "final-chamber"
+      },
+      "items": [
+        "pressure-valve-handle"
+      ],
+      "puzzles": [
+        "valve"
+      ],
+      "lookDescriptions": {
+        "room": "A labyrinth of pipes and valves. A large central valve stands out\u2014one that could control the entire wing's water pressure. Tools are scattered on the metal grating floor.",
+        "detail1": "The darkness presses against the edges of your vision.",
+        "detail2": "Something waits in the shadows ahead."
+      }
+    },
+    {
+      "id": "final-chamber",
+      "name": "The Final Chamber",
+      "prose": "The heart of the hydrotherapy wing\u2014a vast circular chamber with a sunken pool at its center. Stained glass windows cast colored light through murky water. Ancient machinery surrounds the pool, waiting to be activated.",
+      "exits": {
+        "north": "corridor",
+        "up": "plumbing-access"
+      },
+      "items": [
+        "cogwheel",
+        "ancient-manual"
+      ],
+      "puzzles": [
+        "drain"
+      ],
+      "lookDescriptions": {
+        "room": "The pool dominates the room, its water black and still. Mechanical gears and chains line the walls. In the center of the pool, something glimmers beneath the surface.",
+        "detail1": "The darkness presses against the edges of your vision.",
+        "detail2": "Something waits in the shadows ahead."
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "rusted-key",
+      "name": "Rusted Iron Key",
+      "description": "A heavy iron key, its teeth eaten by rust. It bears a faded tag reading 'ENTRANCE GATE.'",
+      "foundIn": "entrance-hall",
+      "usedIn": "entrance-hall",
+      "usedOn": "gate"
+    },
+    {
+      "id": "scalpel",
+      "name": "Surgical Scalpel",
+      "description": "A steel scalpel with a wooden handle, its blade still sharp despite the years. Dried brown residue clings to the metal.",
+      "foundIn": "treatment-room",
+      "usedIn": "",
+      "usedOn": "examine"
+    },
+    {
+      "id": "cabinet-key",
+      "name": "Cabinet Key",
+      "description": "A small brass key stamped with 'MEDICAL CABINET.' The teeth are intact and clean.",
+      "foundIn": "treatment-room",
+      "usedIn": "treatment-room",
+      "usedOn": "cabinet"
+    },
+    {
+      "id": "floor-grate",
+      "name": "Floor Grate",
+      "description": "A square iron floor grate, heavy and cold. Removing it reveals a dark drain passage below.",
+      "foundIn": "shower-chamber",
+      "usedIn": "shower-chamber",
+      "usedOn": "drain"
+    },
+    {
+      "id": "pressure-valve-handle",
+      "name": "Pressure Valve Handle",
+      "description": "A large iron wheel with six spokes, designed to fit the central pressure valve in the plumbing room.",
+      "foundIn": "plumbing-access",
+      "usedIn": "plumbing-access",
+      "usedOn": "valve"
+    },
+    {
+      "id": "cogwheel",
+      "name": "Brass Cogwheel",
+      "description": "A heavy brass gear with precisely-cut teeth. It appears to be part of the pool's drain mechanism.",
+      "foundIn": "final-chamber",
+      "usedIn": "final-chamber",
+      "usedOn": "drain"
+    },
+    {
+      "id": "ancient-manual",
+      "name": "Operator's Manual",
+      "description": "A water-damaged booklet titled 'Hydrotherapy Machinery - Operating Instructions.' The pages are brittle but legible.",
+      "foundIn": "final-chamber",
+      "usedIn": "final-chamber",
+      "usedOn": "escape"
+    }
+  ],
+  "number": 22,
+  "layout": "standard",
+  "puzzles": [
+    {
+      "id": "gate",
+      "scene": "entrance-hall",
+      "requires": [
+        "rusted-key"
+      ],
+      "action": "use rusted-key on gate",
+      "result": "The rusted key turns with a grinding shriek. The iron gate swings open, revealing the dark corridor beyond.",
+      "blocksExit": {
+        "scene": "entrance-hall",
+        "direction": "north",
+        "blockedMessage": "The iron gate is locked. It needs a key."
+      }
+    },
+    {
+      "id": "cabinet",
+      "scene": "treatment-room",
+      "requires": [
+        "cabinet-key"
+      ],
+      "action": "use cabinet-key on cabinet",
+      "result": "The cabinet clicks open. Inside, lying on a stained cloth, is a surgical scalpel.",
+      "reveals": [
+        "scalpel"
+      ]
+    },
+    {
+      "id": "grate",
+      "scene": "shower-chamber",
+      "requires": [],
+      "action": "take floor-grate",
+      "result": "You heave the heavy grate aside, revealing a dark passage down into the plumbing below.",
+      "blocksExit": {
+        "scene": "shower-chamber",
+        "direction": "down",
+        "blockedMessage": "The drain passage is blocked by a heavy iron grate. You need to remove it."
+      }
+    },
+    {
+      "id": "valve",
+      "scene": "plumbing-access",
+      "requires": [
+        "pressure-valve-handle"
+      ],
+      "action": "use pressure-valve-handle on valve",
+      "result": "You turn the wheel. A deep groan echoes through the pipes, and the sound of rushing water fades. The pressure is released.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "plumbing-access",
+        "direction": "down",
+        "blockedMessage": "A heavy iron door blocks the passage down. The pressure valve must be turned first."
+      }
+    },
+    {
+      "id": "drain",
+      "scene": "final-chamber",
+      "requires": [
+        "cogwheel"
+      ],
+      "action": "use cogwheel on drain",
+      "result": "You slot the brass cogwheel into the mechanism. It meshes perfectly with a satisfying clack. The drain is now operational.",
+      "reveals": []
+    }
+  ],
+  "winCondition": {
+    "scene": "final-chamber",
+    "requires": [
+      "ancient-manual"
+    ],
+    "requiresFlags": [
+      "water_drained",
+      "drain_fixed"
+    ],
+    "description": "You drain the pool, revealing the ancient escape hatch. You climb out into the dawn light."
+  },
+  "slug": "the-hydrotherapy-wing"
+}

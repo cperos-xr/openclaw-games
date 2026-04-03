@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<!-- Silver polish tin -->
+<rect x="14" y="20" width="36" height="28" fill="#808080" stroke="#a0a0a0" stroke-width="2" rx="3"/>
+<!-- Lid -->
+<rect x="16" y="14" width="32" height="8" fill="#909090" stroke="#a0a0a0" stroke-width="1.5" rx="2"/>
+<!-- Label -->
+<rect x="18" y="24" width="28" height="20" fill="#909090" rx="1"/>
+<text x="32" y="32" text-anchor="middle" fill="#505050" font-size="6" font-family="monospace">SILVER</text>
+<text x="32" y="40" text-anchor="middle" fill="#505050" font-size="6" font-family="monospace">POLISH</text>
+<!-- Metallic shine on body -->
+<rect x="20" y="22" width="8" height="4" fill="#c0c0c0" opacity="0.4" rx="1"/>
+</svg>
