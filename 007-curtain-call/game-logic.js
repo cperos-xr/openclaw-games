@@ -350,7 +350,7 @@ function renderScene(sceneId) {
   sceneName.textContent = scene.name.toUpperCase();
 
   // Update art - check for scene-specific art
-  const artKey = 'scene-' + sceneId;
+  const artKey = sceneId;
   if (window.GAME_ART && window.GAME_ART[artKey]) {
     artDisplay.innerHTML = window.GAME_ART[artKey];
   } else {

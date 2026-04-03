@@ -2,6 +2,7 @@
   "title": "The Last Showman's Carnival",
   "slug": "the-last-showmans-carnival",
   "number": 5,
+  "layout": "vertical-carnival",
   "setting": "A derelict 1960s traveling carnival, abandoned for decades, with dark secrets buried beneath the rotting midway.",
   "characters": [
     {
@@ -187,7 +188,7 @@
   "puzzles": [
     {
       "id": "funhouse_padlock",
-      "scene": "funhouse",
+      "scene": "midway",
       "requires": [
         "rusty_key"
       ],
@@ -196,7 +197,8 @@
       "reveals": [
         "music_box"
       ],
-      "blocksExit": "funhouse_door"
+      "blocksExit": "funhouse_door",
+      "blockedMessage": "The funhouse door is secured by a heavy padlock and chain."
     },
     {
       "id": "gear_mechanism",

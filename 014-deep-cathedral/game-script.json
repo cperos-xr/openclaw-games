@@ -22,7 +22,7 @@
       "description": "A water-filled lantern that glows with a soft blue light, revealing hidden currents.",
       "foundIn": "entrance-cavern",
       "usedIn": "entrance-cavern",
-      "usedOn": "dark-depths"
+      "usedOn": "dark passage"
     },
     {
       "id": "ritual-bell",
@@ -63,8 +63,7 @@
       "name": "Entrance Cavern",
       "prose": "You swim into a vast underwater cave. Stalactites drip from the ceiling. faint chant echoes through the water. A broken railing leads deeper. The water here is dark and cold. A crystal lantern rests on a rock.",
       "exits": {
-        "east": "choir-aisle",
-        "south": "dark-depths"
+        "east": "choir-aisle"
       },
       "items": [
         "crystal-lantern"
@@ -74,7 +73,8 @@
       ],
       "lookDescriptions": {
         "railing": "It's carved with fish motifs, now corroded.",
-        "lantern": "It pulses with an inner blue flame that burns underwater."
+        "lantern": "It pulses with an inner blue flame that burns underwater.",
+        "dark passage": "A submerged cleft in the stone vanishes into black water. Without a light source, the current there feels deadly."
       }
     },
     {
@@ -164,6 +164,18 @@
         "beast": "It dreams of the surface. Its rage stirs.",
         "pit": "The pressure crushes. You must act quickly."
       }
+    },
+    {
+      "id": "escape-surface",
+      "name": "Escape Surface",
+      "prose": "You rise through a shaft of silver light and break the ocean's surface beneath a cold night sky. Behind you, the drowned cathedral sinks back into darkness. The chanting is gone. The sea is calm. You have survived the Deep Cathedral.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "sky": "Stars glitter above black water, clear and indifferent.",
+        "surface": "The sea heaves gently now that the sleeping thing below is calm."
+      }
     }
   ],
   "puzzles": [
@@ -174,13 +186,13 @@
         "crystal-lantern"
       ],
       "action": "use crystal-lantern to illuminate the dark passage",
-      "result": "The lantern's light pierces the murk, revealing a path through submerged rocks. You can now swim south.",
+      "result": "The lantern's light pierces the murk, revealing a safe route through the flooded ruin. You can now swim east.",
       "reveals": [
-        "dark-depths"
+        "choir-aisle"
       ],
       "blocksExit": {
         "scene": "entrance-cavern",
-        "direction": "south"
+        "direction": "east"
       },
       "blockedMessage": "The dark waters are too murky. You need a light to proceed."
     },
@@ -243,13 +255,15 @@
       ],
       "action": "use sacred-charm to calm the sleeping beast",
       "result": "The charm glows with a gentle light. The beast's eyes close, and it settles into peaceful slumber. The water calms, and a luminous escape tunnel appears. You surface into the night sea, free.",
-      "reveals": [],
+      "reveals": [
+        "escape-surface"
+      ],
       "blocksExit": {},
       "blockedMessage": ""
     }
   ],
   "winCondition": {
-    "scene": "depths-chamber",
+    "scene": "escape-surface",
     "requires": [],
     "description": "You break the surface of the ocean under a starry sky. The cathedral sinks back into the deep, its secrets kept. You have survived the Deep Cathedral."
   }

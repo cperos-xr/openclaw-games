@@ -1,250 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Frequency of the Dead | Game #4</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        /* ============================================================
-         * OPENCLAW GAME TEMPLATE v3.0 — MOBILE-FIRST
-         *
-         * ARCHITECTURE:
-         *   Mobile (<769px): Scrollable page. Art top. Content below.
-         *   Desktop (≥769px): Fixed 100vh. Art left 60%. Text right 40%.
-         *
-         * FIVE RULES THAT MUST NEVER BE BROKEN:
-         *   1. NEVER add height:100vh + overflow:hidden outside the desktop media query
-         *   2. NEVER set min-height > 0px on .art-panel at base/mobile level
-         *   3. ALWAYS use aspect-ratio: 8/5 (640x400) for the art panel on mobile
-         *   4. ALWAYS use min-height:44px on every clickable button (touch targets)
-         *   5. ALWAYS use flex-wrap:wrap on .command-bar and #exits-bar
-         * ============================================================ */
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        /* CRT scanline overlay */
-        body::after {
-            content: ''; position: fixed; inset: 0; z-index: 999; pointer-events: none;
-            background: repeating-linear-gradient(
-                transparent, transparent 2px,
-                rgba(0,0,0,0.10) 2px, rgba(0,0,0,0.10) 4px
-            );
-        }
-
-        /* ── MOBILE BASE (default, all screens) ─────────────────────
-         * Normal document flow. No height:100vh. No overflow:hidden.
-         * Everything stacks vertically and scrolls naturally.
-         * ──────────────────────────────────────────────────────────── */
-        body {
-            background: #000; color: #33ff33;
-            font-family: 'Press Start 2P', 'Courier New', monospace;
-            font-size: 11px; line-height: 1.6;
-            padding: 8px; max-width: 1200px; margin: 0 auto;
-            overflow-x: hidden; /* prevent horizontal scroll from oversized art */
-        }
-
-        header { text-align: center; padding-bottom: 8px; }
-        h1 { font-size: 13px; color: #33ff33; text-shadow: 0 0 8px #33ff33; margin-bottom: 4px; }
-        .subtitle { font-size: 8px; color: #226622; }
-
-        #scene-name {
-            font-size: 12px; text-align: center; color: #ffff33;
-            text-transform: uppercase; letter-spacing: 1px; padding: 6px 0;
-        }
-
-        /* Art panel: fills width, keeps 8:5 (640×400) aspect ratio.
-         * max-height: 56vw = ~210px on a 375px phone — art is clear but
-         * leaves plenty of room below for text and controls. */
-        .art-panel {
-            width: 100%; aspect-ratio: 8 / 5; max-height: 56vw;
-            border: 2px solid #33ff33; background: #111;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-        }
-        #art-display { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-        #art-display svg, #art-display img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-        .no-art { color: #226622; font-size: 9px; text-align: center; }
-
-        /* Text panel: plain block on mobile, no fixed height */
-        .text-panel {
-            border: 2px solid #33ff33; background: #111;
-            padding: 10px; margin-top: 8px;
-        }
-
-        /* Story text: scrollable, capped so it doesn't swallow the whole screen */
-        #text-display {
-            overflow-y: auto; max-height: 40vh;
-            border-bottom: 1px solid #226622; padding-bottom: 8px; margin-bottom: 8px;
-        }
-        #text-display p { margin-bottom: 8px; }
-        #text-display .system  { color: #33bbff; font-style: italic; }
-        #text-display .success { color: #ffff33; font-weight: bold; }
-        #text-display .locked  { color: #ff3333; }
-        #text-display .error   { color: #ff5555; }
-        .look-target { color: #ffff33; text-decoration: underline; cursor: pointer; }
-        .look-target:hover { color: #ffcc00; }
-
-        /* Command buttons: wrapping row, 44px tap targets */
-        .command-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-        .cmd-btn {
-            background: #000; color: #33ff33; border: 1px solid #33ff33;
-            padding: 10px 14px; min-height: 44px; min-width: 44px; flex: 1;
-            font-family: 'Press Start 2P', monospace; font-size: 9px; cursor: pointer;
-        }
-        .cmd-btn:hover, .cmd-btn.active { background: #33ff33; color: #000; }
-        #hint-toggle { flex: 0 0 auto; }
-
-        /* Inventory */
-        .inventory-panel { border: 1px solid #226622; background: #000; padding: 8px; margin-bottom: 8px; }
-        .inventory-panel h3 { font-size: 8px; color: #ffff33; margin-bottom: 6px; }
-        #inventory-bar { display: flex; flex-wrap: wrap; gap: 6px; min-height: 18px; }
-        #inv-empty { color: #226622; font-size: 9px; }
-        .inv-item {
-            border: 1px solid #33ff33; padding: 8px 10px; min-height: 36px;
-            font-family: inherit; font-size: 9px; cursor: pointer; background: #000; color: #33ff33;
-        }
-        .inv-item:hover, .inv-item.selected { background: #33ff33; color: #000; }
-
-        /* Exits */
-        .exits-panel { border: 1px solid #226622; background: #000; padding: 8px; }
-        .exits-panel h3 { font-size: 8px; color: #ffff33; margin-bottom: 6px; }
-        #exits-bar { display: flex; flex-wrap: wrap; gap: 6px; }
-        .exit-btn {
-            background: #000; color: #33ff33; border: 1px solid #33ff33;
-            padding: 10px 14px; min-height: 44px; min-width: 44px;
-            font-family: 'Press Start 2P', monospace; font-size: 9px; cursor: pointer;
-        }
-        .exit-btn.available:hover { background: #33ff33; color: #000; }
-        .exit-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-        .hint { color: #FFAA00 !important; font-style: italic; border-left: 2px solid #FFAA00; padding-left: 8px; margin: 5px 0; }
-        .hint::before { content: "HINT: "; font-weight: bold; }
-
-        footer { margin-top: 8px; text-align: center; font-size: 7px; color: #113311; padding: 8px 0; }
-
-        /* Animations */
-        @keyframes puzzle-solved {
-            0%   { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
-            50%  { filter: brightness(1.8) drop-shadow(0 0 20px #ffff33); }
-            100% { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
-        }
-        @keyframes itemGlow {
-            0%   { box-shadow: 0 0 4px #33ff33; }
-            50%  { box-shadow: 0 0 16px #33ff33; }
-            100% { box-shadow: 0 0 4px #33ff33; }
-        }
-        @keyframes unlockPulse {
-            0%, 100% { border-color: #33ff33; }
-            50% { border-color: #ffff33; box-shadow: 0 0 12px #ffff33; }
-        }
-        .puzzle-solved { animation: puzzle-solved 0.6s ease-out; }
-        .item-new { animation: itemGlow 1s ease-in-out 3; }
-        .newly-unlocked { animation: unlockPulse 1s ease 3; }
-
-        /* ── DESKTOP (≥769px): side-by-side, fits 100vh ─────────────
-         * Only here do we apply height:100vh + overflow:hidden.
-         * Flex layout with min-height:0 so panels can shrink properly.
-         * ──────────────────────────────────────────────────────────── */
-        @media (min-width: 769px) {
-            body {
-                display: flex; flex-direction: column;
-                height: 100vh; overflow: hidden;
-                font-size: 12px; padding: 12px;
-            }
-            header { flex-shrink: 0; margin-bottom: 6px; }
-            h1 { font-size: 16px; }
-            .subtitle { font-size: 9px; }
-            #scene-name { font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; flex-shrink: 0; }
-
-            .game-container {
-                display: flex; flex: 1; gap: 12px;
-                min-height: 0; /* CRITICAL: lets flex children shrink below content height */
-            }
-            .art-panel {
-                flex: 3; aspect-ratio: unset; max-height: none; /* flex dictates height */
-                margin-top: 0;
-            }
-            .text-panel {
-                flex: 2; display: flex; flex-direction: column;
-                overflow: hidden; margin-top: 0;
-            }
-            #text-display { flex: 1; max-height: none; overflow-y: auto; }
-            .cmd-btn    { flex: 1; padding: 6px 10px; min-height: 36px; }
-            .exit-btn   { padding: 6px 10px; min-height: 36px; }
-            .inv-item   { padding: 4px 8px; min-height: 30px; }
-            footer { flex-shrink: 0; }
-        }
-
-        /* ── LANDSCAPE MOBILE (short + wide) ───────────────────────── */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .game-container { display: flex !important; flex-direction: row !important; }
-            .art-panel { flex: 1; aspect-ratio: unset; max-height: none; }
-            .text-panel { flex: 1; overflow-y: auto; }
-            #text-display { max-height: 45vh; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Frequency of the Dead | Game #004</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../standard-game-style.css">
 </head>
-<body>
-
-<header>
+<body class="openclaw-game layout-standard" data-layout="standard">
+  <header>
     <h1>THE FREQUENCY OF THE DEAD</h1>
-    <div class="subtitle">OpenClaw Adventures — Game #4</div>
-</header>
+    <div class="subtitle">OpenClaw Adventures - Game #004</div>
+  </header>
 
-<div id="scene-name">The Lobby</div>
+  <div id="scene-name">THE LOBBY</div>
 
-<div class="game-container">
-    <!-- Art panel: 640x400 SVG art, scales to fill panel -->
+  <div class="game-container">
     <div class="art-panel">
-        <div id="art-display">
-            <span class="no-art">[ART LOADING]</span>
-        </div>
+      <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+      </div>
     </div>
 
-    <!-- Text panel: narrative, commands, inventory, exits -->
     <div class="text-panel">
-        <div id="text-display"></div>
+      <div id="text-display"></div>
 
-        <div class="command-bar">
-            <button class="cmd-btn" data-cmd="look">LOOK</button>
-            <button class="cmd-btn" data-cmd="take">TAKE</button>
-            <button class="cmd-btn" data-cmd="use">USE</button>
-            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
-            <button id="hint-toggle" class="cmd-btn">HINTS: ON</button>
-            <button id="reset-btn" class="cmd-btn reset-btn" style="color:#ff6666;border-color:#ff6666;">RESET</button>
-        </div>
+      <div id="command-status" class="status-line"></div>
 
-        <div class="inventory-panel">
-            <h3>INVENTORY</h3>
-            <div id="inventory-bar">
-                <span id="inv-empty">(empty)</span>
-            </div>
-        </div>
+      <div class="command-bar">
+        <button class="cmd-btn active" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      </div>
 
-        <div class="exits-panel">
-            <h3>EXITS</h3>
-            <div id="exits-bar"></div>
+      <div class="subpanel targets-panel">
+        <h3>TARGETS</h3>
+        <div id="targets-bar"></div>
+      </div>
+
+      <div class="subpanel inventory-panel">
+        <h3>INVENTORY</h3>
+        <div id="inventory-bar">
+          <span class="empty-state">(empty)</span>
         </div>
+      </div>
+
+      <div class="subpanel exits-panel">
+        <h3>EXITS</h3>
+        <div id="exits-bar"></div>
+      </div>
+
+      <div class="utility-bar">
+        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+        <button id="reset-game" class="utility-btn">RESET</button>
+      </div>
     </div>
-</div>
+  </div>
 
-<footer>
-    OpenClaw Point &amp; Click Studio | LOOK · TAKE · USE · EXAMINE | Click exits to move | /restart to reset
-</footer>
+  <footer>
+    OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
+  </footer>
 
-<script>
-// ============================================================
-// THE FREQUENCY OF THE DEAD — Game Logic
-// Generated by Gameplay Coder (Hex Corbin)
-// ============================================================
-
-var GAME_DATA = {
+  <script>
+window.GAME_DATA = {
   "title": "The Frequency of the Dead",
   "slug": "the-frequency-of-the-dead",
   "number": 4,
   "setting": "WXBH — an abandoned 1930s coastal radio broadcast station perched on a fog-shrouded cliff. Art Deco decay, phantom broadcasts, electromagnetic dread.",
-
+  "characters": [
+    {
+      "id": "dead-announcer",
+      "name": "Marcus Webb",
+      "description": "WXBH's final announcer. Found as a perfect dust outline in the control booth. His last broadcast echoes through the static, a man who talked into the void until the void answered back."
+    },
+    {
+      "id": "dr-holloway",
+      "name": "Dr. Helen Holloway",
+      "description": "Parapsychologist who was studying the station's supernatural phenomena. Her journal in the archives reveals her attempt to contact the dead through radio frequency manipulation. Her final entry is frantic and unfinished."
+    }
+  ],
   "items": [
     {
       "id": "brass-relay",
@@ -295,7 +130,6 @@ var GAME_DATA = {
       "usedOn": "puzzle-5"
     }
   ],
-
   "scenes": [
     {
       "id": "lobby",
@@ -304,7 +138,9 @@ var GAME_DATA = {
       "exits": {
         "east": "transmitter-room"
       },
-      "items": ["brass-relay"],
+      "items": [
+        "brass-relay"
+      ],
       "puzzles": [],
       "lookDescriptions": {
         "reception desk": "A heavy oak desk coated in dust. The appointments ledger shows entries stopping abruptly on October 31, 1937.",
@@ -320,8 +156,13 @@ var GAME_DATA = {
         "west": "control-booth",
         "south": "lobby"
       },
-      "items": ["power-fuse"],
-      "puzzles": ["puzzle-1", "puzzle-2"],
+      "items": [
+        "power-fuse"
+      ],
+      "puzzles": [
+        "puzzle-1",
+        "puzzle-2"
+      ],
       "lookDescriptions": {
         "fuse box": "A rusted metal box with multiple slots for relays and fuses. The bottom-right slot is empty, waiting for a component.",
         "broadcasting console": "A massive control panel with dozens of dials and switches. They're all frozen at strange, impossible frequencies that don't correspond to any known radio band.",
@@ -338,8 +179,12 @@ var GAME_DATA = {
         "north": "sound-booth",
         "down": "archives"
       },
-      "items": ["studio-key"],
-      "puzzles": ["puzzle-3"],
+      "items": [
+        "studio-key"
+      ],
+      "puzzles": [
+        "puzzle-3"
+      ],
       "lookDescriptions": {
         "mixing board": "A massive audio mixing console covered in scorch marks. The faders are fused in place, as if something surged through them.",
         "reel-to-reel machines": "Two professional tape decks, their reels full of magnetic tape. One machine has tape stretched taut, as if it snapped during playback.",
@@ -354,8 +199,12 @@ var GAME_DATA = {
       "exits": {
         "south": "control-booth"
       },
-      "items": ["frequency-code-scroll"],
-      "puzzles": ["puzzle-4"],
+      "items": [
+        "frequency-code-scroll"
+      ],
+      "puzzles": [
+        "puzzle-4"
+      ],
       "lookDescriptions": {
         "microphone stand": "A skeletal metal stand reaching upward, as if grasping for a microphone that's long gone.",
         "acoustic foam": "Diamond-patterned foam covering every surface. It feels unnervingly soft, like dead flesh.",
@@ -371,8 +220,13 @@ var GAME_DATA = {
         "up": "rooftop",
         "upstairs": "control-booth"
       },
-      "items": ["maintenance-wrench", "antenna-crystal"],
-      "puzzles": ["puzzle-5"],
+      "items": [
+        "maintenance-wrench",
+        "antenna-crystal"
+      ],
+      "puzzles": [
+        "puzzle-5"
+      ],
       "lookDescriptions": {
         "filing cabinets": "Rows of metal cabinets stuffed with research papers. Each drawer is labeled with frequency ranges and dates from 1935-1937.",
         "Dr. Holloway's journal": "A leather-bound journal open to the final page. The handwriting grows progressively shakier, ending mid-sentence: 'The frequency is not empty. It's watching—'",
@@ -405,7 +259,9 @@ var GAME_DATA = {
         "out": "rooftop"
       },
       "items": [],
-      "puzzles": ["puzzle-5"],
+      "puzzles": [
+        "puzzle-5"
+      ],
       "lookDescriptions": {
         "transmission coil": "Massive copper windings that hum with latent energy. They seem to pulse in time with your heartbeat.",
         "crystalline socket": "Now occupied by the antenna crystal, which glows with soft inner light. The crystal vibrates in harmony with the coil.",
@@ -413,515 +269,163 @@ var GAME_DATA = {
       }
     }
   ],
-
   "puzzles": [
     {
       "id": "puzzle-1",
       "scene": "transmitter-room",
-      "requires": ["brass-relay"],
+      "requires": [
+        "brass-relay"
+      ],
       "action": "use brass-relay on fuse-box",
       "result": "The brass relay clicks into place with a satisfying thunk. Lights flicker to life across the transmitter room — the vacuum tubes glow brighter, and a soft hum fills the air. From a hidden compartment in the fuse box, a ceramic power fuse drops into your hand.",
-      "reveals": ["power-fuse"],
+      "reveals": [
+        "power-fuse"
+      ],
       "blocksExit": "west"
     },
     {
       "id": "puzzle-2",
       "scene": "control-booth",
-      "requires": ["power-fuse"],
+      "requires": [
+        "power-fuse"
+      ],
       "action": "use power-fuse on mixing-board power-port",
       "result": "You slot the power fuse into the mixing board's port. With a crackle of static, the board lights up — dials glow amber, and the scorch marks seem to pulse. From a hook beside the sound booth window, a brass studio key falls, clattering to the floor.",
-      "reveals": ["studio-key"],
-      "blocksExit": ""
+      "reveals": [
+        "studio-key"
+      ],
+      "blocksExit": "north"
     },
     {
       "id": "puzzle-3",
       "scene": "control-booth",
-      "requires": ["studio-key"],
+      "requires": [
+        "studio-key"
+      ],
       "action": "use studio-key on sound-booth-door",
       "result": "The key turns smoothly in the lock. The sound booth door swings open with a pneumatic hiss, revealing the acoustic chamber beyond. The air from inside feels unnaturally still, as if sound itself has been vacuumed out.",
-      "reveals": ["sound-booth"],
+      "reveals": [
+        "sound-booth"
+      ],
       "blocksExit": "north"
     },
     {
       "id": "puzzle-4",
       "scene": "archives",
-      "requires": ["frequency-code-scroll"],
+      "requires": [
+        "frequency-code-scroll"
+      ],
       "action": "enter code 7-3-1-9 on lockbox",
       "result": "You dial 7-3-1-9 on the lockbox. With a sharp click, the lid pops open. Inside, you find a heavy maintenance wrench and a clear quartz crystal that pulses with faint inner light.",
-      "reveals": ["maintenance-wrench", "antenna-crystal"],
+      "reveals": [
+        "maintenance-wrench",
+        "antenna-crystal"
+      ],
       "blocksExit": ""
     },
     {
       "id": "puzzle-5",
       "scene": "antenna-tower",
-      "requires": ["maintenance-wrench", "antenna-crystal"],
+      "requires": [
+        "maintenance-wrench",
+        "antenna-crystal"
+      ],
       "action": "use maintenance-wrench on service-panel, then antenna-crystal on crystalline-socket",
       "result": "You tighten the service panel bolts with the wrench, securing the panel fully open. Then you place the antenna crystal into the socket. It slots home perfectly. The crystal erupts with brilliant white light, and the transmission coil hums to life — a deep, resonant frequency that shakes the entire tower. Through the static, a voice emerges: Marcus Webb's final broadcast, completing the sentence he left unfinished decades ago: '...and now I see you.' The broadcast completes. The fog parts. The station falls silent at last.",
       "reveals": [],
       "blocksExit": ""
     }
   ],
-
   "winCondition": {
     "scene": "antenna-tower",
-    "requires": ["maintenance-wrench", "antenna-crystal"],
+    "requires": [
+      "maintenance-wrench",
+      "antenna-crystal"
+    ],
     "description": "Repair the antenna tower by securing the service panel with the wrench and installing the antenna crystal. This completes Marcus Webb's final broadcast, freeing the station from its decades-long haunting."
   }
 };
-
 window.GAME_ART = {
-  "scene-lobby": '<img src="art/scene-lobby.png" alt="scene-lobby">',
-  "scene-transmitter-room": '<img src="art/scene-transmitter-room.png" alt="scene-transmitter-room">',
-  "scene-control-booth": '<img src="art/scene-control-booth.png" alt="scene-control-booth">',
-  "scene-sound-booth": '<img src="art/scene-sound-booth.png" alt="scene-sound-booth">',
-  "scene-archives": '<img src="art/scene-archives.png" alt="scene-archives">',
-  "scene-rooftop": '<img src="art/scene-rooftop.png" alt="scene-rooftop">',
-  "scene-antenna-tower": '<img src="art/scene-antenna-tower.png" alt="scene-antenna-tower">'
+  "item-antenna-crystal": "<img src=\"art/item-antenna-crystal.png\" alt=\"item-antenna-crystal\" loading=\"lazy\">",
+  "ITEM-ANTENNA-CRYSTAL": "<img src=\"art/item-antenna-crystal.png\" alt=\"item-antenna-crystal\" loading=\"lazy\">",
+  "antenna-crystal": "<img src=\"art/item-antenna-crystal.png\" alt=\"item-antenna-crystal\" loading=\"lazy\">",
+  "ANTENNA-CRYSTAL": "<img src=\"art/item-antenna-crystal.png\" alt=\"item-antenna-crystal\" loading=\"lazy\">",
+  "item_antenna_crystal": "<img src=\"art/item-antenna-crystal.png\" alt=\"item-antenna-crystal\" loading=\"lazy\">",
+  "scene-antenna-crystal": "<img src=\"art/item-antenna-crystal.png\" alt=\"item-antenna-crystal\" loading=\"lazy\">",
+  "item-brass-relay": "<img src=\"art/item-brass-relay.png\" alt=\"item-brass-relay\" loading=\"lazy\">",
+  "ITEM-BRASS-RELAY": "<img src=\"art/item-brass-relay.png\" alt=\"item-brass-relay\" loading=\"lazy\">",
+  "brass-relay": "<img src=\"art/item-brass-relay.png\" alt=\"item-brass-relay\" loading=\"lazy\">",
+  "BRASS-RELAY": "<img src=\"art/item-brass-relay.png\" alt=\"item-brass-relay\" loading=\"lazy\">",
+  "item_brass_relay": "<img src=\"art/item-brass-relay.png\" alt=\"item-brass-relay\" loading=\"lazy\">",
+  "scene-brass-relay": "<img src=\"art/item-brass-relay.png\" alt=\"item-brass-relay\" loading=\"lazy\">",
+  "item-frequency-code-scroll": "<img src=\"art/item-frequency-code-scroll.png\" alt=\"item-frequency-code-scroll\" loading=\"lazy\">",
+  "ITEM-FREQUENCY-CODE-SCROLL": "<img src=\"art/item-frequency-code-scroll.png\" alt=\"item-frequency-code-scroll\" loading=\"lazy\">",
+  "frequency-code-scroll": "<img src=\"art/item-frequency-code-scroll.png\" alt=\"item-frequency-code-scroll\" loading=\"lazy\">",
+  "FREQUENCY-CODE-SCROLL": "<img src=\"art/item-frequency-code-scroll.png\" alt=\"item-frequency-code-scroll\" loading=\"lazy\">",
+  "item_frequency_code_scroll": "<img src=\"art/item-frequency-code-scroll.png\" alt=\"item-frequency-code-scroll\" loading=\"lazy\">",
+  "scene-frequency-code-scroll": "<img src=\"art/item-frequency-code-scroll.png\" alt=\"item-frequency-code-scroll\" loading=\"lazy\">",
+  "item-maintenance-wrench": "<img src=\"art/item-maintenance-wrench.png\" alt=\"item-maintenance-wrench\" loading=\"lazy\">",
+  "ITEM-MAINTENANCE-WRENCH": "<img src=\"art/item-maintenance-wrench.png\" alt=\"item-maintenance-wrench\" loading=\"lazy\">",
+  "maintenance-wrench": "<img src=\"art/item-maintenance-wrench.png\" alt=\"item-maintenance-wrench\" loading=\"lazy\">",
+  "MAINTENANCE-WRENCH": "<img src=\"art/item-maintenance-wrench.png\" alt=\"item-maintenance-wrench\" loading=\"lazy\">",
+  "item_maintenance_wrench": "<img src=\"art/item-maintenance-wrench.png\" alt=\"item-maintenance-wrench\" loading=\"lazy\">",
+  "scene-maintenance-wrench": "<img src=\"art/item-maintenance-wrench.png\" alt=\"item-maintenance-wrench\" loading=\"lazy\">",
+  "item-power-fuse": "<img src=\"art/item-power-fuse.png\" alt=\"item-power-fuse\" loading=\"lazy\">",
+  "ITEM-POWER-FUSE": "<img src=\"art/item-power-fuse.png\" alt=\"item-power-fuse\" loading=\"lazy\">",
+  "power-fuse": "<img src=\"art/item-power-fuse.png\" alt=\"item-power-fuse\" loading=\"lazy\">",
+  "POWER-FUSE": "<img src=\"art/item-power-fuse.png\" alt=\"item-power-fuse\" loading=\"lazy\">",
+  "item_power_fuse": "<img src=\"art/item-power-fuse.png\" alt=\"item-power-fuse\" loading=\"lazy\">",
+  "scene-power-fuse": "<img src=\"art/item-power-fuse.png\" alt=\"item-power-fuse\" loading=\"lazy\">",
+  "item-studio-key": "<img src=\"art/item-studio-key.png\" alt=\"item-studio-key\" loading=\"lazy\">",
+  "ITEM-STUDIO-KEY": "<img src=\"art/item-studio-key.png\" alt=\"item-studio-key\" loading=\"lazy\">",
+  "studio-key": "<img src=\"art/item-studio-key.png\" alt=\"item-studio-key\" loading=\"lazy\">",
+  "STUDIO-KEY": "<img src=\"art/item-studio-key.png\" alt=\"item-studio-key\" loading=\"lazy\">",
+  "item_studio_key": "<img src=\"art/item-studio-key.png\" alt=\"item-studio-key\" loading=\"lazy\">",
+  "scene-studio-key": "<img src=\"art/item-studio-key.png\" alt=\"item-studio-key\" loading=\"lazy\">",
+  "scene-antenna-tower": "<img src=\"art/scene-antenna-tower.png\" alt=\"scene-antenna-tower\" loading=\"lazy\">",
+  "SCENE-ANTENNA-TOWER": "<img src=\"art/scene-antenna-tower.png\" alt=\"scene-antenna-tower\" loading=\"lazy\">",
+  "antenna-tower": "<img src=\"art/scene-antenna-tower.png\" alt=\"scene-antenna-tower\" loading=\"lazy\">",
+  "ANTENNA-TOWER": "<img src=\"art/scene-antenna-tower.png\" alt=\"scene-antenna-tower\" loading=\"lazy\">",
+  "scene_antenna_tower": "<img src=\"art/scene-antenna-tower.png\" alt=\"scene-antenna-tower\" loading=\"lazy\">",
+  "item-antenna-tower": "<img src=\"art/scene-antenna-tower.png\" alt=\"scene-antenna-tower\" loading=\"lazy\">",
+  "scene-archives": "<img src=\"art/scene-archives.png\" alt=\"scene-archives\" loading=\"lazy\">",
+  "SCENE-ARCHIVES": "<img src=\"art/scene-archives.png\" alt=\"scene-archives\" loading=\"lazy\">",
+  "archives": "<img src=\"art/scene-archives.png\" alt=\"scene-archives\" loading=\"lazy\">",
+  "ARCHIVES": "<img src=\"art/scene-archives.png\" alt=\"scene-archives\" loading=\"lazy\">",
+  "scene_archives": "<img src=\"art/scene-archives.png\" alt=\"scene-archives\" loading=\"lazy\">",
+  "item-archives": "<img src=\"art/scene-archives.png\" alt=\"scene-archives\" loading=\"lazy\">",
+  "scene-control-booth": "<img src=\"art/scene-control-booth.png\" alt=\"scene-control-booth\" loading=\"lazy\">",
+  "SCENE-CONTROL-BOOTH": "<img src=\"art/scene-control-booth.png\" alt=\"scene-control-booth\" loading=\"lazy\">",
+  "control-booth": "<img src=\"art/scene-control-booth.png\" alt=\"scene-control-booth\" loading=\"lazy\">",
+  "CONTROL-BOOTH": "<img src=\"art/scene-control-booth.png\" alt=\"scene-control-booth\" loading=\"lazy\">",
+  "scene_control_booth": "<img src=\"art/scene-control-booth.png\" alt=\"scene-control-booth\" loading=\"lazy\">",
+  "item-control-booth": "<img src=\"art/scene-control-booth.png\" alt=\"scene-control-booth\" loading=\"lazy\">",
+  "scene-lobby": "<img src=\"art/scene-lobby.png\" alt=\"scene-lobby\" loading=\"lazy\">",
+  "SCENE-LOBBY": "<img src=\"art/scene-lobby.png\" alt=\"scene-lobby\" loading=\"lazy\">",
+  "lobby": "<img src=\"art/scene-lobby.png\" alt=\"scene-lobby\" loading=\"lazy\">",
+  "LOBBY": "<img src=\"art/scene-lobby.png\" alt=\"scene-lobby\" loading=\"lazy\">",
+  "scene_lobby": "<img src=\"art/scene-lobby.png\" alt=\"scene-lobby\" loading=\"lazy\">",
+  "item-lobby": "<img src=\"art/scene-lobby.png\" alt=\"scene-lobby\" loading=\"lazy\">",
+  "scene-rooftop": "<img src=\"art/scene-rooftop.png\" alt=\"scene-rooftop\" loading=\"lazy\">",
+  "SCENE-ROOFTOP": "<img src=\"art/scene-rooftop.png\" alt=\"scene-rooftop\" loading=\"lazy\">",
+  "rooftop": "<img src=\"art/scene-rooftop.png\" alt=\"scene-rooftop\" loading=\"lazy\">",
+  "ROOFTOP": "<img src=\"art/scene-rooftop.png\" alt=\"scene-rooftop\" loading=\"lazy\">",
+  "scene_rooftop": "<img src=\"art/scene-rooftop.png\" alt=\"scene-rooftop\" loading=\"lazy\">",
+  "item-rooftop": "<img src=\"art/scene-rooftop.png\" alt=\"scene-rooftop\" loading=\"lazy\">",
+  "scene-sound-booth": "<img src=\"art/scene-sound-booth.png\" alt=\"scene-sound-booth\" loading=\"lazy\">",
+  "SCENE-SOUND-BOOTH": "<img src=\"art/scene-sound-booth.png\" alt=\"scene-sound-booth\" loading=\"lazy\">",
+  "sound-booth": "<img src=\"art/scene-sound-booth.png\" alt=\"scene-sound-booth\" loading=\"lazy\">",
+  "SOUND-BOOTH": "<img src=\"art/scene-sound-booth.png\" alt=\"scene-sound-booth\" loading=\"lazy\">",
+  "scene_sound_booth": "<img src=\"art/scene-sound-booth.png\" alt=\"scene-sound-booth\" loading=\"lazy\">",
+  "item-sound-booth": "<img src=\"art/scene-sound-booth.png\" alt=\"scene-sound-booth\" loading=\"lazy\">",
+  "scene-transmitter-room": "<img src=\"art/scene-transmitter-room.png\" alt=\"scene-transmitter-room\" loading=\"lazy\">",
+  "SCENE-TRANSMITTER-ROOM": "<img src=\"art/scene-transmitter-room.png\" alt=\"scene-transmitter-room\" loading=\"lazy\">",
+  "transmitter-room": "<img src=\"art/scene-transmitter-room.png\" alt=\"scene-transmitter-room\" loading=\"lazy\">",
+  "TRANSMITTER-ROOM": "<img src=\"art/scene-transmitter-room.png\" alt=\"scene-transmitter-room\" loading=\"lazy\">",
+  "scene_transmitter_room": "<img src=\"art/scene-transmitter-room.png\" alt=\"scene-transmitter-room\" loading=\"lazy\">",
+  "item-transmitter-room": "<img src=\"art/scene-transmitter-room.png\" alt=\"scene-transmitter-room\" loading=\"lazy\">"
 };
-
-// ---- Game State ----
-var state = {
-  currentScene: 'lobby',
-  inventory: [],
-  solvedPuzzles: [],
-  visitedScenes: ['lobby'],
-  activeCommand: null,
-  selectedItem: null,
-  won: false
-};
-
-// ---- DOM References ----
-var artDisplay = document.getElementById('art-display');
-var sceneName = document.getElementById('scene-name');
-var textDisplay = document.getElementById('text-display');
-var invBar = document.getElementById('inventory-bar');
-var exitsBar = document.getElementById('exits-bar');
-
-// ---- Display Functions ----
-function addText(text, cls = '') {
-  const p = document.createElement('p');
-  p.className = cls;
-  p.innerHTML = text;
-  textDisplay.appendChild(p);
-  textDisplay.scrollTop = textDisplay.scrollHeight;
-}
-
-function clearText() { textDisplay.innerHTML = ''; }
-
-// ---- Locked Exit Logic ----
-// Puzzle blocksExit format in this game is just a direction string like "west"
-// We need to map that to a blocking puzzle per scene.
-function isExitLocked(sceneId, direction) {
-  // Find any unsolved puzzle in this scene that blocks this direction
-  return GAME_DATA.puzzles.some(p =>
-    p.scene === sceneId &&
-    p.blocksExit === direction &&
-    !state.solvedPuzzles.includes(p.id)
-  );
-}
-
-function getBlockedMessage(sceneId, direction) {
-  const puzzle = GAME_DATA.puzzles.find(p =>
-    p.scene === sceneId &&
-    p.blocksExit === direction &&
-    !state.solvedPuzzles.includes(p.id)
-  );
-  if (!puzzle) return null;
-  // Return a generic blocked message based on the scene/direction
-  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
-  const messages = {
-    'transmitter-room:west': 'The corridor to the control booth is sealed shut. Something mechanical is blocking the way — a heavy bolt or latch that needs engaging from this side.',
-    'control-booth:north': 'The sound booth door is locked tight. You need a key.',
-    'sound-booth:south': 'The door seals shut behind you with a pneumatic hiss. It will only open once its purpose has been served... or perhaps from the other side.'
-  };
-  const key = sceneId + ':' + direction;
-  return messages[key] || 'The way ' + direction + ' is blocked. Something prevents you from going that way.';
-}
-
-// ---- Scene Rendering ----
-function renderScene(sceneId) {
-  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
-  if (!scene) { addText('ERROR: Scene not found!', 'error'); return; }
-
-  state.currentScene = sceneId;
-  if (!state.visitedScenes.includes(sceneId)) state.visitedScenes.push(sceneId);
-
-  // Update scene name
-  sceneName.textContent = scene.name.toUpperCase();
-
-  // Update art
-  const artKey = 'scene-' + sceneId;
-  if (window.GAME_ART && window.GAME_ART[artKey]) {
-    artDisplay.innerHTML = window.GAME_ART[artKey];
-  } else {
-    artDisplay.innerHTML = '<span class="no-art">[ ' + scene.name.toUpperCase() + ' ]</span>';
-  }
-
-  // Display prose
-  clearText();
-  addText(scene.prose);
-
-  // Show available items (not yet taken)
-  const availableItems = (scene.items || []).filter(itemId =>
-    !state.inventory.includes(itemId) && !state.solvedPuzzles.some(pid => {
-      const p = GAME_DATA.puzzles.find(x => x.id === pid);
-      return p && p.reveals && p.reveals.includes(itemId);
-    })
-  );
-  if (availableItems.length > 0) {
-    const itemNames = availableItems.map(id => {
-      const item = GAME_DATA.items.find(i => i.id === id);
-      return item ? `<span class="look-target" data-look="${id}">${item.name}</span>` : id;
-    });
-    addText('You notice: ' + itemNames.join(', '), 'system');
-  }
-
-  // Show unsolved puzzles
-  const scenePuzzles = (scene.puzzles || []).filter(pid =>
-    !state.solvedPuzzles.includes(pid)
-  );
-  scenePuzzles.forEach(pid => {
-    const puzzle = GAME_DATA.puzzles.find(p => p.id === pid);
-    if (puzzle && !puzzle.blocksExit) {
-      addText('There is something here that catches your attention...', 'system');
-    }
-  });
-
-  // Render exits
-  renderExits(scene.exits || {});
-
-  // Render inventory
-  renderInventory();
-
-  // Check win condition
-  checkWin();
-
-  // Save state
-  saveState();
-}
-
-function renderExits(exits) {
-  exitsBar.innerHTML = '';
-  Object.keys(exits).forEach(dir => {
-    const targetScene = exits[dir];
-    const locked = isExitLocked(state.currentScene, dir);
-    const btn = document.createElement('button');
-    btn.className = 'exit-btn' + (locked ? '' : ' available');
-    btn.textContent = dir.toUpperCase();
-    if (locked) {
-      btn.onclick = () => {
-        const msg = getBlockedMessage(state.currentScene, dir);
-        addText(msg || 'The way ' + dir + ' is blocked.', 'locked');
-      };
-    } else {
-      btn.onclick = () => go(targetScene);
-    }
-    exitsBar.appendChild(btn);
-  });
-}
-
-function renderInventory() {
-  const items = invBar.querySelectorAll('.inv-item');
-  items.forEach(el => el.remove());
-  const empty = document.getElementById('inv-empty');
-
-  if (state.inventory.length === 0) {
-    if (empty) empty.style.display = '';
-  } else {
-    if (empty) empty.style.display = 'none';
-    state.inventory.forEach(itemId => {
-      const item = GAME_DATA.items.find(i => i.id === itemId);
-      if (!item) return;
-      const el = document.createElement('span');
-      el.className = 'inv-item' + (state.selectedItem === itemId ? ' selected' : '');
-      el.textContent = item.name;
-      el.onclick = () => selectItem(itemId);
-      invBar.appendChild(el);
-    });
-  }
-}
-
-// ---- Command Handlers ----
-function setCommand(cmd) {
-  state.activeCommand = cmd;
-  document.querySelectorAll('.cmd-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.cmd === cmd);
-  });
-  if (cmd === 'look') {
-    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-    if (scene && scene.lookDescriptions) {
-      const targets = Object.keys(scene.lookDescriptions);
-      if (targets.length > 0) {
-        addText('You can examine: ' + targets.map(t =>
-          `<span class="look-target" data-look="${t}">${t}</span>`
-        ).join(', '), 'system');
-      }
-    }
-  } else if (cmd === 'use') {
-    if (state.inventory.length > 0) {
-      addText('Select an item from your inventory, then click what to use it on.', 'system');
-    } else {
-      addText('You have nothing to use.', 'system');
-    }
-  } else if (cmd === 'take') {
-    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-    const available = (scene.items || []).filter(id => !state.inventory.includes(id));
-    if (available.length > 0) {
-      available.forEach(id => takeItem(id));
-    } else {
-      addText('Nothing here to take.', 'system');
-    }
-  } else if (cmd === 'examine') {
-    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-    if (scene && scene.lookDescriptions) {
-      const targets = Object.keys(scene.lookDescriptions);
-      if (targets.length > 0) {
-        addText('You can examine: ' + targets.map(t =>
-          `<span class="look-target" data-look="${t}">${t}</span>`
-        ).join(', '), 'system');
-      }
-    }
-  }
-}
-
-function selectItem(itemId) {
-  state.selectedItem = state.selectedItem === itemId ? null : itemId;
-  renderInventory();
-  if (state.selectedItem) {
-    const item = GAME_DATA.items.find(i => i.id === itemId);
-    addText(`Selected: ${item.name}. Click USE, then a target.`, 'system');
-  }
-}
-
-function takeItem(itemId) {
-  if (state.inventory.includes(itemId)) return;
-  const item = GAME_DATA.items.find(i => i.id === itemId);
-  if (!item) return;
-  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-  if (!scene || !(scene.items || []).includes(itemId)) return;
-
-  state.inventory.push(itemId);
-  addText(`You picked up: ${item.name} — ${item.description}`, 'success');
-  renderInventory();
-  saveState();
-}
-
-function lookAt(target) {
-  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-  if (scene && scene.lookDescriptions && scene.lookDescriptions[target]) {
-    addText(scene.lookDescriptions[target]);
-  } else {
-    // Check if it's an item
-    const item = GAME_DATA.items.find(i => i.id === target);
-    if (item) {
-      addText(item.description);
-    } else {
-      addText('Nothing interesting about that.', 'system');
-    }
-  }
-}
-
-// ---- Puzzle Solving ----
-function trySolvePuzzle(itemId, targetId) {
-  // Find a puzzle in the current scene that:
-  // 1. Requires this item
-  // 2. Hasn't been solved yet
-  // 3. Matches the target (item usedOn or look target)
-
-  const scenePuzzles = GAME_DATA.puzzles.filter(p =>
-    p.scene === state.currentScene &&
-    !state.solvedPuzzles.includes(p.id)
-  );
-
-  for (const puzzle of scenePuzzles) {
-    // Check if all required items are in inventory
-    const allReqsMet = puzzle.requires.every(req => state.inventory.includes(req));
-
-    // Check if the target matches something in the puzzle
-    // The target could be the puzzle id, or derived from the action description
-    const actionLower = (puzzle.action || '').toLowerCase();
-    const targetLower = (targetId || '').toLowerCase();
-    const itemLower = (itemId || '').toLowerCase();
-
-    // Match logic: check if the item is required and the target relates to the puzzle
-    const itemIsRequired = puzzle.requires.includes(itemId);
-    const targetMatchesAction = !targetId ||
-      actionLower.includes(targetLower) ||
-      puzzle.id === targetId ||
-      targetId.includes(puzzle.scene);
-
-    if (itemIsRequired && allReqsMet) {
-      solvePuzzle(puzzle);
-      return true;
-    }
-  }
-
-  return false;
-}
-
-function solvePuzzle(puzzle) {
-  if (state.solvedPuzzles.includes(puzzle.id)) return;
-
-  state.solvedPuzzles.push(puzzle.id);
-
-  // Visual feedback
-  artDisplay.classList.add('puzzle-solved');
-  setTimeout(() => artDisplay.classList.remove('puzzle-solved'), 600);
-
-  // Show result text
-  addText(puzzle.result, 'success');
-
-  // Remove required items from inventory (consumed by puzzle)
-  puzzle.requires.forEach(reqId => {
-    const idx = state.inventory.indexOf(reqId);
-    if (idx !== -1) state.inventory.splice(idx, 1);
-  });
-
-  // Reveal new items
-  (puzzle.reveals || []).forEach(revealId => {
-    const revealItem = GAME_DATA.items.find(i => i.id === revealId);
-    if (revealItem) {
-      // Check if it's a scene name (like "sound-booth")
-      const revealScene = GAME_DATA.scenes.find(s => s.id === revealId);
-      if (revealScene) {
-        addText(`The way to ${revealScene.name} is now open!`, 'success');
-      } else {
-        state.inventory.push(revealId);
-        addText(`You obtained: ${revealItem.name}`, 'success');
-      }
-    }
-  });
-
-  // Update exits display (may have unlocked new paths)
-  renderExits(GAME_DATA.scenes.find(s => s.id === state.currentScene).exits || {});
-  renderInventory();
-  checkWin();
-  saveState();
-}
-
-function useItemOn(itemId, targetId) {
-  // First try to solve a puzzle
-  if (trySolvePuzzle(itemId, targetId)) {
-    state.selectedItem = null;
-    renderInventory();
-    return;
-  }
-
-  // Fallback: try looking at the target
-  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-  if (scene && scene.lookDescriptions && scene.lookDescriptions[targetId]) {
-    addText(scene.lookDescriptions[targetId]);
-    addText("That doesn't work with " + GAME_DATA.items.find(i => i.id === itemId)?.name + '.', 'system');
-  } else {
-    addText("That doesn't seem to work.", 'system');
-  }
-  state.selectedItem = null;
-  renderInventory();
-}
-
-function go(sceneId) {
-  // Check if exit is locked
-  // We need to find the direction for this target scene
-  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-  if (scene && scene.exits) {
-    for (const [dir, target] of Object.entries(scene.exits)) {
-      if (target === sceneId && isExitLocked(state.currentScene, dir)) {
-        addText(getBlockedMessage(state.currentScene, dir), 'locked');
-        return;
-      }
-    }
-  }
-
-  addText('---', 'system');
-  renderScene(sceneId);
-}
-
-function checkWin() {
-  if (state.won) return;
-  const wc = GAME_DATA.winCondition;
-  if (!wc) return;
-  if (state.currentScene === wc.scene &&
-      wc.requires.every(req => state.inventory.includes(req))) {
-    state.won = true;
-    addText('', '');
-    addText('*** ' + wc.description + ' ***', 'success');
-    addText('', '');
-    addText('CONGRATULATIONS! YOU HAVE COMPLETED THE GAME!', 'success');
-    addText('Type /restart to play again.', 'system');
-  }
-}
-
-// ---- Persistence ----
-function saveState() {
-  try {
-    localStorage.setItem('game-' + GAME_DATA.slug, JSON.stringify(state));
-  } catch(e) {}
-}
-
-function loadState() {
-  try {
-    const saved = localStorage.getItem('game-' + GAME_DATA.slug);
-    if (saved) {
-      const s = JSON.parse(saved);
-      Object.assign(state, s);
-      return true;
-    }
-  } catch(e) {}
-  return false;
-}
-
-// ---- Event Listeners ----
-document.querySelectorAll('.cmd-btn').forEach(btn => {
-  btn.onclick = () => setCommand(btn.dataset.cmd);
-});
-
-document.addEventListener('click', (e) => {
-  if (e.target.classList.contains('look-target')) {
-    const target = e.target.dataset.look;
-    if (state.activeCommand === 'use' && state.selectedItem) {
-      useItemOn(state.selectedItem, target);
-    } else {
-      lookAt(target);
-    }
-  }
-});
-
-// ---- Restart command ----
-document.addEventListener('keydown', (e) => {
-  // Handle /restart
-  if (e.key === 'Enter') {
-    const input = textDisplay.querySelector('input.restart-input');
-    if (input && input.value.trim() === '/restart') {
-      localStorage.removeItem('game-' + GAME_DATA.slug);
-      location.reload();
-    }
-  }
-});
-
-// ---- Initialize ----
-function init() {
-  if (Object.keys(GAME_DATA).length === 0) {
-    addText('ERROR: No game data loaded.', 'error');
-    return;
-  }
-
-  addText('=== ' + GAME_DATA.title.toUpperCase() + ' ===', 'success');
-  addText(GAME_DATA.setting, 'system');
-  addText('', '');
-  addText('Commands: LOOK | TAKE | USE | EXAMINE', 'system');
-  addText('Click exits to move between rooms.', 'system');
-  addText('---', 'system');
-
-  if (!loadState()) {
-    renderScene('lobby');
-  } else {
-    renderScene(state.currentScene);
-    addText('[Game restored from save]', 'system');
-  }
-}
-
-init();
-
-</script>
+  </script>
+  <script src="../standard-game-runtime.js"></script>
 </body>
 </html>

@@ -98,7 +98,7 @@
       "id": "treasury",
       "name": "Treasury",
       "prose": "A vault filled with ancient treasures — golden statues, jeweled crowns, and piles of artifacts. But the room is pitch black. Something glitters on a pedestal at the far end. The only light comes from your torch, and it fails quickly in this absolute dark.",
-      "exits": {"west": "burial-chamber"},
+      "exits": {"west": "burial-chamber", "east": "altar-chamber"},
       "items": ["golden-scarab"],
       "puzzles": ["darkness-curse"],
       "lookDescriptions": {
@@ -169,8 +169,8 @@
       "action": "use scroll-of-light in treasury",
       "result": "The spell banishes the darkness. The room fills with a soft glow. You can see the golden scarab on the pedestal. The way forward is clear.",
       "reveals": ["altar-chamber"],
-      "blocksExit": {},
-      "blockedMessage": ""
+      "blocksExit": {"scene": "treasury", "direction": "east"},
+      "blockedMessage": "The altar passage is swallowed by supernatural darkness. Banish it before you continue."
     },
     {
       "id": "cursed-altar",

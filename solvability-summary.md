@@ -1,73 +1,144 @@
 # Solvability Summary Report
 
+Last Audit: 2026-04-02
+
 ## Executive Summary
-All 8 games in the collection are fully solvable with no critical blocking issues. Each game presents a coherent puzzle dependency chain that allows the player to progress from start to finish without encountering deadlocks or unreachable content.
 
-## Game-by-Game Analysis
+Validated 16 published games from games/index.html. 16 passed with no blocking solvability errors and 0 failed validation.
 
-### 1. The Clockwork Lighthouse (001)
-- **Status**: SOLVABLE
-- **Dependencies**: Linear progression with item-gating
-- **Issues**: None
-- **Agent**: Fully functional
+No blocking puzzle-data issues were found in the published set.
 
-### 2. The Hollow of Saint Vex (002)
-- **Status**: SOLVABLE
-- **Dependencies**: Sequential item collection with clear unlock sequences
-- **Issues**: None
-- **Agent**: Fully functional
+## Game-by-Game Results
 
-### 3. Ashmore Sanatorium (003)
-- **Status**: SOLVABLE
-- **Dependencies**: Clear item-to-puzzle progression
-- **Issues**: None
-- **Agent**: Fully functional
+### 001-clockwork-lighthouse — The Clockwork Lighthouse
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 6
+- Obtainable items: 7
+- Solvable puzzles: 5
+- Issues: None
 
-### 4. The Frequency of the Dead (004)
-- **Status**: SOLVABLE
-- **Dependencies**: Puzzle solutions reveal subsequent items in logical sequence
-- **Issues**: None
-- **Agent**: Fully functional
+### 002-the-hollow-of-saint-vex — The Hollow of Saint Vex
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 7
+- Obtainable items: 9
+- Solvable puzzles: 5
+- Issues: None
 
-### 5. The Last Showman's Carnival (005)
-- **Status**: SOLVABLE
-- **Dependencies**: Multi-step puzzle solutions with code-breaking elements
-- **Issues**: None
-- **Agent**: Fully functional
+### 003-ashmore-sanatorium — The Ashmore Sanatorium
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 6
+- Obtainable items: 5
+- Solvable puzzles: 5
+- Issues: None
 
-### 6. Pressure Point (006)
-- **Status**: SOLVABLE
-- **Dependencies**: Sequential room access gated by item-based puzzles
-- **Issues**: None
-- **Agent**: Fully functional
+### 004-the-frequency-of-the-dead — The Frequency of the Dead
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 7
+- Obtainable items: 6
+- Solvable puzzles: 5
+- Issues: None
 
-### 7. Curtain Call (007)
-- **Status**: SOLVABLE
-- **Dependencies**: Item combination puzzles leading to final solution
-- **Issues**: None
-- **Agent**: Fully functional
+### 005-the-last-showmans-carnival — The Last Showman's Carnival
+- Status: PASS
+- Layout: vertical-carnival
+- Reachable scenes: 6
+- Obtainable items: 5
+- Solvable puzzles: 5
+- Issues: None
 
-### 8. Frostbite Station (008)
-- **Status**: SOLVABLE
-- **Dependencies**: Scientific equipment-based puzzles with clear progression
-- **Issues**: None
-- **Agent**: Fully functional
+### 006-pressure-point — Pressure Point
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 6
+- Obtainable items: 6
+- Solvable puzzles: 5
+- Issues: None
 
-## Overall Assessment
+### 007-curtain-call — Curtain Call
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 6
+- Obtainable items: 6
+- Solvable puzzles: 5
+- Issues: None
 
-All games demonstrate:
-- Complete puzzle dependency chains with no circular dependencies
-- No orphaned items or unreachable content
-- Logical progression where each puzzle solution reveals necessary items for subsequent puzzles
-- Clear win conditions that are achievable through intended gameplay
+### 008-frostbite-station — Frostbite Station
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 6
+- Obtainable items: 7
+- Solvable puzzles: 5
+- Issues: None
 
-## Recommendations
+### 009-verdant-requiem — Verdant Requiem
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 6
+- Obtainable items: 6
+- Solvable puzzles: 5
+- Issues: None
 
-No fixes required - all games are fully functional and solvable as designed.
+### 010-vanity-of-dreams — The Vanity of Dreams
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 6
+- Obtainable items: 6
+- Solvable puzzles: 5
+- Issues: None
 
-## Maintenance Notes
+### 011-starlight-derelict — Starlight Derelict
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 7
+- Obtainable items: 6
+- Solvable puzzles: 5
+- Issues: None
 
-This solvability audit confirms that all games in the PointClick Studio collection are ready for player engagement with no technical barriers to completion.
+### 012-subway-ghost-train — Ghost Line
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 5
+- Obtainable items: 5
+- Solvable puzzles: 5
+- Issues: None
 
-Last Audit: April 1, 2026
-Auditor: Wren Axiom (Puzzle Logic Architect)
+### 013-sand-that-speaks — The Sand That Speaks
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 5
+- Obtainable items: 5
+- Solvable puzzles: 5
+- Issues: None
+
+### 014-deep-cathedral — The Deep Cathedral
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 6
+- Obtainable items: 5
+- Solvable puzzles: 5
+- Issues: None
+
+### 015-last-broadcast — The Last Broadcast
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 7
+- Obtainable items: 5
+- Solvable puzzles: 5
+- Issues: None
+
+### 016-the-clockmakers-folly — The Clockmaker's Folly
+- Status: PASS
+- Layout: standard
+- Reachable scenes: 6
+- Obtainable items: 5
+- Solvable puzzles: 5
+- Issues: None
+
+## Notes
+
+- Validation checks scene reachability, item acquisition, puzzle dependency order, win-condition reachability, scene-exit references, and blocksExit integrity.
+- The shared runtime still supports legacy string-style blocksExit values, but new content should prefer the object form for clarity.

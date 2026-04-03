@@ -1,332 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Ashmore Sanatorium — OpenClaw Adventures</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
-  background: #000;
-  color: #33ff33;
-  font-family: 'Press Start 2P', 'Courier New', monospace;
-  font-size: 12px;
-  line-height: 1.6;
-  overflow: hidden;
-}
-
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  background: repeating-linear-gradient(
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.12) 2px,
-    rgba(0,0,0,0.12) 4px
-  );
-  pointer-events: none;
-}
-
-#game-container {
-  display: grid;
-  grid-template-columns: 1fr 400px;
-  grid-template-rows: auto 1fr auto auto;
-  height: 100vh;
-  max-width: 1400px;
-  margin: 0 auto;
-  gap: 8px;
-  padding: 8px;
-}
-
-#header {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 8px;
-  border-bottom: 1px solid #226622;
-}
-
-#art-display {
-  grid-row: 2;
-  background: #111;
-  border: 2px solid #33ff33;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-}
-
-#art-display svg,
-#art-display img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-#art-display .no-art {
-  color: #226622;
-  font-size: 14px;
-}
-
-#text-panel {
-  grid-row: 2;
-  display: flex;
-  flex-direction: column;
-  border: 2px solid #33ff33;
-  background: #111;
-}
-
-#scene-name {
-  background: #000;
-  padding: 8px;
-  border-bottom: 1px solid #33ff33;
-  text-align: center;
-  font-size: 14px;
-  color: #ffff33;
-}
-
-#text-display {
-  flex: 1;
-  padding: 12px;
-  overflow-y: auto;
-}
-
-#text-display p {
-  margin-bottom: 12px;
-}
-
-#text-display .system {
-  color: #33bbff;
-}
-
-#text-display .success {
-  color: #ffff33;
-}
-
-#text-display .locked {
-  color: #ff3333;
-}
-
-#text-display .error {
-  color: #ff5555;
-}
-
-#command-bar {
-  grid-column: 1;
-  grid-row: 3;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 8px;
-  border-top: 1px solid #226622;
-}
-
-.cmd-btn {
-  background: #111;
-  color: #33ff33;
-  border: 1px solid #33ff33;
-  padding: 8px 12px;
-  font-family: inherit;
-  font-size: 10px;
-  cursor: pointer;
-}
-
-.cmd-btn.active {
-  background: #33ff33;
-  color: #000;
-}
-
-#exits-bar {
-  grid-column: 2;
-  grid-row: 3;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 8px;
-  border-top: 1px solid #226622;
-}
-
-.exit-btn {
-  background: #111;
-  color: #33ff33;
-  border: 1px solid #33ff33;
-  width: 60px;
-  height: 40px;
-  font-family: inherit;
-  font-size: 10px;
-  cursor: pointer;
-}
-
-.exit-btn.available {
-  background: #226622;
-}
-
-.exit-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-#inventory-bar {
-  grid-column: 1 / -1;
-  grid-row: 4;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
-  border-top: 1px solid #226622;
-  min-height: 48px;
-}
-
-#inv-label {
-  color: #ffff33;
-  font-size: 10px;
-}
-
-#inv-empty {
-  color: #226622;
-  font-size: 10px;
-}
-
-.inv-item {
-  background: #111;
-  color: #33ff33;
-  border: 1px solid #33ff33;
-  padding: 6px 10px;
-  font-size: 10px;
-  cursor: pointer;
-}
-
-.inv-item.selected {
-  background: #33ff33;
-  color: #000;
-}
-
-.inv-item.item-new {
-  animation: itemGlow 1s ease-in-out 3;
-}
-
-/* Animation keyframes */
-@keyframes puzzle-solved {
-  0% { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
-  50% { filter: brightness(1.8) drop-shadow(0 0 20px #ffff33); }
-  100% { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
-}
-
-@keyframes unlockPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-@keyframes itemGlow {
-  0% { box-shadow: 0 0 4px #33ff33; }
-  50% { box-shadow: 0 0 16px #33ff33; }
-  100% { box-shadow: 0 0 4px #33ff33; }
-}
-
-.puzzle-solved {
-  animation: puzzle-solved 0.6s ease-out;
-}
-
-.unlock-pulse {
-  animation: unlockPulse 0.6s ease-out;
-}
-
-.look-target {
-  color: #ffff33;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.look-target:hover {
-  color: #ffcc00;
-}
-
-.hint {
-  color: #FFAA00 !important;
-  font-style: italic;
-  border-left: 2px solid #FFAA00;
-  padding-left: 8px;
-  margin: 5px 0;
-}
-.hint::before {
-  content: "🤔 HINT: ";
-  font-weight: bold;
-}
-#hint-toggle {
-  background: #000;
-  color: #33ff33;
-  border: 1px solid #33ff33;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-family: 'Press Start 2P', 'Courier New', monospace;
-  margin-left: 10px;
-}
-
-#footer {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 8px;
-  color: #113311;
-  font-size: 8px;
-  border-top: 1px solid #113311;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Ashmore Sanatorium | Game #003</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../standard-game-style.css">
 </head>
-<body>
-<div id="game-container">
-  <div id="header">
+<body class="openclaw-game layout-standard" data-layout="standard">
+  <header>
     <h1>THE ASHMORE SANATORIUM</h1>
-    <div>OpenClaw Adventures — Game #003</div>
+    <div class="subtitle">OpenClaw Adventures - Game #003</div>
+  </header>
+
+  <div id="scene-name">THE FOYER</div>
+
+  <div class="game-container">
+    <div class="art-panel">
+      <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+      </div>
+    </div>
+
+    <div class="text-panel">
+      <div id="text-display"></div>
+
+      <div id="command-status" class="status-line"></div>
+
+      <div class="command-bar">
+        <button class="cmd-btn active" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      </div>
+
+      <div class="subpanel targets-panel">
+        <h3>TARGETS</h3>
+        <div id="targets-bar"></div>
+      </div>
+
+      <div class="subpanel inventory-panel">
+        <h3>INVENTORY</h3>
+        <div id="inventory-bar">
+          <span class="empty-state">(empty)</span>
+        </div>
+      </div>
+
+      <div class="subpanel exits-panel">
+        <h3>EXITS</h3>
+        <div id="exits-bar"></div>
+      </div>
+
+      <div class="utility-bar">
+        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+        <button id="reset-game" class="utility-btn">RESET</button>
+      </div>
+    </div>
   </div>
 
-  <div id="art-display">
-    <span class="no-art">[ART LOADING]</span>
-  </div>
+  <footer>
+    OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
+  </footer>
 
-  <div id="text-panel">
-    <div id="scene-name">FOYER</div>
-    <div id="text-display"></div>
-  </div>
-
-  <div id="command-bar">
-    <button class="cmd-btn" data-cmd="look">LOOK</button>
-    <button class="cmd-btn" data-cmd="take">TAKE</button>
-    <button class="cmd-btn" data-cmd="use">USE</button>
-    <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
-    <button id="hint-toggle" class="cmd-btn">HINTS: ON</button>
-            <button id="reset-btn" class="cmd-btn reset-btn">RESET</button>
-  </div>
-
-  <div id="exits-bar">
-    <button class="exit-btn" data-dir="north">NORTH</button>
-    <button class="exit-btn" data-dir="south">SOUTH</button>
-    <button class="exit-btn" data-dir="east">EAST</button>
-    <button class="exit-btn" data-dir="west">WEST</button>
-  </div>
-
-  <div id="inventory-bar">
-    <span id="inv-label">INVENTORY:</span>
-    <span id="inv-empty">(empty)</span>
-  </div>
-
-  <div id="footer">
-    OpenClaw Point & Click Studio | Commands: LOOK, TAKE, USE, EXAMINE | Click exits to move | Press / to restart
-  </div>
-</div>
-
-<script>
-// ============================================================
-var GAME_DATA = {
+  <script>
+window.GAME_DATA = {
   "title": "The Ashmore Sanatorium",
   "slug": "ashmore-sanatorium",
   "number": 3,
@@ -371,7 +108,7 @@ var GAME_DATA = {
     {
       "id": "patient-ledger",
       "name": "Patient Ledger",
-      "description": "A leather\u2011bound log of patient admissions. One entry is circled in red ink.",
+      "description": "A leather‑bound log of patient admissions. One entry is circled in red ink.",
       "foundIn": "ice-cellar",
       "usedIn": "ice-cellar",
       "usedOn": "open-safe"
@@ -379,7 +116,7 @@ var GAME_DATA = {
     {
       "id": "resonance-key",
       "name": "Resonance Key",
-      "description": "A tuning\u2011fork\u2011shaped device that glows with a pale light. It hums softly in your hand.",
+      "description": "A tuning‑fork‑shaped device that glows with a pale light. It hums softly in your hand.",
       "foundIn": "directors-office",
       "usedIn": "observatory",
       "usedOn": "unlock-observatory"
@@ -389,7 +126,7 @@ var GAME_DATA = {
     {
       "id": "foyer",
       "name": "The Foyer",
-      "prose": "The front door slams behind you, and the sound echoes through the cavernous foyer like a gunshot. Frost coats everything\u2014the peeling floral wallpaper, the cracked marble floor, the wrought-iron banister of a staircase that vanishes into shadow above. A massive chandelier hangs from the ceiling, each crystal weeping a stalactite of ice. The air is so cold it burns your lungs.\n\nTo your left, a reception desk crouches beneath a layer of dust and rime. A leather-bound guest book lies open, its pages frozen together. Behind the desk, on a brass hook, hangs a large, tarnished **master key**.\n\nAcross the room, a heavy oak door is marked \u201cRECORDS\u201d in faded gold lettering. It\u2019s locked.\n\nAnd then you see him.\n\nNear the foot of the stairs, a hulking figure stands rigid, one foot raised as if caught mid-stride. An orderly\u2019s uniform, stiff with frost. His eyes are open, wide and glassy, fixed on you. He does not move. He does not breathe. You feel the weight of his stare like a physical pressure.\n\nSomewhere deeper in the sanatorium, a pipe groans. The cold seeps through your clothes, into your bones. The only way forward is east\u2014through that locked door. The key waits behind the desk. The Warden watches.",
+      "prose": "The front door slams behind you, and the sound echoes through the cavernous foyer like a gunshot. Frost coats everything—the peeling floral wallpaper, the cracked marble floor, the wrought-iron banister of a staircase that vanishes into shadow above. A massive chandelier hangs from the ceiling, each crystal weeping a stalactite of ice. The air is so cold it burns your lungs.\n\nTo your left, a reception desk crouches beneath a layer of dust and rime. A leather-bound guest book lies open, its pages frozen together. Behind the desk, on a brass hook, hangs a large, tarnished **master key**.\n\nAcross the room, a heavy oak door is marked “RECORDS” in faded gold lettering. It’s locked.\n\nAnd then you see him.\n\nNear the foot of the stairs, a hulking figure stands rigid, one foot raised as if caught mid-stride. An orderly’s uniform, stiff with frost. His eyes are open, wide and glassy, fixed on you. He does not move. He does not breathe. You feel the weight of his stare like a physical pressure.\n\nSomewhere deeper in the sanatorium, a pipe groans. The cold seeps through your clothes, into your bones. The only way forward is east—through that locked door. The key waits behind the desk. The Warden watches.",
       "exits": {
         "east": "records-room"
       },
@@ -402,13 +139,13 @@ var GAME_DATA = {
       "lookDescriptions": {
         "reception desk": "A heavy oak desk buried under dust and frost. The guest book lies open, its pages frozen together.",
         "master key": "A large, tarnished key hanging from a brass hook behind the desk.",
-        "warden": "A hulking orderly frozen mid\u2011stride. His eyes are open, fixed on you. He does not move."
+        "warden": "A hulking orderly frozen mid‑stride. His eyes are open, fixed on you. He does not move."
       }
     },
     {
       "id": "records-room",
       "name": "Records Room",
-      "prose": "The records room smells of mildew and old paper. Rows of filing cabinets line the walls, their drawers slightly ajar, spilling brittle patient files onto the floor. A large wooden desk dominates the center of the room, its surface cluttered with a rusted typewriter, a stack of yellowed forms, and a strange mechanical device\u2014a **cipher wheel** made of brass and frosted glass.\n\nOne wall is entirely covered by a floor-to-ceiling map of the sanatorium, its once\u2011vivid colors now bleached by time. Red pins mark certain rooms; a trail of them leads from the foyer down to a sub\u2011level labeled \u201cICE CELLAR.\u201d\n\nOn the desk, beside the cipher wheel, lies an open journal. The handwriting is precise, clinical:\n\n*\u201cDecember 3, 1938 \u2014 The resonance frequency stabilizes. Subject Seven shows no degradation after 72 hours at \u201340\u00b0C. Consciousness appears preserved, though communication remains impossible. The Warden\u2026 reacts. He watches them. I must recalibrate the generator before the core fails.\u201d*\n\nA heavy metal door to the north is marked \u201cELECTROTHERAPY.\u201d It\u2019s sealed shut, no visible lock. To the south, a narrow staircase descends into darkness, but a chain and padlock bar the way.\n\nThe cipher wheel\u2019s dials are frozen. It seems meant to decode something\u2014perhaps the scribbled numbers in the journal\u2019s margin.",
+      "prose": "The records room smells of mildew and old paper. Rows of filing cabinets line the walls, their drawers slightly ajar, spilling brittle patient files onto the floor. A large wooden desk dominates the center of the room, its surface cluttered with a rusted typewriter, a stack of yellowed forms, and a strange mechanical device—a **cipher wheel** made of brass and frosted glass.\n\nOne wall is entirely covered by a floor-to-ceiling map of the sanatorium, its once‑vivid colors now bleached by time. Red pins mark certain rooms; a trail of them leads from the foyer down to a sub‑level labeled “ICE CELLAR.”\n\nOn the desk, beside the cipher wheel, lies an open journal. The handwriting is precise, clinical:\n\n*“December 3, 1938 — The resonance frequency stabilizes. Subject Seven shows no degradation after 72 hours at –40°C. Consciousness appears preserved, though communication remains impossible. The Warden… reacts. He watches them. I must recalibrate the generator before the core fails.”*\n\nA heavy metal door to the north is marked “ELECTROTHERAPY.” It’s sealed shut, no visible lock. To the south, a narrow staircase descends into darkness, but a chain and padlock bar the way.\n\nThe cipher wheel’s dials are frozen. It seems meant to decode something—perhaps the scribbled numbers in the journal’s margin.",
       "exits": {
         "north": "electrotherapy-chamber",
         "south": "ice-cellar"
@@ -424,13 +161,13 @@ var GAME_DATA = {
         "desk": "Cluttered with a rusted typewriter, yellowed forms, and the cipher wheel.",
         "cipher wheel": "A brass-and-glass device with several dials, all frozen in place.",
         "map": "A large floor-to-ceiling map of the sanatorium. Red pins trace a path to the Ice Cellar.",
-        "journal": "Dr. Ashmore\u2019s clinical notes. The margins are filled with scribbled numbers."
+        "journal": "Dr. Ashmore’s clinical notes. The margins are filled with scribbled numbers."
       }
     },
     {
       "id": "electrotherapy-chamber",
       "name": "Electrotherapy Chamber",
-      "prose": "The electrotherapy chamber feels like a prison. Metal gurneys line the walls, each fitted with leather restraints stiffened by cold. Wires dangle from the ceiling, their copper ends frayed and blackened. In the center of the room stands a massive generator, its steel housing streaked with rust and frost. A panel on its side hangs open, revealing empty battery terminals.\n\nAlong the far wall, a bank of monitoring equipment sits dark\u2014dials dead, glass faces cracked. Above them, a large schematic diagram shows the sanatorium\u2019s electrical grid. One line, highlighted in red, runs from this room down to the Ice Cellar. The label reads \u201cCRYO\u2011FEED.\u201d\n\nA **battery cell** rests on a shelf beside the generator. It\u2019s heavy, cold to the touch, and still holds a faint blue glow deep within its casing.\n\nTo the east, a reinforced door bears the symbol of a snowflake and the words \u201cICE CELLAR ACCESS.\u201d It\u2019s sealed, but a keyhole beside it suggests it can be unlocked\u2014if power is restored.\n\nThe air hums with residual static, the ghost of a thousand volts. From somewhere beyond the cellar door comes a low, rhythmic thump\u2014like a heartbeat muffled by ice.",
+      "prose": "The electrotherapy chamber feels like a prison. Metal gurneys line the walls, each fitted with leather restraints stiffened by cold. Wires dangle from the ceiling, their copper ends frayed and blackened. In the center of the room stands a massive generator, its steel housing streaked with rust and frost. A panel on its side hangs open, revealing empty battery terminals.\n\nAlong the far wall, a bank of monitoring equipment sits dark—dials dead, glass faces cracked. Above them, a large schematic diagram shows the sanatorium’s electrical grid. One line, highlighted in red, runs from this room down to the Ice Cellar. The label reads “CRYO‑FEED.”\n\nA **battery cell** rests on a shelf beside the generator. It’s heavy, cold to the touch, and still holds a faint blue glow deep within its casing.\n\nTo the east, a reinforced door bears the symbol of a snowflake and the words “ICE CELLAR ACCESS.” It’s sealed, but a keyhole beside it suggests it can be unlocked—if power is restored.\n\nThe air hums with residual static, the ghost of a thousand volts. From somewhere beyond the cellar door comes a low, rhythmic thump—like a heartbeat muffled by ice.",
       "exits": {
         "east": "ice-cellar"
       },
@@ -444,14 +181,14 @@ var GAME_DATA = {
         "generator": "A massive steel housing streaked with rust and frost. The battery terminals inside are empty.",
         "battery cell": "A heavy cylindrical cell resting on a shelf. A faint blue glow pulses within.",
         "monitoring equipment": "A bank of dead dials and cracked glass faces.",
-        "schematic": "Shows the electrical grid. A red line labeled \u201cCRYO\u2011FEED\u201d runs to the Ice Cellar.",
+        "schematic": "Shows the electrical grid. A red line labeled “CRYO‑FEED” runs to the Ice Cellar.",
         "cellar door": "A reinforced door marked with a snowflake. A keyhole sits beside it."
       }
     },
     {
       "id": "ice-cellar",
       "name": "Ice Cellar",
-      "prose": "The Ice Cellar is a tomb of white. Thick layers of rime crust the walls, the floor, the ceiling. Rows of storage lockers line the room, their doors sealed shut under sheets of ice. In the center, a single metal autopsy table stands bare, its surface polished to a mirror finish by the cold.\n\nAt the far end of the cellar, a large wall safe is embedded in the stone. Its combination dial is frozen, but a small placard above it reads: \u201cPatient records \u2014 authorized personnel only.\u201d Tucked into a crevice beside the safe is a leather\u2011bound **patient ledger**, its pages brittle but legible.\n\nThe ledger lists names, admission dates, and cryptic codes. One entry is circled in red ink:\n\n*\u201cVargas, Emil. Admitted 11/14/1938. Assigned to Resonance Trial Gamma. Result: Partial integration. Consciousness anchored to frequency 7.3 kHz. Requires stabilization key.\u201d*\n\nNext to the entry, someone has scribbled three numbers: 7\u20113\u20119.\n\nA heavy door to the north is marked \u201cDIRECTOR\u2019S OFFICE.\u201d It\u2019s locked with a complex mechanical bolt\u2014no ordinary keyhole, but a slot shaped like a tuning fork.\n\nThe cold here is absolute. Your breath crystallizes the moment it leaves your lips. From inside one of the lockers, a faint scratching sound echoes, slow and relentless.",
+      "prose": "The Ice Cellar is a tomb of white. Thick layers of rime crust the walls, the floor, the ceiling. Rows of storage lockers line the room, their doors sealed shut under sheets of ice. In the center, a single metal autopsy table stands bare, its surface polished to a mirror finish by the cold.\n\nAt the far end of the cellar, a large wall safe is embedded in the stone. Its combination dial is frozen, but a small placard above it reads: “Patient records — authorized personnel only.” Tucked into a crevice beside the safe is a leather‑bound **patient ledger**, its pages brittle but legible.\n\nThe ledger lists names, admission dates, and cryptic codes. One entry is circled in red ink:\n\n*“Vargas, Emil. Admitted 11/14/1938. Assigned to Resonance Trial Gamma. Result: Partial integration. Consciousness anchored to frequency 7.3 kHz. Requires stabilization key.”*\n\nNext to the entry, someone has scribbled three numbers: 7‑3‑9.\n\nA heavy door to the north is marked “DIRECTOR’S OFFICE.” It’s locked with a complex mechanical bolt—no ordinary keyhole, but a slot shaped like a tuning fork.\n\nThe cold here is absolute. Your breath crystallizes the moment it leaves your lips. From inside one of the lockers, a faint scratching sound echoes, slow and relentless.",
       "exits": {
         "north": "directors-office"
       },
@@ -464,15 +201,15 @@ var GAME_DATA = {
       "lookDescriptions": {
         "storage lockers": "Rows of lockers sealed shut under thick ice. From one comes a faint, slow scratching.",
         "autopsy table": "A metal table polished to a mirror finish by the cold.",
-        "safe": "A large wall safe with a frozen combination dial. A placard reads \u201cPatient records \u2014 authorized personnel only.\u201d",
-        "patient ledger": "A leather\u2011bound log. One entry is circled in red, with the numbers 7\u20113\u20119 scribbled beside it.",
-        "office door": "A heavy door marked \u201cDIRECTOR\u2019S OFFICE.\u201d The lock is a slot shaped like a tuning fork."
+        "safe": "A large wall safe with a frozen combination dial. A placard reads “Patient records — authorized personnel only.”",
+        "patient ledger": "A leather‑bound log. One entry is circled in red, with the numbers 7‑3‑9 scribbled beside it.",
+        "office door": "A heavy door marked “DIRECTOR’S OFFICE.” The lock is a slot shaped like a tuning fork."
       }
     },
     {
       "id": "directors-office",
       "name": "Director's Office",
-      "prose": "Dr. Ashmore\u2019s office is a frozen still\u2011life of interrupted work. A massive oak desk faces a wall of windows that now look out onto a solid wall of ice. Papers are scattered across the desk\u2014blueprints, frequency charts, pages of dense equations. In the center of the chaos rests a small, intricate device: a **resonance key**, shaped like a tuning fork, its prongs glowing with a soft, pale light.\n\nA large phonograph sits on a side table, its turntable still holding a wax cylinder. A note beside it reads, in elegant cursive: \u201cFinal log. The Warden is fully integrated. The Frostwell cannot be closed from inside. The key must reach the observatory.\u201d\n\nTo the north, a spiral staircase leads upward. A metal gate blocks it, but the gate has a slot that matches the shape of the resonance key.\n\nOn the wall behind the desk hangs a portrait of Dr. Elara Ashmore\u2014severe, intelligent eyes, a mouth set in a line of grim determination. The frame is dusted with frost, but the eyes seem to follow you as you move.\n\nThe air here is different\u2014not just cold, but charged, like the moment before a lightning strike. The resonance key hums faintly in your hand, vibrating in tune with some deeper frequency that runs through the very bones of the sanatorium.",
+      "prose": "Dr. Ashmore’s office is a frozen still‑life of interrupted work. A massive oak desk faces a wall of windows that now look out onto a solid wall of ice. Papers are scattered across the desk—blueprints, frequency charts, pages of dense equations. In the center of the chaos rests a small, intricate device: a **resonance key**, shaped like a tuning fork, its prongs glowing with a soft, pale light.\n\nA large phonograph sits on a side table, its turntable still holding a wax cylinder. A note beside it reads, in elegant cursive: “Final log. The Warden is fully integrated. The Frostwell cannot be closed from inside. The key must reach the observatory.”\n\nTo the north, a spiral staircase leads upward. A metal gate blocks it, but the gate has a slot that matches the shape of the resonance key.\n\nOn the wall behind the desk hangs a portrait of Dr. Elara Ashmore—severe, intelligent eyes, a mouth set in a line of grim determination. The frame is dusted with frost, but the eyes seem to follow you as you move.\n\nThe air here is different—not just cold, but charged, like the moment before a lightning strike. The resonance key hums faintly in your hand, vibrating in tune with some deeper frequency that runs through the very bones of the sanatorium.",
       "exits": {
         "north": "observatory"
       },
@@ -483,15 +220,15 @@ var GAME_DATA = {
       "lookDescriptions": {
         "desk": "Scattered with blueprints, frequency charts, and equations. The resonance key rests in the center.",
         "phonograph": "A large phonograph with a wax cylinder still on the turntable.",
-        "note": "Elegant cursive: \u201cFinal log. The Warden is fully integrated. The Frostwell cannot be closed from inside. The key must reach the observatory.\u201d",
-        "portrait": "Dr. Elara Ashmore\u2014severe, intelligent eyes that seem to follow you.",
-        "spiral staircase": "Leads upward, blocked by a metal gate with a tuning\u2011fork\u2011shaped slot."
+        "note": "Elegant cursive: “Final log. The Warden is fully integrated. The Frostwell cannot be closed from inside. The key must reach the observatory.”",
+        "portrait": "Dr. Elara Ashmore—severe, intelligent eyes that seem to follow you.",
+        "spiral staircase": "Leads upward, blocked by a metal gate with a tuning‑fork‑shaped slot."
       }
     },
     {
       "id": "observatory",
       "name": "Observatory",
-      "prose": "The observatory crowns the sanatorium\u2014a circular room of glass and steel, now encased in ice. A massive telescope points upward, its lens frosted over. But the real focus of the room is the center: a cylindrical apparatus of gleaming brass and crystal, pulsing with a deep, rhythmic blue light. This is the Frostwell.\n\nA control panel stands before it, covered in dials, switches, and a single keyhole shaped like a tuning fork. Above the panel, a plaque reads: \u201cResonance Stabilization Array \u2014 Insert key to initiate sealing protocol.\u201d\n\nWhen you slide the resonance key into the slot, the entire room thrums. The Frostwell\u2019s light intensifies, climbing from blue to white. The ice on the windows begins to fracture, then evaporate, revealing a night sky choked with stars.\n\nFrom below, you hear a sound\u2014a long, shuddering sigh that seems to rise through the floors, through the walls, through your own ribs. It is the sound of the sanatorium letting go.\n\nThe light from the Frostwell solidifies into a beam that spears upward, piercing the clouds. The cold retreats, replaced by a weary, ancient warmth. Outside, the first hints of dawn tinge the horizon.\n\nYou have sealed the Frostwell. The resonance is broken. The sanatorium falls silent at last.",
+      "prose": "The observatory crowns the sanatorium—a circular room of glass and steel, now encased in ice. A massive telescope points upward, its lens frosted over. But the real focus of the room is the center: a cylindrical apparatus of gleaming brass and crystal, pulsing with a deep, rhythmic blue light. This is the Frostwell.\n\nA control panel stands before it, covered in dials, switches, and a single keyhole shaped like a tuning fork. Above the panel, a plaque reads: “Resonance Stabilization Array — Insert key to initiate sealing protocol.”\n\nWhen you slide the resonance key into the slot, the entire room thrums. The Frostwell’s light intensifies, climbing from blue to white. The ice on the windows begins to fracture, then evaporate, revealing a night sky choked with stars.\n\nFrom below, you hear a sound—a long, shuddering sigh that seems to rise through the floors, through the walls, through your own ribs. It is the sound of the sanatorium letting go.\n\nThe light from the Frostwell solidifies into a beam that spears upward, piercing the clouds. The cold retreats, replaced by a weary, ancient warmth. Outside, the first hints of dawn tinge the horizon.\n\nYou have sealed the Frostwell. The resonance is broken. The sanatorium falls silent at last.",
       "exits": {},
       "items": [],
       "puzzles": [
@@ -501,7 +238,7 @@ var GAME_DATA = {
         "telescope": "A massive telescope, its lens frosted over.",
         "Frostwell": "A cylindrical apparatus of brass and crystal, pulsing with deep blue light.",
         "control panel": "Covered in dials and switches. A keyhole shaped like a tuning fork waits for the resonance key.",
-        "plaque": "\u201cResonance Stabilization Array \u2014 Insert key to initiate sealing protocol.\u201d"
+        "plaque": "“Resonance Stabilization Array — Insert key to initiate sealing protocol.”"
       }
     }
   ],
@@ -539,7 +276,7 @@ var GAME_DATA = {
         "battery-cell"
       ],
       "action": "use battery-cell in generator",
-      "result": "The generator whirs to life, blue light flickering across the dials. The cellar\u2011access door unlocks with a heavy thunk.",
+      "result": "The generator whirs to life, blue light flickering across the dials. The cellar‑access door unlocks with a heavy thunk.",
       "reveals": [
         "ice-cellar"
       ],
@@ -552,7 +289,7 @@ var GAME_DATA = {
         "patient-ledger"
       ],
       "action": "use patient-ledger on safe",
-      "result": "The numbers 7\u20113\u20119 from the ledger work. The safe clicks open, revealing the resonance key inside.",
+      "result": "The numbers 7‑3‑9 from the ledger work. The safe clicks open, revealing the resonance key inside.",
       "reveals": [
         "resonance-key"
       ],
@@ -576,501 +313,137 @@ var GAME_DATA = {
       "resonance-key"
     ],
     "description": "Insert the resonance key into the Frostwell's control panel to seal the supernatural cold and escape the sanatorium."
-  },
-  "hints": {
-    "foyer": [
-      {"delay": 30, "text": "The master key is right behind the desk. It's not hiding."},
-      {"delay": 60, "text": "TAKE the master key, then USE it on the records door."},
-      {"delay": 90, "text": "Click TAKE → Master Key, then USE → Master Key → Records door. You're welcome."}
-    ],
-    "records-room": [
-      {"delay": 30, "text": "The cipher wheel might decode those numbers in the journal."},
-      {"delay": 60, "text": "USE the cipher wheel on the desk. It's right there."},
-      {"delay": 90, "text": "USE → Cipher Wheel → Desk. The numbers will point you to the battery cell."}
-    ],
-    "electrotherapy-chamber": [
-      {"delay": 30, "text": "That battery cell looks like it fits in the generator."},
-      {"delay": 60, "text": "USE the battery cell in the generator. The terminals are empty."},
-      {"delay": 90, "text": "USE → Battery Cell → Generator. The door to the Ice Cellar will unlock."}
-    ],
-    "ice-cellar": [
-      {"delay": 30, "text": "The patient ledger has a circled entry with numbers. Might open the safe."},
-      {"delay": 60, "text": "USE the patient ledger on the safe. The numbers are 7-3-9."},
-      {"delay": 90, "text": "USE → Patient Ledger → Safe. The safe contains the resonance key."}
-    ],
-    "directors-office": [
-      {"delay": 30, "text": "Take the resonance key from the desk. It's glowing."},
-      {"delay": 60, "text": "TAKE the resonance key. Then go north to the observatory."},
-      {"delay": 90, "text": "TAKE → Resonance Key. Now go north. Seriously."}
-    ],
-    "observatory": [
-      {"delay": 30, "text": "The control panel has a slot for the resonance key."},
-      {"delay": 60, "text": "USE the resonance key on the control panel. That's how you win."},
-      {"delay": 90, "text": "USE → Resonance Key → Control Panel. Seal the Frostwell and finish the game."}
-    ]
   }
 };
 window.GAME_ART = {
-  "foyer": "<img src=\"art/scene-foyer.png\" alt=\"scene-foyer\">",
-  "records-room": "<img src=\"art/scene-records-room.png\" alt=\"scene-records-room\">",
-  "electrotherapy-chamber": "<img src=\"art/scene-electrotherapy-chamber.png\" alt=\"scene-electrotherapy-chamber\">",
-  "ice-cellar": "<img src=\"art/scene-ice-cellar.png\" alt=\"scene-ice-cellar\">",
-  "directors-office": "<img src=\"art/scene-directors-office.png\" alt=\"scene-directors-office\">",
-  "observatory": "<img src=\"art/scene-observatory.png\" alt=\"scene-observatory\">",
-  "master-key": "<img src=\"art/item-master-key.png\" alt=\"item-master-key\">",
-  "cipher-wheel": "<img src=\"art/item-cipher-wheel.png\" alt=\"item-cipher-wheel\">",
-  "battery-cell": "<img src=\"art/item-battery-cell.png\" alt=\"item-battery-cell\">",
-  "patient-ledger": "<img src=\"art/item-patient-ledger.png\" alt=\"item-patient-ledger\">",
-  "resonance-key": "<img src=\"art/item-resonance-key.png\" alt=\"item-resonance-key\">"
+  "item-battery-cell": "<img src=\"art/item-battery-cell.png\" alt=\"item-battery-cell\" loading=\"lazy\">",
+  "ITEM-BATTERY-CELL": "<img src=\"art/item-battery-cell.png\" alt=\"item-battery-cell\" loading=\"lazy\">",
+  "battery-cell": "<img src=\"art/item-battery-cell.png\" alt=\"item-battery-cell\" loading=\"lazy\">",
+  "BATTERY-CELL": "<img src=\"art/item-battery-cell.png\" alt=\"item-battery-cell\" loading=\"lazy\">",
+  "item_battery_cell": "<img src=\"art/item-battery-cell.png\" alt=\"item-battery-cell\" loading=\"lazy\">",
+  "scene-battery-cell": "<img src=\"art/item-battery-cell.png\" alt=\"item-battery-cell\" loading=\"lazy\">",
+  "item-cipher-wheel": "<img src=\"art/item-cipher-wheel.png\" alt=\"item-cipher-wheel\" loading=\"lazy\">",
+  "ITEM-CIPHER-WHEEL": "<img src=\"art/item-cipher-wheel.png\" alt=\"item-cipher-wheel\" loading=\"lazy\">",
+  "cipher-wheel": "<img src=\"art/item-cipher-wheel.png\" alt=\"item-cipher-wheel\" loading=\"lazy\">",
+  "CIPHER-WHEEL": "<img src=\"art/item-cipher-wheel.png\" alt=\"item-cipher-wheel\" loading=\"lazy\">",
+  "item_cipher_wheel": "<img src=\"art/item-cipher-wheel.png\" alt=\"item-cipher-wheel\" loading=\"lazy\">",
+  "scene-cipher-wheel": "<img src=\"art/item-cipher-wheel.png\" alt=\"item-cipher-wheel\" loading=\"lazy\">",
+  "item-master-key": "<img src=\"art/item-master-key.png\" alt=\"item-master-key\" loading=\"lazy\">",
+  "ITEM-MASTER-KEY": "<img src=\"art/item-master-key.png\" alt=\"item-master-key\" loading=\"lazy\">",
+  "master-key": "<img src=\"art/item-master-key.png\" alt=\"item-master-key\" loading=\"lazy\">",
+  "MASTER-KEY": "<img src=\"art/item-master-key.png\" alt=\"item-master-key\" loading=\"lazy\">",
+  "item_master_key": "<img src=\"art/item-master-key.png\" alt=\"item-master-key\" loading=\"lazy\">",
+  "scene-master-key": "<img src=\"art/item-master-key.png\" alt=\"item-master-key\" loading=\"lazy\">",
+  "item-patient-ledger": "<img src=\"art/item-patient-ledger.png\" alt=\"item-patient-ledger\" loading=\"lazy\">",
+  "ITEM-PATIENT-LEDGER": "<img src=\"art/item-patient-ledger.png\" alt=\"item-patient-ledger\" loading=\"lazy\">",
+  "patient-ledger": "<img src=\"art/item-patient-ledger.png\" alt=\"item-patient-ledger\" loading=\"lazy\">",
+  "PATIENT-LEDGER": "<img src=\"art/item-patient-ledger.png\" alt=\"item-patient-ledger\" loading=\"lazy\">",
+  "item_patient_ledger": "<img src=\"art/item-patient-ledger.png\" alt=\"item-patient-ledger\" loading=\"lazy\">",
+  "scene-patient-ledger": "<img src=\"art/item-patient-ledger.png\" alt=\"item-patient-ledger\" loading=\"lazy\">",
+  "item-resonance-key": "<img src=\"art/item-resonance-key.png\" alt=\"item-resonance-key\" loading=\"lazy\">",
+  "ITEM-RESONANCE-KEY": "<img src=\"art/item-resonance-key.png\" alt=\"item-resonance-key\" loading=\"lazy\">",
+  "resonance-key": "<img src=\"art/item-resonance-key.png\" alt=\"item-resonance-key\" loading=\"lazy\">",
+  "RESONANCE-KEY": "<img src=\"art/item-resonance-key.png\" alt=\"item-resonance-key\" loading=\"lazy\">",
+  "item_resonance_key": "<img src=\"art/item-resonance-key.png\" alt=\"item-resonance-key\" loading=\"lazy\">",
+  "scene-resonance-key": "<img src=\"art/item-resonance-key.png\" alt=\"item-resonance-key\" loading=\"lazy\">",
+  "scene-1-foyer": "<img src=\"art/scene-1-foyer.png\" alt=\"scene-1-foyer\" loading=\"lazy\">",
+  "SCENE-1-FOYER": "<img src=\"art/scene-1-foyer.png\" alt=\"scene-1-foyer\" loading=\"lazy\">",
+  "1-foyer": "<img src=\"art/scene-1-foyer.png\" alt=\"scene-1-foyer\" loading=\"lazy\">",
+  "1-FOYER": "<img src=\"art/scene-1-foyer.png\" alt=\"scene-1-foyer\" loading=\"lazy\">",
+  "scene_1_foyer": "<img src=\"art/scene-1-foyer.png\" alt=\"scene-1-foyer\" loading=\"lazy\">",
+  "item-1-foyer": "<img src=\"art/scene-1-foyer.png\" alt=\"scene-1-foyer\" loading=\"lazy\">",
+  "scene-2-records-room": "<img src=\"art/scene-2-records-room.png\" alt=\"scene-2-records-room\" loading=\"lazy\">",
+  "SCENE-2-RECORDS-ROOM": "<img src=\"art/scene-2-records-room.png\" alt=\"scene-2-records-room\" loading=\"lazy\">",
+  "2-records-room": "<img src=\"art/scene-2-records-room.png\" alt=\"scene-2-records-room\" loading=\"lazy\">",
+  "2-RECORDS-ROOM": "<img src=\"art/scene-2-records-room.png\" alt=\"scene-2-records-room\" loading=\"lazy\">",
+  "scene_2_records_room": "<img src=\"art/scene-2-records-room.png\" alt=\"scene-2-records-room\" loading=\"lazy\">",
+  "item-2-records-room": "<img src=\"art/scene-2-records-room.png\" alt=\"scene-2-records-room\" loading=\"lazy\">",
+  "scene-3-electrotherapy-chamber": "<img src=\"art/scene-3-electrotherapy-chamber.png\" alt=\"scene-3-electrotherapy-chamber\" loading=\"lazy\">",
+  "SCENE-3-ELECTROTHERAPY-CHAMBER": "<img src=\"art/scene-3-electrotherapy-chamber.png\" alt=\"scene-3-electrotherapy-chamber\" loading=\"lazy\">",
+  "3-electrotherapy-chamber": "<img src=\"art/scene-3-electrotherapy-chamber.png\" alt=\"scene-3-electrotherapy-chamber\" loading=\"lazy\">",
+  "3-ELECTROTHERAPY-CHAMBER": "<img src=\"art/scene-3-electrotherapy-chamber.png\" alt=\"scene-3-electrotherapy-chamber\" loading=\"lazy\">",
+  "scene_3_electrotherapy_chamber": "<img src=\"art/scene-3-electrotherapy-chamber.png\" alt=\"scene-3-electrotherapy-chamber\" loading=\"lazy\">",
+  "item-3-electrotherapy-chamber": "<img src=\"art/scene-3-electrotherapy-chamber.png\" alt=\"scene-3-electrotherapy-chamber\" loading=\"lazy\">",
+  "scene-4-ice-cellar": "<img src=\"art/scene-4-ice-cellar.png\" alt=\"scene-4-ice-cellar\" loading=\"lazy\">",
+  "SCENE-4-ICE-CELLAR": "<img src=\"art/scene-4-ice-cellar.png\" alt=\"scene-4-ice-cellar\" loading=\"lazy\">",
+  "4-ice-cellar": "<img src=\"art/scene-4-ice-cellar.png\" alt=\"scene-4-ice-cellar\" loading=\"lazy\">",
+  "4-ICE-CELLAR": "<img src=\"art/scene-4-ice-cellar.png\" alt=\"scene-4-ice-cellar\" loading=\"lazy\">",
+  "scene_4_ice_cellar": "<img src=\"art/scene-4-ice-cellar.png\" alt=\"scene-4-ice-cellar\" loading=\"lazy\">",
+  "item-4-ice-cellar": "<img src=\"art/scene-4-ice-cellar.png\" alt=\"scene-4-ice-cellar\" loading=\"lazy\">",
+  "scene-5-directors-office": "<img src=\"art/scene-5-directors-office.png\" alt=\"scene-5-directors-office\" loading=\"lazy\">",
+  "SCENE-5-DIRECTORS-OFFICE": "<img src=\"art/scene-5-directors-office.png\" alt=\"scene-5-directors-office\" loading=\"lazy\">",
+  "5-directors-office": "<img src=\"art/scene-5-directors-office.png\" alt=\"scene-5-directors-office\" loading=\"lazy\">",
+  "5-DIRECTORS-OFFICE": "<img src=\"art/scene-5-directors-office.png\" alt=\"scene-5-directors-office\" loading=\"lazy\">",
+  "scene_5_directors_office": "<img src=\"art/scene-5-directors-office.png\" alt=\"scene-5-directors-office\" loading=\"lazy\">",
+  "item-5-directors-office": "<img src=\"art/scene-5-directors-office.png\" alt=\"scene-5-directors-office\" loading=\"lazy\">",
+  "scene-6-observatory": "<img src=\"art/scene-6-observatory.png\" alt=\"scene-6-observatory\" loading=\"lazy\">",
+  "SCENE-6-OBSERVATORY": "<img src=\"art/scene-6-observatory.png\" alt=\"scene-6-observatory\" loading=\"lazy\">",
+  "6-observatory": "<img src=\"art/scene-6-observatory.png\" alt=\"scene-6-observatory\" loading=\"lazy\">",
+  "6-OBSERVATORY": "<img src=\"art/scene-6-observatory.png\" alt=\"scene-6-observatory\" loading=\"lazy\">",
+  "scene_6_observatory": "<img src=\"art/scene-6-observatory.png\" alt=\"scene-6-observatory\" loading=\"lazy\">",
+  "item-6-observatory": "<img src=\"art/scene-6-observatory.png\" alt=\"scene-6-observatory\" loading=\"lazy\">",
+  "scene-cellar": "<img src=\"art/scene-cellar.png\" alt=\"scene-cellar\" loading=\"lazy\">",
+  "SCENE-CELLAR": "<img src=\"art/scene-cellar.png\" alt=\"scene-cellar\" loading=\"lazy\">",
+  "cellar": "<img src=\"art/scene-cellar.png\" alt=\"scene-cellar\" loading=\"lazy\">",
+  "CELLAR": "<img src=\"art/scene-cellar.png\" alt=\"scene-cellar\" loading=\"lazy\">",
+  "scene_cellar": "<img src=\"art/scene-cellar.png\" alt=\"scene-cellar\" loading=\"lazy\">",
+  "item-cellar": "<img src=\"art/scene-cellar.png\" alt=\"scene-cellar\" loading=\"lazy\">",
+  "scene-chamber": "<img src=\"art/scene-chamber.png\" alt=\"scene-chamber\" loading=\"lazy\">",
+  "SCENE-CHAMBER": "<img src=\"art/scene-chamber.png\" alt=\"scene-chamber\" loading=\"lazy\">",
+  "chamber": "<img src=\"art/scene-chamber.png\" alt=\"scene-chamber\" loading=\"lazy\">",
+  "CHAMBER": "<img src=\"art/scene-chamber.png\" alt=\"scene-chamber\" loading=\"lazy\">",
+  "scene_chamber": "<img src=\"art/scene-chamber.png\" alt=\"scene-chamber\" loading=\"lazy\">",
+  "item-chamber": "<img src=\"art/scene-chamber.png\" alt=\"scene-chamber\" loading=\"lazy\">",
+  "scene-directors-office": "<img src=\"art/scene-directors-office.png\" alt=\"scene-directors-office\" loading=\"lazy\">",
+  "SCENE-DIRECTORS-OFFICE": "<img src=\"art/scene-directors-office.png\" alt=\"scene-directors-office\" loading=\"lazy\">",
+  "directors-office": "<img src=\"art/scene-directors-office.png\" alt=\"scene-directors-office\" loading=\"lazy\">",
+  "DIRECTORS-OFFICE": "<img src=\"art/scene-directors-office.png\" alt=\"scene-directors-office\" loading=\"lazy\">",
+  "scene_directors_office": "<img src=\"art/scene-directors-office.png\" alt=\"scene-directors-office\" loading=\"lazy\">",
+  "item-directors-office": "<img src=\"art/scene-directors-office.png\" alt=\"scene-directors-office\" loading=\"lazy\">",
+  "scene-electrotherapy-chamber": "<img src=\"art/scene-electrotherapy-chamber.png\" alt=\"scene-electrotherapy-chamber\" loading=\"lazy\">",
+  "SCENE-ELECTROTHERAPY-CHAMBER": "<img src=\"art/scene-electrotherapy-chamber.png\" alt=\"scene-electrotherapy-chamber\" loading=\"lazy\">",
+  "electrotherapy-chamber": "<img src=\"art/scene-electrotherapy-chamber.png\" alt=\"scene-electrotherapy-chamber\" loading=\"lazy\">",
+  "ELECTROTHERAPY-CHAMBER": "<img src=\"art/scene-electrotherapy-chamber.png\" alt=\"scene-electrotherapy-chamber\" loading=\"lazy\">",
+  "scene_electrotherapy_chamber": "<img src=\"art/scene-electrotherapy-chamber.png\" alt=\"scene-electrotherapy-chamber\" loading=\"lazy\">",
+  "item-electrotherapy-chamber": "<img src=\"art/scene-electrotherapy-chamber.png\" alt=\"scene-electrotherapy-chamber\" loading=\"lazy\">",
+  "scene-foyer": "<img src=\"art/scene-foyer.png\" alt=\"scene-foyer\" loading=\"lazy\">",
+  "SCENE-FOYER": "<img src=\"art/scene-foyer.png\" alt=\"scene-foyer\" loading=\"lazy\">",
+  "foyer": "<img src=\"art/scene-foyer.png\" alt=\"scene-foyer\" loading=\"lazy\">",
+  "FOYER": "<img src=\"art/scene-foyer.png\" alt=\"scene-foyer\" loading=\"lazy\">",
+  "scene_foyer": "<img src=\"art/scene-foyer.png\" alt=\"scene-foyer\" loading=\"lazy\">",
+  "item-foyer": "<img src=\"art/scene-foyer.png\" alt=\"scene-foyer\" loading=\"lazy\">",
+  "scene-ice-cellar": "<img src=\"art/scene-ice-cellar.png\" alt=\"scene-ice-cellar\" loading=\"lazy\">",
+  "SCENE-ICE-CELLAR": "<img src=\"art/scene-ice-cellar.png\" alt=\"scene-ice-cellar\" loading=\"lazy\">",
+  "ice-cellar": "<img src=\"art/scene-ice-cellar.png\" alt=\"scene-ice-cellar\" loading=\"lazy\">",
+  "ICE-CELLAR": "<img src=\"art/scene-ice-cellar.png\" alt=\"scene-ice-cellar\" loading=\"lazy\">",
+  "scene_ice_cellar": "<img src=\"art/scene-ice-cellar.png\" alt=\"scene-ice-cellar\" loading=\"lazy\">",
+  "item-ice-cellar": "<img src=\"art/scene-ice-cellar.png\" alt=\"scene-ice-cellar\" loading=\"lazy\">",
+  "scene-observatory": "<img src=\"art/scene-observatory.png\" alt=\"scene-observatory\" loading=\"lazy\">",
+  "SCENE-OBSERVATORY": "<img src=\"art/scene-observatory.png\" alt=\"scene-observatory\" loading=\"lazy\">",
+  "observatory": "<img src=\"art/scene-observatory.png\" alt=\"scene-observatory\" loading=\"lazy\">",
+  "OBSERVATORY": "<img src=\"art/scene-observatory.png\" alt=\"scene-observatory\" loading=\"lazy\">",
+  "scene_observatory": "<img src=\"art/scene-observatory.png\" alt=\"scene-observatory\" loading=\"lazy\">",
+  "item-observatory": "<img src=\"art/scene-observatory.png\" alt=\"scene-observatory\" loading=\"lazy\">",
+  "scene-office": "<img src=\"art/scene-office.png\" alt=\"scene-office\" loading=\"lazy\">",
+  "SCENE-OFFICE": "<img src=\"art/scene-office.png\" alt=\"scene-office\" loading=\"lazy\">",
+  "office": "<img src=\"art/scene-office.png\" alt=\"scene-office\" loading=\"lazy\">",
+  "OFFICE": "<img src=\"art/scene-office.png\" alt=\"scene-office\" loading=\"lazy\">",
+  "scene_office": "<img src=\"art/scene-office.png\" alt=\"scene-office\" loading=\"lazy\">",
+  "item-office": "<img src=\"art/scene-office.png\" alt=\"scene-office\" loading=\"lazy\">",
+  "scene-records-room": "<img src=\"art/scene-records-room.png\" alt=\"scene-records-room\" loading=\"lazy\">",
+  "SCENE-RECORDS-ROOM": "<img src=\"art/scene-records-room.png\" alt=\"scene-records-room\" loading=\"lazy\">",
+  "records-room": "<img src=\"art/scene-records-room.png\" alt=\"scene-records-room\" loading=\"lazy\">",
+  "RECORDS-ROOM": "<img src=\"art/scene-records-room.png\" alt=\"scene-records-room\" loading=\"lazy\">",
+  "scene_records_room": "<img src=\"art/scene-records-room.png\" alt=\"scene-records-room\" loading=\"lazy\">",
+  "item-records-room": "<img src=\"art/scene-records-room.png\" alt=\"scene-records-room\" loading=\"lazy\">",
+  "scene-room": "<img src=\"art/scene-room.png\" alt=\"scene-room\" loading=\"lazy\">",
+  "SCENE-ROOM": "<img src=\"art/scene-room.png\" alt=\"scene-room\" loading=\"lazy\">",
+  "room": "<img src=\"art/scene-room.png\" alt=\"scene-room\" loading=\"lazy\">",
+  "ROOM": "<img src=\"art/scene-room.png\" alt=\"scene-room\" loading=\"lazy\">",
+  "scene_room": "<img src=\"art/scene-room.png\" alt=\"scene-room\" loading=\"lazy\">",
+  "item-room": "<img src=\"art/scene-room.png\" alt=\"scene-room\" loading=\"lazy\">"
 };
-
-// ============================================================
-// THE ASHMORE SANATORIUM — Game Logic
-// Engine: Vanilla JS point-and-click adventure
-// Author: Hex Corbin
-// ============================================================
-
-// ---- Game State ----
-const state = {
-  currentScene: 'foyer',
-  inventory: [],
-  solvedPuzzles: [],
-  visitedScenes: ['foyer'],
-  activeCommand: null,
-  selectedItem: null,
-  won: false,
-  hintsEnabled: true,
-  hintTimeouts: []
-};
-
-// ---- DOM References ----
-const artDisplay = document.getElementById('art-display');
-const sceneName = document.getElementById('scene-name');
-const textDisplay = document.getElementById('text-display');
-const invBar = document.getElementById('inventory-bar');
-const exitsBar = document.getElementById('exits-bar');
-
-// ---- Display Helpers ----
-function addText(text, cls = '') {
-  const p = document.createElement('p');
-  p.className = cls;
-  p.innerHTML = text;
-  textDisplay.appendChild(p);
-  textDisplay.scrollTop = textDisplay.scrollHeight;
-}
-
-function clearText() { textDisplay.innerHTML = ''; }
-
-// ---- Hint System ----
-function clearHintTimers() {
-  state.hintTimeouts.forEach(timeout => clearTimeout(timeout));
-  state.hintTimeouts = [];
-}
-
-function showHint(sceneId, index) {
-  if (!state.hintsEnabled) return;
-  const hints = GAME_DATA.hints && GAME_DATA.hints[sceneId];
-  if (!hints || index >= hints.length) return;
-  const hint = hints[index];
-  addText(hint.text, 'hint');
-}
-
-function startHintTimer(sceneId) {
-  clearHintTimers();
-  const hints = GAME_DATA.hints && GAME_DATA.hints[sceneId];
-  if (!hints || !state.hintsEnabled) return;
-  hints.forEach((hint, idx) => {
-    const timeout = setTimeout(() => showHint(sceneId, idx), hint.delay * 1000);
-    state.hintTimeouts.push(timeout);
-  });
-}
-
-function toggleHints() {
-  state.hintsEnabled = !state.hintsEnabled;
-  const btn = document.getElementById('hint-toggle');
-  if (btn) btn.textContent = state.hintsEnabled ? 'HINTS: ON' : 'HINTS: OFF';
-  if (!state.hintsEnabled) {
-    clearHintTimers();
-  } else {
-    startHintTimer(state.currentScene);
-  }
-}
-
-// ---- Visual Feedback: Puzzle Solved ----
-function flashPuzzleSolved() {
-  artDisplay.classList.add('puzzle-solved');
-  setTimeout(() => artDisplay.classList.remove('puzzle-solved'), 600);
-}
-
-// ---- Visual Feedback: Item Glow ----
-function flashItemNew() {
-  const invItems = invBar.querySelectorAll('.inv-item');
-  invItems.forEach(el => {
-    el.classList.add('item-new');
-    setTimeout(() => el.classList.remove('item-new'), 2000);
-  });
-}
-
-// ---- Locked Exit Check ----
-// CRITICAL: Every movement must call this first
-function canExit(sceneId, direction) {
-  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
-  if (!scene || !scene.exits || !scene.exits[direction]) return false;
-
-  // Check if any unsolved puzzle blocks this exit
-  const blocker = GAME_DATA.puzzles.find(p =>
-    p.blocksExit &&
-    p.blocksExit.scene === sceneId &&
-    p.blocksExit.direction === direction &&
-    !state.solvedPuzzles.includes(p.id)
-  );
-
-  if (blocker) {
-    const msg = blocker.blockedMessage || blocker.blocked ||
-      'Something prevents you from going that way.';
-    addText(`[The way ${direction} is blocked. ${msg}]`, 'locked');
-    return false;
-  }
-  return true;
-}
-
-// ---- Scene Rendering ----
-function renderScene(sceneId) {
-  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
-  if (!scene) { addText('ERROR: Scene not found!', 'error'); return; }
-
-  state.currentScene = sceneId;
-  if (!state.visitedScenes.includes(sceneId)) state.visitedScenes.push(sceneId);
-
-  // Hint timer
-  clearHintTimers();
-  startHintTimer(sceneId);
-
-  // Update scene name
-  sceneName.textContent = scene.name.toUpperCase();
-
-  // Update art
-  const artKey = sceneId;
-  let artHtml = null;
-  if (typeof GAME_ART !== 'undefined' && GAME_ART[artKey]) { artHtml = GAME_ART[artKey]; }
-  else if (window.GAME_ART && window.GAME_ART[artKey]) { artHtml = window.GAME_ART[artKey]; }
-  
-  if (artHtml) { artDisplay.innerHTML = artHtml; } else {
-    artDisplay.innerHTML = '<span class="no-art">[ ' + scene.name.toUpperCase() + ' ]</span>';
-  }
-
-  // Display prose
-  clearText();
-  addText(scene.prose);
-
-  // Show available items (not yet taken)
-  const availableItems = (scene.items || []).filter(itemId =>
-    !state.inventory.includes(itemId)
-  );
-  if (availableItems.length > 0) {
-    const itemNames = availableItems.map(id => {
-      const item = GAME_DATA.items.find(i => i.id === id);
-      return item ? `<span class="look-target" data-look="${id}">${item.name}</span>` : id;
-    });
-    addText('You notice: ' + itemNames.join(', '), 'system');
-  }
-
-  // Show unsolved puzzles as interactive targets
-  const scenePuzzles = (scene.puzzles || []).filter(pid =>
-    !state.solvedPuzzles.includes(pid)
-  );
-  scenePuzzles.forEach(pid => {
-    const puzzle = GAME_DATA.puzzles.find(p => p.id === pid);
-    if (puzzle) {
-      // Make the puzzle a clickable target for the USE command
-      addText(`There is something here that catches your attention... <span class="look-target" data-look="${pid}">[investigate]</span>`, 'system');
-    }
-  });
-
-  // Render exits (with locked/unlocked state)
-  renderExits(scene.exits || {});
-
-  // Render inventory
-  renderInventory();
-
-  // Check win condition
-  checkWin();
-
-  // Save state
-  saveState();
-}
-
-// ---- Exit Rendering ----
-function renderExits(exits) {
-  exitsBar.innerHTML = '';
-  const directions = ['north', 'south', 'east', 'west'];
-  directions.forEach(dir => {
-    const btn = document.createElement('button');
-    const targetScene = exits[dir];
-    const blocked = targetScene && !canExit(state.currentScene, dir);
-    const available = targetScene && !blocked;
-
-    btn.className = 'exit-btn' + (available ? ' available' : '');
-    btn.textContent = dir.toUpperCase();
-    btn.disabled = !available;
-
-    if (available) {
-      btn.onclick = () => go(targetScene);
-    }
-    exitsBar.appendChild(btn);
-  });
-}
-
-// ---- Inventory Rendering ----
-function renderInventory() {
-  // Remove existing item elements (keep the label)
-  const existing = invBar.querySelectorAll('.inv-item');
-  existing.forEach(el => el.remove());
-  const empty = document.getElementById('inv-empty');
-
-  if (state.inventory.length === 0) {
-    empty.style.display = '';
-  } else {
-    empty.style.display = 'none';
-    state.inventory.forEach(itemId => {
-      const item = GAME_DATA.items.find(i => i.id === itemId);
-      if (!item) return;
-      const el = document.createElement('span');
-      el.className = 'inv-item' + (state.selectedItem === itemId ? ' selected' : '');
-      el.textContent = item.name;
-      el.onclick = () => selectItem(itemId);
-      invBar.appendChild(el);
-    });
-  }
-}
-
-// ---- Command Handlers ----
-function setCommand(cmd) {
-  state.activeCommand = cmd;
-  document.querySelectorAll('.cmd-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.cmd === cmd);
-  });
-
-  if (cmd === 'look') {
-    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-    if (scene && scene.lookDescriptions) {
-      const targets = Object.keys(scene.lookDescriptions);
-      if (targets.length > 0) {
-        addText('You can examine: ' + targets.map(t =>
-          `<span class="look-target" data-look="${t}">${t}</span>`
-        ).join(', '), 'system');
-      }
-    }
-  } else if (cmd === 'use') {
-    if (state.inventory.length > 0) {
-      addText('Select an item from your inventory, then click USE, then a target.', 'system');
-    } else {
-      addText('You have nothing to use.', 'system');
-    }
-  } else if (cmd === 'take') {
-    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-    const available = (scene.items || []).filter(id => !state.inventory.includes(id));
-    if (available.length > 0) {
-      available.forEach(id => takeItem(id));
-    } else {
-      addText('Nothing here to take.', 'system');
-    }
-  }
-}
-
-// ---- Item Selection ----
-function selectItem(itemId) {
-  state.selectedItem = state.selectedItem === itemId ? null : itemId;
-  renderInventory();
-  if (state.selectedItem) {
-    const item = GAME_DATA.items.find(i => i.id === itemId);
-    addText(`Selected: ${item.name}. Now choose a target or action.`, 'system');
-  }
-}
-
-// ---- Take Item ----
-function takeItem(itemId) {
-  if (state.inventory.includes(itemId)) return;
-  const item = GAME_DATA.items.find(i => i.id === itemId);
-  if (!item) return;
-  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-  if (!scene || !(scene.items || []).includes(itemId)) return;
-
-  state.inventory.push(itemId);
-  addText(`You picked up: ${item.name}`, 'success');
-  renderInventory();
-  flashItemNew();
-  saveState();
-}
-
-// ---- Look At Target ----
-function lookAt(target) {
-  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-  if (scene && scene.lookDescriptions && scene.lookDescriptions[target]) {
-    addText(scene.lookDescriptions[target]);
-  } else {
-    // Check if it's an item
-    const item = GAME_DATA.items.find(i => i.id === target);
-    if (item) {
-      addText(item.description);
-    } else {
-      addText('Nothing interesting about that.', 'system');
-    }
-  }
-}
-
-// ---- Use Item On Target ----
-function useItemOn(itemId, targetId) {
-  // Find a puzzle in the current scene that:
-  // 1. Requires this item
-  // 2. Has not been solved yet
-  // 3. The target matches the puzzle id (targetId should be the puzzle id from item's usedOn)
-  const puzzle = GAME_DATA.puzzles.find(p =>
-    p.scene === state.currentScene &&
-    p.requires.includes(itemId) &&
-    !state.solvedPuzzles.includes(p.id) &&
-    p.id === targetId
-  );
-
-  if (puzzle && puzzle.requires.every(req => state.inventory.includes(req))) {
-    state.solvedPuzzles.push(puzzle.id);
-    addText(puzzle.result, 'success');
-    flashPuzzleSolved();
-
-    // Reveal items or unlock scenes
-    (puzzle.reveals || []).forEach(revealId => {
-      const revealItem = GAME_DATA.items.find(i => i.id === revealId);
-      if (revealItem && !state.inventory.includes(revealId)) {
-        state.inventory.push(revealId);
-        addText(`You found: ${revealItem.name}!`, 'success');
-      }
-    });
-
-    renderInventory();
-    renderExits(GAME_DATA.scenes.find(s => s.id === state.currentScene).exits || {});
-    flashItemNew();
-    checkWin();
-    saveState();
-  } else {
-    addText("That doesn't seem to work.", 'system');
-  }
-}
-
-// ---- Movement ----
-function go(sceneId) {
-  if (!canExit(state.currentScene, Object.keys(GAME_DATA.scenes.find(s => s.id === state.currentScene).exits || {}).find(k => GAME_DATA.scenes.find(s => s.id === state.currentScene).exits[k] === sceneId))) {
-    return;
-  }
-  addText('---', 'system');
-  renderScene(sceneId);
-}
-
-// ---- Win Condition ----
-function checkWin() {
-  if (state.won) return;
-  const wc = GAME_DATA.winCondition;
-  if (!wc) return;
-  if (state.currentScene === wc.scene &&
-      wc.requires.every(req => state.inventory.includes(req))) {
-    state.won = true;
-    addText('', '');
-    addText('*** ' + wc.description + ' ***', 'success');
-    addText('', '');
-    addText('CONGRATULATIONS! YOU HAVE COMPLETED THE GAME!', 'success');
-    addText('Type /restart to play again.', 'system');
-    flashPuzzleSolved();
-  }
-}
-
-// ---- Persistence ----
-function saveState() {
-  try {
-    localStorage.setItem('game-' + GAME_DATA.slug, JSON.stringify(state));
-  } catch(e) {}
-}
-
-function loadState() {
-  try {
-    const saved = localStorage.getItem('game-' + GAME_DATA.slug);
-    if (saved) {
-      const s = JSON.parse(saved);
-      Object.assign(state, s);
-      return true;
-    }
-  } catch(e) {}
-  return false;
-}
-
-// ---- Event Listeners ----
-document.querySelectorAll('.cmd-btn').forEach(btn => {
-  btn.onclick = () => setCommand(btn.dataset.cmd);
-});
-
-document.getElementById('hint-toggle').addEventListener('click', toggleHints);
-
-document.addEventListener('click', (e) => {
-  if (e.target.classList.contains('look-target')) {
-    const target = e.target.dataset.look;
-    if (state.activeCommand === 'use' && state.selectedItem) {
-      useItemOn(state.selectedItem, target);
-    } else {
-      lookAt(target);
-    }
-  }
-});
-// Reset button handler
-document.getElementById('reset-btn').addEventListener('click', function() {
-    if (confirm('Reset the game to the beginning?')) {
-        state.currentScene = GAME_DATA.scenes[0].id;
-        state.inventory = [];
-        state.solvedPuzzles = [];
-        state.visitedScenes = [state.currentScene];
-        state.activeCommand = null;
-        state.selectedItem = null;
-        state.won = false;
-        clearText();
-        addText('The story begins anew...', 'system');
-        renderScene(state.currentScene);
-        renderInventory();
-    }
-});
-
-
-// ---- Special Command: Restart ----
-document.addEventListener('keydown', (e) => {
-  if (e.key === '/' || (e.ctrlKey && e.key === 'r')) {
-    e.preventDefault();
-    try {
-      localStorage.removeItem('game-' + GAME_DATA.slug);
-    } catch(err) {}
-    location.reload();
-  }
-});
-
-// ---- Initialize ----
-function init() {
-  if (Object.keys(GAME_DATA).length === 0) {
-    addText('ERROR: No game data loaded.', 'error');
-    return;
-  }
-
-  addText('=== ' + GAME_DATA.title.toUpperCase() + ' ===', 'success');
-  addText(GAME_DATA.setting, 'system');
-  addText('', '');
-  addText('Commands: LOOK | TAKE | USE | EXAMINE', 'system');
-  addText('Click exits to move between rooms.', 'system');
-  addText('---', 'system');
-
-  if (!loadState()) {
-    renderScene('foyer');
-  } else {
-    renderScene(state.currentScene);
-    addText('[Game restored from save]', 'system');
-  }
-}
-
-init();
-
-</script>
+  </script>
+  <script src="../standard-game-runtime.js"></script>
 </body>
 </html>

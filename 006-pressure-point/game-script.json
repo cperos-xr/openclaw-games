@@ -152,7 +152,7 @@
         "north": "airlock"
       },
       "items": ["oxygen-canister", "airlock-circuit"],
-      "puzzles": ["engineering-puzzle"],
+      "puzzles": ["engineering-door-puzzle"],
       "lookDescriptions": {
         "pressure valve": "A massive wheel taller than you, rusted in place. Pipes leak steam around it.",
         "oxygen canister": "Strapped to the wall, gauge half-full. Hisses faintly.",
@@ -225,7 +225,7 @@
       "requires": ["oxygen-canister", "airlock-circuit"],
       "action": "install airlock circuit and oxygen canister in control console",
       "result": "The console powers up. The outer hatch cycles open, revealing the escape pod.",
-      "reveals": ["win"],
+      "reveals": [],
       "blocksExit": ""
     }
   ],

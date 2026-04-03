@@ -1,279 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Vanity of Dreams | Game #010</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        /* =====================================================
-           VERTICAL LAYOUT — single-column, image-first
-           Optimised for cheaper raster images (16:9 landscape)
-           Mobile-first; scales cleanly to tablet and desktop.
-           ===================================================== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background-color: #000;
-            color: #0f0;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 12px;
-            line-height: 1.6;
-            padding: 12px;
-            max-width: 720px;
-            margin: 0 auto;
-        }
-
-        header { text-align: center; margin-bottom: 8px; }
-
-        h1 {
-            font-size: 14px;
-            color: #0f0;
-            text-shadow: 0 0 6px #0f0;
-            margin-bottom: 4px;
-        }
-
-        h2 { font-size: 10px; color: #080; margin-bottom: 6px; }
-
-        #scene-name {
-            font-size: 14px;
-            text-align: center;
-            margin-bottom: 8px;
-            color: #0f0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 4px #0f0;
-        }
-
-        /* --- Art panel: full width, 16:9 ratio --- */
-        .art-panel {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            border: 2px solid #0f0;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
-
-        #art-display {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #art-display img,
-        #art-display svg {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* --- Text panel --- */
-        .text-panel {
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 12px;
-            margin-bottom: 8px;
-        }
-
-        #text-display {
-            max-height: 200px;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #033;
-            scrollbar-width: thin;
-            scrollbar-color: #0f0 #000;
-        }
-
-        #text-display::-webkit-scrollbar { width: 4px; }
-        #text-display::-webkit-scrollbar-track { background: #000; }
-        #text-display::-webkit-scrollbar-thumb { background: #0f0; }
-
-        #text-display p { margin-bottom: 8px; color: #0f0; }
-        #text-display .system { color: #0a0; font-style: italic; }
-        #text-display .success { color: #0f0; font-weight: bold; animation: itemGlow 1s infinite alternate; }
-        #text-display .locked { color: #f00; font-weight: bold; }
-        #text-display .error { color: #f00; }
-        #text-display .hint { color: #FFAA00; font-style: italic; }
-
-        .hint-toggle {
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 2px 6px;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 8px;
-            cursor: pointer;
-            margin-top: 4px;
-        }
-        .hint-toggle:hover { background-color: #0f0; color: #000; }
-
-        /* --- Command buttons: equal-width row --- */
-        .command-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .cmd-btn {
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 6px 10px;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex: 1;
-            min-width: 60px;
-            text-align: center;
-        }
-        .cmd-btn:hover, .cmd-btn.active { background-color: #0f0; color: #000; }
-
-        /* --- Inventory + Exits: 2-col on tablet+, stacked on mobile --- */
-        .panels-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        @media (max-width: 480px) {
-            .panels-row { grid-template-columns: 1fr; }
-            h1 { font-size: 12px; }
-            .cmd-btn { font-size: 9px; padding: 5px 6px; }
-        }
-
-        .inventory-panel, .exits-panel {
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 10px;
-        }
-
-        .inventory-panel h3, .exits-panel h3 {
-            font-size: 10px;
-            margin-bottom: 6px;
-            color: #0f0;
-            border-bottom: 1px solid #033;
-            padding-bottom: 4px;
-        }
-
-        #inventory-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            min-height: 20px;
-        }
-
-        .inv-item {
-            border: 1px solid #0f0;
-            padding: 3px 6px;
-            font-size: 9px;
-            cursor: pointer;
-            background-color: #000;
-            color: #0f0;
-        }
-        .inv-item.selected { background-color: #0f0; color: #000; }
-
-        #exits-bar { display: flex; flex-wrap: wrap; gap: 6px; }
-
-        .exit-btn {
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 5px 8px;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 9px;
-            cursor: pointer;
-        }
-        .exit-btn.available:hover { background-color: #0f0; color: #000; }
-
-        .look-target { color: #0af; text-decoration: underline; cursor: pointer; }
-        .look-target:hover { color: #0ff; }
-
-        /* --- Animations --- */
-        @keyframes puzzle-solved {
-            0% { filter: brightness(1); }
-            50% { filter: brightness(2); }
-            100% { filter: brightness(1); }
-        }
-
-        @keyframes itemGlow {
-            0% { text-shadow: 0 0 5px #0f0; }
-            100% { text-shadow: 0 0 15px #0f0; }
-        }
-
-        .puzzle-solved { animation: puzzle-solved 0.6s ease-in-out; }
-
-        footer {
-            margin-top: 12px;
-            text-align: center;
-            font-size: 8px;
-            color: #080;
-            padding: 8px 0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Vanity of Dreams | Game #010</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../standard-game-style.css">
 </head>
-<body>
-    <header>
-        <h1>THE VANITY OF DREAMS</h1>
-        <h2>Game #010</h2>
-        <button id="hint-toggle" class="hint-toggle">HINTS: ON</button>
-            <button id="reset-btn" class="cmd-btn reset-btn" style="color:#ff6666;border-color:#ff6666;">RESET</button>
-    </header>
+<body class="openclaw-game layout-standard" data-layout="standard">
+  <header>
+    <h1>THE VANITY OF DREAMS</h1>
+    <div class="subtitle">OpenClaw Adventures - Game #010</div>
+  </header>
 
-    <div id="scene-name">THE LOBBY</div>
+  <div id="scene-name">HOTEL LOBBY</div>
 
+  <div class="game-container">
     <div class="art-panel">
-        <div id="art-display">
-            <!-- Art inserted by JavaScript -->
-        </div>
+      <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+      </div>
     </div>
 
     <div class="text-panel">
-        <div id="text-display">
-            <!-- Game text appears here -->
+      <div id="text-display"></div>
+
+      <div id="command-status" class="status-line"></div>
+
+      <div class="command-bar">
+        <button class="cmd-btn active" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      </div>
+
+      <div class="subpanel targets-panel">
+        <h3>TARGETS</h3>
+        <div id="targets-bar"></div>
+      </div>
+
+      <div class="subpanel inventory-panel">
+        <h3>INVENTORY</h3>
+        <div id="inventory-bar">
+          <span class="empty-state">(empty)</span>
         </div>
-        <div class="command-bar">
-            <button class="cmd-btn" data-cmd="look">LOOK</button>
-            <button class="cmd-btn" data-cmd="take">TAKE</button>
-            <button class="cmd-btn" data-cmd="use">USE</button>
-            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
-        </div>
+      </div>
+
+      <div class="subpanel exits-panel">
+        <h3>EXITS</h3>
+        <div id="exits-bar"></div>
+      </div>
+
+      <div class="utility-bar">
+        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+        <button id="reset-game" class="utility-btn">RESET</button>
+      </div>
     </div>
+  </div>
 
-    <div class="panels-row">
-        <div class="inventory-panel">
-            <h3>INVENTORY</h3>
-            <div id="inventory-bar">
-                <span id="inv-empty">(empty)</span>
-            </div>
-        </div>
-        <div class="exits-panel">
-            <h3>EXITS</h3>
-            <div id="exits-bar">
-                <!-- Exit buttons inserted by JavaScript -->
-            </div>
-        </div>
-    </div>
+  <footer>
+    OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
+  </footer>
 
-    <footer>
-        Use the command buttons or click on highlighted words. Click exits to move.
-        Type /restart in the text area to reset the game.
-    </footer>
-
-    <script>
-// ============================================================
-// GAME DATA — replace with assembled content from game-script.json
-// ============================================================
-var GAME_DATA = {
+  <script>
+window.GAME_DATA = {
   "title": "The Vanity of Dreams",
   "slug": "vanity-of-dreams",
   "number": 10,
@@ -539,405 +329,82 @@ var GAME_DATA = {
     "requires": [],
     "description": "As you step into the ballroom, the hotel's timeline collapses. You are thrust out into the night, the building crumbling behind you. You have escaped the Vanity of Dreams."
   }
-}
-
-// ============================================================
-// GAME ART — replace with inlined SVGs from art/*.svg
-// ============================================================
-var GAME_ART = {
-  "hotel-lobby": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#16213e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- chandelier -->\n  <g stroke=\"#e94560\" stroke-width=\"3\" fill=\"none\">\n    <circle cx=\"320\" cy=\"80\" r=\"30\"/>\n    <line x1=\"320\" y1=\"110\" x2=\"320\" y2=\"150\"/>\n    <line x1=\"290\" y1=\"110\" x2=\"350\" y2=\"110\"/>\n    <line x1=\"280\" y1=\"140\" x2=\"360\" y2=\"140\"/>\n  </g>\n  <!-- reception desk -->\n  <rect x=\"100\" y=\"250\" width=\"150\" height=\"50\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- mirror on wall -->\n  <rect x=\"400\" y=\"100\" width=\"120\" height=\"150\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"4\"/>\n  <text x=\"460\" y=\"180\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">MIRROR</text>\n  <!-- door north -->\n  <rect x=\"300\" y=\"50\" width=\"80\" height=\"100\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"105\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">EXIT</text>\n  <!-- shards on floor -->\n  <g fill=\"#a0a0c0\">\n    <polygon points=\"150,320 160,310 170,320\"/>\n    <polygon points=\"180,330 190,315 200,330\"/>\n  </g>\n</svg>",
-  "hallway-10th": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- carpet -->\n  <rect x=\"50\" y=\"200\" width=\"540\" height=\"150\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"180\" fill=\"#16213e\"/>\n  <!-- neon sign -->\n  <g fill=\"#ff0055\">\n    <rect x=\"260\" y=\"30\" width=\"120\" height=\"40\" fill=\"#ff0055\" opacity=\"0.8\"/>\n    <text x=\"320\" y=\"58\" font-family=\"monospace\" font-size=\"24\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#fff\">1010</text>\n  </g>\n  <!-- door to room 1010 -->\n  <rect x=\"400\" y=\"120\" width=\"80\" height=\"120\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"440\" y=\"180\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">KEYPAD</text>\n  <!-- keycard on floor -->\n  <g transform=\"translate(200,250)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"14\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n  </g>\n  <!-- exit east -->\n  <rect x=\"500\" y=\"150\" width=\"60\" height=\"80\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"530\" y=\"195\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ROOM</text>\n</svg>",
-  "room-1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#2a2a4a\"/>\n  <!-- bed -->\n  <rect x=\"50\" y=\"220\" width=\"120\" height=\"60\" fill=\"#3a3a5a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- curtains -->\n  <rect x=\"500\" y=\"200\" width=\"30\" height=\"100\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- writing desk -->\n  <rect x=\"300\" y=\"200\" width=\"150\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- logbook on desk -->\n  <rect x=\"320\" y=\"220\" width=\"60\" height=\"40\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <text x=\"350\" y=\"245\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">LOG</text>\n  <!-- elevator door south -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ELEVATOR</text>\n</svg>",
-  "service-elevator": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#16213e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#1a1a2e\"/>\n  <!-- control panel -->\n  <rect x=\"300\" y=\"100\" width=\"100\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <circle cx=\"340\" cy=\"130\" r=\"10\" fill=\"#333\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- fuse box -->\n  <rect x=\"50\" y=\"120\" width=\"80\" height=\"60\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <g fill=\"none\" stroke=\"#f00\" stroke-width=\"2\">\n    <rect x=\"60\" y=\"130\" width=\"15\" height=\"20\"/>\n    <rect x=\"85\" y=\"130\" width=\"15\" height=\"20\"/>\n  </g>\n  <!-- spare parts -->\n  <g transform=\"translate(500,200)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"20\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"20\" y=\"12\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n  </g>\n  <g transform=\"translate(530,200)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"15\" fill=\"#2a4a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"9\" font-family=\"monospace\" font-size=\"5\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  </g>\n  <!-- exit down -->\n  <rect x=\"300\" y=\"350\" width=\"80\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"372\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">DOWN</text>\n</svg>",
-  "boiler-room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- steam pipes -->\n  <rect x=\"100\" y=\"100\" width=\"40\" height=\"200\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <rect x=\"500\" y=\"120\" width=\"40\" height=\"180\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- boiler -->\n  <ellipse cx=\"320\" cy=\"250\" rx=\"120\" ry=\"60\" fill=\"#2a2a4a\" stroke=\"#ff4500\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"255\" font-family=\"monospace\" font-size=\"14\" fill=\"#ff4500\" text-anchor=\"middle\">BOILER</text>\n  <!-- chains -->\n  <g stroke=\"#888\" stroke-width=\"4\">\n    <line x1=\"180\" y1=\"120\" x2=\"180\" y2=\"200\"/>\n    <line x1=\"460\" y1=\"120\" x2=\"460\" y2=\"200\"/>\n  </g>\n  <!-- override hook -->\n  <g transform=\"translate(300,80)\">\n    <path d=\"M0,0 Q10,-20 20,0\" fill=\"none\" stroke=\"#ffd700\" stroke-width=\"4\"/>\n    <circle cx=\"10\" cy=\"-25\" r=\"5\" fill=\"#ffd700\"/>\n  </g>\n  <!-- elevator key hanging -->\n  <g transform=\"translate(310,100)\">\n    <rect x=\"0\" y=\"0\" width=\"25\" height=\"8\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"12\" cy=\"4\" r=\"3\" fill=\"#ffd700\"/>\n  </g>\n  <!-- door north -->\n  <rect x=\"280\" y=\"40\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"72\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">BALLROOM</text>\n</svg>",
-  "ballroom": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- dance floor -->\n  <ellipse cx=\"320\" cy=\"220\" rx=\"250\" ry=\"120\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- chandeliers -->\n  <g fill=\"#e94560\">\n    <circle cx=\"150\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n    <circle cx=\"490\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n  </g>\n  <!-- large mirror on wall -->\n  <rect x=\"200\" y=\"40\" width=\"240\" height=\"120\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"105\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">THE REFLECTION</text>\n  <!-- ghostly silhouettes -->\n  <g fill=\"#666\" opacity=\"0.5\">\n    <ellipse cx=\"260\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"300\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"340\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n  </g>\n</svg>",
-  "mirror-shard": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"20,10 40,5 50,20 45,40 25,45 15,30\" fill=\"#a0a0c0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"45,40 55,35 60,50 50,55\" fill=\"#c0c0e0\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>",
-  "key-1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"40\" height=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"50\" cy=\"26\" r=\"6\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"27\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n</svg>",
-  "maintenance-log": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"26\" x2=\"44\" y2=\"26\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"38\" x2=\"40\" y2=\"38\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n</svg>",
-  "fuse": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"10\" width=\"24\" height=\"44\" fill=\"#2a2a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"24\" y=\"20\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <rect x=\"24\" y=\"35\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <text x=\"32\" y=\"45\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n</svg>",
-  "power-cell": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"15\" width=\"34\" height=\"34\" fill=\"#1a3a1a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"25\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">PWR</text>\n  <text x=\"32\" y=\"35\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  <rect x=\"20\" y=\"42\" width=\"24\" height=\"6\" fill=\"#2a4a2a\"/>\n</svg>",
-  "elevator-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"32\" rx=\"12\" ry=\"8\"/>\n    <rect x=\"24\" y=\"30\" width=\"16\" height=\"4\" fill=\"#ffd700\"/>\n    <circle cx=\"32\" cy=\"28\" r=\"4\"/>\n  </g>\n  <text x=\"32\" y=\"42\" font-family=\"monospace\" font-size=\"6\" fill=\"#ffd700\" text-anchor=\"middle\">OVRD</text>\n</svg>"
-}
-
-// ============================================================
-// GAME LOGIC
-// ============================================================
-// VANITY OF DREAMS - GAME LOGIC
-// Generated by Gameplay Coder (Hex Corbin)
-// ============================================================
-
-// Game data will be embedded here by the Game Assembler
-var GAME_DATA = {}; // Replace with actual game-script.json contents
-
-// ---- Game State ----
-const state = {
-  currentScene: 'hotel-lobby',
-  inventory: [],
-  solvedPuzzles: [],
-  visitedScenes: ['hotel-lobby'],
-  activeCommand: null,
-  selectedItem: null,
-  won: false
 };
-
-// ---- DOM References ----
-const artDisplay = document.getElementById('art-display');
-const sceneName = document.getElementById('scene-name');
-const textDisplay = document.getElementById('text-display');
-const invBar = document.getElementById('inventory-bar');
-const exitsBar = document.getElementById('exits-bar');
-
-// ---- Display Functions ----
-function addText(text, cls = '') {
-  const p = document.createElement('p');
-  p.className = cls;
-  p.innerHTML = text;
-  textDisplay.appendChild(p);
-  textDisplay.scrollTop = textDisplay.scrollHeight;
-}
-
-function clearText() { textDisplay.innerHTML = ''; }
-
-function renderScene(sceneId) {
-  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
-  if (!scene) { addText('ERROR: Scene not found!', 'error'); return; }
-
-  state.currentScene = sceneId;
-  if (!state.visitedScenes.includes(sceneId)) state.visitedScenes.push(sceneId);
-
-  // Update scene name
-  sceneName.textContent = scene.name.toUpperCASE();
-
-  // Update art
-  const artKey = 'scene-' + sceneId.replace('scene-', '');
-  let artHtml = null;
-  if (typeof GAME_ART !== 'undefined' && GAME_ART[artKey]) { artHtml = GAME_ART[artKey]; }
-  else if (window.GAME_ART && window.GAME_ART[artKey]) { artHtml = window.GAME_ART[artKey]; }
-  
-  if (artHtml) { artDisplay.innerHTML = artHtml; } else {
-    artDisplay.innerHTML = '<span class="no-art">[ ' + scene.name.toUpperCase() + ' ]</span>';
-  }
-
-  // Display prose
-  clearText();
-  addText(scene.prose);
-
-  // Show available items (not yet taken)
-  const availableItems = (scene.items || []).filter(itemId =>
-    !state.inventory.includes(itemId)
-  );
-  if (availableItems.length > 0) {
-    const itemNames = availableItems.map(id => {
-      const item = GAME_DATA.items.find(i => i.id === id);
-      return item ? `<span class="look-target" data-look="${id}">${item.name}</span>` : id;
-    });
-    addText('You notice: ' + itemNames.join(', '), 'system');
-  }
-
-  // Show unsolved puzzles
-  const scenePuzzles = (scene.puzzles || []).filter(pid =>
-    !state.solvedPuzzles.includes(pid)
-  );
-  scenePuzzles.forEach(pid => {
-    const puzzle = GAME_DATA.puzzles.find(p => p.id === pid);
-    if (puzzle) {
-      addText('There is something here that catches your attention...', 'system');
-    }
-  });
-
-  // Render exits
-  renderExits(scene.exits || {});
-
-  // Render inventory
-  renderInventory();
-
-  // Check win condition
-  checkWin();
-
-  // Save state
-  saveState();
-}
-
-function canExit(sceneId, direction) {
-  const exit = GAME_DATA.scenes.find(s => s.id === sceneId)?.exits?.[direction];
-  if (!exit) return false;
-  
-  // Check if any unsolved puzzle blocks this exit
-  const blocker = GAME_DATA.puzzles.find(p =>
-    p.blocksExit?.scene === sceneId &&
-    p.blocksExit?.direction === direction &&
-    !state.solvedPuzzles.includes(p.id)
-  );
-  
-  if (blocker) {
-    addText(`[The way ${direction} is blocked. ${blocker.blockedMessage || 'Something prevents you from going that way.'}]`, 'locked');
-    return false;
-  }
-  return true;
-}
-
-function renderExits(exits) {
-  exitsBar.innerHTML = '';
-  const directions = ['north', 'south', 'east', 'west'];
-  directions.forEach(dir => {
-    const btn = document.createElement('button');
-    btn.className = 'exit-btn' + (exits[dir] ? ' available' : '');
-    btn.textContent = dir.toUpperCase();
-    btn.disabled = !exits[dir];
-    if (exits[dir]) {
-      btn.onclick = () => go(exits[dir]);
-    }
-    exitsBar.appendChild(btn);
-  });
-}
-
-function renderInventory() {
-  const items = invBar.querySelectorAll('.inv-item');
-  items.forEach(el => el.remove());
-  const empty = document.getElementById('inv-empty');
-
-  if (state.inventory.length === 0) {
-    empty.style.display = '';
-  } else {
-    empty.style.display = 'none';
-    state.inventory.forEach(itemId => {
-      const item = GAME_DATA.items.find(i => i.id === itemId);
-      if (!item) return;
-      const el = document.createElement('span');
-      el.className = 'inv-item' + (state.selectedItem === itemId ? ' selected' : '');
-      el.textContent = item.name;
-      el.onclick = () => selectItem(itemId);
-      invBar.appendChild(el);
-    });
-  }
-}
-
-// ---- Command Handlers ----
-function setCommand(cmd) {
-  state.activeCommand = cmd;
-  document.querySelectorAll('.cmd-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.cmd === cmd);
-  });
-  if (cmd === 'look') {
-    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-    if (scene && scene.lookDescriptions) {
-      const targets = Object.keys(scene.lookDescriptions);
-      if (targets.length > 0) {
-        addText('You can examine: ' + targets.map(t =>
-          `<span class="look-target" data-look="${t}">${t}</span>`
-        ).join(', '), 'system');
-      }
-    }
-  } else if (cmd === 'use') {
-    if (state.inventory.length > 0) {
-      addText('Select an item from your inventory, then click what to use it on.', 'system');
-    } else {
-      addText('You have nothing to use.', 'system');
-    }
-  } else if (cmd === 'take') {
-    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-    const available = (scene.items || []).filter(id => !state.inventory.includes(id));
-    if (available.length > 0) {
-      available.forEach(id => takeItem(id));
-    } else {
-      addText('Nothing here to take.', 'system');
-    }
-  }
-}
-
-function selectItem(itemId) {
-  state.selectedItem = state.selectedItem === itemId ? null : itemId;
-  renderInventory();
-  if (state.selectedItem) {
-    const item = GAME_DATA.items.find(i => i.id === itemId);
-    addText(`Selected: ${item.name}. Click USE, then a target.`, 'system');
-  }
-}
-
-function takeItem(itemId) {
-  if (state.inventory.includes(itemId)) return;
-  const item = GAME_DATA.items.find(i => i.id === itemId);
-  if (!item) return;
-  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-  if (!scene || !(scene.items || []).includes(itemId)) return;
-
-  state.inventory.push(itemId);
-  addText(`You picked up: ${item.name} — ${item.description}`, 'success');
-  renderInventory();
-  saveState();
-}
-
-function lookAt(target) {
-  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-  if (scene && scene.lookDescriptions && scene.lookDescriptions[target]) {
-    addText(scene.lookDescriptions[target]);
-  } else {
-    // Check if it's an item
-    const item = GAME_DATA.items.find(i => i.id === target);
-    if (item) {
-      addText(item.description);
-    } else {
-      addText('Nothing interesting about that.', 'system');
-    }
-  }
-}
-
-function useItemOn(itemId, targetId) {
-  const puzzle = GAME_DATA.puzzles.find(p =>
-    p.scene === state.currentScene &&
-    p.requires.includes(itemId) &&
-    p.id === targetId &&
-    !state.solvedPuzzles.includes(p.id)
-  );
-
-  if (puzzle && puzzle.requires.every(req => state.inventory.includes(req))) {
-    state.solvedPuzzles.push(puzzle.id);
-    addText(puzzle.result, 'success');
-    
-    // Apply visual feedback for puzzle solved
-    if (artDisplay) {
-      artDisplay.classList.add('puzzle-solved');
-      setTimeout(() => {
-        artDisplay.classList.remove('puzzle-solved');
-      }, 600);
-    }
-    
-    // Reveal items or unlock scenes
-    (puzzle.reveals || []).forEach(revealId => {
-      const revealItem = GAME_DATA.items.find(i => i.id === revealId);
-      if (revealItem) {
-        state.inventory.push(revealId);
-        addText(`You found: ${revealItem.name}!`, 'success');
-        
-        // Apply item glow effect
-        setTimeout(() => {
-          const invItems = invBar.querySelectorAll('.inv-item');
-          invItems.forEach(el => {
-            if (el.textContent === revealItem.name) {
-              el.classList.add('item-new');
-              setTimeout(() => {
-                el.classList.remove('item-new');
-              }, 1000);
-            }
-          });
-        }, 100);
-      }
-    });
-    
-    // Update exit buttons for newly unlocked exits
-    const currentSceneExits = GAME_DATA.scenes.find(s => s.id === state.currentScene)?.exits || {};
-    renderExits(currentSceneExits);
-    
-    renderInventory();
-    checkWin();
-    saveState();
-  } else {
-    addText("That doesn't seem to work.", 'system');
-  }
-}
-
-function go(direction) {
-  const currentScene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
-  if (!currentScene) return;
-  
-  // Check if exit exists
-  const exitScene = currentScene.exits?.[direction];
-  if (!exitScene) {
-    addText(`You can't go ${direction}.`, 'system');
-    return;
-  }
-  
-  // Check if exit is locked by puzzle
-  if (!canExit(state.currentScene, direction)) {
-    return;
-  }
-  
-  addText('---', 'system');
-  renderScene(exitScene);
-}
-
-function checkWin() {
-  if (state.won) return;
-  const wc = GAME_DATA.winCondition;
-  if (!wc) return;
-  if (state.currentScene === wc.scene &&
-      wc.requires.every(req => state.inventory.includes(req))) {
-    state.won = true;
-    addText('', '');
-    addText('*** ' + wc.description + ' ***', 'success');
-    addText('', '');
-    addText('CONGRATULATIONS! YOU HAVE COMPLETED THE GAME!', 'success');
-    addText('Type /restart to play again.', 'system');
-  }
-}
-
-// ---- Persistence ----
-function saveState() {
-  try {
-    localStorage.setItem('game-' + GAME_DATA.slug, JSON.stringify(state));
-  } catch(e) {}
-}
-
-function loadState() {
-  try {
-    const saved = localStorage.getItem('game-' + GAME_DATA.slug);
-    if (saved) {
-      const s = JSON.parse(saved);
-      Object.assign(state, s);
-      return true;
-    }
-  } catch(e) {}
-  return false;
-}
-
-// ---- Event Listeners ----
-document.querySelectorAll('.cmd-btn').forEach(btn => {
-  btn.onclick = () => setCommand(btn.dataset.cmd);
-});
-
-document.addEventListener('click', (e) => {
-  if (e.target.classList.contains('look-target')) {
-    const target = e.target.dataset.look;
-    if (state.activeCommand === 'use' && state.selectedItem) {
-      useItemOn(state.selectedItem, target);
-    } else {
-      lookAt(target);
-    }
-  }
-});
-
-// ---- Initialize ----
-function init() {
-  if (Object.keys(GAME_DATA).length === 0) {
-    addText('ERROR: No game data loaded. This is a template file.', 'error');
-    addText('The Gameplay Coder will embed game data here.', 'system');
-    return;
-  }
-
-  addText('=== ' + GAME_DATA.title.toUpperCase() + ' ===', 'success');
-  addText(GAME_DATA.setting, 'system');
-  addText('', '');
-  addText('Commands: LOOK | TAKE | USE | EXAMINE', 'system');
-  addText('Click exits to move between rooms.', 'system');
-  addText('---', 'system');
-
-  if (!loadState()) {
-    renderScene('hotel-lobby');
-  } else {
-    renderScene(state.currentScene);
-    addText('[Game restored from save]', 'system');
-  }
-}
-
-init();
-    
-// Reset button
-document.getElementById('reset-btn')?.addEventListener('click', function() {
-    if (confirm('Reset the game to the beginning?')) {
-        state = {currentScene: GAME_DATA.scenes[0].id, inventory: [], solvedPuzzles: [], visitedScenes: [GAME_DATA.scenes[0].id], selectedItem: null, won: false};
-        clearText(); addText('The story begins anew...', 'system');
-        renderScene(state.currentScene); renderInventory();
-    }
-});
-    </script></body>
+window.GAME_ART = {
+  "item-elevator-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"32\" rx=\"12\" ry=\"8\"/>\n    <rect x=\"24\" y=\"30\" width=\"16\" height=\"4\" fill=\"#ffd700\"/>\n    <circle cx=\"32\" cy=\"28\" r=\"4\"/>\n  </g>\n  <text x=\"32\" y=\"42\" font-family=\"monospace\" font-size=\"6\" fill=\"#ffd700\" text-anchor=\"middle\">OVRD</text>\n</svg>\n",
+  "ITEM-ELEVATOR-KEY": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"32\" rx=\"12\" ry=\"8\"/>\n    <rect x=\"24\" y=\"30\" width=\"16\" height=\"4\" fill=\"#ffd700\"/>\n    <circle cx=\"32\" cy=\"28\" r=\"4\"/>\n  </g>\n  <text x=\"32\" y=\"42\" font-family=\"monospace\" font-size=\"6\" fill=\"#ffd700\" text-anchor=\"middle\">OVRD</text>\n</svg>\n",
+  "elevator-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"32\" rx=\"12\" ry=\"8\"/>\n    <rect x=\"24\" y=\"30\" width=\"16\" height=\"4\" fill=\"#ffd700\"/>\n    <circle cx=\"32\" cy=\"28\" r=\"4\"/>\n  </g>\n  <text x=\"32\" y=\"42\" font-family=\"monospace\" font-size=\"6\" fill=\"#ffd700\" text-anchor=\"middle\">OVRD</text>\n</svg>\n",
+  "ELEVATOR-KEY": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"32\" rx=\"12\" ry=\"8\"/>\n    <rect x=\"24\" y=\"30\" width=\"16\" height=\"4\" fill=\"#ffd700\"/>\n    <circle cx=\"32\" cy=\"28\" r=\"4\"/>\n  </g>\n  <text x=\"32\" y=\"42\" font-family=\"monospace\" font-size=\"6\" fill=\"#ffd700\" text-anchor=\"middle\">OVRD</text>\n</svg>\n",
+  "item_elevator_key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"32\" rx=\"12\" ry=\"8\"/>\n    <rect x=\"24\" y=\"30\" width=\"16\" height=\"4\" fill=\"#ffd700\"/>\n    <circle cx=\"32\" cy=\"28\" r=\"4\"/>\n  </g>\n  <text x=\"32\" y=\"42\" font-family=\"monospace\" font-size=\"6\" fill=\"#ffd700\" text-anchor=\"middle\">OVRD</text>\n</svg>\n",
+  "scene-elevator-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"32\" rx=\"12\" ry=\"8\"/>\n    <rect x=\"24\" y=\"30\" width=\"16\" height=\"4\" fill=\"#ffd700\"/>\n    <circle cx=\"32\" cy=\"28\" r=\"4\"/>\n  </g>\n  <text x=\"32\" y=\"42\" font-family=\"monospace\" font-size=\"6\" fill=\"#ffd700\" text-anchor=\"middle\">OVRD</text>\n</svg>\n",
+  "item-fuse": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"10\" width=\"24\" height=\"44\" fill=\"#2a2a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"24\" y=\"20\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <rect x=\"24\" y=\"35\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <text x=\"32\" y=\"45\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n</svg>\n",
+  "ITEM-FUSE": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"10\" width=\"24\" height=\"44\" fill=\"#2a2a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"24\" y=\"20\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <rect x=\"24\" y=\"35\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <text x=\"32\" y=\"45\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n</svg>\n",
+  "fuse": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"10\" width=\"24\" height=\"44\" fill=\"#2a2a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"24\" y=\"20\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <rect x=\"24\" y=\"35\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <text x=\"32\" y=\"45\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n</svg>\n",
+  "FUSE": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"10\" width=\"24\" height=\"44\" fill=\"#2a2a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"24\" y=\"20\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <rect x=\"24\" y=\"35\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <text x=\"32\" y=\"45\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n</svg>\n",
+  "item_fuse": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"10\" width=\"24\" height=\"44\" fill=\"#2a2a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"24\" y=\"20\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <rect x=\"24\" y=\"35\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <text x=\"32\" y=\"45\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n</svg>\n",
+  "scene-fuse": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"10\" width=\"24\" height=\"44\" fill=\"#2a2a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"24\" y=\"20\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <rect x=\"24\" y=\"35\" width=\"16\" height=\"10\" fill=\"#ff4500\"/>\n  <text x=\"32\" y=\"45\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n</svg>\n",
+  "item-key-1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"40\" height=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"50\" cy=\"26\" r=\"6\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"27\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n</svg>\n",
+  "ITEM-KEY-1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"40\" height=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"50\" cy=\"26\" r=\"6\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"27\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n</svg>\n",
+  "key-1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"40\" height=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"50\" cy=\"26\" r=\"6\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"27\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n</svg>\n",
+  "KEY-1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"40\" height=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"50\" cy=\"26\" r=\"6\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"27\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n</svg>\n",
+  "item_key_1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"40\" height=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"50\" cy=\"26\" r=\"6\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"27\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n</svg>\n",
+  "scene-key-1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"40\" height=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"50\" cy=\"26\" r=\"6\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"27\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n</svg>\n",
+  "item-maintenance-log": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"26\" x2=\"44\" y2=\"26\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"38\" x2=\"40\" y2=\"38\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n</svg>\n",
+  "ITEM-MAINTENANCE-LOG": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"26\" x2=\"44\" y2=\"26\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"38\" x2=\"40\" y2=\"38\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n</svg>\n",
+  "maintenance-log": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"26\" x2=\"44\" y2=\"26\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"38\" x2=\"40\" y2=\"38\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n</svg>\n",
+  "MAINTENANCE-LOG": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"26\" x2=\"44\" y2=\"26\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"38\" x2=\"40\" y2=\"38\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n</svg>\n",
+  "item_maintenance_log": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"26\" x2=\"44\" y2=\"26\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"38\" x2=\"40\" y2=\"38\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n</svg>\n",
+  "scene-maintenance-log": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"26\" x2=\"44\" y2=\"26\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"38\" x2=\"40\" y2=\"38\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n</svg>\n",
+  "item-mirror-shard": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"20,10 40,5 50,20 45,40 25,45 15,30\" fill=\"#a0a0c0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"45,40 55,35 60,50 50,55\" fill=\"#c0c0e0\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>\n",
+  "ITEM-MIRROR-SHARD": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"20,10 40,5 50,20 45,40 25,45 15,30\" fill=\"#a0a0c0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"45,40 55,35 60,50 50,55\" fill=\"#c0c0e0\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>\n",
+  "mirror-shard": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"20,10 40,5 50,20 45,40 25,45 15,30\" fill=\"#a0a0c0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"45,40 55,35 60,50 50,55\" fill=\"#c0c0e0\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>\n",
+  "MIRROR-SHARD": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"20,10 40,5 50,20 45,40 25,45 15,30\" fill=\"#a0a0c0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"45,40 55,35 60,50 50,55\" fill=\"#c0c0e0\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>\n",
+  "item_mirror_shard": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"20,10 40,5 50,20 45,40 25,45 15,30\" fill=\"#a0a0c0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"45,40 55,35 60,50 50,55\" fill=\"#c0c0e0\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>\n",
+  "scene-mirror-shard": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"20,10 40,5 50,20 45,40 25,45 15,30\" fill=\"#a0a0c0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"45,40 55,35 60,50 50,55\" fill=\"#c0c0e0\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>\n",
+  "item-power-cell": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"15\" width=\"34\" height=\"34\" fill=\"#1a3a1a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"25\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">PWR</text>\n  <text x=\"32\" y=\"35\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  <rect x=\"20\" y=\"42\" width=\"24\" height=\"6\" fill=\"#2a4a2a\"/>\n</svg>\n",
+  "ITEM-POWER-CELL": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"15\" width=\"34\" height=\"34\" fill=\"#1a3a1a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"25\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">PWR</text>\n  <text x=\"32\" y=\"35\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  <rect x=\"20\" y=\"42\" width=\"24\" height=\"6\" fill=\"#2a4a2a\"/>\n</svg>\n",
+  "power-cell": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"15\" width=\"34\" height=\"34\" fill=\"#1a3a1a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"25\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">PWR</text>\n  <text x=\"32\" y=\"35\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  <rect x=\"20\" y=\"42\" width=\"24\" height=\"6\" fill=\"#2a4a2a\"/>\n</svg>\n",
+  "POWER-CELL": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"15\" width=\"34\" height=\"34\" fill=\"#1a3a1a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"25\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">PWR</text>\n  <text x=\"32\" y=\"35\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  <rect x=\"20\" y=\"42\" width=\"24\" height=\"6\" fill=\"#2a4a2a\"/>\n</svg>\n",
+  "item_power_cell": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"15\" width=\"34\" height=\"34\" fill=\"#1a3a1a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"25\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">PWR</text>\n  <text x=\"32\" y=\"35\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  <rect x=\"20\" y=\"42\" width=\"24\" height=\"6\" fill=\"#2a4a2a\"/>\n</svg>\n",
+  "scene-power-cell": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"15\" width=\"34\" height=\"34\" fill=\"#1a3a1a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"25\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">PWR</text>\n  <text x=\"32\" y=\"35\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  <rect x=\"20\" y=\"42\" width=\"24\" height=\"6\" fill=\"#2a4a2a\"/>\n</svg>\n",
+  "scene-ballroom": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- dance floor -->\n  <ellipse cx=\"320\" cy=\"220\" rx=\"250\" ry=\"120\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- chandeliers -->\n  <g fill=\"#e94560\">\n    <circle cx=\"150\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n    <circle cx=\"490\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n  </g>\n  <!-- large mirror on wall -->\n  <rect x=\"200\" y=\"40\" width=\"240\" height=\"120\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"105\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">THE REFLECTION</text>\n  <!-- ghostly silhouettes -->\n  <g fill=\"#666\" opacity=\"0.5\">\n    <ellipse cx=\"260\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"300\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"340\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n  </g>\n</svg>\n",
+  "SCENE-BALLROOM": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- dance floor -->\n  <ellipse cx=\"320\" cy=\"220\" rx=\"250\" ry=\"120\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- chandeliers -->\n  <g fill=\"#e94560\">\n    <circle cx=\"150\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n    <circle cx=\"490\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n  </g>\n  <!-- large mirror on wall -->\n  <rect x=\"200\" y=\"40\" width=\"240\" height=\"120\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"105\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">THE REFLECTION</text>\n  <!-- ghostly silhouettes -->\n  <g fill=\"#666\" opacity=\"0.5\">\n    <ellipse cx=\"260\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"300\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"340\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n  </g>\n</svg>\n",
+  "ballroom": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- dance floor -->\n  <ellipse cx=\"320\" cy=\"220\" rx=\"250\" ry=\"120\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- chandeliers -->\n  <g fill=\"#e94560\">\n    <circle cx=\"150\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n    <circle cx=\"490\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n  </g>\n  <!-- large mirror on wall -->\n  <rect x=\"200\" y=\"40\" width=\"240\" height=\"120\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"105\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">THE REFLECTION</text>\n  <!-- ghostly silhouettes -->\n  <g fill=\"#666\" opacity=\"0.5\">\n    <ellipse cx=\"260\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"300\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"340\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n  </g>\n</svg>\n",
+  "BALLROOM": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- dance floor -->\n  <ellipse cx=\"320\" cy=\"220\" rx=\"250\" ry=\"120\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- chandeliers -->\n  <g fill=\"#e94560\">\n    <circle cx=\"150\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n    <circle cx=\"490\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n  </g>\n  <!-- large mirror on wall -->\n  <rect x=\"200\" y=\"40\" width=\"240\" height=\"120\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"105\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">THE REFLECTION</text>\n  <!-- ghostly silhouettes -->\n  <g fill=\"#666\" opacity=\"0.5\">\n    <ellipse cx=\"260\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"300\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"340\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n  </g>\n</svg>\n",
+  "scene_ballroom": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- dance floor -->\n  <ellipse cx=\"320\" cy=\"220\" rx=\"250\" ry=\"120\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- chandeliers -->\n  <g fill=\"#e94560\">\n    <circle cx=\"150\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n    <circle cx=\"490\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n  </g>\n  <!-- large mirror on wall -->\n  <rect x=\"200\" y=\"40\" width=\"240\" height=\"120\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"105\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">THE REFLECTION</text>\n  <!-- ghostly silhouettes -->\n  <g fill=\"#666\" opacity=\"0.5\">\n    <ellipse cx=\"260\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"300\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"340\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n  </g>\n</svg>\n",
+  "item-ballroom": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- dance floor -->\n  <ellipse cx=\"320\" cy=\"220\" rx=\"250\" ry=\"120\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- chandeliers -->\n  <g fill=\"#e94560\">\n    <circle cx=\"150\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n    <circle cx=\"490\" cy=\"80\" r=\"25\" stroke=\"#0f0\" stroke-width=\"2\" fill=\"none\"/>\n  </g>\n  <!-- large mirror on wall -->\n  <rect x=\"200\" y=\"40\" width=\"240\" height=\"120\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"105\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">THE REFLECTION</text>\n  <!-- ghostly silhouettes -->\n  <g fill=\"#666\" opacity=\"0.5\">\n    <ellipse cx=\"260\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"300\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"340\" cy=\"200\" rx=\"15\" ry=\"25\"/>\n  </g>\n</svg>\n",
+  "scene-boiler-room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- steam pipes -->\n  <rect x=\"100\" y=\"100\" width=\"40\" height=\"200\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <rect x=\"500\" y=\"120\" width=\"40\" height=\"180\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- boiler -->\n  <ellipse cx=\"320\" cy=\"250\" rx=\"120\" ry=\"60\" fill=\"#2a2a4a\" stroke=\"#ff4500\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"255\" font-family=\"monospace\" font-size=\"14\" fill=\"#ff4500\" text-anchor=\"middle\">BOILER</text>\n  <!-- chains -->\n  <g stroke=\"#888\" stroke-width=\"4\">\n    <line x1=\"180\" y1=\"120\" x2=\"180\" y2=\"200\"/>\n    <line x1=\"460\" y1=\"120\" x2=\"460\" y2=\"200\"/>\n  </g>\n  <!-- override hook -->\n  <g transform=\"translate(300,80)\">\n    <path d=\"M0,0 Q10,-20 20,0\" fill=\"none\" stroke=\"#ffd700\" stroke-width=\"4\"/>\n    <circle cx=\"10\" cy=\"-25\" r=\"5\" fill=\"#ffd700\"/>\n  </g>\n  <!-- elevator key hanging -->\n  <g transform=\"translate(310,100)\">\n    <rect x=\"0\" y=\"0\" width=\"25\" height=\"8\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"12\" cy=\"4\" r=\"3\" fill=\"#ffd700\"/>\n  </g>\n  <!-- door north -->\n  <rect x=\"280\" y=\"40\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"72\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">BALLROOM</text>\n</svg>\n",
+  "SCENE-BOILER-ROOM": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- steam pipes -->\n  <rect x=\"100\" y=\"100\" width=\"40\" height=\"200\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <rect x=\"500\" y=\"120\" width=\"40\" height=\"180\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- boiler -->\n  <ellipse cx=\"320\" cy=\"250\" rx=\"120\" ry=\"60\" fill=\"#2a2a4a\" stroke=\"#ff4500\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"255\" font-family=\"monospace\" font-size=\"14\" fill=\"#ff4500\" text-anchor=\"middle\">BOILER</text>\n  <!-- chains -->\n  <g stroke=\"#888\" stroke-width=\"4\">\n    <line x1=\"180\" y1=\"120\" x2=\"180\" y2=\"200\"/>\n    <line x1=\"460\" y1=\"120\" x2=\"460\" y2=\"200\"/>\n  </g>\n  <!-- override hook -->\n  <g transform=\"translate(300,80)\">\n    <path d=\"M0,0 Q10,-20 20,0\" fill=\"none\" stroke=\"#ffd700\" stroke-width=\"4\"/>\n    <circle cx=\"10\" cy=\"-25\" r=\"5\" fill=\"#ffd700\"/>\n  </g>\n  <!-- elevator key hanging -->\n  <g transform=\"translate(310,100)\">\n    <rect x=\"0\" y=\"0\" width=\"25\" height=\"8\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"12\" cy=\"4\" r=\"3\" fill=\"#ffd700\"/>\n  </g>\n  <!-- door north -->\n  <rect x=\"280\" y=\"40\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"72\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">BALLROOM</text>\n</svg>\n",
+  "boiler-room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- steam pipes -->\n  <rect x=\"100\" y=\"100\" width=\"40\" height=\"200\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <rect x=\"500\" y=\"120\" width=\"40\" height=\"180\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- boiler -->\n  <ellipse cx=\"320\" cy=\"250\" rx=\"120\" ry=\"60\" fill=\"#2a2a4a\" stroke=\"#ff4500\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"255\" font-family=\"monospace\" font-size=\"14\" fill=\"#ff4500\" text-anchor=\"middle\">BOILER</text>\n  <!-- chains -->\n  <g stroke=\"#888\" stroke-width=\"4\">\n    <line x1=\"180\" y1=\"120\" x2=\"180\" y2=\"200\"/>\n    <line x1=\"460\" y1=\"120\" x2=\"460\" y2=\"200\"/>\n  </g>\n  <!-- override hook -->\n  <g transform=\"translate(300,80)\">\n    <path d=\"M0,0 Q10,-20 20,0\" fill=\"none\" stroke=\"#ffd700\" stroke-width=\"4\"/>\n    <circle cx=\"10\" cy=\"-25\" r=\"5\" fill=\"#ffd700\"/>\n  </g>\n  <!-- elevator key hanging -->\n  <g transform=\"translate(310,100)\">\n    <rect x=\"0\" y=\"0\" width=\"25\" height=\"8\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"12\" cy=\"4\" r=\"3\" fill=\"#ffd700\"/>\n  </g>\n  <!-- door north -->\n  <rect x=\"280\" y=\"40\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"72\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">BALLROOM</text>\n</svg>\n",
+  "BOILER-ROOM": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- steam pipes -->\n  <rect x=\"100\" y=\"100\" width=\"40\" height=\"200\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <rect x=\"500\" y=\"120\" width=\"40\" height=\"180\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- boiler -->\n  <ellipse cx=\"320\" cy=\"250\" rx=\"120\" ry=\"60\" fill=\"#2a2a4a\" stroke=\"#ff4500\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"255\" font-family=\"monospace\" font-size=\"14\" fill=\"#ff4500\" text-anchor=\"middle\">BOILER</text>\n  <!-- chains -->\n  <g stroke=\"#888\" stroke-width=\"4\">\n    <line x1=\"180\" y1=\"120\" x2=\"180\" y2=\"200\"/>\n    <line x1=\"460\" y1=\"120\" x2=\"460\" y2=\"200\"/>\n  </g>\n  <!-- override hook -->\n  <g transform=\"translate(300,80)\">\n    <path d=\"M0,0 Q10,-20 20,0\" fill=\"none\" stroke=\"#ffd700\" stroke-width=\"4\"/>\n    <circle cx=\"10\" cy=\"-25\" r=\"5\" fill=\"#ffd700\"/>\n  </g>\n  <!-- elevator key hanging -->\n  <g transform=\"translate(310,100)\">\n    <rect x=\"0\" y=\"0\" width=\"25\" height=\"8\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"12\" cy=\"4\" r=\"3\" fill=\"#ffd700\"/>\n  </g>\n  <!-- door north -->\n  <rect x=\"280\" y=\"40\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"72\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">BALLROOM</text>\n</svg>\n",
+  "scene_boiler_room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- steam pipes -->\n  <rect x=\"100\" y=\"100\" width=\"40\" height=\"200\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <rect x=\"500\" y=\"120\" width=\"40\" height=\"180\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- boiler -->\n  <ellipse cx=\"320\" cy=\"250\" rx=\"120\" ry=\"60\" fill=\"#2a2a4a\" stroke=\"#ff4500\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"255\" font-family=\"monospace\" font-size=\"14\" fill=\"#ff4500\" text-anchor=\"middle\">BOILER</text>\n  <!-- chains -->\n  <g stroke=\"#888\" stroke-width=\"4\">\n    <line x1=\"180\" y1=\"120\" x2=\"180\" y2=\"200\"/>\n    <line x1=\"460\" y1=\"120\" x2=\"460\" y2=\"200\"/>\n  </g>\n  <!-- override hook -->\n  <g transform=\"translate(300,80)\">\n    <path d=\"M0,0 Q10,-20 20,0\" fill=\"none\" stroke=\"#ffd700\" stroke-width=\"4\"/>\n    <circle cx=\"10\" cy=\"-25\" r=\"5\" fill=\"#ffd700\"/>\n  </g>\n  <!-- elevator key hanging -->\n  <g transform=\"translate(310,100)\">\n    <rect x=\"0\" y=\"0\" width=\"25\" height=\"8\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"12\" cy=\"4\" r=\"3\" fill=\"#ffd700\"/>\n  </g>\n  <!-- door north -->\n  <rect x=\"280\" y=\"40\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"72\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">BALLROOM</text>\n</svg>\n",
+  "item-boiler-room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- steam pipes -->\n  <rect x=\"100\" y=\"100\" width=\"40\" height=\"200\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <rect x=\"500\" y=\"120\" width=\"40\" height=\"180\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- boiler -->\n  <ellipse cx=\"320\" cy=\"250\" rx=\"120\" ry=\"60\" fill=\"#2a2a4a\" stroke=\"#ff4500\" stroke-width=\"6\"/>\n  <text x=\"320\" y=\"255\" font-family=\"monospace\" font-size=\"14\" fill=\"#ff4500\" text-anchor=\"middle\">BOILER</text>\n  <!-- chains -->\n  <g stroke=\"#888\" stroke-width=\"4\">\n    <line x1=\"180\" y1=\"120\" x2=\"180\" y2=\"200\"/>\n    <line x1=\"460\" y1=\"120\" x2=\"460\" y2=\"200\"/>\n  </g>\n  <!-- override hook -->\n  <g transform=\"translate(300,80)\">\n    <path d=\"M0,0 Q10,-20 20,0\" fill=\"none\" stroke=\"#ffd700\" stroke-width=\"4\"/>\n    <circle cx=\"10\" cy=\"-25\" r=\"5\" fill=\"#ffd700\"/>\n  </g>\n  <!-- elevator key hanging -->\n  <g transform=\"translate(310,100)\">\n    <rect x=\"0\" y=\"0\" width=\"25\" height=\"8\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"12\" cy=\"4\" r=\"3\" fill=\"#ffd700\"/>\n  </g>\n  <!-- door north -->\n  <rect x=\"280\" y=\"40\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"72\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">BALLROOM</text>\n</svg>\n",
+  "scene-hallway-10th": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- carpet -->\n  <rect x=\"50\" y=\"200\" width=\"540\" height=\"150\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"180\" fill=\"#16213e\"/>\n  <!-- neon sign -->\n  <g fill=\"#ff0055\">\n    <rect x=\"260\" y=\"30\" width=\"120\" height=\"40\" fill=\"#ff0055\" opacity=\"0.8\"/>\n    <text x=\"320\" y=\"58\" font-family=\"monospace\" font-size=\"24\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#fff\">1010</text>\n  </g>\n  <!-- door to room 1010 -->\n  <rect x=\"400\" y=\"120\" width=\"80\" height=\"120\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"440\" y=\"180\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">KEYPAD</text>\n  <!-- keycard on floor -->\n  <g transform=\"translate(200,250)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"14\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n  </g>\n  <!-- exit east -->\n  <rect x=\"500\" y=\"150\" width=\"60\" height=\"80\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"530\" y=\"195\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ROOM</text>\n</svg>\n",
+  "SCENE-HALLWAY-10TH": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- carpet -->\n  <rect x=\"50\" y=\"200\" width=\"540\" height=\"150\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"180\" fill=\"#16213e\"/>\n  <!-- neon sign -->\n  <g fill=\"#ff0055\">\n    <rect x=\"260\" y=\"30\" width=\"120\" height=\"40\" fill=\"#ff0055\" opacity=\"0.8\"/>\n    <text x=\"320\" y=\"58\" font-family=\"monospace\" font-size=\"24\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#fff\">1010</text>\n  </g>\n  <!-- door to room 1010 -->\n  <rect x=\"400\" y=\"120\" width=\"80\" height=\"120\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"440\" y=\"180\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">KEYPAD</text>\n  <!-- keycard on floor -->\n  <g transform=\"translate(200,250)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"14\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n  </g>\n  <!-- exit east -->\n  <rect x=\"500\" y=\"150\" width=\"60\" height=\"80\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"530\" y=\"195\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ROOM</text>\n</svg>\n",
+  "hallway-10th": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- carpet -->\n  <rect x=\"50\" y=\"200\" width=\"540\" height=\"150\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"180\" fill=\"#16213e\"/>\n  <!-- neon sign -->\n  <g fill=\"#ff0055\">\n    <rect x=\"260\" y=\"30\" width=\"120\" height=\"40\" fill=\"#ff0055\" opacity=\"0.8\"/>\n    <text x=\"320\" y=\"58\" font-family=\"monospace\" font-size=\"24\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#fff\">1010</text>\n  </g>\n  <!-- door to room 1010 -->\n  <rect x=\"400\" y=\"120\" width=\"80\" height=\"120\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"440\" y=\"180\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">KEYPAD</text>\n  <!-- keycard on floor -->\n  <g transform=\"translate(200,250)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"14\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n  </g>\n  <!-- exit east -->\n  <rect x=\"500\" y=\"150\" width=\"60\" height=\"80\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"530\" y=\"195\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ROOM</text>\n</svg>\n",
+  "HALLWAY-10TH": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- carpet -->\n  <rect x=\"50\" y=\"200\" width=\"540\" height=\"150\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"180\" fill=\"#16213e\"/>\n  <!-- neon sign -->\n  <g fill=\"#ff0055\">\n    <rect x=\"260\" y=\"30\" width=\"120\" height=\"40\" fill=\"#ff0055\" opacity=\"0.8\"/>\n    <text x=\"320\" y=\"58\" font-family=\"monospace\" font-size=\"24\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#fff\">1010</text>\n  </g>\n  <!-- door to room 1010 -->\n  <rect x=\"400\" y=\"120\" width=\"80\" height=\"120\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"440\" y=\"180\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">KEYPAD</text>\n  <!-- keycard on floor -->\n  <g transform=\"translate(200,250)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"14\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n  </g>\n  <!-- exit east -->\n  <rect x=\"500\" y=\"150\" width=\"60\" height=\"80\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"530\" y=\"195\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ROOM</text>\n</svg>\n",
+  "scene_hallway_10th": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- carpet -->\n  <rect x=\"50\" y=\"200\" width=\"540\" height=\"150\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"180\" fill=\"#16213e\"/>\n  <!-- neon sign -->\n  <g fill=\"#ff0055\">\n    <rect x=\"260\" y=\"30\" width=\"120\" height=\"40\" fill=\"#ff0055\" opacity=\"0.8\"/>\n    <text x=\"320\" y=\"58\" font-family=\"monospace\" font-size=\"24\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#fff\">1010</text>\n  </g>\n  <!-- door to room 1010 -->\n  <rect x=\"400\" y=\"120\" width=\"80\" height=\"120\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"440\" y=\"180\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">KEYPAD</text>\n  <!-- keycard on floor -->\n  <g transform=\"translate(200,250)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"14\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n  </g>\n  <!-- exit east -->\n  <rect x=\"500\" y=\"150\" width=\"60\" height=\"80\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"530\" y=\"195\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ROOM</text>\n</svg>\n",
+  "item-hallway-10th": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- carpet -->\n  <rect x=\"50\" y=\"200\" width=\"540\" height=\"150\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"180\" fill=\"#16213e\"/>\n  <!-- neon sign -->\n  <g fill=\"#ff0055\">\n    <rect x=\"260\" y=\"30\" width=\"120\" height=\"40\" fill=\"#ff0055\" opacity=\"0.8\"/>\n    <text x=\"320\" y=\"58\" font-family=\"monospace\" font-size=\"24\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#fff\">1010</text>\n  </g>\n  <!-- door to room 1010 -->\n  <rect x=\"400\" y=\"120\" width=\"80\" height=\"120\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"440\" y=\"180\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">KEYPAD</text>\n  <!-- keycard on floor -->\n  <g transform=\"translate(200,250)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"14\" font-family=\"monospace\" font-size=\"6\" fill=\"#000\" text-anchor=\"middle\">1010</text>\n  </g>\n  <!-- exit east -->\n  <rect x=\"500\" y=\"150\" width=\"60\" height=\"80\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"530\" y=\"195\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ROOM</text>\n</svg>\n",
+  "scene-hotel-lobby": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#16213e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- chandelier -->\n  <g stroke=\"#e94560\" stroke-width=\"3\" fill=\"none\">\n    <circle cx=\"320\" cy=\"80\" r=\"30\"/>\n    <line x1=\"320\" y1=\"110\" x2=\"320\" y2=\"150\"/>\n    <line x1=\"290\" y1=\"110\" x2=\"350\" y2=\"110\"/>\n    <line x1=\"280\" y1=\"140\" x2=\"360\" y2=\"140\"/>\n  </g>\n  <!-- reception desk -->\n  <rect x=\"100\" y=\"250\" width=\"150\" height=\"50\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- mirror on wall -->\n  <rect x=\"400\" y=\"100\" width=\"120\" height=\"150\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"4\"/>\n  <text x=\"460\" y=\"180\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">MIRROR</text>\n  <!-- door north -->\n  <rect x=\"300\" y=\"50\" width=\"80\" height=\"100\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"105\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">EXIT</text>\n  <!-- shards on floor -->\n  <g fill=\"#a0a0c0\">\n    <polygon points=\"150,320 160,310 170,320\"/>\n    <polygon points=\"180,330 190,315 200,330\"/>\n  </g>\n</svg>\n",
+  "SCENE-HOTEL-LOBBY": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#16213e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- chandelier -->\n  <g stroke=\"#e94560\" stroke-width=\"3\" fill=\"none\">\n    <circle cx=\"320\" cy=\"80\" r=\"30\"/>\n    <line x1=\"320\" y1=\"110\" x2=\"320\" y2=\"150\"/>\n    <line x1=\"290\" y1=\"110\" x2=\"350\" y2=\"110\"/>\n    <line x1=\"280\" y1=\"140\" x2=\"360\" y2=\"140\"/>\n  </g>\n  <!-- reception desk -->\n  <rect x=\"100\" y=\"250\" width=\"150\" height=\"50\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- mirror on wall -->\n  <rect x=\"400\" y=\"100\" width=\"120\" height=\"150\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"4\"/>\n  <text x=\"460\" y=\"180\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">MIRROR</text>\n  <!-- door north -->\n  <rect x=\"300\" y=\"50\" width=\"80\" height=\"100\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"105\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">EXIT</text>\n  <!-- shards on floor -->\n  <g fill=\"#a0a0c0\">\n    <polygon points=\"150,320 160,310 170,320\"/>\n    <polygon points=\"180,330 190,315 200,330\"/>\n  </g>\n</svg>\n",
+  "hotel-lobby": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#16213e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- chandelier -->\n  <g stroke=\"#e94560\" stroke-width=\"3\" fill=\"none\">\n    <circle cx=\"320\" cy=\"80\" r=\"30\"/>\n    <line x1=\"320\" y1=\"110\" x2=\"320\" y2=\"150\"/>\n    <line x1=\"290\" y1=\"110\" x2=\"350\" y2=\"110\"/>\n    <line x1=\"280\" y1=\"140\" x2=\"360\" y2=\"140\"/>\n  </g>\n  <!-- reception desk -->\n  <rect x=\"100\" y=\"250\" width=\"150\" height=\"50\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- mirror on wall -->\n  <rect x=\"400\" y=\"100\" width=\"120\" height=\"150\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"4\"/>\n  <text x=\"460\" y=\"180\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">MIRROR</text>\n  <!-- door north -->\n  <rect x=\"300\" y=\"50\" width=\"80\" height=\"100\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"105\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">EXIT</text>\n  <!-- shards on floor -->\n  <g fill=\"#a0a0c0\">\n    <polygon points=\"150,320 160,310 170,320\"/>\n    <polygon points=\"180,330 190,315 200,330\"/>\n  </g>\n</svg>\n",
+  "HOTEL-LOBBY": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#16213e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- chandelier -->\n  <g stroke=\"#e94560\" stroke-width=\"3\" fill=\"none\">\n    <circle cx=\"320\" cy=\"80\" r=\"30\"/>\n    <line x1=\"320\" y1=\"110\" x2=\"320\" y2=\"150\"/>\n    <line x1=\"290\" y1=\"110\" x2=\"350\" y2=\"110\"/>\n    <line x1=\"280\" y1=\"140\" x2=\"360\" y2=\"140\"/>\n  </g>\n  <!-- reception desk -->\n  <rect x=\"100\" y=\"250\" width=\"150\" height=\"50\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- mirror on wall -->\n  <rect x=\"400\" y=\"100\" width=\"120\" height=\"150\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"4\"/>\n  <text x=\"460\" y=\"180\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">MIRROR</text>\n  <!-- door north -->\n  <rect x=\"300\" y=\"50\" width=\"80\" height=\"100\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"105\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">EXIT</text>\n  <!-- shards on floor -->\n  <g fill=\"#a0a0c0\">\n    <polygon points=\"150,320 160,310 170,320\"/>\n    <polygon points=\"180,330 190,315 200,330\"/>\n  </g>\n</svg>\n",
+  "scene_hotel_lobby": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#16213e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- chandelier -->\n  <g stroke=\"#e94560\" stroke-width=\"3\" fill=\"none\">\n    <circle cx=\"320\" cy=\"80\" r=\"30\"/>\n    <line x1=\"320\" y1=\"110\" x2=\"320\" y2=\"150\"/>\n    <line x1=\"290\" y1=\"110\" x2=\"350\" y2=\"110\"/>\n    <line x1=\"280\" y1=\"140\" x2=\"360\" y2=\"140\"/>\n  </g>\n  <!-- reception desk -->\n  <rect x=\"100\" y=\"250\" width=\"150\" height=\"50\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- mirror on wall -->\n  <rect x=\"400\" y=\"100\" width=\"120\" height=\"150\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"4\"/>\n  <text x=\"460\" y=\"180\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">MIRROR</text>\n  <!-- door north -->\n  <rect x=\"300\" y=\"50\" width=\"80\" height=\"100\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"105\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">EXIT</text>\n  <!-- shards on floor -->\n  <g fill=\"#a0a0c0\">\n    <polygon points=\"150,320 160,310 170,320\"/>\n    <polygon points=\"180,330 190,315 200,330\"/>\n  </g>\n</svg>\n",
+  "item-hotel-lobby": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#16213e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- chandelier -->\n  <g stroke=\"#e94560\" stroke-width=\"3\" fill=\"none\">\n    <circle cx=\"320\" cy=\"80\" r=\"30\"/>\n    <line x1=\"320\" y1=\"110\" x2=\"320\" y2=\"150\"/>\n    <line x1=\"290\" y1=\"110\" x2=\"350\" y2=\"110\"/>\n    <line x1=\"280\" y1=\"140\" x2=\"360\" y2=\"140\"/>\n  </g>\n  <!-- reception desk -->\n  <rect x=\"100\" y=\"250\" width=\"150\" height=\"50\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- mirror on wall -->\n  <rect x=\"400\" y=\"100\" width=\"120\" height=\"150\" fill=\"#4a4a6a\" stroke=\"#e94560\" stroke-width=\"4\"/>\n  <text x=\"460\" y=\"180\" font-family=\"monospace\" font-size=\"12\" fill=\"#e94560\" text-anchor=\"middle\">MIRROR</text>\n  <!-- door north -->\n  <rect x=\"300\" y=\"50\" width=\"80\" height=\"100\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"105\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">EXIT</text>\n  <!-- shards on floor -->\n  <g fill=\"#a0a0c0\">\n    <polygon points=\"150,320 160,310 170,320\"/>\n    <polygon points=\"180,330 190,315 200,330\"/>\n  </g>\n</svg>\n",
+  "scene-room-1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#2a2a4a\"/>\n  <!-- bed -->\n  <rect x=\"50\" y=\"220\" width=\"120\" height=\"60\" fill=\"#3a3a5a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- curtains -->\n  <rect x=\"500\" y=\"200\" width=\"30\" height=\"100\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- writing desk -->\n  <rect x=\"300\" y=\"200\" width=\"150\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- logbook on desk -->\n  <rect x=\"320\" y=\"220\" width=\"60\" height=\"40\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <text x=\"350\" y=\"245\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">LOG</text>\n  <!-- elevator door south -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ELEVATOR</text>\n</svg>\n",
+  "SCENE-ROOM-1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#2a2a4a\"/>\n  <!-- bed -->\n  <rect x=\"50\" y=\"220\" width=\"120\" height=\"60\" fill=\"#3a3a5a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- curtains -->\n  <rect x=\"500\" y=\"200\" width=\"30\" height=\"100\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- writing desk -->\n  <rect x=\"300\" y=\"200\" width=\"150\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- logbook on desk -->\n  <rect x=\"320\" y=\"220\" width=\"60\" height=\"40\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <text x=\"350\" y=\"245\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">LOG</text>\n  <!-- elevator door south -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ELEVATOR</text>\n</svg>\n",
+  "room-1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#2a2a4a\"/>\n  <!-- bed -->\n  <rect x=\"50\" y=\"220\" width=\"120\" height=\"60\" fill=\"#3a3a5a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- curtains -->\n  <rect x=\"500\" y=\"200\" width=\"30\" height=\"100\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- writing desk -->\n  <rect x=\"300\" y=\"200\" width=\"150\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- logbook on desk -->\n  <rect x=\"320\" y=\"220\" width=\"60\" height=\"40\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <text x=\"350\" y=\"245\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">LOG</text>\n  <!-- elevator door south -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ELEVATOR</text>\n</svg>\n",
+  "ROOM-1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#2a2a4a\"/>\n  <!-- bed -->\n  <rect x=\"50\" y=\"220\" width=\"120\" height=\"60\" fill=\"#3a3a5a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- curtains -->\n  <rect x=\"500\" y=\"200\" width=\"30\" height=\"100\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- writing desk -->\n  <rect x=\"300\" y=\"200\" width=\"150\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- logbook on desk -->\n  <rect x=\"320\" y=\"220\" width=\"60\" height=\"40\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <text x=\"350\" y=\"245\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">LOG</text>\n  <!-- elevator door south -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ELEVATOR</text>\n</svg>\n",
+  "scene_room_1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#2a2a4a\"/>\n  <!-- bed -->\n  <rect x=\"50\" y=\"220\" width=\"120\" height=\"60\" fill=\"#3a3a5a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- curtains -->\n  <rect x=\"500\" y=\"200\" width=\"30\" height=\"100\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- writing desk -->\n  <rect x=\"300\" y=\"200\" width=\"150\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- logbook on desk -->\n  <rect x=\"320\" y=\"220\" width=\"60\" height=\"40\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <text x=\"350\" y=\"245\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">LOG</text>\n  <!-- elevator door south -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ELEVATOR</text>\n</svg>\n",
+  "item-room-1010": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#2a2a4a\"/>\n  <!-- bed -->\n  <rect x=\"50\" y=\"220\" width=\"120\" height=\"60\" fill=\"#3a3a5a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- curtains -->\n  <rect x=\"500\" y=\"200\" width=\"30\" height=\"100\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- writing desk -->\n  <rect x=\"300\" y=\"200\" width=\"150\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- logbook on desk -->\n  <rect x=\"320\" y=\"220\" width=\"60\" height=\"40\" fill=\"#5a3a1a\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n  <text x=\"350\" y=\"245\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">LOG</text>\n  <!-- elevator door south -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ELEVATOR</text>\n</svg>\n",
+  "scene-service-elevator": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#16213e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#1a1a2e\"/>\n  <!-- control panel -->\n  <rect x=\"300\" y=\"100\" width=\"100\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <circle cx=\"340\" cy=\"130\" r=\"10\" fill=\"#333\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- fuse box -->\n  <rect x=\"50\" y=\"120\" width=\"80\" height=\"60\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <g fill=\"none\" stroke=\"#f00\" stroke-width=\"2\">\n    <rect x=\"60\" y=\"130\" width=\"15\" height=\"20\"/>\n    <rect x=\"85\" y=\"130\" width=\"15\" height=\"20\"/>\n  </g>\n  <!-- spare parts -->\n  <g transform=\"translate(500,200)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"20\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"20\" y=\"12\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n  </g>\n  <g transform=\"translate(530,200)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"15\" fill=\"#2a4a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"9\" font-family=\"monospace\" font-size=\"5\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  </g>\n  <!-- exit down -->\n  <rect x=\"300\" y=\"350\" width=\"80\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"372\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">DOWN</text>\n</svg>\n",
+  "SCENE-SERVICE-ELEVATOR": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#16213e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#1a1a2e\"/>\n  <!-- control panel -->\n  <rect x=\"300\" y=\"100\" width=\"100\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <circle cx=\"340\" cy=\"130\" r=\"10\" fill=\"#333\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- fuse box -->\n  <rect x=\"50\" y=\"120\" width=\"80\" height=\"60\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <g fill=\"none\" stroke=\"#f00\" stroke-width=\"2\">\n    <rect x=\"60\" y=\"130\" width=\"15\" height=\"20\"/>\n    <rect x=\"85\" y=\"130\" width=\"15\" height=\"20\"/>\n  </g>\n  <!-- spare parts -->\n  <g transform=\"translate(500,200)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"20\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"20\" y=\"12\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n  </g>\n  <g transform=\"translate(530,200)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"15\" fill=\"#2a4a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"9\" font-family=\"monospace\" font-size=\"5\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  </g>\n  <!-- exit down -->\n  <rect x=\"300\" y=\"350\" width=\"80\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"372\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">DOWN</text>\n</svg>\n",
+  "service-elevator": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#16213e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#1a1a2e\"/>\n  <!-- control panel -->\n  <rect x=\"300\" y=\"100\" width=\"100\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <circle cx=\"340\" cy=\"130\" r=\"10\" fill=\"#333\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- fuse box -->\n  <rect x=\"50\" y=\"120\" width=\"80\" height=\"60\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <g fill=\"none\" stroke=\"#f00\" stroke-width=\"2\">\n    <rect x=\"60\" y=\"130\" width=\"15\" height=\"20\"/>\n    <rect x=\"85\" y=\"130\" width=\"15\" height=\"20\"/>\n  </g>\n  <!-- spare parts -->\n  <g transform=\"translate(500,200)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"20\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"20\" y=\"12\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n  </g>\n  <g transform=\"translate(530,200)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"15\" fill=\"#2a4a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"9\" font-family=\"monospace\" font-size=\"5\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  </g>\n  <!-- exit down -->\n  <rect x=\"300\" y=\"350\" width=\"80\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"372\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">DOWN</text>\n</svg>\n",
+  "SERVICE-ELEVATOR": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#16213e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#1a1a2e\"/>\n  <!-- control panel -->\n  <rect x=\"300\" y=\"100\" width=\"100\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <circle cx=\"340\" cy=\"130\" r=\"10\" fill=\"#333\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- fuse box -->\n  <rect x=\"50\" y=\"120\" width=\"80\" height=\"60\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <g fill=\"none\" stroke=\"#f00\" stroke-width=\"2\">\n    <rect x=\"60\" y=\"130\" width=\"15\" height=\"20\"/>\n    <rect x=\"85\" y=\"130\" width=\"15\" height=\"20\"/>\n  </g>\n  <!-- spare parts -->\n  <g transform=\"translate(500,200)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"20\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"20\" y=\"12\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n  </g>\n  <g transform=\"translate(530,200)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"15\" fill=\"#2a4a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"9\" font-family=\"monospace\" font-size=\"5\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  </g>\n  <!-- exit down -->\n  <rect x=\"300\" y=\"350\" width=\"80\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"372\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">DOWN</text>\n</svg>\n",
+  "scene_service_elevator": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#16213e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#1a1a2e\"/>\n  <!-- control panel -->\n  <rect x=\"300\" y=\"100\" width=\"100\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <circle cx=\"340\" cy=\"130\" r=\"10\" fill=\"#333\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- fuse box -->\n  <rect x=\"50\" y=\"120\" width=\"80\" height=\"60\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <g fill=\"none\" stroke=\"#f00\" stroke-width=\"2\">\n    <rect x=\"60\" y=\"130\" width=\"15\" height=\"20\"/>\n    <rect x=\"85\" y=\"130\" width=\"15\" height=\"20\"/>\n  </g>\n  <!-- spare parts -->\n  <g transform=\"translate(500,200)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"20\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"20\" y=\"12\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n  </g>\n  <g transform=\"translate(530,200)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"15\" fill=\"#2a4a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"9\" font-family=\"monospace\" font-size=\"5\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  </g>\n  <!-- exit down -->\n  <rect x=\"300\" y=\"350\" width=\"80\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"372\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">DOWN</text>\n</svg>\n",
+  "item-service-elevator": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0d0d1a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#16213e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#1a1a2e\"/>\n  <!-- control panel -->\n  <rect x=\"300\" y=\"100\" width=\"100\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <circle cx=\"340\" cy=\"130\" r=\"10\" fill=\"#333\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- fuse box -->\n  <rect x=\"50\" y=\"120\" width=\"80\" height=\"60\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <g fill=\"none\" stroke=\"#f00\" stroke-width=\"2\">\n    <rect x=\"60\" y=\"130\" width=\"15\" height=\"20\"/>\n    <rect x=\"85\" y=\"130\" width=\"15\" height=\"20\"/>\n  </g>\n  <!-- spare parts -->\n  <g transform=\"translate(500,200)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"20\" fill=\"#4a4a6a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"20\" y=\"12\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">FUSE</text>\n  </g>\n  <g transform=\"translate(530,200)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"15\" fill=\"#2a4a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"9\" font-family=\"monospace\" font-size=\"5\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  </g>\n  <!-- exit down -->\n  <rect x=\"300\" y=\"350\" width=\"80\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"372\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">DOWN</text>\n</svg>\n"
+};
+  </script>
+  <script src="../standard-game-runtime.js"></script>
+</body>
 </html>

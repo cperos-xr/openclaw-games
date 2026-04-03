@@ -121,7 +121,8 @@
       "name": "North Tunnel",
       "prose": "The tunnel is narrow, walls slick with condensation. Debris blocks the path forward. A faint breeze carries whispers. Your lantern barely cuts through the darkness. The platform is back north.",
       "exits": {
-        "north": "station-platform"
+        "north": "station-platform",
+        "south": "ghost-train"
       },
       "items": [],
       "puzzles": [

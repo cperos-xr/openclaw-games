@@ -37,7 +37,7 @@
       "name": "Data Crystal",
       "description": "A small crystalline storage device containing the station's final research logs and the creature's weakness.",
       "foundIn": "laboratory",
-      "usedIn": "communications-array",
+      "usedIn": "storage-room",
       "usedOn": "terminal"
     },
     {
@@ -79,8 +79,7 @@
         "override-chip"
       ],
       "puzzles": [
-        "airlock-door",
-        "clamp-control"
+        "airlock-door"
       ],
       "lookDescriptions": {
         "eva suit": "The oxygen feed is severed. It's useless without an air supply.",
@@ -216,8 +215,7 @@
       "action": "use plasma-cutter on growth-covered valve",
       "result": "The cutter burns through the fibrous mass. You turn the valve, stopping the coolant leak and restoring partial power to engineering.",
       "reveals": [
-        "engineering-bay",
-        "power-conduit"
+        "engineering-bay"
       ],
       "blocksExit": {},
       "blockedMessage": ""
@@ -231,8 +229,7 @@
       "action": "connect power-cell to main conduit",
       "result": "Sparks fly as station power comes online. Lights flicker on throughout the ship. The communications array in Storage now has power.",
       "reveals": [
-        "storage-room",
-        "terminal-access"
+        "storage-room"
       ],
       "blocksExit": {},
       "blockedMessage": ""

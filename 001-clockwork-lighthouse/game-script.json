@@ -220,7 +220,7 @@
       "requires": ["lens-crystal"],
       "action": "Install the lens crystal and activate the beacon",
       "result": "The beacon erupts with blue-white light. The storm shatters. Dawn breaks across a sea that has waited a hundred years. The loop is broken.",
-      "reveals": ["win"]
+      "reveals": []
     }
   ],
   "winCondition": {

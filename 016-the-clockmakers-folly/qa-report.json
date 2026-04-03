@@ -1,0 +1,336 @@
+{
+  "game": "The Clockmaker's Folly",
+  "gameNumber": "016",
+  "timestamp": "2026-04-03T07:50:16.085Z",
+  "overall": "PASS",
+  "summary": {
+    "total": 7,
+    "passed": 7,
+    "failed": 0,
+    "passRate": "100%"
+  },
+  "tests": [
+    {
+      "check": "All 6 scenes defined",
+      "pass": true,
+      "details": [
+        {
+          "scene": "scene-foyer",
+          "found": true
+        },
+        {
+          "scene": "scene-workshop",
+          "found": true
+        },
+        {
+          "scene": "scene-library",
+          "found": true
+        },
+        {
+          "scene": "scene-bedroom",
+          "found": true
+        },
+        {
+          "scene": "scene-observatory",
+          "found": true
+        },
+        {
+          "scene": "scene-heart",
+          "found": true
+        },
+        {
+          "scene": "scene-foyer",
+          "hasProse": true,
+          "hasName": true,
+          "hasExits": true,
+          "proseLength": 736
+        },
+        {
+          "scene": "scene-workshop",
+          "hasProse": true,
+          "hasName": true,
+          "hasExits": true,
+          "proseLength": 828
+        },
+        {
+          "scene": "scene-library",
+          "hasProse": true,
+          "hasName": true,
+          "hasExits": true,
+          "proseLength": 944
+        },
+        {
+          "scene": "scene-bedroom",
+          "hasProse": true,
+          "hasName": true,
+          "hasExits": true,
+          "proseLength": 902
+        },
+        {
+          "scene": "scene-observatory",
+          "hasProse": true,
+          "hasName": true,
+          "hasExits": true,
+          "proseLength": 905
+        },
+        {
+          "scene": "scene-heart",
+          "hasProse": true,
+          "hasName": true,
+          "hasExits": true,
+          "proseLength": 869
+        }
+      ]
+    },
+    {
+      "check": "All 6 scene SVGs present in GAME_ART",
+      "pass": true,
+      "details": [
+        {
+          "artKey": "scene-foyer",
+          "found": true
+        },
+        {
+          "artKey": "scene-workshop",
+          "found": true
+        },
+        {
+          "artKey": "scene-library",
+          "found": true
+        },
+        {
+          "artKey": "scene-bedroom",
+          "found": true
+        },
+        {
+          "artKey": "scene-observatory",
+          "found": true
+        },
+        {
+          "artKey": "scene-heart",
+          "found": true
+        }
+      ]
+    },
+    {
+      "check": "Full playthrough path valid",
+      "pass": true,
+      "details": [
+        {
+          "from": "scene-foyer",
+          "to": "scene-workshop",
+          "canReach": true,
+          "blockedByPuzzle": null
+        },
+        {
+          "from": "scene-workshop",
+          "to": "scene-library",
+          "canReach": true,
+          "blockedByPuzzle": null
+        },
+        {
+          "from": "scene-library",
+          "to": "scene-bedroom",
+          "canReach": true,
+          "blockedByPuzzle": "P2"
+        },
+        {
+          "from": "scene-bedroom",
+          "to": "scene-observatory",
+          "canReach": true,
+          "blockedByPuzzle": null
+        },
+        {
+          "from": "scene-observatory",
+          "to": "scene-heart",
+          "canReach": true,
+          "blockedByPuzzle": null
+        }
+      ]
+    },
+    {
+      "check": "All 5 puzzles defined and solvable",
+      "pass": true,
+      "details": [
+        {
+          "puzzle": "P1",
+          "found": true,
+          "scene": "scene-workshop",
+          "requires": [
+            "ITEM_KEY"
+          ],
+          "reveals": [
+            "ITEM_GEAR"
+          ],
+          "hasResult": true,
+          "hasTarget": true
+        },
+        {
+          "puzzle": "P2",
+          "found": true,
+          "scene": "scene-library",
+          "requires": [
+            "ITEM_GEAR"
+          ],
+          "reveals": [],
+          "hasResult": true,
+          "hasTarget": true
+        },
+        {
+          "puzzle": "P3",
+          "found": true,
+          "scene": "scene-bedroom",
+          "requires": [
+            "ITEM_JOURNAL"
+          ],
+          "reveals": [
+            "ITEM_CRYSTAL"
+          ],
+          "hasResult": true,
+          "hasTarget": true
+        },
+        {
+          "puzzle": "P4",
+          "found": true,
+          "scene": "scene-observatory",
+          "requires": [
+            "ITEM_CRYSTAL"
+          ],
+          "reveals": [
+            "ITEM_WINDING_KEY"
+          ],
+          "hasResult": true,
+          "hasTarget": true
+        },
+        {
+          "puzzle": "P5",
+          "found": true,
+          "scene": "scene-heart",
+          "requires": [
+            "ITEM_WINDING_KEY"
+          ],
+          "reveals": [],
+          "hasResult": true,
+          "hasTarget": true
+        },
+        {
+          "chain": "P1 -> ITEM_GEAR",
+          "revealsCorrect": true,
+          "neededBy": "P2"
+        },
+        {
+          "chain": "P3 -> ITEM_CRYSTAL",
+          "revealsCorrect": true,
+          "neededBy": "P4"
+        },
+        {
+          "chain": "P4 -> ITEM_WINDING_KEY",
+          "revealsCorrect": true,
+          "neededBy": "P5"
+        }
+      ]
+    },
+    {
+      "check": "v3.0 layout compliance",
+      "pass": true,
+      "details": [
+        {
+          "rule": "body has no height:100vh on mobile/base",
+          "pass": true,
+          "found": "NO (OK)"
+        },
+        {
+          "rule": "body has no overflow:hidden on mobile/base",
+          "pass": true,
+          "found": "NO (OK)",
+          "note": "overflow-x:hidden on body is allowed; .art-panel overflow:hidden is allowed"
+        },
+        {
+          "rule": ".command-bar has display:flex + flex-wrap:wrap",
+          "pass": true,
+          "flexWrap": true,
+          "displayFlex": true
+        },
+        {
+          "rule": "#exits-bar has display:flex + flex-wrap:wrap",
+          "pass": true,
+          "flexWrap": true,
+          "displayFlex": true
+        },
+        {
+          "rule": ".art-panel has aspect-ratio: 8/5 on mobile",
+          "pass": true,
+          "found": "YES (OK)"
+        },
+        {
+          "rule": ".cmd-btn has min-height:44px",
+          "pass": true,
+          "found": "YES (OK)"
+        },
+        {
+          "rule": ".exit-btn has min-height:44px",
+          "pass": true,
+          "found": "YES (OK)"
+        },
+        {
+          "rule": "Desktop @media has height:100vh (allowed)",
+          "pass": true,
+          "found": "YES (OK)"
+        }
+      ]
+    },
+    {
+      "check": "All 5 items defined",
+      "pass": true,
+      "details": [
+        {
+          "item": "ITEM_KEY",
+          "found": true,
+          "hasName": true,
+          "hasDesc": true
+        },
+        {
+          "item": "ITEM_GEAR",
+          "found": true,
+          "hasName": true,
+          "hasDesc": true
+        },
+        {
+          "item": "ITEM_JOURNAL",
+          "found": true,
+          "hasName": true,
+          "hasDesc": true
+        },
+        {
+          "item": "ITEM_CRYSTAL",
+          "found": true,
+          "hasName": true,
+          "hasDesc": true
+        },
+        {
+          "item": "ITEM_WINDING_KEY",
+          "found": true,
+          "hasName": true,
+          "hasDesc": true
+        }
+      ]
+    },
+    {
+      "check": "Starting items in correct scene",
+      "pass": true,
+      "details": [
+        {
+          "check": "ITEM_KEY in scene-foyer",
+          "pass": true,
+          "found": "YES"
+        },
+        {
+          "check": "ITEM_JOURNAL accessible in scene-bedroom",
+          "journalInItems": false,
+          "journalLookDescription": true,
+          "note": "Journal is found by LOOK, not as pickup item — acceptable"
+        }
+      ]
+    }
+  ]
+}

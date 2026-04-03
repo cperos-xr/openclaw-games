@@ -46,7 +46,7 @@ function renderScene(sceneId) {
   sceneName.textContent = scene.name.toUpperCASE();
 
   // Update art
-  const artKey = 'scene-' + sceneId.replace('scene-', '');
+  const artKey = sceneId;
   let artHtml = null;
   if (typeof GAME_ART !== 'undefined' && GAME_ART[artKey]) {
     artHtml = GAME_ART[artKey];

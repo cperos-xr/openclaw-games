@@ -6,10 +6,11 @@
 #      agent workspace, publish and write PUBLISH_RESULT back so the containerized
 #      agent can confirm success.
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="/Volumes/ai-stack/openclaw-games"
 WORKSPACE_GAMES="/Volumes/ai-stack/openclaw-PointClickStudio/openclaw-data/workspace/games"
-SIGNAL_FILE="$WORKSPACE_GAMES/PUBLISH_REQUEST"
-RESULT_FILE="$WORKSPACE_GAMES/PUBLISH_RESULT"
+SIGNAL_DIR="${HOME:-/Users/cperos}/openclaw-signals"
+SIGNAL_FILE="$SIGNAL_DIR/PUBLISH_REQUEST"
+RESULT_FILE="$SIGNAL_DIR/PUBLISH_RESULT"
 
 cd "$SCRIPT_DIR" || exit 1
 
@@ -47,7 +48,7 @@ if [ ! -d .git ]; then
   exit 1
 fi
 
-# ── Sync games from agent workspace ──
+# ── Sync games from workspace source-of-truth ──
 echo "Syncing latest agent games..."
 rsync_output=$(rsync -avL --delete \
   --exclude='.git' \
@@ -55,10 +56,13 @@ rsync_output=$(rsync -avL --delete \
   --exclude='.nojekyll' \
   --exclude='README.md' \
   --exclude='qa-test-suite.js' \
+  --exclude='signals/' \
   --exclude='GAME-TEMPLATE.html' \
   --exclude='pipeline-state.json' \
   --exclude='PUBLISH_REQUEST' \
   --exclude='PUBLISH_RESULT' \
+  --exclude='*.bak' \
+  --exclude='*.backup' \
   --exclude='001-lighthouse-blackwater-point/' \
   --exclude='001-the-clockwork-lighthouse/' \
   "$WORKSPACE_GAMES/" "$SCRIPT_DIR/" 2>&1)

@@ -1,1112 +1,392 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Sand That Speaks | Game #013</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        /* =====================================================
-           VERTICAL LAYOUT — single-column, image-first
-           Optimised for cheaper raster images (16:9 landscape)
-           Mobile-first; scales cleanly to tablet and desktop.
-           ===================================================== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background-color: #000;
-            color: #0f0;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 12px;
-            line-height: 1.6;
-            padding: 12px;
-            max-width: 720px;
-            margin: 0 auto;
-        }
-
-        header { text-align: center; margin-bottom: 8px; }
-
-        h1 {
-            font-size: 14px;
-            color: #0f0;
-            text-shadow: 0 0 6px #0f0;
-            margin-bottom: 4px;
-        }
-
-        h2 { font-size: 10px; color: #080; margin-bottom: 6px; }
-
-        #scene-name {
-            font-size: 14px;
-            text-align: center;
-            margin-bottom: 8px;
-            color: #0f0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 4px #0f0;
-        }
-
-        /* --- Art panel: full width, 16:9 ratio --- */
-        .art-panel {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            border: 2px solid #0f0;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
-
-        #art-display {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #art-display img,
-        #art-display svg {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* --- Text panel --- */
-        .text-panel {
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 12px;
-            margin-bottom: 8px;
-        }
-
-        #text-display {
-            max-height: 200px;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #033;
-            scrollbar-width: thin;
-            scrollbar-color: #0f0 #000;
-        }
-
-        #text-display::-webkit-scrollbar { width: 4px; }
-        #text-display::-webkit-scrollbar-track { background: #000; }
-        #text-display::-webkit-scrollbar-thumb { background: #0f0; }
-
-        #text-display p { margin-bottom: 8px; color: #0f0; }
-        #text-display .system { color: #0a0; font-style: italic; }
-        #text-display .success { color: #0f0; font-weight: bold; animation: itemGlow 1s infinite alternate; }
-        #text-display .locked { color: #f00; font-weight: bold; }
-        #text-display .error { color: #f00; }
-        #text-display .hint { color: #FFAA00; font-style: italic; }
-
-        .hint-toggle {
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 2px 6px;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 8px;
-            cursor: pointer;
-            margin-top: 4px;
-        }
-        .hint-toggle:hover { background-color: #0f0; color: #000; }
-
-        /* --- Command buttons: equal-width row --- */
-        .command-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .cmd-btn {
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 6px 10px;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex: 1;
-            min-width: 60px;
-            text-align: center;
-        }
-        .cmd-btn:hover, .cmd-btn.active { background-color: #0f0; color: #000; }
-
-        /* --- Inventory + Exits: 2-col on tablet+, stacked on mobile --- */
-        .panels-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        @media (max-width: 480px) {
-            .panels-row { grid-template-columns: 1fr; }
-            h1 { font-size: 12px; }
-            .cmd-btn { font-size: 9px; padding: 5px 6px; }
-        }
-
-        .inventory-panel, .exits-panel {
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 10px;
-        }
-
-        .inventory-panel h3, .exits-panel h3 {
-            font-size: 10px;
-            margin-bottom: 6px;
-            color: #0f0;
-            border-bottom: 1px solid #033;
-            padding-bottom: 4px;
-        }
-
-        #inventory-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            min-height: 20px;
-        }
-
-        .inv-item {
-            border: 1px solid #0f0;
-            padding: 3px 6px;
-            font-size: 9px;
-            cursor: pointer;
-            background-color: #000;
-            color: #0f0;
-        }
-        .inv-item.selected { background-color: #0f0; color: #000; }
-
-        #exits-bar { display: flex; flex-wrap: wrap; gap: 6px; }
-
-        .exit-btn {
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 5px 8px;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 9px;
-            cursor: pointer;
-        }
-        .exit-btn.available:hover { background-color: #0f0; color: #000; }
-
-        .look-target { color: #0af; text-decoration: underline; cursor: pointer; }
-        .look-target:hover { color: #0ff; }
-
-        /* --- Animations --- */
-        @keyframes puzzle-solved {
-            0% { filter: brightness(1); }
-            50% { filter: brightness(2); }
-            100% { filter: brightness(1); }
-        }
-
-        @keyframes itemGlow {
-            0% { text-shadow: 0 0 5px #0f0; }
-            100% { text-shadow: 0 0 15px #0f0; }
-        }
-
-        .puzzle-solved { animation: puzzle-solved 0.6s ease-in-out; }
-
-        footer {
-            margin-top: 12px;
-            text-align: center;
-            font-size: 8px;
-            color: #080;
-            padding: 8px 0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Sand That Speaks | Game #013</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../standard-game-style.css">
 </head>
-<body>
-    <header>
-        <h1>THE SAND THAT SPEAKS</h1>
-        <h2>Game #013</h2>
-        <button id="hint-toggle" class="hint-toggle">HINTS: ON</button>
-            <button id="reset-btn" class="cmd-btn reset-btn" style="color:#ff6666;border-color:#ff6666;">RESET</button>
-    </header>
+<body class="openclaw-game layout-standard" data-layout="standard">
+  <header>
+    <h1>THE SAND THAT SPEAKS</h1>
+    <div class="subtitle">OpenClaw Adventures - Game #013</div>
+  </header>
 
-    <div id="scene-name">THE LOBBY</div>
+  <div id="scene-name">ENTRANCE PASSAGE</div>
 
+  <div class="game-container">
     <div class="art-panel">
-        <div id="art-display">
-            <!-- Art inserted by JavaScript -->
-        </div>
+      <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+      </div>
     </div>
 
     <div class="text-panel">
-        <div id="text-display">
-            <!-- Game text appears here -->
+      <div id="text-display"></div>
+
+      <div id="command-status" class="status-line"></div>
+
+      <div class="command-bar">
+        <button class="cmd-btn active" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      </div>
+
+      <div class="subpanel targets-panel">
+        <h3>TARGETS</h3>
+        <div id="targets-bar"></div>
+      </div>
+
+      <div class="subpanel inventory-panel">
+        <h3>INVENTORY</h3>
+        <div id="inventory-bar">
+          <span class="empty-state">(empty)</span>
         </div>
-        <div class="command-bar">
-            <button class="cmd-btn" data-cmd="look">LOOK</button>
-            <button class="cmd-btn" data-cmd="take">TAKE</button>
-            <button class="cmd-btn" data-cmd="use">USE</button>
-            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
-        </div>
+      </div>
+
+      <div class="subpanel exits-panel">
+        <h3>EXITS</h3>
+        <div id="exits-bar"></div>
+      </div>
+
+      <div class="utility-bar">
+        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+        <button id="reset-game" class="utility-btn">RESET</button>
+      </div>
     </div>
+  </div>
 
-    <div class="panels-row">
-        <div class="inventory-panel">
-            <h3>INVENTORY</h3>
-            <div id="inventory-bar">
-                <span id="inv-empty">(empty)</span>
-            </div>
-        </div>
-        <div class="exits-panel">
-            <h3>EXITS</h3>
-            <div id="exits-bar">
-                <!-- Exit buttons inserted by JavaScript -->
-            </div>
-        </div>
-    </div>
+  <footer>
+    OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
+  </footer>
 
-    <footer>
-        Use the command buttons or click on highlighted words. Click exits to move.
-        Type /restart in the text area to reset the game.
-    </footer>
-
-    <script>
-// ============================================================
-// GAME DATA — replace with assembled content from game-script.json
-// ============================================================
-var GAME_DATA = {"title": "The Sand That Speaks", "slug": "sand-that-speaks", "number": 13, "setting": "A newly discovered pyramid in the Egyptian desert, sealed for millennia. Inside, the sand tells secrets and the statues watch. Something ancient has awoken.", "characters": [{"id": "pharaoh-ghost", "name": "The Silent Pharaoh", "description": "A spectral ruler whose presence fills the chambers. He judges those who disturb his rest."}, {"id": "scribe-ghost", "name": "The Scribe", "description": "A ghostly servant who whispers warnings in a dead language."}], "items": [{"id": "stone-key", "name": "Stone Key", "description": "A carved slab of stone that fits the entrance mechanism.", "foundIn": "entrance-passage", "usedIn": "entrance-passage", "usedOn": "stone-door"}, {"id": "torch", "name": "Reed Torch", "description": "A dried reed that burns with a smoky flame. It reveals hidden markings.", "foundIn": "entrance-passage", "usedIn": "chamber-of-hieroglyphs", "usedOn": "hidden-inscription"}, {"id": "ankh-amulet", "name": "Ankh Amulet", "description": "A golden ankh that pulses with warmth. It repels the darker spirits.", "foundIn": "chamber-of-hieroglyphs", "usedIn": "burial-chamber", "usedOn": "sarcophagus-lid"}, {"id": "scroll-of-light", "name": "Scroll of Light", "description": "A papyrus scroll inscribed with a spell that illuminates the dark.", "foundIn": "burial-chamber", "usedIn": "treasury", "usedOn": "darkness-curse"}, {"id": "golden-scarab", "name": "Golden Scarab", "description": "A precious beetle-shaped amulet that glows with inner light. It must be placed on the altar to break the curse.", "foundIn": "treasury", "usedIn": "altar-chamber", "usedOn": "cursed-altar"}], "scenes": [{"id": "entrance-passage", "name": "Entrance Passage", "prose": "A narrow corridor cut from solid rock. Hieroglyphs glow faintly on the walls. The floor is covered in a thick layer of sand. Ahead, a massive stone door blocks the way. A stone key lies half-buried in the sand.", "exits": {"east": "chamber-of-hieroglyphs"}, "items": ["stone-key", "torch"], "puzzles": ["stone-door"], "lookDescriptions": {"hieroglyphs": "They depict a warning: 'Do not disturb the sleeping king.'", "sand": "The grains shift as if alive."}}, {"id": "chamber-of-hieroglyphs", "name": "Chamber of Hieroglyphs", "prose": "A circular chamber lined with carved symbols. In the center, a pedestal holds a life-sized statue of a Pharaoh. The air hums with a low frequency. To the south, a dark passage leads deeper. The stone door behind you is sealed.", "exits": {"south": "burial-chamber", "west": "entrance-passage"}, "items": ["ankh-amulet"], "puzzles": ["hidden-inscription"], "lookDescriptions": {"statue": "Its eyes seem to follow you. The ankh around its neck is missing.", "pedestal": "The inscription reads: 'Only the light of truth reveals the way.'"}}, {"id": "burial-chamber", "name": "Burial Chamber", "prose": "The heart of the pyramid. A grand sarcophagus sits atop a raised dais. The walls are covered in intricate paintings of the afterlife. A doorway to the east is sealed with a complex mechanism. A scroll rests on a stone table.", "exits": {"east": "treasury"}, "items": ["scroll-of-light"], "puzzles": ["sarcophagus-lid"], "lookDescriptions": {"sarcophagus": "The lid is inscribed with a curse: 'He who opens this shall be consumed by sand.'", "paintings": "They show the Pharaoh's spirit ascending to the stars."}}, {"id": "treasury", "name": "Treasury", "prose": "A vault filled with ancient treasures \u2014 golden statues, jeweled crowns, and piles of artifacts. But the room is pitch black. Something glitters on a pedestal at the far end. The only light comes from your torch, and it fails quickly in this absolute dark.", "exits": {"west": "burial-chamber"}, "items": ["golden-scarab"], "puzzles": ["darkness-curse"], "lookDescriptions": {"pedestal": "A golden scarab sits here, radiating light.", "treasure piles": "They shift and clatter in the dark. Something moves among them."}}, {"id": "altar-chamber", "name": "Altar Chamber", "prose": "A small, sanctified room with a stone altar at its center. The air is thick with incense that smells of desert winds and time. The walls are covered in protective sigils. The altar is the focal point of the pyramid's curse. Placing the scarab here will either break the curse or awaken something worse.", "exits": {"west": "treasury"}, "items": [], "puzzles": ["cursed-altar"], "lookDescriptions": {"altar": "A depression in the center shaped like a scarab beetle.", "sigils": "They glow faintly when you approach."}}, {"id": "escape-passage", "name": "Escape Passage", "prose": "As the scarab settles into the altar, the pyramid trembles. A hidden doorway slides open in the entrance passage, revealing a tunnel leading to the surface. The sand stops moving. The Pharaoh's ghost bows silently. You have lifted the curse and escaped.", "exits": {}, "items": [], "puzzles": [], "lookDescriptions": {"tunnel": "A narrow shaft leads upward, lit by a shaft of sunlight.", "pyramid": "The ancient stones settle, now at peace."}}], "puzzles": [{"id": "stone-door", "scene": "entrance-passage", "requires": ["stone-key"], "action": "use stone-key on door mechanism", "result": "The key slides into a hidden slot. The stone door rumbles aside, revealing the hieroglyph chamber beyond.", "reveals": ["chamber-of-hieroglyphs"], "blocksExit": {"scene": "entrance-passage", "direction": "east"}, "blockedMessage": "The stone door is sealed. You need a key to open it."}, {"id": "hidden-inscription", "scene": "chamber-of-hieroglyphs", "requires": ["torch"], "action": "use torch on hieroglyph wall", "result": "The torch's smoke reveals an inscription that was invisible before. It shows a sequence: 'LIGHT, LIFE, LOVE'. The statue's ankh socket glows. The way south is now accessible.", "reveals": ["burial-chamber"], "blocksExit": {"scene": "chamber-of-hieroglyphs", "direction": "south"}, "blockedMessage": "The dark passage is blocked by a magical barrier. You need to reveal the secret to pass."}, {"id": "sarcophagus-lid", "scene": "burial-chamber", "requires": ["ankh-amulet"], "action": "use ankh-amulet on sarcophagus lid", "result": "The ankh emits a golden light. The curse on the sarcophagus recedes. The lid opens, revealing a scroll inside. The treasury door unlocks.", "reveals": ["scroll-of-light", "treasury"], "blocksExit": {"scene": "burial-chamber", "direction": "east"}, "blockedMessage": "The sarcophagus is cursed. You need a holy symbol to approach."}, {"id": "darkness-curse", "scene": "treasury", "requires": ["scroll-of-light"], "action": "use scroll-of-light in treasury", "result": "The spell banishes the darkness. The room fills with a soft glow. You can see the golden scarab on the pedestal. The way forward is clear.", "reveals": ["altar-chamber"], "blocksExit": {}, "blockedMessage": ""}, {"id": "cursed-altar", "scene": "altar-chamber", "requires": ["golden-scarab"], "action": "place golden scarab on altar", "result": "The scarab fits perfectly. Light explodes throughout the pyramid. The curse breaks. An escape tunnel opens. YOU WIN.", "reveals": ["escape-passage"], "blocksExit": {}, "blockedMessage": ""}], "winCondition": {"scene": "escape-passage", "requires": [], "description": "You emerge from the pyramid as the sun rises. The sand is still. The curse is lifted. You have survived the Sand That Speaks."}};var GAME_ART={"entrance-passage": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- corridor walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#2a2410\"/>\n  <!-- floor with sand -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#3a3020\"/>\n  <!-- hieroglyphs on walls -->\n  <g font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\">\n    <text x=\"80\" y=\"100\">\ud80c\udc00\ud80c\udc79\ud80c\udc80</text>\n    <text x=\"200\" y=\"130\">\ud80c\udcd2\ud80c\udcd3\ud80c\udcd4</text>\n    <text x=\"400\" y=\"100\">\ud80c\udda3\ud80c\uddd3\ud80c\uddd4</text>\n  </g>\n  <!-- massive stone door east -->\n  <rect x=\"450\" y=\"120\" width=\"120\" height=\"160\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"6\"/>\n  <text x=\"510\" y=\"200\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">DOOR</text>\n  <!-- stone key on floor -->\n  <g transform=\"translate(150,280)\">\n    <rect x=\"0\" y=\"0\" width=\"20\" height=\"10\" fill=\"#d4af37\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <text x=\"10\" y=\"7\" font-family=\"monospace\" font-size=\"5\" fill=\"#000\" text-anchor=\"middle\">KEY</text>\n  </g>\n  <!-- torch on floor -->\n  <g transform=\"translate(320,300)\">\n    <rect x=\"0\" y=\"0\" width=\"6\" height=\"30\" fill=\"#4a3020\"/>\n    <rect x=\"2\" y=\"10\" width=\"2\" height=\"8\" fill=\"#f80\"/>\n  </g>\n</svg>", "chamber-of-hieroglyphs": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#2a2410\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#3a3020\"/>\n  <!-- statue of Pharaoh -->\n  <g transform=\"translate(280,100)\">\n    <ellipse cx=\"40\" cy=\"80\" rx=\"25\" ry=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <circle cx=\"40\" cy=\"30\" r=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- ankh missing -->\n    <circle cx=\"40\" cy=\"10\" r=\"5\" fill=\"#f00\" opacity=\"0.7\"/>\n  </g>\n  <!-- pedestal -->\n  <rect x=\"300\" y=\"180\" width=\"40\" height=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n  <!-- south passage -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">SOUTH</text>\n  <!-- ankh amulet on pedestal -->\n  <g transform=\"translate(310,190)\">\n    <ellipse cx=\"10\" cy=\"20\" rx=\"6\" ry=\"10\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <rect x=\"8\" y=\"10\" width=\"4\" height=\"10\" fill=\"#ffd700\"/>\n  </g>\n</svg>", "burial-chamber": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with paintings -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- afteralke paintings (stars, boats) -->\n  <g fill=\"#4a4030\">\n    <circle cx=\"100\" cy=\"80\" r=\"10\"/>\n    <path d=\"M200,50 L250,80 L200,110 L150,80 Z\" fill=\"#4a4030\"/>\n    <ellipse cx=\"500\" cy=\"100\" rx=\"30\" ry=\"10\"/>\n  </g>\n  <!-- sarcophagus on dais -->\n  <g transform=\"translate(260,150)\">\n    <rect x=\"0\" y=\"0\" width=\"120\" height=\"40\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <rect x=\"10\" y=\"10\" width=\"100\" height=\"20\" fill=\"#2a2410\"/>\n    <!-- scroll on dais -->\n    <g transform=\"translate(60,60)\">\n      <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#5a4030\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n    </g>\n  </g>\n  <!-- east door (treasury) -->\n  <rect x=\"500\" y=\"250\" width=\"80\" height=\"80\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"292\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>", "treasury": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a0a\"/>\n  <!-- absolute blackness -->\n  <!-- treasure piles (barely visible) -->\n  <g fill=\"#3a3020\" opacity=\"0.7\">\n    <rect x=\"50\" y=\"300\" width=\"100\" height=\"80\"/>\n    <rect x=\"450\" y=\"280\" width=\"120\" height=\"100\"/>\n  </g>\n  <!-- pedestal with scarab -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- golden scarab -->\n    <ellipse cx=\"30\" cy=\"20\" rx=\"15\" ry=\"10\" fill=\"#ffd700\" stroke=\"#ff0\" stroke-width=\"1\"/>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"130\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">BURIAL</text>\n  <!-- exit east (altar) -->\n  <rect x=\"480\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"510\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">ALTAR</text>\n</svg>", "altar-chamber": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with sigils -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- sigils glow -->\n  <g font-family=\"monospace\" font-size=\"12\" fill=\"#ff4500\">\n    <text x=\"50\" y=\"50\">\u2625</text>\n    <text x=\"400\" y=\"80\">\ud80c\udc80</text>\n    <text x=\"600\" y=\"120\">\ud80c\udcd2</text>\n  </g>\n  <!-- altar with scarab depression -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"100\" height=\"60\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <ellipse cx=\"50\" cy=\"30\" rx=\"25\" ry=\"15\" fill=\"#2a2410\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n    <text x=\"50\" y=\"30\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">SCARAB</text>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"140\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>", "escape-passage": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#87CEEB\"/>\n  <!-- daylight sky -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"200\" fill=\"#0a0a1a\"/>\n  <!-- tunnel opening -->\n  <rect x=\"270\" y=\"100\" width=\"100\" height=\"200\" fill=\"#1a1410\"/>\n  <!-- sunlight shaft -->\n  <rect x=\"300\" y=\"0\" width=\"40\" height=\"150\" fill=\"#ffd700\" opacity=\"0.5\"/>\n  <!-- desert sand -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#d4a017\"/>\n  <!-- pyramid in distance -->\n  <g transform=\"translate(400,120)\">\n    <polygon points=\"0,80 40,0 80,80\" fill=\"#c2a060\"/>\n  </g>\n</svg>", "stone-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"30\" height=\"20\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"5\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n</svg>", "torch": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"40\" fill=\"#4a3020\"/>\n  <rect x=\"26\" y=\"8\" width=\"12\" height=\"10\" fill=\"#f80\"/>\n  <ellipse cx=\"32\" cy=\"12\" rx=\"4\" ry=\"6\" fill=\"#ff0\"/>\n</svg>", "ankh-amulet": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"30\" rx=\"8\" ry=\"12\"/>\n    <rect x=\"29\" y=\"40\" width=\"6\" height=\"16\"/>\n  </g>\n</svg>", "scroll-of-light": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#f5deb3\" stroke=\"#8b4513\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"28\" x2=\"44\" y2=\"28\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"36\" x2=\"44\" y2=\"36\" stroke=\"#ff0\" stroke-width=\"2\"/>\n</svg>", "golden-scarab": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"32\" rx=\"18\" ry=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"20\" x2=\"32\" y2=\"44\" stroke=\"#0f0\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>"}
-
-// ============================================================
-// GAME ART — replace with inlined SVGs from art/*.svg
-// ============================================================
-
-
-/**
- * The Sand That Speaks - Game Logic
- * A Mystery House-style point-and-click adventure
- * 
- * Game data and state machine for navigating an ancient Egyptian pyramid.
- * The sand whispers secrets. The statues watch. Something ancient has awoken.
- */
-
-// ============================================================
-// GAME DATA - Loaded from game-script.json structure
-// ============================================================
-var GAME_DATA = {
-  title: "The Sand That Speaks",
-  slug: "sand-that-speaks",
-  startScene: "entrance-passage",
-
-  scenes: [
+  <script>
+window.GAME_DATA = {
+  "title": "The Sand That Speaks",
+  "slug": "sand-that-speaks",
+  "number": 13,
+  "setting": "A newly discovered pyramid in the Egyptian desert, sealed for millennia. Inside, the sand tells secrets and the statues watch. Something ancient has awoken.",
+  "characters": [
     {
-      id: "entrance-passage",
-      name: "Entrance Passage",
-      prose: "A narrow corridor cut from solid rock. Hieroglyphs glow faintly on the walls. The floor is covered in a thick layer of sand. Ahead, a massive stone door blocks the way. A stone key lies half-buried in the sand.",
-      exits: { east: "chamber-of-hieroglyphs" },
-      items: ["stone-key", "torch"],
-      puzzles: ["stone-door"],
-      lookDescriptions: {
+      "id": "pharaoh-ghost",
+      "name": "The Silent Pharaoh",
+      "description": "A spectral ruler whose presence fills the chambers. He judges those who disturb his rest."
+    },
+    {
+      "id": "scribe-ghost",
+      "name": "The Scribe",
+      "description": "A ghostly servant who whispers warnings in a dead language."
+    }
+  ],
+  "items": [
+    {
+      "id": "stone-key",
+      "name": "Stone Key",
+      "description": "A carved slab of stone that fits the entrance mechanism.",
+      "foundIn": "entrance-passage",
+      "usedIn": "entrance-passage",
+      "usedOn": "stone-door"
+    },
+    {
+      "id": "torch",
+      "name": "Reed Torch",
+      "description": "A dried reed that burns with a smoky flame. It reveals hidden markings.",
+      "foundIn": "entrance-passage",
+      "usedIn": "chamber-of-hieroglyphs",
+      "usedOn": "hidden-inscription"
+    },
+    {
+      "id": "ankh-amulet",
+      "name": "Ankh Amulet",
+      "description": "A golden ankh that pulses with warmth. It repels the darker spirits.",
+      "foundIn": "chamber-of-hieroglyphs",
+      "usedIn": "burial-chamber",
+      "usedOn": "sarcophagus-lid"
+    },
+    {
+      "id": "scroll-of-light",
+      "name": "Scroll of Light",
+      "description": "A papyrus scroll inscribed with a spell that illuminates the dark.",
+      "foundIn": "burial-chamber",
+      "usedIn": "treasury",
+      "usedOn": "darkness-curse"
+    },
+    {
+      "id": "golden-scarab",
+      "name": "Golden Scarab",
+      "description": "A precious beetle-shaped amulet that glows with inner light. It must be placed on the altar to break the curse.",
+      "foundIn": "treasury",
+      "usedIn": "altar-chamber",
+      "usedOn": "cursed-altar"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "entrance-passage",
+      "name": "Entrance Passage",
+      "prose": "A narrow corridor cut from solid rock. Hieroglyphs glow faintly on the walls. The floor is covered in a thick layer of sand. Ahead, a massive stone door blocks the way. A stone key lies half-buried in the sand.",
+      "exits": {
+        "east": "chamber-of-hieroglyphs"
+      },
+      "items": [
+        "stone-key",
+        "torch"
+      ],
+      "puzzles": [
+        "stone-door"
+      ],
+      "lookDescriptions": {
         "hieroglyphs": "They depict a warning: 'Do not disturb the sleeping king.'",
         "sand": "The grains shift as if alive."
       }
     },
     {
-      id: "chamber-of-hieroglyphs",
-      name: "Chamber of Hieroglyphs",
-      prose: "A circular chamber lined with carved symbols. In the center, a pedestal holds a life-sized statue of a Pharaoh. The air hums with a low frequency. To the south, a dark passage leads deeper. The stone door behind you is sealed.",
-      exits: { south: "burial-chamber", west: "entrance-passage" },
-      items: ["ankh-amulet"],
-      puzzles: ["hidden-inscription"],
-      lookDescriptions: {
+      "id": "chamber-of-hieroglyphs",
+      "name": "Chamber of Hieroglyphs",
+      "prose": "A circular chamber lined with carved symbols. In the center, a pedestal holds a life-sized statue of a Pharaoh. The air hums with a low frequency. To the south, a dark passage leads deeper. The stone door behind you is sealed.",
+      "exits": {
+        "south": "burial-chamber",
+        "west": "entrance-passage"
+      },
+      "items": [
+        "ankh-amulet"
+      ],
+      "puzzles": [
+        "hidden-inscription"
+      ],
+      "lookDescriptions": {
         "statue": "Its eyes seem to follow you. The ankh around its neck is missing.",
         "pedestal": "The inscription reads: 'Only the light of truth reveals the way.'"
       }
     },
     {
-      id: "burial-chamber",
-      name: "Burial Chamber",
-      prose: "The heart of the pyramid. A grand sarcophagus sits atop a raised dais. The walls are covered in intricate paintings of the afterlife. A doorway to the east is sealed with a complex mechanism. A scroll rests on a stone table.",
-      exits: { east: "treasury" },
-      items: ["scroll-of-light"],
-      puzzles: ["sarcophagus-lid"],
-      lookDescriptions: {
+      "id": "burial-chamber",
+      "name": "Burial Chamber",
+      "prose": "The heart of the pyramid. A grand sarcophagus sits atop a raised dais. The walls are covered in intricate paintings of the afterlife. A doorway to the east is sealed with a complex mechanism. A scroll rests on a stone table.",
+      "exits": {
+        "east": "treasury"
+      },
+      "items": [
+        "scroll-of-light"
+      ],
+      "puzzles": [
+        "sarcophagus-lid"
+      ],
+      "lookDescriptions": {
         "sarcophagus": "The lid is inscribed with a curse: 'He who opens this shall be consumed by sand.'",
         "paintings": "They show the Pharaoh's spirit ascending to the stars."
       }
     },
     {
-      id: "treasury",
-      name: "Treasury",
-      prose: "A vault filled with ancient treasures — golden statues, jeweled crowns, and piles of artifacts. But the room is pitch black. Something glitters on a pedestal at the far end. The only light comes from your torch, and it fails quickly in this absolute dark.",
-      exits: { west: "burial-chamber" },
-      items: ["golden-scarab"],
-      puzzles: ["darkness-curse"],
-      lookDescriptions: {
+      "id": "treasury",
+      "name": "Treasury",
+      "prose": "A vault filled with ancient treasures — golden statues, jeweled crowns, and piles of artifacts. But the room is pitch black. Something glitters on a pedestal at the far end. The only light comes from your torch, and it fails quickly in this absolute dark.",
+      "exits": {
+        "west": "burial-chamber",
+        "east": "altar-chamber"
+      },
+      "items": [
+        "golden-scarab"
+      ],
+      "puzzles": [
+        "darkness-curse"
+      ],
+      "lookDescriptions": {
         "pedestal": "A golden scarab sits here, radiating light.",
-        "treasure": "They shift and clatter in the dark. Something moves among them."
+        "treasure piles": "They shift and clatter in the dark. Something moves among them."
       }
     },
     {
-      id: "altar-chamber",
-      name: "Altar Chamber",
-      prose: "A small, sanctified room with a stone altar at its center. The air is thick with incense that smells of desert winds and time. The walls are covered in protective sigils. The altar is the focal point of the pyramid's curse. Placing the scarab here will either break the curse or awaken something worse.",
-      exits: { west: "treasury" },
-      items: [],
-      puzzles: ["cursed-altar"],
-      lookDescriptions: {
+      "id": "altar-chamber",
+      "name": "Altar Chamber",
+      "prose": "A small, sanctified room with a stone altar at its center. The air is thick with incense that smells of desert winds and time. The walls are covered in protective sigils. The altar is the focal point of the pyramid's curse. Placing the scarab here will either break the curse or awaken something worse.",
+      "exits": {
+        "west": "treasury"
+      },
+      "items": [],
+      "puzzles": [
+        "cursed-altar"
+      ],
+      "lookDescriptions": {
         "altar": "A depression in the center shaped like a scarab beetle.",
         "sigils": "They glow faintly when you approach."
       }
     },
     {
-      id: "escape-passage",
-      name: "Escape Passage",
-      prose: "As the scarab settles into the altar, the pyramid trembles. A hidden doorway slides open in the entrance passage, revealing a tunnel leading to the surface. The sand stops moving. The Pharaoh's ghost bows silently. You have lifted the curse and escaped.",
-      exits: {},
-      items: [],
-      puzzles: [],
-      lookDescriptions: {
+      "id": "escape-passage",
+      "name": "Escape Passage",
+      "prose": "As the scarab settles into the altar, the pyramid trembles. A hidden doorway slides open in the entrance passage, revealing a tunnel leading to the surface. The sand stops moving. The Pharaoh's ghost bows silently. You have lifted the curse and escaped.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
         "tunnel": "A narrow shaft leads upward, lit by a shaft of sunlight.",
         "pyramid": "The ancient stones settle, now at peace."
       }
     }
   ],
-
-  items: [
+  "puzzles": [
     {
-      id: "stone-key",
-      name: "Stone Key",
-      description: "A carved slab of stone that fits the entrance mechanism.",
-      foundIn: "entrance-passage",
-      usedIn: "entrance-passage",
-      usedOn: "stone-door"
+      "id": "stone-door",
+      "scene": "entrance-passage",
+      "requires": [
+        "stone-key"
+      ],
+      "action": "use stone-key on door mechanism",
+      "result": "The key slides into a hidden slot. The stone door rumbles aside, revealing the hieroglyph chamber beyond.",
+      "reveals": [
+        "chamber-of-hieroglyphs"
+      ],
+      "blocksExit": {
+        "scene": "entrance-passage",
+        "direction": "east"
+      },
+      "blockedMessage": "The stone door is sealed. You need a key to open it."
     },
     {
-      id: "torch",
-      name: "Reed Torch",
-      description: "A dried reed that burns with a smoky flame. It reveals hidden markings.",
-      foundIn: "entrance-passage",
-      usedIn: "chamber-of-hieroglyphs",
-      usedOn: "hidden-inscription"
+      "id": "hidden-inscription",
+      "scene": "chamber-of-hieroglyphs",
+      "requires": [
+        "torch"
+      ],
+      "action": "use torch on hieroglyph wall",
+      "result": "The torch's smoke reveals an inscription that was invisible before. It shows a sequence: 'LIGHT, LIFE, LOVE'. The statue's ankh socket glows. The way south is now accessible.",
+      "reveals": [
+        "burial-chamber"
+      ],
+      "blocksExit": {
+        "scene": "chamber-of-hieroglyphs",
+        "direction": "south"
+      },
+      "blockedMessage": "The dark passage is blocked by a magical barrier. You need to reveal the secret to pass."
     },
     {
-      id: "ankh-amulet",
-      name: "Ankh Amulet",
-      description: "A golden ankh that pulses with warmth. It repels the darker spirits.",
-      foundIn: "chamber-of-hieroglyphs",
-      usedIn: "burial-chamber",
-      usedOn: "sarcophagus-lid"
+      "id": "sarcophagus-lid",
+      "scene": "burial-chamber",
+      "requires": [
+        "ankh-amulet"
+      ],
+      "action": "use ankh-amulet on sarcophagus lid",
+      "result": "The ankh emits a golden light. The curse on the sarcophagus recedes. The lid opens, revealing a scroll inside. The treasury door unlocks.",
+      "reveals": [
+        "scroll-of-light",
+        "treasury"
+      ],
+      "blocksExit": {
+        "scene": "burial-chamber",
+        "direction": "east"
+      },
+      "blockedMessage": "The sarcophagus is cursed. You need a holy symbol to approach."
     },
     {
-      id: "scroll-of-light",
-      name: "Scroll of Light",
-      description: "A papyrus scroll inscribed with a spell that illuminates the dark.",
-      foundIn: "burial-chamber",
-      usedIn: "treasury",
-      usedOn: "darkness-curse"
+      "id": "darkness-curse",
+      "scene": "treasury",
+      "requires": [
+        "scroll-of-light"
+      ],
+      "action": "use scroll-of-light in treasury",
+      "result": "The spell banishes the darkness. The room fills with a soft glow. You can see the golden scarab on the pedestal. The way forward is clear.",
+      "reveals": [
+        "altar-chamber"
+      ],
+      "blocksExit": {
+        "scene": "treasury",
+        "direction": "east"
+      },
+      "blockedMessage": "The altar passage is swallowed by supernatural darkness. Banish it before you continue."
     },
     {
-      id: "golden-scarab",
-      name: "Golden Scarab",
-      description: "A precious beetle-shaped amulet that glows with inner light. It must be placed on the altar to break the curse.",
-      foundIn: "treasury",
-      usedIn: "altar-chamber",
-      usedOn: "cursed-altar"
+      "id": "cursed-altar",
+      "scene": "altar-chamber",
+      "requires": [
+        "golden-scarab"
+      ],
+      "action": "place golden scarab on altar",
+      "result": "The scarab fits perfectly. Light explodes throughout the pyramid. The curse breaks. An escape tunnel opens. YOU WIN.",
+      "reveals": [
+        "escape-passage"
+      ],
+      "blocksExit": {},
+      "blockedMessage": ""
     }
   ],
-
-  puzzles: [
-    {
-      id: "stone-door",
-      scene: "entrance-passage",
-      requires: ["stone-key"],
-      action: "use stone-key on door mechanism",
-      result: "The key slides into a hidden slot. The stone door rumbles aside, revealing the hieroglyph chamber beyond.",
-      reveals: ["chamber-of-hieroglyphs"],
-      blocksExit: { scene: "entrance-passage", direction: "east" },
-      blockedMessage: "The stone door is sealed. You need a key to open it."
-    },
-    {
-      id: "hidden-inscription",
-      scene: "chamber-of-hieroglyphs",
-      requires: ["torch"],
-      action: "use torch on hieroglyph wall",
-      result: "The torch's smoke reveals an inscription that was invisible before. It shows a sequence: 'LIGHT, LIFE, LOVE'. The statue's ankh socket glows. The way south is now accessible.",
-      reveals: ["burial-chamber"],
-      blocksExit: { scene: "chamber-of-hieroglyphs", direction: "south" },
-      blockedMessage: "The dark passage is blocked by a magical barrier. You need to reveal the secret to pass."
-    },
-    {
-      id: "sarcophagus-lid",
-      scene: "burial-chamber",
-      requires: ["ankh-amulet"],
-      action: "use ankh-amulet on sarcophagus lid",
-      result: "The ankh emits a golden light. The curse on the sarcophagus recedes. The lid opens, revealing a scroll inside. The treasury door unlocks.",
-      reveals: ["scroll-of-light", "treasury"],
-      blocksExit: { scene: "burial-chamber", direction: "east" },
-      blockedMessage: "The sarcophagus is cursed. You need a holy symbol to approach."
-    },
-    {
-      id: "darkness-curse",
-      scene: "treasury",
-      requires: ["scroll-of-light"],
-      action: "use scroll-of-light in treasury",
-      result: "The spell banishes the darkness. The room fills with a soft glow. You can see the golden scarab on the pedestal. The way forward is clear.",
-      reveals: ["altar-chamber"],
-      blocksExit: {},
-      blockedMessage: ""
-    },
-    {
-      id: "cursed-altar",
-      scene: "altar-chamber",
-      requires: ["golden-scarab"],
-      action: "place golden scarab on altar",
-      result: "The scarab fits perfectly. Light explodes throughout the pyramid. The curse breaks. An escape tunnel opens. YOU WIN.",
-      reveals: ["escape-passage"],
-      blocksExit: {},
-      blockedMessage: ""
-    }
-  ],
-
-  winCondition: {
-    scene: "escape-passage",
-    requires: [],
-    description: "You emerge from the pyramid as the sun rises. The sand is still. The curse is lifted. You have survived the Sand That Speaks."
+  "winCondition": {
+    "scene": "escape-passage",
+    "requires": [],
+    "description": "You emerge from the pyramid as the sun rises. The sand is still. The curse is lifted. You have survived the Sand That Speaks."
   }
 };
-
-// ============================================================
-// GAME STATE
-// ============================================================
-const state = {
-  currentScene: GAME_DATA.startScene,
-  inventory: [],
-  solvedPuzzles: [],
-  visitedScenes: [],
-  revealedItems: [] // Items newly revealed by puzzle solutions
+window.GAME_ART = {
+  "item-ankh-amulet": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"30\" rx=\"8\" ry=\"12\"/>\n    <rect x=\"29\" y=\"40\" width=\"6\" height=\"16\"/>\n  </g>\n</svg>\n",
+  "ITEM-ANKH-AMULET": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"30\" rx=\"8\" ry=\"12\"/>\n    <rect x=\"29\" y=\"40\" width=\"6\" height=\"16\"/>\n  </g>\n</svg>\n",
+  "ankh-amulet": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"30\" rx=\"8\" ry=\"12\"/>\n    <rect x=\"29\" y=\"40\" width=\"6\" height=\"16\"/>\n  </g>\n</svg>\n",
+  "ANKH-AMULET": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"30\" rx=\"8\" ry=\"12\"/>\n    <rect x=\"29\" y=\"40\" width=\"6\" height=\"16\"/>\n  </g>\n</svg>\n",
+  "item_ankh_amulet": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"30\" rx=\"8\" ry=\"12\"/>\n    <rect x=\"29\" y=\"40\" width=\"6\" height=\"16\"/>\n  </g>\n</svg>\n",
+  "scene-ankh-amulet": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\">\n    <ellipse cx=\"32\" cy=\"30\" rx=\"8\" ry=\"12\"/>\n    <rect x=\"29\" y=\"40\" width=\"6\" height=\"16\"/>\n  </g>\n</svg>\n",
+  "item-golden-scarab": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"32\" rx=\"18\" ry=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"20\" x2=\"32\" y2=\"44\" stroke=\"#0f0\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>\n",
+  "ITEM-GOLDEN-SCARAB": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"32\" rx=\"18\" ry=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"20\" x2=\"32\" y2=\"44\" stroke=\"#0f0\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>\n",
+  "golden-scarab": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"32\" rx=\"18\" ry=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"20\" x2=\"32\" y2=\"44\" stroke=\"#0f0\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>\n",
+  "GOLDEN-SCARAB": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"32\" rx=\"18\" ry=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"20\" x2=\"32\" y2=\"44\" stroke=\"#0f0\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>\n",
+  "item_golden_scarab": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"32\" rx=\"18\" ry=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"20\" x2=\"32\" y2=\"44\" stroke=\"#0f0\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>\n",
+  "scene-golden-scarab": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"32\" rx=\"18\" ry=\"12\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <line x1=\"32\" y1=\"20\" x2=\"32\" y2=\"44\" stroke=\"#0f0\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"32\" x2=\"44\" y2=\"32\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>\n",
+  "item-scroll-of-light": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#f5deb3\" stroke=\"#8b4513\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"28\" x2=\"44\" y2=\"28\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"36\" x2=\"44\" y2=\"36\" stroke=\"#ff0\" stroke-width=\"2\"/>\n</svg>\n",
+  "ITEM-SCROLL-OF-LIGHT": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#f5deb3\" stroke=\"#8b4513\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"28\" x2=\"44\" y2=\"28\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"36\" x2=\"44\" y2=\"36\" stroke=\"#ff0\" stroke-width=\"2\"/>\n</svg>\n",
+  "scroll-of-light": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#f5deb3\" stroke=\"#8b4513\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"28\" x2=\"44\" y2=\"28\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"36\" x2=\"44\" y2=\"36\" stroke=\"#ff0\" stroke-width=\"2\"/>\n</svg>\n",
+  "SCROLL-OF-LIGHT": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#f5deb3\" stroke=\"#8b4513\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"28\" x2=\"44\" y2=\"28\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"36\" x2=\"44\" y2=\"36\" stroke=\"#ff0\" stroke-width=\"2\"/>\n</svg>\n",
+  "item_scroll_of_light": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#f5deb3\" stroke=\"#8b4513\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"28\" x2=\"44\" y2=\"28\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"36\" x2=\"44\" y2=\"36\" stroke=\"#ff0\" stroke-width=\"2\"/>\n</svg>\n",
+  "scene-scroll-of-light": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#f5deb3\" stroke=\"#8b4513\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"28\" x2=\"44\" y2=\"28\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"36\" x2=\"44\" y2=\"36\" stroke=\"#ff0\" stroke-width=\"2\"/>\n</svg>\n",
+  "item-stone-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"30\" height=\"20\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"5\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n</svg>\n",
+  "ITEM-STONE-KEY": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"30\" height=\"20\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"5\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n</svg>\n",
+  "stone-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"30\" height=\"20\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"5\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n</svg>\n",
+  "STONE-KEY": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"30\" height=\"20\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"5\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n</svg>\n",
+  "item_stone_key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"30\" height=\"20\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"5\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n</svg>\n",
+  "scene-stone-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"30\" height=\"20\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"5\" fill=\"#a0a0a0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n</svg>\n",
+  "item-torch": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"40\" fill=\"#4a3020\"/>\n  <rect x=\"26\" y=\"8\" width=\"12\" height=\"10\" fill=\"#f80\"/>\n  <ellipse cx=\"32\" cy=\"12\" rx=\"4\" ry=\"6\" fill=\"#ff0\"/>\n</svg>\n",
+  "ITEM-TORCH": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"40\" fill=\"#4a3020\"/>\n  <rect x=\"26\" y=\"8\" width=\"12\" height=\"10\" fill=\"#f80\"/>\n  <ellipse cx=\"32\" cy=\"12\" rx=\"4\" ry=\"6\" fill=\"#ff0\"/>\n</svg>\n",
+  "torch": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"40\" fill=\"#4a3020\"/>\n  <rect x=\"26\" y=\"8\" width=\"12\" height=\"10\" fill=\"#f80\"/>\n  <ellipse cx=\"32\" cy=\"12\" rx=\"4\" ry=\"6\" fill=\"#ff0\"/>\n</svg>\n",
+  "TORCH": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"40\" fill=\"#4a3020\"/>\n  <rect x=\"26\" y=\"8\" width=\"12\" height=\"10\" fill=\"#f80\"/>\n  <ellipse cx=\"32\" cy=\"12\" rx=\"4\" ry=\"6\" fill=\"#ff0\"/>\n</svg>\n",
+  "item_torch": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"40\" fill=\"#4a3020\"/>\n  <rect x=\"26\" y=\"8\" width=\"12\" height=\"10\" fill=\"#f80\"/>\n  <ellipse cx=\"32\" cy=\"12\" rx=\"4\" ry=\"6\" fill=\"#ff0\"/>\n</svg>\n",
+  "scene-torch": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"40\" fill=\"#4a3020\"/>\n  <rect x=\"26\" y=\"8\" width=\"12\" height=\"10\" fill=\"#f80\"/>\n  <ellipse cx=\"32\" cy=\"12\" rx=\"4\" ry=\"6\" fill=\"#ff0\"/>\n</svg>\n",
+  "scene-altar-chamber": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with sigils -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- sigils glow -->\n  <g font-family=\"monospace\" font-size=\"12\" fill=\"#ff4500\">\n    <text x=\"50\" y=\"50\">☥</text>\n    <text x=\"400\" y=\"80\">𓂀</text>\n    <text x=\"600\" y=\"120\">𓃒</text>\n  </g>\n  <!-- altar with scarab depression -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"100\" height=\"60\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <ellipse cx=\"50\" cy=\"30\" rx=\"25\" ry=\"15\" fill=\"#2a2410\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n    <text x=\"50\" y=\"30\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">SCARAB</text>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"140\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>\n",
+  "SCENE-ALTAR-CHAMBER": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with sigils -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- sigils glow -->\n  <g font-family=\"monospace\" font-size=\"12\" fill=\"#ff4500\">\n    <text x=\"50\" y=\"50\">☥</text>\n    <text x=\"400\" y=\"80\">𓂀</text>\n    <text x=\"600\" y=\"120\">𓃒</text>\n  </g>\n  <!-- altar with scarab depression -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"100\" height=\"60\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <ellipse cx=\"50\" cy=\"30\" rx=\"25\" ry=\"15\" fill=\"#2a2410\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n    <text x=\"50\" y=\"30\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">SCARAB</text>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"140\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>\n",
+  "altar-chamber": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with sigils -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- sigils glow -->\n  <g font-family=\"monospace\" font-size=\"12\" fill=\"#ff4500\">\n    <text x=\"50\" y=\"50\">☥</text>\n    <text x=\"400\" y=\"80\">𓂀</text>\n    <text x=\"600\" y=\"120\">𓃒</text>\n  </g>\n  <!-- altar with scarab depression -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"100\" height=\"60\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <ellipse cx=\"50\" cy=\"30\" rx=\"25\" ry=\"15\" fill=\"#2a2410\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n    <text x=\"50\" y=\"30\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">SCARAB</text>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"140\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>\n",
+  "ALTAR-CHAMBER": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with sigils -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- sigils glow -->\n  <g font-family=\"monospace\" font-size=\"12\" fill=\"#ff4500\">\n    <text x=\"50\" y=\"50\">☥</text>\n    <text x=\"400\" y=\"80\">𓂀</text>\n    <text x=\"600\" y=\"120\">𓃒</text>\n  </g>\n  <!-- altar with scarab depression -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"100\" height=\"60\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <ellipse cx=\"50\" cy=\"30\" rx=\"25\" ry=\"15\" fill=\"#2a2410\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n    <text x=\"50\" y=\"30\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">SCARAB</text>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"140\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>\n",
+  "scene_altar_chamber": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with sigils -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- sigils glow -->\n  <g font-family=\"monospace\" font-size=\"12\" fill=\"#ff4500\">\n    <text x=\"50\" y=\"50\">☥</text>\n    <text x=\"400\" y=\"80\">𓂀</text>\n    <text x=\"600\" y=\"120\">𓃒</text>\n  </g>\n  <!-- altar with scarab depression -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"100\" height=\"60\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <ellipse cx=\"50\" cy=\"30\" rx=\"25\" ry=\"15\" fill=\"#2a2410\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n    <text x=\"50\" y=\"30\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">SCARAB</text>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"140\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>\n",
+  "item-altar-chamber": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with sigils -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- sigils glow -->\n  <g font-family=\"monospace\" font-size=\"12\" fill=\"#ff4500\">\n    <text x=\"50\" y=\"50\">☥</text>\n    <text x=\"400\" y=\"80\">𓂀</text>\n    <text x=\"600\" y=\"120\">𓃒</text>\n  </g>\n  <!-- altar with scarab depression -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"100\" height=\"60\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <ellipse cx=\"50\" cy=\"30\" rx=\"25\" ry=\"15\" fill=\"#2a2410\" stroke=\"#ffd700\" stroke-width=\"2\"/>\n    <text x=\"50\" y=\"30\" font-family=\"monospace\" font-size=\"8\" fill=\"#ffd700\" text-anchor=\"middle\">SCARAB</text>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"140\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>\n",
+  "scene-burial-chamber": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with paintings -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- afteralke paintings (stars, boats) -->\n  <g fill=\"#4a4030\">\n    <circle cx=\"100\" cy=\"80\" r=\"10\"/>\n    <path d=\"M200,50 L250,80 L200,110 L150,80 Z\" fill=\"#4a4030\"/>\n    <ellipse cx=\"500\" cy=\"100\" rx=\"30\" ry=\"10\"/>\n  </g>\n  <!-- sarcophagus on dais -->\n  <g transform=\"translate(260,150)\">\n    <rect x=\"0\" y=\"0\" width=\"120\" height=\"40\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <rect x=\"10\" y=\"10\" width=\"100\" height=\"20\" fill=\"#2a2410\"/>\n    <!-- scroll on dais -->\n    <g transform=\"translate(60,60)\">\n      <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#5a4030\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n    </g>\n  </g>\n  <!-- east door (treasury) -->\n  <rect x=\"500\" y=\"250\" width=\"80\" height=\"80\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"292\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>\n",
+  "SCENE-BURIAL-CHAMBER": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with paintings -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- afteralke paintings (stars, boats) -->\n  <g fill=\"#4a4030\">\n    <circle cx=\"100\" cy=\"80\" r=\"10\"/>\n    <path d=\"M200,50 L250,80 L200,110 L150,80 Z\" fill=\"#4a4030\"/>\n    <ellipse cx=\"500\" cy=\"100\" rx=\"30\" ry=\"10\"/>\n  </g>\n  <!-- sarcophagus on dais -->\n  <g transform=\"translate(260,150)\">\n    <rect x=\"0\" y=\"0\" width=\"120\" height=\"40\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <rect x=\"10\" y=\"10\" width=\"100\" height=\"20\" fill=\"#2a2410\"/>\n    <!-- scroll on dais -->\n    <g transform=\"translate(60,60)\">\n      <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#5a4030\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n    </g>\n  </g>\n  <!-- east door (treasury) -->\n  <rect x=\"500\" y=\"250\" width=\"80\" height=\"80\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"292\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>\n",
+  "burial-chamber": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with paintings -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- afteralke paintings (stars, boats) -->\n  <g fill=\"#4a4030\">\n    <circle cx=\"100\" cy=\"80\" r=\"10\"/>\n    <path d=\"M200,50 L250,80 L200,110 L150,80 Z\" fill=\"#4a4030\"/>\n    <ellipse cx=\"500\" cy=\"100\" rx=\"30\" ry=\"10\"/>\n  </g>\n  <!-- sarcophagus on dais -->\n  <g transform=\"translate(260,150)\">\n    <rect x=\"0\" y=\"0\" width=\"120\" height=\"40\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <rect x=\"10\" y=\"10\" width=\"100\" height=\"20\" fill=\"#2a2410\"/>\n    <!-- scroll on dais -->\n    <g transform=\"translate(60,60)\">\n      <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#5a4030\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n    </g>\n  </g>\n  <!-- east door (treasury) -->\n  <rect x=\"500\" y=\"250\" width=\"80\" height=\"80\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"292\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>\n",
+  "BURIAL-CHAMBER": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with paintings -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- afteralke paintings (stars, boats) -->\n  <g fill=\"#4a4030\">\n    <circle cx=\"100\" cy=\"80\" r=\"10\"/>\n    <path d=\"M200,50 L250,80 L200,110 L150,80 Z\" fill=\"#4a4030\"/>\n    <ellipse cx=\"500\" cy=\"100\" rx=\"30\" ry=\"10\"/>\n  </g>\n  <!-- sarcophagus on dais -->\n  <g transform=\"translate(260,150)\">\n    <rect x=\"0\" y=\"0\" width=\"120\" height=\"40\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <rect x=\"10\" y=\"10\" width=\"100\" height=\"20\" fill=\"#2a2410\"/>\n    <!-- scroll on dais -->\n    <g transform=\"translate(60,60)\">\n      <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#5a4030\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n    </g>\n  </g>\n  <!-- east door (treasury) -->\n  <rect x=\"500\" y=\"250\" width=\"80\" height=\"80\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"292\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>\n",
+  "scene_burial_chamber": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with paintings -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- afteralke paintings (stars, boats) -->\n  <g fill=\"#4a4030\">\n    <circle cx=\"100\" cy=\"80\" r=\"10\"/>\n    <path d=\"M200,50 L250,80 L200,110 L150,80 Z\" fill=\"#4a4030\"/>\n    <ellipse cx=\"500\" cy=\"100\" rx=\"30\" ry=\"10\"/>\n  </g>\n  <!-- sarcophagus on dais -->\n  <g transform=\"translate(260,150)\">\n    <rect x=\"0\" y=\"0\" width=\"120\" height=\"40\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <rect x=\"10\" y=\"10\" width=\"100\" height=\"20\" fill=\"#2a2410\"/>\n    <!-- scroll on dais -->\n    <g transform=\"translate(60,60)\">\n      <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#5a4030\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n    </g>\n  </g>\n  <!-- east door (treasury) -->\n  <rect x=\"500\" y=\"250\" width=\"80\" height=\"80\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"292\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>\n",
+  "item-burial-chamber": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls with paintings -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#2a2410\"/>\n  <!-- afteralke paintings (stars, boats) -->\n  <g fill=\"#4a4030\">\n    <circle cx=\"100\" cy=\"80\" r=\"10\"/>\n    <path d=\"M200,50 L250,80 L200,110 L150,80 Z\" fill=\"#4a4030\"/>\n    <ellipse cx=\"500\" cy=\"100\" rx=\"30\" ry=\"10\"/>\n  </g>\n  <!-- sarcophagus on dais -->\n  <g transform=\"translate(260,150)\">\n    <rect x=\"0\" y=\"0\" width=\"120\" height=\"40\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <rect x=\"10\" y=\"10\" width=\"100\" height=\"20\" fill=\"#2a2410\"/>\n    <!-- scroll on dais -->\n    <g transform=\"translate(60,60)\">\n      <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#5a4030\" stroke=\"#ffd700\" stroke-width=\"1\"/>\n    </g>\n  </g>\n  <!-- east door (treasury) -->\n  <rect x=\"500\" y=\"250\" width=\"80\" height=\"80\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"292\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">TREASURY</text>\n</svg>\n",
+  "scene-chamber-of-hieroglyphs": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#2a2410\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#3a3020\"/>\n  <!-- statue of Pharaoh -->\n  <g transform=\"translate(280,100)\">\n    <ellipse cx=\"40\" cy=\"80\" rx=\"25\" ry=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <circle cx=\"40\" cy=\"30\" r=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- ankh missing -->\n    <circle cx=\"40\" cy=\"10\" r=\"5\" fill=\"#f00\" opacity=\"0.7\"/>\n  </g>\n  <!-- pedestal -->\n  <rect x=\"300\" y=\"180\" width=\"40\" height=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n  <!-- south passage -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">SOUTH</text>\n  <!-- ankh amulet on pedestal -->\n  <g transform=\"translate(310,190)\">\n    <ellipse cx=\"10\" cy=\"20\" rx=\"6\" ry=\"10\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <rect x=\"8\" y=\"10\" width=\"4\" height=\"10\" fill=\"#ffd700\"/>\n  </g>\n</svg>\n",
+  "SCENE-CHAMBER-OF-HIEROGLYPHS": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#2a2410\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#3a3020\"/>\n  <!-- statue of Pharaoh -->\n  <g transform=\"translate(280,100)\">\n    <ellipse cx=\"40\" cy=\"80\" rx=\"25\" ry=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <circle cx=\"40\" cy=\"30\" r=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- ankh missing -->\n    <circle cx=\"40\" cy=\"10\" r=\"5\" fill=\"#f00\" opacity=\"0.7\"/>\n  </g>\n  <!-- pedestal -->\n  <rect x=\"300\" y=\"180\" width=\"40\" height=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n  <!-- south passage -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">SOUTH</text>\n  <!-- ankh amulet on pedestal -->\n  <g transform=\"translate(310,190)\">\n    <ellipse cx=\"10\" cy=\"20\" rx=\"6\" ry=\"10\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <rect x=\"8\" y=\"10\" width=\"4\" height=\"10\" fill=\"#ffd700\"/>\n  </g>\n</svg>\n",
+  "chamber-of-hieroglyphs": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#2a2410\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#3a3020\"/>\n  <!-- statue of Pharaoh -->\n  <g transform=\"translate(280,100)\">\n    <ellipse cx=\"40\" cy=\"80\" rx=\"25\" ry=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <circle cx=\"40\" cy=\"30\" r=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- ankh missing -->\n    <circle cx=\"40\" cy=\"10\" r=\"5\" fill=\"#f00\" opacity=\"0.7\"/>\n  </g>\n  <!-- pedestal -->\n  <rect x=\"300\" y=\"180\" width=\"40\" height=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n  <!-- south passage -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">SOUTH</text>\n  <!-- ankh amulet on pedestal -->\n  <g transform=\"translate(310,190)\">\n    <ellipse cx=\"10\" cy=\"20\" rx=\"6\" ry=\"10\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <rect x=\"8\" y=\"10\" width=\"4\" height=\"10\" fill=\"#ffd700\"/>\n  </g>\n</svg>\n",
+  "CHAMBER-OF-HIEROGLYPHS": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#2a2410\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#3a3020\"/>\n  <!-- statue of Pharaoh -->\n  <g transform=\"translate(280,100)\">\n    <ellipse cx=\"40\" cy=\"80\" rx=\"25\" ry=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <circle cx=\"40\" cy=\"30\" r=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- ankh missing -->\n    <circle cx=\"40\" cy=\"10\" r=\"5\" fill=\"#f00\" opacity=\"0.7\"/>\n  </g>\n  <!-- pedestal -->\n  <rect x=\"300\" y=\"180\" width=\"40\" height=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n  <!-- south passage -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">SOUTH</text>\n  <!-- ankh amulet on pedestal -->\n  <g transform=\"translate(310,190)\">\n    <ellipse cx=\"10\" cy=\"20\" rx=\"6\" ry=\"10\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <rect x=\"8\" y=\"10\" width=\"4\" height=\"10\" fill=\"#ffd700\"/>\n  </g>\n</svg>\n",
+  "scene_chamber_of_hieroglyphs": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#2a2410\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#3a3020\"/>\n  <!-- statue of Pharaoh -->\n  <g transform=\"translate(280,100)\">\n    <ellipse cx=\"40\" cy=\"80\" rx=\"25\" ry=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <circle cx=\"40\" cy=\"30\" r=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- ankh missing -->\n    <circle cx=\"40\" cy=\"10\" r=\"5\" fill=\"#f00\" opacity=\"0.7\"/>\n  </g>\n  <!-- pedestal -->\n  <rect x=\"300\" y=\"180\" width=\"40\" height=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n  <!-- south passage -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">SOUTH</text>\n  <!-- ankh amulet on pedestal -->\n  <g transform=\"translate(310,190)\">\n    <ellipse cx=\"10\" cy=\"20\" rx=\"6\" ry=\"10\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <rect x=\"8\" y=\"10\" width=\"4\" height=\"10\" fill=\"#ffd700\"/>\n  </g>\n</svg>\n",
+  "item-chamber-of-hieroglyphs": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#2a2410\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#3a3020\"/>\n  <!-- statue of Pharaoh -->\n  <g transform=\"translate(280,100)\">\n    <ellipse cx=\"40\" cy=\"80\" rx=\"25\" ry=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <circle cx=\"40\" cy=\"30\" r=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- ankh missing -->\n    <circle cx=\"40\" cy=\"10\" r=\"5\" fill=\"#f00\" opacity=\"0.7\"/>\n  </g>\n  <!-- pedestal -->\n  <rect x=\"300\" y=\"180\" width=\"40\" height=\"20\" fill=\"#3a3020\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n  <!-- south passage -->\n  <rect x=\"280\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1410\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">SOUTH</text>\n  <!-- ankh amulet on pedestal -->\n  <g transform=\"translate(310,190)\">\n    <ellipse cx=\"10\" cy=\"20\" rx=\"6\" ry=\"10\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <rect x=\"8\" y=\"10\" width=\"4\" height=\"10\" fill=\"#ffd700\"/>\n  </g>\n</svg>\n",
+  "scene-entrance-passage": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- corridor walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#2a2410\"/>\n  <!-- floor with sand -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#3a3020\"/>\n  <!-- hieroglyphs on walls -->\n  <g font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\">\n    <text x=\"80\" y=\"100\">𓀀𓁹𓂀</text>\n    <text x=\"200\" y=\"130\">𓃒𓃓𓃔</text>\n    <text x=\"400\" y=\"100\">𓆣𓇓𓇔</text>\n  </g>\n  <!-- massive stone door east -->\n  <rect x=\"450\" y=\"120\" width=\"120\" height=\"160\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"6\"/>\n  <text x=\"510\" y=\"200\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">DOOR</text>\n  <!-- stone key on floor -->\n  <g transform=\"translate(150,280)\">\n    <rect x=\"0\" y=\"0\" width=\"20\" height=\"10\" fill=\"#d4af37\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <text x=\"10\" y=\"7\" font-family=\"monospace\" font-size=\"5\" fill=\"#000\" text-anchor=\"middle\">KEY</text>\n  </g>\n  <!-- torch on floor -->\n  <g transform=\"translate(320,300)\">\n    <rect x=\"0\" y=\"0\" width=\"6\" height=\"30\" fill=\"#4a3020\"/>\n    <rect x=\"2\" y=\"10\" width=\"2\" height=\"8\" fill=\"#f80\"/>\n  </g>\n</svg>\n",
+  "SCENE-ENTRANCE-PASSAGE": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- corridor walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#2a2410\"/>\n  <!-- floor with sand -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#3a3020\"/>\n  <!-- hieroglyphs on walls -->\n  <g font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\">\n    <text x=\"80\" y=\"100\">𓀀𓁹𓂀</text>\n    <text x=\"200\" y=\"130\">𓃒𓃓𓃔</text>\n    <text x=\"400\" y=\"100\">𓆣𓇓𓇔</text>\n  </g>\n  <!-- massive stone door east -->\n  <rect x=\"450\" y=\"120\" width=\"120\" height=\"160\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"6\"/>\n  <text x=\"510\" y=\"200\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">DOOR</text>\n  <!-- stone key on floor -->\n  <g transform=\"translate(150,280)\">\n    <rect x=\"0\" y=\"0\" width=\"20\" height=\"10\" fill=\"#d4af37\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <text x=\"10\" y=\"7\" font-family=\"monospace\" font-size=\"5\" fill=\"#000\" text-anchor=\"middle\">KEY</text>\n  </g>\n  <!-- torch on floor -->\n  <g transform=\"translate(320,300)\">\n    <rect x=\"0\" y=\"0\" width=\"6\" height=\"30\" fill=\"#4a3020\"/>\n    <rect x=\"2\" y=\"10\" width=\"2\" height=\"8\" fill=\"#f80\"/>\n  </g>\n</svg>\n",
+  "entrance-passage": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- corridor walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#2a2410\"/>\n  <!-- floor with sand -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#3a3020\"/>\n  <!-- hieroglyphs on walls -->\n  <g font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\">\n    <text x=\"80\" y=\"100\">𓀀𓁹𓂀</text>\n    <text x=\"200\" y=\"130\">𓃒𓃓𓃔</text>\n    <text x=\"400\" y=\"100\">𓆣𓇓𓇔</text>\n  </g>\n  <!-- massive stone door east -->\n  <rect x=\"450\" y=\"120\" width=\"120\" height=\"160\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"6\"/>\n  <text x=\"510\" y=\"200\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">DOOR</text>\n  <!-- stone key on floor -->\n  <g transform=\"translate(150,280)\">\n    <rect x=\"0\" y=\"0\" width=\"20\" height=\"10\" fill=\"#d4af37\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <text x=\"10\" y=\"7\" font-family=\"monospace\" font-size=\"5\" fill=\"#000\" text-anchor=\"middle\">KEY</text>\n  </g>\n  <!-- torch on floor -->\n  <g transform=\"translate(320,300)\">\n    <rect x=\"0\" y=\"0\" width=\"6\" height=\"30\" fill=\"#4a3020\"/>\n    <rect x=\"2\" y=\"10\" width=\"2\" height=\"8\" fill=\"#f80\"/>\n  </g>\n</svg>\n",
+  "ENTRANCE-PASSAGE": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- corridor walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#2a2410\"/>\n  <!-- floor with sand -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#3a3020\"/>\n  <!-- hieroglyphs on walls -->\n  <g font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\">\n    <text x=\"80\" y=\"100\">𓀀𓁹𓂀</text>\n    <text x=\"200\" y=\"130\">𓃒𓃓𓃔</text>\n    <text x=\"400\" y=\"100\">𓆣𓇓𓇔</text>\n  </g>\n  <!-- massive stone door east -->\n  <rect x=\"450\" y=\"120\" width=\"120\" height=\"160\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"6\"/>\n  <text x=\"510\" y=\"200\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">DOOR</text>\n  <!-- stone key on floor -->\n  <g transform=\"translate(150,280)\">\n    <rect x=\"0\" y=\"0\" width=\"20\" height=\"10\" fill=\"#d4af37\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <text x=\"10\" y=\"7\" font-family=\"monospace\" font-size=\"5\" fill=\"#000\" text-anchor=\"middle\">KEY</text>\n  </g>\n  <!-- torch on floor -->\n  <g transform=\"translate(320,300)\">\n    <rect x=\"0\" y=\"0\" width=\"6\" height=\"30\" fill=\"#4a3020\"/>\n    <rect x=\"2\" y=\"10\" width=\"2\" height=\"8\" fill=\"#f80\"/>\n  </g>\n</svg>\n",
+  "scene_entrance_passage": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- corridor walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#2a2410\"/>\n  <!-- floor with sand -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#3a3020\"/>\n  <!-- hieroglyphs on walls -->\n  <g font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\">\n    <text x=\"80\" y=\"100\">𓀀𓁹𓂀</text>\n    <text x=\"200\" y=\"130\">𓃒𓃓𓃔</text>\n    <text x=\"400\" y=\"100\">𓆣𓇓𓇔</text>\n  </g>\n  <!-- massive stone door east -->\n  <rect x=\"450\" y=\"120\" width=\"120\" height=\"160\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"6\"/>\n  <text x=\"510\" y=\"200\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">DOOR</text>\n  <!-- stone key on floor -->\n  <g transform=\"translate(150,280)\">\n    <rect x=\"0\" y=\"0\" width=\"20\" height=\"10\" fill=\"#d4af37\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <text x=\"10\" y=\"7\" font-family=\"monospace\" font-size=\"5\" fill=\"#000\" text-anchor=\"middle\">KEY</text>\n  </g>\n  <!-- torch on floor -->\n  <g transform=\"translate(320,300)\">\n    <rect x=\"0\" y=\"0\" width=\"6\" height=\"30\" fill=\"#4a3020\"/>\n    <rect x=\"2\" y=\"10\" width=\"2\" height=\"8\" fill=\"#f80\"/>\n  </g>\n</svg>\n",
+  "item-entrance-passage": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1410\"/>\n  <!-- corridor walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#2a2410\"/>\n  <!-- floor with sand -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#3a3020\"/>\n  <!-- hieroglyphs on walls -->\n  <g font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\">\n    <text x=\"80\" y=\"100\">𓀀𓁹𓂀</text>\n    <text x=\"200\" y=\"130\">𓃒𓃓𓃔</text>\n    <text x=\"400\" y=\"100\">𓆣𓇓𓇔</text>\n  </g>\n  <!-- massive stone door east -->\n  <rect x=\"450\" y=\"120\" width=\"120\" height=\"160\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"6\"/>\n  <text x=\"510\" y=\"200\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">DOOR</text>\n  <!-- stone key on floor -->\n  <g transform=\"translate(150,280)\">\n    <rect x=\"0\" y=\"0\" width=\"20\" height=\"10\" fill=\"#d4af37\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <text x=\"10\" y=\"7\" font-family=\"monospace\" font-size=\"5\" fill=\"#000\" text-anchor=\"middle\">KEY</text>\n  </g>\n  <!-- torch on floor -->\n  <g transform=\"translate(320,300)\">\n    <rect x=\"0\" y=\"0\" width=\"6\" height=\"30\" fill=\"#4a3020\"/>\n    <rect x=\"2\" y=\"10\" width=\"2\" height=\"8\" fill=\"#f80\"/>\n  </g>\n</svg>\n",
+  "scene-escape-passage": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#87CEEB\"/>\n  <!-- daylight sky -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"200\" fill=\"#0a0a1a\"/>\n  <!-- tunnel opening -->\n  <rect x=\"270\" y=\"100\" width=\"100\" height=\"200\" fill=\"#1a1410\"/>\n  <!-- sunlight shaft -->\n  <rect x=\"300\" y=\"0\" width=\"40\" height=\"150\" fill=\"#ffd700\" opacity=\"0.5\"/>\n  <!-- desert sand -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#d4a017\"/>\n  <!-- pyramid in distance -->\n  <g transform=\"translate(400,120)\">\n    <polygon points=\"0,80 40,0 80,80\" fill=\"#c2a060\"/>\n  </g>\n</svg>\n",
+  "SCENE-ESCAPE-PASSAGE": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#87CEEB\"/>\n  <!-- daylight sky -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"200\" fill=\"#0a0a1a\"/>\n  <!-- tunnel opening -->\n  <rect x=\"270\" y=\"100\" width=\"100\" height=\"200\" fill=\"#1a1410\"/>\n  <!-- sunlight shaft -->\n  <rect x=\"300\" y=\"0\" width=\"40\" height=\"150\" fill=\"#ffd700\" opacity=\"0.5\"/>\n  <!-- desert sand -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#d4a017\"/>\n  <!-- pyramid in distance -->\n  <g transform=\"translate(400,120)\">\n    <polygon points=\"0,80 40,0 80,80\" fill=\"#c2a060\"/>\n  </g>\n</svg>\n",
+  "escape-passage": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#87CEEB\"/>\n  <!-- daylight sky -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"200\" fill=\"#0a0a1a\"/>\n  <!-- tunnel opening -->\n  <rect x=\"270\" y=\"100\" width=\"100\" height=\"200\" fill=\"#1a1410\"/>\n  <!-- sunlight shaft -->\n  <rect x=\"300\" y=\"0\" width=\"40\" height=\"150\" fill=\"#ffd700\" opacity=\"0.5\"/>\n  <!-- desert sand -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#d4a017\"/>\n  <!-- pyramid in distance -->\n  <g transform=\"translate(400,120)\">\n    <polygon points=\"0,80 40,0 80,80\" fill=\"#c2a060\"/>\n  </g>\n</svg>\n",
+  "ESCAPE-PASSAGE": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#87CEEB\"/>\n  <!-- daylight sky -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"200\" fill=\"#0a0a1a\"/>\n  <!-- tunnel opening -->\n  <rect x=\"270\" y=\"100\" width=\"100\" height=\"200\" fill=\"#1a1410\"/>\n  <!-- sunlight shaft -->\n  <rect x=\"300\" y=\"0\" width=\"40\" height=\"150\" fill=\"#ffd700\" opacity=\"0.5\"/>\n  <!-- desert sand -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#d4a017\"/>\n  <!-- pyramid in distance -->\n  <g transform=\"translate(400,120)\">\n    <polygon points=\"0,80 40,0 80,80\" fill=\"#c2a060\"/>\n  </g>\n</svg>\n",
+  "scene_escape_passage": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#87CEEB\"/>\n  <!-- daylight sky -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"200\" fill=\"#0a0a1a\"/>\n  <!-- tunnel opening -->\n  <rect x=\"270\" y=\"100\" width=\"100\" height=\"200\" fill=\"#1a1410\"/>\n  <!-- sunlight shaft -->\n  <rect x=\"300\" y=\"0\" width=\"40\" height=\"150\" fill=\"#ffd700\" opacity=\"0.5\"/>\n  <!-- desert sand -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#d4a017\"/>\n  <!-- pyramid in distance -->\n  <g transform=\"translate(400,120)\">\n    <polygon points=\"0,80 40,0 80,80\" fill=\"#c2a060\"/>\n  </g>\n</svg>\n",
+  "item-escape-passage": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#87CEEB\"/>\n  <!-- daylight sky -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"200\" fill=\"#0a0a1a\"/>\n  <!-- tunnel opening -->\n  <rect x=\"270\" y=\"100\" width=\"100\" height=\"200\" fill=\"#1a1410\"/>\n  <!-- sunlight shaft -->\n  <rect x=\"300\" y=\"0\" width=\"40\" height=\"150\" fill=\"#ffd700\" opacity=\"0.5\"/>\n  <!-- desert sand -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#d4a017\"/>\n  <!-- pyramid in distance -->\n  <g transform=\"translate(400,120)\">\n    <polygon points=\"0,80 40,0 80,80\" fill=\"#c2a060\"/>\n  </g>\n</svg>\n",
+  "scene-treasury": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a0a\"/>\n  <!-- absolute blackness -->\n  <!-- treasure piles (barely visible) -->\n  <g fill=\"#3a3020\" opacity=\"0.7\">\n    <rect x=\"50\" y=\"300\" width=\"100\" height=\"80\"/>\n    <rect x=\"450\" y=\"280\" width=\"120\" height=\"100\"/>\n  </g>\n  <!-- pedestal with scarab -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- golden scarab -->\n    <ellipse cx=\"30\" cy=\"20\" rx=\"15\" ry=\"10\" fill=\"#ffd700\" stroke=\"#ff0\" stroke-width=\"1\"/>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"130\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">BURIAL</text>\n  <!-- exit east (altar) -->\n  <rect x=\"480\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"510\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">ALTAR</text>\n</svg>\n",
+  "SCENE-TREASURY": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a0a\"/>\n  <!-- absolute blackness -->\n  <!-- treasure piles (barely visible) -->\n  <g fill=\"#3a3020\" opacity=\"0.7\">\n    <rect x=\"50\" y=\"300\" width=\"100\" height=\"80\"/>\n    <rect x=\"450\" y=\"280\" width=\"120\" height=\"100\"/>\n  </g>\n  <!-- pedestal with scarab -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- golden scarab -->\n    <ellipse cx=\"30\" cy=\"20\" rx=\"15\" ry=\"10\" fill=\"#ffd700\" stroke=\"#ff0\" stroke-width=\"1\"/>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"130\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">BURIAL</text>\n  <!-- exit east (altar) -->\n  <rect x=\"480\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"510\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">ALTAR</text>\n</svg>\n",
+  "treasury": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a0a\"/>\n  <!-- absolute blackness -->\n  <!-- treasure piles (barely visible) -->\n  <g fill=\"#3a3020\" opacity=\"0.7\">\n    <rect x=\"50\" y=\"300\" width=\"100\" height=\"80\"/>\n    <rect x=\"450\" y=\"280\" width=\"120\" height=\"100\"/>\n  </g>\n  <!-- pedestal with scarab -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- golden scarab -->\n    <ellipse cx=\"30\" cy=\"20\" rx=\"15\" ry=\"10\" fill=\"#ffd700\" stroke=\"#ff0\" stroke-width=\"1\"/>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"130\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">BURIAL</text>\n  <!-- exit east (altar) -->\n  <rect x=\"480\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"510\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">ALTAR</text>\n</svg>\n",
+  "TREASURY": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a0a\"/>\n  <!-- absolute blackness -->\n  <!-- treasure piles (barely visible) -->\n  <g fill=\"#3a3020\" opacity=\"0.7\">\n    <rect x=\"50\" y=\"300\" width=\"100\" height=\"80\"/>\n    <rect x=\"450\" y=\"280\" width=\"120\" height=\"100\"/>\n  </g>\n  <!-- pedestal with scarab -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- golden scarab -->\n    <ellipse cx=\"30\" cy=\"20\" rx=\"15\" ry=\"10\" fill=\"#ffd700\" stroke=\"#ff0\" stroke-width=\"1\"/>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"130\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">BURIAL</text>\n  <!-- exit east (altar) -->\n  <rect x=\"480\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"510\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">ALTAR</text>\n</svg>\n",
+  "scene_treasury": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a0a\"/>\n  <!-- absolute blackness -->\n  <!-- treasure piles (barely visible) -->\n  <g fill=\"#3a3020\" opacity=\"0.7\">\n    <rect x=\"50\" y=\"300\" width=\"100\" height=\"80\"/>\n    <rect x=\"450\" y=\"280\" width=\"120\" height=\"100\"/>\n  </g>\n  <!-- pedestal with scarab -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- golden scarab -->\n    <ellipse cx=\"30\" cy=\"20\" rx=\"15\" ry=\"10\" fill=\"#ffd700\" stroke=\"#ff0\" stroke-width=\"1\"/>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"130\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">BURIAL</text>\n  <!-- exit east (altar) -->\n  <rect x=\"480\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"510\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">ALTAR</text>\n</svg>\n",
+  "item-treasury": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a0a\"/>\n  <!-- absolute blackness -->\n  <!-- treasure piles (barely visible) -->\n  <g fill=\"#3a3020\" opacity=\"0.7\">\n    <rect x=\"50\" y=\"300\" width=\"100\" height=\"80\"/>\n    <rect x=\"450\" y=\"280\" width=\"120\" height=\"100\"/>\n  </g>\n  <!-- pedestal with scarab -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"40\" fill=\"#2a2410\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <!-- golden scarab -->\n    <ellipse cx=\"30\" cy=\"20\" rx=\"15\" ry=\"10\" fill=\"#ffd700\" stroke=\"#ff0\" stroke-width=\"1\"/>\n  </g>\n  <!-- exit west -->\n  <rect x=\"100\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"130\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">BURIAL</text>\n  <!-- exit east (altar) -->\n  <rect x=\"480\" y=\"180\" width=\"60\" height=\"60\" fill=\"#0a0a0a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <text x=\"510\" y=\"212\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">ALTAR</text>\n</svg>\n"
 };
-
-// ============================================================
-// DOM REFERENCES (set on init)
-// ============================================================
-let artDisplay = null;
-let textDisplay = null;
-let exitBar = null;
-let inventoryDisplay = null;
-let commandInput = null;
-
-// ============================================================
-// UTILITY FUNCTIONS
-// ============================================================
-
-/** Get current scene data */
-function getCurrentScene() {
-  return GAME_DATA.scenes.find(s => s.id === state.currentScene);
-}
-
-/** Add text to the display */
-function addText(text, className = '') {
-  if (!textDisplay) return;
-  const p = document.createElement('p');
-  p.textContent = text;
-  if (className) p.className = className;
-  textDisplay.appendChild(p);
-  textDisplay.scrollTop = textDisplay.scrollHeight;
-}
-
-/** Clear text display */
-function clearText() {
-  if (textDisplay) textDisplay.innerHTML = '';
-}
-
-/** Find item by ID */
-function findItem(id) {
-  return GAME_DATA.items.find(i => i.id === id);
-}
-
-/** Find puzzle by ID */
-function findPuzzle(id) {
-  return GAME_DATA.puzzles.find(p => p.id === id);
-}
-
-/** Check if player has item */
-function hasItem(itemId) {
-  return state.inventory.includes(itemId);
-}
-
-/** Check if puzzle is solved */
-function isSolved(puzzleId) {
-  return state.solvedPuzzles.includes(puzzleId);
-}
-
-// ============================================================
-// CORE GAME FUNCTIONS
-// ============================================================
-
-/**
- * Check if exit is blocked by an unsolved puzzle
- * Returns false if blocked, true if free
- */
-function canExit(sceneId, direction) {
-  const exit = GAME_DATA.scenes.find(s => s.id === sceneId)?.exits?.[direction];
-  if (!exit) return false;
-
-  // Check if any unsolved puzzle blocks this exit
-  const blocker = GAME_DATA.puzzles.find(p =>
-    p.blocksExit?.scene === sceneId &&
-    p.blocksExit?.direction === direction &&
-    !state.solvedPuzzles.includes(p.id)
-  );
-
-  if (blocker) {
-    addText(`[The way ${direction} is blocked. ${blocker.blockedMessage || 'Something prevents you from going that way.'}]`, 'locked');
-    return false;
-  }
-  return true;
-}
-
-/** Move to a new scene */
-function goToScene(sceneId) {
-  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
-  if (!scene) {
-    addText("[You can't go that way.]", 'error');
-    return;
-  }
-
-  state.currentScene = sceneId;
-  if (!state.visitedScenes.includes(sceneId)) {
-    state.visitedScenes.push(sceneId);
-  }
-  renderScene();
-  checkWinCondition();
-}
-
-/** Move in a direction */
-function goDirection(direction) {
-  const scene = getCurrentScene();
-  if (!scene.exits[direction]) {
-    addText(`[There is no exit to the ${direction}.]`, 'error');
-    return;
-  }
-  if (canExit(state.currentScene, direction)) {
-    goToScene(scene.exits[direction]);
-  }
-}
-
-/** Take an item from the scene */
-function takeItem(itemId) {
-  const scene = getCurrentScene();
-  const item = findItem(itemId);
-
-  if (!item) {
-    addText("[You don't see that here.]", 'error');
-    return;
-  }
-
-  // Check if item is in scene (either pre-existing or revealed)
-  const itemInScene = scene.items.includes(itemId) || state.revealedItems.includes(itemId);
-  if (!itemInScene) {
-    addText("[You don't see that here.]", 'error');
-    return;
-  }
-
-  if (hasItem(itemId)) {
-    addText("[You already have that.]", 'error');
-    return;
-  }
-
-  // Add to inventory
-  state.inventory.push(itemId);
-
-  // Remove from scene
-  const idx = scene.items.indexOf(itemId);
-  if (idx > -1) scene.items.splice(idx, 1);
-
-  // Remove from revealed items
-  const rIdx = state.revealedItems.indexOf(itemId);
-  if (rIdx > -1) state.revealedItems.splice(rIdx, 1);
-
-  addText(`[You take the ${item.name}.]`, 'item');
-  renderInventory();
-
-  // Visual glow effect
-  highlightNewItem(itemId);
-}
-
-/** Use an item on a puzzle target */
-function useItem(itemId, puzzleId) {
-  const puzzle = findPuzzle(puzzleId);
-  const item = findItem(itemId);
-
-  if (!item) {
-    addText("[You don't have that item.]", 'error');
-    return;
-  }
-
-  if (!hasItem(itemId)) {
-    addText("[You don't have that.]", 'error');
-    return;
-  }
-
-  if (!puzzle) {
-    addText("[You can't use that here.]", 'error');
-    return;
-  }
-
-  if (isSolved(puzzle.id)) {
-    addText("[You've already done that.]", 'error');
-    return;
-  }
-
-  // Check if we're in the right scene
-  if (puzzle.scene !== state.currentScene) {
-    addText("[You can't use that here.]", 'error');
-    return;
-  }
-
-  // Check if this item solves this puzzle
-  if (puzzle.requires.includes(itemId)) {
-    solvePuzzle(puzzle);
-  } else {
-    addText("[That doesn't seem to work here.]", 'error');
-  }
-}
-
-/** Solve a puzzle */
-function solvePuzzle(puzzle) {
-  state.solvedPuzzles.push(puzzle.id);
-
-  // Show result text
-  addText(puzzle.result, 'puzzle');
-
-  // Visual feedback
-  if (artDisplay) {
-    artDisplay.classList.add('puzzle-solved');
-    setTimeout(() => artDisplay.classList.remove('puzzle-solved'), 600);
-  }
-
-  // Reveal items
-  if (puzzle.reveals) {
-    puzzle.reveals.forEach(idOrScene => {
-      // Check if it's an item or scene
-      const item = findItem(idOrScene);
-      if (item) {
-        state.revealedItems.push(idOrScene);
-        addText(`[A ${item.name} is now visible.]`, 'item');
-      }
-    });
-  }
-
-  // Update exits
-  renderExits();
-  renderSceneItems();
-}
-
-/** Look at something in the scene */
-function lookAt(target) {
-  const scene = getCurrentScene();
-  const targetLower = target.toLowerCase();
-
-  // Check scene look descriptions
-  if (scene.lookDescriptions) {
-    for (const [key, desc] of Object.entries(scene.lookDescriptions)) {
-      if (targetLower.includes(key.toLowerCase()) || key.toLowerCase().includes(targetLower)) {
-        addText(desc, 'description');
-        return;
-      }
-    }
-  }
-
-  // Check if it's an item in inventory
-  const invItem = GAME_DATA.items.find(i =>
-    hasItem(i.id) && (
-      targetLower.includes(i.name.toLowerCase()) ||
-      i.name.toLowerCase().includes(targetLower) ||
-      targetLower.includes(i.id.toLowerCase())
-    )
-  );
-  if (invItem) {
-    addText(invItem.description, 'description');
-    return;
-  }
-
-  // Check if it's an item in the scene
-  const sceneItems = [...scene.items, ...state.revealedItems];
-  const sceneItem = GAME_DATA.items.find(i =>
-    sceneItems.includes(i.id) && (
-      targetLower.includes(i.name.toLowerCase()) ||
-      i.name.toLowerCase().includes(targetLower) ||
-      targetLower.includes(i.id.toLowerCase())
-    )
-  );
-  if (sceneItem) {
-    addText(sceneItem.description, 'description');
-    return;
-  }
-
-  // Check if it's an exit
-  for (const [dir, targetScene] of Object.entries(scene.exits)) {
-    if (targetLower.includes(dir)) {
-      const td = GAME_DATA.scenes.find(s => s.id === targetScene);
-      addText(`To the ${dir}: ${td ? td.name : 'unknown'}.`, 'description');
-      return;
-    }
-  }
-
-  addText(`[You don't see anything special about '${target}'.]`, 'error');
-}
-
-/** Check win condition */
-function checkWinCondition() {
-  const wc = GAME_DATA.winCondition;
-  if (state.currentScene === wc.scene) {
-    setTimeout(() => {
-      addText("\n=== " + GAME_DATA.title.toUpperCase() + " ===", 'win');
-      addText(wc.description, 'win');
-      addText("\nCongratulations! You have escaped the pyramid!", 'win');
-    }, 500);
-  }
-}
-
-// ============================================================
-// COMMAND PARSER
-// ============================================================
-
-function parseCommand(input) {
-  const cmd = input.trim().toLowerCase();
-  if (!cmd) return;
-
-  // GO commands
-  const dirMatch = cmd.match(/^(go\s+)?(north|south|east|west|n|s|e|w)$/);
-  if (dirMatch) {
-    const dir = dirMatch[2].toLowerCase();
-    const dirMap = { n: 'north', s: 'south', e: 'east', w: 'west' };
-    goDirection(dirMap[dir] || dir);
-    return;
-  }
-
-  // TAKE/GET commands
-  const takeMatch = cmd.match(/^(take|get|pick up|grab)\s+(.+)/);
-  if (takeMatch) {
-    const target = takeMatch[2].trim();
-    // Find matching item
-    const item = GAME_DATA.items.find(i =>
-      target.includes(i.name.toLowerCase()) ||
-      i.name.toLowerCase().includes(target) ||
-      target.includes(i.id.toLowerCase())
-    );
-    if (item) {
-      takeItem(item.id);
-    } else {
-      addText(`[You don't see '${target}' here.]`, 'error');
-    }
-    return;
-  }
-
-  // USE command
-  const useMatch = cmd.match(/^(use|apply)\s+(.+?)\s+(on|with)\s+(.+)/);
-  if (useMatch) {
-    const itemName = useMatch[2].trim();
-    const targetName = useMatch[4].trim();
-
-    const item = GAME_DATA.items.find(i =>
-      itemName.includes(i.name.toLowerCase()) ||
-      i.name.toLowerCase().includes(itemName) ||
-      itemName.includes(i.id.toLowerCase())
-    );
-
-    if (!item) {
-      addText(`[You don't have '${itemName}'.]`, 'error');
-      return;
-    }
-
-    // Find matching puzzle by target name or puzzle ID
-    const puzzle = GAME_DATA.puzzles.find(p =>
-      (p.action && (
-        targetName.includes(p.id.replace(/-/g, ' ')) ||
-        p.id.replace(/-/g, ' ').includes(targetName) ||
-        targetName.includes(p.action.split(' ').pop())
-      ))
-    );
-
-    if (puzzle) {
-      useItem(item.id, puzzle.id);
-    } else {
-      addText(`[You can't use ${item.name} on '${targetName}'.]`, 'error');
-    }
-    return;
-  }
-
-  // USE item alone (auto-find puzzle)
-  const useAloneMatch = cmd.match(/^(use|apply)\s+(.+)/);
-  if (useAloneMatch && !useAloneMatch[0].includes(' on ') && !useAloneMatch[0].includes(' with ')) {
-    const itemName = useAloneMatch[2].trim();
-    const item = GAME_DATA.items.find(i =>
-      itemName.includes(i.name.toLowerCase()) ||
-      i.name.toLowerCase().includes(itemName) ||
-      itemName.includes(i.id.toLowerCase())
-    );
-    if (item && item.usedIn === state.currentScene) {
-      const puzzle = GAME_DATA.puzzles.find(p =>
-        p.scene === state.currentScene && p.requires.includes(item.id)
-      );
-      if (puzzle) {
-        useItem(item.id, puzzle.id);
-        return;
-      }
-    }
-    addText(`[You can't use '${itemName}' here.]`, 'error');
-    return;
-  }
-
-  // LOOK/EXAMINE commands
-  const lookMatch = cmd.match(/^(look|examine|inspect|x)\s*(at)?\s*(.+)/);
-  if (lookMatch) {
-    lookAt(lookMatch[3].trim());
-    return;
-  }
-
-  // LOOK alone
-  if (cmd === 'look' || cmd === 'l') {
-    renderScene();
-    return;
-  }
-
-  // INVENTORY command
-  if (cmd === 'inventory' || cmd === 'i' || cmd === 'inv') {
-    if (state.inventory.length === 0) {
-      addText("You are carrying nothing.", 'inventory');
-    } else {
-      addText("You are carrying:", 'inventory');
-      state.inventory.forEach(id => {
-        const item = findItem(id);
-        addText(`  - ${item.name}`, 'inventory');
-      });
-    }
-    return;
-  }
-
-  // HELP command
-  if (cmd === 'help' || cmd === '?' || cmd === 'h') {
-    showHelp();
-    return;
-  }
-
-  // N/S/E/W single letter shortcuts handled above, but just in case:
-  const singleDir = { n: 'north', s: 'south', e: 'east', w: 'west' };
-  if (singleDir[cmd]) {
-    goDirection(singleDir[cmd]);
-    return;
-  }
-
-  addText(`[I don't understand '${input}'. Type HELP for commands.]`, 'error');
-}
-
-function showHelp() {
-  addText("\n--- COMMANDS ---", 'help');
-  addText("GO [direction] / NORTH / SOUTH / EAST / WEST", 'help');
-  addText("LOOK [at target] / EXAMINE [target]", 'help');
-  addText("TAKE [item] / GET [item]", 'help');
-  addText("USE [item] ON [target]", 'help');
-  addText("INVENTORY (or I)", 'help');
-  addText("LOOK (re-read scene)", 'help');
-  addText("----------------\n", 'help');
-}
-
-// ============================================================
-// RENDERING FUNCTIONS
-// ============================================================
-
-/** Render the current scene */
-function renderScene() {
-  const scene = getCurrentScene();
-  if (!scene) return;
-
-  clearText();
-  addText(`=== ${scene.name} ===`, 'scene-title');
-  addText(scene.prose, 'scene-text');
-
-  // Show available items
-  renderSceneItems();
-
-  // Update art display
-  updateArtDisplay(scene.id);
-
-  // Update exits
-  renderExits();
-
-  // Update inventory
-  renderInventory();
-}
-
-/** Show items available in current scene */
-function renderSceneItems() {
-  const scene = getCurrentScene();
-  const allItems = [...scene.items, ...state.revealedItems];
-  if (allItems.length > 0) {
-    const itemNames = allItems.map(id => {
-      const item = findItem(id);
-      return item ? item.name : id;
-    });
-    addText(`\nYou can see: ${itemNames.join(', ')}`, 'items');
-  }
-}
-
-/** Update art display */
-function updateArtDisplay(sceneId) {
-  if (!artDisplay) return;
-  artDisplay.setAttribute('data-scene', sceneId);
-}
-
-/** Render exit buttons */
-function renderExits() {
-  if (!exitBar) return;
-  exitBar.innerHTML = '';
-
-  const scene = getCurrentScene();
-  const directions = ['north', 'south', 'east', 'west'];
-  const dirLabels = { north: '▲ North', south: '▼ South', east: '► East', west: '◄ West' };
-
-  directions.forEach(dir => {
-    if (scene.exits[dir]) {
-      const btn = document.createElement('button');
-      btn.className = 'exit-btn';
-      btn.textContent = dirLabels[dir];
-      btn.dataset.direction = dir;
-
-      // Check if this exit was recently unlocked
-      const wasBlocked = GAME_DATA.puzzles.some(p =>
-        p.blocksExit?.scene === state.currentScene &&
-        p.blocksExit?.direction === dir &&
-        state.solvedPuzzles.includes(p.id)
-      );
-      if (wasBlocked) {
-        btn.classList.add('newly-unlocked');
-        setTimeout(() => btn.classList.remove('newly-unlocked'), 3000);
-      }
-
-      // Check if blocked
-      if (!canExit(state.currentScene, dir)) {
-        btn.classList.add('blocked');
-      }
-
-      btn.addEventListener('click', () => goDirection(dir));
-      exitBar.appendChild(btn);
-    }
-  });
-}
-
-/** Render inventory display */
-function renderInventory() {
-  if (!inventoryDisplay) return;
-  inventoryDisplay.innerHTML = '';
-
-  if (state.inventory.length === 0) {
-    inventoryDisplay.innerHTML = '<span class="inv-empty">(empty)</span>';
-    return;
-  }
-
-  state.inventory.forEach(id => {
-    const item = findItem(id);
-    if (!item) return;
-    const span = document.createElement('span');
-    span.className = 'inv-item';
-    span.textContent = item.name;
-    span.title = item.description;
-    span.dataset.itemId = id;
-    inventoryDisplay.appendChild(span);
-  });
-}
-
-/** Highlight a newly revealed item */
-function highlightNewItem(itemId) {
-  // This is handled by CSS animation on inventory items
-  setTimeout(() => {
-    const el = inventoryDisplay?.querySelector(`[data-item-id="${itemId}"]`);
-    if (el) {
-      el.classList.add('item-new');
-      setTimeout(() => el.classList.remove('item-new'), 2000);
-    }
-  }, 100);
-}
-
-// ============================================================
-// INITIALIZATION
-// ============================================================
-
-function init() {
-  // Get DOM references
-  artDisplay = document.getElementById('art-display');
-  textDisplay = document.getElementById('text-display');
-  exitBar = document.getElementById('exit-bar');
-  inventoryDisplay = document.getElementById('inventory-display');
-  commandInput = document.getElementById('command-input');
-
-  // Set up input handling
-  if (commandInput) {
-    commandInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        const input = commandInput.value.trim();
-        if (input) {
-          addText(`> ${input}`, 'command');
-          parseCommand(input);
-          commandInput.value = '';
-        }
-      }
-    });
-
-    // Focus input on click anywhere
-    document.addEventListener('click', () => {
-      commandInput.focus();
-    });
-  }
-
-  // Set up exit button clicks via event delegation
-  if (exitBar) {
-    exitBar.addEventListener('click', (e) => {
-      if (e.target.classList.contains('exit-btn') && !e.target.classList.contains('blocked')) {
-        goDirection(e.target.dataset.direction);
-      }
-    });
-  }
-
-  // Set up inventory clicks via event delegation
-  if (inventoryDisplay) {
-    inventoryDisplay.addEventListener('click', (e) => {
-      if (e.target.classList.contains('inv-item')) {
-        const itemId = e.target.dataset.itemId;
-        const item = findItem(itemId);
-        if (item) {
-          addText(`> Look at ${item.name}`, 'command');
-          addText(item.description, 'description');
-        }
-      }
-    });
-  }
-
-  // Mark starting scene as visited
-  state.visitedScenes.push(state.currentScene);
-
-  // Render initial scene
-  renderScene();
-
-  // Show welcome message
-  addText("\nWelcome to THE SAND THAT SPEAKS", 'welcome');
-  addText("Type HELP for commands.\n", 'welcome');
-}
-
-// Auto-initialize when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
-}
-
-document.getElementById("reset-btn")?.addEventListener("click", function() {
-    if (confirm("Reset the game to the beginning?")) {
-        state = {currentScene: GAME_DATA.scenes[0].id, inventory: [], solvedPuzzles: [], visitedScenes: [GAME_DATA.scenes[0].id], selectedItem: null, won: false};
-        clearText(); addText("The story begins anew...", "system");
-        renderScene(state.currentScene); renderInventory();
-    }
-});
-    </script></body>
+  </script>
+  <script src="../standard-game-runtime.js"></script>
+</body>
 </html>
