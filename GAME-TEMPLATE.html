@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{GAME_TITLE}} | Game #{{GAME_NUMBER}}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../standard-game-style.css">
+</head>
+<body class="openclaw-game layout-standard">
+
+<header>
+    <h1>{{GAME_TITLE_UPPER}}</h1>
+    <div class="subtitle">OpenClaw Adventures - Game #{{GAME_NUMBER}}</div>
+</header>
+
+<div id="scene-name">{{FIRST_SCENE_NAME}}</div>
+
+<div class="game-container">
+    <div class="art-panel">
+        <div id="art-display">
+            <span class="no-art">[ART LOADING]</span>
+        </div>
+    </div>
+
+    <div class="text-panel">
+        <div id="text-display"></div>
+
+        <div id="command-status" class="status-line"></div>
+
+        <div class="command-bar">
+            <button class="cmd-btn active" data-cmd="look">LOOK</button>
+            <button class="cmd-btn" data-cmd="take">TAKE</button>
+            <button class="cmd-btn" data-cmd="use">USE</button>
+            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+        </div>
+
+        <div class="subpanel targets-panel">
+            <h3>TARGETS</h3>
+            <div id="targets-bar"></div>
+        </div>
+
+        <div class="subpanel inventory-panel">
+            <h3>INVENTORY</h3>
+            <div id="inventory-bar">
+                <span class="empty-state">(empty)</span>
+            </div>
+        </div>
+
+        <div class="subpanel exits-panel">
+            <h3>EXITS</h3>
+            <div id="exits-bar"></div>
+        </div>
+
+        <div class="utility-bar">
+            <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+            <button id="reset-game" class="utility-btn">RESET</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
+</footer>
+
+<script>
+// ============================================================
+// GAME DATA — replace with assembled content from game-script.json
+// ============================================================
+const GAME_DATA = { /* ... */ };
+
+// ============================================================
+// GAME ART — replace with inlined SVGs from art/*.svg
+// ============================================================
+window.GAME_ART = { /* ... */ };
+
+// ============================================================
+// GAME ENGINE — paste game-logic.js content here
+// ============================================================
+/* ... */
+
+if (typeof GAME_DATA !== 'undefined') {
+    window.GAME_DATA = GAME_DATA;
+}
+</script>
+<script src="../standard-game-runtime.js"></script>
+</body>
+</html>

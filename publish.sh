@@ -50,21 +50,21 @@ fi
 
 # ── Sync games from workspace source-of-truth ──
 echo "Syncing latest agent games..."
+# Mirror only content we intentionally want live in the publish repo.
 rsync_output=$(rsync -avL --delete \
-  --exclude='.git' \
-  --exclude='publish.sh' \
-  --exclude='.nojekyll' \
-  --exclude='README.md' \
-  --exclude='qa-test-suite.js' \
-  --exclude='signals/' \
-  --exclude='GAME-TEMPLATE.html' \
-  --exclude='pipeline-state.json' \
-  --exclude='PUBLISH_REQUEST' \
-  --exclude='PUBLISH_RESULT' \
-  --exclude='*.bak' \
-  --exclude='*.backup' \
-  --exclude='001-lighthouse-blackwater-point/' \
-  --exclude='001-the-clockwork-lighthouse/' \
+  --include='.nojekyll' \
+  --include='index.html' \
+  --include='standard-game-runtime.js' \
+  --include='standard-game-style.css' \
+  --include='LAYOUT-GUIDE.md' \
+  --include='GAME-TEMPLATE.html' \
+  --include='GAME-TEMPLATE-ASHMORE.html' \
+  --include='GAME-TEMPLATE-FREQUENCY.html' \
+  --include='GAME-TEMPLATE-VERTICAL.html' \
+  --include='STANDARD-ENGINE-GUIDE.md' \
+  --include='[0-9][0-9][0-9]-*/' \
+  --include='[0-9][0-9][0-9]-*/**' \
+  --exclude='*' \
   "$WORKSPACE_GAMES/" "$SCRIPT_DIR/" 2>&1)
 
 echo "$rsync_output"
