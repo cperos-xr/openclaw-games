@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#1a1a2e"/>
+  <!-- walls -->
+  <rect x="0" y="0" width="640" height="280" fill="#0f3460"/>
+  <!-- floor -->
+  <rect x="0" y="280" width="640" height="120" fill="#2a2a4a"/>
+  <!-- shelves of tapes -->
+  <g fill="#1a1a2e" stroke="#0f0" stroke-width="2">
+    <rect x="50" y="100" width="150" height="120"/>
+    <rect x="220" y="100" width="150" height="120"/>
+    <rect x="390" y="100" width="150" height="120"/>
+  </g>
+  <!-- backup tape on table -->
+  <g transform="translate(300,200)">
+    <rect x="0" y="0" width="30" height="20" fill="#000" stroke="#f00" stroke-width="2"/>
+    <text x="15" y="12" font-family="monospace" font-size="6" fill="#f00" text-anchor="middle">PLAY</text>
+  </g>
+  <!-- exits -->
+  <rect x="260" y="320" width="80" height="60" fill="#0f3460" stroke="#0f0" stroke-width="4"/>
+  <text x="300" y="355" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">STUDIO</text>
+  <rect x="500" y="250" width="80" height="80" fill="#0f3460" stroke="#0f0" stroke-width="4"/>
+  <text x="540" y="292" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">CLOSET</text>
+</svg>

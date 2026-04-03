@@ -1,0 +1,201 @@
+{
+  "game": "006-pressure-point",
+  "file": "games/006-pressure-point/game.html",
+  "timestamp": "2026-04-03T06:26:04.345Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-airlock-circuit.svg\" has 7 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/006-pressure-point/art/item-airlock-circuit.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-maintenance-override-key.svg\" has 3 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/006-pressure-point/art/item-maintenance-override-key.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-oxygen-canister.svg\" has 6 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/006-pressure-point/art/item-oxygen-canister.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-sonar-ping-device.svg\" has 5 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/006-pressure-point/art/item-sonar-ping-device.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-airlock.svg\" has 9 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/006-pressure-point/art/scene-airlock.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-bio-lab.svg\" uses 11 colors (max recommended 8)",
+      "location": "games/006-pressure-point/art/scene-bio-lab.svg",
+      "expected": "<= 8 colors",
+      "actual": "11 colors: fill, #000022, #000011, #003366, #000033, stroke, #0066cc, #00ff00, #220000, #4a4a4a",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-bio-lab.svg\" has 6 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/006-pressure-point/art/scene-bio-lab.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-008",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-crew-quarters.svg\" uses 14 colors (max recommended 8)",
+      "location": "games/006-pressure-point/art/scene-crew-quarters.svg",
+      "expected": "<= 8 colors",
+      "actual": "14 colors: fill, #110000, #000000, #ffff00, stroke, #220000, #000011, #666666, #000022, #4a4a4a",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-009",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-crew-quarters.svg\" has 5 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/006-pressure-point/art/scene-crew-quarters.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-010",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-docking-bay.svg\" uses 14 colors (max recommended 8)",
+      "location": "games/006-pressure-point/art/scene-docking-bay.svg",
+      "expected": "<= 8 colors",
+      "actual": "14 colors: fill, #000033, #000066, stroke, #003366, #8b0000, #000011, #000022, #666666, #8b8b83",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-011",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-docking-bay.svg\" has 6 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/006-pressure-point/art/scene-docking-bay.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-012",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-engineering-bay.svg\" uses 13 colors (max recommended 8)",
+      "location": "games/006-pressure-point/art/scene-engineering-bay.svg",
+      "expected": "<= 8 colors",
+      "actual": "13 colors: fill, #000011, #000000, #222222, #333333, #444444, stroke, #666666, #000022, #4a4a4a",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-013",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-engineering-bay.svg\" has 8 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/006-pressure-point/art/scene-engineering-bay.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-014",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-sonar-room.svg\" uses 11 colors (max recommended 8)",
+      "location": "games/006-pressure-point/art/scene-sonar-room.svg",
+      "expected": "<= 8 colors",
+      "actual": "11 colors: fill, #000000, #000011, stroke, #003366, #000022, #00ff00, #ff0000, #0000ff, #ffff00",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-015",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-sonar-room.svg\" has 16 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/006-pressure-point/art/scene-sonar-room.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 6,
+    "items": 6,
+    "puzzles": 5,
+    "reachableScenes": 6,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 12,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 15 issues (0 CRITICAL, 0 HIGH, 0 MEDIUM, 15 LOW)"
+}

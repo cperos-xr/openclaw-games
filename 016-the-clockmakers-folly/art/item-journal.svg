@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Background -->
+  <rect width="64" height="64" fill="#0a0800" opacity="0.3" rx="2"/>
+  
+  <!-- Clockmaker's Journal - leather-bound, filled with frantic scrawls -->
+  <!-- Book body (closed, showing cover) -->
+  <rect x="14" y="12" width="32" height="42" fill="#3d2817" rx="2" stroke="#2a1a0d" stroke-width="1.5"/>
+  
+  <!-- Leather texture suggestions -->
+  <rect x="16" y="14" width="28" height="38" fill="#4a3020" opacity="0.3" rx="1"/>
+  
+  <!-- Spine on left -->
+  <rect x="12" y="12" width="4" height="42" fill="#2a1a0d" rx="1"/>
+  <!-- Spine indentations (binding) -->
+  <rect x="13" y="18" width="2" height="4" fill="#553320" rx="0.5"/>
+  <rect x="13" y="28" width="2" height="4" fill="#553320" rx="0.5"/>
+  <rect x="13" y="38" width="2" height="4" fill="#553320" rx="0.5"/>
+  
+  <!-- Cover edges (worn) -->
+  <rect x="44" y="12" width="2" height="42" fill="#5a4030" opacity="0.5"/>
+  
+  <!-- Title embossed on front (faded) -->
+  <rect x="20" y="20" width="20" height="12" fill="none" stroke="#664430" stroke-width="0.5" opacity="0.4" rx="1"/>
+  <text x="30" y="25" font-family="serif" font-size="3.5" fill="#886650" text-anchor="middle" opacity="0.5">NOTES</text>
+  <text x="30" y="30" font-family="serif" font-size="3" fill="#886650" text-anchor="middle" opacity="0.4">TIME</text>
+  
+  <!-- Corner reinforcement (metal) -->
+  <rect x="14" y="12" width="6" height="6" fill="#554433" rx="1" opacity="0.6"/>
+  <rect x="42" y="50" width="4" height="4" fill="#554433" rx="1" opacity="0.5"/>
+  
+  <!-- Pages edge showing (right side) -->
+  <rect x="45" y="14" width="2" height="38" fill="#c8b896" opacity="0.4"/>
+  <!-- Page lines -->
+  <line x1="46" y1="18" x2="46" y2="18" stroke="#aa9977" stroke-width="0.5" opacity="0.3"/>
+  <line x1="46" y1="22" x2="46" y2="22" stroke="#aa9977" stroke-width="0.5" opacity="0.3"/>
+  <line x1="46" y1="26" x2="46" y2="26" stroke="#aa9977" stroke-width="0.5" opacity="0.3"/>
+  <line x1="46" y1="30" x2="46" y2="30" stroke="#aa9977" stroke-width="0.5" opacity="0.3"/>
+  <line x1="46" y1="34" x2="46" y2="34" stroke="#aa9977" stroke-width="0.5" opacity="0.3"/>
+  <line x1="46" y1="38" x2="46" y2="38" stroke="#aa9977" stroke-width="0.5" opacity="0.3"/>
+  <line x1="46" y1="42" x2="46" y2="42" stroke="#aa9977" stroke-width="0.5" opacity="0.3"/>
+  <line x1="46" y1="46" x2="46" y2="46" stroke="#aa9977" stroke-width="0.5" opacity="0.3"/>
+  
+  <!-- Leather wear patterns -->
+  <rect x="16" y="40" width="8" height="4" fill="#5a4530" opacity="0.2" rx="1"/>
+  <rect x="35" y="16" width="6" height="3" fill="#5a4530" opacity="0.15" rx="1"/>
+  
+  <!-- Frantic markings (suggesting the scrawled contents) -->
+  <line x1="18" y1="36" x2="24" y2="38" stroke="#333" stroke-width="0.5" opacity="0.2"/>
+  <line x1="25" y1="37" x2="30" y2="35" stroke="#333" stroke-width="0.5" opacity="0.2"/>
+  <line x1="32" y1="38" x2="38" y2="36" stroke="#333" stroke-width="0.5" opacity="0.2"/>
+  
+  <!-- Ink smudge on corner -->
+  <circle cx="42" cy="50" r="2" fill="#000" opacity="0.15"/>
+</svg>

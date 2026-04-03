@@ -1,0 +1,415 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>The Deep Cathedral | Game #014</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"><style>
+*{margin:0;padding:0;box-sizing:border-box;}body{background:#000;color:#0f0;font-family:'Press Start 2P',monospace;font-size:12px;line-height:1.4;padding:20px;max-width:1024px;margin:0 auto;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+header{text-align:center;margin-bottom:10px;}h1{font-size:16px;margin-bottom:5px;color:#0f0;text-shadow:0 0 5px #0f0;}h2{font-size:14px;margin-bottom:10px;color:#0f0;}
+#scene-name{font-size:18px;text-align:center;margin-bottom:10px;color:#0f0;text-transform:uppercase;letter-spacing:1px;}
+.game-container{display:flex;flex:1;gap:20px;min-height:0;}.art-panel{flex:1;border:2px solid #0f0;background:#000;display:flex;justify-content:center;align-items:center;overflow:hidden;min-height:400px;}
+#text-display{flex:1;overflow-y:auto;margin-bottom:10px;border-bottom:1px solid #0f0;padding-bottom:10px;}
+#text-display p{margin-bottom:10px;color:#0f0;}.system{color:#0a0;font-style:italic;}.success{color:#0f0;font-weight:bold;animation:itemGlow 1s infinite alternate;}.locked{color:#f00;font-weight:bold;}
+.command-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:15px;}.cmd-btn{background:#000;color:#0f0;border:1px solid #0f0;padding:5px 10px;font-family:'Press Start 2P',monospace;font-size:10px;cursor:pointer;}
+.cmd-btn.active{background:#0f0;color:#000;}.exits-panel{border:2px solid #0f0;background:#000;padding:10px;}
+#exits-bar{display:flex;flex-wrap:wrap;gap:8px;}.exit-btn{background:#000;color:#0f0;border:1px solid #0f0;padding:5px 10px;font-family:'Press Start 2P',monospace;font-size:10px;cursor:pointer;}
+.look-target{color:#0af;text-decoration:underline;cursor:pointer;}@keyframes itemGlow{0%{text-shadow:0 0 5px #0f0;}100%{text-shadow:0 0 15px #0f0;}}.puzzle-solved{animation:puzzle-solved 0.6s ease-in-out;}
+footer{margin-top:20px;text-align:center;font-size:10px;color:#080;}
+</style></head><body><header><h1>THE DEEP CATHEDRAL</h1><h2>Game #014</h2></header>
+<div id="scene-name">ENTRANCE CAVERN</div><div class="game-container"><div class="art-panel"><div id="art-display"></div></div>
+<div class="text-panel"><div id="text-display"></div><div class="command-bar"><button class="cmd-btn" data-cmd="look">LOOK</button><button class="cmd-btn" data-cmd="take">TAKE</button><button class="cmd-btn" data-cmd="use">USE</button><button class="cmd-btn" data-cmd="examine">EXAMINE</button></div>
+<h3>INVENTORY</h3><div id="inventory-bar"><span id="inv-empty">(empty)</span></div><h3>EXITS</h3><div id="exits-bar"></div></div></div><footer>Use commands or click highlighted words. Click exits to move. Type /restart to reset.</footer>
+<script>var GAME_DATA={"title": "The Deep Cathedral", "slug": "deep-cathedral", "number": 14, "setting": "A submerged sea cave cathedral carved by a forgotten monastic order. The drowned monks still chant in the currents. Something ancient sleeps beneath the altar.", "characters": [{"id": "drowned-abbot", "name": "The Drowned Abbot", "description": "A spectral figure in waterlogged robes, eternally ringing a cracked bell."}, {"id": "sea-witch", "name": "The Sea Witch", "description": "A waterlogged spirit who knows the ways through the flooded passages."}], "items": [{"id": "crystal-lantern", "name": "Crystal Lantern", "description": "A water-filled lantern that glows with a soft blue light, revealing hidden currents.", "foundIn": "entrance-cavern", "usedIn": "entrance-cavern", "usedOn": "dark-depths"}, {"id": "ritual-bell", "name": "Ritual Bell", "description": "A small bronze bell inscribed with a chant. Its sound can part the waters.", "foundIn": "choir-aisle", "usedIn": "chancel", "usedOn": "blessed-bell"}, {"id": "prayer-scroll", "name": "Prayer Scroll", "description": "A water-stained scroll containing the monks' sealing ritual.", "foundIn": "chancel", "usedIn": "sacristy", "usedOn": "rune-door"}, {"id": "keystone", "name": "Keystone", "description": "A heavy stone block inscribed with a trident mark. It fits the main altar's lock.", "foundIn": "sacristy", "usedIn": "main-altar", "usedOn": " altar-lock"}, {"id": "sacred-charm", "name": "Sacred Charm", "description": "A silver amulet shaped like a fish, blessed by the Abbot. It calms the waking beast.", "foundIn": "main-altar", "usedIn": "depths-chamber", "usedOn": "sleeping-beast"}], "scenes": [{"id": "entrance-cavern", "name": "Entrance Cavern", "prose": "You swim into a vast underwater cave. Stalactites drip from the ceiling. faint chant echoes through the water. A broken railing leads deeper. The water here is dark and cold. A crystal lantern rests on a rock.", "exits": {"east": "choir-aisle", "south": "dark-depths"}, "items": ["crystal-lantern"], "puzzles": ["dark-depths"], "lookDescriptions": {"railing": "It's carved with fish motifs, now corroded.", "lantern": "It pulses with an inner blue flame that burns underwater."}}, {"id": "choir-aisle", "name": "Choir Aisle", "prose": "Rows of stone benches face a central chancel. Ghostly monks in tattered robes sit motionless, their mouths moving in silent song. Bubbles rise from their lips. A small bronze bell lies on the floor.", "exits": {"west": "entrance-cavern", "east": "chancel", "south": "sacristy"}, "items": ["ritual-bell"], "puzzles": [], "lookDescriptions": {"monks": "Their eyes are closed in eternal prayer.", "bell": "It's inscribed: 'Sound the deep, calm the sea.'"}}, {"id": "chancel", "name": "Chancel", "prose": "The raised dais holds a single ornate chair where the Abbot's ghost presides. A massive bell hangs above, cracked and silent. To the east, a heavy door marked with runes blocks the way. The air (water?) thrums with harmonic resonance.", "exits": {"west": "choir-aisle", "east": "sacristy"}, "items": [], "puzzles": ["blessed-bell"], "lookDescriptions": {"bell": "The crack glows faintly. It needs to be rung with the proper tone.", "chair": "The Abbot's spectral form sometimes appears here."}}, {"id": "sacristy", "name": "Sacristy", "prose": "A side chamber filled with shelves of waterlogged books and ritual objects. A Prayer Scroll floats near a stone table. The far wall bears a door carved with glowing runes. This place feels holy and deeply uneasy.", "exits": {"north": "choir-aisle", "east": "main-altar"}, "items": ["prayer-scroll"], "puzzles": ["rune-door"], "lookDescriptions": {"shelves": "They hold decaying robes and ancient incense.", "runes": "They shift when viewed directly."}}, {"id": "main-altar", "name": "Main Altar", "prose": "The cathedral's heart. A massive stone altar sits under a dome of glowing plankton. The walls are covered in intricate mosaics of sea creatures. A keystone rests in a locked compartment. This is the focal point of the old sea gods.", "exits": {"west": "sacristy", "south": "depths-chamber"}, "items": ["keystone", "sacred-charm"], "puzzles": ["altar-lock"], "lookDescriptions": {"altar": "It hums with power. The lock needs a specific stone.", "mosaics": "They depict the 'Sleeping One' below the waves."}}, {"id": "depths-chamber", "name": "Depths Chamber", "prose": "You descend into an abyssal pit where the water is pitch black. In the center, a massive amorphous form pulses with bioluminescence. Its many eyes open as you approach. This is the Sleeping One, and it is not pleased.", "exits": {}, "items": [], "puzzles": ["sleeping-beast"], "lookDescriptions": {"beast": "It dreams of the surface. Its rage stirs.", "pit": "The pressure crushes. You must act quickly."}}], "puzzles": [{"id": "dark-depths", "scene": "entrance-cavern", "requires": ["crystal-lantern"], "action": "use crystal-lantern to illuminate the dark passage", "result": "The lantern's light pierces the murk, revealing a path through submerged rocks. You can now swim south.", "reveals": ["dark-depths"], "blocksExit": {"scene": "entrance-cavern", "direction": "south"}, "blockedMessage": "The dark waters are too murky. You need a light to proceed."}, {"id": "blessed-bell", "scene": "chancel", "requires": ["ritual-bell"], "action": "ring the ritual bell in the chancel", "result": "The bell's tone resonates through the water. The ghostly monks fade, leaving a warm feeling. The rune door's glow softens, allowing passage.", "reveals": ["sacristy"], "blocksExit": {"scene": "chancel", "direction": "east"}, "blockedMessage": "The rune door is sealed by a harmonic lock. The monks' bell must be rung first."}, {"id": "rune-door", "scene": "sacristy", "requires": ["prayer-scroll"], "action": " recite the prayer from the scroll at the rune door", "result": "The ancient words flow through the water. The runes rearrange into an opening. The door to the main altar unlocks.", "reveals": ["main-altar"], "blocksExit": {"scene": "sacristy", "direction": "east"}, "blockedMessage": "The rune door requires the correct prayer. Find it in the sacristy."}, {"id": "altar-lock", "scene": "main-altar", "requires": ["keystone"], "action": "place keystone in the altar's lock", "result": "The keystone fits perfectly. The altar slides aside, revealing a shaft down to the depths. A sacred charm floats in the newly exposed niche.", "reveals": ["depths-chamber"], "blocksExit": {"scene": "main-altar", "direction": "south"}, "blockedMessage": "The altar is locked. Find the keystone to open the way."}, {"id": "sleeping-beast", "scene": "depths-chamber", "requires": ["sacred-charm"], "action": "use sacred-charm to calm the sleeping beast", "result": "The charm glows with a gentle light. The beast's eyes close, and it settles into peaceful slumber. The water calms, and a luminous escape tunnel appears. You surface into the night sea, free.", "reveals": [], "blocksExit": {}, "blockedMessage": ""}], "winCondition": {"scene": "escape-surface", "requires": [], "description": "You break the surface of the ocean under a starry sky. The cathedral sinks back into the deep, its secrets kept. You have survived the Deep Cathedral."}};var GAME_ART={"entrance-cavern": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a1a2a\"/>\n  <!-- underwater cavern -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#1a2a3a\"/>\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#0d1a2a\"/>\n  <!-- stalactites -->\n  <g fill=\"#2a3a4a\">\n    <polygon points=\"100,0 110,80 120,0\"/>\n    <polygon points=\"300,0 315,100 330,0\"/>\n    <polygon points=\"500,0 515,80 530,0\"/>\n  </g>\n  <!-- railing with fish motifs -->\n  <g transform=\"translate(200,200)\" stroke=\"#d4af37\" stroke-width=\"2\">\n    <line x1=\"0\" y1=\"0\" x2=\"200\" y2=\"0\"/>\n    <circle cx=\"50\" cy=\"0\" r=\"5\"/>\n    <circle cx=\"100\" cy=\"0\" r=\"5\"/>\n    <circle cx=\"150\" cy=\"0\" r=\"5\"/>\n  </g>\n  <!-- crystal lantern on rock -->\n  <g transform=\"translate(150,250)\">\n    <rect x=\"0\" y=\"0\" width=\"20\" height=\"20\" fill=\"#4a5a7a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <ellipse cx=\"10\" cy=\"10\" rx=\"5\" ry=\"3\" fill=\"#0ff\"/>\n  </g>\n  <!-- exits -->\n  <rect x=\"400\" y=\"150\" width=\"100\" height=\"80\" fill=\"#1a2a3a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"450\" y=\"195\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CHOIR</text>\n  <rect x=\"200\" y=\"300\" width=\"80\" height=\"60\" fill=\"#0d1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"240\" y=\"335\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">DEPTHS</text>\n</svg>", "choir-aisle": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a1a2a\"/>\n  <!-- water -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"400\" fill=\"#0d1a2a\"/>\n  <!-- benches rows -->\n  <g fill=\"#1a2a3a\" stroke=\"#d4af37\" stroke-width=\"1\">\n    <rect x=\"50\" y=\"100\" width=\"150\" height=\"40\"/>\n    <rect x=\"50\" y=\"160\" width=\"150\" height=\"40\"/>\n    <rect x=\"440\" y=\"100\" width=\"150\" height=\"40\"/>\n    <rect x=\"440\" y=\"160\" width=\"150\" height=\"40\"/>\n  </g>\n  <!-- ghostly monks (simple ellipses) -->\n  <g fill=\"#4a5a7a\" opacity=\"0.6\">\n    <ellipse cx=\"120\" cy=\"120\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"140\" cy=\"120\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"520\" cy=\"120\" rx=\"15\" ry=\"25\"/>\n    <ellipse cx=\"540\" cy=\"120\" rx=\"15\" ry=\"25\"/>\n  </g>\n  <!-- bell on floor -->\n  <g transform=\"translate(300,200)\">\n    <ellipse cx=\"15\" cy=\"25\" rx=\"15\" ry=\"10\" fill=\"#bc8f8f\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"30\" font-family=\"monospace\" font-size=\"6\" fill=\"#d4af37\" text-anchor=\"middle\">RITUAL</text>\n  </g>\n  <!-- exits -->\n  <rect x=\"100\" y=\"300\" width=\"80\" height=\"60\" fill=\"#0d1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"140\" y=\"335\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ENTRANCE</text>\n  <rect x=\"400\" y=\"280\" width=\"80\" height=\"60\" fill=\"#0d1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"440\" y=\"315\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CHANCEL</text>\n  <rect x=\"500\" y=\"180\" width=\"80\" height=\"60\" fill=\"#0d1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"215\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">SACRISTY</text>\n</svg>", "chancel": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a1a2a\"/>\n  <!-- dais -->\n  <rect x=\"200\" y=\"150\" width=\"240\" height=\"100\" fill=\"#2a3a4a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n  <!-- Abbot's chair -->\n  <g transform=\"translate(300,170)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"50\" fill=\"#1a2a3a\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n    <circle cx=\"20\" cy=\"15\" r=\"8\" fill=\"#d4af37\"/>\n  </g>\n  <!-- large bell above -->\n  <g transform=\"translate(310,80)\">\n    <ellipse cx=\"15\" cy=\"20\" rx=\"20\" ry=\"15\" fill=\"#bc8f8f\" stroke=\"#d4af37\" stroke-width=\"3\"/>\n    <text x=\"15\" y=\"25\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">BELL</text>\n  </g>\n  <!-- glow in bell crack -->\n  <circle cx=\"305\" cy=\"85\" r=\"3\" fill=\"#f00\"/>\n  <!-- east rune door -->\n  <rect x=\"500\" y=\"200\" width=\"80\" height=\"100\" fill=\"#1a2a3a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"250\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">RUNES</text>\n  <!-- exits -->\n  <rect x=\"260\" y=\"320\" width=\"80\" height=\"60\" fill=\"#0a1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"300\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CHOIR</text>\n  <rect x=\"100\" y=\"200\" width=\"80\" height=\"60\" fill=\"#0a1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"140\" y=\"235\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">SACRISTY</text>\n</svg>", "sacristy": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a1a2a\"/>\n  <!-- underwater texture -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"400\" fill=\"#0d1a2a\"/>\n  <!-- shelves with robes -->\n  <g fill=\"#1a2a3a\" stroke=\"#d4af37\" stroke-width=\"2\">\n    <rect x=\"50\" y=\"100\" width=\"120\" height=\"80\"/>\n    <rect x=\"200\" y=\"100\" width=\"120\" height=\"80\"/>\n  </g>\n  <!-- scroll floating -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"40\" fill=\"#f5deb3\" stroke=\"#8b4513\" stroke-width=\"1\"/>\n    <line x1=\"5\" y1=\"10\" x2=\"25\" y2=\"10\" stroke=\"#ff0\" stroke-width=\"1\"/>\n    <line x1=\"5\" y1=\"18\" x2=\"25\" y2=\"18\" stroke=\"#ff0\" stroke-width=\"1\"/>\n  </g>\n  <!-- rune door east -->\n  <rect x=\"500\" y=\"120\" width=\"80\" height=\"100\" fill=\"#1a2a3a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <g font-family=\"monospace\" font-size=\"12\" fill=\"#d4af37\">\n    <text x=\"540\" y=\"160\">\u2625</text>\n    <text x=\"540\" y=\"180\">\ud80c\udcd2</text>\n  </g>\n  <!-- exits -->\n  <rect x=\"100\" y=\"300\" width=\"80\" height=\"60\" fill=\"#0d1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"140\" y=\"335\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CHOIR</text>\n  <rect x=\"400\" y=\"250\" width=\"80\" height=\"60\" fill=\"#0d1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"440\" y=\"285\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ALTAR</text>\n</svg>", "main-altar": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a1a2a\"/>\n  <!-- dome with glowing plankton -->\n  <ellipse cx=\"320\" cy=\"120\" rx=\"200\" ry=\"80\" fill=\"#1a3a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g opacity=\"0.7\">\n    <circle cx=\"300\" cy=\"100\" r=\"5\" fill=\"#ff0\"/>\n    <circle cx=\"340\" cy=\"110\" r=\"3\" fill=\"#0ff\"/>\n    <circle cx=\"320\" cy=\"130\" r=\"4\" fill=\"#ff0\"/>\n  </g>\n  <!-- altar -->\n  <g transform=\"translate(260,220)\">\n    <rect x=\"0\" y=\"0\" width=\"120\" height=\"60\" fill=\"#2a3a4a\" stroke=\"#d4af37\" stroke-width=\"4\"/>\n    <!-- keystone in compartment -->\n    <g transform=\"translate(40,20)\">\n      <rect x=\"0\" y=\"0\" width=\"40\" height=\"20\" fill=\"#3a4a5a\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n      <text x=\"20\" y=\"12\" font-family=\"monospace\" font-size=\"6\" fill=\"#d4af37\" text-anchor=\"middle\">KEY</text>\n    </g>\n    <!-- sacred charm floating -->\n    <g transform=\"translate(70,10)\">\n      <ellipse cx=\"10\" cy=\"10\" rx=\"8\" ry=\"6\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    </g>\n  </g>\n  <!-- mosaics on walls -->\n  <g fill=\"#4a5a6a\">\n    <polygon points=\"100,200 120,250 140,200\"/>\n    <polygon points=\"500,200 520,250 540,200\"/>\n  </g>\n  <!-- exits -->\n  <rect x=\"200\" y=\"320\" width=\"80\" height=\"60\" fill=\"#0a1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"240\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">SACR</text>\n  <rect x=\"300\" y=\"320\" width=\"80\" height=\"60\" fill=\"#0a1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">DEPTHS</text>\n</svg>", "depths-chamber": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  <!-- abyssal blackness -->\n  <!-- beast silhouette -->\n  <g transform=\"translate(220,100)\">\n    <ellipse cx=\"100\" cy=\"100\" rx=\"120\" ry=\"80\" fill=\"#1a2a3a\" stroke=\"#d4af37\" stroke-width=\"3\"/>\n    <!-- eyes -->\n    <circle cx=\"80\" cy=\"90\" r=\"10\" fill=\"#d4af37\"/>\n    <circle cx=\"120\" cy=\"90\" r=\"10\" fill=\"#d4af37\"/>\n    <!-- bioluminescent patches -->\n    <ellipse cx=\"60\" cy=\"150\" rx=\"20\" ry=\"10\" fill=\"#0ff\"/>\n    <ellipse cx=\"140\" cy=\"160\" rx=\"15\" ry=\"8\" fill=\"#0ff\"/>\n  </g>\n  <!-- pressure lines -->\n  <g stroke=\"#444\" stroke-width=\"1\">\n    <line x1=\"0\" y1=\"100\" x2=\"200\" y2=\"100\"/>\n    <line x1=\"440\" y1=\"100\" x2=\"640\" y2=\"100\"/>\n  </g>\n</svg>", "crystal-lantern": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"22\" y=\"10\" width=\"20\" height=\"44\" fill=\"#4a5a7a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"15\" rx=\"6\" ry=\"4\" fill=\"#0ff\"/>\n</svg>", "ritual-bell": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"30\" rx=\"18\" ry=\"12\" fill=\"#bc8f8f\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"33\" font-family=\"monospace\" font-size=\"8\" fill=\"#d4af37\" text-anchor=\"middle\">RITUAL</text>\n</svg>", "prayer-scroll": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"10\" width=\"34\" height=\"44\" fill=\"#f5deb3\" stroke=\"#8b4513\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"44\" y2=\"20\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"28\" x2=\"44\" y2=\"28\" stroke=\"#ff0\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"36\" x2=\"44\" y2=\"36\" stroke=\"#ff0\" stroke-width=\"2\"/>\n</svg>", "keystone": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"20\" width=\"34\" height=\"24\" fill=\"#4a5a6a\" stroke=\"#d4af37\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"36\" font-family=\"monospace\" font-size=\"10\" fill=\"#d4af37\" text-anchor=\"middle\">KEY</text>\n</svg>", "sacred-charm": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"32\" rx=\"12\" ry=\"10\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <path d=\"M32,22 L32,42 M24,30 L40,30\" stroke=\"#0f0\" stroke-width=\"1\"/>\n</svg>"};// ============================================================
+// STARLIGHT DERELICT - GAME LOGIC
+// Produced by Gameplay Coder (Hex Corbin)
+// ============================================================
+
+// Game data will be embedded by the Game Assembler
+var GAME_DATA = {}; // Replace with actual game-script.json contents
+
+// ---- Game State ----
+const state = {
+  currentScene: 'airlock',
+  inventory: [],
+  solvedPuzzles: [],
+  visitedScenes: ['airlock'],
+  activeCommand: null,
+  selectedItem: null,
+  won: false
+};
+
+// ---- DOM References ----
+const artDisplay = document.getElementById('art-display');
+const sceneName = document.getElementById('scene-name');
+const textDisplay = document.getElementById('text-display');
+const invBar = document.getElementById('inventory-bar');
+const exitsBar = document.getElementById('exits-bar');
+
+// ---- Display Functions ----
+function addText(text, cls = '') {
+  const p = document.createElement('p');
+  p.className = cls;
+  p.innerHTML = text;
+  textDisplay.appendChild(p);
+  textDisplay.scrollTop = textDisplay.scrollHeight;
+}
+
+function clearText() { textDisplay.innerHTML = ''; }
+
+function renderScene(sceneId) {
+  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
+  if (!scene) { addText('ERROR: Scene not found!', 'error'); return; }
+
+  state.currentScene = sceneId;
+  if (!state.visitedScenes.includes(sceneId)) state.visitedScenes.push(sceneId);
+
+  // Update scene name
+  sceneName.textContent = scene.name.toUpperCASE();
+
+  // Update art
+  const artKey = 'scene-' + sceneId.replace('scene-', '');
+  let artHtml = null;
+  if (typeof GAME_ART !== 'undefined' && GAME_ART[artKey]) {
+    artHtml = GAME_ART[artKey];
+  } else if (window.GAME_ART && window.GAME_ART[artKey]) {
+    artHtml = window.GAME_ART[artKey];
+  } else if (typeof GAME_ART !== 'undefined' && GAME_ART[sceneId]) {
+    artHtml = GAME_ART[sceneId];
+  } else if (window.GAME_ART && window.GAME_ART[sceneId]) {
+    artHtml = window.GAME_ART[sceneId];
+  }
+
+  if (artHtml) {
+    artDisplay.innerHTML = artHtml;
+  } else {
+    artDisplay.innerHTML = '<span class="no-art">[ ' + scene.name.toUpperCase() + ' ]</span>';
+  }
+
+  // Display prose
+  clearText();
+  addText(scene.prose);
+
+  // Show available items (not yet taken)
+  const availableItems = (scene.items || []).filter(itemId =>
+    !state.inventory.includes(itemId)
+  );
+  if (availableItems.length > 0) {
+    const itemNames = availableItems.map(id => {
+      const item = GAME_DATA.items.find(i => i.id === id);
+      return item ? `<span class="look-target" data-look="${id}">${item.name}</span>` : id;
+    });
+    addText('You notice: ' + itemNames.join(', '), 'system');
+  }
+
+  // Show unsolved puzzles
+  const scenePuzzles = (scene.puzzles || []).filter(pid =>
+    !state.solvedPuzzles.includes(pid)
+  );
+  scenePuzzles.forEach(pid => {
+    const puzzle = GAME_DATA.puzzles.find(p => p.id === pid);
+    if (puzzle) {
+      addText('There is something here that catches your attention...', 'system');
+    }
+  });
+
+  // Render exits
+  renderExits(scene.exits || {});
+
+  // Render inventory
+  renderInventory();
+
+  // Check win condition
+  checkWin();
+
+  // Save state
+  saveState();
+}
+
+function canExit(sceneId, direction) {
+  const exit = GAME_DATA.scenes.find(s => s.id === sceneId)?.exits?.[direction];
+  if (!exit) return false;
+  
+  // Check if any unsolved puzzle blocks this exit
+  const blocker = GAME_DATA.puzzles.find(p =>
+    p.blocksExit?.scene === sceneId &&
+    p.blocksExit?.direction === direction &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+  
+  if (blocker) {
+    addText(`[The way ${direction} is blocked. ${blocker.blockedMessage || 'Something prevents you from going that way.'}]`, 'locked');
+    return false;
+  }
+  
+  return true;
+}
+
+function renderExits(exits) {
+  exitsBar.innerHTML = '';
+  const directions = ['north', 'south', 'east', 'west'];
+  directions.forEach(dir => {
+    const btn = document.createElement('button');
+    btn.className = 'exit-btn' + (exits[dir] ? ' available' : '');
+    btn.textContent = dir.toUpperCase();
+    btn.disabled = !exits[dir];
+    if (exits[dir] && canExit(state.currentScene, dir)) {
+      btn.onclick = () => go(exits[dir]);
+    }
+    exitsBar.appendChild(btn);
+  });
+}
+
+function renderInventory() {
+  const items = invBar.querySelectorAll('.inv-item');
+  items.forEach(el => el.remove());
+  const empty = document.getElementById('inv-empty');
+
+  if (state.inventory.length === 0) {
+    empty.style.display = '';
+  } else {
+    empty.style.display = 'none';
+    state.inventory.forEach(itemId => {
+      const item = GAME_DATA.items.find(i => i.id === itemId);
+      if (!item) return;
+      const el = document.createElement('span');
+      el.className = 'inv-item' + (state.selectedItem === itemId ? ' selected' : '');
+      el.textContent = item.name;
+      el.onclick = () => selectItem(itemId);
+      invBar.appendChild(el);
+    });
+  }
+}
+
+// ---- Command Handlers ----
+function setCommand(cmd) {
+  state.activeCommand = cmd;
+  document.querySelectorAll('.cmd-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.cmd === cmd);
+  });
+  if (cmd === 'look') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    if (scene && scene.lookDescriptions) {
+      const targets = Object.keys(scene.lookDescriptions);
+      if (targets.length > 0) {
+        addText('You can examine: ' + targets.map(t =>
+          `<span class="look-target" data-look="${t}">${t}</span>`
+        ).join(', '), 'system');
+      }
+    }
+  } else if (cmd === 'use') {
+    if (state.inventory.length > 0) {
+      addText('Select an item from your inventory, then click what to use it on.', 'system');
+    } else {
+      addText('You have nothing to use.', 'system');
+    }
+  } else if (cmd === 'take') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    const available = (scene.items || []).filter(id => !state.inventory.includes(id));
+    if (available.length > 0) {
+      available.forEach(id => takeItem(id));
+    } else {
+      addText('Nothing here to take.', 'system');
+    }
+  }
+}
+
+function selectItem(itemId) {
+  state.selectedItem = state.selectedItem === itemId ? null : itemId;
+  renderInventory();
+  if (state.selectedItem) {
+    const item = GAME_DATA.items.find(i => i.id === itemId);
+    addText(`Selected: ${item.name}. Click USE, then a target.`, 'system');
+  }
+}
+
+function takeItem(itemId) {
+  if (state.inventory.includes(itemId)) return;
+  const item = GAME_DATA.items.find(i => i.id === itemId);
+  if (!item) return;
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (!scene || !(scene.items || []).includes(itemId)) return;
+
+  state.inventory.push(itemId);
+  addText(`You picked up: ${item.name} — ${item.description}`, 'success');
+  renderInventory();
+  saveState();
+  
+  // Apply item glow effect for newly acquired items
+  setTimeout(() => {
+    const itemElements = invBar.querySelectorAll('.inv-item');
+    itemElements.forEach(el => {
+      if (el.textContent === item.name) {
+        el.classList.add('item-new');
+        setTimeout(() => el.classList.remove('item-new'), 2000);
+      }
+    });
+  }, 100);
+}
+
+function lookAt(target) {
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (scene && scene.lookDescriptions && scene.lookDescriptions[target]) {
+    addText(scene.lookDescriptions[target]);
+  } else {
+    // Check if it's an item
+    const item = GAME_DATA.items.find(i => i.id === target);
+    if (item) {
+      addText(item.description);
+    } else {
+      addText('Nothing interesting about that.', 'system');
+    }
+  }
+}
+
+function useItemOn(itemId, targetId) {
+  const puzzle = GAME_DATA.puzzles.find(p =>
+    p.scene === state.currentScene &&
+    p.requires.includes(itemId) &&
+    p.id === targetId &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+
+  if (puzzle && puzzle.requires.every(req => state.inventory.includes(req))) {
+    state.solvedPuzzles.push(puzzle.id);
+    addText(puzzle.result, 'success');
+    
+    // Apply puzzle solved flash effect
+    artDisplay.classList.add('puzzle-solved');
+    setTimeout(() => artDisplay.classList.remove('puzzle-solved'), 600);
+    
+    // Reveal items or unlock scenes
+    (puzzle.reveals || []).forEach(revealId => {
+      const revealItem = GAME_DATA.items.find(i => i.id === revealId);
+      if (revealItem) {
+        state.inventory.push(revealId);
+        addText(`You found: ${revealItem.name}!`, 'success');
+        
+        // Apply item glow for newly revealed items
+        setTimeout(() => {
+          const itemElements = invBar.querySelectorAll('.inv-item');
+          itemElements.forEach(el => {
+            if (el.textContent === revealItem.name) {
+              el.classList.add('item-new');
+              setTimeout(() => el.classList.remove('item-new'), 2000);
+            }
+          });
+        }, 100);
+      }
+    });
+    
+    renderInventory();
+    
+    // Update exit buttons for newly unlocked exits
+    const exitButtons = exitsBar.querySelectorAll('.exit-btn');
+    exitButtons.forEach(btn => {
+      if (btn.classList.contains('available')) {
+        btn.classList.add('newly-unlocked');
+        setTimeout(() => btn.classList.remove('newly-unlocked'), 3000);
+      }
+    });
+    
+    checkWin();
+    saveState();
+  } else {
+    addText("That doesn't seem to work.", 'system');
+  }
+}
+
+function go(sceneId) {
+  if (!canExit(state.currentScene, getDirectionToScene(sceneId))) {
+    return; // canExit already shows the message
+  }
+  addText('---', 'system');
+  renderScene(sceneId);
+}
+
+function getDirectionToScene(targetSceneId) {
+  const currentScene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (!currentScene || !currentScene.exits) return null;
+  
+  for (const [direction, sceneId] of Object.entries(currentScene.exits)) {
+    if (sceneId === targetSceneId) {
+      return direction;
+    }
+  }
+  return null;
+}
+
+function checkWin() {
+  if (state.won) return;
+  const wc = GAME_DATA.winCondition;
+  if (!wc) return;
+  if (state.currentScene === wc.scene &&
+      wc.requires.every(req => state.inventory.includes(req))) {
+    state.won = true;
+    addText('', '');
+    addText('*** ' + wc.description + ' ***', 'success');
+    addText('', '');
+    addText('CONGRATULATIONS! YOU HAVE COMPLETED THE GAME!', 'success');
+    addText('Type /restart to play again.', 'system');
+  }
+}
+
+// ---- Persistence ----
+function saveState() {
+  try {
+    localStorage.setItem('game-' + GAME_DATA.slug, JSON.stringify(state));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('game-' + GAME_DATA.slug);
+    if (saved) {
+      const s = JSON.parse(saved);
+      Object.assign(state, s);
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+// ---- Event Listeners ----
+document.querySelectorAll('.cmd-btn').forEach(btn => {
+  btn.onclick = () => setCommand(btn.dataset.cmd);
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('look-target')) {
+    const target = e.target.dataset.look;
+    if (state.activeCommand === 'use' && state.selectedItem) {
+      useItemOn(state.selectedItem, target);
+    } else {
+      lookAt(target);
+    }
+  }
+});
+
+// ---- Initialize ----
+function init() {
+  if (Object.keys(GAME_DATA).length === 0) {
+    addText('ERROR: No game data loaded. This is a template file.', 'error');
+    addText('The Gameplay Coder will embed game data here.', 'system');
+    return;
+  }
+
+  addText('=== ' + GAME_DATA.title.toUpperCase() + ' ===', 'success');
+  addText(GAME_DATA.setting, 'system');
+  addText('', '');
+  addText('Commands: LOOK | TAKE | USE | EXAMINE', 'system');
+  addText('Click exits to move between rooms.', 'system');
+  addText('---', 'system');
+
+  if (!loadState()) {
+    renderScene('airlock');
+  } else {
+    renderScene(state.currentScene);
+    addText('[Game restored from save]', 'system');
+  }
+}
+
+init();
+document.getElementById("reset-btn")?.addEventListener("click", function() {
+    if (confirm("Reset the game to the beginning?")) {
+        state = {currentScene: GAME_DATA.scenes[0].id, inventory: [], solvedPuzzles: [], visitedScenes: [GAME_DATA.scenes[0].id], selectedItem: null, won: false};
+        clearText(); addText("The story begins anew...", "system");
+        renderScene(state.currentScene); renderInventory();
+    }
+});
+    </script></body></html>

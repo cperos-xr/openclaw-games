@@ -1,0 +1,202 @@
+{
+  "game": "003-ashmore-sanatorium",
+  "file": "games/003-ashmore-sanatorium/game.html",
+  "timestamp": "2026-04-03T06:28:26.778Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-battery-cell.svg\" has 4 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/003-ashmore-sanatorium/art/item-battery-cell.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-patient-ledger.svg\" has 9 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/003-ashmore-sanatorium/art/item-patient-ledger.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-resonance-key.svg\" has 6 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/003-ashmore-sanatorium/art/item-resonance-key.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-1-foyer.svg\" uses 19 colors (max recommended 8)",
+      "location": "games/003-ashmore-sanatorium/art/scene-1-foyer.svg",
+      "expected": "<= 8 colors",
+      "actual": "19 colors: stroke, #aaeeff, fill, #444466, #555588, #2a2a44, #000000, url, #3a3a5a, #111133",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-1-foyer.svg\" has 17 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/003-ashmore-sanatorium/art/scene-1-foyer.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-2-records-room.svg\" uses 22 colors (max recommended 8)",
+      "location": "games/003-ashmore-sanatorium/art/scene-2-records-room.svg",
+      "expected": "<= 8 colors",
+      "actual": "22 colors: fill, #d2b48c, stroke, #c2a47c, #666688, #7777aa, #3a3a5a, #000000, #4a4a3a, url",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-2-records-room.svg\" has 20 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/003-ashmore-sanatorium/art/scene-2-records-room.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-008",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-3-electrotherapy-chamber.svg\" uses 21 colors (max recommended 8)",
+      "location": "games/003-ashmore-sanatorium/art/scene-3-electrotherapy-chamber.svg",
+      "expected": "<= 8 colors",
+      "actual": "21 colors: fill, #666688, #8b4513, #3a3a5a, stroke, #4a4a6a, #2a2a44, #000000, url, #555577",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-009",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-3-electrotherapy-chamber.svg\" has 14 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/003-ashmore-sanatorium/art/scene-3-electrotherapy-chamber.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-010",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-4-ice-cellar.svg\" uses 20 colors (max recommended 8)",
+      "location": "games/003-ashmore-sanatorium/art/scene-4-ice-cellar.svg",
+      "expected": "<= 8 colors",
+      "actual": "20 colors: fill, #aaeeff, #ffffff, #4a4a6a, stroke, #5a5a7a, url, #000000, #555577, #666688",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-011",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-4-ice-cellar.svg\" has 9 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/003-ashmore-sanatorium/art/scene-4-ice-cellar.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-012",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-5-directors-office.svg\" uses 17 colors (max recommended 8)",
+      "location": "games/003-ashmore-sanatorium/art/scene-5-directors-office.svg",
+      "expected": "<= 8 colors",
+      "actual": "17 colors: fill, #5a3a2a, stroke, #6a4a3a, #d2b48c, #3a3a5a, #000000, url, #aaeeff, #ffffff",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-013",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-5-directors-office.svg\" has 22 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/003-ashmore-sanatorium/art/scene-5-directors-office.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-014",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-6-observatory.svg\" uses 18 colors (max recommended 8)",
+      "location": "games/003-ashmore-sanatorium/art/scene-6-observatory.svg",
+      "expected": "<= 8 colors",
+      "actual": "18 colors: fill, #0a0a2a, #ffffff, #aaeeff, stroke, url, #000000, #555577, #666688, #444466",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-015",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-6-observatory.svg\" has 9 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/003-ashmore-sanatorium/art/scene-6-observatory.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Grid row values within bounds",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 6,
+    "items": 5,
+    "puzzles": 5,
+    "reachableScenes": 6,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 34,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 15 issues (0 CRITICAL, 0 HIGH, 0 MEDIUM, 15 LOW)"
+}

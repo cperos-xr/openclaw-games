@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#1a1a2e"/>
+  <!-- walls -->
+  <rect x="0" y="0" width="640" height="300" fill="#0f3460"/>
+  <!-- floor -->
+  <rect x="0" y="300" width="640" height="100" fill="#2a2a4a"/>
+  <!-- security monitors -->
+  <g fill="#000" stroke="#0f0" stroke-width="1">
+    <rect x="50" y="80" width="100" height="70"/>
+    <rect x="180" y="80" width="100" height="70"/>
+    <rect x="310" y="80" width="100" height="70"/>
+    <rect x="440" y="80" width="100" height="70"/>
+  </g>
+  <!-- guard chair -->
+  <g transform="translate(300,200)">
+    <rect x="0" y="0" width="30" height="40" fill="#2a2a4a" stroke="#0f0" stroke-width="2"/>
+    <circle cx="15" cy="10" r="5" fill="#0f0"/>
+  </g>
+  <!-- cabinet with broken glass -->
+  <g transform="translate(500,220)">
+    <rect x="0" y="0" width="60" height="50" fill="#1a1a2e" stroke="#0f0" stroke-width="2"/>
+    <line x1="0" y1="20" x2="60" y2="20" stroke="#f00" stroke-width="2"/>
+  </g>
+  <!-- exit north to transmitter -->
+  <rect x="300" y="180" width="80" height="60" fill="#0f3460" stroke="#0f0" stroke-width="4"/>
+  <text x="340" y="215" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">XMIT</text>
+</svg>

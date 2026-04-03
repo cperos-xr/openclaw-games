@@ -1,0 +1,113 @@
+{
+  "game": "001-clockwork-lighthouse",
+  "file": "games/001-clockwork-lighthouse/game.html",
+  "timestamp": "2026-04-03T06:28:26.669Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "LOW",
+      "category": "puzzle-logic",
+      "description": "Item \"brass-key\" is never required by any puzzle or win condition",
+      "location": "items.brass-key",
+      "expected": "Item used somewhere",
+      "actual": "Orphan item",
+      "suggestedFix": "Remove item or add a puzzle that uses it",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "MEDIUM",
+      "category": "art",
+      "description": "Item SVG \"item-alistairs-journal.svg\" has viewBox 640x400, expected 64x64",
+      "location": "games/001-clockwork-lighthouse/art/item-alistairs-journal.svg",
+      "expected": "64 64",
+      "actual": "640 400",
+      "suggestedFix": "Set viewBox=\"0 0 64 64\"",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-alistairs-journal.svg\" has 7 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/001-clockwork-lighthouse/art/item-alistairs-journal.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-gear-chamber.svg\" uses 11 colors (max recommended 8)",
+      "location": "games/001-clockwork-lighthouse/art/scene-gear-chamber.svg",
+      "expected": "<= 8 colors",
+      "actual": "11 colors: stroke, #000000, fill, #000088, url, #aa00ff, #555555, #ff8800, #33ff33, #ff0000",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-library.svg\" has 7 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/001-clockwork-lighthouse/art/scene-library.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-workshop.svg\" uses 13 colors (max recommended 8)",
+      "location": "games/001-clockwork-lighthouse/art/scene-workshop.svg",
+      "expected": "<= 8 colors",
+      "actual": "13 colors: stroke, #000000, fill, #1a0d00, url, #aa00ff, #ff8800, #555555, #33ff33, #ffff00",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-workshop.svg\" has 3 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/001-clockwork-lighthouse/art/scene-workshop.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 6,
+    "items": 7,
+    "puzzles": 5,
+    "reachableScenes": 6,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 10,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 7 issues (0 CRITICAL, 0 HIGH, 1 MEDIUM, 6 LOW)"
+}

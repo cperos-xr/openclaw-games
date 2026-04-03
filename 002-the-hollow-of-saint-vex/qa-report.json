@@ -1,0 +1,212 @@
+{
+  "game": "002-the-hollow-of-saint-vex",
+  "file": "games/002-the-hollow-of-saint-vex/game.html",
+  "timestamp": "2026-04-03T06:28:26.731Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-bell-bone.svg\" has 3 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/item-bell-bone.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-bell-hollow.svg\" has 4 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/item-bell-hollow.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-lantern.svg\" has 3 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/item-lantern.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-matches.svg\" has 7 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/item-matches.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-pickaxe.svg\" has 5 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/item-pickaxe.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-ritual-book.svg\" has 9 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/item-ritual-book.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-1-entrance.svg\" uses 11 colors (max recommended 8)",
+      "location": "games/002-the-hollow-of-saint-vex/art/scene-1-entrance.svg",
+      "expected": "<= 8 colors",
+      "actual": "11 colors: fill, #000000, #003300, stroke, #8b4513, #8b0000, #ffffff, #ff8800, #c0c0c0, #654321",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-008",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-1-entrance.svg\" has 11 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/scene-1-entrance.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-009",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-2-supply-tunnel.svg\" uses 11 colors (max recommended 8)",
+      "location": "games/002-the-hollow-of-saint-vex/art/scene-2-supply-tunnel.svg",
+      "expected": "<= 8 colors",
+      "actual": "11 colors: fill, #000000, #001100, stroke, #002200, #ffffff, #8b4513, #cd7f32, #ffff00, #c0c0c0",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-010",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-2-supply-tunnel.svg\" has 8 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/scene-2-supply-tunnel.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-011",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-3-equipment-room.svg\" has 3 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/scene-3-equipment-room.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-012",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-4-chapel-antechamber.svg\" uses 11 colors (max recommended 8)",
+      "location": "games/002-the-hollow-of-saint-vex/art/scene-4-chapel-antechamber.svg",
+      "expected": "<= 8 colors",
+      "actual": "11 colors: fill, #000000, #001100, stroke, #ff0000, #ffffff, #8b4513, #ffff00, #8b0000, #654321",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-013",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-4-chapel-antechamber.svg\" has 16 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/scene-4-chapel-antechamber.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-014",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-5-flooded-nave.svg\" has 12 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/scene-5-flooded-nave.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-015",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-6-bell-tower.svg\" has 7 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/scene-6-bell-tower.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-016",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-7-reliquary.svg\" has 14 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/002-the-hollow-of-saint-vex/art/scene-7-reliquary.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 7,
+    "items": 9,
+    "puzzles": 5,
+    "reachableScenes": 7,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 16,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 16 issues (0 CRITICAL, 0 HIGH, 0 MEDIUM, 16 LOW)"
+}

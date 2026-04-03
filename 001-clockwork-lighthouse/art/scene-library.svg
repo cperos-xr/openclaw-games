@@ -1,18 +1,66 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
-  <rect width="640" height="400" fill="#000088"/>
-  <circle cx="320" cy="200" r="180" fill="#AA00FF"/>
-  <circle cx="320" cy="200" r="160" fill="#000000"/>
-  <circle cx="320" cy="200" r="140" fill="#AA00FF"/>
-  <circle cx="320" cy="200" r="120" fill="#000000"/>
-  <circle cx="320" cy="200" r="100" fill="#AA00FF"/>
-  <circle cx="320" cy="200" r="80" fill="#000000"/>
-  <circle cx="320" cy="200" r="60" fill="#AA00FF"/>
-  <circle cx="320" cy="200" r="40" fill="#000000"/>
-  <circle cx="320" cy="200" r="20" fill="#AA00FF"/>
-  <line x1="320" y1="20" x2="320" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="20" y1="200" x2="620" y2="200" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="320" y1="20" x2="340" y2="40" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="320" y1="380" x2="340" y2="360" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="20" y1="200" x2="40" y2="220" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="620" y1="200" x2="600" y2="180" stroke="#FFFFFF" stroke-width="2"/>
+  <defs>
+    <pattern id="hatch-dark" width="4" height="4" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="4" y2="0" stroke="#000000" stroke-width="1"/>
+    </pattern>
+    <pattern id="checker" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="2" height="2" fill="#000000"/>
+      <rect x="2" y="2" width="2" height="2" fill="#000000"/>
+    </pattern>
+    <g id="bookshelf">
+      <!-- Extraction of /workspace/art_templates/game-icons/bookshelf.svg path -->
+      <path d="M169 57v430h78V57h-78zM25 105v190h46V105H25zm158 23h18v320h-18V128zm128.725 7.69-45.276 8.124 61.825 344.497 45.276-8.124-61.825-344.497zM89 153v270h62V153H89zm281.502 28.68-27.594 11.773 5.494 12.877 27.594-11.773-5.494-12.877zm12.56 29.433-27.597 11.772 5.494 12.877 27.593-11.772-5.492-12.877zm12.555 29.434-27.594 11.77 99.674 233.628 27.594-11.773-99.673-233.625zM25 313v30h46v-30H25zm190 7h18v128h-18V320zM25 361v126h46V361H25zm64 80v46h62v-46H89z" fill="currentColor"/>
+    </g>
+    <g id="telescope">
+      <!-- Extraction of /workspace/art_templates/game-icons/telescope.svg path -->
+      <path d="M275.3 19.02c-1 0-1.6.19-1.9.37-.5.35-1.5 1.93-.9 6.16.7 4.17 3.4 9.96 8 15.36 4.6 5.4 10.1 9.2 14.3 10.81 4.4 1.55 6.3 1.04 6.8.69.5-.35 1.5-1.93.9-6.16-.7-4.17-3.4-9.96-8-15.36-4.6-5.4-10.1-9.2-14.3-10.81-2.2-.78-3.8-1.04-4.9-1.06zM404.4 35.2c-.7.1-1.1.24-1.5.45-.7.42-1.5 1.25-2.2 3.91-.7 2.75-.9 6.99-.1 12.13.5 3.22 1.4 6.85 2.5 10.63a35.08 13.15 58.61 0 1 3.2-8.44 35.08 13.15 58.61 0 1 29.5 23.09 35.08 13.15 58.61 0 1 7 36.83 35.08 13.15 58.61 0 1-8.8-1c2.8 2.7 5.6 5.2 8.2 7 4.2 3.1 8.1 4.8 10.8 5.5 2.7.6 3.8.2 4.5-.2.7-.4 1.4-1.2 2.2-3.9.6-2.7.8-7 .1-12.1-1.5-10.32-6.6-24.17-14.9-37.74-8.2-13.57-18.2-24.35-26.7-30.41-4.2-3.05-8.1-4.79-10.8-5.45-1.3-.29-2.3-.36-3-.3zm-146.6 3.98-10 8.93c-.2.17-.6.3.4 3.65s3.9 8.19 7.5 12.28 8.1 7.46 11.3 8.85c3.2 1.37 3.3.98 3.4.84l10.6-9.49c-5.5-3.2-10.6-7.54-15.1-12.85-3.4-3.95-6.1-8.05-8.1-12.21zm125.5 18.34-28.5 17.47c-1.8 1.1-2.8 2.36-3.6 4.83-.8 2.47-1 6.16-.5 10.59 1.2 8.87 5.7 20.39 12 30.79 6.3 10.4 14.5 19.7 21.9 24.8 3.6 2.5 7 3.9 9.6 4.4 2.5.4 4.1.1 5.9-1l28.4-17.4c-10.1-7.9-20-19.3-28.4-33.22-8.7-14.16-14.4-28.41-16.8-41.26zM234.6 65.3l-48.5 49.9-.2.2c-1.3 1.2-1.4 1.6-1.2 3.2.2 1.6 1.3 4.1 3.1 6.2 1.8 2 4.2 3.4 5.8 3.8 1.6.4 2.1.4 3.6-.9l.2-.2 54.7-42.54c-3.6-2.55-6.8-5.62-9.8-8.98-3-3.31-5.6-6.89-7.7-10.68zm98.9 30.96L214.7 181.1l-.3.2c-15.4 9.4-3 38.2 13 45L169 489l17.6 4 34.3-154.3 63.2 31.5 12.8 121.7 17.9-1.8-13.1-123.9 44.9-27.9 47.6 143.9 17-5.6-90-271.8-16.1 8.3 35.6 107.6-41.1 25.6-13-123.6-17.1 8.8L281.9 349l-57-28.5 21.7-97.4 124.8-64.6c-7.1-5.4-13.5-12.5-19.1-20.4l-45 27.4-9.4-15.4 45-27.4c-4.4-8.6-7.8-17.6-9.4-26.44zm-90.9 18.94-14.1 10.9 11.7 14.7 14.5-10.4zm-52.4 87.4L74.44 287.5l-.33.2c-4.7 2.8 4.27 17.4 8.94 14.6l.29-.2 128.16-64.5c-10.8-8.3-18.9-21.6-21.3-35zM65.44 221.9c-3.46.2-7.08 2.2-9.92 5.1-2.16 2.2-3.41 4.8-3.65 6.3-.25 1.4-.3 1.5.82 2.6l.12.1 26.11 25.8 21.98-16.1-30.59-22.9c-1.07-.5-2.21-.9-3.4-.9z" fill="currentColor"/>
+    </g>
+  </defs>
+  <!-- Background: Night Sky Dome -->
+  <rect width="640" height="400" fill="#000000"/>
+  <ellipse cx="320" cy="50" rx="400" ry="250" fill="#000088" stroke="#000000" stroke-width="4"/>
+  
+  <!-- Constellations (The Jaw, Orion) -->
+  <g fill="#FFFFFF" opacity="0.8">
+    <circle cx="320" cy="50" r="2"/> <!-- Center point -->
+    <circle cx="280" cy="70" r="1.5"/>
+    <circle cx="360" cy="70" r="1.5"/>
+    <circle cx="320" cy="110" r="1.5"/>
+    <line x1="280" y1="70" x2="360" y2="70" stroke="#FFFFFF" stroke-width="0.5"/>
+    <line x1="320" y1="50" x2="320" y2="110" stroke="#FFFFFF" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Spiral Dither on Dome edge -->
+  <rect x="0" y="0" width="640" height="200" fill="url(#hatch-dark)" opacity="0.3"/>
+
+  <!-- Walls -->
+  <path d="M 0 50 L 150 150 L 150 280 L 0 350 Z" fill="#1a0d00" stroke="#000000" stroke-width="3"/>
+  <path d="M 640 50 L 490 150 L 490 280 L 640 350 Z" fill="#1a0d00" stroke="#000000" stroke-width="3"/>
+
+  <!-- Bookshelves -->
+  <use href="#bookshelf" x="20" y="160" transform="scale(0.25)" fill="#FF8800" />
+  <use href="#bookshelf" x="550" y="160" transform="scale(0.25)" fill="#FF8800" />
+
+  <!-- Floor -->
+  <rect x="0" y="280" width="640" height="120" fill="#1a0d00"/>
+  <rect x="0" y="280" width="640" height="20" fill="url(#checker)" opacity="0.4"/>
+
+  <!-- Pedestal -->
+  <rect x="290" y="260" width="60" height="80" fill="#FF8800" stroke="#000000" stroke-width="2"/>
+  <rect x="280" y="250" width="80" height="10" fill="#FF8800" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Chronometer (Organic heartbeat vibe) -->
+  <circle cx="320" cy="235" r="15" fill="#33FF33" stroke="#000000" stroke-width="2"/>
+  <circle cx="320" cy="235" r="8" fill="url(#checker)" opacity="0.3"/>
+
+  <!-- Telescope -->
+  <use href="#telescope" x="180" y="180" transform="rotate(-45, 200, 200) scale(0.3)" fill="#AA00FF" />
+
+  <!-- Dithering and Scanlines -->
+  <rect width="640" height="400" fill="none" stroke="#000000" stroke-width="1" pointer-events="none"/>
+  <g opacity="0.05">
+    <line x1="0" y1="4" x2="640" y2="4" stroke="#FFFFFF" stroke-width="1"/>
+    <line x1="0" y1="8" x2="640" y2="8" stroke="#FFFFFF" stroke-width="1"/>
+    <line x1="0" y1="12" x2="640" y2="12" stroke="#FFFFFF" stroke-width="1"/>
+  </g>
 </svg>

@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdant Requiem | Game #009</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            padding: 20px;
+            max-width: 1024px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        h2 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #0f0;
+        }
+
+        #scene-name {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #0f0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .game-container {
+            display: flex;
+            flex: 1;
+            gap: 20px;
+            min-height: 0;
+        }
+
+        .art-panel {
+            flex: 1;
+            border: 2px solid #0f0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        #art-display svg,
+        #art-display img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .text-panel {
+            flex: 1;
+            border: 2px solid #0f0;
+            background-color: #000;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #text-display {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #0f0;
+            padding-bottom: 10px;
+        }
+
+        #text-display p {
+            margin-bottom: 10px;
+            color: #0f0;
+        }
+
+        #text-display .system {
+            color: #0a0;
+            font-style: italic;
+        }
+
+        #text-display .success {
+            color: #0f0;
+            font-weight: bold;
+            animation: itemGlow 1s infinite alternate;
+        }
+
+        #text-display .locked {
+            color: #f00;
+            font-weight: bold;
+        }
+
+        #text-display .error {
+            color: #f00;
+        }
+
+        .command-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .cmd-btn {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 5px 10px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cmd-btn:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .cmd-btn.active {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .inventory-panel {
+            border: 2px solid #0f0;
+            background-color: #000;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .inventory-panel h3 {
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #0f0;
+        }
+
+        #inventory-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 20px;
+        }
+
+        .inv-item {
+            border: 1px solid #0f0;
+            padding: 3px 6px;
+            font-size: 10px;
+            cursor: pointer;
+            background-color: #000;
+            color: #0f0;
+        }
+
+        .inv-item.selected {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .exits-panel {
+            border: 2px solid #0f0;
+            background-color: #000;
+            padding: 10px;
+        }
+
+        .exits-panel h3 {
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #0f0;
+        }
+
+        #exits-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .exit-btn {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 5px 10px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .exit-btn.available:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .look-target {
+            color: #0af;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .look-target:hover {
+            color: #0ff;
+        }
+
+        @keyframes puzzle-solved {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(2); }
+            100% { filter: brightness(1); }
+        }
+
+        @keyframes unlockPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes itemGlow {
+            0% { text-shadow: 0 0 5px #0f0; }
+            100% { text-shadow: 0 0 15px #0f0; }
+        }
+
+        .puzzle-solved {
+            animation: puzzle-solved 0.6s ease-in-out;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 10px;
+            color: #080;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>VERDANT REQUIEM</h1>
+        <h2>Game #009</h2>
+    </header>
+
+    <div id="scene-name">GRAND ENTRANCE HALL</div>
+
+    <div class="game-container">
+        <div class="art-panel">
+            <div id="art-display">
+                <!-- Art will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="text-panel">
+            <div id="text-display">
+                <!-- Game text will appear here -->
+            </div>
+
+            <div class="command-bar">
+                <button class="cmd-btn" data-cmd="look">LOOK</button>
+                <button class="cmd-btn" data-cmd="take">TAKE</button>
+                <button class="cmd-btn" data-cmd="use">USE</button>
+                <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+            </div>
+
+            <div class="inventory-panel">
+                <h3>INVENTORY</h3>
+                <div id="inventory-bar">
+                    <span id="inv-empty">(empty)</span>
+                </div>
+            </div>
+
+            <div class="exits-panel">
+                <h3>EXITS</h3>
+                <div id="exits-bar">
+                    <!-- Exit buttons will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Use the command buttons or click on highlighted words. Click exits to move.
+        Type /restart in the text area to reset the game.
+    </footer>
+
+    <script>
+// ============================================================
+// GAME DATA
+var GAME_DATA = {
+  "title": "Verdant Requiem",
+  "slug": "verdant-requiem",
+  "number": 9,
+  "setting": "An abandoned Victorian botanical conservatory where the plants have grown unnaturally sentient and hostile after a botanical experiment gone wrong.",
+  "characters": [
+    {
+      "id": "player",
+      "name": "The Player",
+      "description": "You, trapped in the conservatory after seeking shelter from a storm."
+    },
+    {
+      "id": "thornwood",
+      "name": "Dr. Alistair Thornwood",
+      "description": "The conservatory's former director. His ghost haunts the orchid laboratory, a remnant of his failed experiments."
+    },
+    {
+      "id": "gardener",
+      "name": "The Gardener",
+      "description": "A shadowy figure seen through fogged glass, moving silently among the plants. Its intentions are unknown."
+    }
+  ],
+  "items": [
+    {
+      "id": "pruning-shears",
+      "name": "Rusted Pruning Shears",
+      "description": "Heavy, iron shears coated in orange rust. The blades still look sharp enough to cut through tough vegetation.",
+      "foundIn": "entrance",
+      "usedIn": "palm-house",
+      "usedOn": "puzzle-1"
+    },
+    {
+      "id": "watering-can",
+      "name": "Watering Can",
+      "description": "A tarnished brass watering can. It contains a small amount of murky liquid that smells of chemicals and decay.",
+      "foundIn": "cactus-wing",
+      "usedIn": "cactus-wing",
+      "usedOn": "puzzle-2"
+    },
+    {
+      "id": "brass-key",
+      "name": "Brass Key",
+      "description": "An ornate key, green with age. It's engraved with a single orchid bloom.",
+      "foundIn": "cactus-wing",
+      "usedIn": "orchid-lab",
+      "usedOn": "puzzle-3"
+    },
+    {
+      "id": "phosphorus-fertilizer",
+      "name": "Phosphorus Fertilizer Pouch",
+      "description": "A small cloth pouch filled with glowing blue powder. It hums with unnatural energy.",
+      "foundIn": "orchid-lab",
+      "usedIn": "root-cellar",
+      "usedOn": "puzzle-5"
+    },
+    {
+      "id": "thornwood-journal",
+      "name": "Thornwood's Journal",
+      "description": "A leather-bound journal filled with frantic notes and diagrams. Pages detail experiments with 'bioluminescent hybridization' and warnings about 'the waking green'.",
+      "foundIn": "orchid-lab",
+      "usedIn": "fern-grotto",
+      "usedOn": "puzzle-4"
+    },
+    {
+      "id": "seed-pods",
+      "name": "Dried Seed Pods",
+      "description": "A cluster of brittle, papery seed pods. They rattle faintly, as if something still lives inside.",
+      "foundIn": "orchid-lab",
+      "usedIn": "root-cellar",
+      "usedOn": "puzzle-5"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "entrance",
+      "name": "Grand Entrance Hall",
+      "prose": "The grand entrance hall of Thornwood Conservatory stretches before you, a cathedral of glass and iron gone to ruin. Moonlight filters through cracked panes above, casting distorted shadows across flagstones slick with moss. To the east, a pair of ornate glass doors stand ajar, leading deeper into the conservatory. A workbench against the wall holds rusted gardening tools. The air smells of damp earth and something sweetly rotten, like overripe fruit left to ferment.",
+      "exits": {
+        "east": "palm-house"
+      },
+      "items": [
+        "pruning-shears"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "workbench": "A sturdy wooden bench littered with rusted trowels, empty pots, and a single pair of pruning shears.",
+        "glass doors": "The doors are etched with floral patterns. Beyond, you see only darkness and the vague shapes of large plants.",
+        "flagstones": "The stone floor is uneven, cracked by roots that have pushed up from below."
+      }
+    },
+    {
+      "id": "palm-house",
+      "name": "Tropical Palm House",
+      "prose": "Humid, oppressive heat wraps around you in the palm house. Giant fronds loom in the half-light, their edges browned and curling. A dead fern sprawls across the northern path, its dry branches forming a thorny barrier. To the east, a darker opening suggests another wing, but a tangle of vines blocks it completely. Water drips from somewhere above, each drop echoing in the stagnant air. The scent of decay is stronger here, almost floral in its wrongness.",
+      "exits": {
+        "north": "cactus-wing"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-1"
+      ],
+      "lookDescriptions": {
+        "dead fern": "A massive fern, long dead, its brittle stems interlocked like a barricade. It blocks the northern passage completely.",
+        "giant fronds": "The palm leaves are unnaturally large, some as wide as doors. Their surfaces are mottled with dark, oily spots.",
+        "tangle of vines": "A thick curtain of living vines seals the eastern opening. They writhe slowly, as if sensing your presence."
+      }
+    },
+    {
+      "id": "cactus-wing",
+      "name": "Cactus and Succulent Wing",
+      "prose": "Dry heat replaces the humidity as you enter the cactus wing. Rows of spiny forms stand like silent sentinels, some swollen to grotesque proportions. One particularly large cactus has withered, its skin puckered and gray. A metal watering can rests on a stone bench, its surface filmed with dust. The eastern exit is sealed by a heavy wooden door, its lock rusted shut. The air tastes of chalk and thirst.",
+      "exits": {
+        "south": "palm-house",
+        "east": "orchid-lab"
+      },
+      "items": [
+        "watering-can"
+      ],
+      "puzzles": [
+        "puzzle-2"
+      ],
+      "lookDescriptions": {
+        "withered cactus": "This cactus is twice your height, but its flesh has collapsed inward. A deep crack runs down its side, revealing darkness within.",
+        "stone bench": "A rough-hewn bench carved from local stone. The watering can sits atop it, forgotten.",
+        "wooden door": "A solid oak door, its iron fittings crusted with rust. A keyhole glints in the dim light."
+      }
+    },
+    {
+      "id": "orchid-lab",
+      "name": "Orchid Laboratory",
+      "prose": "The orchid laboratory feels more like a surgical theater than a garden. Glass cases line the walls, their interiors fogged with condensation. Within, strange orchids pulse with faint bioluminescence. A locked cabinet dominates the far wall, its brass keyhole tarnished. Dr. Thornwood's journal lies open on a central table, its pages filled with frantic diagrams. The southern exit is barred by a heavy iron gate.",
+      "exits": {
+        "west": "cactus-wing",
+        "south": "fern-grotto"
+      },
+      "items": [
+        "thornwood-journal"
+      ],
+      "puzzles": [
+        "puzzle-3"
+      ],
+      "lookDescriptions": {
+        "locked cabinet": "A tall oak cabinet with a brass lock. Through the glass doors, you can see pouches and seed packets inside.",
+        "glass cases": "Each case contains a single orchid specimen, their roots visible in clear gel. Some move, slowly.",
+        "iron gate": "A wrought-iron gate, intricately patterned with floral motifs. It's locked from this side."
+      }
+    },
+    {
+      "id": "fern-grotto",
+      "name": "Fern Grotto",
+      "prose": "Moisture drips from every surface in the fern grotto. Giant ferns crowd the space, their fronds brushing your shoulders with unsettling intimacy. An ancient, gnarled tree dominates the center, its bark carved with strange symbols. A panel of stone buttons sits at its base, each marked with an unfamiliar glyph. The northern passage is choked with thick roots. The air is thick with spores that glimmer in the faint light.",
+      "exits": {
+        "north": "root-cellar"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-4"
+      ],
+      "lookDescriptions": {
+        "ancient tree": "The tree's bark is deeply furrowed, and the carved symbols seem to shift when you look away.",
+        "stone buttons": "Five stone buttons, each with a unique glyph: a spiral, a triangle, a crescent, a star, and a circle.",
+        "thick roots": "A dense weave of roots blocks the northern passage. They pulse rhythmically, like sleeping arteries."
+      }
+    },
+    {
+      "id": "root-cellar",
+      "name": "Root Cellar",
+      "prose": "The root cellar is a cavern of tangled roots and dark earth. Thick tendrils coil across the floor and walls, pulsing with a slow, vegetative rhythm. At the far end, a wall of roots blocks what might have been an exit, but a patch of barren soil lies before it. The only sound is the creak of growing wood. Here, deep beneath the conservatory, the wrongness feels most alive, most hungry.",
+      "exits": {
+        "north": "win"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-5"
+      ],
+      "lookDescriptions": {
+        "wall of roots": "A dense mat of intertwined roots completely seals the northern wall. They seem to twitch occasionally.",
+        "barren soil": "A circle of dark, dry soil, devoid of any growth. It looks intentionally prepared.",
+        "tangled roots": "The roots throughout the room are thick as arms, some with nodules that glow with a sickly green light."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-1",
+      "scene": "palm-house",
+      "requires": [
+        "pruning-shears"
+      ],
+      "action": "Use pruning shears on dead fern",
+      "result": "The dead fern crumbles under the shears, clearing the northern path. Beyond lies the dry heat of the cactus wing.",
+      "reveals": [
+        "cactus-wing"
+      ],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-2",
+      "scene": "cactus-wing",
+      "requires": [
+        "watering-can"
+      ],
+      "action": "Use watering can on withered cactus",
+      "result": "The cactus absorbs the liquid with a hiss. Its flesh swells, and a brass key drops from a newly opened crevice.",
+      "reveals": [
+        "brass-key"
+      ],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-3",
+      "scene": "orchid-lab",
+      "requires": [
+        "brass-key"
+      ],
+      "action": "Use brass key on locked cabinet",
+      "result": "The cabinet unlocks with a satisfying click. Inside, you find a pouch of phosphorus fertilizer and a cluster of dried seed pods. The iron gate swings open.",
+      "reveals": [
+        "phosphorus-fertilizer",
+        "seed-pods",
+        "fern-grotto"
+      ],
+      "blocksExit": "south"
+    },
+    {
+      "id": "puzzle-4",
+      "scene": "fern-grotto",
+      "requires": [
+        "thornwood-journal"
+      ],
+      "action": "Enter glyph sequence from journal on stone buttons",
+      "result": "The buttons depress in the correct order: spiral, crescent, star. The ancient tree groans, and its roots retract, revealing the northern passage.",
+      "reveals": [
+        "root-cellar"
+      ],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-5",
+      "scene": "root-cellar",
+      "requires": [
+        "phosphorus-fertilizer",
+        "seed-pods"
+      ],
+      "action": "Use fertilizer and seed pods on barren soil",
+      "result": "The powder ignites in the soil, and the seed pods burst. A thick, living vine erupts, weaving through the root wall to form a climbable bridge to freedom.",
+      "reveals": [
+        "win"
+      ],
+      "blocksExit": "north"
+    }
+  ],
+  "winCondition": {
+    "scene": "root-cellar",
+    "requires": [
+      "phosphorus-fertilizer",
+      "seed-pods"
+    ],
+    "description": "Grow a living vine bridge through the root wall to escape the conservatory."
+  }
+};
+
+// Transform puzzles: convert blocksExit string to object
+GAME_DATA.puzzles = GAME_DATA.puzzles.map(p => {
+    if (typeof p.blocksExit === 'string') {
+        return {
+            ...p,
+            blocksExit: { scene: p.scene, direction: p.blocksExit },
+            blockedMessage: `The way ${p.blocksExit} is blocked.`
+        };
+    }
+    return p;
+});
+
+// ============================================================
+// GAME ART
+window.GAME_ART = {
+  "entrance": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: dark mossy green -->\n  <rect width=\"640\" height=\"400\" fill=\"#003300\"/>\n  \n  <!-- Glass ceiling with cracks -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"80\" fill=\"#006600\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Cracks in glass -->\n  <line x1=\"100\" y1=\"0\" x2=\"100\" y2=\"80\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"300\" y1=\"0\" x2=\"300\" y2=\"80\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"500\" y1=\"0\" x2=\"500\" y2=\"80\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Mossy flagstones -->\n  <rect x=\"0\" y=\"320\" width=\"640\" height=\"80\" fill=\"#004400\" stroke=\"#002200\" stroke-width=\"2\"/>\n  <!-- Cracks in flagstones -->\n  <line x1=\"0\" y1=\"360\" x2=\"640\" y2=\"360\" stroke=\"#002200\" stroke-width=\"1\"/>\n  <line x1=\"320\" y1=\"320\" x2=\"320\" y2=\"400\" stroke=\"#002200\" stroke-width=\"1\"/>\n  \n  <!-- Workbench -->\n  <rect x=\"50\" y=\"280\" width=\"200\" height=\"40\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Tools on workbench -->\n  <rect x=\"60\" y=\"290\" width=\"20\" height=\"30\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- trowel -->\n  <rect x=\"100\" y=\"285\" width=\"15\" height=\"40\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- trowel -->\n  <rect x=\"140\" y=\"295\" width=\"10\" height=\"30\" fill=\"#884400\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- pruning shears -->\n  \n  <!-- Glass doors (east) -->\n  <rect x=\"550\" y=\"100\" width=\"60\" height=\"200\" fill=\"#004400\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Door frame -->\n  <rect x=\"545\" y=\"95\" width=\"70\" height=\"210\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Floral etching on doors -->\n  <circle cx=\"580\" cy=\"150\" r=\"8\" fill=\"#002200\"/>\n  <circle cx=\"580\" cy=\"200\" r=\"6\" fill=\"#002200\"/>\n  \n  <!-- Moonlight -->\n  <circle cx=\"320\" cy=\"40\" r=\"50\" fill=\"#ffffff\" opacity=\"0.3\"/>\n</svg>",
+  "palm-house": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: oppressive humid green -->\n  <rect width=\"640\" height=\"400\" fill=\"#002200\"/>\n  \n  <!-- Giant palm fronds -->\n  <path d=\"M100,50 Q150,0 200,50 Q250,0 300,50 Q350,0 400,50 Q450,0 500,50 Q550,0 600,50\" fill=\"none\" stroke=\"#004400\" stroke-width=\"5\"/>\n  <path d=\"M120,80 Q170,30 220,80 Q270,30 320,80 Q370,30 420,80 Q470,30 520,80 Q570,30 620,80\" fill=\"none\" stroke=\"#004400\" stroke-width=\"5\"/>\n  <!-- Browned edges on fronds -->\n  <path d=\"M100,50 Q150,0 200,50 Q250,0 300,50 Q350,0 400,50 Q450,0 500,50 Q550,0 600,50\" fill=\"none\" stroke=\"#663300\" stroke-width=\"3\"/>\n  \n  <!-- Dead fern barrier (north path) -->\n  <rect x=\"280\" y=\"100\" width=\"80\" height=\"200\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Fern texture -->\n  <line x1=\"300\" y1=\"120\" x2=\"300\" y2=\"280\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"310\" y1=\"130\" x2=\"310\" y2=\"270\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Water drips -->\n  <line x1=\"500\" y1=\"20\" x2=\"500\" y2=\"30\" stroke=\"#ffffff\" stroke-width=\"2\"/>\n  <line x1=\"505\" y1=\"40\" x2=\"505\" y2=\"50\" stroke=\"#ffffff\" stroke-width=\"2\"/>\n  <line x1=\"495\" y1=\"60\" x2=\"495\" y2=\"70\" stroke=\"#ffffff\" stroke-width=\"2\"/>\n  \n  <!-- Eastern opening blocked by vines -->\n  <rect x=\"550\" y=\"150\" width=\"60\" height=\"180\" fill=\"#003300\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Vines texture -->\n  <path d=\"M550,150 Q580,180 610,150 Q580,120 550,150\" fill=\"none\" stroke=\"#005500\" stroke-width=\"2\"/>\n  <path d=\"M550,250 Q580,280 610,250 Q580,220 550,250\" fill=\"none\" stroke=\"#005500\" stroke-width=\"2\"/>\n  \n  <!-- Ground -->\n  <rect x=\"0\" y=\"350\" width=\"640\" height=\"50\" fill=\"#004400\" stroke=\"#000000\" stroke-width=\"2\"/>\n</svg>",
+  "cactus-wing": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: dry, chalky -->\n  <rect width=\"640\" height=\"400\" fill=\"#333300\"/>\n  \n  <!-- Rows of cacti -->\n  <!-- First row -->\n  <rect x=\"50\" y=\"50\" width=\"30\" height=\"100\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"120\" y=\"30\" width=\"25\" height=\"130\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"200\" y=\"50\" width=\"30\" height=\"100\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"280\" y=\"20\" width=\"25\" height=\"150\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  \n  <!-- Second row -->\n  <rect x=\"400\" y=\"80\" width=\"30\" height=\"80\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"480\" y=\"60\" width=\"25\" height=\"120\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"560\" y=\"90\" width=\"30\" height=\"70\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  \n  <!-- Withered cactus (large, collapsed) -->\n  <path d=\"M320,50 Q350,0 380,50 Q410,0 440,50 Q440,200 400,220 Q360,240 320,200 Q280,240 240,220 Q200,240 160,200 Q120,240 80,220 Q40,200 0,180 Q40,160 80,140 Q120,120 160,100 Q200,80 240,60 Q280,40 320,20\" fill=\"#663300\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Crack in withered cactus -->\n  <line x1=\"380\" y1=\"80\" x2=\"380\" y2=\"180\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Stone bench -->\n  <rect x=\"100\" y=\"280\" width=\"120\" height=\"20\" fill=\"#666666\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Watering can on bench -->\n  <rect x=\"140\" y=\"250\" width=\"20\" height=\"40\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"135\" y=\"245\" width=\"30\" height=\"10\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Eastern wooden door -->\n  <rect x=\"550\" y=\"150\" width=\"60\" height=\"180\" fill=\"#442200\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Door frame -->\n  <rect x=\"545\" y=\"145\" width=\"70\" height=\"190\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Iron fittings (rusted) -->\n  <circle cx=\"580\" cy=\"200\" r=\"8\" fill=\"#663300\"/>\n  <circle cx=\"580\" cy=\"250\" r=\"8\" fill=\"#663300\"/>\n  \n  <!-- Ground -->\n  <rect x=\"0\" y=\"350\" width=\"640\" height=\"50\" fill=\"#222200\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Chalky texture -->\n  <rect x=\"0\" y=\"350\" width=\"640\" height=\"10\" fill=\"#444400\" opacity=\"0.3\"/>\n</svg>",
+  "orchid-lab": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: sterile, clinical -->\n  <rect width=\"640\" height=\"400\" fill=\"#001100\"/>\n  \n  <!-- Glass cases along walls -->\n  <!-- Left wall cases -->\n  <rect x=\"20\" y=\"50\" width=\"60\" height=\"100\" fill=\"#003300\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"170\" width=\"60\" height=\"100\" fill=\"#003300\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"290\" width=\"60\" height=\"100\" fill=\"#003300\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Right wall cases -->\n  <rect x=\"560\" y=\"50\" width=\"60\" height=\"100\" fill=\"#003300\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"560\" y=\"170\" width=\"60\" height=\"100\" fill=\"#003300\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"560\" y=\"290\" width=\"60\" height=\"100\" fill=\"#003300\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Orchids in cases (subtle glow) -->\n  <circle cx=\"50\" cy=\"100\" r=\"15\" fill=\"#006600\" opacity=\"0.6\"/>\n  <circle cx=\"50\" cy=\"220\" r=\"15\" fill=\"#006600\" opacity=\"0.6\"/>\n  <circle cx=\"50\" cy=\"340\" r=\"15\" fill=\"#006600\" opacity=\"0.6\"/>\n  <circle cx=\"590\" cy=\"100\" r=\"15\" fill=\"#006600\" opacity=\"0.6\"/>\n  <circle cx=\"590\" cy=\"220\" r=\"15\" fill=\"#006600\" opacity=\"0.6\"/>\n  <circle cx=\"590\" cy=\"340\" r=\"15\" fill=\"#006600\" opacity=\"0.6\"/>\n  \n  <!-- Locked cabinet (far wall) -->\n  <rect x=\"290\" y=\"50\" width=\"60\" height=\"180\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"310\" y=\"70\" width=\"20\" height=\"140\" fill=\"#002200\"/> <!-- glass doors -->\n  <!-- Cabinet handle/lock -->\n  <rect x=\"340\" y=\"120\" width=\"10\" height=\"20\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Central table with journal -->\n  <rect x=\"250\" y=\"180\" width=\"140\" height=\"60\" fill=\"#443300\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Journal on table -->\n  <rect x=\"280\" y=\"190\" width=\"80\" height=\"40\" fill=\"#221100\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Journal details -->\n  <line x1=\"290\" y1=\"200\" x2=\"340\" y2=\"200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"290\" y1=\"210\" x2=\"330\" y2=\"210\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"290\" y1=\"220\" x2=\"320\" y2=\"220\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Southern iron gate -->\n  <rect x=\"290\" y=\"300\" width=\"60\" height=\"80\" fill=\"#221100\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Gate details -->\n  <line x1=\"320\" y1=\"300\" x2=\"320\" y2=\"380\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"295\" y1=\"320\" x2=\"345\" y2=\"320\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"295\" y1=\"340\" x2=\"345\" y2=\"340\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"295\" y1=\"360\" x2=\"345\" y2=\"360\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Floor -->\n  <rect x=\"0\" y=\"380\" width=\"640\" height=\"20\" fill=\"#002200\" stroke=\"#000000\" stroke-width=\"2\"/>\n</svg>",
+  "fern-grotto": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: moist, spore-filled -->\n  <rect width=\"640\" height=\"400\" fill=\"#002222\"/>\n  \n  <!-- Giant ferns crowding space -->\n  <!-- Left ferns -->\n  <path d=\"M50,50 Q100,0 150,50 Q200,0 250,50 Q300,0 350,50\" fill=\"none\" stroke=\"#004400\" stroke-width=\"4\"/>\n  <path d=\"M70,80 Q120,30 170,80 Q220,30 270,80 Q320,30 370,80\" fill=\"none\" stroke=\"#004400\" stroke-width=\"4\"/>\n  <!-- Right ferns -->\n  <path d=\"M400,50 Q450,0 500,50 Q550,0 600,50\" fill=\"none\" stroke=\"#004400\" stroke-width=\"4\"/>\n  <path d=\"M420,80 Q470,30 520,80 Q570,30 620,80\" fill=\"none\" stroke=\"#004400\" stroke-width=\"4\"/>\n  \n  <!-- Ancient gnarled tree (center) -->\n  <!-- Tree trunk -->\n  <path d=\"M300,100 Q310,50 320,100 Q330,150 320,200 Q310,250 300,300 Q290,350 300,400\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Tree bark texture/symbols -->\n  <line x1=\"305\" y1=\"150\" x2=\"315\" y2=\"150\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"305\" y1=\"180\" x2=\"315\" y2=\"180\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"295\" y1=\"210\" x2=\"305\" y2=\"210\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"295\" y1=\"240\" x2=\"305\" y2=\"240\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"300\" y1=\"270\" x2=\"310\" y2=\"270\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"290\" y1=\"300\" x2=\"300\" y2=\"300\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Stone buttons at tree base -->\n  <circle cx=\"280\" cy=\"380\" r=\"12\" fill=\"#666666\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Spiral glyph -->\n  <path d=\"M280,370 Q275,365 275,360 Q280,355 285,355 Q290,360 290,365 Q285,370 280,370\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <circle cx=\"320\" cy=\"380\" r=\"12\" fill=\"#666666\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Triangle glyph -->\n  <path d=\"M310,370 L330,370 L320,350 Z\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <circle cx=\"360\" cy=\"380\" r=\"12\" fill=\"#666666\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Crescent glyph -->\n  <path d=\"M350,370 Q345,360 350,350 Q355,360 360,370\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <circle cx=\"280\" cy=\"340\" r=\"12\" fill=\"#666666\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Star glyph (simple) -->\n  <path d=\"M275,335 L285,335 L282,325 L288,315 L278,320 L268,315 L274,325 Z\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <circle cx=\"360\" cy=\"340\" r=\"12\" fill=\"#666666\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Circle glyph -->\n  <circle cx=\"360\" cy=\"340\" r=\"8\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Thick roots blocking north -->\n  <path d=\"M200,50 Q250,0 300,50 Q350,0 400,50 Q450,0 500,50\" fill=\"none\" stroke=\"#332200\" stroke-width=\"6\"/>\n  <path d=\"M210,80 Q260,30 310,80 Q360,30 410,80 Q460,30 510,80\" fill=\"none\" stroke=\"#332200\" stroke-width=\"6\"/>\n  \n  <!-- Pulsing effect on roots -->\n  <circle cx=\"250\" cy=\"30\" r=\"20\" fill=\"#006600\" opacity=\"0.2\"/>\n  <circle cx=\"350\" cy=\"30\" r=\"20\" fill=\"#006600\" opacity=\"0.2\"/>\n  <circle cx=\"450\" cy=\"30\" r=\"20\" fill=\"#006600\" opacity=\"0.2\"/>\n  \n  <!-- Ground -->\n  <rect x=\"0\" y=\"380\" width=\"640\" height=\"20\" fill=\"#003300\" stroke=\"#000000\" stroke-width=\"2\"/>\n</svg>",
+  "root-cellar": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: dark earth -->\n  <rect width=\"640\" height=\"400\" fill=\"#001100\"/>\n  \n  <!-- Tangled roots coiling across floor and walls -->\n  <!-- Floor roots -->\n  <path d=\"M50,350 Q100,300 150,350 Q200,300 250,350 Q300,350 350,300 Q400,350 450,300 Q500,350 550,300 Q600,350\" fill=\"none\" stroke=\"#332200\" stroke-width=\"5\"/>\n  <path d=\"M80,380 Q130,330 180,380 Q230,330 280,380 Q330,330 380,380 Q430,330 480,380 Q530,330 580,380\" fill=\"none\" stroke=\"#332200\" stroke-width=\"5\"/>\n  \n  <!-- Wall roots -->\n  <path d=\"M50,50 Q0,100 50,150 Q100,200 150,150 Q200,100 250,150 Q300,200 350,150 Q400,100 450,150 Q500,200 550,150 Q600,100\" fill=\"none\" stroke=\"#332200\" stroke-width=\"5\"/>\n  <path d=\"M50,100 Q0,150 50,200 Q100,250 150,200 Q200,150 250,200 Q300,250 350,200 Q400,150 450,200 Q500,250 550,200 Q600,150\" fill=\"none\" stroke=\"#332200\" stroke-width=\"5\"/>\n  \n  <!-- Wall of roots (north) -->\n  <path d=\"M0,0 Q100,50 200,0 Q300,50 400,0 Q500,50 600,0\" fill=\"none\" stroke=\"#003300\" stroke-width=\"8\"/>\n  <path d=\"M0,20 Q100,70 200,20 Q300,70 400,20 Q500,70 600,20\" fill=\"none\" stroke=\"#003300\" stroke-width=\"8\"/>\n  <path d=\"M0,40 Q100,100 200,40 Q300,100 400,40 Q500,100 600,40\" fill=\"none\" stroke=\"#003300\" stroke-width=\"8\"/>\n  \n  <!-- Barren soil patch -->\n  <circle cx=\"320\" cy=\"300\" r=\"40\" fill=\"#221100\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Intentional preparation marks -->\n  <line x1=\"280\" y1=\"300\" x2=\"360\" y2=\"300\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"320\" y1=\"260\" x2=\"320\" y2=\"340\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Glowing nodules on roots -->\n  <circle cx=\"150\" cy=\"200\" r=\"8\" fill=\"#00ff00\" opacity=\"0.7\"/>\n  <circle cx=\"250\" cy=\"100\" r=\"8\" fill=\"#00ff00\" opacity=\"0.7\"/>\n  <circle cx=\"350\" cy=\"300\" r=\"8\" fill=\"#00ff00\" opacity=\"0.7\"/>\n  <circle cx=\"450\" cy=\"150\" r=\"8\" fill=\"#00ff00\" opacity=\"0.7\"/>\n  <circle cx=\"550\" cy=\"50\" r=\"8\" fill=\"#00ff00\" opacity=\"0.7\"/>\n  \n  <!-- Floor -->\n  <rect x=\"0\" y=\"380\" width=\"640\" height=\"20\" fill=\"#002200\" stroke=\"#000000\" stroke-width=\"2\"/>\n</svg>",
+  "pruning-shears": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background -->\n  <rect width=\"64\" height=\"64\" fill=\"#002200\"/>\n  \n  <!-- Pruning shears -->\n  <!-- Handles -->\n  <rect x=\"8\" y=\"8\" width=\"6\" height=\"30\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"22\" y=\"8\" width=\"6\" height=\"30\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Pivot -->\n  <circle cx=\"16\" cy=\"38\" r=\"4\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Blades -->\n  <path d=\"M16,38 Q12,50 8,60\" fill=\"none\" stroke=\"#664400\" stroke-width=\"2\"/>\n  <path d=\"M16,38 Q20,50 24,60\" fill=\"none\" stroke=\"#664400\" stroke-width=\"2\"/>\n  \n  <!-- Blade edges (sharp) -->\n  <line x1=\"8\" y1=\"60\" x2=\"4\" y2=\"56\" stroke=\"#886600\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"60\" x2=\"28\" y2=\"56\" stroke=\"#886600\" stroke-width=\"1\"/>\n</svg>",
+  "watering-can": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background -->\n  <rect width=\"64\" height=\"64\" fill=\"#002200\"/>\n  \n  <!-- Watering can -->\n  <!-- Body -->\n  <rect x=\"16\" y=\"20\" width=\"24\" height=\"20\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Spout -->\n  <rect x=\"32\" y=\"12\" width=\"12\" height=\"8\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Handle -->\n  <path d=\"M16,20 Q8,8 16,0\" fill=\"none\" stroke=\"#664400\" stroke-width=\"2\"/>\n  <path d=\"M40,20 Q48,8 40,0\" fill=\"none\" stroke=\"#664400\" stroke-width=\"2\"/>\n  <!-- Water level line -->\n  <line x1=\"20\" y1=\"28\" x2=\"44\" y2=\"28\" stroke=\"#006600\" stroke-width=\"1\"/>\n  \n  <!-- Tarnish spots -->\n  <circle cx=\"20\" cy=\"25\" r=\"2\" fill=\"#553300\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"2\" fill=\"#553300\"/>\n</svg>",
+  "brass-key": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background -->\n  <rect width=\"64\" height=\"64\" fill=\"#002200\"/>\n  \n  <!-- Brass key -->\n  <!-- Bow (handle) -->\n  <circle cx=\"32\" cy=\"16\" r=\"8\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Orchid engraving on bow -->\n  <path d=\"M32,12 Q30,10 32,8 Q34,10 32,12\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Key shaft -->\n  <rect x=\"28\" y=\"16\" width=\"8\" height=\"24\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  -- Key teeth\n  <rect x=\"28\" y=\"32\" width=\"4\" height=\"8\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"36\" y=\"32\" width=\"4\" height=\"8\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"32\" y=\"40\" width=\"8\" height=\"4\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Age tarnish (green) -->\n  <circle cx=\"32\" cy=\"16\" r=\"6\" fill=\"#006600\" opacity=\"0.3\"/>\n  <circle cx=\"32\" cy=\"28\" r=\"4\" fill=\"#006600\" opacity=\"0.3\"/>\n</svg>",
+  "phosphorus-fertilizer": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background -->\n  <rect width=\"64\" height=\"64\" fill=\"#001100\"/>\n  \n  <!-- Phosphorus fertilizer pouch -->\n  <!-- Pouch outline -->\n  <path d=\"M16,20 Q24,8 32,20 Q40,8 48,20 Q56,20 56,44 Q48,52 32,52 Q16,52 16,20 Z\" fill=\"#221100\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Pouch closure -->\n  <line x1=\"32\" y1=\"20\" x2=\"32\" y2=\"12\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Glowing blue powder visible -->\n  <circle cx=\"24\" cy=\"30\" r=\"3\" fill=\"#00ffff\" opacity=\"0.8\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"3\" fill=\"#00ffff\" opacity=\"0.8\"/>\n  <circle cx=\"32\" cy=\"40\" r=\"3\" fill=\"#00ffff\" opacity=\"0.8\"/>\n  <circle cx=\"24\" cy=\"40\" r=\"2\" fill=\"#00ffff\" opacity=\"0.8\"/>\n  <circle cx=\"40\" cy=\"40\" r=\"2\" fill=\"#00ffff\" opacity=\"0.8\"/>\n  \n  <!-- Pouch texture/stitching -->\n  <line x1=\"20\" y1=\"24\" x2=\"20\" y2=\"48\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"44\" y1=\"24\" x2=\"44\" y2=\"48\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"32\" x2=\"48\" y2=\"32\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
+  "thornwood-journal": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background -->\n  <rect width=\"64\" height=\"64\" fill=\"#001100\"/>\n  \n  <!-- Thornwood's journal -->\n  <!-- Leather cover -->\n  <rect x=\"12\" y=\"12\" width=\"40\" height=\"40\" fill=\"#221100\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Leather texture -->\n  <line x1=\"12\" y1=\"20\" x2=\"52\" y2=\"20\" stroke=\"#110000\" stroke-width=\"1\"/>\n  <line x1=\"12\" y1=\"28\" x2=\"52\" y2=\"28\" stroke=\"#110000\" stroke-width=\"1\"/>\n  <line x1=\"12\" y1=\"36\" x2=\"52\" y2=\"36\" stroke=\"#110000\" stroke-width=\"1\"/>\n  \n  <!-- Journal details -->\n  <!-- Franted notes lines -->\n  <line x1=\"16\" y1=\"18\" x2=\"48\" y2=\"18\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"22\" x2=\"40\" y2=\"22\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"26\" x2=\"44\" y2=\"26\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"30\" x2=\"36\" y2=\"30\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"34\" x2=\"28\" y2=\"34\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Diagram elements -->\n  <circle cx=\"24\" cy=\"24\" r=\"3\" fill=\"#000000\"/>\n  <line x1=\"24\" y1=\"24\" x2=\"32\" y2=\"32\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"32\" cy=\"32\" r=\"2\" fill=\"#000000\"/>\n  <line x1=\"32\" y1=\"32\" x2=\"40\" y2=\"24\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Leather strap/binding -->\n  <rect x=\"8\" y=\"12\" width=\"4\" height=\"40\" fill=\"#110000\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
+  "seed-pods": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background -->\n  <rect width=\"64\" height=\"64\" fill=\"#001100\"/>\n  \n  <!-- Dried seed pods -->\n  <!-- Cluster of pods -->\n  <ellipse cx=\"20\" cy=\"32\" rx=\"6\" ry=\"10\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <ellipse cx=\"32\" cy=\"28\" rx=\"6\" ry=\"10\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <ellipse cx=\"44\" cy=\"32\" rx=\"6\" ry=\"10\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <ellipse cx=\"28\" cy=\"20\" rx=\"6\" ry=\"10\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <ellipse cx=\"36\" cy=\"20\" rx=\"6\" ry=\"10\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Pod texture (brittle, papery) -->\n  <line x1=\"20\" y1=\"26\" x2=\"20\" y2=\"38\" stroke=\"#443300\" stroke-width=\"1\"/>\n  <line x1=\"32\" y1=\"22\" x2=\"32\" y2=\"34\" stroke=\"#443300\" stroke-width=\"1\"/>\n  <line x1=\"44\" y1=\"26\" x2=\"44\" y2=\"38\" stroke=\"#443300\" stroke-width=\"1\"/>\n  <line x1=\"28\" y1=\"16\" x2=\"28\" y2=\"24\" stroke=\"#443300\" stroke-width=\"1\"/>\n  <line x1=\"36\" y1=\"16\" x2=\"36\" y2=\"24\" stroke=\"#443300\" stroke-width=\"1\"/>\n  \n  <!-- Seeds visible inside (rattling) -->\n  <circle cx=\"18\" cy=\"30\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"22\" cy=\"34\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"30\" cy=\"26\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"34\" cy=\"30\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"42\" cy=\"30\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"46\" cy=\"34\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"26\" cy=\"18\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"30\" cy=\"22\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"38\" cy=\"18\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"42\" cy=\"22\" r=\"2\" fill=\"#221100\"/>\n</svg>"
+};
+
+// ============================================================
+// GAME LOGIC
+// ============================================================
+// VERDANT REQUIEM - GAME LOGIC
+// Produced by Gameplay Coder (Hex Corbin)
+// ============================================================
+
+// Game data will be embedded here by the Game Assembler
+// var GAME_DATA = {...}; // Replaced with actual game-script.json contents
+
+// ---- Game State ----
+const state = {
+  currentScene: '',
+  inventory: [],
+  solvedPuzzles: [],
+  visitedScenes: [],
+  activeCommand: null,
+  selectedItem: null,
+  won: false
+};
+
+// ---- DOM References (will be set by Game Assembler) ----
+let artDisplay, sceneName, textDisplay, invBar, exitsBar;
+
+// ---- Display Functions ----
+function addText(text, cls = '') {
+  const p = document.createElement('p');
+  p.className = cls;
+  p.innerHTML = text;
+  textDisplay.appendChild(p);
+  textDisplay.scrollTop = textDisplay.scrollHeight;
+}
+
+function clearText() { textDisplay.innerHTML = ''; }
+
+function renderScene(sceneId) {
+  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
+  if (!scene) { addText('ERROR: Scene not found!', 'error'); return; }
+
+  state.currentScene = sceneId;
+  if (!state.visitedScenes.includes(sceneId)) state.visitedScenes.push(sceneId);
+
+  // Update scene name
+  sceneName.textContent = scene.name.toUpperCase();
+
+  // Update art - handled by Game Assembler via window.GAME_ART
+  // Display prose
+  clearText();
+  addText(scene.prose);
+
+  // Show available items (not yet taken)
+  const availableItems = (scene.items || []).filter(itemId =>
+    !state.inventory.includes(itemId)
+  );
+  if (availableItems.length > 0) {
+    const itemNames = availableItems.map(id => {
+      const item = GAME_DATA.items.find(i => i.id === id);
+      return item ? `<span class="look-target" data-look="${id}">${item.name}</span>` : id;
+    });
+    addText('You notice: ' + itemNames.join(', '), 'system');
+  }
+
+  // Show unsolved puzzles
+  const scenePuzzles = (scene.puzzles || []).filter(pid =>
+    !state.solvedPuzzles.includes(pid)
+  );
+  scenePuzzles.forEach(pid => {
+    const puzzle = GAME_DATA.puzzles.find(p => p.id === pid);
+    if (puzzle) {
+      addText('There is something here that catches your attention...', 'system');
+    }
+  });
+
+  // Render exits
+  renderExits(scene.exits || {});
+
+  // Render inventory
+  renderInventory();
+
+  // Check win condition
+  checkWin();
+
+  // Save state
+  saveState();
+}
+
+function renderExits(exits) {
+  exitsBar.innerHTML = '';
+  const directions = ['north', 'south', 'east', 'west'];
+  directions.forEach(dir => {
+    const btn = document.createElement('button');
+    btn.className = 'exit-btn' + (exits[dir] ? ' available' : '');
+    btn.textContent = dir.toUpperCase();
+    btn.disabled = !exits[dir];
+    if (exits[dir]) {
+      btn.onclick = () => go(exits[dir]);
+    }
+    exitsBar.appendChild(btn);
+  });
+}
+
+function renderInventory() {
+  const items = invBar.querySelectorAll('.inv-item');
+  items.forEach(el => el.remove());
+  const empty = document.getElementById('inv-empty');
+
+  if (state.inventory.length === 0) {
+    empty.style.display = '';
+  } else {
+    empty.style.display = 'none';
+    state.inventory.forEach(itemId => {
+      const item = GAME_DATA.items.find(i => i.id === itemId);
+      if (!item) return;
+      const el = document.createElement('span');
+      el.className = 'inv-item' + (state.selectedItem === itemId ? ' selected' : '');
+      el.textContent = item.name;
+      el.onclick = () => selectItem(itemId);
+      invBar.appendChild(el);
+    });
+  }
+}
+
+// ---- Command Handlers ----
+function setCommand(cmd) {
+  state.activeCommand = cmd;
+  document.querySelectorAll('.cmd-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.cmd === cmd);
+  });
+  if (cmd === 'look') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    if (scene && scene.lookDescriptions) {
+      const targets = Object.keys(scene.lookDescriptions);
+      if (targets.length > 0) {
+        addText('You can examine: ' + targets.map(t =>
+          `<span class="look-target" data-look="${t}">${t}</span>`
+        ).join(', '), 'system');
+      }
+    }
+  } else if (cmd === 'use') {
+    if (state.inventory.length > 0) {
+      addText('Select an item from your inventory, then click what to use it on.', 'system');
+    } else {
+      addText('You have nothing to use.', 'system');
+    }
+  } else if (cmd === 'take') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    const available = (scene.items || []).filter(id => !state.inventory.includes(id));
+    if (available.length > 0) {
+      available.forEach(id => takeItem(id));
+    } else {
+      addText('Nothing here to take.', 'system');
+    }
+  }
+}
+
+function selectItem(itemId) {
+  state.selectedItem = state.selectedItem === itemId ? null : itemId;
+  renderInventory();
+  if (state.selectedItem) {
+    const item = GAME_DATA.items.find(i => i.id === itemId);
+    addText(`Selected: ${item.name}. Click USE, then a target.`, 'system');
+  }
+}
+
+function takeItem(itemId) {
+  if (state.inventory.includes(itemId)) return;
+  const item = GAME_DATA.items.find(i => i.id === itemId);
+  if (!item) return;
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (!scene || !(scene.items || []).includes(itemId)) return;
+
+  state.inventory.push(itemId);
+  addText(`You picked up: ${item.name} — ${item.description}`, 'success');
+  renderInventory();
+  saveState();
+}
+
+function lookAt(target) {
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (scene && scene.lookDescriptions && scene.lookDescriptions[target]) {
+    addText(scene.lookDescriptions[target]);
+  } else {
+    // Check if it's an item
+    const item = GAME_DATA.items.find(i => i.id === target);
+    if (item) {
+      addText(item.description);
+    } else {
+      addText('Nothing interesting about that.', 'system');
+    }
+  }
+}
+
+function useItemOn(itemId, targetId) {
+  const puzzle = GAME_DATA.puzzles.find(p =>
+    p.scene === state.currentScene &&
+    p.requires.includes(itemId) &&
+    p.id === targetId &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+
+  if (puzzle && puzzle.requires.every(req => state.inventory.includes(req))) {
+    state.solvedPuzzles.push(puzzle.id);
+    addText(puzzle.result, 'success');
+    
+    // Apply visual feedback for puzzle solved
+    if (artDisplay) {
+      artDisplay.classList.add('puzzle-solved');
+      setTimeout(() => artDisplay.classList.remove('puzzle-solved'), 600);
+    }
+    
+    // Reveal items or unlock scenes
+    (puzzle.reveals || []).forEach(revealId => {
+      const revealItem = GAME_DATA.items.find(i => i.id === revealId);
+      if (revealItem) {
+        state.inventory.push(revealId);
+        addText(`You found: ${revealItem.name}!`, 'success');
+        
+        // Apply visual feedback for new item
+        const invItems = invBar.querySelectorAll('.inv-item');
+        invItems.forEach(el => {
+          if (el.textContent === revealItem.name) {
+            el.classList.add('item-new');
+            setTimeout(() => el.classList.remove('item-new'), 1000);
+          }
+        });
+      }
+    });
+    
+    renderInventory();
+    checkWin();
+    saveState();
+  } else {
+    addText("That doesn't seem to work.", 'system');
+  }
+}
+
+function go(sceneId) {
+  // CRITICAL: Check if exit is locked by unsolved puzzle
+  if (!canExit(state.currentScene, getDirectionForExit(sceneId))) {
+    return; // canExit() will display the locked message
+  }
+  
+  addText('---', 'system');
+  renderScene(sceneId);
+}
+
+function getDirectionForExit(targetSceneId) {
+  const currentScene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (!currentScene || !currentScene.exits) return null;
+  
+  for (const [dir, sceneId] of Object.entries(currentScene.exits)) {
+    if (sceneId === targetSceneId) return dir;
+  }
+  return null;
+}
+
+function canExit(sceneId, direction) {
+  const exit = GAME_DATA.scenes.find(s => s.id === sceneId)?.exits?.[direction];
+  if (!exit) return false;
+  
+  // Check if any unsolved puzzle blocks this exit
+  const blocker = GAME_DATA.puzzles.find(p =>
+    p.blocksExit?.scene === sceneId &&
+    p.blocksExit?.direction === direction &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+  
+  if (blocker) {
+    addText(`[The way ${direction} is blocked. ${blocker.blockedMessage || 'Something prevents you from going that way.'}]`, 'locked');
+    return false;
+  }
+  return true;
+}
+
+function checkWin() {
+  if (state.won) return;
+  const wc = GAME_DATA.winCondition;
+  if (!wc) return;
+  if (state.currentScene === wc.scene &&
+      wc.requires.every(req => state.inventory.includes(req))) {
+    state.won = true;
+    addText('', '');
+    addText('*** ' + wc.description + ' ***', 'success');
+    addText('', '');
+    addText('CONGRATULATIONS! YOU HAVE COMPLETED THE GAME!', 'success');
+    addText('Type /restart to play again.', 'system');
+  }
+}
+
+// ---- Persistence ----
+function saveState() {
+  try {
+    localStorage.setItem('game-' + GAME_DATA.slug, JSON.stringify(state));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('game-' + GAME_DATA.slug);
+    if (saved) {
+      const s = JSON.parse(saved);
+      Object.assign(state, s);
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+// ---- Event Listeners Setup ----
+function setupEventListeners() {
+  document.querySelectorAll('.cmd-btn').forEach(btn => {
+    btn.onclick = () => setCommand(btn.dataset.cmd);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('look-target')) {
+      const target = e.target.dataset.look;
+      if (state.activeCommand === 'use' && state.selectedItem) {
+        useItemOn(state.selectedItem, target);
+      } else {
+        lookAt(target);
+      }
+    }
+  });
+}
+
+// ---- Initialize ----
+function init() {
+  // Get DOM references (will be available after template is loaded)
+  artDisplay = document.getElementById('art-display');
+  sceneName = document.getElementById('scene-name');
+  textDisplay = document.getElementById('text-display');
+  invBar = document.getElementById('inventory-bar');
+  exitsBar = document.getElementById('exits-bar');
+  
+  if (Object.keys(GAME_DATA).length === 0) {
+    addText('ERROR: No game data loaded.', 'error');
+    addText('The Gameplay Coder failed to embed game data.', 'system');
+    return;
+  }
+
+  addText('=== ' + GAME_DATA.title.toUpperCase() + ' ===', 'success');
+  addText(GAME_DATA.setting, 'system');
+  addText('', '');
+  addText('Commands: LOOK | TAKE | USE | EXAMINE', 'system');
+  addText('Click exits to move between rooms.', 'system');
+  addText('---', 'system');
+
+  setupEventListeners();
+  
+  if (!loadState()) {
+    renderScene('entrance'); // Start at entrance per game script
+  } else {
+    renderScene(state.currentScene);
+    addText('[Game restored from save]', 'system');
+  }
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+    
+// Reset button
+document.getElementById('reset-btn')?.addEventListener('click', function() {
+    if (confirm('Reset the game to the beginning?')) {
+        state = {currentScene: GAME_DATA.scenes[0].id, inventory: [], solvedPuzzles: [], visitedScenes: [GAME_DATA.scenes[0].id], selectedItem: null, won: false};
+        clearText(); addText('The story begins anew...', 'system');
+        renderScene(state.currentScene); renderInventory();
+    }
+});
+    </script>
+</body>
+</html>

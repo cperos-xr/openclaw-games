@@ -1,0 +1,146 @@
+{
+  "game": "012-subway-ghost-train",
+  "file": "games/012-subway-ghost-train/game.html",
+  "timestamp": "2026-04-03T06:26:04.658Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene ghost-train has no exits and is not the win scene",
+      "location": "scenes.ghost-train",
+      "expected": "At least one exit",
+      "actual": "No exits",
+      "suggestedFix": "Add exits or mark as win scene",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "MEDIUM",
+      "category": "puzzle-logic",
+      "description": "Item \"circuit-breaker\" found (scene index 1) AFTER it's used (scene index 0) in BFS order",
+      "location": "items.circuit-breaker",
+      "expected": "Found before used",
+      "actual": "Found after",
+      "suggestedFix": "Ensure player can reach foundIn scene before usedIn scene",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"station-platform\" prose too short: 32 words (min 60)",
+      "location": "scenes.station-platform.prose",
+      "expected": "60-400 words",
+      "actual": "32 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"maintenance-room\" prose too short: 40 words (min 60)",
+      "location": "scenes.maintenance-room.prose",
+      "expected": "60-400 words",
+      "actual": "40 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"signal-room\" prose too short: 43 words (min 60)",
+      "location": "scenes.signal-room.prose",
+      "expected": "60-400 words",
+      "actual": "43 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"tunnel-north\" prose too short: 30 words (min 60)",
+      "location": "scenes.tunnel-north.prose",
+      "expected": "60-400 words",
+      "actual": "30 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"ghost-train\" prose too short: 33 words (min 60)",
+      "location": "scenes.ghost-train.prose",
+      "expected": "60-400 words",
+      "actual": "33 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-008",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"escape-platform\" prose too short: 40 words (min 60)",
+      "location": "scenes.escape-platform.prose",
+      "expected": "60-400 words",
+      "actual": "40 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-009",
+      "severity": "LOW",
+      "category": "data",
+      "description": "Scene \"escape-platform\" has only 1 lookDescriptions (recommend >= 3)",
+      "location": "scenes.escape-platform.lookDescriptions",
+      "expected": ">= 3",
+      "actual": "1",
+      "suggestedFix": "Add more interactive objects",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-010",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-maintenance-log.svg\" has 3 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/012-subway-ghost-train/art/item-maintenance-log.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 6,
+    "items": 5,
+    "puzzles": 5,
+    "reachableScenes": 6,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 11,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 10 issues (0 CRITICAL, 0 HIGH, 8 MEDIUM, 2 LOW)"
+}

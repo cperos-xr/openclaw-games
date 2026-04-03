@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{GAME_TITLE}} | Game #{{GAME_NUMBER}}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+         * OPENCLAW GAME TEMPLATE v2 — ASHMORE GRID LAYOUT
+         *
+         * ARCHITECTURE:
+         *   Desktop (≥769px): CSS Grid layout with art (large) + sidebar (320px)
+         *   Mobile (<769px): Flex column. Scrollable. Natural flow.
+         *
+         * KEY ADVANTAGES OVER V1:
+         *   • CSS Grid eliminates complex nested flex wrappers
+         *   • Single, powerful media query for mobile
+         *   • No height:100vh on mobile — naturally scrollable
+         *   • Cleaner codebase, easier to extend
+         * ============================================================ */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* CRT scanline overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.12) 2px,
+                rgba(0, 0, 0, 0.12) 4px
+            );
+        }
+
+        /* ── DESKTOP BASE (≥769px): Grid Layout ──────────────────────
+         * Main layout container uses CSS Grid. This is the primary layout.
+         * ──────────────────────────────────────────────────────────── */
+        html,
+        body {
+            height: 100%;
+            background: #000;
+            color: #33ff33;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            overflow: hidden;
+        }
+
+        #game-container {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            grid-template-rows: auto 1fr auto auto auto;
+            height: 100vh;
+            gap: 8px;
+            padding: 8px;
+        }
+
+        /* Header spans full width */
+        #header {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 8px;
+            border-bottom: 1px solid #226622;
+        }
+
+        #header h1 {
+            font-size: 16px;
+            color: #33ff33;
+            text-shadow: 0 0 8px #33ff33;
+            margin-bottom: 2px;
+        }
+
+        #header .subtitle {
+            font-size: 9px;
+            color: #226622;
+        }
+
+        /* Art display takes up most of left column */
+        #art-display {
+            grid-column: 1;
+            grid-row: 2;
+            background: #111;
+            border: 2px solid #33ff33;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            overflow: hidden;
+        }
+
+        #art-display svg,
+        #art-display img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        #art-display .no-art {
+            color: #226622;
+            font-size: 14px;
+        }
+
+        /* Sidebar text panel */
+        #text-panel {
+            grid-column: 2;
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #33ff33;
+            background: #111;
+            overflow: hidden;
+        }
+
+        #scene-name {
+            background: #000;
+            padding: 8px;
+            border-bottom: 1px solid #33ff33;
+            text-align: center;
+            font-size: 12px;
+            color: #ffff33;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+        }
+
+        #text-display {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            font-size: 11px;
+        }
+
+        #text-display p {
+            margin-bottom: 12px;
+        }
+
+        #text-display .system {
+            color: #33bbff;
+            font-style: italic;
+        }
+
+        #text-display .success {
+            color: #ffff33;
+            font-weight: bold;
+        }
+
+        #text-display .locked {
+            color: #ff3333;
+        }
+
+        #text-display .error {
+            color: #ff5555;
+        }
+
+        .look-target {
+            color: #ffff33;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .look-target:hover {
+            color: #ffcc00;
+        }
+
+        .hint {
+            color: #ffaa00 !important;
+            font-style: italic;
+            border-left: 2px solid #ffaa00;
+            padding-left: 8px;
+            margin: 5px 0;
+        }
+
+        .hint::before {
+            content: 'HINT: ';
+            font-weight: bold;
+        }
+
+        /* Commands bar */
+        #command-bar {
+            grid-column: 1;
+            grid-row: 3;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 8px;
+            border-top: 1px solid #226622;
+        }
+
+        .cmd-btn {
+            background: #111;
+            color: #33ff33;
+            border: 1px solid #33ff33;
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 10px;
+            cursor: pointer;
+            flex: 1;
+            min-width: 50px;
+        }
+
+        .cmd-btn:hover,
+        .cmd-btn.active {
+            background: #33ff33;
+            color: #000;
+        }
+
+        #hint-toggle {
+            flex: 0 0 auto;
+        }
+
+        /* Exits bar */
+        #exits-bar {
+            grid-column: 2;
+            grid-row: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 8px;
+            border-top: 1px solid #226622;
+        }
+
+        .exit-btn {
+            background: #111;
+            color: #33ff33;
+            border: 1px solid #33ff33;
+            padding: 8px 10px;
+            font-family: inherit;
+            font-size: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .exit-btn.available:hover {
+            background: #226622;
+        }
+
+        .exit-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Inventory bar */
+        #inventory-bar {
+            grid-column: 1 / -1;
+            grid-row: 4;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border-top: 1px solid #226622;
+            min-height: 44px;
+            flex-wrap: wrap;
+        }
+
+        #inv-label {
+            color: #ffff33;
+            font-size: 10px;
+            flex-shrink: 0;
+        }
+
+        #inv-empty {
+            color: #226622;
+            font-size: 10px;
+        }
+
+        .inv-item {
+            background: #111;
+            color: #33ff33;
+            border: 1px solid #33ff33;
+            padding: 6px 10px;
+            font-family: inherit;
+            font-size: 10px;
+            cursor: pointer;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+        }
+
+        .inv-item:hover,
+        .inv-item.selected {
+            background: #33ff33;
+            color: #000;
+        }
+
+        .inv-item.item-new {
+            animation: itemGlow 1s ease-in-out 3;
+        }
+
+        /* Footer */
+        #footer {
+            grid-column: 1 / -1;
+            grid-row: 5;
+            text-align: center;
+            padding: 8px;
+            color: #113311;
+            font-size: 8px;
+            border-top: 1px solid #113311;
+        }
+
+        /* Animation keyframes */
+        @keyframes puzzle-solved {
+            0% {
+                filter: brightness(1) drop-shadow(0 0 4px #ffff33);
+            }
+            50% {
+                filter: brightness(1.8) drop-shadow(0 0 20px #ffff33);
+            }
+            100% {
+                filter: brightness(1) drop-shadow(0 0 4px #ffff33);
+            }
+        }
+
+        @keyframes unlockPulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes itemGlow {
+            0% {
+                box-shadow: 0 0 4px #33ff33;
+            }
+            50% {
+                box-shadow: 0 0 16px #33ff33;
+            }
+            100% {
+                box-shadow: 0 0 4px #33ff33;
+            }
+        }
+
+        .puzzle-solved {
+            animation: puzzle-solved 0.6s ease-out;
+        }
+
+        .unlock-pulse {
+            animation: unlockPulse 0.6s ease-out;
+        }
+
+        /* ── MOBILE (<769px): Responsive Flex Layout ────────────────
+         * Single powerful media query that converts grid to flex column.
+         * Body is naturally scrollable - no height:100vh.
+         * ──────────────────────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            html,
+            body {
+                overflow: auto !important;
+                height: auto !important;
+                min-height: 100vh;
+            }
+
+            #game-container {
+                display: flex !important;
+                flex-direction: column !important;
+                height: auto !important;
+                gap: 6px !important;
+                padding: 4px !important;
+            }
+
+            #header h1 {
+                font-size: 14px !important;
+            }
+
+            #art-display {
+                max-height: 56vw !important;
+                min-height: 0 !important;
+                aspect-ratio: 8 / 5;
+                width: 100% !important;
+                order: 1;
+            }
+
+            #text-panel {
+                height: auto !important;
+                overflow: visible !important;
+                flex: none !important;
+                order: 2;
+            }
+
+            #text-display {
+                max-height: 40vh !important;
+                overflow-y: auto !important;
+                font-size: 10px;
+            }
+
+            #command-bar {
+                grid-column: unset !important;
+                grid-row: unset !important;
+                flex-wrap: wrap !important;
+                order: 3;
+                gap: 6px !important;
+            }
+
+            #exits-bar {
+                grid-column: unset !important;
+                grid-row: unset !important;
+                flex-direction: row !important;
+                flex-wrap: wrap !important;
+                order: 4;
+                gap: 6px !important;
+            }
+
+            #inventory-bar {
+                grid-column: unset !important;
+                grid-row: unset !important;
+                flex-wrap: wrap !important;
+                order: 5;
+                gap: 6px !important;
+            }
+
+            .cmd-btn {
+                min-height: 44px !important;
+                padding: 8px 10px !important;
+                font-size: 9px !important;
+                flex: 1 1 auto !important;
+                min-width: 44px !important;
+            }
+
+            .exit-btn {
+                min-height: 44px !important;
+                padding: 8px 10px !important;
+                font-size: 9px !important;
+                flex: 1 1 auto !important;
+                min-width: 44px !important;
+            }
+
+            #footer {
+                grid-column: unset !important;
+                order: 6;
+                font-size: 7px;
+            }
+
+            #scene-name {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            #art-display {
+                max-height: 50vw !important;
+            }
+
+            .cmd-btn,
+            .exit-btn {
+                font-size: 8px !important;
+                padding: 6px 8px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="game-container">
+    <!-- Header: Title and subtitle -->
+    <div id="header">
+        <h1>{{GAME_TITLE_UPPER}}</h1>
+        <div class="subtitle">OpenClaw Adventures — Game #{{GAME_NUMBER}}</div>
+    </div>
+
+    <!-- Art: Fills available space on desktop, top on mobile -->
+    <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+    </div>
+
+    <!-- Text panel: Sidebar on desktop, stacks on mobile -->
+    <div id="text-panel">
+        <div id="scene-name">{{FIRST_SCENE_NAME}}</div>
+        <div id="text-display"></div>
+    </div>
+
+    <!-- Commands: Bottom-left on desktop -->
+    <div id="command-bar">
+        <button class="cmd-btn" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+        <button id="hint-toggle" class="cmd-btn">HINTS: ON</button>
+    </div>
+
+    <!-- Exits: Bottom-right on desktop, wraps on mobile -->
+    <div id="exits-bar">
+        <!-- Populated by game logic -->
+    </div>
+
+    <!-- Inventory: Full width bar -->
+    <div id="inventory-bar">
+        <span id="inv-label">INVENTORY:</span>
+        <span id="inv-empty">(empty)</span>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer">
+        OpenClaw Point & Click Studio | Commands: LOOK · TAKE · USE · EXAMINE | Click exits to move | /restart to reset
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    // GAME DATA — replace with assembled content from game-script.json
+    // ============================================================
+    const GAME_DATA = { /* ... */ };
+
+    // ============================================================
+    // GAME ART — replace with inlined SVGs from art/*.svg
+    // ============================================================
+    window.GAME_ART = { /* ... */ };
+
+    // ============================================================
+    // GAME ENGINE — paste game-logic.js content here
+    // ============================================================
+    /* ... */
+</script>
+</body>
+</html>

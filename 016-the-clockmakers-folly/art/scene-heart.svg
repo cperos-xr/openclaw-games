@@ -1,0 +1,226 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+  <defs>
+    <pattern id="stone-chamber" width="40" height="20" patternUnits="userSpaceOnUse">
+      <rect width="40" height="20" fill="#0d0d0d"/>
+      <rect x="1" y="1" width="38" height="18" fill="#111" stroke="#000" stroke-width="1"/>
+      <rect x="20" y="10" width="18" height="8" fill="#0a0a0a" stroke="#000" stroke-width="1"/>
+    </pattern>
+    <pattern id="brass-gears" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="#1a0d00"/>
+      <circle cx="10" cy="10" r="6" fill="none" stroke="#b87333" stroke-width="1" opacity="0.3"/>
+    </pattern>
+  </defs>
+  
+  <!-- Layer 1: Background - circular chamber walls -->
+  <rect width="640" height="400" fill="#050505"/>
+  <!-- Curved wall -->
+  <rect x="0" y="0" width="640" height="300" fill="url(#stone-chamber)"/>
+  
+  <!-- Layer 2: Floor -->
+  <rect x="0" y="300" width="640" height="100" fill="#0a0a0a"/>
+  <!-- Floor pattern - circular chamber floor -->
+  <ellipse cx="320" cy="340" rx="280" ry="50" fill="#0d0d0d" stroke="#1a1a1a" stroke-width="1"/>
+  <ellipse cx="320" cy="340" rx="250" ry="40" fill="#080808"/>
+  
+  <!-- Layer 3: Master Clock Tower (center) -->
+  <!-- Main clock tower body -->
+  <rect x="230" y="40" width="180" height="280" fill="#0d0d00" stroke="#b87333" stroke-width="4"/>
+  <!-- Brass framing -->
+  <rect x="235" y="45" width="170" height="270" fill="none" stroke="#885500" stroke-width="2"/>
+  <!-- Clock chest area - transparent panels showing gears -->
+  <rect x="245" y="80" width="150" height="100" fill="#000000" stroke="#b87333" stroke-width="2"/>
+  <rect x="245" y="190" width="150" height="110" fill="#000000" stroke="#b87333" stroke-width="2"/>
+  
+  <!-- Visible interlocking gears through transparent panels -->
+  <!-- Top panel gears -->
+  <circle cx="280" cy="115" r="20" fill="none" stroke="#b87333" stroke-width="2"/>
+  <circle cx="280" cy="115" r="12" fill="none" stroke="#885500" stroke-width="1.5"/>
+  <circle cx="280" cy="115" r="5" fill="none" stroke="#664400" stroke-width="1"/>
+  <!-- Gear teeth -->
+  <line x1="280" y1="95" x2="280" y2="92" stroke="#b87333" stroke-width="2"/>
+  <line x1="280" y1="135" x2="280" y2="138" stroke="#b87333" stroke-width="2"/>
+  <line x1="260" y1="115" x2="257" y2="115" stroke="#b87333" stroke-width="2"/>
+  <line x1="300" y1="115" x2="303" y2="115" stroke="#b87333" stroke-width="2"/>
+  <line x1="266" y1="101" x2="264" y2="99" stroke="#b87333" stroke-width="2"/>
+  <line x1="294" y1="129" x2="296" y2="131" stroke="#b87333" stroke-width="2"/>
+  <line x1="266" y1="129" x2="264" y2="131" stroke="#b87333" stroke-width="2"/>
+  <line x1="294" y1="101" x2="296" y2="99" stroke="#b87333" stroke-width="2"/>
+  
+  <circle cx="350" cy="130" r="15" fill="none" stroke="#b87333" stroke-width="1.5"/>
+  <circle cx="350" cy="130" r="8" fill="none" stroke="#885500" stroke-width="1"/>
+  <!-- Meshing with first gear -->
+  <line x1="315" y1="118" x2="335" y2="125" stroke="#b87333" stroke-width="1" opacity="0.5"/>
+  
+  <!-- Lower panel gears -->
+  <circle cx="290" cy="240" r="25" fill="none" stroke="#b87333" stroke-width="2"/>
+  <circle cx="290" cy="240" r="16" fill="none" stroke="#885500" stroke-width="1.5"/>
+  <circle cx="290" cy="240" r="7" fill="none" stroke="#664400" stroke-width="1"/>
+  
+  <circle cx="355" cy="250" r="18" fill="none" stroke="#b87333" stroke-width="1.5"/>
+  <circle cx="355" cy="250" r="10" fill="none" stroke="#885500" stroke-width="1"/>
+  
+  <!-- Main clock face - BLANK WHITE no hands -->
+  <circle cx="320" cy="180" r="55" fill="#f0f0e0" stroke="#b87333" stroke-width="4"/>
+  <circle cx="320" cy="180" r="48" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <!-- No hands - blank white expanse waiting -->
+  <!-- Subtle center pivot point -->
+  <circle cx="320" cy="180" r="3" fill="#b87333"/>
+  <!-- No numerals, no markings - just blank -->
+  
+  <!-- Glass panels around the face -->
+  <circle cx="320" cy="180" r="58" fill="none" stroke="#885500" stroke-width="2" opacity="0.5"/>
+  
+  <!-- The clock tower top -->
+  <rect x="260" y="25" width="120" height="20" fill="#0d0d00" stroke="#b87333" stroke-width="2"/>
+  <rect x="280" y="10" width="80" height="20" fill="#0d0d00" stroke="#b87333" stroke-width="2" rx="5"/>
+  
+  <!-- The great pendulum - motionless -->
+  <line x1="320" y1="200" x2="320" y2="300" stroke="#b87333" stroke-width="3"/>
+  <circle cx="320" cy="305" r="12" fill="#0d0d00" stroke="#b87333" stroke-width="2"/>
+  
+  <!-- Ouroboros-shaped keyhole in center of clock's chest -->
+  <g transform="translate(320, 250)">
+    <!-- Keyhole plate -->
+    <rect x="-15" y="-18" width="30" height="36" fill="#111" stroke="#666" stroke-width="2" rx="3"/>
+    <!-- Ouroboros shape - serpent eating its tail -->
+    <!-- Outer circle (serpent body) -->
+    <circle cx="0" cy="0" r="12" fill="#000" stroke="#888" stroke-width="2.5"/>
+    <!-- Serpent head at top biting tail -->
+    <path d="M0 -12 Q6 -12 8 -8 Q10 -4 8 0 Q6 4 0 4 Q-6 4 -8 0 Q-10 -4 -8 -8 Q-6 -12 0 -12" fill="#000" stroke="#999" stroke-width="1.5"/>
+    <!-- Head detail -->
+    <circle cx="0" cy="-10" r="2.5" fill="#111" stroke="#999" stroke-width="1"/>
+    <circle cx="-1" cy="-11" r="0.8" fill="#999"/>
+    <!-- Keyhole opening in center -->
+    <circle cx="0" cy="0" r="4" fill="#000"/>
+    <rect x="-2" y="2" width="4" height="8" fill="#000"/>
+    <!-- Serpent scales texture -->
+    <circle cx="8" cy="-6" r="1.5" fill="#222"/>
+    <circle cx="10" cy="-2" r="1.5" fill="#222"/>
+    <circle cx="8" cy="2" r="1.5" fill="#222"/>
+    <circle cx="-8" cy="-6" r="1.5" fill="#222"/>
+    <circle cx="-10" cy="-2" r="1.5" fill="#222"/>
+    <circle cx="-8" cy="2" r="1.5" fill="#222"/>
+  </g>
+  
+  <!-- Clock tower base -->
+  <rect x="220" y="310" width="200" height="25" fill="#0d0d00" stroke="#b87333" stroke-width="3"/>
+  <rect x="225" y="330" width="190" height="15" fill="#0a0a00" stroke="#b87333" stroke-width="1"/>
+  
+  <!-- Layer 4: Wall of smaller clocks, all stopped at 11:59 -->
+  <!-- Left wall clocks -->
+  <!-- Clock 1 -->
+  <circle cx="60" cy="140" r="30" fill="#0d0d00" stroke="#b87333" stroke-width="2"/>
+  <circle cx="60" cy="140" r="24" fill="#111"/>
+  <circle cx="60" cy="140" r="22" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <!-- Hands frozen at 11:59 -->
+  <line x1="60" y1="140" x2="60" y2="124" stroke="#000" stroke-width="2"/>
+  <line x1="60" y1="140" x2="72" y2="134" stroke="#000" stroke-width="1.5"/>
+  <!-- Name plaque below -->
+  <rect x="35" y="175" width="50" height="10" fill="#333" stroke="#444" stroke-width="1"/>
+  <text x="60" y="182" font-family="serif" font-size="5" fill="#888" text-anchor="middle">UNKNOWN</text>
+  
+  <!-- Clock 2 -->
+  <circle cx="60" cy="230" r="28" fill="#0d0d00" stroke="#b87333" stroke-width="2"/>
+  <circle cx="60" cy="230" r="22" fill="#111"/>
+  <circle cx="60" cy="230" r="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <line x1="60" y1="230" x2="60" y2="216" stroke="#000" stroke-width="2"/>
+  <line x1="60" y1="230" x2="70" y2="225" stroke="#000" stroke-width="1.5"/>
+  <rect x="35" y="263" width="50" height="10" fill="#333" stroke="#444" stroke-width="1"/>
+  <text x="60" y="270" font-family="serif" font-size="5" fill="#888" text-anchor="middle">UNKNOWN</text>
+  
+  <!-- Clock 3 -->
+  <circle cx="150" cy="100" r="25" fill="#0d0d00" stroke="#b87333" stroke-width="2"/>
+  <circle cx="150" cy="100" r="20" fill="#111"/>
+  <circle cx="150" cy="100" r="18" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <line x1="150" y1="100" x2="150" y2="86" stroke="#000" stroke-width="2"/>
+  <line x1="150" y1="100" x2="160" y2="95" stroke="#000" stroke-width="1.5"/>
+  <rect x="128" y="130" width="44" height="9" fill="#333" stroke="#444" stroke-width="1"/>
+  <text x="150" y="136" font-family="serif" font-size="4.5" fill="#888" text-anchor="middle">UNKNOWN</text>
+  
+  <!-- Right wall clocks -->
+  <!-- Clock 4 -->
+  <circle cx="580" cy="140" r="30" fill="#0d0d00" stroke="#b87333" stroke-width="2"/>
+  <circle cx="580" cy="140" r="24" fill="#111"/>
+  <circle cx="580" cy="140" r="22" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <line x1="580" y1="140" x2="580" y2="124" stroke="#000" stroke-width="2"/>
+  <line x1="580" y1="140" x2="592" y2="134" stroke="#000" stroke-width="1.5"/>
+  <rect x="555" y="175" width="50" height="10" fill="#333" stroke="#444" stroke-width="1"/>
+  <text x="580" y="182" font-family="serif" font-size="5" fill="#888" text-anchor="middle">UNKNOWN</text>
+  
+  <!-- Clock 5 -->
+  <circle cx="580" cy="230" r="28" fill="#0d0d00" stroke="#b87333" stroke-width="2"/>
+  <circle cx="580" cy="230" r="22" fill="#111"/>
+  <circle cx="580" cy="230" r="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <line x1="580" y1="230" x2="580" y2="216" stroke="#000" stroke-width="2"/>
+  <line x1="580" y1="230" x2="590" y2="225" stroke="#000" stroke-width="1.5"/>
+  <rect x="555" y="263" width="50" height="10" fill="#333" stroke="#444" stroke-width="1"/>
+  <text x="580" y="270" font-family="serif" font-size="5" fill="#888" text-anchor="middle">UNKNOWN</text>
+  
+  <!-- Clock 6 -->
+  <circle cx="490" cy="100" r="25" fill="#0d0d00" stroke="#b87333" stroke-width="2"/>
+  <circle cx="490" cy="100" r="20" fill="#111"/>
+  <circle cx="490" cy="100" r="18" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <line x1="490" y1="100" x2="490" y2="86" stroke="#000" stroke-width="2"/>
+  <line x1="490" y1="100" x2="500" y2="95" stroke="#000" stroke-width="1.5"/>
+  <rect x="468" y="130" width="44" height="9" fill="#333" stroke="#444" stroke-width="1"/>
+  <text x="490" y="136" font-family="serif" font-size="4.5" fill="#888" text-anchor="middle">UNKNOWN</text>
+  
+  <!-- Additional smaller clocks on the wall (crowded effect) -->
+  <circle cx="130" cy="200" r="18" fill="#0d0d00" stroke="#b87333" stroke-width="1.5"/>
+  <circle cx="130" cy="200" r="14" fill="#fff"/>
+  <line x1="130" y1="200" x2="130" y2="190" stroke="#000" stroke-width="1.5"/>
+  <line x1="130" y1="200" x2="138" y2="197" stroke="#000" stroke-width="1"/>
+  
+  <circle cx="510" cy="200" r="18" fill="#0d0d00" stroke="#b87333" stroke-width="1.5"/>
+  <circle cx="510" cy="200" r="14" fill="#fff"/>
+  <line x1="510" y1="200" x2="510" y2="190" stroke="#000" stroke-width="1.5"/>
+  <line x1="510" y1="200" x2="518" y2="197" stroke="#000" stroke-width="1"/>
+  
+  <!-- All showing 11:59 - time text below master clock -->
+  <text x="320" y="360" font-family="serif" font-size="8" fill="#b87333" text-anchor="middle" opacity="0.6">ALL STOPPED: 11:59</text>
+  
+  <!-- Layer 5: Narrow staircase (left side, spiraling down) -->
+  <rect x="40" y="290" width="80" height="110" fill="#0a0a0a" stroke="#333" stroke-width="2"/>
+  <!-- Steps going down -->
+  <rect x="50" y="300" width="15" height="8" fill="#1a1a1a"/>
+  <rect x="60" y="310" width="15" height="8" fill="#181818"/>
+  <rect x="70" y="320" width="15" height="8" fill="#151515"/>
+  <rect x="75" y="330" width="15" height="8" fill="#111"/>
+  <rect x="80" y="340" width="15" height="8" fill="#0d0d0d"/>
+  <rect x="85" y="350" width="15" height="8" fill="#0a0a0a"/>
+  <rect x="90" y="360" width="15" height="8" fill="#050505"/>
+  <!-- Iron railing -->
+  <line x1="45" y1="290" x2="45" y2="395" stroke="#555" stroke-width="3"/>
+  <line x1="45" y1="310" x2="52" y2="300" stroke="#555" stroke-width="2"/>
+  <line x1="45" y1="330" x2="62" y2="320" stroke="#555" stroke-width="2"/>
+  <line x1="45" y1="350" x2="72" y2="340" stroke="#555" stroke-width="2"/>
+  <line x1="45" y1="370" x2="82" y2="360" stroke="#555" stroke-width="2"/>
+  <!-- Stairs into shadow -->
+  <rect x="95" y="368" width="20" height="32" fill="#000" opacity="0.7"/>
+  
+  <!-- Layer 6: Atmosphere - heavy, final, this is the end -->
+  <!-- Deep shadows in corners -->
+  <ellipse cx="0" cy="0" rx="100" ry="100" fill="#000" opacity="0.4"/>
+  <ellipse cx="640" cy="0" rx="100" ry="100" fill="#000" opacity="0.4"/>
+  <ellipse cx="0" cy="400" rx="120" ry="100" fill="#000" opacity="0.5"/>
+  <ellipse cx="640" cy="400" rx="120" ry="100" fill="#000" opacity="0.5"/>
+  
+  <!-- Brass and glass glints on the Master Clock -->
+  <rect x="250" y="85" width="40" height="30" fill="#b87333" opacity="0.05"/>
+  <rect x="340" y="200" width="50" height="40" fill="#b87333" opacity="0.03"/>
+  
+  <!-- Shadow under Master Clock -->
+  <ellipse cx="320" cy="340" rx="100" ry="10" fill="#000" opacity="0.5"/>
+  
+  <!-- Dust motes, still -->
+  <circle cx="200" cy="100" r="1" fill="#FFF" opacity="0.08"/>
+  <circle cx="450" cy="80" r="1" fill="#FFF" opacity="0.06"/>
+  <circle cx="170" cy="200" r="1" fill="#FFF" opacity="0.07"/>
+  <circle cx="470" cy="210" r="1" fill="#FFF" opacity="0.06"/>
+  
+  <!-- Vignette - heavy darkness pressing in -->
+  <rect x="0" y="0" width="640" height="400" fill="#000" opacity="0.25"/>
+  
+  <!-- The waiting - blank face emphasizes emptiness -->
+  <text x="320" y="385" font-family="serif" font-size="7" fill="#555" text-anchor="middle" opacity="0.5">It has always waited.</text>
+</svg>

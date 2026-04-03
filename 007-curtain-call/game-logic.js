@@ -5,7 +5,7 @@
 // ============================================================
 
 // ---- Game Data (embedded from game-script.json) ----
-const GAME_DATA = {
+var GAME_DATA = {
   "title": "Curtain Call",
   "slug": "curtain-call",
   "number": 7,

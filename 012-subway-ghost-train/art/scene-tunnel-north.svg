@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#0a0a1a"/>
+  <!-- tunnel walls -->
+  <rect x="0" y="0" width="640" height="150" fill="#1a1a2a"/>
+  <rect x="0" y="250" width="640" height="150" fill="#0d0d1a"/>
+  <!-- arched ceiling -->
+  <path d="M0,150 Q320,100 640,150" fill="#1a1a2a" stroke="#0f0" stroke-width="4"/>
+  <!-- debris pile -->
+  <g transform="translate(300,200)">
+    <rect x="0" y="0" width="100" height="60" fill="#3a3a4a" stroke="#0f0" stroke-width="2"/>
+    <polygon points="20,0 80,0 50,-20" fill="#2a2a3a"/>
+  </g>
+  <!-- light from ghost train ahead -->
+  <circle cx="320" cy="180" r="20" fill="#fff" opacity="0.5"/>
+  <!-- whispers -->
+  <g font-family="monospace" font-size="8" fill="#aaa">
+    <text x="100" y="120">...next stop...</text>
+    <text x="400" y="140">...never...</text>
+  </g>
+  <!-- exit north to platform -->
+  <rect x="280" y="30" width="80" height="60" fill="#1a1a2a" stroke="#0f0" stroke-width="4"/>
+  <text x="320" y="62" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">PLAT</text>
+</svg>

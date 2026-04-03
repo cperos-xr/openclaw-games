@@ -1,0 +1,240 @@
+{
+  "title": "Ghost Line",
+  "slug": "subway-ghost-train",
+  "number": 12,
+  "setting": "An abandoned underground subway station where a phantom train still runs on its cursed schedule. The spirits of commuters from a flood disaster forever ride the rails.",
+  "characters": [
+    {
+      "id": "conductor-ghost",
+      "name": "The Conductor",
+      "description": "A spectral figure in a tattered uniform who never stops calling destinations that don't exist."
+    },
+    {
+      "id": "whisperer",
+      "name": "The Whisperer",
+      "description": "A presence that speaks through the tunnel winds, revealing fragments of the disaster."
+    }
+  ],
+  "items": [
+    {
+      "id": "turnstile-key",
+      "name": "Turnstile Key",
+      "description": "A heavy iron key that operates the fare gates.",
+      "foundIn": "station-platform",
+      "usedIn": "station-platform",
+      "usedOn": "locked-turnstile"
+    },
+    {
+      "id": "lantern",
+      "name": "Lantern",
+      "description": "A battery-powered lantern with a dim but serviceable bulb.",
+      "foundIn": "maintenance-room",
+      "usedIn": "tunnel-north",
+      "usedOn": "collapsed-debris"
+    },
+    {
+      "id": "maintenance-log",
+      "name": "Maintenance Log",
+      "description": "A water-stained logbook detailing the day of the flood and the train that never returned.",
+      "foundIn": "maintenance-room",
+      "usedIn": "signal-room",
+      "usedOn": "signal-console"
+    },
+    {
+      "id": "circuit-breaker",
+      "name": "Circuit Breaker",
+      "description": "A replacement breaker for the platform lighting circuit.",
+      "foundIn": "maintenance-room",
+      "usedIn": "station-platform",
+      "usedOn": "lighting-panel"
+    },
+    {
+      "id": "brake-handle",
+      "name": "Brake Handle",
+      "description": "The manual release for the ghost train's emergency brake system.",
+      "foundIn": "signal-room",
+      "usedIn": "ghost-train",
+      "usedOn": "brake-mechanism"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "station-platform",
+      "name": "Station Platform",
+      "prose": "A cracked and grimy platform stretches into darkness. Flickering\u8367\u5149 signs read 'NO SERVICE'. A turnstile blocks the way onto the platform. Tracks gleam with wetness. Down the tunnel, a faint light pulses.",
+      "exits": {
+        "east": "maintenance-room",
+        "south": "tunnel-north"
+      },
+      "items": [
+        "turnstile-key"
+      ],
+      "puzzles": [
+        "locked-turnstile"
+      ],
+      "lookDescriptions": {
+        "turnstile": "A heavy fare gate, locked. You need a key.",
+        "tracks": "The rails are wet and cold. Something heavy recently passed."
+      }
+    },
+    {
+      "id": "maintenance-room",
+      "name": "Maintenance Room",
+      "prose": "A cramped room filled with tool racks and spare parts. A faded MTA map covers one wall. There's a lantern on a workbench and a logbook soaked with water stains. The door to the signal room is rusty but unlocked.",
+      "exits": {
+        "west": "station-platform",
+        "south": "signal-room"
+      },
+      "items": [
+        "lantern",
+        "maintenance-log",
+        "circuit-breaker"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "workbench": "Various tools lie scattered. The lantern still works.",
+        "logbook": "Entries describe a flood that trapped a train underground."
+      }
+    },
+    {
+      "id": "signal-room",
+      "name": "Signal Room",
+      "prose": "Racks of relays and wires fill this room. A signal console glows faintly. A breaker panel hangs open, one slot empty. A heavy brake handle labeled 'GHOST TRAIN' rests on a shelf. The room connects back to the maintenance room and the platform.",
+      "exits": {
+        "north": "maintenance-room",
+        "east": "station-platform"
+      },
+      "items": [
+        "brake-handle"
+      ],
+      "puzzles": [
+        "signal-console",
+        "platform-lights"
+      ],
+      "lookDescriptions": {
+        "signal console": "It displays a track map. One line is highlighted: 'Train 7 - Delayed'.",
+        "breaker panel": "Missing a 20-amp breaker. Without it, the platform lights are out."
+      }
+    },
+    {
+      "id": "tunnel-north",
+      "name": "North Tunnel",
+      "prose": "The tunnel is narrow, walls slick with condensation. Debris blocks the path forward. A faint breeze carries whispers. Your lantern barely cuts through the darkness. The platform is back north.",
+      "exits": {
+        "north": "station-platform"
+      },
+      "items": [],
+      "puzzles": [
+        "clear-debris"
+      ],
+      "lookDescriptions": {
+        "debris": "A collapsed section of ceiling. You could cut through with something.",
+        "whispers": "Voices saying '...next stop... never...'"
+      }
+    },
+    {
+      "id": "ghost-train",
+      "name": "Ghost Train",
+      "prose": "The train car is transparent, like a hologram. Inside, ghostly commuters sit motionless. The emergency brake system is visible. The train lurches forward as you board. You must release the brake to escape.",
+      "exits": {},
+      "items": [],
+      "puzzles": [
+        "release-brake"
+      ],
+      "lookDescriptions": {
+        "brake mechanism": "A large wheel with a release lever. It needs a manual handle.",
+        "passengers": "Their eyes follow you, pleading."
+      }
+    },
+    {
+      "id": "escape-platform",
+      "name": "Escape Platform",
+      "prose": "You've cleared the debris, restored power, and boarded the ghost train. By releasing the brake, the train speeds through the phantom tunnels and emerges at an abandoned interchange that leads to the surface. The spirits are at peace. You escape.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "interchange": "A ghostly platform bathed in moonlight. The way out is clear."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "locked-turnstile",
+      "scene": "station-platform",
+      "requires": [
+        "turnstile-key"
+      ],
+      "action": "use turnstile-key on fare gate",
+      "result": "The turnstile clicks and swings open. You can now access the platform area.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "station-platform",
+        "direction": "south"
+      },
+      "blockedMessage": "The fare gate is locked. Find a key to proceed."
+    },
+    {
+      "id": "clear-debris",
+      "scene": "tunnel-north",
+      "requires": [
+        "lantern"
+      ],
+      "action": "use lantern to illuminate debris and cut through",
+      "result": "With light, you spot a weak point in the rubble. After effort, the path is clear. You see a ghost train ahead.",
+      "reveals": [
+        "ghost-train"
+      ],
+      "blocksExit": {
+        "scene": "tunnel-north",
+        "direction": "south"
+      },
+      "blockedMessage": "The tunnel is blocked by collapsed rubble. You need a tool to clear it."
+    },
+    {
+      "id": "signal-console",
+      "scene": "signal-room",
+      "requires": [
+        "maintenance-log"
+      ],
+      "action": "use maintenance-log on signal console",
+      "result": "The logbook contains the override codes. The console accepts them and displays: 'TRAIN 7 CLEARED FOR DEPARTURE'. The ghost train becomes accessible.",
+      "reveals": [
+        "ghost-train"
+      ],
+      "blocksExit": {},
+      "blockedMessage": ""
+    },
+    {
+      "id": "platform-lights",
+      "scene": "signal-room",
+      "requires": [
+        "circuit-breaker"
+      ],
+      "action": "install circuit-breaker in panel",
+      "result": "The platform lights flicker on, illuminating the tracks and the train's arrival.",
+      "reveals": [],
+      "blocksExit": {},
+      "blockedMessage": ""
+    },
+    {
+      "id": "release-brake",
+      "scene": "ghost-train",
+      "requires": [
+        "brake-handle"
+      ],
+      "action": "use brake-handle on emergency mechanism",
+      "result": "You pull the lever. The brake releases. The train accelerates, cycling through tunnels and emerging at an escape platform. YOU WIN.",
+      "reveals": [
+        "escape-platform"
+      ],
+      "blocksExit": {},
+      "blockedMessage": ""
+    }
+  ],
+  "winCondition": {
+    "scene": "escape-platform",
+    "requires": [],
+    "description": "You have escaped the subway, freeing both yourself and the commuter ghosts. The phantom train fades into the dawn."
+  }
+}

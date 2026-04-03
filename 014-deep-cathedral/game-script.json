@@ -1,0 +1,256 @@
+{
+  "title": "The Deep Cathedral",
+  "slug": "deep-cathedral",
+  "number": 14,
+  "setting": "A submerged sea cave cathedral carved by a forgotten monastic order. The drowned monks still chant in the currents. Something ancient sleeps beneath the altar.",
+  "characters": [
+    {
+      "id": "drowned-abbot",
+      "name": "The Drowned Abbot",
+      "description": "A spectral figure in waterlogged robes, eternally ringing a cracked bell."
+    },
+    {
+      "id": "sea-witch",
+      "name": "The Sea Witch",
+      "description": "A waterlogged spirit who knows the ways through the flooded passages."
+    }
+  ],
+  "items": [
+    {
+      "id": "crystal-lantern",
+      "name": "Crystal Lantern",
+      "description": "A water-filled lantern that glows with a soft blue light, revealing hidden currents.",
+      "foundIn": "entrance-cavern",
+      "usedIn": "entrance-cavern",
+      "usedOn": "dark-depths"
+    },
+    {
+      "id": "ritual-bell",
+      "name": "Ritual Bell",
+      "description": "A small bronze bell inscribed with a chant. Its sound can part the waters.",
+      "foundIn": "choir-aisle",
+      "usedIn": "chancel",
+      "usedOn": "blessed-bell"
+    },
+    {
+      "id": "prayer-scroll",
+      "name": "Prayer Scroll",
+      "description": "A water-stained scroll containing the monks' sealing ritual.",
+      "foundIn": "chancel",
+      "usedIn": "sacristy",
+      "usedOn": "rune-door"
+    },
+    {
+      "id": "keystone",
+      "name": "Keystone",
+      "description": "A heavy stone block inscribed with a trident mark. It fits the main altar's lock.",
+      "foundIn": "sacristy",
+      "usedIn": "main-altar",
+      "usedOn": " altar-lock"
+    },
+    {
+      "id": "sacred-charm",
+      "name": "Sacred Charm",
+      "description": "A silver amulet shaped like a fish, blessed by the Abbot. It calms the waking beast.",
+      "foundIn": "main-altar",
+      "usedIn": "depths-chamber",
+      "usedOn": "sleeping-beast"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "entrance-cavern",
+      "name": "Entrance Cavern",
+      "prose": "You swim into a vast underwater cave. Stalactites drip from the ceiling. faint chant echoes through the water. A broken railing leads deeper. The water here is dark and cold. A crystal lantern rests on a rock.",
+      "exits": {
+        "east": "choir-aisle",
+        "south": "dark-depths"
+      },
+      "items": [
+        "crystal-lantern"
+      ],
+      "puzzles": [
+        "dark-depths"
+      ],
+      "lookDescriptions": {
+        "railing": "It's carved with fish motifs, now corroded.",
+        "lantern": "It pulses with an inner blue flame that burns underwater."
+      }
+    },
+    {
+      "id": "choir-aisle",
+      "name": "Choir Aisle",
+      "prose": "Rows of stone benches face a central chancel. Ghostly monks in tattered robes sit motionless, their mouths moving in silent song. Bubbles rise from their lips. A small bronze bell lies on the floor.",
+      "exits": {
+        "west": "entrance-cavern",
+        "east": "chancel",
+        "south": "sacristy"
+      },
+      "items": [
+        "ritual-bell"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "monks": "Their eyes are closed in eternal prayer.",
+        "bell": "It's inscribed: 'Sound the deep, calm the sea.'"
+      }
+    },
+    {
+      "id": "chancel",
+      "name": "Chancel",
+      "prose": "The raised dais holds a single ornate chair where the Abbot's ghost presides. A massive bell hangs above, cracked and silent. To the east, a heavy door marked with runes blocks the way. The air (water?) thrums with harmonic resonance.",
+      "exits": {
+        "west": "choir-aisle",
+        "east": "sacristy"
+      },
+      "items": [],
+      "puzzles": [
+        "blessed-bell"
+      ],
+      "lookDescriptions": {
+        "bell": "The crack glows faintly. It needs to be rung with the proper tone.",
+        "chair": "The Abbot's spectral form sometimes appears here."
+      }
+    },
+    {
+      "id": "sacristy",
+      "name": "Sacristy",
+      "prose": "A side chamber filled with shelves of waterlogged books and ritual objects. A Prayer Scroll floats near a stone table. The far wall bears a door carved with glowing runes. This place feels holy and deeply uneasy.",
+      "exits": {
+        "north": "choir-aisle",
+        "east": "main-altar"
+      },
+      "items": [
+        "prayer-scroll"
+      ],
+      "puzzles": [
+        "rune-door"
+      ],
+      "lookDescriptions": {
+        "shelves": "They hold decaying robes and ancient incense.",
+        "runes": "They shift when viewed directly."
+      }
+    },
+    {
+      "id": "main-altar",
+      "name": "Main Altar",
+      "prose": "The cathedral's heart. A massive stone altar sits under a dome of glowing plankton. The walls are covered in intricate mosaics of sea creatures. A keystone rests in a locked compartment. This is the focal point of the old sea gods.",
+      "exits": {
+        "west": "sacristy",
+        "south": "depths-chamber"
+      },
+      "items": [
+        "keystone",
+        "sacred-charm"
+      ],
+      "puzzles": [
+        "altar-lock"
+      ],
+      "lookDescriptions": {
+        "altar": "It hums with power. The lock needs a specific stone.",
+        "mosaics": "They depict the 'Sleeping One' below the waves."
+      }
+    },
+    {
+      "id": "depths-chamber",
+      "name": "Depths Chamber",
+      "prose": "You descend into an abyssal pit where the water is pitch black. In the center, a massive amorphous form pulses with bioluminescence. Its many eyes open as you approach. This is the Sleeping One, and it is not pleased.",
+      "exits": {},
+      "items": [],
+      "puzzles": [
+        "sleeping-beast"
+      ],
+      "lookDescriptions": {
+        "beast": "It dreams of the surface. Its rage stirs.",
+        "pit": "The pressure crushes. You must act quickly."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "dark-depths",
+      "scene": "entrance-cavern",
+      "requires": [
+        "crystal-lantern"
+      ],
+      "action": "use crystal-lantern to illuminate the dark passage",
+      "result": "The lantern's light pierces the murk, revealing a path through submerged rocks. You can now swim south.",
+      "reveals": [
+        "dark-depths"
+      ],
+      "blocksExit": {
+        "scene": "entrance-cavern",
+        "direction": "south"
+      },
+      "blockedMessage": "The dark waters are too murky. You need a light to proceed."
+    },
+    {
+      "id": "blessed-bell",
+      "scene": "chancel",
+      "requires": [
+        "ritual-bell"
+      ],
+      "action": "ring the ritual bell in the chancel",
+      "result": "The bell's tone resonates through the water. The ghostly monks fade, leaving a warm feeling. The rune door's glow softens, allowing passage.",
+      "reveals": [
+        "sacristy"
+      ],
+      "blocksExit": {
+        "scene": "chancel",
+        "direction": "east"
+      },
+      "blockedMessage": "The rune door is sealed by a harmonic lock. The monks' bell must be rung first."
+    },
+    {
+      "id": "rune-door",
+      "scene": "sacristy",
+      "requires": [
+        "prayer-scroll"
+      ],
+      "action": " recite the prayer from the scroll at the rune door",
+      "result": "The ancient words flow through the water. The runes rearrange into an opening. The door to the main altar unlocks.",
+      "reveals": [
+        "main-altar"
+      ],
+      "blocksExit": {
+        "scene": "sacristy",
+        "direction": "east"
+      },
+      "blockedMessage": "The rune door requires the correct prayer. Find it in the sacristy."
+    },
+    {
+      "id": "altar-lock",
+      "scene": "main-altar",
+      "requires": [
+        "keystone"
+      ],
+      "action": "place keystone in the altar's lock",
+      "result": "The keystone fits perfectly. The altar slides aside, revealing a shaft down to the depths. A sacred charm floats in the newly exposed niche.",
+      "reveals": [
+        "depths-chamber"
+      ],
+      "blocksExit": {
+        "scene": "main-altar",
+        "direction": "south"
+      },
+      "blockedMessage": "The altar is locked. Find the keystone to open the way."
+    },
+    {
+      "id": "sleeping-beast",
+      "scene": "depths-chamber",
+      "requires": [
+        "sacred-charm"
+      ],
+      "action": "use sacred-charm to calm the sleeping beast",
+      "result": "The charm glows with a gentle light. The beast's eyes close, and it settles into peaceful slumber. The water calms, and a luminous escape tunnel appears. You surface into the night sea, free.",
+      "reveals": [],
+      "blocksExit": {},
+      "blockedMessage": ""
+    }
+  ],
+  "winCondition": {
+    "scene": "depths-chamber",
+    "requires": [],
+    "description": "You break the surface of the ocean under a starry sky. The cathedral sinks back into the deep, its secrets kept. You have survived the Deep Cathedral."
+  }
+}

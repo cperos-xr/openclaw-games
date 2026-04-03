@@ -6,351 +6,237 @@
     <title>Pressure Point | Game #006</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* ============================================================
+         * OPENCLAW GAME TEMPLATE v3.0 — MOBILE-FIRST
+         *
+         * ARCHITECTURE:
+         *   Mobile (<769px): Scrollable page. Art top. Content below.
+         *   Desktop (≥769px): Fixed 100vh. Art left 60%. Text right 40%.
+         *
+         * FIVE RULES THAT MUST NEVER BE BROKEN:
+         *   1. NEVER add height:100vh + overflow:hidden outside the desktop media query
+         *   2. NEVER set min-height > 0px on .art-panel at base/mobile level
+         *   3. ALWAYS use aspect-ratio: 8/5 (640x400) for the art panel on mobile
+         *   4. ALWAYS use min-height:44px on every clickable button (touch targets)
+         *   5. ALWAYS use flex-wrap:wrap on .command-bar and #exits-bar
+         * ============================================================ */
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* CRT scanline overlay */
+        body::after {
+            content: ''; position: fixed; inset: 0; z-index: 999; pointer-events: none;
+            background: repeating-linear-gradient(
+                transparent, transparent 2px,
+                rgba(0,0,0,0.10) 2px, rgba(0,0,0,0.10) 4px
+            );
         }
 
+        /* ── MOBILE BASE (default, all screens) ─────────────────────
+         * Normal document flow. No height:100vh. No overflow:hidden.
+         * Everything stacks vertically and scrolls naturally.
+         * ──────────────────────────────────────────────────────────── */
         body {
-            background-color: #000;
-            color: #0f0;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 12px;
-            line-height: 1.4;
-            padding: 20px;
-            max-width: 1024px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
+            background: #000; color: #33ff33;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 11px; line-height: 1.6;
+            padding: 8px; max-width: 1200px; margin: 0 auto;
+            overflow-x: hidden; /* prevent horizontal scroll from oversized art */
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        h1 {
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: #0f0;
-            text-shadow: 0 0 5px #0f0;
-        }
-
-        h2 {
-            font-size: 14px;
-            margin-bottom: 10px;
-            color: #0f0;
-        }
+        header { text-align: center; padding-bottom: 8px; }
+        h1 { font-size: 13px; color: #33ff33; text-shadow: 0 0 8px #33ff33; margin-bottom: 4px; }
+        .subtitle { font-size: 8px; color: #226622; }
 
         #scene-name {
-            font-size: 18px;
-            text-align: center;
-            margin-bottom: 10px;
-            color: #0f0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 12px; text-align: center; color: #ffff33;
+            text-transform: uppercase; letter-spacing: 1px; padding: 6px 0;
         }
 
-        .game-container {
-            display: flex;
-            flex: 1;
-            gap: 20px;
-            min-height: 0;
-        }
-
+        /* Art panel: fills width, keeps 8:5 (640×400) aspect ratio.
+         * max-height: 56vw = ~210px on a 375px phone — art is clear but
+         * leaves plenty of room below for text and controls. */
         .art-panel {
-            flex: 1;
-            border: 2px solid #0f0;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 100%; aspect-ratio: 8 / 5; max-height: 56vw;
+            border: 2px solid #33ff33; background: #111;
+            display: flex; align-items: center; justify-content: center;
             overflow: hidden;
-            min-height: 400px;
         }
+        #art-display { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        #art-display svg, #art-display img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        .no-art { color: #226622; font-size: 9px; text-align: center; }
 
-        #art-display svg,
-        #art-display img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
+        /* Text panel: plain block on mobile, no fixed height */
         .text-panel {
-            flex: 1;
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            border: 2px solid #33ff33; background: #111;
+            padding: 10px; margin-top: 8px;
         }
 
+        /* Story text: scrollable, capped so it doesn't swallow the whole screen */
         #text-display {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #0f0;
-            padding-bottom: 10px;
+            overflow-y: auto; max-height: 40vh;
+            border-bottom: 1px solid #226622; padding-bottom: 8px; margin-bottom: 8px;
         }
+        #text-display p { margin-bottom: 8px; }
+        #text-display .system  { color: #33bbff; font-style: italic; }
+        #text-display .success { color: #ffff33; font-weight: bold; }
+        #text-display .locked  { color: #ff3333; }
+        #text-display .error   { color: #ff5555; }
+        .look-target { color: #ffff33; text-decoration: underline; cursor: pointer; }
+        .look-target:hover { color: #ffcc00; }
 
-        #text-display p {
-            margin-bottom: 10px;
-            color: #0f0;
-        }
-
-        #text-display .system {
-            color: #0a0;
-            font-style: italic;
-        }
-
-        #text-display .success {
-            color: #0f0;
-            font-weight: bold;
-            animation: itemGlow 1s infinite alternate;
-        }
-
-        #text-display .locked {
-            color: #f00;
-            font-weight: bold;
-        }
-
-        #text-display .error {
-            color: #f00;
-        }
-
-        #text-display .hint {
-            color: #FFAA00;
-            font-style: italic;
-        }
-
-        .hint-toggle {
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 2px 6px;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 8px;
-            cursor: pointer;
-            margin-top: 5px;
-        }
-
-        .hint-toggle:hover {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .command-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
+        /* Command buttons: wrapping row, 44px tap targets */
+        .command-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
         .cmd-btn {
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 5px 10px;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 10px 14px; min-height: 44px; min-width: 44px; flex: 1;
+            font-family: 'Press Start 2P', monospace; font-size: 9px; cursor: pointer;
         }
+        .cmd-btn:hover, .cmd-btn.active { background: #33ff33; color: #000; }
+        #hint-toggle { flex: 0 0 auto; }
 
-        .cmd-btn:hover {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .cmd-btn.active {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .inventory-panel {
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 10px;
-            margin-bottom: 15px;
-        }
-
-        .inventory-panel h3 {
-            font-size: 12px;
-            margin-bottom: 5px;
-            color: #0f0;
-        }
-
-        #inventory-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            min-height: 20px;
-        }
-
+        /* Inventory */
+        .inventory-panel { border: 1px solid #226622; background: #000; padding: 8px; margin-bottom: 8px; }
+        .inventory-panel h3 { font-size: 8px; color: #ffff33; margin-bottom: 6px; }
+        #inventory-bar { display: flex; flex-wrap: wrap; gap: 6px; min-height: 18px; }
+        #inv-empty { color: #226622; font-size: 9px; }
         .inv-item {
-            border: 1px solid #0f0;
-            padding: 3px 6px;
-            font-size: 10px;
-            cursor: pointer;
-            background-color: #000;
-            color: #0f0;
+            border: 1px solid #33ff33; padding: 8px 10px; min-height: 36px;
+            font-family: inherit; font-size: 9px; cursor: pointer; background: #000; color: #33ff33;
         }
+        .inv-item:hover, .inv-item.selected { background: #33ff33; color: #000; }
 
-        .inv-item.selected {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .exits-panel {
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 10px;
-        }
-
-        .exits-panel h3 {
-            font-size: 12px;
-            margin-bottom: 5px;
-            color: #0f0;
-        }
-
-        #exits-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
+        /* Exits */
+        .exits-panel { border: 1px solid #226622; background: #000; padding: 8px; }
+        .exits-panel h3 { font-size: 8px; color: #ffff33; margin-bottom: 6px; }
+        #exits-bar { display: flex; flex-wrap: wrap; gap: 6px; }
         .exit-btn {
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 5px 10px;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
-            cursor: pointer;
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 10px 14px; min-height: 44px; min-width: 44px;
+            font-family: 'Press Start 2P', monospace; font-size: 9px; cursor: pointer;
         }
+        .exit-btn.available:hover { background: #33ff33; color: #000; }
+        .exit-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-        .exit-btn.available:hover {
-            background-color: #0f0;
-            color: #000;
-        }
+        .hint { color: #FFAA00 !important; font-style: italic; border-left: 2px solid #FFAA00; padding-left: 8px; margin: 5px 0; }
+        .hint::before { content: "HINT: "; font-weight: bold; }
 
-        .look-target {
-            color: #0af;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-
-        .look-target:hover {
-            color: #0ff;
-        }
+        footer { margin-top: 8px; text-align: center; font-size: 7px; color: #113311; padding: 8px 0; }
 
         /* Animations */
         @keyframes puzzle-solved {
-            0% { filter: brightness(1); }
-            50% { filter: brightness(2); }
-            100% { filter: brightness(1); }
+            0%   { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
+            50%  { filter: brightness(1.8) drop-shadow(0 0 20px #ffff33); }
+            100% { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
         }
-
-        @keyframes unlockPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
         @keyframes itemGlow {
-            0% { text-shadow: 0 0 5px #0f0; }
-            100% { text-shadow: 0 0 15px #0f0; }
+            0%   { box-shadow: 0 0 4px #33ff33; }
+            50%  { box-shadow: 0 0 16px #33ff33; }
+            100% { box-shadow: 0 0 4px #33ff33; }
+        }
+        @keyframes unlockPulse {
+            0%, 100% { border-color: #33ff33; }
+            50% { border-color: #ffff33; box-shadow: 0 0 12px #ffff33; }
+        }
+        .puzzle-solved { animation: puzzle-solved 0.6s ease-out; }
+        .item-new { animation: itemGlow 1s ease-in-out 3; }
+        .newly-unlocked { animation: unlockPulse 1s ease 3; }
+
+        /* ── DESKTOP (≥769px): side-by-side, fits 100vh ─────────────
+         * Only here do we apply height:100vh + overflow:hidden.
+         * Flex layout with min-height:0 so panels can shrink properly.
+         * ──────────────────────────────────────────────────────────── */
+        @media (min-width: 769px) {
+            body {
+                display: flex; flex-direction: column;
+                height: 100vh; overflow: hidden;
+                font-size: 12px; padding: 12px;
+            }
+            header { flex-shrink: 0; margin-bottom: 6px; }
+            h1 { font-size: 16px; }
+            .subtitle { font-size: 9px; }
+            #scene-name { font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; flex-shrink: 0; }
+
+            .game-container {
+                display: flex; flex: 1; gap: 12px;
+                min-height: 0; /* CRITICAL: lets flex children shrink below content height */
+            }
+            .art-panel {
+                flex: 3; aspect-ratio: unset; max-height: none; /* flex dictates height */
+                margin-top: 0;
+            }
+            .text-panel {
+                flex: 2; display: flex; flex-direction: column;
+                overflow: hidden; margin-top: 0;
+            }
+            #text-display { flex: 1; max-height: none; overflow-y: auto; }
+            .cmd-btn    { flex: 1; padding: 6px 10px; min-height: 36px; }
+            .exit-btn   { padding: 6px 10px; min-height: 36px; }
+            .inv-item   { padding: 4px 8px; min-height: 30px; }
+            footer { flex-shrink: 0; }
         }
 
-        .puzzle-solved {
-            animation: puzzle-solved 0.6s ease-in-out;
+        /* ── LANDSCAPE MOBILE (short + wide) ───────────────────────── */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .game-container { display: flex !important; flex-direction: row !important; }
+            .art-panel { flex: 1; aspect-ratio: unset; max-height: none; }
+            .text-panel { flex: 1; overflow-y: auto; }
+            #text-display { max-height: 45vh; }
         }
-
-        footer {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 10px;
-            color: #080;
-        }
-
-        /* ── MOBILE FIX v3.0 ─────────────────────────────────────────
-         * The base layout above assumes desktop (height:100vh, side-by-side).
-         * These overrides restore a sane scrollable layout on mobile.
-         * ─────────────────────────────────────────────────────────── */
-        @media (max-width: 768px) {
-            body { height: auto !important; min-height: 100vh; overflow-y: auto !important; overflow-x: hidden !important; padding: 8px !important; }
-            h1 { font-size: 13px !important; }
-            h2 { font-size: 11px !important; }
-            #scene-name { font-size: 12px !important; }
-            .game-container { flex-direction: column !important; gap: 8px !important; flex: none !important; }
-            .art-panel { flex: none !important; min-height: 0 !important; width: 100% !important; aspect-ratio: 8 / 5; max-height: 56vw !important; }
-            .text-panel { flex: none !important; overflow: visible !important; padding: 10px !important; }
-            #text-display { max-height: 40vh !important; overflow-y: auto !important; }
-            .command-bar { flex-wrap: wrap !important; }
-            .cmd-btn { min-height: 44px !important; padding: 8px 10px !important; flex: 1 !important; font-size: 9px !important; }
-            .exit-btn { min-height: 44px !important; padding: 8px 10px !important; font-size: 9px !important; }
-            .inv-item { min-height: 36px !important; padding: 6px 8px !important; }
-        }
-        @media (max-width: 400px) { .art-panel { max-height: 50vw !important; } }
     </style>
 </head>
 <body>
-    <header>
-        <h1>PRESSURE POINT</h1>
-        <h2>Game #006</h2>
-        <button id="hint-toggle" class="hint-toggle">HINTS: ON</button>
-    </header>
 
-    <div id="scene-name">DOCKING BAY</div>
+<header>
+    <h1>PRESSURE POINT</h1>
+    <div class="subtitle">OpenClaw Adventures — Game #006</div>
+</header>
 
-    <div class="game-container">
-        <div class="art-panel">
-            <div id="art-display">
-                <!-- Art will be inserted here by JavaScript -->
-            </div>
-        </div>
+<div id="scene-name">DOCKING BAY</div>
 
-        <div class="text-panel">
-            <div id="text-display">
-                <!-- Game text will appear here -->
-            </div>
-
-            <div class="command-bar">
-                <button class="cmd-btn" data-cmd="look">LOOK</button>
-                <button class="cmd-btn" data-cmd="take">TAKE</button>
-                <button class="cmd-btn" data-cmd="use">USE</button>
-                <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
-            </div>
-
-            <div class="inventory-panel">
-                <h3>INVENTORY</h3>
-                <div id="inventory-bar">
-                    <span id="inv-empty">(empty)</span>
-                </div>
-            </div>
-
-            <div class="exits-panel">
-                <h3>EXITS</h3>
-                <div id="exits-bar">
-                    <!-- Exit buttons will appear here -->
-                </div>
-            </div>
+<div class="game-container">
+    <!-- Art panel: 640x400 SVG art, scales to fill panel -->
+    <div class="art-panel">
+        <div id="art-display">
+            <span class="no-art">[ART LOADING]</span>
         </div>
     </div>
 
-    <footer>
-        Use the command buttons or click on highlighted words. Click exits to move.
-        Type /restart in the text area to reset the game.
-    </footer>
+    <!-- Text panel: narrative, commands, inventory, exits -->
+    <div class="text-panel">
+        <div id="text-display"></div>
 
-    <script>
+        <div class="command-bar">
+            <button class="cmd-btn" data-cmd="look">LOOK</button>
+            <button class="cmd-btn" data-cmd="take">TAKE</button>
+            <button class="cmd-btn" data-cmd="use">USE</button>
+            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+            <button id="hint-toggle" class="cmd-btn">HINTS: ON</button>
+        </div>
+
+        <div class="inventory-panel">
+            <h3>INVENTORY</h3>
+            <div id="inventory-bar">
+                <span id="inv-empty">(empty)</span>
+            </div>
+        </div>
+
+        <div class="exits-panel">
+            <h3>EXITS</h3>
+            <div id="exits-bar"></div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    OpenClaw Point &amp; Click Studio | LOOK · TAKE · USE · EXAMINE | Click exits to move | /restart to reset
+</footer>
+
+<script>
 // ============================================================
-// GAME DATA
-const GAME_DATA = {
+// GAME DATA — replace with assembled content from game-script.json
+// ============================================================
+var GAME_DATA = {
   "title": "Pressure Point",
   "slug": "pressure-point",
   "number": 6,
@@ -663,11 +549,12 @@ const GAME_DATA = {
     ],
     "description": "Install the airlock circuit and oxygen canister to power the escape pod and leave the station."
   }
-};
+}
 
 // ============================================================
-// GAME ART
-const GAME_ART = {
+// GAME ART — replace with inlined SVGs from art/*.svg
+// ============================================================
+var GAME_ART = {
   "docking-bay": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Deep sea dark blue -->\n  <rect width=\"640\" height=\"400\" fill=\"#000033\"/>\n  \n  <!-- Water level -->\n  <rect x=\"0\" y=\"200\" width=\"640\" height=\"200\" fill=\"#000066\" opacity=\"0.3\"/>\n  \n  <!-- Water details -->\n  <path d=\"M0,200 Q160,180 320,200 T640,200\" stroke=\"#003366\" stroke-width=\"1\" fill=\"none\"/>\n  \n  <!-- Emergency lights (red strobes) -->\n  <rect x=\"50\" y=\"50\" width=\"20\" height=\"80\" fill=\"#8B0000\"/>\n  <rect x=\"200\" y=\"30\" width=\"20\" height=\"100\" fill=\"#8B0000\"/>\n  <rect x=\"350\" y=\"70\" width=\"20\" height=\"60\" fill=\"#8B0000\"/>\n  <rect x=\"500\" y=\"40\" width=\"20\" height=\"90\" fill=\"#8B0000\"/>\n  \n  <!-- Ceiling details -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"20\" fill=\"#000011\"/>\n  <line x1=\"0\" y1=\"10\" x2=\"640\" y2=\"10\" stroke=\"#000022\" stroke-width=\"1\"/>\n  \n  <!-- Left wall - maintenance locker -->\n  <rect x=\"50\" y=\"150\" width=\"100\" height=\"100\" fill=\"#000022\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <line x1=\"50\" y1=\"180\" x2=\"150\" y2=\"180\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <line x1=\"50\" y1=\"210\" x2=\"150\" y2=\"210\" stroke=\"#003366\" stroke-width=\"1\"/>\n  \n  <!-- Scattered tools -->\n  <rect x=\"70\" y=\"220\" width=\"20\" height=\"5\" fill=\"#666666\"/>\n  <rect x=\"90\" y=\"200\" width=\"5\" height=\"25\" fill=\"#666666\"/>\n  <rect x=\"110\" y=\"210\" width=\"15\" height=\"3\" fill=\"#666666\"/>\n  \n  <!-- Crowbar in water -->\n  <rect x=\"120\" y=\"230\" width=\"30\" height=\"4\" fill=\"#8B8B83\"/>\n  <rect x=\"145\" y=\"225\" width=\"4\" height=\"10\" fill=\"#8B8B83\"/>\n  \n  <!-- Right side - Crew Quarters sign -->\n  <rect x=\"400\" y=\"100\" width=\"80\" height=\"20\" fill=\"#000022\" stroke=\"#003366\" stroke-width=\"2\"/>\n  <text x=\"410\" y=\"115\" font-family=\"monospace\" font-size=\"8\" fill=\"#00FF00\">CREW</text>\n  <text x=\"410\" y=\"125\" font-family=\"monospace\" font-size=\"8\" fill=\"#00FF00\">QUARTERS</text>\n  \n  <!-- Bio-Lab door -->\n  <rect x=\"500\" y=\"150\" width=\"60\" height=\"100\" fill=\"#000011\" stroke=\"#FF0000\" stroke-width=\"2\"/>\n  <rect x=\"520\" y=\"180\" width=\"20\" height=\"20\" fill=\"#FF0000\"/>\n  <text x=\"525\" y=\"195\" font-family=\"monospace\" font-size=\"6\" fill=\"#000000\">RESTRICTED</text>\n  \n  <!-- Water ripples -->\n  <circle cx=\"200\" cy=\"250\" radius=\"10\" fill=\"none\" stroke=\"#0066CC\" stroke-width=\"1\"/>\n  <circle cx=\"400\" cy=\"300\" radius=\"15\" fill=\"none\" stroke=\"#0066CC\" stroke-width=\"1\"/>\n  \n  <!-- Floor details -->\n  <rect x=\"0\" y=\"380\" width=\"640\" height=\"20\" fill=\"#000011\"/>\n</svg>",
   "crew-quarters": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Warmer, sickly tones -->\n  <rect width=\"640\" height=\"400\" fill=\"#110000\"/>\n  \n  <!-- Ceiling with flickering light -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"30\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"15\" width=\"40\" height=\"20\" fill=\"#FFFF00\" opacity=\"0.7\"/>\n  <line x1=\"0\" y1=\"30\" x2=\"640\" y2=\"30\" stroke=\"#220000\" stroke-width=\"1\"/>\n  \n  <!-- Left wall - bunks and lockers -->\n  <rect x=\"20\" y=\"50\" width=\"100\" height=\"60\" fill=\"#000011\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"120\" width=\"100\" height=\"60\" fill=\"#000011\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"80\" x2=\"120\" y2=\"80\" stroke=\"#220000\" stroke-width=\"1\" stroke-dasharray=\"2,2\"/>\n  <line x1=\"20\" y1=\"100\" x2=\"120\" y2=\"100\" stroke=\"#220000\" stroke-width=\"1\" stroke-dasharray=\"2,2\"/>\n  <line x1=\"20\" y1=\"150\" x2=\"120\" y2=\"150\" stroke=\"#220000\" stroke-width=\"1\" stroke-dasharray=\"2,2\"/>\n  <line x1=\"20\" y1=\"170\" x2=\"120\" y2=\"170\" stroke=\"#220000\" stroke-width=\"1\" stroke-dasharray=\"2,2\"/>\n  \n  <!-- Scattered items on floor -->\n  <rect x=\"30\" y=\"180\" width=\"20\" height=\"5\" fill=\"#666666\"/>\n  <rect x=\"60\" y=\"170\" width=\"15\" height=\"3\" fill=\"#666666\"/>\n  <rect x=\"80\" y=\"190\" width=\"10\" height=\"2\" fill=\"#666666\"/>\n  \n  <!-- Right side - Locked cabinet -->\n  <rect x=\"480\" y=\"80\" width=\"80\" height=\"120\" fill=\"#000022\" stroke=\"#220000\" stroke-width=\"3\"/>\n  <rect x=\"500\" y=\"100\" width=\"40\" height=\"20\" fill=\"#4A4A4A\"/>\n  <rect x=\"520\" y=\"130\" width=\"20\" height=\"10\" fill=\"#8B0000\"/>\n  <line x1=\"480\" y1=\"140\" x2=\"560\" y2=\"140\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <text x=\"490\" y=\"155\" font-family=\"monospace\" font-size=\"6\" fill=\"#00FF00\">RESTRICTED</text>\n  <text x=\"490\" y=\"165\" font-family=\"monospace\" font-size=\"6\" fill=\"#00FF00\">EQUIPMENT</text>\n  \n  <!-- Desk and terminal -->\n  <rect x=\"200\" y=\"200\" width=\"180\" height=\"20\" fill=\"#000011\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <rect x=\"210\" y=\"210\" width=\"160\" height=\"10\" fill=\"#000000\"/>\n  <text x=\"220\" y=\"218\" font-family=\"monospace\" font-size=\"6\" fill=\"#00FF00\">...</text>\n  <text x=\"220\" y=\"226\" font-family=\"monospace\" font-size=\"6\" fill=\"#00FF00\">BREACH</text>\n  <text x=\"220\" y=\"234\" font-family=\"monospace\" font-size=\"6\" fill=\"#00FF00\">THORNE</text>\n  \n  <!-- Porthole -->\n  <circle cx=\"550\" cy=\"300\" radius=\"40\" fill=\"#000022\" stroke=\"#220000\" stroke-width=\"3\"/>\n  <circle cx=\"550\" cy=\"300\" radius=\"30\" fill=\"#000000\"/>\n  <path d=\"M550,260 Q570,280 550,300 Q530,280 550,260 Z\" fill=\"#001100\" opacity=\"0.5\"/>\n  \n  <!-- Shadows in corners -->\n  <rect x=\"0\" y=\"350\" width=\"60\" height=\"50\" fill=\"#000000\" opacity=\"0.5\"/>\n  <rect x=\"580\" y=\"350\" width=\"60\" height=\"50\" fill=\"#000000\" opacity=\"0.5\"/>\n  \n  <!-- Floor details -->\n  <rect x=\"0\" y=\"380\" width=\"640\" height=\"20\" fill=\"#000011\"/>\n  \n  <!-- Mold details on desk -->\n  <ellipse cx=\"250\" cy=\"205\" radius=\"8\" radiusY=\"3\" fill=\"#006600\" opacity=\"0.3\"/>\n  <ellipse cx=\"270\" cy=\"205\" radius=\"6\" radiusY=\"2\" fill=\"#006600\" opacity=\"0.3\"/>\n</svg>",
   "bio-lab": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Cold, sterile environment -->\n  <rect width=\"640\" height=\"400\" fill=\"#000022\"/>\n  \n  <!-- Ceiling with mist -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"30\" fill=\"#000011\"/>\n  <ellipse cx=\"320\" cy=\"20\" rx=\"300\" ry=\"20\" fill=\"#003366\" opacity=\"0.1\"/>\n  \n  <!-- Left wall - Specimen tanks -->\n  <rect x=\"30\" y=\"60\" width=\"60\" height=\"120\" fill=\"#000033\" stroke=\"#0066CC\" stroke-width=\"2\"/>\n  <rect x=\"30\" y=\"60\" width=\"60\" height=\"120\" fill=\"#003366\" opacity=\"0.3\"/>\n  <ellipse cx=\"60\" cy=\"120\" rx=\"15\" ry=\"30\" fill=\"#00FF00\" opacity=\"0.2\"/>\n  \n  <rect x=\"110\" y=\"60\" width=\"60\" height=\"120\" fill=\"#000033\" stroke=\"#0066CC\" stroke-width=\"2\"/>\n  <rect x=\"110\" y=\"60\" width=\"60\" height=\"120\" fill=\"#003366\" opacity=\"0.3\"/>\n  <ellipse cx=\"140\" cy=\"100\" rx=\"10\" ry=\"20\" fill=\"#00FF00\" opacity=\"0.2\"/>\n  \n  <!-- Right wall - More tanks -->\n  <rect x=\"450\" y=\"60\" width=\"60\" height=\"120\" fill=\"#000033\" stroke=\"#0066CC\" stroke-width=\"2\"/>\n  <rect x=\"450\" y=\"60\" width=\"60\" height=\"120\" fill=\"#003366\" opacity=\"0.3\"/>\n  <ellipse cx=\"480\" cy=\"110\" rx=\"12\" ry=\"25\" fill=\"#00FF00\" opacity=\"0.2\"/>\n  \n  <rect x=\"530\" y=\"60\" width=\"60\" height=\"120\" fill=\"#000033\" stroke=\"#0066CC\" stroke-width=\"2\"/>\n  <rect x=\"530\" y=\"60\" width=\"60\" height=\"120\" fill=\"#003366\" opacity=\"0.3\"/>\n  <ellipse cx=\"560\" cy=\"130\" rx=\"18\" ry=\"35\" fill=\"#00FF00\" opacity=\"0.2\"/>\n  \n  <!-- Center - Cracked tank -->\n  <rect x=\"240\" y=\"80\" width=\"160\" height=\"100\" fill=\"#000033\" stroke=\"#0066CC\" stroke-width=\"2\"/>\n  <line x1=\"260\" y1=\"80\" x2=\"280\" y2=\"180\" stroke=\"#0066CC\" stroke-width=\"3\"/>\n  <line x1=\"280\" y1=\"80\" x2=\"300\" y2=\"160\" stroke=\"#0066CC\" stroke-width=\"2\"/>\n  <rect x=\"240\" y=\"180\" width=\"160\" height=\"20\" fill=\"#003366\" opacity=\"0.5\"/>\n  \n  <!-- Fluid on floor -->\n  <path d=\"M240,200 Q320,220 400,200 Q380,240 240,200\" fill=\"#00FF00\" opacity=\"0.1\"/>\n  \n  <!-- Workstations -->\n  <rect x=\"100\" y=\"220\" width=\"120\" height=\"40\" fill=\"#000022\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <ellipse cx=\"160\" cy=\"210\" rx=\"15\" ry=\"8\" fill=\"#000033\" stroke=\"#220000\" stroke-width=\"1\"/>\n  <rect x=\"140\" y=\"230\" width=\"40\" height=\"20\" fill=\"#000033\" stroke=\"#220000\" stroke-width=\"1\"/>\n  \n  <!-- Sonar ping device -->\n  <rect x=\"250\" y=\"240\" width=\"40\" height=\"20\" fill=\"#4A4A4A\" stroke=\"#220000\" stroke-width=\"1\"/>\n  <rect x=\"260\" y=\"245\" width=\"20\" height=\"10\" fill=\"#000000\"/>\n  <circle cx=\"270\" cy=\"250\" r=\"3\" fill=\"#00FF00\" opacity=\"0.5\"/>\n  \n  <!-- Door panel -->\n  <rect x=\"500\" y=\"250\" width=\"60\" height=\"40\" fill=\"#000022\" stroke=\"#220000\" stroke-width=\"2\"/>\n  <rect x=\"520\" y=\"260\" width=\"20\" height=\"20\" fill=\"#00FF00\" opacity=\"0.3\"/>\n  \n  <!-- Floor details -->\n  <rect x=\"0\" y=\"380\" width=\"640\" height=\"20\" fill=\"#000011\"/>\n  \n  <!-- Dripping condensation -->\n  <line x1=\"100\" y1=\"30\" x2=\"100\" y2=\"50\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <line x1=\"300\" y1=\"30\" x2=\"300\" y2=\"60\" stroke=\"#003366\" stroke-width=\"1\"/>\n  <line x1=\"500\" y1=\"30\" x2=\"500\" y2=\"40\" stroke=\"#003366\" stroke-width=\"1\"/>\n</svg>",
@@ -680,7 +567,7 @@ const GAME_ART = {
   "maintenance-override-key": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Maintenance Override Key -->\n  <rect x=\"16\" y=\"12\" width=\"32\" height=\"20\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"16\" width=\"24\" height=\"12\" fill=\"#A0522D\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Key shaft -->\n  <rect x=\"28\" y=\"32\" width=\"8\" height=\"20\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Key teeth -->\n  <rect x=\"24\" y=\"48\" width=\"6\" height=\"6\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"34\" y=\"44\" width=\"6\" height=\"10\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Text -->\n  <text x=\"18\" y=\"26\" font-family=\"monospace\" font-size=\"4\" fill=\"#FFFFFF\">ENGINEERING</text>\n  <text x=\"22\" y=\"32\" font-family=\"monospace\" font-size=\"4\" fill=\"#FFFFFF\">OVERRIDE</text>\n</svg>",
   "oxygen-canister": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Oxygen Canister -->\n  <rect x=\"20\" y=\"8\" width=\"24\" height=\"48\" fill=\"#2E8B57\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"22\" y=\"10\" width=\"20\" height=\"44\" fill=\"#3CB371\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Gauge -->\n  <circle cx=\"32\" cy=\"25\" r=\"8\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"32\" cy=\"25\" r=\"6\" fill=\"#000000\"/>\n  <!-- Half-full indicator -->\n  <path d=\"M26,25 A6,6 0 0,1 38,25 L38,28 A6,6 0 0,1 26,28 Z\" fill=\"#00FF00\" opacity=\"0.7\"/>\n  <!-- Valve -->\n  <rect x=\"26\" y=\"4\" width=\"12\" height=\"6\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"28\" y=\"2\" width=\"8\" height=\"4\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Hiss lines -->\n  <line x1=\"28\" y1=\"56\" x2=\"28\" y2=\"60\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"32\" y1=\"58\" x2=\"32\" y2=\"62\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.2\"/>\n  <line x1=\"36\" y1=\"56\" x2=\"36\" y2=\"60\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n</svg>",
   "airlock-circuit": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Airlock Circuit -->\n  <rect x=\"8\" y=\"16\" width=\"48\" height=\"32\" fill=\"#006400\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Circuit traces -->\n  <line x1=\"12\" y1=\"20\" x2=\"20\" y2=\"20\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"20\" x2=\"20\" y2=\"30\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <line x1=\"20\" y1=\"30\" x2=\"30\" y2=\"30\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <line x1=\"30\" y1=\"30\" x2=\"30\" y2=\"40\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <line x1=\"30\" y1=\"40\" x2=\"40\" y2=\"40\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <line x1=\"40\" y1=\"40\" x2=\"40\" y2=\"20\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <line x1=\"40\" y1=\"20\" x2=\"52\" y2=\"20\" stroke=\"#FFD700\" stroke-width=\"2\"/>\n  <!-- Components -->\n  <rect x=\"22\" y=\"22\" width=\"8\" height=\"6\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"32\" y=\"32\" width=\"8\" height=\"6\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"44\" cy=\"30\" r=\"4\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Unstable power glow -->\n  <circle cx=\"32\" cy=\"32\" r=\"15\" fill=\"#00FF00\" opacity=\"0.1\"/>\n  <circle cx=\"32\" cy=\"32\" r=\"10\" fill=\"#00FF00\" opacity=\"0.05\"/>\n  <!-- Edge connectors -->\n  <rect x=\"10\" y=\"46\" width=\"6\" height=\"4\" fill=\"#FFD700\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"20\" y=\"46\" width=\"6\" height=\"4\" fill=\"#FFD700\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"46\" width=\"6\" height=\"4\" fill=\"#FFD700\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"40\" y=\"46\" width=\"6\" height=\"4\" fill=\"#FFD700\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>"
-};
+}
 
 // ============================================================
 // GAME LOGIC
@@ -689,8 +576,7 @@ const GAME_ART = {
 // Gameplay Coder: Hex Corbin
 // ============================================================
 
-// Game data will be embedded here by the Game Assembler
-const GAME_DATA = {}; // Replace with actual game-script.json contents
+
 
 // ---- Game State ----
 const state = {
@@ -1079,6 +965,18 @@ function init() {
 }
 
 init();
+    
+// Reset button
+document.getElementById('reset-btn')?.addEventListener('click', function() {
+    if (confirm('Reset the game to the beginning?')) {
+        state = {currentScene: GAME_DATA.scenes[0].id, inventory: [], solvedPuzzles: [], visitedScenes: [GAME_DATA.scenes[0].id], selectedItem: null, won: false};
+        clearText(); addText('The story begins anew...', 'system');
+        renderScene(state.currentScene); renderInventory();
+    }
+});
     </script>
+</body>
+</html>
+</script>
 </body>
 </html>

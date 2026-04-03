@@ -1,0 +1,279 @@
+{
+  "title": "Starlight Derelict",
+  "slug": "starlight-derelict",
+  "number": 11,
+  "setting": "The SS Starlight, a derelict deep-space research vessel drifting in orbit around a dead planet. The crew vanished after an experiment with alien organic matter went wrong. Something still moves in the dark corridors.",
+  "characters": [
+    {
+      "id": "dr-ramos",
+      "name": "Dr. Althea Ramos",
+      "description": "The station's chief xenobiologist. Her final logs describe a 'living membrane' that consumes everything it touches."
+    },
+    {
+      "id": "the-ooze",
+      "name": "The Grey Matter",
+      "description": "An alien biological entity that spreads like a sentient mold, absorbing organic material and mimicking human voices."
+    }
+  ],
+  "items": [
+    {
+      "id": "access-key",
+      "name": "Access Keycard",
+      "description": "A standard crew access card. It should open most doors on the station.",
+      "foundIn": "airlock",
+      "usedIn": "airlock",
+      "usedOn": "airlock-door"
+    },
+    {
+      "id": "plasma-cutter",
+      "name": "Plasma Cutter",
+      "description": "A heavy-duty cutter used for hull repairs. Whines ominously when activated.",
+      "foundIn": "maintenance-bay",
+      "usedIn": "engineering-bay",
+      "usedOn": "shut-down-valve"
+    },
+    {
+      "id": "data-crystal",
+      "name": "Data Crystal",
+      "description": "A small crystalline storage device containing the station's final research logs and the creature's weakness.",
+      "foundIn": "laboratory",
+      "usedIn": "communications-array",
+      "usedOn": "terminal"
+    },
+    {
+      "id": "power-cell",
+      "name": "Emergency Power Cell",
+      "description": "A high-capacity battery used to start the auxiliary power system.",
+      "foundIn": "maintenance-bay",
+      "usedIn": "engineering-bay",
+      "usedOn": "power-conduit"
+    },
+    {
+      "id": "override-chip",
+      "name": "Override Chip",
+      "description": "A specialized chip that can bypass the docking clamp's auto-lock sequence.",
+      "foundIn": "airlock",
+      "usedIn": "airlock",
+      "usedOn": "clamp-control"
+    },
+    {
+      "id": "oxygen-tank",
+      "name": "Oxygen Tank",
+      "description": "A full-tank portable oxygen supply. Essential for EVA.",
+      "foundIn": "airlock",
+      "usedIn": "airlock",
+      "usedOn": "suit-hooks"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "airlock",
+      "name": "Airlock",
+      "prose": "You float in the inner airlock chamber. The metal walls are scarred and slimy. An inner door leads deeper into the station. An EVA suit hangs on a hook, its helmet cracked. The outer hatch is sealed by an automatic clamp mechanism.",
+      "exits": {
+        "inner": "maintenance-bay"
+      },
+      "items": [
+        "access-key",
+        "oxygen-tank",
+        "override-chip"
+      ],
+      "puzzles": [
+        "airlock-door",
+        "clamp-control"
+      ],
+      "lookDescriptions": {
+        "eva suit": "The oxygen feed is severed. It's useless without an air supply.",
+        "clamp control": "A magnetic locking clamp preventing the outer hatch from opening. It requires an override signal.",
+        "inner door": "A standard crew door with a card reader."
+      }
+    },
+    {
+      "id": "maintenance-bay",
+      "name": "Maintenance Bay",
+      "prose": "A cramped workshop filled with tools and spare parts. The floor is sticky with a grey, fibrous substance. A power conduit runs along the ceiling, sparking intermittently. A door to the crew quarters lies to the north.",
+      "exits": {
+        "north": "crew-quarters",
+        "south": "engineering-bay"
+      },
+      "items": [
+        "plasma-cutter",
+        "power-cell"
+      ],
+      "puzzles": [
+        "shut-down-valve"
+      ],
+      "lookDescriptions": {
+        "power conduit": "The main power feed to the station is shorted. It needs a reset after being cut.",
+        "sticky floor": "The grey fuzz spreads from the vents. It pulses faintly."
+      }
+    },
+    {
+      "id": "crew-quarters",
+      "name": "Crew Quarters",
+      "prose": "Rows of sleeping pods line the walls. Most are empty, their sheets stained with the same grey residue. A personal locker is ajar, spilling clothes. The air smells of damp earth.",
+      "exits": {
+        "south": "maintenance-bay"
+      },
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "locker": "Inside you find a faded family photo and a bottle of whiskey. Nothing useful."
+      }
+    },
+    {
+      "id": "engineering-bay",
+      "name": "Engineering Bay",
+      "prose": "The station's power core hums faintly, its coolant pipes leaking a viscous fluid. A primary control console is dark. An emergency power terminal sits near the wall. A shut-down valve for the coolant system is nearby, coated in the grey growth.",
+      "exits": {
+        "north": "maintenance-bay",
+        "east": "laboratory"
+      },
+      "items": [
+        "power-cell"
+      ],
+      "puzzles": [
+        "power-conduit"
+      ],
+      "lookDescriptions": {
+        "power core": "The reactor is stable but output is minimal without a main power feed.",
+        "shut-down valve": "The valve handle is encased in a thick layer of the alien growth. You'll need to cut through it."
+      }
+    },
+    {
+      "id": "laboratory",
+      "name": "Laboratory",
+      "prose": "This wing housed xenobiology research. Workstations are overturned. Petri dishes and sample vials litter the floor. In the center, a containment chamber has been shattered. A terminal flickers with a warning screen. A data crystal rests on a console.",
+      "exits": {
+        "west": "engineering-bay",
+        "south": "storage-room"
+      },
+      "items": [
+        "data-crystal"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "containment breach": "Something big broke out of here.",
+        "terminal": "It requests an access code, but the override chip might bypass it."
+      }
+    },
+    {
+      "id": "storage-room",
+      "name": "Storage Room",
+      "prose": "Supplies for the long mission: food packs, tools, and spare parts. Everything is covered in the creeping grey matter. A sealed escape pod bay lies to the east, its door requiring manual release from inside. A communications array panel is on the north wall, its transmitter fried.",
+      "exits": {
+        "north": "laboratory",
+        "east": "pod-bay"
+      },
+      "items": [],
+      "puzzles": [
+        "terminal-access"
+      ],
+      "lookDescriptions": {
+        "escape pod": "The hatch is sealed. Once you start the ejection sequence, there's no turning back.",
+        "communications array": "The transmitter needs a data upload to send a distress signal and unlock the pod."
+      }
+    },
+    {
+      "id": "pod-bay",
+      "name": "Escape Pod Bay",
+      "prose": "A single escape pod waits in the small launch bay. The cockpit canopy is clear. Inside, there are three seats and a control panel that asks for an authorization code. The pod will launch once the station's docking clamps are released and you have a secured oxygen supply.",
+      "exits": {},
+      "items": [],
+      "puzzles": [
+        "launch-sequence"
+      ],
+      "lookDescriptions": {
+        "control panel": "It displays: 'AUTHORIZATION REQUIRED - INSERT OVERRIDE CHIP'.",
+        "seats": "Safety harnesses are in place. The trip will be rough."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "airlock-door",
+      "scene": "airlock",
+      "requires": [
+        "access-key"
+      ],
+      "action": "use access-key on card reader",
+      "result": "The inner door clicks and slides open with a hiss of equalizing pressure.",
+      "reveals": [
+        "maintenance-bay"
+      ],
+      "blocksExit": {
+        "scene": "airlock",
+        "direction": "inner"
+      },
+      "blockedMessage": "The door is locked. Swipe an access card to proceed."
+    },
+    {
+      "id": "shut-down-valve",
+      "scene": "maintenance-bay",
+      "requires": [
+        "plasma-cutter"
+      ],
+      "action": "use plasma-cutter on growth-covered valve",
+      "result": "The cutter burns through the fibrous mass. You turn the valve, stopping the coolant leak and restoring partial power to engineering.",
+      "reveals": [
+        "engineering-bay",
+        "power-conduit"
+      ],
+      "blocksExit": {},
+      "blockedMessage": ""
+    },
+    {
+      "id": "power-conduit",
+      "scene": "engineering-bay",
+      "requires": [
+        "power-cell"
+      ],
+      "action": "connect power-cell to main conduit",
+      "result": "Sparks fly as station power comes online. Lights flicker on throughout the ship. The communications array in Storage now has power.",
+      "reveals": [
+        "storage-room",
+        "terminal-access"
+      ],
+      "blocksExit": {},
+      "blockedMessage": ""
+    },
+    {
+      "id": "terminal-access",
+      "scene": "storage-room",
+      "requires": [
+        "data-crystal"
+      ],
+      "action": "use data-crystal on terminal",
+      "result": "The terminal accepts the crystal and downloads its contents. It displays: 'DOCKING CLAMPS OVERRIDE CODE: 7-7-7'. The escape pod now accepts the override chip. An airlock cycle completes, clearing the grey matter from the pod bay entrance.",
+      "reveals": [
+        "pod-bay"
+      ],
+      "blocksExit": {
+        "scene": "storage-room",
+        "direction": "east"
+      },
+      "blockedMessage": "The pod bay hatch is sealed. You need to activate the terminal and clear the airlock."
+    },
+    {
+      "id": "launch-sequence",
+      "scene": "pod-bay",
+      "requires": [
+        "override-chip",
+        "oxygen-tank"
+      ],
+      "action": "use override-chip on panel and attach oxygen-tank",
+      "result": "Override chip accepted. Oxygen supply secured. The pod detaches from the station and rockets away into the void. The SS Starlight becomes a tomb once more \u2014 this time with you gone.",
+      "reveals": [],
+      "blocksExit": {},
+      "blockedMessage": ""
+    }
+  ],
+  "winCondition": {
+    "scene": "pod-bay",
+    "requires": [
+      "override-chip",
+      "oxygen-tank"
+    ],
+    "description": "The pod clears the station's hull and enters a stable trajectory. You watch the derelict recede into the starfield. You've survived the Starlight Derelict."
+  }
+}

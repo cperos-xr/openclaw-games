@@ -3,7 +3,7 @@
 // ============================================================
 
 // Game data will be embedded here by the Game Assembler
-const GAME_DATA = {}; // Replace with actual game-script.json contents
+window.GAME_DATA = window.GAME_DATA || {};
 
 // ---- Game State ----
 const state = {
@@ -140,6 +140,16 @@ function setCommand(cmd) {
       const targets = Object.keys(scene.lookDescriptions);
       if (targets.length > 0) {
         addText('You can examine: ' + targets.map(t =>
+          `<span class="look-target" data-look="${t}">${t}</span>`
+        ).join(', '), 'system');
+      }
+    }
+  } else if (cmd === 'examine') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    if (scene && scene.lookDescriptions) {
+      const targets = Object.keys(scene.lookDescriptions);
+      if (targets.length > 0) {
+        addText('Select something to examine: ' + targets.map(t =>
           `<span class="look-target" data-look="${t}">${t}</span>`
         ).join(', '), 'system');
       }
@@ -294,6 +304,8 @@ document.addEventListener('click', (e) => {
     const target = e.target.dataset.look;
     if (state.activeCommand === 'use' && state.selectedItem) {
       useItemOn(state.selectedItem, target);
+    } else if (state.activeCommand === 'examine') {
+      lookAt(target);
     } else {
       lookAt(target);
     }

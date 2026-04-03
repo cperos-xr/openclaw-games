@@ -1,348 +1,599 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Hollow of Saint Vex</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hollow of Saint Vex | Game #2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+         * OPENCLAW GAME TEMPLATE v3.0 — MOBILE-FIRST
+         *
+         * ARCHITECTURE:
+         *   Mobile (<769px): Scrollable page. Art top. Content below.
+         *   Desktop (≥769px): Fixed 100vh. Art left 60%. Text right 40%.
+         *
+         * FIVE RULES THAT MUST NEVER BE BROKEN:
+         *   1. NEVER add height:100vh + overflow:hidden outside the desktop media query
+         *   2. NEVER set min-height > 0px on .art-panel at base/mobile level
+         *   3. ALWAYS use aspect-ratio: 8/5 (640x400) for the art panel on mobile
+         *   4. ALWAYS use min-height:44px on every clickable button (touch targets)
+         *   5. ALWAYS use flex-wrap:wrap on .command-bar and #exits-bar
+         * ============================================================ */
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body {
-    min-height: 100%; background: #000; color: #33ff33;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: 12px; line-height: 1.8;
-  }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  body::after {
-    content: ''; position: fixed; inset: 0; z-index: 999;
-    background: repeating-linear-gradient(
-      transparent, transparent 2px, rgba(0,0,0,0.12) 2px, rgba(0,0,0,0.12) 4px
-    );
-    pointer-events: none;
-  }
+        /* CRT scanline overlay */
+        body::after {
+            content: ''; position: fixed; inset: 0; z-index: 999; pointer-events: none;
+            background: repeating-linear-gradient(
+                transparent, transparent 2px,
+                rgba(0,0,0,0.10) 2px, rgba(0,0,0,0.10) 4px
+            );
+        }
 
-  .container {
-    max-width: 720px; margin: 0 auto; padding: 32px 16px;
-  }
+        /* ── MOBILE BASE (default, all screens) ─────────────────────
+         * Normal document flow. No height:100vh. No overflow:hidden.
+         * Everything stacks vertically and scrolls naturally.
+         * ──────────────────────────────────────────────────────────── */
+        body {
+            background: #000; color: #33ff33;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 11px; line-height: 1.6;
+            padding: 8px; max-width: 1200px; margin: 0 auto;
+            overflow-x: hidden; /* prevent horizontal scroll from oversized art */
+        }
 
-  #art-display {
-    border: 2px solid #33ff33;
-    margin-bottom: 20px;
-    background: #000;
-    min-height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+        header { text-align: center; padding-bottom: 8px; }
+        h1 { font-size: 13px; color: #33ff33; text-shadow: 0 0 8px #33ff33; margin-bottom: 4px; }
+        .subtitle { font-size: 8px; color: #226622; }
 
-  #art-display svg, #art-display img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  }
+        #scene-name {
+            font-size: 12px; text-align: center; color: #ffff33;
+            text-transform: uppercase; letter-spacing: 1px; padding: 6px 0;
+        }
 
-  #scene-name {
-    font-size: 16px;
-    text-align: center;
-    margin-bottom: 10px;
-    color: #ffff33;
-    text-shadow: 0 0 10px rgba(255,255,51,0.5);
-  }
+        /* Art panel: fills width, keeps 8:5 (640×400) aspect ratio.
+         * max-height: 56vw = ~210px on a 375px phone — art is clear but
+         * leaves plenty of room below for text and controls. */
+        .art-panel {
+            width: 100%; aspect-ratio: 8 / 5; max-height: 56vw;
+            border: 2px solid #33ff33; background: #111;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        #art-display { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        #art-display svg, #art-display img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        .no-art { color: #226622; font-size: 9px; text-align: center; }
 
-  #text-display {
-    border: 1px solid #226622;
-    padding: 16px;
-    margin-bottom: 20px;
-    background: rgba(0,20,0,0.7);
-    min-height: 200px;
-    max-height: 300px;
-    overflow-y: auto;
-  }
+        /* Text panel: plain block on mobile, no fixed height */
+        .text-panel {
+            border: 2px solid #33ff33; background: #111;
+            padding: 10px; margin-top: 8px;
+        }
 
-  #text-display p {
-    margin-bottom: 8px;
-  }
+        /* Story text: scrollable, capped so it doesn't swallow the whole screen */
+        #text-display {
+            overflow-y: auto; max-height: 40vh;
+            border-bottom: 1px solid #226622; padding-bottom: 8px; margin-bottom: 8px;
+        }
+        #text-display p { margin-bottom: 8px; }
+        #text-display .system  { color: #33bbff; font-style: italic; }
+        #text-display .success { color: #ffff33; font-weight: bold; }
+        #text-display .locked  { color: #ff3333; }
+        #text-display .error   { color: #ff5555; }
+        .look-target { color: #ffff33; text-decoration: underline; cursor: pointer; }
+        .look-target:hover { color: #ffcc00; }
 
-  .system { color: #66ff66; }
-  .success { color: #ffff33; }
-  .error { color: #ff3333; }
+        /* Command buttons: wrapping row, 44px tap targets */
+        .command-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+        .cmd-btn {
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 10px 14px; min-height: 44px; min-width: 44px; flex: 1;
+            font-family: 'Press Start 2P', monospace; font-size: 9px; cursor: pointer;
+        }
+        .cmd-btn:hover, .cmd-btn.active { background: #33ff33; color: #000; }
+        #hint-toggle { flex: 0 0 auto; }
 
-  .look-target {
-    color: #ff9933;
-    cursor: pointer;
-    text-decoration: underline;
-  }
+        /* Inventory */
+        .inventory-panel { border: 1px solid #226622; background: #000; padding: 8px; margin-bottom: 8px; }
+        .inventory-panel h3 { font-size: 8px; color: #ffff33; margin-bottom: 6px; }
+        #inventory-bar { display: flex; flex-wrap: wrap; gap: 6px; min-height: 18px; }
+        #inv-empty { color: #226622; font-size: 9px; }
+        .inv-item {
+            border: 1px solid #33ff33; padding: 8px 10px; min-height: 36px;
+            font-family: inherit; font-size: 9px; cursor: pointer; background: #000; color: #33ff33;
+        }
+        .inv-item:hover, .inv-item.selected { background: #33ff33; color: #000; }
 
-  .look-target:hover {
-    color: #ffcc33;
-  }
+        /* Exits */
+        .exits-panel { border: 1px solid #226622; background: #000; padding: 8px; }
+        .exits-panel h3 { font-size: 8px; color: #ffff33; margin-bottom: 6px; }
+        #exits-bar { display: flex; flex-wrap: wrap; gap: 6px; }
+        .exit-btn {
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 10px 14px; min-height: 44px; min-width: 44px;
+            font-family: 'Press Start 2P', monospace; font-size: 9px; cursor: pointer;
+        }
+        .exit-btn.available:hover { background: #33ff33; color: #000; }
+        .exit-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-  #inventory-bar {
-    border: 1px solid #33ff33;
-    padding: 10px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    min-height: 40px;
-  }
+        .hint { color: #FFAA00 !important; font-style: italic; border-left: 2px solid #FFAA00; padding-left: 8px; margin: 5px 0; }
+        .hint::before { content: "HINT: "; font-weight: bold; }
 
-  .inv-item {
-    border: 1px solid #33ff33;
-    padding: 4px 8px;
-    cursor: pointer;
-  }
+        footer { margin-top: 8px; text-align: center; font-size: 7px; color: #113311; padding: 8px 0; }
 
-  .inv-item.selected {
-    background: #33ff33;
-    color: #000;
-  }
+        /* Animations */
+        @keyframes puzzle-solved {
+            0%   { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
+            50%  { filter: brightness(1.8) drop-shadow(0 0 20px #ffff33); }
+            100% { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
+        }
+        @keyframes itemGlow {
+            0%   { box-shadow: 0 0 4px #33ff33; }
+            50%  { box-shadow: 0 0 16px #33ff33; }
+            100% { box-shadow: 0 0 4px #33ff33; }
+        }
+        @keyframes unlockPulse {
+            0%, 100% { border-color: #33ff33; }
+            50% { border-color: #ffff33; box-shadow: 0 0 12px #ffff33; }
+        }
+        .puzzle-solved { animation: puzzle-solved 0.6s ease-out; }
+        .item-new { animation: itemGlow 1s ease-in-out 3; }
+        .newly-unlocked { animation: unlockPulse 1s ease 3; }
 
-  #inv-empty {
-    color: #226622;
-  }
+        /* ── DESKTOP (≥769px): side-by-side, fits 100vh ─────────────
+         * Only here do we apply height:100vh + overflow:hidden.
+         * Flex layout with min-height:0 so panels can shrink properly.
+         * ──────────────────────────────────────────────────────────── */
+        @media (min-width: 769px) {
+            body {
+                display: flex; flex-direction: column;
+                height: 100vh; overflow: hidden;
+                font-size: 12px; padding: 12px;
+            }
+            header { flex-shrink: 0; margin-bottom: 6px; }
+            h1 { font-size: 16px; }
+            .subtitle { font-size: 9px; }
+            #scene-name { font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; flex-shrink: 0; }
 
-  #exits-bar {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
+            .game-container {
+                display: flex; flex: 1; gap: 12px;
+                min-height: 0; /* CRITICAL: lets flex children shrink below content height */
+            }
+            .art-panel {
+                flex: 3; aspect-ratio: unset; max-height: none; /* flex dictates height */
+                margin-top: 0;
+            }
+            .text-panel {
+                flex: 2; display: flex; flex-direction: column;
+                overflow: hidden; margin-top: 0;
+            }
+            #text-display { flex: 1; max-height: none; overflow-y: auto; }
+            .cmd-btn    { flex: 1; padding: 6px 10px; min-height: 36px; }
+            .exit-btn   { padding: 6px 10px; min-height: 36px; }
+            .inv-item   { padding: 4px 8px; min-height: 30px; }
+            footer { flex-shrink: 0; }
+        }
 
-  .exit-btn {
-    border: 2px solid #33ff33;
-    background: #000;
-    color: #33ff33;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-family: 'Press Start 2P', monospace;
-  }
-
-  .exit-btn.available:hover {
-    background: #33ff33;
-    color: #000;
-  }
-
-  .exit-btn:disabled {
-    border-color: #226622;
-    color: #226622;
-    cursor: not-allowed;
-  }
-
-  .commands {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  .cmd-btn {
-    border: 2px solid #33ff33;
-    background: #000;
-    color: #33ff33;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-family: 'Press Start 2P', monospace;
-  }
-
-  .cmd-btn.active {
-    background: #33ff33;
-    color: #000;
-  }
-
-  /* Puzzle animations */
-  @keyframes puzzle-solved {
-    0% { filter: brightness(1); }
-    50% { filter: brightness(2); }
-    100% { filter: brightness(1); }
-  }
-
-  @keyframes unlockPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-  }
-
-  @keyframes itemGlow {
-    0% { box-shadow: 0 0 5px #33ff33; }
-    50% { box-shadow: 0 0 20px #33ff33; }
-    100% { box-shadow: 0 0 5px #33ff33; }
-  }
-
-  .puzzle-solved {
-    animation: puzzle-solved 0.6s ease;
-  }
-
-  .item-new {
-    animation: unlockPulse 1s ease 3;
-  }
-
-  .inv-item.selected {
-    animation: itemGlow 1s infinite;
-  }
-
-  .no-art {
-    color: #226622;
-    font-style: italic;
-  }
-
-  .hint {
-    color: #FFAA00 !important;
-    font-style: italic;
-    border-left: 2px solid #FFAA00;
-    padding-left: 8px;
-    margin: 5px 0;
-  }
-  .hint::before {
-    content: "🤔 HINT: ";
-    font-weight: bold;
-  }
-  #hint-toggle {
-    background: #000;
-    color: #33ff33;
-    border: 1px solid #33ff33;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    margin-left: 10px;
-  }
-
-  footer {
-    text-align: center;
-    color: #113311;
-    font-size: 8px;
-    margin-top: 48px;
-    padding-bottom: 16px;
-  }
-
-  /* ── MOBILE FIX v3.0 ───────────────────────────────────────── */
-  @media (max-width: 768px) {
-    html, body { font-size: 11px !important; line-height: 1.5 !important; }
-    .container { padding: 12px 8px !important; }
-    #art-display { max-height: 56vw; aspect-ratio: 8 / 5; }
-    .commands { flex-wrap: wrap !important; justify-content: flex-start !important; gap: 6px !important; }
-    .cmd-btn { min-height: 44px !important; flex: 1 !important; padding: 8px 10px !important; }
-    .exit-btn { min-height: 44px !important; padding: 8px 12px !important; }
-    #exits-bar { flex-wrap: wrap !important; gap: 6px !important; }
-    #inventory-bar { flex-wrap: wrap !important; gap: 6px !important; }
-  }
-</style>
+        /* ── LANDSCAPE MOBILE (short + wide) ───────────────────────── */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .game-container { display: flex !important; flex-direction: row !important; }
+            .art-panel { flex: 1; aspect-ratio: unset; max-height: none; }
+            .text-panel { flex: 1; overflow-y: auto; }
+            #text-display { max-height: 45vh; }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-  <div id="art-display"></div>
-  <div id="scene-name"></div>
-  <div id="text-display"></div>
-  <div id="inventory-bar">
-    <span id="inv-empty">INVENTORY EMPTY</span>
-  </div>
-  <div id="exits-bar"></div>
-  <div class="commands">
-    <button class="cmd-btn" data-cmd="look">LOOK</button>
-    <button class="cmd-btn" data-cmd="take">TAKE</button>
-    <button class="cmd-btn" data-cmd="use">USE</button>
-    <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
-    <button id="hint-toggle" class="cmd-btn">HINTS: ON</button>
-  </div>
-  <footer>
-    OpenClaw Point & Click Studio | Game #002: The Hollow of Saint Vex | Produced by AI Agents
-  </footer>
+
+<header>
+    <h1>THE HOLLOW OF SAINT VEX</h1>
+    <div class="subtitle">OpenClaw Adventures — Game #{{GAME_NUMBER}}</div>
+</header>
+
+<div id="scene-name">The Collapsed Entrance</div>
+
+<div class="game-container">
+    <!-- Art panel: 640x400 SVG art, scales to fill panel -->
+    <div class="art-panel">
+        <div id="art-display">
+            <span class="no-art">[ART LOADING]</span>
+        </div>
+    </div>
+
+    <!-- Text panel: narrative, commands, inventory, exits -->
+    <div class="text-panel">
+        <div id="text-display"></div>
+
+        <div class="command-bar">
+            <button class="cmd-btn" data-cmd="look">LOOK</button>
+            <button class="cmd-btn" data-cmd="take">TAKE</button>
+            <button class="cmd-btn" data-cmd="use">USE</button>
+            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+            <button id="hint-toggle" class="cmd-btn">HINTS: ON</button>
+            <button id="reset-btn" class="cmd-btn reset-btn">RESET</button>
+        </div>
+
+        <div class="inventory-panel">
+            <h3>INVENTORY</h3>
+            <div id="inventory-bar">
+                <span id="inv-empty">(empty)</span>
+            </div>
+        </div>
+
+        <div class="exits-panel">
+            <h3>EXITS</h3>
+            <div id="exits-bar"></div>
+        </div>
+    </div>
 </div>
 
-<script>
-// GAME_DATA
-const GAME_DATA = {"title":"The Hollow of Saint Vex","slug":"the-hollow-of-saint-vex","number":2,"setting":"Abandoned Victorian mine-temple, Colorado Rockies, 1891","characters":[{"id":"char-ezekiel-vex","name":"Ezekiel Vex","description":"Founder of the Vex Mining Company. Converted the tunnels into a temple to worship an ancient entity called Saint Vex. Died under mysterious circumstances."},{"id":"char-saint-vex","name":"Saint Vex","description":"An ancient entity unearthed by the miners. Worshipped as a saint by Ezekiel Vex. Its presence corrupts the hollow."}],"items":[{"id":"item-pickaxe","name":"Pickaxe","description":"A miner's tool with a worn wooden handle. The head is dull but still serviceable.","foundIn":"scene-1-entrance","usedIn":"scene-1-entrance","usedOn":"puzzle-clear-collapse"},{"id":"item-lantern","name":"Oil Lantern","description":"A brass lantern, unlit. The glass is grimy, the wick dry.","foundIn":"scene-2-supply-tunnel","usedIn":"scene-2-supply-tunnel","usedOn":"puzzle-light-lantern"},{"id":"item-matches","name":"Matches","description":"A small box of sulfur matches. Strikes with a satisfying hiss.","foundIn":"scene-2-supply-tunnel","usedIn":"scene-2-supply-tunnel","usedOn":"puzzle-light-lantern"},{"id":"item-crowbar","name":"Crowbar","description":"A heavy iron crowbar, rusted but sturdy.","foundIn":"scene-4-chapel-antechamber","usedIn":"scene-3-equipment-room","usedOn":"puzzle-open-crate"},{"id":"item-ritual-book","name":"Ritual Book","description":"A leather-bound journal filled with occult diagrams and Latin incantations. Pages are water-stained.","foundIn":"scene-5-flooded-nave","usedIn":"scene-7-reliquary","usedOn":"puzzle-ring-bells"},{"id":"item-bell-saint-vex","name":"Bell of Saint Vex","description":"A small silver bell engraved with the name 'VEX'. It chimes with a hollow resonance.","foundIn":"scene-4-chapel-antechamber","usedIn":"scene-7-reliquary","usedOn":"puzzle-ring-bells"},{"id":"item-bell-hollow","name":"Bell of the Hollow","description":"A tarnished silver bell marked with a spiral symbol. Its sound is deep and mournful.","foundIn":"scene-3-equipment-room","usedIn":"scene-7-reliquary","usedOn":"puzzle-ring-bells"},{"id":"item-bell-bone","name":"Bell of Bone","description":"A silver bell etched with skeletal motifs. It rings with a brittle, sharp tone.","foundIn":"scene-6-bell-tower","usedIn":"scene-7-reliquary","usedOn":"puzzle-ring-bells"},{"id":"item-bell-mercy","name":"Bell of Mercy","description":"A pristine silver bell inscribed with the word 'MISERICORDIA'. Its chime is clear and pure.","foundIn":"scene-7-reliquary","usedIn":"scene-7-reliquary","usedOn":"puzzle-ring-bells"}],"scenes":[{"id":"scene-1-entrance","name":"The Collapsed Entrance","prose":"The Vex Mining Company entrance, 1891. Rotting timber braces frame a dark maw in the mountainside. A sign, splintered and faded, reads 'CONDEMNED - BY ORDER OF TELLER COUNTY.' Cold wind whistles from the blackness within, carrying a scent of damp earth and something older—ozone and rust.\n\nRusted mine cart tracks disappear into the shadow. To the north, a passage is choked with fallen rock and timber. A pickaxe is wedged into a support beam, its handle worn smooth by decades of grip. The mountain looms above, silent and watchful.","exits":{"north":"scene-2-supply-tunnel"},"items":["item-pickaxe"],"puzzles":["puzzle-clear-collapse"],"lookDescriptions":{"sign":"The county seal is barely legible. Below it, someone has scratched 'HE LISTENS' in the wood.","tracks":"They lead into darkness, speckled with orange rust like dried blood.","collapsed passage":"A cave-in blocks the way north. Stones and splintered beams form an impassable wall.","pickaxe":"A miner's tool, left behind. The head is dull but could still break stone.","mountainside":"Pine trees cling to the slopes. The sky is iron-grey, threatening snow."}},{"id":"scene-2-supply-tunnel","name":"The Supply Tunnel","prose":"Darkness swallows the tunnel ahead. The air is thick with dust and the smell of old timber. On the wall, mining graffiti repeats 'HE LISTENS' in shaky white paint. A crate sits against the wall, holding an unlit oil lantern and a coil of frayed rope. Beside the crate, a small box of sulfur matches lies half-buried in coal dust.\n\nThe passage continues east into utter blackness. To the south, the entrance is a rectangle of grey light. The floor is scattered with broken bottles and rusted nails.","exits":{"south":"scene-1-entrance","east":"scene-3-equipment-room"},"items":["item-lantern","item-matches"],"puzzles":["puzzle-light-lantern"],"lookDescriptions":{"graffiti":"The words are painted with a hurried hand. Beneath them, smaller script reads 'VEX VIVIT'.","crate":"A wooden supply crate, lid half-off. Inside: the lantern, rope, and a layer of coal dust.","lantern":"A brass lantern, cold and dark. The wick is dry. Those matches beside it might help.","floor":"Littered with debris. Something glints beneath the dust—a broken pocket watch.","darkness east":"The tunnel disappears into black. Without light, you'd be walking blind.","matches":"A small box of sulfur matches, surprisingly dry despite the humidity."}},{"id":"scene-3-equipment-room","name":"The Equipment Room","prose":"This chamber was once a hive of activity, now a graveyard of industry. Rusted machinery stands like skeletal husks against the walls. A heavy workbench is covered in blueprints that have turned to mush from the humidity. In the corner, a reinforced wooden crate is bolted to the floor, its iron padlock mocking your intrusion.\n\nThe air here is stagnant. A doorway to the north leads toward a flickering, rhythmic orange glow.","exits":{"west":"scene-2-supply-tunnel","north":"scene-4-chapel-antechamber"},"items":["item-bell-hollow"],"puzzles":["puzzle-open-crate"],"lookDescriptions":{"machinery":"Gears and pulleys frozen in place by decades of rust. They look like they might scream if turned.","workbench":"The blueprints are illegible, but you can make out the name 'Ezekiel Vex' signed in elegant, mad script.","crate":"A stout box bound in iron. It's locked tight. If only you had some leverage.","glow":"A faint, orange light pulses from the north, accompanied by a low, vibrating hum."}},{"id":"scene-4-chapel-antechamber","name":"The Chapel Antechamber","prose":"The industrial mine gives way to something far more sinister. The walls have been smoothed and carved with intricate, disturbing sigils. A low stone altar sits in the center, surrounded by hundreds of half-melted candles. The air carries the sickly-sweet scent of incense and old copper.\n\nA heavy iron crowbar leans against a crumbling pillar. In the eastern wall, a loose stone seems to vibrate slightly with a hollow frequency.","exits":{"south":"scene-3-equipment-room","east":"scene-5-flooded-nave"},"items":["item-crowbar","item-bell-saint-vex"],"lookDescriptions":{"sigils":"They hurt to look at. Spirals that seem to turn when you blink, and eyes that follow your movement.","altar":"Dried dark stains mar the surface. It wasn't built for prayer—it was built for payment.","crowbar":"A sturdy tool of forged iron. Perfect for prying or smashing.","loose stone":"Wiggling it reveals a hidden niche behind the masonry. Something silver glints within."},"puzzles":[]},{"id":"scene-5-flooded-nave","name":"The Flooded Nave","prose":"You step into a vast, cavernous hall. Ankle-deep black water covers the floor, rippling with your every step. Stone pillars rise like trees into the vaulted ceiling, where stalactites hang like jagged teeth. At the far end, a grand stone lectern stands on a raised dais, dry and untouched by the flood.\n\nThe silence here is absolute, broken only by the steady 'drip... drip... drip' of water from the heights.","exits":{"west":"scene-4-chapel-antechamber","north":"scene-6-bell-tower"},"items":["item-ritual-book"],"lookDescriptions":{"water":"Oily and opaque. You can feel things brushing against your ankles, but you're too afraid to look down.","lectern":"A massive block of obsidian carved with weeping faces. A leather-bound book rests upon it.","ceiling":"The vault is shrouded in shadow. You get the distinct feeling that something is hanging up there, watching.","ripples":"The ripples from your feet travel across the room and don't stop when they hit the walls—they seem to sink into them."},"puzzles":["puzzle-read-book"]},{"id":"scene-6-bell-tower","name":"The Bell Tower","prose":"The mine opens into a natural chimney-like cavern that vents toward the surface. A bronze framework has been erected here, spanning the chasm. Hanging from the center of the frame is a single, beautiful silver bell. Moonlight filters down from a narrow crack high above, illuminating the dust motes like dancing spirits.\n\nA narrow bridge of planks leads east toward a chamber of intense, suffocating pressure.","exits":{"south":"scene-5-flooded-nave","east":"scene-7-reliquary"},"items":["item-bell-bone"],"lookDescriptions":{"frame":"Victorian engineering repurposed for ritual. The bronze is green with age but the structure is sound.","bell":"It hangs perfectly still, yet you can hear a faint ringing in the back of your skull just by looking at it.","moonlight":"A column of pale blue light that feels cold to the touch. It's the only clean thing in this mountain.","chasm":"The darkness below the bridge is bottomless. Don't slip."},"puzzles":[]},{"id":"scene-7-reliquary","name":"The Reliquary","prose":"This is the heart of the hollow. The walls are lined with shelves containing jars of preserved organs and jars of mountain soil. In the center, a circle of white salt has been laid out on the floor, surrounding a second, much larger altar. The presence of Saint Vex is heavy here, a weight on your chest that makes it hard to breathe.\n\nA final silver bell sits on a velvet cushion atop a stone pedestal. This is where the song must end.","exits":{"west":"scene-6-bell-tower"},"items":["item-bell-mercy"],"lookDescriptions":{"shelves":"Relics of the Vex family's madness. Each jar is meticulously labeled with a date and a name.","salt circle":"Untouched and perfect. It's meant to keep something in... or you out.","altar":"Carved from a single block of mountain granite. It vibrates with a frequency that makes your teeth ache.","pedestal":"The bell resting here seems to absorb the very light around it."},"puzzles":["puzzle-ring-bells"]}],"puzzles":[{"id":"puzzle-clear-collapse","scene":"scene-1-entrance","requires":["item-pickaxe"],"action":"Use pickaxe on collapsed passage","result":"You swing the pickaxe with desperate strength. The timbers groan and the stones tumble, revealing the way forward.","blocksExit":{"scene":"scene-1-entrance","direction":"north","blockedMessage":"The passage is choked with fallen rock and timber."},"reveals":["scene-2-supply-tunnel"]},{"id":"puzzle-open-crate","scene":"scene-3-equipment-room","requires":["item-crowbar"],"action":"Use crowbar on locked crate","result":"With a screech of protesting iron, the lid flies off. You find supplies tucked away for a ritual that never happened.","reveals":["item-bell-hollow"]},{"id":"puzzle-light-lantern","scene":"scene-2-supply-tunnel","requires":["item-matches","item-lantern"],"action":"Use matches on lantern","result":"A flare of sulfur, a steady flame. The golden light pushes back the oppressive shadows of the maze.","blocksExit":{"scene":"scene-2-supply-tunnel","direction":"east","blockedMessage":"The tunnel disappears into black. Without light, you'd be walking blind."},"reveals":[]},{"id":"puzzle-read-book","scene":"scene-5-flooded-nave","requires":["item-lantern"],"action":"Read ritual book with illuminated lantern","result":"The light reveals the hidden ink. The order is clear: 'Mercy shall lead, followed by Bone. Vex must follow, and the Hollow shall close.'","reveals":[]},{"id":"puzzle-ring-bells","scene":"scene-7-reliquary","requires":["item-bell-mercy","item-bell-bone","item-bell-saint-vex","item-bell-hollow","item-ritual-book"],"action":"Ring the bells in the order: Mercy, Bone, Saint Vex, Hollow","result":"The four notes entwine into a powerful harmonic. The air shimmers, and the oppressive weight lifts.","reveals":[]}],"winCondition":{"scene":"scene-7-reliquary","requires":["item-bell-mercy","item-bell-bone","item-bell-saint-vex","item-bell-hollow"],"description":"The song of the silver bells echoes through the mountain. A scream that is not human erupts from the altar as Saint Vex is pulled back into the void. You run for the surface as the mine begins to tremble and collapse. You emerge into the cold mountain air just as the entrance vanishes under a mountain of stone. The hollow is sealed."},"hints":{"scene-1-entrance":[{"delay":30,"text":"That pickaxe isn't just for decoration. It might clear a path."},{"delay":60,"text":"USE the pickaxe on the collapsed passage. The way north is blocked."},{"delay":90,"text":"USE → Pickaxe → Collapsed Passage. Swing that thing already."}],"scene-2-supply-tunnel":[{"delay":30,"text":"The lantern is dark. You need something to light it."},{"delay":60,"text":"Find matches elsewhere. Then USE matches on lantern."},{"delay":90,"text":"Matches are in the Equipment Room. USE matches → lantern."}],"scene-3-equipment-room":[{"delay":30,"text":"That crate is locked tight. You need leverage."},{"delay":60,"text":"Maybe a crowbar could pry it open. Look elsewhere."},{"delay":90,"text":"Crowbar is in the Chapel Antechamber. USE crowbar → crate."}],"scene-4-chapel-antechamber":[{"delay":30,"text":"Take the crowbar. It's leaning there for a reason."},{"delay":60,"text":"Click TAKE, then click the crowbar. Don't be shy."},{"delay":90,"text":"TAKE → Crowbar. Now go pry something open."}],"scene-5-flooded-nave":[{"delay":30,"text":"The book is water-stained. You'll need light to read it."},{"delay":60,"text":"USE the lantern on the book. You have a lantern, right?"},{"delay":90,"text":"USE → Lantern → Ritual Book. It'll reveal the bell order."}],"scene-6-bell-tower":[{"delay":30,"text":"Take the bell. It's silver and etched with bones."},{"delay":60,"text":"TAKE the Bell of Bone. It's hanging right there."},{"delay":90,"text":"Click TAKE, then click the Bell of Bone. Yes, that one."}],"scene-7-reliquary":[{"delay":30,"text":"Four bells, one order. The book said something about Mercy first."},{"delay":60,"text":"Ring the bells: Mercy, Bone, Saint Vex, Hollow. In that order."},{"delay":90,"text":"USE each bell in sequence: Mercy, Bone, Saint Vex, Hollow. Then get out."}]}};
+<footer>
+    OpenClaw Point &amp; Click Studio | LOOK · TAKE · USE · EXAMINE | Click exits to move | /restart to reset
+</footer>
 
-// GAME_ART
-window.GAME_ART = {
-"scene-1-entrance": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  <path d=\"M0,300 L100,200 L200,280 L300,180 L400,260 L500,200 L600,280 L640,300 L640,400 L0,400 Z\" fill=\"#003300\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <ellipse cx=\"320\" cy=\"250\" rx=\"80\" ry=\"60\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"240\" y=\"190\" width=\"10\" height=\"100\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"390\" y=\"190\" width=\"10\" height=\"100\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"240\" y1=\"190\" x2=\"390\" y2=\"190\" stroke=\"#8B4513\" stroke-width=\"2\"/>\n  <rect x=\"280\" y=\"150\" width=\"80\" height=\"30\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <text x=\"320\" y=\"170\" text-anchor=\"middle\" fill=\"#FFFFFF\" font-size=\"10\">CONDEMNED</text>\n  <text x=\"320\" y=\"185\" text-anchor=\"middle\" fill=\"#FFFFFF\" font-size=\"8\">BY ORDER</text>\n  <line x1=\"100\" y1=\"300\" x2=\"320\" y2=\"250\" stroke=\"#FF8800\" stroke-width=\"3\"/>\n  <line x1=\"540\" y1=\"300\" x2=\"320\" y2=\"250\" stroke=\"#FF8800\" stroke-width=\"3\"/>\n  <line x1=\"120\" y1=\"305\" x2=\"340\" y2=\"255\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <line x1=\"520\" y1=\"305\" x2=\"300\" y2=\"255\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <rect x=\"300\" y=\"200\" width=\"6\" height=\"40\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"303,200 317,200 310,180 303,190\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"200\" y=\"100\" width=\"240\" height=\"80\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"200\" y1=\"100\" x2=\"440\" y2=\"180\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"440\" y1=\"100\" x2=\"200\" y2=\"180\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"280\" cy=\"130\" r=\"8\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"320\" cy=\"140\" r=\"6\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"360\" cy=\"120\" r=\"7\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <path d=\"M50,320 Q55,300 60,320\" fill=\"#006600\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <path d=\"M580,340 Q585,320 590,340\" fill=\"#006600\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
-"scene-2-supply-tunnel": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  <path d=\"M0,200 Q160,100 320,200 T640,200 L640,400 L0,400 Z\" fill=\"#001100\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#002200\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <text x=\"100\" y=\"180\" fill=\"#FFFFFF\" font-size=\"12\">HE LISTENS</text>\n  <text x=\"120\" y=\"200\" fill=\"#FFFFFF\" font-size=\"8\">VEX VIVIT</text>\n  <rect x=\"200\" y=\"250\" width=\"100\" height=\"60\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"200\" y1=\"280\" x2=\"300\" y2=\"280\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"250\" y1=\"250\" x2=\"250\" y2=\"310\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"220\" y=\"260\" width=\"20\" height=\"30\" fill=\"#CD7F32\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"225\" y=\"290\" width=\"10\" height=\"5\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <ellipse cx=\"270\" cy=\"280\" rx=\"15\" ry=\"8\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"100\" y=\"350\" width=\"8\" height=\"4\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"150\" y=\"360\" width=\"6\" height=\"6\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"200\" y=\"340\" width=\"4\" height=\"8\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"400\" y=\"370\" width=\"6\" height=\"4\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"180\" cy=\"355\" r=\"2\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"280\" y=\"380\" width=\"80\" height=\"20\" fill=\"#808080\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"500\" y=\"100\" width=\"100\" height=\"200\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"2\"/>\n</svg>",
-"scene-3-equipment-room": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"400\" fill=\"#001100\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"50\" y=\"50\" width=\"80\" height=\"60\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"60\" y=\"40\" width=\"20\" height=\"20\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"50\" y1=\"80\" x2=\"50\" y2=\"100\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n  <line x1=\"130\" y1=\"80\" x2=\"130\" y2=\"100\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n  <rect x=\"510\" y=\"50\" width=\"80\" height=\"60\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"520\" y=\"40\" width=\"20\" height=\"20\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"510\" y1=\"80\" x2=\"510\" y2=\"100\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n  <line x1=\"590\" y1=\"80\" x2=\"590\" y2=\"100\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n  <rect x=\"220\" y=\"250\" width=\"200\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"230\" y=\"200\" width=\"180\" height=\"50\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"240\" y=\"210\" width=\"40\" height=\"30\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"290\" y=\"215\" width=\"30\" height=\"25\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"330\" y=\"205\" width=\"40\" height=\"35\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <text x=\"250\" y=\"230\" text-anchor=\"middle\" fill=\"#FFFFFF\" font-size=\"6\">EZEKIEL</text>\n  <text x=\"250\" y=\"240\" text-anchor=\"middle\" fill=\"#FFFFFF\" font-size=\"6\">VEX</text>\n  <rect x=\"400\" y=\"200\" width=\"100\" height=\"80\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"430\" y=\"200\" width=\"40\" height=\"20\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"440\" y=\"220\" width=\"20\" height=\"40\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"300\" y=\"50\" width=\"40\" height=\"100\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"290\" y=\"30\" width=\"60\" height=\"30\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <path d=\"M310,40 Q320,20 330,40\" stroke=\"#FF8800\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M330,40 Q340,20 350,40\" stroke=\"#FF8800\" stroke-width=\"2\" fill=\"none\"/>\n</svg>",
-"scene-4-chapel-antechamber": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"400\" fill=\"#001100\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <path d=\"M100,100 Q120,80 140,100\" stroke=\"#FF0000\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M140,100 Q160,120 180,100\" stroke=\"#FF0000\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M180,100 Q200,80 220,100\" stroke=\"#FF0000\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M300,300 Q320,280 340,300\" stroke=\"#FF0000\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M340,300 Q360,320 380,300\" stroke=\"#FF0000\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M380,300 Q400,280 420,300\" stroke=\"#FF0000\" stroke-width=\"2\" fill=\"none\"/>\n  <circle cx=\"150\" cy=\"150\" r=\"8\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"170\" cy=\"150\" r=\"8\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"150\" cy=\"150\" r=\"3\" fill=\"#000000\"/>\n  <circle cx=\"170\" cy=\"150\" r=\"3\" fill=\"#000000\"/>\n  <circle cx=\"450\" cy=\"250\" r=\"8\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"470\" cy=\"250\" r=\"8\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"450\" cy=\"250\" r=\"3\" fill=\"#000000\"/>\n  <circle cx=\"470\" cy=\"250\" r=\"3\" fill=\"#000000\"/>\n  <rect x=\"270\" y=\"200\" width=\"100\" height=\"20\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"280\" cy=\"190\" r=\"3\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"290\" cy=\"185\" r=\"2\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"300\" cy=\"190\" r=\"3\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"310\" cy=\"180\" r=\"2\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"320\" cy=\"190\" r=\"3\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"330\" cy=\"185\" r=\"2\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"340\" cy=\"190\" r=\"3\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"350\" cy=\"180\" r=\"2\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"280\" y=\"200\" width=\"10\" height=\"5\" fill=\"#8B0000\"/>\n  <rect x=\"310\" y=\"205\" width=\"8\" height=\"4\" fill=\"#8B0000\"/>\n  <rect x=\"340\" y=\"200\" width=\"6\" height=\"6\" fill=\"#8B0000\"/>\n  <rect x=\"100\" y=\"300\" width=\"8\" height=\"60\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <polygon points=\"100,300 108,290 100,280\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"80\" y=\"150\" width=\"20\" height=\"150\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"75\" y=\"150\" width=\"10\" height=\"20\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"95\" y=\"150\" width=\"10\" height=\"20\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"600\" y=\"100\" width=\"20\" height=\"200\" fill=\"#001100\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"605\" y=\"150\" width=\"10\" height=\"10\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"610\" cy=\"155\" r=\"3\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
-"scene-5-flooded-nave": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  <rect x=\"100\" y=\"50\" width=\"30\" height=\"300\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"250\" y=\"50\" width=\"30\" height=\"300\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"400\" y=\"50\" width=\"30\" height=\"300\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"550\" y=\"50\" width=\"30\" height=\"300\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#000033\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <polygon points=\"115,50 100,0 130,0\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <polygon points=\"265,50 250,0 280,0\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <polygon points=\"415,50 400,0 430,0\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <polygon points=\"565,50 550,0 580,0\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <ellipse cx=\"200\" cy=\"300\" rx=\"20\" ry=\"5\" fill=\"none\" stroke=\"#006600\" stroke-width=\"1\"/>\n  <ellipse cx=\"200\" cy=\"300\" rx=\"15\" ry=\"4\" fill=\"none\" stroke=\"#006600\" stroke-width=\"1\"/>\n  <ellipse cx=\"200\" cy=\"300\" rx=\"10\" ry=\"3\" fill=\"none\" stroke=\"#006600\" stroke-width=\"1\"/>\n  <ellipse cx=\"440\" cy=\"320\" rx=\"25\" ry=\"6\" fill=\"none\" stroke=\"#006600\" stroke-width=\"1\"/>\n  <ellipse cx=\"440\" cy=\"320\" rx=\"20\" ry=\"5\" fill=\"none\" stroke=\"#006600\" stroke-width=\"1\"/>\n  <ellipse cx=\"440\" cy=\"320\" rx=\"15\" ry=\"4\" fill=\"none\" stroke=\"#006600\" stroke-width=\"1\"/>\n  <rect x=\"300\" y=\"100\" width=\"40\" height=\"150\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <circle cx=\"310\" cy=\"120\" r=\"5\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"330\" cy=\"120\" r=\"5\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"305\" y1=\"115\" x2=\"315\" y2=\"125\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"325\" y1=\"115\" x2=\"335\" y2=\"125\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"305\" y=\"230\" width=\"30\" height=\"20\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"200\" cy=\"80\" r=\"4\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"200\" cy=\"80\" r=\"2\" fill=\"#000000\"/>\n  <circle cx=\"440\" cy=\"80\" r=\"4\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"440\" cy=\"80\" r=\"2\" fill=\"#000000\"/>\n</svg>",
-"scene-6-bell-tower": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  <path d=\"M200,0 Q320,-100 440,0 L440,400 L200,400 Z\" fill=\"#001100\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"180\" y=\"50\" width=\"280\" height=\"20\" fill=\"#CD7F32\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"180\" y=\"330\" width=\"280\" height=\"20\" fill=\"#CD7F32\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"180\" y1=\"50\" x2=\"180\" y2=\"330\" stroke=\"#CD7F32\" stroke-width=\"3\"/>\n  <line x1=\"460\" y1=\"50\" x2=\"460\" y2=\"330\" stroke=\"#CD7F32\" stroke-width=\"3\"/>\n  <line x1=\"250\" y1=\"50\" x2=\"250\" y2=\"330\" stroke=\"#CD7F32\" stroke-width=\"2\"/>\n  <line x1=\"320\" y1=\"50\" x2=\"320\" y2=\"330\" stroke=\"#CD7F32\" stroke-width=\"2\"/>\n  <line x1=\"390\" y1=\"50\" x2=\"390\" y2=\"330\" stroke=\"#CD7F32\" stroke-width=\"2\"/>\n  <ellipse cx=\"320\" cy=\"180\" rx=\"30\" ry=\"20\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"310\" y=\"180\" width=\"20\" height=\"10\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"315\" y=\"170\" width=\"10\" height=\"10\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <path d=\"M320,160 Q300,120 320,80\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"none\" opacity=\"0.5\"/>\n  <path d=\"M320,160 Q340,120 320,80\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"none\" opacity=\"0.5\"/>\n  <rect x=\"310\" y=\"0\" width=\"20\" height=\"50\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"315\" cy=\"20\" r=\"1\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"325\" cy=\"30\" r=\"1\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"305\" cy=\"25\" r=\"1\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"460\" y=\"200\" width=\"100\" height=\"10\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"460\" y1=\"205\" x2=\"560\" y2=\"205\" stroke=\"#8B4513\" stroke-width=\"1\"/>\n  <line x1=\"460\" y1=\"210\" x2=\"560\" y2=\"210\" stroke=\"#8B4513\" stroke-width=\"1\"/>\n  <rect x=\"560\" y=\"150\" width=\"80\" height=\"100\" fill=\"#800080\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"460\" y=\"210\" width=\"180\" height=\"190\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"2\"/>\n</svg>",
-"scene-7-reliquary": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"400\" fill=\"#001100\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"50\" y=\"50\" width=\"120\" height=\"300\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"470\" y=\"50\" width=\"120\" height=\"300\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"50\" y1=\"150\" x2=\"170\" y2=\"150\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"50\" y1=\"250\" x2=\"170\" y2=\"250\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"470\" y1=\"150\" x2=\"590\" y2=\"150\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"470\" y1=\"250\" x2=\"590\" y2=\"250\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"70\" y=\"70\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"100\" y=\"70\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"70\" y=\"120\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"100\" y=\"120\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"490\" y=\"70\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"520\" y=\"70\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"490\" y=\"120\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"520\" y=\"120\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <text x=\"75\" y=\"90\" fill=\"#FFFFFF\" font-size=\"6\">ORGAN</text>\n  <text x=\"105\" y=\"90\" fill=\"#FFFFFF\" font-size=\"6\">SOIL</text>\n  <text x=\"75\" y=\"140\" fill=\"#FFFFFF\" font-size=\"6\">ORGAN</text>\n  <text x=\"105\" y=\"140\" fill=\"#FFFFFF\" font-size=\"6\">SOIL</text>\n  <text x=\"495\" y=\"90\" fill=\"#FFFFFF\" font-size=\"6\">ORGAN</text>\n  <text x=\"525\" y=\"90\" fill=\"#FFFFFF\" font-size=\"6\">SOIL</text>\n  <text x=\"495\" y=\"140\" fill=\"#FFFFFF\" font-size=\"6\">ORGAN</text>\n  <text x=\"525\" y=\"140\" fill=\"#FFFFFF\" font-size=\"6\">SOIL</text>\n  <circle cx=\"320\" cy=\"250\" r=\"60\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"280\" y=\"200\" width=\"80\" height=\"20\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"300\" y=\"100\" width=\"40\" height=\"100\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"305\" y=\"180\" width=\"30\" height=\"10\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <ellipse cx=\"320\" cy=\"160\" rx=\"25\" ry=\"15\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"310\" y=\"160\" width=\"20\" height=\"8\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"313\" y=\"152\" width=\"14\" height=\"8\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"320\" cy=\"160\" r=\"35\" fill=\"#000000\" opacity=\"0.3\" stroke=\"#FFFFFF\" stroke-width=\"1\" stroke-dasharray=\"2,2\"/>\n</svg>",
-"item-pickaxe": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"40\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"24\" y=\"8\" width=\"16\" height=\"8\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"24,16 32,4 40,16\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"28\" y=\"20\" width=\"8\" height=\"4\" fill=\"#A0522D\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"28\" y=\"30\" width=\"8\" height=\"4\" fill=\"#A0522D\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
-"item-lantern": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect x=\"26\" y=\"40\" width=\"12\" height=\"8\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"22\" y=\"20\" width=\"20\" height=\"20\" fill=\"#CD7F32\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"24\" y=\"12\" width=\"16\" height=\"8\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"26\" y=\"24\" width=\"12\" height=\"12\" fill=\"#E0E0E0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"20\" width=\"4\" height=\"4\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"28\" y=\"26\" width=\"2\" height=\"2\" fill=\"#C0C0C0\"/>\n  <rect x=\"34\" y=\"28\" width=\"2\" height=\"2\" fill=\"#C0C0C0\"/>\n</svg>",
-"item-matches": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect x=\"16\" y=\"20\" width=\"32\" height=\"28\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"16\" y=\"40\" width=\"32\" height=\"8\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"20\" y=\"10\" width=\"4\" height=\"10\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"28\" y=\"10\" width=\"4\" height=\"10\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"36\" y=\"10\" width=\"4\" height=\"10\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"20\" y=\"8\" width=\"4\" height=\"2\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"28\" y=\"8\" width=\"4\" height=\"2\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"36\" y=\"8\" width=\"4\" height=\"2\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <text x=\"32\" y=\"30\" text-anchor=\"middle\" fill=\"#000000\" font-size=\"8\">MATCHES</text>\n</svg>",
-"item-crowbar": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"40\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <path d=\"M28,50 Q24,58 20,50 Q24,42 28,50\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"32\" cy=\"20\" r=\"2\" fill=\"#FF0000\"/>\n  <circle cx=\"32\" cy=\"35\" r=\"2\" fill=\"#FF0000\"/>\n  <circle cx=\"32\" cy=\"50\" r=\"2\" fill=\"#FF0000\"/>\n</svg>",
-"item-ritual-book": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect x=\"16\" y=\"20\" width=\"32\" height=\"32\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"16\" y1=\"24\" x2=\"48\" y2=\"24\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"28\" x2=\"48\" y2=\"28\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"32\" x2=\"48\" y2=\"32\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"36\" x2=\"48\" y2=\"36\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"40\" x2=\"48\" y2=\"40\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"44\" x2=\"48\" y2=\"44\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"20\" y=\"24\" width=\"8\" height=\"4\" fill=\"#654321\" opacity=\"0.5\"/>\n  <rect x=\"36\" y=\"32\" width=\"6\" height=\"6\" fill=\"#654321\" opacity=\"0.5\"/>\n  <path d=\"M32,24 L28,32 L20,28 L24,20 L32,16 L40,20 L44,28 L36,32 Z\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"40\" x2=\"44\" y2=\"40\" stroke=\"#FFFFFF\" stroke-width=\"1\"/>\n  <line x1=\"20\" y1=\"44\" x2=\"44\" y2=\"44\" stroke=\"#FFFFFF\" stroke-width=\"1\"/>\n</svg>",
-"item-bell-saint-vex": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <ellipse cx=\"32\" cy=\"30\" rx=\"18\" ry=\"22\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"12\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"12\" rx=\"6\" ry=\"4\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" text-anchor=\"middle\" fill=\"#000000\" font-size=\"10\" font-weight=\"bold\">VEX</text>\n  <path d=\"M32,52 Q28,58 32,64\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"none\" opacity=\"0.7\"/>\n  <path d=\"M32,52 Q36,58 32,64\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"none\" opacity=\"0.7\"/>\n</svg>",
-"item-bell-hollow": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <ellipse cx=\"32\" cy=\"30\" rx=\"18\" ry=\"22\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"12\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"12\" rx=\"6\" ry=\"4\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <path d=\"M32,28 Q30,26 28,26 Q26,28 26,30 Q28,32 30,32 Q32,30 34,30 Q36,32 34,34 Q32,36 30,36\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <path d=\"M20,20 Q25,15 30,20 Q35,25 30,30 Q25,35 20,30 Q15,25 20,20 Z\" fill=\"#808080\" opacity=\"0.3\" stroke=\"#000000\" stroke-width=\"1\" stroke-dasharray=\"1,1\"/>\n  <path d=\"M32,52 Q24,50 32,48\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"none\" opacity=\"0.5\"/>\n  <path d=\"M32,52 Q40,50 32,48\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"none\" opacity=\"0.5\"/>\n</svg>",
-"item-bell-bone": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <ellipse cx=\"32\" cy=\"30\" rx=\"18\" ry=\"22\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"12\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"12\" rx=\"6\" ry=\"4\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <path d=\"M24,24 L26,20 L28,24 L30,20 L32,24 L34,20 L36,24 L38,20 L40,24\" stroke=\"#000000\" stroke-width=\"1\" fill=\"none\"/>\n  <path d=\"M32,52 Q28,48 32,44\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"none\"/>\n  <path d=\"M32,52 Q36,48 32,44\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"none\"/>\n</svg>",
-"item-bell-mercy": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <ellipse cx=\"32\" cy=\"30\" rx=\"18\" ry=\"22\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"12\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <ellipse cx=\"32\" cy=\"12\" rx=\"6\" ry=\"4\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"34\" text-anchor=\"middle\" fill=\"#000000\" font-size=\"6\" font-weight=\"bold\">MISERICORDIA</text>\n  <circle cx=\"32\" cy=\"50\" r=\"8\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\" opacity=\"0.5\"/>\n  <circle cx=\"32\" cy=\"50\" r=\"4\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\" opacity=\"0.7\"/>\n</svg>"
+<script>
+// ============================================================
+// GAME DATA
+// ============================================================
+var GAME_DATA = {
+  "title": "The Hollow of Saint Vex",
+  "slug": "the-hollow-of-saint-vex",
+  "number": 2,
+  "setting": "Abandoned Victorian mine-temple, Colorado Rockies, 1891",
+  "characters": [
+    {
+      "id": "char-ezekiel-vex",
+      "name": "Ezekiel Vex",
+      "description": "Founder of the Vex Mining Company. Converted the tunnels into a temple to worship an ancient entity called Saint Vex. Died under mysterious circumstances."
+    },
+    {
+      "id": "char-saint-vex",
+      "name": "Saint Vex",
+      "description": "An ancient entity unearthed by the miners. Worshipped as a saint by Ezekiel Vex. Its presence corrupts the hollow."
+    }
+  ],
+  "items": [
+    {
+      "id": "item-pickaxe",
+      "name": "Pickaxe",
+      "description": "A miner's tool with a worn wooden handle. The head is dull but still serviceable.",
+      "foundIn": "scene-1-entrance",
+      "usedIn": "scene-1-entrance",
+      "usedOn": "puzzle-clear-collapse"
+    },
+    {
+      "id": "item-lantern",
+      "name": "Oil Lantern",
+      "description": "A brass lantern, unlit. The glass is grimy, the wick dry.",
+      "foundIn": "scene-2-supply-tunnel",
+      "usedIn": "scene-2-supply-tunnel",
+      "usedOn": "puzzle-light-lantern"
+    },
+    {
+      "id": "item-matches",
+      "name": "Matches",
+      "description": "A small box of sulfur matches. Strikes with a satisfying hiss.",
+      "foundIn": "scene-2-supply-tunnel",
+      "usedIn": "scene-2-supply-tunnel",
+      "usedOn": "puzzle-light-lantern"
+    },
+    {
+      "id": "item-crowbar",
+      "name": "Crowbar",
+      "description": "A heavy iron crowbar, rusted but sturdy.",
+      "foundIn": "scene-3-equipment-room",
+      "usedIn": "scene-3-equipment-room",
+      "usedOn": "puzzle-open-crate"
+    },
+    {
+      "id": "item-ritual-book",
+      "name": "Ritual Book",
+      "description": "A leather-bound journal filled with occult diagrams and Latin incantations. Pages are water-stained.",
+      "foundIn": "scene-5-flooded-nave",
+      "usedIn": "scene-7-reliquary",
+      "usedOn": "puzzle-ring-bells"
+    },
+    {
+      "id": "item-bell-saint-vex",
+      "name": "Bell of Saint Vex",
+      "description": "A small silver bell engraved with the name 'VEX'. It chimes with a hollow resonance.",
+      "foundIn": "scene-4-chapel-antechamber",
+      "usedIn": "scene-7-reliquary",
+      "usedOn": "puzzle-ring-bells"
+    },
+    {
+      "id": "item-bell-hollow",
+      "name": "Bell of the Hollow",
+      "description": "A tarnished silver bell marked with a spiral symbol. Its sound is deep and mournful.",
+      "foundIn": "scene-3-equipment-room",
+      "usedIn": "scene-7-reliquary",
+      "usedOn": "puzzle-ring-bells"
+    },
+    {
+      "id": "item-bell-bone",
+      "name": "Bell of Bone",
+      "description": "A silver bell etched with skeletal motifs. It rings with a brittle, sharp tone.",
+      "foundIn": "scene-6-bell-tower",
+      "usedIn": "scene-7-reliquary",
+      "usedOn": "puzzle-ring-bells"
+    },
+    {
+      "id": "item-bell-mercy",
+      "name": "Bell of Mercy",
+      "description": "A pristine silver bell inscribed with the word 'MISERICORDIA'. Its chime is clear and pure.",
+      "foundIn": "scene-7-reliquary",
+      "usedIn": "scene-7-reliquary",
+      "usedOn": "puzzle-ring-bells"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "scene-1-entrance",
+      "name": "The Collapsed Entrance",
+      "prose": "The Vex Mining Company entrance, 1891. Rotting timber braces frame a dark maw in the mountainside. A sign, splintered and faded, reads 'CONDEMNED - BY ORDER OF TELLER COUNTY.' Cold wind whistles from the blackness within, carrying a scent of damp earth and something older—ozone and rust.\n\nRusted mine cart tracks disappear into the shadow. To the north, a passage is choked with fallen rock and timber. A pickaxe is wedged into a support beam, its handle worn smooth by decades of grip. The mountain looms above, silent and watchful.",
+      "exits": {
+        "north": "scene-2-supply-tunnel"
+      },
+      "items": [
+        "item-pickaxe"
+      ],
+      "puzzles": [
+        "puzzle-clear-collapse"
+      ],
+      "lookDescriptions": {
+        "sign": "The county seal is barely legible. Below it, someone has scratched 'HE LISTENS' in the wood.",
+        "tracks": "They lead into darkness, speckled with orange rust like dried blood.",
+        "collapsed passage": "A cave-in blocks the way north. Stones and splintered beams form an impassable wall.",
+        "pickaxe": "A miner's tool, left behind. The head is dull but could still break stone.",
+        "mountainside": "Pine trees cling to the slopes. The sky is iron-grey, threatening snow."
+      }
+    },
+    {
+      "id": "scene-2-supply-tunnel",
+      "name": "The Supply Tunnel",
+      "prose": "Darkness swallows the tunnel ahead. The air is thick with dust and the smell of old timber. On the wall, mining graffiti repeats 'HE LISTENS' in shaky white paint. A crate sits against the wall, holding an unlit oil lantern and a coil of frayed rope.\n\nThe passage continues east into utter blackness. To the south, the entrance is a rectangle of grey light. The floor is scattered with broken bottles and rusted nails.",
+      "exits": {
+        "south": "scene-1-entrance",
+        "east": "scene-3-equipment-room"
+      },
+      "items": [
+        "item-lantern",
+        "item-matches"
+      ],
+      "lookDescriptions": {
+        "graffiti": "The words are painted with a hurried hand. Beneath them, smaller script reads 'VEX VIVIT'.",
+        "crate": "A wooden supply crate, lid half-off. Inside: the lantern, rope, and a layer of coal dust.",
+        "lantern": "A brass lantern, cold and dark. The wick is dry; it needs oil or a match.",
+        "floor": "Littered with debris. Something glints beneath the dust—a broken pocket watch.",
+        "darkness east": "The tunnel disappears into black. Without light, you'd be walking blind."
+      },
+      "puzzles": [
+        "puzzle-light-lantern"
+      ]
+    },
+    {
+      "id": "scene-3-equipment-room",
+      "name": "The Equipment Room",
+      "prose": "This chamber was once a hive of activity, now a graveyard of industry. Rusted machinery stands like skeletal husks against the walls. A heavy workbench is covered in blueprints that have turned to mush from the humidity. In the corner, a reinforced wooden crate is bolted to the floor, its iron padlock mocking your intrusion.\n\nThe air here is stagnant. A doorway to the north leads toward a flickering, rhythmic orange glow.",
+      "exits": {
+        "west": "scene-2-supply-tunnel",
+        "north": "scene-4-chapel-antechamber"
+      },
+      "items": [
+        "item-crowbar"
+      ],
+      "lookDescriptions": {
+        "machinery": "Gears and pulleys frozen in place by decades of rust. They look like they might scream if turned.",
+        "workbench": "The blueprints are illegible, but you can make out the name 'Ezekiel Vex' signed in elegant, mad script. A crowbar lies on the bench.",
+        "crate": "A stout box bound in iron. It's locked tight. Perfect for the crowbar.",
+        "crowbar": "A heavy iron crowbar, rusted but sturdy.",
+        "glow": "A faint, orange light pulses from the north, accompanied by a low, vibrating hum."
+      },
+      "puzzles": [
+        "puzzle-open-crate"
+      ]
+    },
+    {
+      "id": "scene-4-chapel-antechamber",
+      "name": "The Chapel Antechamber",
+      "prose": "The industrial mine gives way to something far more sinister. The walls have been smoothed and carved with intricate, disturbing sigils. A low stone altar sits in the center, surrounded by hundreds of half-melted candles. The air carries the sickly-sweet scent of incense and old copper.\n\nA heavy iron crowbar leans against a crumbling pillar. In the eastern wall, a loose stone seems to vibrate slightly with a hollow frequency.",
+      "exits": {
+        "south": "scene-3-equipment-room",
+        "east": "scene-5-flooded-nave"
+      },
+      "items": [
+        "item-bell-saint-vex"
+      ],
+      "lookDescriptions": {
+        "sigils": "They hurt to look at. Spirals that seem to turn when you blink, and eyes that follow your movement.",
+        "altar": "Dried dark stains mar the surface. It wasn't built for prayer—it was built for payment.",
+        "crowbar": "A sturdy tool of forged iron. Perfect for prying or smashing.",
+        "loose stone": "Wiggling it reveals a hidden niche behind the masonry. Something silver glints within."
+      },
+      "puzzles": []
+    },
+    {
+      "id": "scene-5-flooded-nave",
+      "name": "The Flooded Nave",
+      "prose": "You step into a vast, cavernous hall. Ankle-deep black water covers the floor, rippling with your every step. Stone pillars rise like trees into the vaulted ceiling, where stalactites hang like jagged teeth. At the far end, a grand stone lectern stands on a raised dais, dry and untouched by the flood.\n\nThe silence here is absolute, broken only by the steady 'drip... drip... drip' of water from the heights.",
+      "exits": {
+        "west": "scene-4-chapel-antechamber",
+        "north": "scene-6-bell-tower"
+      },
+      "items": [
+        "item-ritual-book"
+      ],
+      "lookDescriptions": {
+        "water": "Oily and opaque. You can feel things brushing against your ankles, but you're too afraid to look down.",
+        "lectern": "A massive block of obsidian carved with weeping faces. A leather-bound book rests upon it.",
+        "ceiling": "The vault is shrouded in shadow. You get the distinct feeling that something is hanging up there, watching.",
+        "ripples": "The ripples from your feet travel across the room and don't stop when they hit the walls—they seem to sink into them."
+      },
+      "puzzles": [
+        "puzzle-read-book"
+      ]
+    },
+    {
+      "id": "scene-6-bell-tower",
+      "name": "The Bell Tower",
+      "prose": "The mine opens into a natural chimney-like cavern that vents toward the surface. A bronze framework has been erected here, spanning the chasm. Hanging from the center of the frame is a single, beautiful silver bell. Moonlight filters down from a narrow crack high above, illuminating the dust motes like dancing spirits.\n\nA narrow bridge of planks leads east toward a chamber of intense, suffocating pressure.",
+      "exits": {
+        "south": "scene-5-flooded-nave",
+        "east": "scene-7-reliquary"
+      },
+      "items": [
+        "item-bell-bone"
+      ],
+      "lookDescriptions": {
+        "frame": "Victorian engineering repurposed for ritual. The bronze is green with age but the structure is sound.",
+        "bell": "It hangs perfectly still, yet you can hear a faint ringing in the back of your skull just by looking at it.",
+        "moonlight": "A column of pale blue light that feels cold to the touch. It's the only clean thing in this mountain.",
+        "chasm": "The darkness below the bridge is bottomless. Don't slip."
+      },
+      "puzzles": []
+    },
+    {
+      "id": "scene-7-reliquary",
+      "name": "The Reliquary",
+      "prose": "This is the heart of the hollow. The walls are lined with shelves containing jars of preserved organs and jars of mountain soil. In the center, a circle of white salt has been laid out on the floor, surrounding a second, much larger altar. The presence of Saint Vex is heavy here, a weight on your chest that makes it hard to breathe.\n\nA final silver bell sits on a velvet cushion atop a stone pedestal. This is where the song must end.",
+      "exits": {
+        "west": "scene-6-bell-tower"
+      },
+      "items": [
+        "item-bell-mercy"
+      ],
+      "lookDescriptions": {
+        "shelves": "Relics of the Vex family's madness. Each jar is meticulously labeled with a date and a name.",
+        "salt circle": "Untouched and perfect. It's meant to keep something in... or you out.",
+        "altar": "Carved from a single block of mountain granite. It vibrates with a frequency that makes your teeth ache.",
+        "pedestal": "The bell resting here seems to absorb the very light around it."
+      },
+      "puzzles": [
+        "puzzle-ring-bells"
+      ]
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-clear-collapse",
+      "scene": "scene-1-entrance",
+      "requires": [
+        "item-pickaxe"
+      ],
+      "action": "Use pickaxe on collapsed passage",
+      "result": "You swing the pickaxe with desperate strength. The timbers groan and the stones tumble, revealing the way forward.",
+      "blocksExit": {
+        "scene": "scene-1-entrance",
+        "direction": "north",
+        "blockedMessage": "The passage is choked with fallen rock and timber."
+      },
+      "reveals": [
+        "scene-2-supply-tunnel"
+      ]
+    },
+    {
+      "id": "puzzle-open-crate",
+      "scene": "scene-3-equipment-room",
+      "requires": [
+        "item-crowbar"
+      ],
+      "action": "Use crowbar on locked crate",
+      "result": "With a screech of protesting iron, the crate lid flies off. Inside: the Bell of the Hollow, tarnished and mournful. Supplies tucked away for a ritual that never happened.",
+      "reveals": [
+        "item-bell-hollow"
+      ]
+    },
+    {
+      "id": "puzzle-light-lantern",
+      "scene": "scene-2-supply-tunnel",
+      "requires": [
+        "item-matches",
+        "item-lantern"
+      ],
+      "action": "Use matches on lantern",
+      "result": "A flare of sulfur, a steady flame. The golden light pushes back the oppressive shadows of the maze.",
+      "blocksExit": {
+        "scene": "scene-2-supply-tunnel",
+        "direction": "east",
+        "blockedMessage": "The tunnel disappears into black. Without light, you'd be walking blind."
+      },
+      "reveals": []
+    },
+    {
+      "id": "puzzle-read-book",
+      "scene": "scene-5-flooded-nave",
+      "requires": [
+        "item-lantern"
+      ],
+      "action": "Read ritual book with illuminated lantern",
+      "result": "The light reveals the hidden ink. The order is clear: 'Mercy shall lead, followed by Bone. Vex must follow, and the Hollow shall close.'",
+      "reveals": []
+    },
+    {
+      "id": "puzzle-ring-bells",
+      "scene": "scene-7-reliquary",
+      "requires": [
+        "item-bell-mercy",
+        "item-bell-bone",
+        "item-bell-saint-vex",
+        "item-bell-hollow",
+        "item-ritual-book"
+      ],
+      "action": "Ring the bells in the order: Mercy, Bone, Saint Vex, Hollow",
+      "result": "The four notes entwine into a powerful harmonic. The air shimmers, and the oppressive weight lifts.",
+      "reveals": []
+    }
+  ],
+  "winCondition": {
+    "scene": "scene-7-reliquary",
+    "requires": [
+      "item-bell-mercy",
+      "item-bell-bone",
+      "item-bell-saint-vex",
+      "item-bell-hollow"
+    ],
+    "description": "The song of the silver bells echoes through the mountain. A scream that is not human erupts from the altar as Saint Vex is pulled back into the void. You run for the surface as the mine begins to tremble and collapse. You emerge into the cold mountain air just as the entrance vanishes under a mountain of stone. The hollow is sealed."
+  }
 };
-</script>
-<script>
-// game-logic.js
-// Game: The Hollow of Saint Vex
-// Author: Hex Corbin (Gameplay Coder)
 
-// --- Game Data ---
-// GAME_DATA is expected to be injected by the Game Assembler.
-// If running standalone, ensure GAME_DATA is defined before this script.
+// ============================================================
+// GAME ART
+// ============================================================
+window.GAME_ART = {
+  "scene-1-entrance": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark mountain side -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Mountain silhouette -->\n  <path d=\"M0,300 L100,200 L200,280 L300,180 L400,260 L500,200 L600,280 L640,300 L640,400 L0,400 Z\" fill=\"#003300\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Cave entrance -->\n  <ellipse cx=\"320\" cy=\"250\" rx=\"80\" ry=\"60\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  \n  <!-- Rotting timber braces -->\n  <rect x=\"240\" y=\"190\" width=\"10\" height=\"100\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"390\" y=\"190\" width=\"10\" height=\"100\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"240\" y1=\"190\" x2=\"390\" y2=\"190\" stroke=\"#8B4513\" stroke-width=\"2\"/>\n  \n  <!-- Condemned sign -->\n  <rect x=\"280\" y=\"150\" width=\"80\" height=\"30\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <text x=\"320\" y=\"170\" text-anchor=\"middle\" fill=\"#FFFFFF\" font-size=\"10\">CONDEMNED</text>\n  <text x=\"320\" y=\"185\" text-anchor=\"middle\" fill=\"#FFFFFF\" font-size=\"8\">BY ORDER</text>\n  \n  <!-- Mine cart tracks -->\n  <line x1=\"100\" y1=\"300\" x2=\"320\" y2=\"250\" stroke=\"#FF8800\" stroke-width=\"3\"/>\n  <line x1=\"540\" y1=\"300\" x2=\"320\" y2=\"250\" stroke=\"#FF8800\" stroke-width=\"3\"/>\n  <line x1=\"120\" y1=\"305\" x2=\"340\" y2=\"255\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  <line x1=\"520\" y1=\"305\" x2=\"300\" y2=\"255\" stroke=\"#FF8800\" stroke-width=\"2\"/>\n  \n  <!-- Pickaxe wedged in beam -->\n  <rect x=\"300\" y=\"200\" width=\"6\" height=\"40\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"303,200 317,200 310,180 303,190\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Collapsed passage (north) -->\n  <rect x=\"200\" y=\"100\" width=\"240\" height=\"80\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"200\" y1=\"100\" x2=\"440\" y2=\"180\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"440\" y1=\"100\" x2=\"200\" y2=\"180\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Some rocks in collapse -->\n  <circle cx=\"280\" cy=\"130\" r=\"8\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"320\" cy=\"140\" r=\"6\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"360\" cy=\"120\" r=\"7\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Pine trees on mountain -->\n  <path d=\"M50,320 Q55,300 60,320\" fill=\"#006600\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <path d=\"M580,340 Q585,320 590,340\" fill=\"#006600\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n</svg>",
+  "scene-2-supply-tunnel": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark tunnel -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Tunnel walls -->\n  <path d=\"M0,200 Q160,100 320,200 T640,200 L640,400 L0,400 Z\" fill=\"#001100\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Tunnel floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#002200\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Mining graffiti on wall -->\n  <text x=\"100\" y=\"180\" fill=\"#FFFFFF\" font-size=\"12\">HE LISTENS</text>\n  <text x=\"120\" y=\"200\" fill=\"#FFFFFF\" font-size=\"8\">VEX VIVIT</text>\n  \n  <!-- Wooden supply crate -->\n  <rect x=\"200\" y=\"250\" width=\"100\" height=\"60\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"200\" y1=\"280\" x2=\"300\" y2=\"280\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"250\" y1=\"250\" x2=\"250\" y2=\"310\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Oil lantern in crate -->\n  <rect x=\"220\" y=\"260\" width=\"20\" height=\"30\" fill=\"#CD7F32\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"225\" y=\"290\" width=\"10\" height=\"5\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Coil of frayed rope -->\n  <ellipse cx=\"270\" cy=\"280\" rx=\"15\" ry=\"8\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Scattered debris on floor -->\n  <rect x=\"100\" y=\"350\" width=\"8\" height=\"4\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"150\" y=\"360\" width=\"6\" height=\"6\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"200\" y=\"340\" width=\"4\" height=\"8\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"400\" y=\"370\" width=\"6\" height=\"4\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Broken pocket watch glint -->\n  <circle cx=\"180\" cy=\"355\" r=\"2\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Entrance light (south) -->\n  <rect x=\"280\" y=\"380\" width=\"80\" height=\"20\" fill=\"#808080\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Darkness to east -->\n  <rect x=\"500\" y=\"100\" width=\"100\" height=\"200\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n</svg>",
+  "scene-3-equipment-room": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark stone room -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Stone walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"400\" fill=\"#001100\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Rusted machinery (skeletal husks) -->\n  <rect x=\"50\" y=\"50\" width=\"80\" height=\"60\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"60\" y=\"40\" width=\"20\" height=\"20\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"50\" y1=\"80\" x2=\"50\" y2=\"100\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n  <line x1=\"130\" y1=\"80\" x2=\"130\" y2=\"100\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n  \n  <rect x=\"510\" y=\"50\" width=\"80\" height=\"60\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"520\" y=\"40\" width=\"20\" height=\"20\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"510\" y1=\"80\" x2=\"510\" y2=\"100\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n  <line x1=\"590\" y1=\"80\" x2=\"590\" y2=\"100\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n  \n  <!-- Heavy workbench -->\n  <rect x=\"220\" y=\"250\" width=\"200\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"230\" y=\"200\" width=\"180\" height=\"50\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Mushy blueprints -->\n  <rect x=\"240\" y=\"210\" width=\"40\" height=\"30\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"290\" y=\"215\" width=\"30\" height=\"25\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"330\" y=\"205\" width=\"40\" height=\"35\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <text x=\"250\" y=\"230\" text-anchor=\"middle\" fill=\"#FFFFFF\" font-size=\"6\">EZEKIEL</text>\n  <text x=\"250\" y=\"240\" text-anchor=\"middle\" fill=\"#FFFFFF\" font-size=\"6\">VEX</text>\n  \n  <!-- Reinforced wooden crate with iron padlock -->\n  <rect x=\"400\" y=\"200\" width=\"100\" height=\"80\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"430\" y=\"200\" width=\"40\" height=\"20\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"440\" y=\"220\" width=\"20\" height=\"40\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Doorway north with orange glow -->\n  <rect x=\"300\" y=\"50\" width=\"40\" height=\"100\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"290\" y=\"30\" width=\"60\" height=\"30\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Low vibrating hum representation -->\n  <path d=\"M310,40 Q320,20 330,40\" stroke=\"#FF8800\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M330,40 Q340,20 350,40\" stroke=\"#FF8800\" stroke-width=\"2\" fill=\"none\"/>\n  \n</svg>",
+  "scene-4-chapel-antechamber": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark stone chapel -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Stone walls with disturbing sigils -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"400\" fill=\"#001100\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Disturbing sigils on walls -->\n  <path d=\"M100,100 Q120,80 140,100\" stroke=\"#FF0000\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M140,100 Q160,120 180,100\" stroke=\"#FF0000\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M180,100 Q200,80 220,100\" stroke=\"#FF0000\" stroke-width=\"2\" fill=\"none\"/>\n  \n  <path d=\"M300,300 Q320,280 340,300\" stroke=\"#FF0000\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M340,300 Q360,320 380,300\" stroke=\"#FF0000\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M380,300 Q400,280 420,300\" stroke=\"#FF0000\" stroke-width=\"2\" fill=\"none\"/>\n  \n  <!-- Eyes that follow (simple representation) -->\n  <circle cx=\"150\" cy=\"150\" r=\"8\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"170\" cy=\"150\" r=\"8\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"150\" cy=\"150\" r=\"3\" fill=\"#000000\"/>\n  <circle cx=\"170\" cy=\"150\" r=\"3\" fill=\"#000000\"/>\n  \n  <circle cx=\"450\" cy=\"250\" r=\"8\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"470\" cy=\"250\" r=\"8\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"450\" cy=\"250\" r=\"3\" fill=\"#000000\"/>\n  <circle cx=\"470\" cy=\"250\" r=\"3\" fill=\"#000000\"/>\n  \n  <!-- Low stone altar -->\n  <rect x=\"270\" y=\"200\" width=\"100\" height=\"20\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Hundreds of half-melted candles (representative sample) -->\n  <circle cx=\"280\" cy=\"190\" r=\"3\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"290\" cy=\"185\" r=\"2\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"300\" cy=\"190\" r=\"3\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"310\" cy=\"180\" r=\"2\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"320\" cy=\"190\" r=\"3\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"330\" cy=\"185\" r=\"2\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"340\" cy=\"190\" r=\"3\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"350\" cy=\"180\" r=\"2\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Dried dark stains on altar -->\n  <rect x=\"280\" y=\"200\" width=\"10\" height=\"5\" fill=\"#8B0000\"/>\n  <rect x=\"310\" y=\"205\" width=\"8\" height=\"4\" fill=\"#8B0000\"/>\n  <rect x=\"340\" y=\"200\" width=\"6\" height=\"6\" fill=\"#8B0000\"/>\n  \n  <!-- Heavy iron crowbar -->\n  <rect x=\"100\" y=\"300\" width=\"8\" height=\"60\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <polygon points=\"100,300 108,290 100,280\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Crumbling pillar -->\n  <rect x=\"80\" y=\"150\" width=\"20\" height=\"150\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"75\" y=\"150\" width=\"10\" height=\"20\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"95\" y=\"150\" width=\"10\" height=\"20\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Eastern wall with loose stone -->\n  <rect x=\"600\" y=\"100\" width=\"20\" height=\"200\" fill=\"#001100\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"605\" y=\"150\" width=\"10\" height=\"10\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Hidden niche glint -->\n  <circle cx=\"610\" cy=\"155\" r=\"3\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n</svg>",
+  "scene-5-flooded-nave": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark cavern -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Stone pillars -->\n  <rect x=\"100\" y=\"50\" width=\"30\" height=\"300\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"250\" y=\"50\" width=\"30\" height=\"300\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"400\" y=\"50\" width=\"30\" height=\"300\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"550\" y=\"50\" width=\"30\" height=\"300\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Ankle-deep black water -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#000033\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Stalactites from ceiling -->\n  <polygon points=\"115,50 100,0 130,0\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <polygon points=\"265,50 250,0 280,0\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <polygon points=\"415,50 400,0 430,0\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <polygon points=\"565,50 550,0 580,0\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Ripples in water -->\n  <ellipse cx=\"200\" cy=\"300\" rx=\"20\" ry=\"5\" fill=\"none\" stroke=\"#006600\" stroke-width=\"1\"/>\n  <ellipse cx=\"200\" cy=\"300\" rx=\"15\" ry=\"4\" fill=\"none\" stroke=\"#006600\" stroke-width=\"1\"/>\n  <ellipse cx=\"200\" cy=\"300\" rx=\"10\" ry=\"3\" fill=\"none\" stroke=\"#006600\" stroke-width=\"1\"/>\n  \n  <ellipse cx=\"440\" cy=\"320\" rx=\"25\" ry=\"6\" fill=\"none\" stroke=\"#006600\" stroke-width=\"1\"/>\n  <ellipse cx=\"440\" cy=\"320\" rx=\"20\" ry=\"5\" fill=\"none\" stroke=\"#006600\" stroke-width=\"1\"/>\n  <ellipse cx=\"440\" cy=\"320\" rx=\"15\" ry=\"4\" fill=\"none\" stroke=\"#006600\" stroke-width=\"1\"/>\n  \n  <!-- Grand stone lectern -->\n  <rect x=\"300\" y=\"100\" width=\"40\" height=\"150\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  \n  <!-- Weeping faces on lectern (simple representation) -->\n  <circle cx=\"310\" cy=\"120\" r=\"5\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"330\" cy=\"120\" r=\"5\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"305\" y1=\"115\" x2=\"315\" y2=\"125\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"325\" y1=\"115\" x2=\"335\" y2=\"125\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Leather-bound book on lectern -->\n  <rect x=\"305\" y=\"230\" width=\"30\" height=\"20\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Feeling of something watching (eyes in ceiling shadow) -->\n  <circle cx=\"200\" cy=\"80\" r=\"4\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"200\" cy=\"80\" r=\"2\" fill=\"#000000\"/>\n  <circle cx=\"440\" cy=\"80\" r=\"4\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"440\" cy=\"80\" r=\"2\" fill=\"#000000\"/>\n  \n</svg>",
+  "scene-6-bell-tower": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark cavern opening -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Natural chimney-like cavern -->\n  <path d=\"M200,0 Q320,-100 440,0 L440,400 L200,400 Z\" fill=\"#001100\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Bronze framework -->\n  <rect x=\"180\" y=\"50\" width=\"280\" height=\"20\" fill=\"#CD7F32\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"180\" y=\"330\" width=\"280\" height=\"20\" fill=\"#CD7F32\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"180\" y1=\"50\" x2=\"180\" y2=\"330\" stroke=\"#CD7F32\" stroke-width=\"3\"/>\n  <line x1=\"460\" y1=\"50\" x2=\"460\" y2=\"330\" stroke=\"#CD7F32\" stroke-width=\"3\"/>\n  \n  <!-- Vertical supports -->\n  <line x1=\"250\" y1=\"50\" x2=\"250\" y2=\"330\" stroke=\"#CD7F32\" stroke-width=\"2\"/>\n  <line x1=\"320\" y1=\"50\" x2=\"320\" y2=\"330\" stroke=\"#CD7F32\" stroke-width=\"2\"/>\n  <line x1=\"390\" y1=\"50\" x2=\"390\" y2=\"330\" stroke=\"#CD7F32\" stroke-width=\"2\"/>\n  \n  <!-- Single silver bell hanging from center -->\n  <ellipse cx=\"320\" cy=\"180\" rx=\"30\" ry=\"20\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"310\" y=\"180\" width=\"20\" height=\"10\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"315\" y=\"170\" width=\"10\" height=\"10\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Sound waves (faint ringing in skull) -->\n  <path d=\"M320,160 Q300,120 320,80\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"none\" opacity=\"0.5\"/>\n  <path d=\"M320,160 Q340,120 320,80\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"none\" opacity=\"0.5\"/>\n  \n  <!-- Moonlight from crack high above -->\n  <rect x=\"310\" y=\"0\" width=\"20\" height=\"50\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Dust motes in moonlight -->\n  <circle cx=\"315\" cy=\"20\" r=\"1\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"325\" cy=\"30\" r=\"1\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"305\" cy=\"25\" r=\"1\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Narrow bridge of planks -->\n  <rect x=\"460\" y=\"200\" width=\"100\" height=\"10\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"460\" y1=\"205\" x2=\"560\" y2=\"205\" stroke=\"#8B4513\" stroke-width=\"1\"/>\n  <line x1=\"460\" y1=\"210\" x2=\"560\" y2=\"210\" stroke=\"#8B4513\" stroke-width=\"1\"/>\n  \n  <!-- Chamber of intense pressure (east) -->\n  <rect x=\"560\" y=\"150\" width=\"80\" height=\"100\" fill=\"#800080\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Bottomless chasm below bridge -->\n  <rect x=\"460\" y=\"210\" width=\"180\" height=\"190\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n</svg>",
+  "scene-7-reliquary": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark stone chamber -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Stone walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"400\" fill=\"#001100\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Shelves with jars -->\n  <rect x=\"50\" y=\"50\" width=\"120\" height=\"300\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"470\" y=\"50\" width=\"120\" height=\"300\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Shelf divisions -->\n  <line x1=\"50\" y1=\"150\" x2=\"170\" y2=\"150\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"50\" y1=\"250\" x2=\"170\" y2=\"250\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"470\" y1=\"150\" x2=\"590\" y2=\"150\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"470\" y1=\"250\" x2=\"590\" y2=\"250\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Jars on shelves (representative samples) -->\n  <rect x=\"70\" y=\"70\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"100\" y=\"70\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"70\" y=\"120\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"100\" y=\"120\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <rect x=\"490\" y=\"70\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"520\" y=\"70\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"490\" y=\"120\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"520\" y=\"120\" width=\"20\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Labels on jars (simple text) -->\n  <text x=\"75\" y=\"90\" fill=\"#FFFFFF\" font-size=\"6\">ORGAN</text>\n  <text x=\"105\" y=\"90\" fill=\"#FFFFFF\" font-size=\"6\">SOIL</text>\n  <text x=\"75\" y=\"140\" fill=\"#FFFFFF\" font-size=\"6\">ORGAN</text>\n  <text x=\"105\" y=\"140\" fill=\"#FFFFFF\" font-size=\"6\">SOIL</text>\n  \n  <text x=\"495\" y=\"90\" fill=\"#FFFFFF\" font-size=\"6\">ORGAN</text>\n  <text x=\"525\" y=\"90\" fill=\"#FFFFFF\" font-size=\"6\">SOIL</text>\n  <text x=\"495\" y=\"140\" fill=\"#FFFFFF\" font-size=\"6\">ORGAN</text>\n  <text x=\"525\" y=\"140\" fill=\"#FFFFFF\" font-size=\"6\">SOIL</text>\n  \n  <!-- White salt circle -->\n  <circle cx=\"320\" cy=\"250\" r=\"60\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Second, larger altar -->\n  <rect x=\"280\" y=\"200\" width=\"80\" height=\"20\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Stone pedestal -->\n  <rect x=\"300\" y=\"100\" width=\"40\" height=\"100\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Velvet cushion -->\n  <rect x=\"305\" y=\"180\" width=\"30\" height=\"10\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Final silver bell -->\n  <ellipse cx=\"320\" cy=\"160\" rx=\"25\" ry=\"15\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"310\" y=\"160\" width=\"20\" height=\"8\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"313\" y=\"152\" width=\"14\" height=\"8\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Light absorption effect around bell -->\n  <circle cx=\"320\" cy=\"160\" r=\"35\" fill=\"#000000\" opacity=\"0.3\" stroke=\"#FFFFFF\" stroke-width=\"1\" stroke-dasharray=\"2,2\"/>\n  \n</svg>"
+};
 
-// --- State ---
+// ============================================================
+// GAME ENGINE
+// ============================================================
+/**
+ * THE HOLLOW OF SAINT VEX — Game Logic (v2 Fixed)
+ * Fixed by Valerius — proper puzzle resolution with target validation
+ */
+
 const state = {
   currentScene: 'scene-1-entrance',
   inventory: [],
   solvedPuzzles: [],
-  visitedScenes: [],
+  visitedScenes: ['scene-1-entrance'],
   activeCommand: null,
   selectedItem: null,
-  won: false,
-  revealedItems: {},
-  hintsEnabled: true,
-  hintTimeouts: []
+  won: false
 };
 
-// --- DOM ---
 const artDisplay = document.getElementById('art-display');
 const sceneName = document.getElementById('scene-name');
 const textDisplay = document.getElementById('text-display');
 const invBar = document.getElementById('inventory-bar');
 const exitsBar = document.getElementById('exits-bar');
-
-// --- Helpers ---
-const getItem = (id) => GAME_DATA.items.find(i => i.id === id);
-const getScene = (id) => GAME_DATA.scenes.find(s => s.id === id);
-const getPuzzle = (id) => GAME_DATA.puzzles.find(p => p.id === id);
-
-// --- Hint System ---
-function clearHintTimers() {
-  state.hintTimeouts.forEach(timeout => clearTimeout(timeout));
-  state.hintTimeouts = [];
-}
-
-function showHint(sceneId, index) {
-  if (!state.hintsEnabled) return;
-  const hints = GAME_DATA.hints && GAME_DATA.hints[sceneId];
-  if (!hints || index >= hints.length) return;
-  const hint = hints[index];
-  addText(hint.text, 'hint');
-}
-
-function startHintTimer(sceneId) {
-  clearHintTimers();
-  const hints = GAME_DATA.hints && GAME_DATA.hints[sceneId];
-  if (!hints || !state.hintsEnabled) return;
-  hints.forEach((hint, idx) => {
-    const timeout = setTimeout(() => showHint(sceneId, idx), hint.delay * 1000);
-    state.hintTimeouts.push(timeout);
-  });
-}
-
-function toggleHints() {
-  state.hintsEnabled = !state.hintsEnabled;
-  const btn = document.getElementById('hint-toggle');
-  if (btn) btn.textContent = state.hintsEnabled ? 'HINTS: ON' : 'HINTS: OFF';
-  if (!state.hintsEnabled) {
-    clearHintTimers();
-  } else {
-    startHintTimer(state.currentScene);
-  }
-}
 
 function addText(text, cls = '') {
   const p = document.createElement('p');
@@ -354,311 +605,254 @@ function addText(text, cls = '') {
 
 function clearText() { textDisplay.innerHTML = ''; }
 
-// --- Core Engine ---
+// Find a puzzle in current scene that can be solved with the given item(s)
+function findSolvablePuzzle(itemId) {
+  return GAME_DATA.puzzles.find(p =>
+    p.scene === state.currentScene &&
+    !state.solvedPuzzles.includes(p.id) &&
+    p.requires.includes(itemId) &&
+    p.requires.every(req => state.inventory.includes(req))
+  );
+}
+
+// Check if any puzzle blocks an exit from the current scene
+function isExitBlocked(sceneId, direction) {
+  return GAME_DATA.puzzles.some(p =>
+    p.scene === sceneId &&
+    p.blocksExit &&
+    p.blocksExit.direction === direction &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+}
+
+// Get the blocked message for an exit
+function getBlockedMessage(sceneId, direction) {
+  const puzzle = GAME_DATA.puzzles.find(p =>
+    p.scene === sceneId &&
+    p.blocksExit &&
+    p.blocksExit.direction === direction &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+  return puzzle ? (puzzle.blocksExit.blockedMessage || 'Something blocks the way.') : '';
+}
 
 function renderScene(sceneId) {
-  const scene = getScene(sceneId);
-  if (!scene) { addText('ERROR: Scene not found.', 'error'); return; }
+  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
+  if (!scene) { addText('ERROR: Scene not found!', 'error'); return; }
 
   state.currentScene = sceneId;
   if (!state.visitedScenes.includes(sceneId)) state.visitedScenes.push(sceneId);
 
-  // Hint timer
-  clearHintTimers();
-  startHintTimer(sceneId);
-
   sceneName.textContent = scene.name.toUpperCase();
 
-  const artKey = sceneId.startsWith('scene-') ? sceneId : 'scene-' + sceneId; 
-  let artHtml = null;
-  if (typeof GAME_ART !== 'undefined' && GAME_ART[artKey]) { artHtml = GAME_ART[artKey]; }
-  else if (window.GAME_ART && window.GAME_ART[artKey]) { artHtml = window.GAME_ART[artKey]; }
-  
-  if (artHtml) { artDisplay.innerHTML = artHtml; } else {
+  if (window.GAME_ART && window.GAME_ART[sceneId]) {
+    artDisplay.innerHTML = window.GAME_ART[sceneId];
+  } else {
     artDisplay.innerHTML = `<span class="no-art">[ ${scene.name.toUpperCase()} ]</span>`;
   }
 
   clearText();
+  addText(scene.prose);
 
-  let prose = scene.prose;
-  if (scene.lookDescriptions) {
-    const keys = Object.keys(scene.lookDescriptions).sort((a, b) => b.length - a.length);
-    keys.forEach(key => {
-      const regex = new RegExp(`\\b(${key})\\b`, 'gi');
-      prose = prose.replace(regex, `<span class="look-target" data-look="${key}">$1</span>`);
-    });
-  }
-  addText(prose);
-
-  const hiddenByPuzzle = new Set();
-  (scene.puzzles || []).forEach(pid => {
-    const p = getPuzzle(pid);
-    if (p && !state.solvedPuzzles.includes(p.id) && p.reveals) {
-      p.reveals.forEach(id => hiddenByPuzzle.add(id));
-    }
-  });
-
-  const dynamicItems = (state.revealedItems[sceneId] || [])
-    .filter(id => !state.inventory.includes(id) && !hiddenByPuzzle.has(id));
-
-  const staticItems = (scene.items || [])
-    .filter(id => !state.inventory.includes(id) && !hiddenByPuzzle.has(id));
-
-  const availableItems = [...new Set([...staticItems, ...dynamicItems])];
-
+  const availableItems = (scene.items || []).filter(itemId => !state.inventory.includes(itemId));
   if (availableItems.length > 0) {
     const itemLinks = availableItems.map(id => {
-      const item = getItem(id);
-      return item ? `<span class="look-target" data-look="${id}">${item.name}</span>` : id;
+      const item = GAME_DATA.items.find(i => i.id === id);
+      return `<span class="look-target" data-look="${id}">${item.name}</span>`;
     });
-    addText('You see: ' + itemLinks.join(', '), 'system');
+    addText('You notice: ' + itemLinks.join(', '), 'system');
   }
 
-  // Show clickable examinable objects
   if (scene.lookDescriptions) {
-    const lookKeys = Object.keys(scene.lookDescriptions);
-    if (lookKeys.length > 0) {
-      const lookLinks = lookKeys.map(key =>
-        `<span class="look-target" data-look="${key}">${key}</span>`
-      );
-      addText('Examine: ' + lookLinks.join(' · '), 'system');
-    }
+    addText('You can also examine: ' + Object.keys(scene.lookDescriptions).map(t => 
+      `<span class="look-target" data-look="${t}">${t}</span>`
+    ).join(', '), 'system');
   }
 
   renderExits(scene.exits || {});
   renderInventory();
   checkWin();
-  saveState();
 }
 
 function renderExits(exits) {
   exitsBar.innerHTML = '';
-  const dirs = ['north', 'south', 'east', 'west'];
-  dirs.forEach(dir => {
-    if (!exits[dir]) return;
-    
+  ['north', 'south', 'east', 'west'].forEach(dir => {
+    const targetId = exits[dir];
+    const blocked = targetId && isExitBlocked(state.currentScene, dir);
     const btn = document.createElement('button');
-    btn.className = 'exit-btn';
+    btn.className = 'exit-btn' + (targetId && !blocked ? ' available' : '');
     btn.textContent = dir.toUpperCase();
-    
-    if (canExit(state.currentScene, dir)) {
-      btn.classList.add('available');
-      btn.onclick = () => go(exits[dir]);
-    } else {
-      btn.disabled = true;
-      const blocker = GAME_DATA.puzzles.find(p => 
-        p.blocksExit?.scene === state.currentScene && 
-        p.blocksExit?.direction === dir &&
-        !state.solvedPuzzles.includes(p.id)
-      );
-      if (blocker) {
-        btn.title = blocker.blockedMessage || "Blocked";
-        if (blocker.requires.every(id => state.inventory.includes(id))) {
-          addText('[HINT] You have what you need! USE the right item on the blocked passage to clear it.', 'success');
-        }
-      }
+    btn.disabled = !targetId || blocked;
+    if (blocked) {
+      btn.title = getBlockedMessage(state.currentScene, dir);
+    }
+    if (targetId && !blocked) {
+      btn.onclick = () => { addText('---', 'system'); renderScene(targetId); };
     }
     exitsBar.appendChild(btn);
   });
 }
 
-function canExit(sceneId, direction) {
-  const blocker = GAME_DATA.puzzles.find(p => 
-    p.blocksExit?.scene === sceneId && 
-    p.blocksExit?.direction === direction &&
-    !state.solvedPuzzles.includes(p.id)
-  );
-  return !blocker;
-}
-
 function renderInventory() {
-  const items = invBar.querySelectorAll('.inv-item');
-  items.forEach(el => el.remove());
+  const existing = invBar.querySelectorAll('.inv-item');
+  existing.forEach(el => el.remove());
   const empty = document.getElementById('inv-empty');
 
   if (state.inventory.length === 0) {
     empty.style.display = '';
   } else {
     empty.style.display = 'none';
-    state.inventory.forEach(id => {
-      const item = getItem(id);
+    state.inventory.forEach(itemId => {
+      const item = GAME_DATA.items.find(i => i.id === itemId);
       if (!item) return;
       const el = document.createElement('span');
-      el.className = 'inv-item' + (state.selectedItem === id ? ' selected' : '');
+      el.className = 'inv-item' + (state.selectedItem === itemId ? ' selected' : '');
       el.textContent = item.name;
-      el.onclick = () => selectItem(id);
+      el.onclick = () => selectItem(itemId);
       invBar.appendChild(el);
     });
   }
 }
 
-function setCommand(cmd) {
-  state.activeCommand = cmd;
-  document.querySelectorAll('.cmd-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.cmd === cmd);
-  });
-  
-  if (cmd === 'look') {
-    const scene = getScene(state.currentScene);
-    if (scene.lookDescriptions) {
-      addText('You can examine: ' + Object.keys(scene.lookDescriptions).join(', '), 'system');
-    }
-  } else if (cmd === 'take') {
-    const scene = getScene(state.currentScene);
-    const dynamic = state.revealedItems[state.currentScene] || [];
-    const avail = [...new Set([...(scene.items||[]), ...dynamic])].filter(id => !state.inventory.includes(id));
-    avail.forEach(takeItem);
-    if (avail.length === 0) addText("Nothing to take.", 'system');
-  } else if (cmd === 'use') {
-    if (state.inventory.length > 0) {
-      addText('1. Click an item in your inventory to select it.', 'system');
-      addText('2. Then click a highlighted object in the scene text to use it.', 'system');
-    }
-    else addText('You have nothing to use.', 'system');
-  }
-}
-
-function selectItem(id) {
-  state.selectedItem = state.selectedItem === id ? null : id;
+function selectItem(itemId) {
+  state.selectedItem = (state.selectedItem === itemId) ? null : itemId;
   renderInventory();
   if (state.selectedItem) {
-    addText(`Selected: ${getItem(id).name}`, 'system');
+    const item = GAME_DATA.items.find(i => i.id === itemId);
+    addText(`Selected: ${item.name}. Ready to USE.`, 'system');
   }
 }
 
-function takeItem(id) {
-  if (state.inventory.includes(id)) return;
+function handleCommand(cmd) {
+  state.activeCommand = cmd;
+  document.querySelectorAll('.cmd-btn').forEach(b => b.classList.toggle('active', b.dataset.cmd === cmd));
   
-  const scene = getScene(state.currentScene);
-  const dynamic = state.revealedItems[state.currentScene] || [];
-  const avail = [...new Set([...(scene.items||[]), ...dynamic])];
-  if (!avail.includes(id)) return;
-
-  state.inventory.push(id);
-  addText(`Taken: ${getItem(id).name}`, 'success');
-  renderInventory();
-  saveState();
+  if (cmd === 'take') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    const available = (scene.items || []).filter(id => !state.inventory.includes(id));
+    if (available.length > 0) {
+      available.forEach(id => {
+        if (!state.inventory.includes(id)) {
+          state.inventory.push(id);
+          const item = GAME_DATA.items.find(i => i.id === id);
+          addText(`Taken: ${item.name}`, 'success');
+        }
+      });
+      renderInventory();
+      renderScene(state.currentScene)
+// Reset button handler
+document.getElementById('reset-btn').addEventListener('click', function() {
+    if (confirm('Reset the game to the beginning?')) {
+        state.currentScene = GAME_DATA.scenes[0].id;
+        state.inventory = [];
+        state.solvedPuzzles = [];
+        state.visitedScenes = [state.currentScene];
+        state.activeCommand = null;
+        state.selectedItem = null;
+        state.won = false;
+        clearText();
+        addText('The story begins anew...', 'system');
+        renderScene(state.currentScene);
+        renderInventory();
+    }
+});
+;
+    } else {
+      addText('Nothing here to take.', 'system');
+    }
+  } else if (cmd === 'use') {
+    if (state.inventory.length > 0) {
+      addText('Select an item from inventory, then click a target in the scene.', 'system');
+    } else {
+      addText('You have nothing to use.', 'system');
+    }
+  }
 }
 
 function lookAt(target) {
-  const scene = getScene(state.currentScene);
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
   if (scene.lookDescriptions && scene.lookDescriptions[target]) {
     addText(scene.lookDescriptions[target]);
-    return;
+  } else {
+    const item = GAME_DATA.items.find(i => i.id === target || i.name.toLowerCase() === target.toLowerCase());
+    if (item) addText(item.description);
+    else addText("You don't see anything special about that.");
   }
-  const item = getItem(target);
-  if (item) {
-    addText(item.description);
-    return;
-  }
-  addText('Nothing interesting about that.', 'system');
 }
 
-function useItemOn(itemId, targetId) {
-  const candidates = GAME_DATA.puzzles.filter(p => 
-    p.scene === state.currentScene && 
-    !state.solvedPuzzles.includes(p.id) &&
-    p.requires.includes(itemId)
-  );
+// Main use handler — called when player clicks a look-target while in USE mode
+function useItemOn(targetId) {
+  if (!state.selectedItem) {
+    addText('Select an item from your inventory first.', 'system');
+    return;
+  }
 
-  const puzzle = candidates.find(p => 
-    p.requires.every(req => state.inventory.includes(req)) &&
-    (p.requires.includes(targetId) || p.scene === state.currentScene)
-  );
+  const item = GAME_DATA.items.find(i => i.id === state.selectedItem);
+  const puzzle = findSolvablePuzzle(state.selectedItem);
 
   if (puzzle) {
-    solvePuzzle(puzzle);
-  } else {
-    addText("That doesn't work here.", 'system');
-  }
-}
-
-function solvePuzzle(puzzle) {
-  state.solvedPuzzles.push(puzzle.id);
-  addText(puzzle.result, 'success');
-  
-  artDisplay.classList.add('puzzle-solved');
-  setTimeout(() => artDisplay.classList.remove('puzzle-solved'), 600);
-
-  if (puzzle.reveals) {
-    puzzle.reveals.forEach(id => {
-      if (getItem(id)) {
-        if (!state.revealedItems[state.currentScene]) state.revealedItems[state.currentScene] = [];
-        if (!state.revealedItems[state.currentScene].includes(id)) {
-           state.revealedItems[state.currentScene].push(id);
-           addText(`Something has been revealed: <span class="look-target item-new" data-look="${id}">${getItem(id).name}</span>`, 'success');
-        }
+    // Special handling for the bell puzzle (requires all bells + book)
+    if (puzzle.id === 'puzzle-ring-bells') {
+      if (puzzle.requires.every(req => state.inventory.includes(req))) {
+        state.solvedPuzzles.push(puzzle.id);
+        addText(puzzle.result, 'success');
+      } else {
+        addText("You have some of the bells, but the ritual requires the full set and the book.", 'system');
+        return;
       }
-    });
+    } else {
+      state.solvedPuzzles.push(puzzle.id);
+      addText(puzzle.result, 'success');
+
+      // Reveal items or scenes
+      (puzzle.reveals || []).forEach(rid => {
+        const revealItem = GAME_DATA.items.find(i => i.id === rid);
+        if (revealItem && !state.inventory.includes(rid)) {
+          state.inventory.push(rid);
+          addText(`You found: ${revealItem.name}`, 'success');
+        }
+      });
+    }
+    renderScene(state.currentScene);
+  } else {
+    // No matching puzzle — show description of what they clicked
+    addText(`Using ${item.name} here doesn't seem to work.`, 'system');
+    lookAt(targetId);
   }
-
-  renderScene(state.currentScene);
-  checkWin();
-  saveState();
-}
-
-function go(sceneId) {
-  addText('---', 'system');
-  renderScene(sceneId);
 }
 
 function checkWin() {
-  if (state.won) return;
   const wc = GAME_DATA.winCondition;
-  if (state.currentScene === wc.scene && wc.requires.every(id => state.inventory.includes(id))) {
+  if (state.currentScene === wc.scene && 
+      wc.requires.every(r => state.inventory.includes(r)) && 
+      state.solvedPuzzles.includes('puzzle-ring-bells')) {
     state.won = true;
-    addText('<br>' + wc.description, 'success');
-    addText('<br>CONGRATULATIONS!', 'success');
+    addText('*** ' + wc.description + ' ***', 'success');
   }
 }
 
-document.querySelectorAll('.cmd-btn').forEach(btn => {
-  btn.onclick = () => setCommand(btn.dataset.cmd);
-});
+// Command buttons
+document.querySelectorAll('.cmd-btn').forEach(btn => btn.onclick = () => handleCommand(btn.dataset.cmd));
 
+// Click handler for look-targets
 document.addEventListener('click', (e) => {
   if (e.target.classList.contains('look-target')) {
     const target = e.target.dataset.look;
     if (state.activeCommand === 'use' && state.selectedItem) {
-      useItemOn(state.selectedItem, target);
+      useItemOn(target);
     } else {
       lookAt(target);
     }
   }
 });
 
-function saveState() {
-  try { localStorage.setItem('game-hollow-vex', JSON.stringify(state)); } catch(e) {}
-}
-function loadState() {
-  try {
-    const s = localStorage.getItem('game-hollow-vex');
-    if (s) { Object.assign(state, JSON.parse(s)); return true; }
-  } catch(e) {}
-  return false;
-}
-
 function init() {
-  if (typeof GAME_DATA === 'undefined' || Object.keys(GAME_DATA).length === 0) {
-    addText('ERROR: Game data missing. Run through Game Assembler.', 'error');
-    return;
-  }
-
-  addText('=== ' + GAME_DATA.title.toUpperCase() + ' ===', 'success');
-  addText(GAME_DATA.setting, 'system');
-  addText('<br>Commands: LOOK | TAKE | USE | EXAMINE', 'system');
-  addText('Click exits to move.', 'system');
-  addText('---', 'system');
-
-  if (!loadState()) {
-    renderScene('scene-1-entrance');
-  } else {
-    renderScene(state.currentScene);
-    addText('[Game Restored]', 'system');
-  }
+  addText(`=== ${GAME_DATA.title.toUpperCase()} ===`, 'success');
+  renderScene('scene-1-entrance');
 }
 
-init();
+window.onload = init;
+
 </script>
 </body>
 </html>

@@ -1,0 +1,102 @@
+{
+  "game": "013-sand-that-speaks",
+  "file": "games/013-sand-that-speaks/game.html",
+  "timestamp": "2026-04-03T06:26:04.692Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"entrance-passage\" prose too short: 39 words (min 60)",
+      "location": "scenes.entrance-passage.prose",
+      "expected": "60-400 words",
+      "actual": "39 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"chamber-of-hieroglyphs\" prose too short: 41 words (min 60)",
+      "location": "scenes.chamber-of-hieroglyphs.prose",
+      "expected": "60-400 words",
+      "actual": "41 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"burial-chamber\" prose too short: 41 words (min 60)",
+      "location": "scenes.burial-chamber.prose",
+      "expected": "60-400 words",
+      "actual": "41 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"treasury\" prose too short: 45 words (min 60)",
+      "location": "scenes.treasury.prose",
+      "expected": "60-400 words",
+      "actual": "45 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"altar-chamber\" prose too short: 54 words (min 60)",
+      "location": "scenes.altar-chamber.prose",
+      "expected": "60-400 words",
+      "actual": "54 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"escape-passage\" prose too short: 42 words (min 60)",
+      "location": "scenes.escape-passage.prose",
+      "expected": "60-400 words",
+      "actual": "42 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 6,
+    "items": 5,
+    "puzzles": 5,
+    "reachableScenes": 6,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 11,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 6 issues (0 CRITICAL, 0 HIGH, 6 MEDIUM, 0 LOW)"
+}

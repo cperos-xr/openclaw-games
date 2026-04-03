@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#1a1410"/>
+  <!-- walls with sigils -->
+  <rect x="0" y="0" width="640" height="280" fill="#2a2410"/>
+  <!-- sigils glow -->
+  <g font-family="monospace" font-size="12" fill="#ff4500">
+    <text x="50" y="50">☥</text>
+    <text x="400" y="80">𓂀</text>
+    <text x="600" y="120">𓃒</text>
+  </g>
+  <!-- altar with scarab depression -->
+  <g transform="translate(300,200)">
+    <rect x="0" y="0" width="100" height="60" fill="#3a3020" stroke="#d4af37" stroke-width="4"/>
+    <ellipse cx="50" cy="30" rx="25" ry="15" fill="#2a2410" stroke="#ffd700" stroke-width="2"/>
+    <text x="50" y="30" font-family="monospace" font-size="8" fill="#ffd700" text-anchor="middle">SCARAB</text>
+  </g>
+  <!-- exit west -->
+  <rect x="100" y="320" width="80" height="60" fill="#1a1410" stroke="#d4af37" stroke-width="4"/>
+  <text x="140" y="352" font-family="monospace" font-size="10" fill="#d4af37" text-anchor="middle">TREASURY</text>
+</svg>

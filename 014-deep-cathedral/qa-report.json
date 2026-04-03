@@ -1,0 +1,124 @@
+{
+  "game": "014-deep-cathedral",
+  "file": "games/014-deep-cathedral/game.html",
+  "timestamp": "2026-04-03T06:26:04.726Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"entrance-cavern\" prose too short: 37 words (min 60)",
+      "location": "scenes.entrance-cavern.prose",
+      "expected": "60-400 words",
+      "actual": "37 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"choir-aisle\" prose too short: 34 words (min 60)",
+      "location": "scenes.choir-aisle.prose",
+      "expected": "60-400 words",
+      "actual": "34 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"chancel\" prose too short: 40 words (min 60)",
+      "location": "scenes.chancel.prose",
+      "expected": "60-400 words",
+      "actual": "40 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"sacristy\" prose too short: 37 words (min 60)",
+      "location": "scenes.sacristy.prose",
+      "expected": "60-400 words",
+      "actual": "37 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"main-altar\" prose too short: 41 words (min 60)",
+      "location": "scenes.main-altar.prose",
+      "expected": "60-400 words",
+      "actual": "41 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"depths-chamber\" prose too short: 39 words (min 60)",
+      "location": "scenes.depths-chamber.prose",
+      "expected": "60-400 words",
+      "actual": "39 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-main-altar.svg\" uses 12 colors (max recommended 8)",
+      "location": "games/014-deep-cathedral/art/scene-main-altar.svg",
+      "expected": "<= 8 colors",
+      "actual": "12 colors: fill, #0a1a2a, #1a3a2a, stroke, #0f0, #ff0, #0ff, #2a3a4a, #d4af37, #3a4a5a",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-008",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-sacristy.svg\" has 3 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/014-deep-cathedral/art/scene-sacristy.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 6,
+    "items": 5,
+    "puzzles": 5,
+    "reachableScenes": 7,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 12,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 8 issues (0 CRITICAL, 0 HIGH, 6 MEDIUM, 2 LOW)"
+}

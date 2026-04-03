@@ -1,0 +1,124 @@
+{
+  "game": "015-last-broadcast",
+  "file": "games/015-last-broadcast/game.html",
+  "timestamp": "2026-04-03T06:26:04.753Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"lobby\" prose too short: 39 words (min 60)",
+      "location": "scenes.lobby.prose",
+      "expected": "60-400 words",
+      "actual": "39 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"studio\" prose too short: 37 words (min 60)",
+      "location": "scenes.studio.prose",
+      "expected": "60-400 words",
+      "actual": "37 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"archive-room\" prose too short: 33 words (min 60)",
+      "location": "scenes.archive-room.prose",
+      "expected": "60-400 words",
+      "actual": "33 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"engineering-closet\" prose too short: 31 words (min 60)",
+      "location": "scenes.engineering-closet.prose",
+      "expected": "60-400 words",
+      "actual": "31 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"control-room\" prose too short: 35 words (min 60)",
+      "location": "scenes.control-room.prose",
+      "expected": "60-400 words",
+      "actual": "35 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"main-transmitter-room\" prose too short: 39 words (min 60)",
+      "location": "scenes.main-transmitter-room.prose",
+      "expected": "60-400 words",
+      "actual": "39 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"security-office\" prose too short: 39 words (min 60)",
+      "location": "scenes.security-office.prose",
+      "expected": "60-400 words",
+      "actual": "39 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-008",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"escape-roof\" prose too short: 50 words (min 60)",
+      "location": "scenes.escape-roof.prose",
+      "expected": "60-400 words",
+      "actual": "50 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 8,
+    "items": 5,
+    "puzzles": 5,
+    "reachableScenes": 8,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 13,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 8 issues (0 CRITICAL, 0 HIGH, 8 MEDIUM, 0 LOW)"
+}

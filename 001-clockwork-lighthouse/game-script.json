@@ -17,7 +17,7 @@
       "description": "A tarnished brass key with intricate clockwork engravings.",
       "foundIn": "workshop",
       "usedIn": "library",
-      "usedOn": "library-door"
+      "usedOn": "library-puzzle"
     },
     {
       "id": "chronometer",
@@ -25,7 +25,7 @@
       "description": "A precision timekeeping device with multiple dials and gears. It hums with a faint temporal energy.",
       "foundIn": "library",
       "usedIn": "gear-chamber",
-      "usedOn": "central-gear"
+      "usedOn": "control-panel"
     },
     {
       "id": "lens-crystal",
@@ -36,12 +36,36 @@
       "usedOn": "beacon"
     },
     {
-      "id": "alistairs-journal",
-      "name": "Alistair's Journal",
-      "description": "A leather-bound journal filled with mechanical diagrams, temporal equations, and increasingly frantic entries.",
-      "foundIn": "multiple",
-      "usedIn": "multiple",
-      "usedOn": "story-reveal"
+      "id": "alistairs-journal-1",
+      "name": "Alistair's Journal - Page 1",
+      "description": "A torn page from Alistair's journal, found in the workshop. 'If you're reading this, don't trust the sound. It learns.'",
+      "foundIn": "workshop",
+      "usedIn": "lantern-room",
+      "usedOn": "mirror-puzzle"
+    },
+    {
+      "id": "alistairs-journal-2",
+      "name": "Alistair's Journal - Page 2",
+      "description": "A torn page from Alistair's journal, found in the library. 'Day 1,247. The chronometer works. The gears turn and the stars align for three seconds — I can SEE it.'",
+      "foundIn": "library",
+      "usedIn": "lantern-room",
+      "usedOn": "mirror-puzzle"
+    },
+    {
+      "id": "alistairs-journal-3",
+      "name": "Alistair's Journal - Page 3",
+      "description": "The final page of Alistair's journal, found in the gear chamber. 'LISTEN. It's not the gears you hear. It's the silence between them.'",
+      "foundIn": "gear-chamber",
+      "usedIn": "lantern-room",
+      "usedOn": "mirror-puzzle"
+    },
+    {
+      "id": "gear-sequence",
+      "name": "Gear Sequence",
+      "description": "A sequence of gear positions needed to align the central mechanism in the Gear Chamber.",
+      "foundIn": "library",
+      "usedIn": "gear-chamber",
+      "usedOn": "control-panel"
     }
   ],
   "scenes": [
@@ -64,13 +88,13 @@
     {
       "id": "workshop",
       "name": "Ground Floor Workshop",
-      "prose": "The smell hits you first — hot oil, iron filings, and something electric, like air before a lightning strike that never comes. The floor vibrates beneath your boots, a pulse from grinding gears below that don't sound like they're working. They sound like they're *chewing*. Two workbenches overflow with brass gears and tools that look more like surgical instruments. A wrench lies beside an overturned stool, and a dark smear trails from a broken gear mechanism toward the wall — too thin to be blood, too deliberate to be oil. The mechanism is frozen mid-rotation, one gear cracked clean through. Something metallic glints deep inside it. A brass key.",
+      "prose": "The smell hits you first — hot oil, iron filings, and something electric, like air before a lightning strike that never comes. The floor vibrates beneath your boots, a pulse from grinding gears below that don't sound like they're working. They sound like they're *chewing*. Two workbenches overflow with brass gears and tools that look more like surgical instruments. A wrench lies beside an overturned stool, and a dark smear trails from a broken gear mechanism toward the wall — too thin to be blood, too deliberate to be oil. The mechanism is frozen mid-rotation, one gear cracked clean through. Something metallic glints deep inside it. A brass key. A torn journal page flutters on the floor.",
       "exits": {
         "north": "exterior",
         "up": "library"
       },
-      "items": ["brass-key"],
-      "puzzles": ["workshop-puzzle"],
+      "items": ["brass-key", "alistairs-journal-1"],
+      "puzzles": ["mechanism"],
       "lookDescriptions": {
         "mechanism": "A broken gear mechanism the size of a wagon wheel, its interlocking teeth frozen mid-rotation. One gear is cracked clean through. Another has slipped its housing. Something metallic glints deep inside.",
         "workbench": "Two workbenches drowning in brass gears, coiled springs, and fittings that look more like surgical instruments than clockwork.",
@@ -88,8 +112,8 @@
         "down": "workshop",
         "up": "gear-chamber"
       },
-      "items": ["chronometer", "alistairs-journal-1"],
-      "puzzles": ["library-puzzle"],
+      "items": ["chronometer", "alistairs-journal-2"],
+      "puzzles": ["telescope"],
       "lookDescriptions": {
         "telescope": "A brass telescope, thick as your thigh and green with age, pointing up at the painted dome ceiling.",
         "star chart": "The dome is painted with constellations — but wrong. Ursa Major has a star in the wrong position. Orion carries a third sword. Unknown constellations — The Jaw, The Pendulum, something like an eye — form a vast spiral tightening inward. Toward here.",
@@ -107,8 +131,8 @@
         "down": "library",
         "up": "living-quarters"
       },
-      "items": ["alistairs-journal-2"],
-      "puzzles": ["gear-chamber-puzzle"],
+      "items": ["alistairs-journal-3"],
+      "puzzles": ["control-panel"],
       "lookDescriptions": {
         "gears": "Gears fill the vertical shaft like the rings of some impossible tree, interlocking in patterns that hurt to follow. They breathe — each rotation accompanied by hot air that smells of ozone and old pennies.",
         "control panel": "A brass panel with dials and a rectangular slot — the exact dimensions of the chronometer. The mechanism wants feeding.",
@@ -121,20 +145,19 @@
     {
       "id": "living-quarters",
       "name": "Living Quarters",
-      "prose": "The cot is made with military precision — hospital corners sharp enough to cut. No one has slept here. Or someone sleeps here every night and the pillow refuses to remember. A writing desk faces the window, cobalt light pooling across its surface. A half-finished cup of tea still radiates warmth from the wood itself, as if the desk remembers the heat and won't let go. The journal beside it starts precise and ends frantic — the last word, pressed so hard the pen tore through: *LISTEN*. Your reflection in the mirror arrives a half-breath late. In the glass, there is something on the cot. The pocket watch reads 3:17. It has always read 3:17.",
+      "prose": "The cot is made with military precision — hospital corners sharp enough to cut. No one has slept here. Or someone sleeps here every night and the pillow refuses to remember. A writing desk faces the window, cobalt light pooling across its surface. A half-finished cup of tea still radiates warmth from the wood itself, as if the desk remembers the heat and won't let go. Your reflection in the mirror arrives a half-breath late. In the glass, there is something on the cot. The pocket watch reads 3:17. It has always read 3:17. Behind the greatcoat in the wardrobe, wrapped in velvet the color of dried blood: the Lens Crystal.",
       "exits": {
         "down": "gear-chamber",
         "up": "lantern-room"
       },
-      "items": ["lens-crystal", "alistairs-journal-3"],
-      "puzzles": [],
+      "items": ["lens-crystal"],
+      "puzzles": ["mirror-riddle"],
       "lookDescriptions": {
         "cot": "Made with military precision. Hospital corners. The pillow holds no indentation. No one has slept here — or the pillow refuses to remember.",
         "desk": "A writing desk facing the window, cobalt light pooling across its surface. A half-finished cup of tea still radiates warmth from the wood itself.",
-        "journal": "The handwriting begins precise and controlled. By the final page, words overlap and sentences abandon themselves. The last line, written so hard the pen tore through: LISTEN.",
         "mirror": "Your reflection arrives a half-breath late. In the glass, the room behind you is darker. There is something on the cot.",
         "pocket watch": "Reads 3:17. It has read 3:17 since you entered. It read 3:17 before you existed.",
-        "wardrobe": "A greatcoat inside, moth-eaten at the shoulders. Behind it, wrapped in velvet the color of dried blood — a crystal that catches light and makes it come out older.",
+        "wardrobe": "A greatcoat inside, moth-eaten at the shoulders. Behind it, wrapped in velvet the color of dried blood — the Lens Crystal waits.",
         "staircase": "A narrow spiral staircase leading up through the ceiling toward the Lantern Room. Each step groans like it has been waiting.",
         "hearth": "Cold ashes forming gear-shaped patterns in the grate."
       }
@@ -147,7 +170,7 @@
         "down": "living-quarters"
       },
       "items": [],
-      "puzzles": ["beacon-puzzle"],
+      "puzzles": ["beacon"],
       "lookDescriptions": {
         "beacon": "Brass and crystal, mechanical and organic, rising from the floor like a spine. Its lens housing gapes open — six crystal facets in a ring, one socket empty.",
         "storm": "Through the glass walls, the storm repeats. The same bolt. The same wave. The storm is a scar that will not heal.",
@@ -160,35 +183,43 @@
   ],
   "puzzles": [
     {
-      "id": "workshop-puzzle",
+      "id": "mechanism",
       "scene": "workshop",
       "requires": [],
       "action": "Repair the broken gear mechanism using scattered tools",
-      "result": "Access to the brass key hidden in the mechanism",
-      "reveals": ["brass-key"]
+      "result": "The gear mechanism groans back to life, revealing a hidden compartment. Inside: the Brass Key.",
+      "reveals": ["brass-key", "alistairs-journal-1"]
     },
     {
-      "id": "library-puzzle",
+      "id": "telescope",
       "scene": "library",
-      "requires": ["brass-key"],
-      "action": "Use the chronometer with the telescope to decode the star chart",
-      "result": "Reveals the correct gear sequence for the Gear Chamber",
-      "reveals": ["gear-sequence"]
+      "requires": ["chronometer", "gear-sequence"],
+      "action": "Insert the chronometer into the telescope's mount to decode the star chart",
+      "result": "The telescope aligns with the impossible constellations, revealing a hidden message in the stars.",
+      "reveals": []
     },
     {
-      "id": "gear-chamber-puzzle",
+      "id": "control-panel",
       "scene": "gear-chamber",
-      "requires": ["chronometer", "gear-sequence"],
-      "action": "Synchronize the central gears to the correct temporal alignment",
-      "result": "Unlocks access to the Living Quarters",
+      "requires": ["chronometer", "alistairs-journal-2"],
+      "action": "Slot the chronometer into the control panel and input the gear sequence from the journal",
+      "result": "The massive gears shudder and realign, clearing the passage to the Living Quarters.",
       "reveals": ["living-quarters"]
     },
     {
-      "id": "beacon-puzzle",
+      "id": "mirror-riddle",
+      "scene": "living-quarters",
+      "requires": ["alistairs-journal-1", "alistairs-journal-2", "alistairs-journal-3"],
+      "action": "Read all three journal pages at the mirror to solve Alistair's riddle",
+      "result": "The mirror shows a message Alistair hid: the true name of the thing in the fold. The Wardrobe unlocks.",
+      "reveals": ["lens-crystal"]
+    },
+    {
+      "id": "beacon",
       "scene": "lantern-room",
       "requires": ["lens-crystal"],
       "action": "Install the lens crystal and activate the beacon",
-      "result": "Breaks the time loop and allows escape from the lighthouse",
+      "result": "The beacon erupts with blue-white light. The storm shatters. Dawn breaks across a sea that has waited a hundred years. The loop is broken.",
       "reveals": ["win"]
     }
   ],

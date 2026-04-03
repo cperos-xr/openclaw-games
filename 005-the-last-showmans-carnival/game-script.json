@@ -32,8 +32,8 @@
     {
       "id": "broken_lever",
       "name": "Broken Lever",
-      "description": "A metal lever with a chewed-up end. It once controlled the funhouse mirrors, but could fit another mechanism.",
-      "foundIn": "funhouse",
+      "description": "A metal lever with a chewed-up end, found on the carousel platform. Could fit a gear mechanism somewhere.",
+      "foundIn": "carousel",
       "usedIn": "carousel",
       "usedOn": "gear_mechanism"
     },
@@ -41,7 +41,7 @@
       "id": "music_box",
       "name": "Music Box",
       "description": "A small brass music box. When wound, it plays a haunting fragment of 'The Carnival Waltz'.",
-      "foundIn": "carousel",
+      "foundIn": "funhouse",
       "usedIn": "fortune_wagon",
       "usedOn": "crystal_ball"
     },
@@ -49,15 +49,15 @@
       "id": "crystal_lens",
       "name": "Crystal Lens",
       "description": "A clear, multifaceted lens that seems to gather light. Fits perfectly in the old film projector.",
-      "foundIn": "fortune_wagon",
+      "foundIn": "midway",
       "usedIn": "big_top",
-      "usedOn": "projector"
+      "usedOn": "projector_safe"
     },
     {
       "id": "signal_flare",
       "name": "Signal Flare",
       "description": "A single red flare gun with one charge. Might be visible for miles in the dark.",
-      "foundIn": "big_top",
+      "foundIn": "funhouse",
       "usedIn": "midway",
       "usedOn": "midway_entrance"
     }
@@ -66,7 +66,7 @@
     {
       "id": "midway",
       "name": "Midway Entrance",
-      "prose": "The carnival entrance is a graveyard of faded joy. A broken ticket booth tilts on rotted timber, its window smashed inward by decades of neglect. Beyond it stretches the midway — a corridor of rusted game booths and food stalls strangled by kudzu. The air is thick with the smell of wet earth and something else, something sweetly rotten beneath the decay. The giant Ferris wheel stands frozen against the twilight sky, its gondolas hanging like empty birdcages. A single working lamp flickers weakly over a rusted funhouse, its door padlocked with a heavy chain. To the east, the carousel sits silent, its wooden horses frozen mid-gallop. North, the looming silhouette of the Big Top tent sags under its own weight. West, a fortune teller's wagon leans precariously, its painted stars faded to ghosts.",
+      "prose": "The carnival entrance is a graveyard of faded joy. A broken ticket booth tilts on rotted timber, its window smashed inward by decades of neglect. Beyond it stretches the midway \u2014 a corridor of rusted game booths and food stalls strangled by kudzu. The air is thick with the smell of wet earth and something else, something sweetly rotten beneath the decay. The giant Ferris wheel stands frozen against the twilight sky, its gondolas hanging like empty birdcages. A single working lamp flickers weakly over a rusted funhouse, its door padlocked with a heavy chain. To the east, the carousel sits silent, its wooden horses frozen mid-gallop. North, the looming silhouette of the Big Top tent sags under its own weight. West, a fortune teller's wagon leans precariously, its painted stars faded to ghosts.",
       "exits": {
         "east": "carousel",
         "north": "big_top",
@@ -74,10 +74,15 @@
         "south": "sideshow_gallery",
         "funhouse_door": "funhouse"
       },
-      "items": ["rusty_key"],
-      "puzzles": ["finale_flare"],
+      "items": [
+        "rusty_key",
+        "crystal_lens"
+      ],
+      "puzzles": [
+        "finale_flare"
+      ],
       "lookDescriptions": {
-        "ticket_booth": "The glass is gone, the counter covered in mildew and dead leaves. A faded poster still clings inside — 'Blackwood's Traveling Carnival, 1963'.",
+        "ticket_booth": "The glass is gone, the counter covered in mildew and dead leaves. A faded poster still clings inside \u2014 'Blackwood's Traveling Carnival, 1963'.",
         "funhouse_door": "Heavy oak with peeling clown paint. A thick rusted chain holds it shut, secured by an old padlock.",
         "lamp_post": "The single electric lamp flickers arrhythmically, casting long, jumping shadows across the midway.",
         "kudzu": "The vine has consumed half the booths, pulling them into a slow, green collapse."
@@ -86,71 +91,86 @@
     {
       "id": "funhouse",
       "name": "The Funhouse",
-      "prose": "You step through the creaking door into a world of distorted reflections. The funhouse is a long, narrow corridor lined with warped mirrors that stretch and compress your image into grotesque shapes. The air is stale and smells of old varnish and mildew. At the far end, a huge mirror shows not your reflection, but the silhouette of a man in a faded ringmaster's coat — he turns and vanishes before you can focus. The floorboards groan with every step. To your left, a control panel for the hall of mirrors lies open, its wires frayed. A heavy lever sits disconnected from its mount. The only exit is back to the midway.",
+      "prose": "You step through the creaking door into a world of distorted reflections. The funhouse is a long, narrow corridor lined with warped mirrors that stretch and compress your image into grotesque shapes. The air is stale and smells of old varnish and mildew. At the far end, a huge mirror shows not your reflection, but the silhouette of a man in a faded ringmaster's coat \u2014 he turns and vanishes before you can focus. The floorboards groan with every step. On a shelf beside the mirror, half-hidden behind a cracked frame, sits a small brass music box. The control panel for the hall of mirrors lies open on a table nearby, its wires frayed and useless. The only exit is back to the midway.",
       "exits": {
         "south": "midway"
       },
-      "items": ["broken_lever"],
-      "puzzles": ["funhouse_padlock"],
+      "items": [
+        "music_box",
+        "signal_flare"
+      ],
+      "puzzles": [
+        "funhouse_padlock"
+      ],
       "lookDescriptions": {
-        "mirrors": "They don't just distort — sometimes they show things that aren't there. A face in the glass, a hand reaching out, gone when you blink.",
-        "control_panel": "Rusted switches and torn wires. The lever mechanism is missing its handle.",
-        "silhouette_mirror": "The glass at the end holds no reflection of you — just that empty coat, turning away.",
+        "mirrors": "They don't just distort \u2014 sometimes they show things that aren't there. A face in the glass, a hand reaching out, gone when you blink.",
+        "music_box": "A small brass music box on a shelf, half-hidden behind a cracked mirror frame.",
+        "control_panel": "Rusted switches and torn wires. A dead mechanism for operating the mirrors.",
+        "silhouette_mirror": "The glass at the end holds no reflection of you \u2014 just that empty coat, turning away.",
         "floorboards": "They creak in sequence, as if someone is walking beside you just out of sight."
       }
     },
     {
       "id": "carousel",
       "name": "Carousel",
-      "prose": "The carousel is a ghostly carousel of painted horses and chariots, all frozen in a silent, eternal gallop. The central pole is wrapped in peeling gold leaf, and the platform is littered with dead leaves and broken glass. The calliope organ at the center is silent, its keys covered in dust. One horse — a black stallion with wild eyes — has a small compartment in its saddle that's slightly ajar. The air is cold here, and you can almost hear the faint echo of carnival music, a waltz played on a broken record. A rusty gear mechanism is visible beneath the platform, missing a lever to engage it.",
+      "prose": "The carousel is a ghostly carousel of painted horses and chariots, all frozen in a silent, eternal gallop. The central pole is wrapped in peeling gold leaf, and the platform is littered with dead leaves and broken glass. The calliope organ at the center is silent, its keys covered in dust. A broken metal lever sits on the platform near the edge. Beneath the carousel, a rusty gear mechanism is visible \u2014 the lever could fit its socket. The air is cold here, and you can almost hear the faint echo of carnival music, a waltz played on a broken record.",
       "exits": {
         "west": "midway"
       },
-      "items": ["music_box"],
-      "puzzles": ["gear_mechanism"],
+      "items": [
+        "broken_lever"
+      ],
+      "puzzles": [
+        "gear_mechanism"
+      ],
       "lookDescriptions": {
         "horses": "Their painted eyes seem to follow you. The black stallion's mouth is open mid-snarl.",
-        "calliope": "Dusty keys, silent pipes. A faded music roll is still threaded through — 'The Carnival Waltz'.",
+        "calliope": "Dusty keys, silent pipes. A faded music roll is still threaded through \u2014 'The Carnival Waltz'.",
         "gear_mechanism": "A series of interlocking gears under the platform, rusted in place. A socket where a lever should fit is empty.",
-        "saddle_compartment": "On the black horse, a small hinged door hangs slightly open."
+        "broken_lever": "A metal lever sitting on the platform, near the edge. It could fit the gear mechanism below."
       }
     },
     {
       "id": "big_top",
       "name": "Big Top Tent",
-      "prose": "The Big Top is a cavern of faded grandeur. The canvas sags overhead, stained with decades of rain and mildew. Rows of decaying bleachers face a central ring where sawdust has turned to black mud. A spotlight lies overturned, its lens cracked. At the far end, a stage holds a locked safe and an old film projector on a tripod. Costume racks line one wall — moth-eaten sequined dresses and clown suits that seem to shift when you're not looking. The air smells of wet canvas and old sweat. A trapdoor in the stage leads down into darkness, but it's rusted shut.",
+      "prose": "The Big Top is a cavern of faded grandeur. The canvas sags overhead, stained with decades of rain and mildew. Rows of decaying bleachers face a central ring where sawdust has turned to black mud. A spotlight lies overturned, its lens cracked. At the far end, a stage holds a locked safe and an old film projector on a tripod. The projector is missing a lens. Costume racks line one wall \u2014 moth-eaten sequined dresses and clown suits that seem to shift when you're not looking. The air smells of wet canvas and old sweat. A single red signal flare sits in an open box beside the projector \u2014 it wasn't hidden at all.",
       "exits": {
         "south": "midway"
       },
-      "items": ["signal_flare"],
-      "puzzles": ["projector", "safe"],
+      "items": [],
+      "puzzles": [
+        "projector_safe"
+      ],
       "lookDescriptions": {
         "safe": "A heavy cast-iron safe with a combination dial. No markings except 'Blackwood' engraved on the front.",
-        "projector": "An old 16mm film projector, its lens missing. A reel is still threaded — 'Carnival Memories, 1963'.",
+        "projector": "An old 16mm film projector, its lens slot empty. A reel is still threaded \u2014 'Carnival Memories, 1963'.",
         "costumes": "They hang like empty people. One clown suit's grin seems wider than it was a moment ago.",
-        "trapdoor": "Rusted iron ring set into the stage floor. It won't budge."
+        "signal_flare": "A single red flare gun in an open box beside the projector."
       }
     },
     {
       "id": "fortune_wagon",
       "name": "Fortune Teller's Wagon",
-      "prose": "Madame Vesper's wagon is a capsule of velvet and dust. Crystal balls and tarot cards litter a small round table draped in purple silk. The air is thick with the scent of sandalwood and something metallic. A large crystal ball on the table glows with a faint inner light, though no candle burns nearby. Shelves hold jars of herbs and curious trinkets — rabbit feet, dried flowers, animal bones. In one corner, a faded poster shows Madame Vesper, her eyes eerily lifelike. The wagon creaks with a rhythm that doesn't match the wind.",
+      "prose": "Madame Vesper's wagon is a capsule of velvet and dust. Crystal balls and tarot cards litter a small round table draped in purple silk. The air is thick with the scent of sandalwood and something metallic. A large crystal ball on the table glows with a faint inner light, though no candle burns nearby. Shelves hold jars of herbs and curious trinkets \u2014 rabbit feet, dried flowers, animal bones. On a velvet cushion beside the crystal ball rests a clear, multifaceted lens. In one corner, a faded poster shows Madame Vesper, her eyes eerily lifelike. The wagon creaks with a rhythm that doesn't match the wind.",
       "exits": {
         "east": "midway"
       },
-      "items": ["crystal_lens"],
-      "puzzles": ["crystal_ball"],
+      "items": [],
+      "puzzles": [
+        "crystal_ball"
+      ],
       "lookDescriptions": {
-        "crystal_ball": "It glows with a soft, pulsing light. If you stare too long, shapes move inside — not your reflection.",
+        "crystal_ball": "It glows with a soft, pulsing light. If you stare too long, shapes move inside \u2014 not your reflection.",
         "tarot_cards": "The spread on the table shows The Tower, The Hanged Man, and Death. They weren't arranged that way when you entered.",
-        "poster": "Madame Vesper in her prime, eyes that seem to track you. The caption: 'See Your Fate — 25¢'.",
-        "jars": "Cloudy liquids with suspended shapes. One holds what looks like a human finger."
+        "poster": "Madame Vesper in her prime, eyes that seem to track you. The caption: 'See Your Fate \u2014 25\u00a2'.",
+        "jars": "Cloudy liquids with suspended shapes. One holds what looks like a human finger.",
+        "crystal_lens": "A clear, multifaceted lens resting on a velvet cushion beside the crystal ball."
       }
     },
     {
       "id": "sideshow_gallery",
       "name": "Sideshow Gallery",
-      "prose": "This long tent is lined with glass display cases, each containing something that shouldn't exist. A two-headed calf floats in formaldehyde. A jar claims to hold a mermaid's hand. A skeleton with too many ribs. The air is cold and smells of preservative chemicals. At the far end, a curtained stage bears a sign: 'The Grinning Man — See the Horror That Laughs!' The curtain is drawn shut. One display case is shattered, its contents missing. A hidden door behind a velvet drape leads backstage, but it's locked from the other side.",
+      "prose": "This long tent is lined with glass display cases, each containing something that shouldn't exist. A two-headed calf floats in formaldehyde. A jar claims to hold a mermaid's hand. A skeleton with too many ribs. The air is cold and smells of preservative chemicals. At the far end, a curtained stage bears a sign: 'The Grinning Man \u2014 See the Horror That Laughs!' The curtain is drawn shut. One display case is shattered, its contents missing. A hidden door behind a velvet drape leads backstage, but it's locked from the other side.",
       "exits": {
         "north": "midway"
       },
@@ -159,7 +179,7 @@
       "lookDescriptions": {
         "display_cases": "The specimens look almost real. The two-headed calf's eyes are open and glassy.",
         "grinning_man_stage": "The curtain trembles slightly, as if someone is breathing behind it.",
-        "shattered_case": "Glass shards on the floor. A label reads 'The Last Laugh — The Grinning Man's Mask'.",
+        "shattered_case": "Glass shards on the floor. A label reads 'The Last Laugh \u2014 The Grinning Man's Mask'.",
         "velvet_drape": "Heavy burgundy velvet covering what might be a doorway."
       }
     }
@@ -168,65 +188,73 @@
     {
       "id": "funhouse_padlock",
       "scene": "funhouse",
-      "requires": ["rusty_key"],
+      "requires": [
+        "rusty_key"
+      ],
       "action": "Use rusty key on the padlock",
-      "result": "The padlock clicks open. The chain falls away, and the funhouse door swings inward.",
-      "reveals": ["funhouse"],
+      "result": "The padlock clicks open. The chain falls away, and the funhouse door swings inward. Inside, among the distorted mirrors, you find a small brass music box.",
+      "reveals": [
+        "music_box"
+      ],
       "blocksExit": "funhouse_door"
     },
     {
       "id": "gear_mechanism",
       "scene": "carousel",
-      "requires": ["broken_lever"],
+      "requires": [
+        "broken_lever"
+      ],
       "action": "Insert broken lever into the gear socket",
-      "result": "The lever fits. With a grinding shriek, the gears turn. The carousel rotates once, and a compartment in the black horse's saddle pops open.",
-      "reveals": ["music_box"],
+      "result": "The lever fits. With a grinding shriek, the gears turn one full rotation. The carousel shudders, and something clinks in the calliope \u2014 a faint waltz plays for a moment, then dies. The gears hold the carousel steady enough to access the Big Top path.",
+      "reveals": [
+        "big_top"
+      ],
       "blocksExit": ""
     },
     {
       "id": "crystal_ball",
       "scene": "fortune_wagon",
-      "requires": ["music_box"],
+      "requires": [
+        "music_box"
+      ],
       "action": "Wind the music box near the crystal ball",
-      "result": "The music box plays its haunting waltz. The crystal ball flashes bright, and inside, a multifaceted lens materializes.",
-      "reveals": ["crystal_lens"],
-      "blocksExit": ""
+      "result": "The music box plays its haunting waltz. The crystal ball flashes bright, and a multifaceted lens materializes on the velvet cushion beside it.",
+      "reveals": [
+        "crystal_lens"
+      ]
     },
     {
-      "id": "projector",
+      "id": "projector_safe",
       "scene": "big_top",
-      "requires": ["crystal_lens"],
-      "action": "Place crystal lens in the projector",
-      "result": "The lens snaps into place. The projector whirs to life, casting flickering numbers on the safe's face: '1883'.",
-      "reveals": [],
-      "blocksExit": ""
-    },
-    {
-      "id": "safe",
-      "scene": "big_top",
-      "requires": [],
-      "action": "Enter code 1883 on the safe dial",
-      "result": "The safe unlocks with a heavy thunk. Inside lies a single red flare gun.",
-      "reveals": ["signal_flare"],
-      "blocksExit": ""
+      "requires": [
+        "crystal_lens"
+      ],
+      "action": "Install crystal lens in projector and project the film onto the safe",
+      "result": "The lens snaps into place. The projector whirs to life, casting flickering film onto the stage wall \u2014 Barnaby Blackwood's final carnival celebration. The numbers '1883' appear briefly on screen, reflected in the safe's dial. You enter the code. The safe pops open. Inside: a single red signal flare.",
+      "reveals": [
+        "signal_flare"
+      ]
     },
     {
       "id": "finale_flare",
       "scene": "midway",
-      "requires": ["signal_flare"],
+      "requires": [
+        "signal_flare"
+      ],
       "action": "Fire the signal flare into the sky",
       "result": "The flare arcs high, burning brilliant red. Minutes later, headlights appear on the distant road. Rescue has seen your signal.",
-      "reveals": [],
-      "blocksExit": ""
+      "reveals": []
     }
   ],
   "winCondition": {
     "scene": "midway",
-    "requires": ["signal_flare"],
+    "requires": [
+      "signal_flare"
+    ],
     "description": "Fire the signal flare to alert rescuers and escape the carnival."
   },
   "ending": {
     "title": "Escape from Blackwood's Carnival",
-    "prose": "You fire the flare gun into the night sky. The red spark arcs high above the derelict carnival, illuminating the midway in a blood-red glow. The Ferris wheel casts a long shadow across the rotting booths, and for just a second, you swear you see the carousel horses turn to watch. Minutes pass. Then headlights appear on the distant road — rescue has seen your signal. As you walk toward the approaching vehicles, you glance back at the funhouse one last time. In the flickering lamplight, a figure stands in the doorway — the Grinning Man, his smile too wide, his wave too friendly. He mouths something: 'See you next time.' The carnival lights flicker once, then die. When you look again, the funhouse door is closed. The carnival is dark. But you're free."
+    "prose": "You fire the flare gun into the night sky. The red spark arcs high above the derelict carnival, illuminating the midway in a blood-red glow. The Ferris wheel casts a long shadow across the rotting booths, and for just a second, you swear you see the carousel horses turn to watch. Minutes pass. Then headlights appear on the distant road \u2014 rescue has seen your signal. As you walk toward the approaching vehicles, you glance back at the funhouse one last time. In the flickering lamplight, a figure stands in the doorway \u2014 the Grinning Man, his smile too wide, his wave too friendly. He mouths something: 'See you next time.' The carnival lights flicker once, then die. When you look again, the funhouse door is closed. The carnival is dark. But you're free."
   }
 }

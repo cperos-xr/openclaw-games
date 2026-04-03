@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Last Broadcast | Game #015</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+         * OPENCLAW GAME TEMPLATE v3.0 — MOBILE-FIRST
+         *
+         * ARCHITECTURE:
+         *   Mobile (<769px): Scrollable page. Art top. Content below.
+         *   Desktop (≥769px): Fixed 100vh. Art left 60%. Text right 40%.
+         *
+         * FIVE RULES THAT MUST NEVER BE BROKEN:
+         *   1. NEVER add height:100vh + overflow:hidden outside the desktop media query
+         *   2. NEVER set min-height > 0px on .art-panel at base/mobile level
+         *   3. ALWAYS use aspect-ratio: 8/5 (640x400) for the art panel on mobile
+         *   4. ALWAYS use min-height:44px on every clickable button (touch targets)
+         *   5. ALWAYS use flex-wrap:wrap on .command-bar and #exits-bar
+         * ============================================================ */
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* CRT scanline overlay */
+        body::after {
+            content: ''; position: fixed; inset: 0; z-index: 999; pointer-events: none;
+            background: repeating-linear-gradient(
+                transparent, transparent 2px,
+                rgba(0,0,0,0.10) 2px, rgba(0,0,0,0.10) 4px
+            );
+        }
+
+        /* ── MOBILE BASE (default, all screens) ─────────────────────
+         * Normal document flow. No height:100vh. No overflow:hidden.
+         * Everything stacks vertically and scrolls naturally.
+         * ──────────────────────────────────────────────────────────── */
+        body {
+            background: #000; color: #33ff33;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 11px; line-height: 1.6;
+            padding: 8px; max-width: 1200px; margin: 0 auto;
+            overflow-x: hidden; /* prevent horizontal scroll from oversized art */
+        }
+
+        header { text-align: center; padding-bottom: 8px; }
+        h1 { font-size: 13px; color: #33ff33; text-shadow: 0 0 8px #33ff33; margin-bottom: 4px; }
+        .subtitle { font-size: 8px; color: #226622; }
+
+        #scene-name {
+            font-size: 12px; text-align: center; color: #ffff33;
+            text-transform: uppercase; letter-spacing: 1px; padding: 6px 0;
+        }
+
+        /* Art panel: fills width, keeps 8:5 (640×400) aspect ratio.
+         * max-height: 56vw = ~210px on a 375px phone — art is clear but
+         * leaves plenty of room below for text and controls. */
+        .art-panel {
+            width: 100%; aspect-ratio: 8 / 5; max-height: 56vw;
+            border: 2px solid #33ff33; background: #111;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        #art-display { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        #art-display svg, #art-display img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        .no-art { color: #226622; font-size: 9px; text-align: center; }
+
+        /* Text panel: plain block on mobile, no fixed height */
+        .text-panel {
+            border: 2px solid #33ff33; background: #111;
+            padding: 10px; margin-top: 8px;
+        }
+
+        /* Story text: scrollable, capped so it doesn't swallow the whole screen */
+        #text-display {
+            overflow-y: auto; max-height: 40vh;
+            border-bottom: 1px solid #226622; padding-bottom: 8px; margin-bottom: 8px;
+        }
+        #text-display p { margin-bottom: 8px; }
+        #text-display .system  { color: #33bbff; font-style: italic; }
+        #text-display .success { color: #ffff33; font-weight: bold; }
+        #text-display .locked  { color: #ff3333; }
+        #text-display .error   { color: #ff5555; }
+        .look-target { color: #ffff33; text-decoration: underline; cursor: pointer; }
+        .look-target:hover { color: #ffcc00; }
+
+        /* Command buttons: wrapping row, 44px tap targets */
+        .command-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+        .cmd-btn {
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 10px 14px; min-height: 44px; min-width: 44px; flex: 1;
+            font-family: 'Press Start 2P', monospace; font-size: 9px; cursor: pointer;
+        }
+        .cmd-btn:hover, .cmd-btn.active { background: #33ff33; color: #000; }
+        #hint-toggle { flex: 0 0 auto; }
+
+        /* Inventory */
+        .inventory-panel { border: 1px solid #226622; background: #000; padding: 8px; margin-bottom: 8px; }
+        .inventory-panel h3 { font-size: 8px; color: #ffff33; margin-bottom: 6px; }
+        #inventory-bar { display: flex; flex-wrap: wrap; gap: 6px; min-height: 18px; }
+        #inv-empty { color: #226622; font-size: 9px; }
+        .inv-item {
+            border: 1px solid #33ff33; padding: 8px 10px; min-height: 36px;
+            font-family: inherit; font-size: 9px; cursor: pointer; background: #000; color: #33ff33;
+        }
+        .inv-item:hover, .inv-item.selected { background: #33ff33; color: #000; }
+
+        /* Exits */
+        .exits-panel { border: 1px solid #226622; background: #000; padding: 8px; }
+        .exits-panel h3 { font-size: 8px; color: #ffff33; margin-bottom: 6px; }
+        #exits-bar { display: flex; flex-wrap: wrap; gap: 6px; }
+        .exit-btn {
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 10px 14px; min-height: 44px; min-width: 44px;
+            font-family: 'Press Start 2P', monospace; font-size: 9px; cursor: pointer;
+        }
+        .exit-btn.available:hover { background: #33ff33; color: #000; }
+        .exit-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .hint { color: #FFAA00 !important; font-style: italic; border-left: 2px solid #FFAA00; padding-left: 8px; margin: 5px 0; }
+        .hint::before { content: "HINT: "; font-weight: bold; }
+
+        footer { margin-top: 8px; text-align: center; font-size: 7px; color: #113311; padding: 8px 0; }
+
+        /* Animations */
+        @keyframes puzzle-solved {
+            0%   { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
+            50%  { filter: brightness(1.8) drop-shadow(0 0 20px #ffff33); }
+            100% { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
+        }
+        @keyframes itemGlow {
+            0%   { box-shadow: 0 0 4px #33ff33; }
+            50%  { box-shadow: 0 0 16px #33ff33; }
+            100% { box-shadow: 0 0 4px #33ff33; }
+        }
+        @keyframes unlockPulse {
+            0%, 100% { border-color: #33ff33; }
+            50% { border-color: #ffff33; box-shadow: 0 0 12px #ffff33; }
+        }
+        .puzzle-solved { animation: puzzle-solved 0.6s ease-out; }
+        .item-new { animation: itemGlow 1s ease-in-out 3; }
+        .newly-unlocked { animation: unlockPulse 1s ease 3; }
+
+        /* ── DESKTOP (≥769px): side-by-side, fits 100vh ─────────────
+         * Only here do we apply height:100vh + overflow:hidden.
+         * Flex layout with min-height:0 so panels can shrink properly.
+         * ──────────────────────────────────────────────────────────── */
+        @media (min-width: 769px) {
+            body {
+                display: flex; flex-direction: column;
+                height: 100vh; overflow: hidden;
+                font-size: 12px; padding: 12px;
+            }
+            header { flex-shrink: 0; margin-bottom: 6px; }
+            h1 { font-size: 16px; }
+            .subtitle { font-size: 9px; }
+            #scene-name { font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; flex-shrink: 0; }
+
+            .game-container {
+                display: flex; flex: 1; gap: 12px;
+                min-height: 0; /* CRITICAL: lets flex children shrink below content height */
+            }
+            .art-panel {
+                flex: 3; aspect-ratio: unset; max-height: none; /* flex dictates height */
+                margin-top: 0;
+            }
+            .text-panel {
+                flex: 2; display: flex; flex-direction: column;
+                overflow: hidden; margin-top: 0;
+            }
+            #text-display { flex: 1; max-height: none; overflow-y: auto; }
+            .cmd-btn    { flex: 1; padding: 6px 10px; min-height: 36px; }
+            .exit-btn   { padding: 6px 10px; min-height: 36px; }
+            .inv-item   { padding: 4px 8px; min-height: 30px; }
+            footer { flex-shrink: 0; }
+        }
+
+        /* ── LANDSCAPE MOBILE (short + wide) ───────────────────────── */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .game-container { display: flex !important; flex-direction: row !important; }
+            .art-panel { flex: 1; aspect-ratio: unset; max-height: none; }
+            .text-panel { flex: 1; overflow-y: auto; }
+            #text-display { max-height: 45vh; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>THE LAST BROADCAST</h1>
+    <div class="subtitle">OpenClaw Adventures — Game #015</div>
+</header>
+
+<div id="scene-name">LOBBY</div>
+
+<div class="game-container">
+    <!-- Art panel: 640x400 SVG art, scales to fill panel -->
+    <div class="art-panel">
+        <div id="art-display">
+            <span class="no-art">[ART LOADING]</span>
+        </div>
+    </div>
+
+    <!-- Text panel: narrative, commands, inventory, exits -->
+    <div class="text-panel">
+        <div id="text-display"></div>
+
+        <div class="command-bar">
+            <button class="cmd-btn" data-cmd="look">LOOK</button>
+            <button class="cmd-btn" data-cmd="take">TAKE</button>
+            <button class="cmd-btn" data-cmd="use">USE</button>
+            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+            <button id="hint-toggle" class="cmd-btn">HINTS: ON</button>
+        </div>
+
+        <div class="inventory-panel">
+            <h3>INVENTORY</h3>
+            <div id="inventory-bar">
+                <span id="inv-empty">(empty)</span>
+            </div>
+        </div>
+
+        <div class="exits-panel">
+            <h3>EXITS</h3>
+            <div id="exits-bar"></div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    OpenClaw Point &amp; Click Studio | LOOK · TAKE · USE · EXAMINE | Click exits to move | /restart to reset
+</footer>
+
+<script>
+// ============================================================
+// GAME DATA — replace with assembled content from game-script.json
+// ============================================================
+var GAME_DATA = {"title": "The Last Broadcast", "slug": "last-broadcast", "number": 15, "setting": "A decommissioned TV station on a remote mountain. The transmission towers still emit a signal, luring viewers into a coma. Something lives in the broadcast loop.", "characters": [{"id": "anchor-ghost", "name": "The Anchor", "description": "A spectral figure in a crisp suit, eternally reading the news that never ends."}, {"id": "static-entity", "name": "The Static", "description": "A living noise that consumes those who watch too closely."}], "items": [{"id": "master-key", "name": "Master Key", "description": "A brass key that opens all doors in the station.", "foundIn": "lobby", "usedIn": "lobby", "usedOn": "security-door"}, {"id": "backup-tape", "name": "Backup Tape", "description": "A VHS tape containing the original broadcast that started the curse.", "foundIn": "archive-room", "usedIn": "studio", "usedOn": "playback-deck"}, {"id": "signal-analyzer", "name": "Signal Analyzer", "description": "A handheld device that can decode the hidden frequency.", "foundIn": "engineering-closet", "usedIn": "control-room", "usedOn": "modulator"}, {"id": "ferrite-beads", "name": "Ferrite Beads", "description": "Heavy-duty choke coils that can block the signal's spread.", "foundIn": "main-transmitter-room", "usedIn": "main-transmitter-room", "usedOn": "transmitter-array"}, {"id": "emergency-knife", "name": "Emergency Knife", "description": "A serrated blade for cutting coaxial cables. It must be used on the main feed.", "foundIn": "security-office", "usedIn": "main-transmitter-room", "usedOn": "main-cable"}], "scenes": [{"id": "lobby", "name": "Lobby", "prose": "The entrance hall of the TV station. A check-in desk sits abandoned. The walls are lined with monitors showing a looping news broadcast. A security door blocks the way to the studio. A master key glints on the desk.", "exits": {"east": "studio"}, "items": ["master-key"], "puzzles": ["security-door"], "lookDescriptions": {"monitors": "They all show the same smiling anchor repeating the same sentence.", "desk": "Phone lines are dead. The key is the only thing that works."}}, {"id": "studio", "name": "Studio", "prose": "The main broadcast studio. Cameras point at a vacant anchor desk. A playback deck sits ready. A door to the archive room is locked. The air hums with a low frequency. Something is feeding through the monitors.", "exits": {"west": "lobby", "south": "archive-room"}, "items": [], "puzzles": [], "lookDescriptions": {"cameras": "Their lenses are cracked, but they still follow you.", "playback deck": "It accepts VHS tapes."}}, {"id": "archive-room", "name": "Archive Room", "prose": "Shelves of tapes and disk drives fill this side room. Dust covers everything except a single VHS tape on a table: 'The First Broadcast'. The door to the engineering closet is rusted shut.", "exits": {"north": "studio", "east": "engineering-closet"}, "items": ["backup-tape"], "puzzles": ["archive-lock"], "lookDescriptions": {"tape": "The label reads: 'DO NOT PLAY'. It feels warm.", "shelves": "Most tapes are labeled 'REJECTED CONTENT'."}}, {"id": "engineering-closet", "name": "Engineering Closet", "prose": "A cramped space filled with test equipment, routers, and a signal analyzer. A door leads to the control room. The floor is littered with cable scraps. The signal analyzer looks functional.", "exits": {"west": "archive-room", "south": "control-room"}, "items": ["signal-analyzer"], "puzzles": ["closet-jam"], "lookDescriptions": {"analyzer": "It has a glowing screen and a tuning knob.", "cables": "They pulse with a faint signal."}}, {"id": "control-room", "name": "Control Room", "prose": "The heart of the broadcast operation. A massive console with sliders, lights, and a modulator. A door leads to the main transmitter room. The signal analyzer can be used here to find the hidden frequency.", "exits": {"north": "engineering-closet", "east": "main-transmitter-room"}, "items": [], "puzzles": ["modulator-fix"], "lookDescriptions": {"modulator": "Its input is missing a cable. The output is dangerously high.", "console": "Sliders are stuck in the 'MAX' position."}}, {"id": "main-transmitter-room", "name": "Main Transmitter Room", "prose": "A towering array of vacuum tubes and coils. The main feed cable runs to the antenna mast. A ferrite bead kit sits on a workbench. A security office door is locked. The static is thick here; you feel watched.", "exits": {"west": "control-room", "south": "security-office"}, "items": ["ferrite-beads", "emergency-knife"], "puzzles": ["kill-transmitter"], "lookDescriptions": {"tubes": "They glow with an unnatural blue light.", "cable": "The main feed is thick and armored. It needs to be cut."}}, {"id": "security-office", "name": "Security Office", "prose": "A small room with monitors showing every corner of the station. The guard's chair is empty. A cabinet holds emergency tools. The only exit is north to the transmitter room. The signal is weakest here; the static clears slightly.", "exits": {"north": "main-transmitter-room"}, "items": [], "puzzles": [], "lookDescriptions": {"monitors": "One shows the lobby in real time, but you're not there.", "cabinet": "It's locked, but the glass is broken."}}, {"id": "escape-roof", "name": "Escape Roof", "prose": "You cut the main feed and jam the transmitter. The signal dies. The monitors go black. A service ladder leads to the roof. The static clears, and the night sky is clear. You've stopped the broadcast and broken the entity's hold. You escape by helicopter that arrives at dawn. Freedom.", "exits": {}, "items": [], "puzzles": [], "lookDescriptions": {"ladder": "It's rusted but stable. Climb to freedom.", "sky": "The stars are normal again."}}], "puzzles": [{"id": "security-door", "scene": "lobby", "requires": ["master-key"], "action": "use master-key on security door", "result": "The lock clicks. The door swings open, granting access to the studio.", "reveals": ["studio"], "blocksExit": {"scene": "lobby", "direction": "east"}, "blockedMessage": "The security door is locked. You need a key."}, {"id": "archive-lock", "scene": "archive-room", "requires": ["backup-tape"], "action": "take backup-tape from archive", "result": "You acquire the backup tape. It hums with cursed energy. The closet door is now accessible.", "reveals": ["engineering-closet"], "blocksExit": {"scene": "archive-room", "direction": "east"}, "blockedMessage": "The closet door is rusted shut. Something in the archives might help."}, {"id": "closet-jam", "scene": "engineering-closet", "requires": ["signal-analyzer"], "action": "use signal-analyzer to align the router", "result": "The analyzer emits a beep. The closet door unlocks. The control room is now accessible.", "reveals": ["control-room"], "blocksExit": {"scene": "engineering-closet", "direction": "south"}, "blockedMessage": "The door is jammed by a faulty router. Use the analyzer to fix it."}, {"id": "modulator-fix", "scene": "control-room", "requires": ["signal-analyzer"], "action": "connect analyzer to modulator and tune the frequency", "result": "The analyzer finds the cursed frequency: 101.7 FM. The modulator output normalizes. The transmitter room door unlocks.", "reveals": ["main-transmitter-room"], "blocksExit": {"scene": "control-room", "direction": "east"}, "blockedMessage": "The modulator is misaligned. Use the analyzer to tune it."}, {"id": "kill-transmitter", "scene": "main-transmitter-room", "requires": ["ferrite-beads", "emergency-knife"], "action": "install ferrite beads on the array, then cut the main cable", "result": "The beads absorb the residual signal. You slash the main cable. The transmitter dies. The security office door unlocks. The signal is dead. The path to escape is clear.", "reveals": ["security-office", "escape-roof"], "blocksExit": {}, "blockedMessage": ""}], "winCondition": {"scene": "escape-roof", "requires": [], "description": "You climb the ladder to the roof as dawn breaks. The broadcast is dead. The static recedes. Rescue arrives. You've survived The Last Broadcast."}};var GAME_ART={"scene-lobby": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- monitors on wall -->\n  <g fill=\"#000\" stroke=\"#0f0\" stroke-width=\"2\">\n    <rect x=\"100\" y=\"80\" width=\"80\" height=\"60\"/>\n    <rect x=\"200\" y=\"80\" width=\"80\" height=\"60\"/>\n    <rect x=\"300\" y=\"80\" width=\"80\" height=\"60\"/>\n    <rect x=\"400\" y=\"80\" width=\"80\" height=\"60\"/>\n    <rect x=\"500\" y=\"80\" width=\"80\" height=\"60\"/>\n  </g>\n  <!-- anchor face on monitors (static) -->\n  <g fill=\"#0f0\">\n    <circle cx=\"140\" cy=\"110\" r=\"5\"/>\n    <circle cx=\"240\" cy=\"110\" r=\"5\"/>\n    <circle cx=\"340\" cy=\"110\" r=\"5\"/>\n    <circle cx=\"440\" cy=\"110\" r=\"5\"/>\n    <circle cx=\"540\" cy=\"110\" r=\"5\"/>\n  </g>\n  <!-- reception desk -->\n  <rect x=\"50\" y=\"250\" width=\"120\" height=\"50\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- master key on desk -->\n  <g transform=\"translate(80,270)\">\n    <rect x=\"0\" y=\"0\" width=\"15\" height=\"8\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <circle cx=\"15\" cy=\"4\" r=\"3\" fill=\"#ffd700\"/>\n  </g>\n  <!-- security door east -->\n  <rect x=\"500\" y=\"200\" width=\"80\" height=\"100\" fill=\"#1a1a2e\" stroke=\"#d00\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"250\" font-family=\"monospace\" font-size=\"10\" fill=\"#d00\" text-anchor=\"middle\">SECURE</text>\n</svg>", "scene-studio": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- anchor desk -->\n  <rect x=\"200\" y=\"200\" width=\"240\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- cameras -->\n  <g transform=\"translate(150,150)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"15\" cy=\"25\" r=\"6\" fill=\"#0f0\"/>\n  </g>\n  <g transform=\"translate(460,150)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"15\" cy=\"25\" r=\"6\" fill=\"#0f0\"/>\n  </g>\n  <!-- playback deck -->\n  <g transform=\"translate(300,250)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"20\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"20\" cy=\"10\" r=\"5\" fill=\"#0f0\"/>\n  </g>\n  <!-- exit west to lobby -->\n  <rect x=\"100\" y=\"200\" width=\"60\" height=\"80\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"130\" y=\"245\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">LOBBY</text>\n  <!-- exit south to archive -->\n  <rect x=\"300\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ARCHIVE</text>\n</svg>", "scene-archive-room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#0f3460\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#2a2a4a\"/>\n  <!-- shelves of tapes -->\n  <g fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\">\n    <rect x=\"50\" y=\"100\" width=\"150\" height=\"120\"/>\n    <rect x=\"220\" y=\"100\" width=\"150\" height=\"120\"/>\n    <rect x=\"390\" y=\"100\" width=\"150\" height=\"120\"/>\n  </g>\n  <!-- backup tape on table -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#000\" stroke=\"#f00\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"12\" font-family=\"monospace\" font-size=\"6\" fill=\"#f00\" text-anchor=\"middle\">PLAY</text>\n  </g>\n  <!-- exits -->\n  <rect x=\"260\" y=\"320\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"300\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">STUDIO</text>\n  <rect x=\"500\" y=\"250\" width=\"80\" height=\"80\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"292\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CLOSET</text>\n</svg>", "scene-engineering-closet": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#0f3460\"/>\n  <!-- floor with cables -->\n  <rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#2a2a4a\"/>\n  <!-- cables pulsing -->\n  <g stroke=\"#0f0\" stroke-width=\"2\">\n    <path d=\"M100,280 Q200,260 300,280 T500,280\"/>\n    <path d=\"M150,300 Q250,280 350,300 T550,300\"/>\n  </g>\n  <!-- test equipment rack -->\n  <rect x=\"50\" y=\"150\" width=\"120\" height=\"100\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- signal analyzer on rack -->\n  <g transform=\"translate(80,180)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <circle cx=\"15\" cy=\"10\" r=\"3\" fill=\"#0f0\"/>\n  </g>\n  <!-- exit north to archive -->\n  <rect x=\"300\" y=\"200\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"235\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ARCHIVE</text>\n  <!-- exit south to control -->\n  <rect x=\"300\" y=\"320\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CTRL</text>\n</svg>", "scene-control-room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- large console -->\n  <rect x=\"100\" y=\"180\" width=\"440\" height=\"80\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- sliders -->\n  <g fill=\"#0f0\">\n    <rect x=\"150\" y=\"200\" width=\"10\" height=\"30\"/>\n    <rect x=\"200\" y=\"200\" width=\"10\" height=\"30\"/>\n    <rect x=\"250\" y=\"200\" width=\"10\" height=\"30\"/>\n    <rect x=\"300\" y=\"200\" width=\"10\" height=\"30\"/>\n    <rect x=\"350\" y=\"200\" width=\"10\" height=\"30\"/>\n    <rect x=\"400\" y=\"200\" width=\"10\" height=\"30\"/>\n  </g>\n  <!-- modulator unit -->\n  <g transform=\"translate(500,200)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#d00\" stroke-width=\"2\"/>\n    <text x=\"30\" y=\"20\" font-family=\"monospace\" font-size=\"8\" fill=\"#d00\" text-anchor=\"middle\">MOD</text>\n  </g>\n  <!-- exits -->\n  <rect x=\"100\" y=\"220\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"140\" y=\"255\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CLOSET</text>\n  <rect x=\"500\" y=\"220\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"255\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">XMIT</text>\n</svg>", "scene-main-transmitter-room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- vacuum tube array -->\n  <g fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"3\">\n    <circle cx=\"150\" cy=\"150\" r=\"20\"/>\n    <circle cx=\"220\" cy=\"150\" r=\"20\"/>\n    <circle cx=\"290\" cy=\"150\" r=\"20\"/>\n    <circle cx=\"360\" cy=\"150\" r=\"20\"/>\n    <circle cx=\"430\" cy=\"150\" r=\"20\"/>\n    <circle cx=\"500\" cy=\"150\" r=\"20\"/>\n  </g>\n  <!-- main cable to antenna -->\n  <g transform=\"translate(320,100)\">\n    <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"100\" stroke=\"#ff4500\" stroke-width=\"4\"/>\n    <text x=\"0\" y=\"110\" font-family=\"monospace\" font-size=\"8\" fill=\"#ff4500\" text-anchor=\"middle\">MAIN</text>\n  </g>\n  <!-- ferrite beads on bench -->\n  <g transform=\"translate(100,250)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"20\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <rect x=\"10\" y=\"5\" width=\"5\" height=\"10\" fill=\"#0f0\"/>\n    <rect x=\"20\" y=\"5\" width=\"5\" height=\"10\" fill=\"#0f0\"/>\n    <rect x=\"30\" y=\"5\" width=\"5\" height=\"10\" fill=\"#0f0\"/>\n  </g>\n  <!-- emergency knife on bench -->\n  <g transform=\"translate(500,260)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"15\" fill=\"#4a0000\" stroke=\"#f00\" stroke-width=\"1\"/>\n  </g>\n  <!-- exits -->\n  <rect x=\"260\" y=\"320\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"300\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CTRL</text>\n  <rect x=\"500\" y=\"200\" width=\"80\" height=\"80\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"242\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">SEC</text>\n</svg>", "scene-security-office": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#2a2a4a\"/>\n  <!-- security monitors -->\n  <g fill=\"#000\" stroke=\"#0f0\" stroke-width=\"1\">\n    <rect x=\"50\" y=\"80\" width=\"100\" height=\"70\"/>\n    <rect x=\"180\" y=\"80\" width=\"100\" height=\"70\"/>\n    <rect x=\"310\" y=\"80\" width=\"100\" height=\"70\"/>\n    <rect x=\"440\" y=\"80\" width=\"100\" height=\"70\"/>\n  </g>\n  <!-- guard chair -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"40\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"15\" cy=\"10\" r=\"5\" fill=\"#0f0\"/>\n  </g>\n  <!-- cabinet with broken glass -->\n  <g transform=\"translate(500,220)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"50\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <line x1=\"0\" y1=\"20\" x2=\"60\" y2=\"20\" stroke=\"#f00\" stroke-width=\"2\"/>\n  </g>\n  <!-- exit north to transmitter -->\n  <rect x=\"300\" y=\"180\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"215\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">XMIT</text>\n</svg>", "scene-escape-roof": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#000\"/>\n  <!-- night sky with stars -->\n  <g fill=\"#fff\">\n    <circle cx=\"100\" cy=\"50\" r=\"2\"/>\n    <circle cx=\"200\" cy=\"80\" r=\"1.5\"/>\n    <circle cx=\"300\" cy=\"30\" r=\"2\"/>\n    <circle cx=\"400\" cy=\"70\" r=\"1\"/>\n    <circle cx=\"500\" cy=\"40\" r=\"2\"/>\n    <circle cx=\"600\" cy=\"90\" r=\"1.5\"/>\n    <circle cx=\"50\" cy=\"120\" r=\"1\"/>\n    <circle cx=\"550\" cy=\"130\" r=\"2\"/>\n  </g>\n  <!-- rooftop -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#0d0d1a\"/>\n  <!-- service ladder -->\n  <g stroke=\"#0f0\" stroke-width=\"4\">\n    <line x1=\"300\" y1=\"150\" x2=\"300\" y2=\"250\"/>\n    <line x1=\"320\" y1=\"150\" x2=\"320\" y2=\"250\"/>\n    <line x1=\"300\" y1=\"200\" x2=\"320\" y2=\"200\"/>\n  </g>\n  <!-- helicopter approaching -->\n  <g transform=\"translate(500,100)\">\n    <ellipse cx=\"0\" cy=\"0\" rx=\"15\" ry=\"5\" fill=\"#2a2a4a\"/>\n    <line x1=\"-20\" y1=\"0\" x2=\"20\" y2=\"0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <line x1=\"-25\" y1=\"-5\" x2=\"25\" y2=\"-5\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  </g>\n</svg>", "scene-master-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"25\" width=\"25\" height=\"10\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"35\" cy=\"30\" r=\"4\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"22\" y=\"28\" font-family=\"monospace\" font-size=\"5\" fill=\"#000\" text-anchor=\"middle\">MASTER</text>\n</svg>", "scene-backup-tape": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"15\" width=\"34\" height=\"24\" fill=\"#000\" stroke=\"#f00\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"22\" font-family=\"monospace\" font-size=\"6\" fill=\"#f00\" text-anchor=\"middle\">BACKUP</text>\n  <text x=\"32\" y=\"28\" font-family=\"monospace\" font-size=\"6\" fill=\"#f00\" text-anchor=\"middle\">TAPE</text>\n</svg>", "scene-signal-analyzer": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"20\" width=\"34\" height=\"24\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"32\" cy=\"32\" r=\"5\" fill=\"#0f0\"/>\n  <text x=\"32\" y=\"40\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">SIGNAL</text>\n</svg>", "scene-ferrite-beads": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"20\" width=\"24\" height=\"24\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g stroke=\"#0f0\" stroke-width=\"1\">\n    <circle cx=\"26\" cy=\"32\" r=\"2\"/>\n    <circle cx=\"32\" cy=\"32\" r=\"2\"/>\n    <circle cx=\"38\" cy=\"32\" r=\"2\"/>\n  </g>\n  <text x=\"32\" y=\"45\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">CHOKE</text>\n</svg>", "scene-emergency-knife": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#4a0000\" stroke=\"#f00\" stroke-width=\"2\">\n    <rect x=\"25\" y=\"10\" width=\"14\" height=\"40\"/>\n    <polygon points=\"25,10 39,10 32,0\"/>\n  </g>\n  <text x=\"32\" y=\"55\" font-family=\"monospace\" font-size=\"6\" fill=\"#f00\" text-anchor=\"middle\">CABLE</text>\n</svg>"}
+
+// ============================================================
+// GAME ART — replace with inlined SVGs from art/*.svg
+// ============================================================
+var GAME_ART = {"scene-lobby": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- monitors on wall -->\n  <g fill=\"#000\" stroke=\"#0f0\" stroke-width=\"2\">\n    <rect x=\"100\" y=\"80\" width=\"80\" height=\"60\"/>\n    <rect x=\"200\" y=\"80\" width=\"80\" height=\"60\"/>\n    <rect x=\"300\" y=\"80\" width=\"80\" height=\"60\"/>\n    <rect x=\"400\" y=\"80\" width=\"80\" height=\"60\"/>\n    <rect x=\"500\" y=\"80\" width=\"80\" height=\"60\"/>\n  </g>\n  <!-- anchor face on monitors (static) -->\n  <g fill=\"#0f0\">\n    <circle cx=\"140\" cy=\"110\" r=\"5\"/>\n    <circle cx=\"240\" cy=\"110\" r=\"5\"/>\n    <circle cx=\"340\" cy=\"110\" r=\"5\"/>\n    <circle cx=\"440\" cy=\"110\" r=\"5\"/>\n    <circle cx=\"540\" cy=\"110\" r=\"5\"/>\n  </g>\n  <!-- reception desk -->\n  <rect x=\"50\" y=\"250\" width=\"120\" height=\"50\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- master key on desk -->\n  <g transform=\"translate(80,270)\">\n    <rect x=\"0\" y=\"0\" width=\"15\" height=\"8\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <circle cx=\"15\" cy=\"4\" r=\"3\" fill=\"#ffd700\"/>\n  </g>\n  <!-- security door east -->\n  <rect x=\"500\" y=\"200\" width=\"80\" height=\"100\" fill=\"#1a1a2e\" stroke=\"#d00\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"250\" font-family=\"monospace\" font-size=\"10\" fill=\"#d00\" text-anchor=\"middle\">SECURE</text>\n</svg>", "scene-studio": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- anchor desk -->\n  <rect x=\"200\" y=\"200\" width=\"240\" height=\"80\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- cameras -->\n  <g transform=\"translate(150,150)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"15\" cy=\"25\" r=\"6\" fill=\"#0f0\"/>\n  </g>\n  <g transform=\"translate(460,150)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"15\" cy=\"25\" r=\"6\" fill=\"#0f0\"/>\n  </g>\n  <!-- playback deck -->\n  <g transform=\"translate(300,250)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"20\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"20\" cy=\"10\" r=\"5\" fill=\"#0f0\"/>\n  </g>\n  <!-- exit west to lobby -->\n  <rect x=\"100\" y=\"200\" width=\"60\" height=\"80\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"130\" y=\"245\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">LOBBY</text>\n  <!-- exit south to archive -->\n  <rect x=\"300\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ARCHIVE</text>\n</svg>", "scene-archive-room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#0f3460\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#2a2a4a\"/>\n  <!-- shelves of tapes -->\n  <g fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\">\n    <rect x=\"50\" y=\"100\" width=\"150\" height=\"120\"/>\n    <rect x=\"220\" y=\"100\" width=\"150\" height=\"120\"/>\n    <rect x=\"390\" y=\"100\" width=\"150\" height=\"120\"/>\n  </g>\n  <!-- backup tape on table -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#000\" stroke=\"#f00\" stroke-width=\"2\"/>\n    <text x=\"15\" y=\"12\" font-family=\"monospace\" font-size=\"6\" fill=\"#f00\" text-anchor=\"middle\">PLAY</text>\n  </g>\n  <!-- exits -->\n  <rect x=\"260\" y=\"320\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"300\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">STUDIO</text>\n  <rect x=\"500\" y=\"250\" width=\"80\" height=\"80\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"292\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CLOSET</text>\n</svg>", "scene-engineering-closet": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"280\" fill=\"#0f3460\"/>\n  <!-- floor with cables -->\n  <rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#2a2a4a\"/>\n  <!-- cables pulsing -->\n  <g stroke=\"#0f0\" stroke-width=\"2\">\n    <path d=\"M100,280 Q200,260 300,280 T500,280\"/>\n    <path d=\"M150,300 Q250,280 350,300 T550,300\"/>\n  </g>\n  <!-- test equipment rack -->\n  <rect x=\"50\" y=\"150\" width=\"120\" height=\"100\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- signal analyzer on rack -->\n  <g transform=\"translate(80,180)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"1\"/>\n    <circle cx=\"15\" cy=\"10\" r=\"3\" fill=\"#0f0\"/>\n  </g>\n  <!-- exit north to archive -->\n  <rect x=\"300\" y=\"200\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"235\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ARCHIVE</text>\n  <!-- exit south to control -->\n  <rect x=\"300\" y=\"320\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CTRL</text>\n</svg>", "scene-control-room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- large console -->\n  <rect x=\"100\" y=\"180\" width=\"440\" height=\"80\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- sliders -->\n  <g fill=\"#0f0\">\n    <rect x=\"150\" y=\"200\" width=\"10\" height=\"30\"/>\n    <rect x=\"200\" y=\"200\" width=\"10\" height=\"30\"/>\n    <rect x=\"250\" y=\"200\" width=\"10\" height=\"30\"/>\n    <rect x=\"300\" y=\"200\" width=\"10\" height=\"30\"/>\n    <rect x=\"350\" y=\"200\" width=\"10\" height=\"30\"/>\n    <rect x=\"400\" y=\"200\" width=\"10\" height=\"30\"/>\n  </g>\n  <!-- modulator unit -->\n  <g transform=\"translate(500,200)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"40\" fill=\"#1a1a2e\" stroke=\"#d00\" stroke-width=\"2\"/>\n    <text x=\"30\" y=\"20\" font-family=\"monospace\" font-size=\"8\" fill=\"#d00\" text-anchor=\"middle\">MOD</text>\n  </g>\n  <!-- exits -->\n  <rect x=\"100\" y=\"220\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"140\" y=\"255\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CLOSET</text>\n  <rect x=\"500\" y=\"220\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"255\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">XMIT</text>\n</svg>", "scene-main-transmitter-room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#2a2a4a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- vacuum tube array -->\n  <g fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"3\">\n    <circle cx=\"150\" cy=\"150\" r=\"20\"/>\n    <circle cx=\"220\" cy=\"150\" r=\"20\"/>\n    <circle cx=\"290\" cy=\"150\" r=\"20\"/>\n    <circle cx=\"360\" cy=\"150\" r=\"20\"/>\n    <circle cx=\"430\" cy=\"150\" r=\"20\"/>\n    <circle cx=\"500\" cy=\"150\" r=\"20\"/>\n  </g>\n  <!-- main cable to antenna -->\n  <g transform=\"translate(320,100)\">\n    <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"100\" stroke=\"#ff4500\" stroke-width=\"4\"/>\n    <text x=\"0\" y=\"110\" font-family=\"monospace\" font-size=\"8\" fill=\"#ff4500\" text-anchor=\"middle\">MAIN</text>\n  </g>\n  <!-- ferrite beads on bench -->\n  <g transform=\"translate(100,250)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"20\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <rect x=\"10\" y=\"5\" width=\"5\" height=\"10\" fill=\"#0f0\"/>\n    <rect x=\"20\" y=\"5\" width=\"5\" height=\"10\" fill=\"#0f0\"/>\n    <rect x=\"30\" y=\"5\" width=\"5\" height=\"10\" fill=\"#0f0\"/>\n  </g>\n  <!-- emergency knife on bench -->\n  <g transform=\"translate(500,260)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"15\" fill=\"#4a0000\" stroke=\"#f00\" stroke-width=\"1\"/>\n  </g>\n  <!-- exits -->\n  <rect x=\"260\" y=\"320\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"300\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CTRL</text>\n  <rect x=\"500\" y=\"200\" width=\"80\" height=\"80\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"242\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">SEC</text>\n</svg>", "scene-security-office": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#1a1a2e\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"300\" fill=\"#0f3460\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#2a2a4a\"/>\n  <!-- security monitors -->\n  <g fill=\"#000\" stroke=\"#0f0\" stroke-width=\"1\">\n    <rect x=\"50\" y=\"80\" width=\"100\" height=\"70\"/>\n    <rect x=\"180\" y=\"80\" width=\"100\" height=\"70\"/>\n    <rect x=\"310\" y=\"80\" width=\"100\" height=\"70\"/>\n    <rect x=\"440\" y=\"80\" width=\"100\" height=\"70\"/>\n  </g>\n  <!-- guard chair -->\n  <g transform=\"translate(300,200)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"40\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"15\" cy=\"10\" r=\"5\" fill=\"#0f0\"/>\n  </g>\n  <!-- cabinet with broken glass -->\n  <g transform=\"translate(500,220)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"50\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <line x1=\"0\" y1=\"20\" x2=\"60\" y2=\"20\" stroke=\"#f00\" stroke-width=\"2\"/>\n  </g>\n  <!-- exit north to transmitter -->\n  <rect x=\"300\" y=\"180\" width=\"80\" height=\"60\" fill=\"#0f3460\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"215\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">XMIT</text>\n</svg>", "scene-escape-roof": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#000\"/>\n  <!-- night sky with stars -->\n  <g fill=\"#fff\">\n    <circle cx=\"100\" cy=\"50\" r=\"2\"/>\n    <circle cx=\"200\" cy=\"80\" r=\"1.5\"/>\n    <circle cx=\"300\" cy=\"30\" r=\"2\"/>\n    <circle cx=\"400\" cy=\"70\" r=\"1\"/>\n    <circle cx=\"500\" cy=\"40\" r=\"2\"/>\n    <circle cx=\"600\" cy=\"90\" r=\"1.5\"/>\n    <circle cx=\"50\" cy=\"120\" r=\"1\"/>\n    <circle cx=\"550\" cy=\"130\" r=\"2\"/>\n  </g>\n  <!-- rooftop -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#0d0d1a\"/>\n  <!-- service ladder -->\n  <g stroke=\"#0f0\" stroke-width=\"4\">\n    <line x1=\"300\" y1=\"150\" x2=\"300\" y2=\"250\"/>\n    <line x1=\"320\" y1=\"150\" x2=\"320\" y2=\"250\"/>\n    <line x1=\"300\" y1=\"200\" x2=\"320\" y2=\"200\"/>\n  </g>\n  <!-- helicopter approaching -->\n  <g transform=\"translate(500,100)\">\n    <ellipse cx=\"0\" cy=\"0\" rx=\"15\" ry=\"5\" fill=\"#2a2a4a\"/>\n    <line x1=\"-20\" y1=\"0\" x2=\"20\" y2=\"0\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <line x1=\"-25\" y1=\"-5\" x2=\"25\" y2=\"-5\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  </g>\n</svg>", "scene-master-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"25\" width=\"25\" height=\"10\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"35\" cy=\"30\" r=\"4\" fill=\"#ffd700\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"22\" y=\"28\" font-family=\"monospace\" font-size=\"5\" fill=\"#000\" text-anchor=\"middle\">MASTER</text>\n</svg>", "scene-backup-tape": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"15\" width=\"34\" height=\"24\" fill=\"#000\" stroke=\"#f00\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"22\" font-family=\"monospace\" font-size=\"6\" fill=\"#f00\" text-anchor=\"middle\">BACKUP</text>\n  <text x=\"32\" y=\"28\" font-family=\"monospace\" font-size=\"6\" fill=\"#f00\" text-anchor=\"middle\">TAPE</text>\n</svg>", "scene-signal-analyzer": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"20\" width=\"34\" height=\"24\" fill=\"#2a2a4a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"32\" cy=\"32\" r=\"5\" fill=\"#0f0\"/>\n  <text x=\"32\" y=\"40\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">SIGNAL</text>\n</svg>", "scene-ferrite-beads": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"20\" width=\"24\" height=\"24\" fill=\"#1a1a2e\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g stroke=\"#0f0\" stroke-width=\"1\">\n    <circle cx=\"26\" cy=\"32\" r=\"2\"/>\n    <circle cx=\"32\" cy=\"32\" r=\"2\"/>\n    <circle cx=\"38\" cy=\"32\" r=\"2\"/>\n  </g>\n  <text x=\"32\" y=\"45\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">CHOKE</text>\n</svg>", "scene-emergency-knife": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <g fill=\"#4a0000\" stroke=\"#f00\" stroke-width=\"2\">\n    <rect x=\"25\" y=\"10\" width=\"14\" height=\"40\"/>\n    <polygon points=\"25,10 39,10 32,0\"/>\n  </g>\n  <text x=\"32\" y=\"55\" font-family=\"monospace\" font-size=\"6\" fill=\"#f00\" text-anchor=\"middle\">CABLE</text>\n</svg>"}
+
+// Deep Cathedral - Game Logic
+// Hex Corbin's implementation
+
+// Game state
+const state = {
+  currentScene: 'entrance-cavern',
+  inventory: [],
+  solvedPuzzles: [],
+  visitedScenes: ['entrance-cavern'],
+  gameOver: false,
+  won: false
+};
+
+// Game data (will be loaded from the game-script.json)
+let GAME_DATA = null;
+
+// DOM elements
+let artDisplay = null;
+let textDisplay = null;
+let exitBar = null;
+let inventoryBar = null;
+let verbMenu = null;
+
+// Current verb
+let currentVerb = 'LOOK';
+
+// Initialize the game
+function initGame(data) {
+  GAME_DATA = data;
+  
+  // Get DOM elements
+  artDisplay = document.getElementById('art-display');
+  textDisplay = document.getElementById('text-display');
+  exitBar = document.getElementById('exit-bar');
+  inventoryBar = document.getElementById('inventory-bar');
+  verbMenu = document.getElementById('verb-menu');
+  
+  // Set up verb buttons
+  const verbs = ['LOOK', 'TAKE', 'USE', 'GO', 'EXAMINE'];
+  verbs.forEach(verb => {
+    const btn = document.createElement('button');
+    btn.className = 'verb-btn';
+    btn.textContent = verb;
+    btn.addEventListener('click', () => selectVerb(verb));
+    verbMenu.appendChild(btn);
+  });
+  
+  // Add CSS for visual feedback
+  addVisualEffects();
+  
+  // Render initial scene
+  renderScene();
+  updateExits();
+  updateInventory();
+}
+
+// Add CSS for visual effects
+function addVisualEffects() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .puzzle-solved { animation: solveFlash 0.6s ease; }
+    @keyframes solveFlash { 0%,100%{filter:none} 50%{filter:brightness(2) saturate(2)} }
+    .exit-btn.newly-unlocked { animation: unlockPulse 1s ease 3; }
+    @keyframes unlockPulse { 0%,100%{border-color:#33ff33} 50%{border-color:#ffff33;box-shadow:0 0 12px #ffff33} }
+    .item-new { animation: itemGlow 1s ease 2; }
+    @keyframes itemGlow { 0%,100%{background:transparent} 50%{background:rgba(51,255,51,0.3)} }
+  `;
+  document.head.appendChild(style);
+}
+
+// Select a verb
+function selectVerb(verb) {
+  currentVerb = verb;
+  // Update verb button styling
+  document.querySelectorAll('.verb-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent === verb);
+  });
+}
+
+// Render current scene
+function renderScene() {
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (!scene) return;
+  
+  // Update art display
+  artDisplay.innerHTML = '';
+  const artImg = document.createElement('img');
+  artImg.src = `art/${GAME_DATA.slug}-${scene.id}.png`;
+  artImg.alt = scene.name;
+  artImg.onerror = () => {
+    artImg.src = 'art/placeholder.png';
+  };
+  artDisplay.appendChild(artImg);
+  
+  // Update text display
+  textDisplay.innerHTML = '';
+  
+  // Scene name
+  const nameEl = document.createElement('div');
+  nameEl.className = 'scene-name';
+  nameEl.textContent = scene.name;
+  textDisplay.appendChild(nameEl);
+  
+  // Scene prose
+  const proseEl = document.createElement('div');
+  proseEl.className = 'scene-prose';
+  proseEl.textContent = scene.prose;
+  textDisplay.appendChild(proseEl);
+  
+  // Items in scene
+  const itemsInScene = GAME_DATA.items.filter(item => 
+    item.foundIn === state.currentScene && 
+    !state.inventory.includes(item.id) &&
+    !isItemRevealed(item.id)
+  );
+  
+  if (itemsInScene.length > 0) {
+    const itemsEl = document.createElement('div');
+    itemsEl.className = 'scene-items';
+    itemsEl.innerHTML = '<strong>Items visible:</strong><br>';
+    itemsInScene.forEach(item => {
+      const itemBtn = document.createElement('button');
+      itemBtn.className = 'scene-item-btn';
+      itemBtn.textContent = item.name;
+      itemBtn.dataset.itemId = item.id;
+      itemBtn.addEventListener('click', () => handleItemClick(item.id));
+      itemsEl.appendChild(itemBtn);
+      itemsEl.appendChild(document.createTextNode(' '));
+    });
+    textDisplay.appendChild(itemsEl);
+  }
+  
+  // Mark scene as visited
+  if (!state.visitedScenes.includes(state.currentScene)) {
+    state.visitedScenes.push(state.currentScene);
+  }
+}
+
+// Check if item has been revealed by a puzzle
+function isItemRevealed(itemId) {
+  return state.solvedPuzzles.some(puzzleId => {
+    const puzzle = GAME_DATA.puzzles.find(p => p.id === puzzleId);
+    return puzzle && puzzle.reveals && puzzle.reveals.includes(itemId);
+  });
+}
+
+// Update exit buttons
+function updateExits() {
+  exitBar.innerHTML = '';
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (!scene) return;
+  
+  // Get all possible exits for this scene
+  const allExits = scene.exits || {};
+  
+  // Check which exits are available (not blocked by unsolved puzzles)
+  const availableExits = {};
+  Object.keys(allExits).forEach(direction => {
+    if (canExit(state.currentScene, direction)) {
+      availableExits[direction] = allExits[direction];
+    }
+  });
+  
+  // Create exit buttons
+  Object.keys(availableExits).forEach(direction => {
+    const exitBtn = document.createElement('button');
+    exitBtn.className = 'exit-btn';
+    exitBtn.textContent = direction.toUpperCase();
+    exitBtn.dataset.direction = direction;
+    exitBtn.addEventListener('click', () => handleGo(direction));
+    exitBar.appendChild(exitBtn);
+  });
+  
+  // If no exits, show a message
+  if (Object.keys(availableExits).length === 0) {
+    const noExitMsg = document.createElement('div');
+    noExitMsg.className = 'no-exits';
+    noExitMsg.textContent = 'No exits available.';
+    exitBar.appendChild(noExitMsg);
+  }
+}
+
+// Check if player can exit in a direction
+function canExit(sceneId, direction) {
+  const exit = GAME_DATA.scenes.find(s => s.id === sceneId)?.exits?.[direction];
+  if (!exit) return false;
+  
+  // Check if any unsolved puzzle blocks this exit
+  const blocker = GAME_DATA.puzzles.find(p =>
+    p.blocksExit?.scene === sceneId &&
+    p.blocksExit?.direction === direction &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+  
+  if (blocker) {
+    addText(`[The way ${direction} is blocked. ${blocker.blockedMessage || 'Something prevents you from going that way.'}]`, 'locked');
+    return false;
+  }
+  
+  return true;
+}
+
+// Handle movement
+function handleGo(direction) {
+  if (state.gameOver) return;
+  
+  if (!canExit(state.currentScene, direction)) {
+    return;
+  }
+  
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  const nextSceneId = scene.exits[direction];
+  
+  // Check if this leads to the win condition
+  if (GAME_DATA.winCondition.scene && nextSceneId === GAME_DATA.winCondition.scene) {
+    handleWin();
+    return;
+  }
+  
+  state.currentScene = nextSceneId;
+  renderScene();
+  updateExits();
+  
+  // Add navigation text
+  const sceneName = GAME_DATA.scenes.find(s => s.id === state.currentScene)?.name;
+  addText(`You swim ${direction} to ${sceneName}.`, 'navigation');
+}
+
+// Handle item click
+function handleItemClick(itemId) {
+  if (state.gameOver) return;
+  
+  const item = GAME_DATA.items.find(i => i.id === itemId);
+  if (!item) return;
+  
+  switch (currentVerb) {
+    case 'LOOK':
+      addText(`You examine the ${item.name}. ${item.description}`, 'item');
+      break;
+    case 'TAKE':
+      takeItem(itemId);
+      break;
+    case 'USE':
+      // For now, just show that you need to select a target
+      addText(`You hold the ${item.name}. Select a target to use it on.`, 'item');
+      break;
+    case 'EXAMINE':
+      addText(`${item.description}`, 'item');
+      break;
+  }
+}
+
+// Take an item
+function takeItem(itemId) {
+  if (state.inventory.includes(itemId)) {
+    addText(`You already have that.`, 'info');
+    return;
+  }
+  
+  const item = GAME_DATA.items.find(i => i.id === itemId);
+  if (!item) return;
+  
+  state.inventory.push(itemId);
+  addText(`You take the ${item.name}.`, 'success');
+  updateInventory();
+  renderScene(); // Update scene to remove taken item
+  
+  // Add item glow effect
+  const itemBtn = document.querySelector(`.inventory-item-btn[data-item-id="${itemId}"]`);
+  if (itemBtn) {
+    itemBtn.classList.add('item-new');
+    setTimeout(() => itemBtn.classList.remove('item-new'), 2000);
+  }
+}
+
+// Update inventory display
+function updateInventory() {
+  inventoryBar.innerHTML = '';
+  
+  if (state.inventory.length === 0) {
+    const emptyMsg = document.createElement('div');
+    emptyMsg.className = 'inventory-empty';
+    emptyMsg.textContent = 'Inventory: empty';
+    inventoryBar.appendChild(emptyMsg);
+    return;
+  }
+  
+  const invLabel = document.createElement('div');
+  invLabel.className = 'inventory-label';
+  invLabel.textContent = 'Inventory:';
+  inventoryBar.appendChild(invLabel);
+  
+  state.inventory.forEach(itemId => {
+    const item = GAME_DATA.items.find(i => i.id === itemId);
+    if (!item) return;
+    
+    const itemBtn = document.createElement('button');
+    itemBtn.className = 'inventory-item-btn';
+    itemBtn.textContent = item.name;
+    itemBtn.dataset.itemId = itemId;
+    itemBtn.addEventListener('click', () => handleInventoryItemClick(itemId));
+    inventoryBar.appendChild(itemBtn);
+    inventoryBar.appendChild(document.createTextNode(' '));
+  });
+}
+
+// Handle inventory item click
+function handleInventoryItemClick(itemId) {
+  if (state.gameOver) return;
+  
+  const item = GAME_DATA.items.find(i => i.id === itemId);
+  if (!item) return;
+  
+  switch (currentVerb) {
+    case 'LOOK':
+      addText(`You examine the ${item.name}. ${item.description}`, 'item');
+      break;
+    case 'USE':
+      // Try to use the item in the current scene
+      useItemInScene(itemId);
+      break;
+    case 'EXAMINE':
+      addText(`${item.description}`, 'item');
+      break;
+    default:
+      addText(`You examine the ${item.name}. ${item.description}`, 'item');
+  }
+}
+
+// Use an item in the current scene
+function useItemInScene(itemId) {
+  if (state.gameOver) return;
+  
+  // Find puzzles that can be solved in this scene with this item
+  const puzzle = GAME_DATA.puzzles.find(p => 
+    p.scene === state.currentScene && 
+    p.requires.includes(itemId) &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+  
+  if (puzzle) {
+    solvePuzzle(puzzle.id);
+    return;
+  }
+  
+  // Check if item can be used on something in the scene
+  const item = GAME_DATA.items.find(i => i.id === itemId);
+  if (item && item.usedIn === state.currentScene) {
+    // Find the puzzle that uses this item
+    const usePuzzle = GAME_DATA.puzzles.find(p => 
+      p.scene === state.currentScene && 
+      p.requires.includes(itemId)
+    );
+    
+    if (usePuzzle) {
+      solvePuzzle(usePuzzle.id);
+      return;
+    }
+  }
+  
+  addText(`You can't use the ${item.name} here.`, 'info');
+}
+
+// Solve a puzzle
+function solvePuzzle(puzzleId) {
+  if (state.solvedPuzzles.includes(puzzleId)) {
+    addText(`You've already done that.`, 'info');
+    return;
+  }
+  
+  const puzzle = GAME_DATA.puzzles.find(p => p.id === puzzleId);
+  if (!puzzle) return;
+  
+  // Add puzzle to solved list
+  state.solvedPuzzles.push(puzzleId);
+  
+  // Show puzzle result
+  addText(puzzle.result, 'puzzle');
+  
+  // Trigger visual effects
+  if (artDisplay) {
+    artDisplay.classList.add('puzzle-solved');
+    setTimeout(() => artDisplay.classList.remove('puzzle-solved'), 600);
+  }
+  
+  // Check if this reveals new items
+  if (puzzle.reveals && puzzle.reveals.length > 0) {
+    puzzle.reveals.forEach(revealedId => {
+      const revealedItem = GAME_DATA.items.find(i => i.id === revealedId);
+      if (revealedItem) {
+        addText(`You discover: ${revealedItem.name}`, 'discovery');
+      }
+    });
+    
+    // Update scene to show new items
+    setTimeout(() => {
+      renderScene();
+      updateExits();
+    }, 600);
+  } else {
+    // Just update exits
+    setTimeout(() => {
+      updateExits();
+    }, 600);
+  }
+  
+  // Check if this was the final puzzle
+  if (puzzleId === 'sleeping-beast') {
+    setTimeout(() => {
+      handleWin();
+    }, 1000);
+  }
+}
+
+// Handle win condition
+function handleWin() {
+  state.gameOver = true;
+  state.won = true;
+  
+  // Clear display
+  textDisplay.innerHTML = '';
+  
+  // Show win message
+  const winTitle = document.createElement('div');
+  winTitle.className = 'win-title';
+  winTitle.textContent = 'VICTORY';
+  textDisplay.appendChild(winTitle);
+  
+  const winText = document.createElement('div');
+  winText.className = 'win-text';
+  winText.textContent = GAME_DATA.winCondition.description;
+  textDisplay.appendChild(winText);
+  
+  // Clear exits
+  exitBar.innerHTML = '';
+  
+  // Add restart button
+  const restartBtn = document.createElement('button');
+  restartBtn.className = 'restart-btn';
+  restartBtn.textContent = 'Play Again';
+  restartBtn.addEventListener('click', () => {
+    // Reset state
+    state.currentScene = 'entrance-cavern';
+    state.inventory = [];
+    state.solvedPuzzles = [];
+    state.visitedScenes = ['entrance-cavern'];
+    state.gameOver = false;
+    state.won = false;
+    
+    // Reset UI
+    textDisplay.innerHTML = '';
+    exitBar.innerHTML = '';
+    
+    // Re-render
+    renderScene();
+    updateExits();
+    updateInventory();
+  });
+  textDisplay.appendChild(restartBtn);
+}
+
+// Add text to display
+function addText(text, className = '') {
+  const textEl = document.createElement('div');
+  textEl.className = `game-text ${className}`;
+  textEl.textContent = text;
+  textDisplay.appendChild(textEl);
+  textDisplay.scrollTop = textDisplay.scrollHeight;
+}
+
+// Handle keyboard input
+function handleKeyDown(event) {
+  if (state.gameOver) return;
+  
+  switch (event.key) {
+    case 'ArrowUp':
+    case 'w':
+    case 'W':
+      handleGo('north');
+      break;
+    case 'ArrowDown':
+    case 's':
+    case 'S':
+      handleGo('south');
+      break;
+    case 'ArrowLeft':
+    case 'a':
+    case 'A':
+      handleGo('west');
+      break;
+    case 'ArrowRight':
+    case 'd':
+    case 'D':
+      handleGo('east');
+      break;
+    case 'l':
+    case 'L':
+      selectVerb('LOOK');
+      break;
+    case 't':
+    case 'T':
+      selectVerb('TAKE');
+      break;
+    case 'u':
+    case 'U':
+      selectVerb('USE');
+      break;
+    case 'g':
+    case 'G':
+      selectVerb('GO');
+      break;
+    case 'e':
+    case 'E':
+      selectVerb('EXAMINE');
+      break;
+  }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  // Load game data
+  fetch('game-script.json')
+    .then(response => response.json())
+    .then(data => {
+      initGame(data);
+      document.addEventListener('keydown', handleKeyDown);
+    })
+    .catch(error => {
+      console.error('Failed to load game data:', error);
+    });
+});
+
+// Export for testing
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    state,
+    initGame,
+    handleGo,
+    takeItem,
+    useItemInScene,
+    solvePuzzle,
+    canExit,
+    selectVerb,
+    renderScene,
+    updateExits,
+    updateInventory,
+    addText
+  };
+}
+
+document.getElementById("reset-btn")?.addEventListener("click", function() {
+    if (confirm("Reset the game to the beginning?")) {
+        state = {currentScene: GAME_DATA.scenes[0].id, inventory: [], solvedPuzzles: [], visitedScenes: [GAME_DATA.scenes[0].id], selectedItem: null, won: false};
+        clearText(); addText("The story begins anew...", "system");
+        renderScene(state.currentScene); renderInventory();
+    }
+});
+    </script></body></html>
+</script>
+</body>
+</html>

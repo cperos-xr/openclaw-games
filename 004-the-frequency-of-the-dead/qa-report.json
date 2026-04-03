@@ -1,0 +1,223 @@
+{
+  "game": "004-the-frequency-of-the-dead",
+  "file": "games/004-the-frequency-of-the-dead/game.html",
+  "timestamp": "2026-04-03T06:28:26.826Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-antenna-crystal.svg\" has 4 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/004-the-frequency-of-the-dead/art/item-antenna-crystal.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-frequency-code-scroll.svg\" has 5 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/004-the-frequency-of-the-dead/art/item-frequency-code-scroll.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-maintenance-wrench.svg\" has 7 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/004-the-frequency-of-the-dead/art/item-maintenance-wrench.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-power-fuse.svg\" has 3 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/004-the-frequency-of-the-dead/art/item-power-fuse.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-studio-key.svg\" has 4 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/004-the-frequency-of-the-dead/art/item-studio-key.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-antenna-tower.svg\" uses 16 colors (max recommended 8)",
+      "location": "games/004-the-frequency-of-the-dead/art/scene-antenna-tower.svg",
+      "expected": "<= 8 colors",
+      "actual": "16 colors: fill, #1a1a18, #2a2a25, #3a3a35, stroke, #333330, #4a4a45, #555550, #b87333, #0a0a08",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-antenna-tower.svg\" has 10 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/004-the-frequency-of-the-dead/art/scene-antenna-tower.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-008",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-archives.svg\" uses 23 colors (max recommended 8)",
+      "location": "games/004-the-frequency-of-the-dead/art/scene-archives.svg",
+      "expected": "<= 8 colors",
+      "actual": "23 colors: fill, #1a1a18, #2a2a25, stroke, #333330, #555550, #3a3a35, #444440, #d4af37, #8b4513",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-009",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-archives.svg\" has 20 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/004-the-frequency-of-the-dead/art/scene-archives.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-010",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-control-booth.svg\" uses 18 colors (max recommended 8)",
+      "location": "games/004-the-frequency-of-the-dead/art/scene-control-booth.svg",
+      "expected": "<= 8 colors",
+      "actual": "18 colors: fill, #1a1a18, #2a2a25, stroke, #333330, #555550, #3a3a35, #444440, #000000, #ff8800",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-011",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-control-booth.svg\" has 7 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/004-the-frequency-of-the-dead/art/scene-control-booth.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-012",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-lobby.svg\" uses 18 colors (max recommended 8)",
+      "location": "games/004-the-frequency-of-the-dead/art/scene-lobby.svg",
+      "expected": "<= 8 colors",
+      "actual": "18 colors: fill, #2a2a25, rgba, #1a1a18, stroke, #333330, #3a3a35, #555550, #444440, #d4af37",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-013",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-rooftop.svg\" uses 14 colors (max recommended 8)",
+      "location": "games/004-the-frequency-of-the-dead/art/scene-rooftop.svg",
+      "expected": "<= 8 colors",
+      "actual": "14 colors: fill, #1a1a18, #2a2a25, #3a3a35, #4a4a45, stroke, #333330, #0a0a08, #ffffff, #555550",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-014",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-rooftop.svg\" has 14 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/004-the-frequency-of-the-dead/art/scene-rooftop.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-015",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-sound-booth.svg\" uses 15 colors (max recommended 8)",
+      "location": "games/004-the-frequency-of-the-dead/art/scene-sound-booth.svg",
+      "expected": "<= 8 colors",
+      "actual": "15 colors: fill, #0a0a08, #1a1a18, #2a2a25, url, #333330, stroke, #4a4a45, #3a3a35, #555550",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-016",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-sound-booth.svg\" has 5 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/004-the-frequency-of-the-dead/art/scene-sound-booth.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-017",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-transmitter-room.svg\" uses 13 colors (max recommended 8)",
+      "location": "games/004-the-frequency-of-the-dead/art/scene-transmitter-room.svg",
+      "expected": "<= 8 colors",
+      "actual": "13 colors: fill, #1a1a18, #2a2a25, stroke, #333330, #aa00ff, #7700aa, #ff8800, #cc6600, #555550",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 7,
+    "items": 6,
+    "puzzles": 5,
+    "reachableScenes": 7,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 26,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 17 issues (0 CRITICAL, 0 HIGH, 0 MEDIUM, 17 LOW)"
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="none" stroke="#0f0" stroke-width="2"/>
+  <g fill="#4a0000" stroke="#f00" stroke-width="2">
+    <rect x="25" y="10" width="14" height="40"/>
+    <polygon points="25,10 39,10 32,0"/>
+  </g>
+  <text x="32" y="55" font-family="monospace" font-size="6" fill="#f00" text-anchor="middle">CABLE</text>
+</svg>

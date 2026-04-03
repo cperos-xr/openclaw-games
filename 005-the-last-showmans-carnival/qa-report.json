@@ -1,0 +1,146 @@
+{
+  "game": "005-the-last-showmans-carnival",
+  "file": "games/005-the-last-showmans-carnival/game.html",
+  "timestamp": "2026-04-03T05:10:36.613Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "MEDIUM",
+      "category": "puzzle-logic",
+      "description": "Item \"music_box\" found (scene index 5) AFTER it's used (scene index 3) in BFS order",
+      "location": "items.music_box",
+      "expected": "Found before used",
+      "actual": "Found after",
+      "suggestedFix": "Ensure player can reach foundIn scene before usedIn scene",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "MEDIUM",
+      "category": "puzzle-logic",
+      "description": "Item \"crystal_lens\" found (scene index 3) AFTER it's used (scene index 2) in BFS order",
+      "location": "items.crystal_lens",
+      "expected": "Found before used",
+      "actual": "Found after",
+      "suggestedFix": "Ensure player can reach foundIn scene before usedIn scene",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "MEDIUM",
+      "category": "puzzle-logic",
+      "description": "Item \"signal_flare\" found (scene index 2) AFTER it's used (scene index 0) in BFS order",
+      "location": "items.signal_flare",
+      "expected": "Found before used",
+      "actual": "Found after",
+      "suggestedFix": "Ensure player can reach foundIn scene before usedIn scene",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-crystal-lens.svg\" has 8 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/005-the-last-showmans-carnival/art/item-crystal-lens.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-music-box.svg\" has 5 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/005-the-last-showmans-carnival/art/item-music-box.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-big-top.svg\" uses 11 colors (max recommended 8)",
+      "location": "games/005-the-last-showmans-carnival/art/scene-big-top.svg",
+      "expected": "<= 8 colors",
+      "actual": "11 colors: fill, #000000, #8b0000, stroke, #8b4513, #daa520, #696969, #ff8c00, #0000ff, #ff0000",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-big-top.svg\" has 9 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/005-the-last-showmans-carnival/art/scene-big-top.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-008",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-fortune-wagon.svg\" uses 11 colors (max recommended 8)",
+      "location": "games/005-the-last-showmans-carnival/art/scene-fortune-wagon.svg",
+      "expected": "<= 8 colors",
+      "actual": "11 colors: fill, #000000, #9400d3, stroke, #8b0000, #add8e6, #e0ffff, #ffffff, #daa520, #8b4513",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-009",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-fortune-wagon.svg\" has 17 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/005-the-last-showmans-carnival/art/scene-fortune-wagon.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-010",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-sideshow-gallery.svg\" has 11 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/005-the-last-showmans-carnival/art/scene-sideshow-gallery.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 6,
+    "items": 5,
+    "puzzles": 5,
+    "reachableScenes": 6,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 19,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 10 issues (0 CRITICAL, 0 HIGH, 3 MEDIUM, 7 LOW)"
+}

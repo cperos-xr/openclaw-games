@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#1a1a2e"/>
+  <!-- floor -->
+  <rect x="0" y="300" width="640" height="100" fill="#2a2a4a"/>
+  <!-- walls -->
+  <rect x="0" y="0" width="640" height="300" fill="#0f3460"/>
+  <!-- monitors on wall -->
+  <g fill="#000" stroke="#0f0" stroke-width="2">
+    <rect x="100" y="80" width="80" height="60"/>
+    <rect x="200" y="80" width="80" height="60"/>
+    <rect x="300" y="80" width="80" height="60"/>
+    <rect x="400" y="80" width="80" height="60"/>
+    <rect x="500" y="80" width="80" height="60"/>
+  </g>
+  <!-- anchor face on monitors (static) -->
+  <g fill="#0f0">
+    <circle cx="140" cy="110" r="5"/>
+    <circle cx="240" cy="110" r="5"/>
+    <circle cx="340" cy="110" r="5"/>
+    <circle cx="440" cy="110" r="5"/>
+    <circle cx="540" cy="110" r="5"/>
+  </g>
+  <!-- reception desk -->
+  <rect x="50" y="250" width="120" height="50" fill="#2a2a4a" stroke="#0f0" stroke-width="4"/>
+  <!-- master key on desk -->
+  <g transform="translate(80,270)">
+    <rect x="0" y="0" width="15" height="8" fill="#ffd700" stroke="#0f0" stroke-width="1"/>
+    <circle cx="15" cy="4" r="3" fill="#ffd700"/>
+  </g>
+  <!-- security door east -->
+  <rect x="500" y="200" width="80" height="100" fill="#1a1a2e" stroke="#d00" stroke-width="4"/>
+  <text x="540" y="250" font-family="monospace" font-size="10" fill="#d00" text-anchor="middle">SECURE</text>
+</svg>

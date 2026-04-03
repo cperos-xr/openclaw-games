@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <pattern id="gear-metal" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#b87333"/>
+      <rect width="10" height="5" fill="#CC8844" opacity="0.3"/>
+    </pattern>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="64" height="64" fill="#0a0a00" opacity="0.3" rx="2"/>
+  
+  <!-- Escapement Gear - small polished brass gear with worn teeth -->
+  <!-- Outer gear body with teeth -->
+  <circle cx="32" cy="32" r="22" fill="url(#gear-metal)" stroke="#885500" stroke-width="2"/>
+  
+  <!-- Gear teeth (12 teeth) -->
+  <rect x="28" y="8" width="8" height="6" fill="#b87333" stroke="#885500" stroke-width="1"/>
+  <rect x="43" y="14" width="6" height="8" fill="#b87333" stroke="#885500" stroke-width="1" transform="rotate(30, 46, 18)"/>
+  <rect x="48" y="28" width="6" height="8" fill="#b87333" stroke="#885500" stroke-width="1" transform="rotate(60, 51, 32)"/>
+  <rect x="43" y="42" width="8" height="6" fill="#b87333" stroke="#885500" stroke-width="1" transform="rotate(90, 47, 45)"/>
+  <rect x="28" y="50" width="6" height="8" fill="#b87333" stroke="#885500" stroke-width="1" transform="rotate(120, 31, 54)"/>
+  <rect x="14" y="46" width="8" height="6" fill="#b87333" stroke="#885500" stroke-width="1" transform="rotate(150, 18, 49)"/>
+  <rect x="10" y="42" width="6" height="8" fill="#b87333" stroke="#885500" stroke-width="1" transform="rotate(180, 13, 46)"/>
+  <rect x="14" y="28" width="8" height="6" fill="#b87333" stroke="#885500" stroke-width="1" transform="rotate(210, 18, 31)"/>
+  <rect x="10" y="14" width="6" height="8" fill="#b87333" stroke="#885500" stroke-width="1" transform="rotate(240, 13, 18)"/>
+  <rect x="28" y="8" width="8" height="6" fill="#b87333" stroke="#885500" stroke-width="1" transform="rotate(270, 32, 11)"/>
+  <rect x="43" y="14" width="6" height="8" fill="#b87333" stroke="#885500" stroke-width="1" transform="rotate(300, 46, 18)"/>
+  <rect x="48" y="28" width="6" height="8" fill="#b87333" stroke="#885500" stroke-width="1" transform="rotate(330, 51, 32)"/>
+  
+  <!-- Inner ring -->
+  <circle cx="32" cy="32" r="14" fill="none" stroke="#CC8844" stroke-width="2"/>
+  <circle cx="32" cy="32" r="8" fill="none" stroke="#AA6622" stroke-width="1.5"/>
+  
+  <!-- Center hub -->
+  <circle cx="32" cy="32" r="5" fill="#995500" stroke="#885500" stroke-width="1"/>
+  <circle cx="32" cy="32" r="2.5" fill="#664400"/>
+  
+  <!-- Polished brass gleams -->
+  <path d="M18 22 Q22 18 30 20" fill="none" stroke="#DDAA55" stroke-width="1.5" opacity="0.5"/>
+  <path d="M34 18 Q40 20 42 26" fill="none" stroke="#DDAA55" stroke-width="1" opacity="0.4"/>
+  
+  <!-- Worn teeth - some teeth slightly damaged -->
+  <rect x="28" y="8" width="8" height="3" fill="#AA5500" opacity="0.3"/>
+  <rect x="43" y="42" width="5" height="3" fill="#AA5500" opacity="0.3"/>
+  
+  <!-- Oil sheen on some spots -->
+  <circle cx="26" cy="32" r="2" fill="#002244" opacity="0.15"/>
+  <circle cx="36" cy="36" r="1.5" fill="#002244" opacity="0.1"/>
+</svg>

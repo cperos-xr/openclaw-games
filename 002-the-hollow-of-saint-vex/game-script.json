@@ -44,7 +44,7 @@
       "id": "item-crowbar",
       "name": "Crowbar",
       "description": "A heavy iron crowbar, rusted but sturdy.",
-      "foundIn": "scene-4-chapel-antechamber",
+      "foundIn": "scene-3-equipment-room",
       "usedIn": "scene-3-equipment-room",
       "usedOn": "puzzle-open-crate"
     },
@@ -143,12 +143,13 @@
         "north": "scene-4-chapel-antechamber"
       },
       "items": [
-        "item-bell-hollow"
+        "item-crowbar"
       ],
       "lookDescriptions": {
         "machinery": "Gears and pulleys frozen in place by decades of rust. They look like they might scream if turned.",
-        "workbench": "The blueprints are illegible, but you can make out the name 'Ezekiel Vex' signed in elegant, mad script.",
-        "crate": "A stout box bound in iron. It's locked tight. If only you had some leverage.",
+        "workbench": "The blueprints are illegible, but you can make out the name 'Ezekiel Vex' signed in elegant, mad script. A crowbar lies on the bench.",
+        "crate": "A stout box bound in iron. It's locked tight. Perfect for the crowbar.",
+        "crowbar": "A heavy iron crowbar, rusted but sturdy.",
         "glow": "A faint, orange light pulses from the north, accompanied by a low, vibrating hum."
       },
       "puzzles": [
@@ -164,7 +165,6 @@
         "east": "scene-5-flooded-nave"
       },
       "items": [
-        "item-crowbar",
         "item-bell-saint-vex"
       ],
       "lookDescriptions": {
@@ -261,7 +261,7 @@
         "item-crowbar"
       ],
       "action": "Use crowbar on locked crate",
-      "result": "With a screech of protesting iron, the lid flies off. You find supplies tucked away for a ritual that never happened.",
+      "result": "With a screech of protesting iron, the crate lid flies off. Inside: the Bell of the Hollow, tarnished and mournful. Supplies tucked away for a ritual that never happened.",
       "reveals": [
         "item-bell-hollow"
       ]

@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+  <defs>
+    <pattern id="bookshelf" width="20" height="40" patternUnits="userSpaceOnUse">
+      <rect width="20" height="40" fill="#1a0d00"/>
+      <rect x="1" y="2" width="18" height="36" fill="#0d0600" stroke="#1a0d00" stroke-width="1"/>
+      <!-- Book spine hints -->
+      <rect x="2" y="5" width="3" height="30" fill="#220000"/>
+      <rect x="6" y="5" width="4" height="30" fill="#000033"/>
+      <rect x="11" y="5" width="3" height="30" fill="#003300"/>
+      <rect x="15" y="5" width="3" height="30" fill="#330033"/>
+    </pattern>
+    <pattern id="carpet" width="8" height="8" patternUnits="userSpaceOnUse">
+      <rect width="8" height="8" fill="#221100"/>
+      <rect x="0" y="0" width="2" height="2" fill="#1a0d00"/>
+      <rect x="4" y="4" width="2" height="2" fill="#1a0d00"/>
+    </pattern>
+    <pattern id="paper" width="10" height="14" patternUnits="userSpaceOnUse">
+      <rect width="10" height="14" fill="#555544"/>
+      <rect x="1" y="1" width="8" height="12" fill="#444433" opacity="0.5"/>
+    </pattern>
+  </defs>
+  
+  <!-- Layer 1: Background dark walls -->
+  <rect width="640" height="400" fill="#0a0800"/>
+  
+  <!-- Floor-to-ceiling bookshelves on left and right walls -->
+  <!-- Left bookshelf wall -->
+  <rect x="0" y="40" width="120" height="240" fill="url(#bookshelf)"/>
+  <rect x="118" y="40" width="3" height="240" fill="#0d0600" stroke="#000" stroke-width="1"/>
+  <!-- Shelf supports -->
+  <rect x="0" y="120" width="120" height="3" fill="#0d0600"/>
+  <rect x="0" y="200" width="120" height="3" fill="#0d0600"/>
+  
+  <!-- Right bookshelf wall -->
+  <rect x="520" y="40" width="120" height="240" fill="url(#bookshelf)"/>
+  <rect x="519" y="40" width="3" height="240" fill="#0d0600" stroke="#000" stroke-width="1"/>
+  <rect x="520" y="120" width="120" height="3" fill="#0d0600"/>
+  <rect x="520" y="200" width="120" height="3" fill="#0d0600"/>
+  
+  <!-- Top molding on bookshelves -->
+  <rect x="0" y="38" width="121" height="4" fill="#1a0d00" stroke="#000" stroke-width="1"/>
+  <rect x="519" y="38" width="122" height="4" fill="#1a0d00" stroke="#000" stroke-width="1"/>
+  
+  <!-- Layer 2: Floor with thick carpet -->
+  <rect x="0" y="280" width="640" height="120" fill="url(#carpet)"/>
+  <!-- Carpet shadow gradient -->
+  <rect x="0" y="330" width="640" height="70" fill="#000" opacity="0.2"/>
+  
+  <!-- Layer 3: High windows (stagnant light) -->
+  <rect x="200" y="20" width="40" height="60" fill="#333" stroke="#444" stroke-width="2"/>
+  <rect x="400" y="20" width="40" height="60" fill="#333" stroke="#444" stroke-width="2"/>
+  <!-- Window panes -->
+  <line x1="220" y1="20" x2="220" y2="80" stroke="#444" stroke-width="2"/>
+  <line x1="200" y1="50" x2="240" y2="50" stroke="#444" stroke-width="2"/>
+  <line x1="420" y1="20" x2="420" y2="80" stroke="#444" stroke-width="2"/>
+  <line x1="400" y1="50" x2="440" y2="50" stroke="#444" stroke-width="2"/>
+  <!-- Pale light from windows -->
+  <rect x="200" y="80" width="40" height="200" fill="#FFFF00" opacity="0.02"/>
+  <rect x="400" y="80" width="40" height="200" fill="#FFFF00" opacity="0.02"/>
+  
+  <!-- Layer 4: Reading desk (center-left) -->
+  <rect x="140" y="240" width="100" height="50" fill="#1a0d00" stroke="#0d0600" stroke-width="2"/>
+  <!-- Desk top -->
+  <rect x="135" y="235" width="110" height="8" fill="#0d0600"/>
+  <!-- Desk legs -->
+  <rect x="142" y="290" width="6" height="25" fill="#0d0600"/>
+  <rect x="232" y="290" width="6" height="25" fill="#0d0600"/>
+  <!-- Desk crossbar -->
+  <rect x="142" y="305" width="96" height="3" fill="#1a0d00"/>
+  
+  <!-- Scattered notes on desk -->
+  <rect x="150" y="230" width="18" height="12" fill="#555544" opacity="0.7" transform="rotate(-3, 159, 236)"/>
+  <!-- Ink blot frozen mid-spread -->
+  <circle cx="165" cy="235" r="4" fill="#000" opacity="0.6"/>
+  <circle cx="168" cy="237" r="2" fill="#000" opacity="0.4"/>
+  <circle cx="163" cy="233" r="1.5" fill="#000" opacity="0.5"/>
+  <!-- Dark flower shape -->
+  <ellipse cx="178" cy="236" rx="6" ry="4" fill="#000" opacity="0.5" transform="rotate(15, 178, 236)"/>
+  <circle cx="180" cy="234" r="2" fill="#111" opacity="0.4"/>
+  
+  <!-- More papers -->
+  <rect x="185" y="228" width="20" height="14" fill="#555544" opacity="0.6" transform="rotate(2, 195, 235)"/>
+  <rect x="200" y="232" width="15" height="10" fill="#444433" opacity="0.5" transform="rotate(-5, 207, 237)"/>
+  <!-- Frantic notes (scribbles) -->
+  <line x1="190" y1="232" x2="200" y2="235" stroke="#111" stroke-width="1" opacity="0.5"/>
+  <line x1="192" y1="236" x2="198" y2="233" stroke="#111" stroke-width="1" opacity="0.4"/>
+  
+  <!-- Layer 5: North bookshelf door (hidden doorway) -->
+  <rect x="260" y="60" width="120" height="220" fill="url(#bookshelf)"/>
+  <!-- Door frame outline (subtle) -->
+  <rect x="258" y="58" width="124" height="224" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+  <!-- Gear-shaped slot on side of bookshelf -->
+  <!-- Gear shape -->
+  <circle cx="382" cy="170" r="8" fill="#0d0600" stroke="#555" stroke-width="2"/>
+  <circle cx="382" cy="170" r="4" fill="#000"/>
+  <!-- Gear teeth -->
+  <rect x="378" y="160" width="8" height="4" fill="#0d0600" stroke="#555" stroke-width="1"/>
+  <rect x="378" y="176" width="8" height="4" fill="#0d0600" stroke="#555" stroke-width="1"/>
+  <rect x="372" y="166" width="4" height="8" fill="#0d0600" stroke="#555" stroke-width="1"/>
+  <rect x="388" y="166" width="4" height="8" fill="#0d0600" stroke="#555" stroke-width="1"/>
+  <!-- Slot is empty -->
+  <circle cx="382" cy="170" r="3" fill="#000"/>
+  
+  <!-- Flicker of movement visible through cracks -->
+  <rect x="370" y="100" width="2" height="180" fill="#111" opacity="0.1"/>
+  <rect x="270" y="100" width="2" height="180" fill="#111" opacity="0.08"/>
+  <!-- Glimpse through cracks -->
+  <rect x="315" y="140" width="50" height="100" fill="#0a0a00" opacity="0.3"/>
+  <line x1="320" y1="150" x2="350" y2="150" stroke="#111" stroke-width="1" opacity="0.2"/>
+  <line x1="325" y1="170" x2="360" y2="170" stroke="#111" stroke-width="1" opacity="0.15"/>
+  <line x1="318" y1="190" x2="355" y2="190" stroke="#111" stroke-width="1" opacity="0.1"/>
+  
+  <!-- Layer 6: East double doors (to foyer) -->
+  <rect x="530" y="100" width="15" height="180" fill="#0d0600" stroke="#1a0d00" stroke-width="2"/>
+  <!-- Brass handles worn smooth -->
+  <rect x="530" y="185" width="8" height="4" fill="#554400" opacity="0.5" rx="1"/>
+  <rect x="532" y="230" width="8" height="4" fill="#554400" opacity="0.5" rx="1"/>
+  
+  <!-- Layer 7: West corridor (to workshop) -->
+  <rect x="95" y="140" width="30" height="140" fill="#000" opacity="0.5"/>
+  <rect x="100" y="145" width="20" height="130" fill="#111" opacity="0.3"/>
+  
+  <!-- Layer 8: Dust columns in stagnant light -->
+  <circle cx="220" cy="150" r="2" fill="#FFFF00" opacity="0.08"/>
+  <circle cx="215" cy="170" r="1" fill="#FFFF00" opacity="0.06"/>
+  <circle cx="225" cy="190" r="1.5" fill="#FFFF00" opacity="0.05"/>
+  <circle cx="420" cy="160" r="2" fill="#FFFF00" opacity="0.08"/>
+  <circle cx="415" cy="180" r="1" fill="#FFFF00" opacity="0.06"/>
+  <circle cx="425" cy="200" r="1.5" fill="#FFFF00" opacity="0.05"/>
+  
+  <!-- Layer 9: Smaller details - specific books on shelves -->
+  <!-- Left shelf - top shelf books -->
+  <rect x="5" y="45" width="6" height="32" fill="#440000"/>
+  <rect x="12" y="45" width="5" height="32" fill="#000044"/>
+  <rect x="18" y="45" width="7" height="32" fill="#003300"/>
+  <rect x="26" y="45" width="4" height="32" fill="#660066"/>
+  <rect x="31" y="45" width="8" height="32" fill="#333300"/>
+  <rect x="40" y="45" width="5" height="32" fill="#004400"/>
+  <rect x="46" y="45" width="6" height="32" fill="#220022"/>
+  <rect x="53" y="45" width="4" height="32" fill="#442200"/>
+  <rect x="58" y="45" width="7" height="32" fill="#002244"/>
+  <rect x="66" y="45" width="5" height="32" fill="#550000"/>
+  <rect x="72" y="45" width="6" height="32" fill="#112200"/>
+  <rect x="79" y="45" width="4" height="32" fill="#333333"/>
+  <rect x="84" y="45" width="7" height="32" fill="#000033"/>
+  <rect x="92" y="45" width="5" height="32" fill="#222200"/>
+  <rect x="98" y="45" width="6" height="32" fill="#440044"/>
+  <rect x="105" y="45" width="8" height="32" fill="#660000"/>
+  
+  <!-- Middle shelf -->
+  <rect x="5" y="125" width="8" height="32" fill="#330033"/>
+  <rect x="14" y="125" width="5" height="32" fill="#002200"/>
+  <rect x="20" y="125" width="6" height="32" fill="#444400"/>
+  <rect x="27" y="125" width="4" height="32" fill="#000066"/>
+  <rect x="32" y="125" width="7" height="32" fill="#550000"/>
+  <rect x="40" y="125" width="6" height="32" fill="#004400"/>
+  <rect x="47" y="125" width="5" height="32" fill="#220022"/>
+  <rect x="53" y="125" width="8" height="32" fill="#330000"/>
+  <rect x="62" y="125" width="4" height="32" fill="#003333"/>
+  <rect x="67" y="125" width="6" height="32" fill="#443300"/>
+  <rect x="74" y="125" width="5" height="32" fill="#000044"/>
+  <rect x="80" y="125" width="7" height="32" fill="#220000"/>
+  <rect x="88" y="125" width="4" height="32" fill="#004444"/>
+  <rect x="93" y="125" width="8" height="32" fill="#550055"/>
+  <rect x="102" y="125" width="6" height="32" fill="#003300"/>
+  <rect x="109" y="125" width="5" height="32" fill="#333300"/>
+  
+  <!-- Right shelf - top shelf -->
+  <rect x="525" y="45" width="5" height="32" fill="#220022"/>
+  <rect x="531" y="45" width="7" height="32" fill="#004400"/>
+  <rect x="539" y="45" width="4" height="32" fill="#440000"/>
+  <rect x="544" y="45" width="6" height="32" fill="#000022"/>
+  <rect x="551" y="45" width="8" height="32" fill="#333300"/>
+  <rect x="560" y="45" width="5" height="32" fill="#002200"/>
+  <rect x="566" y="45" width="7" height="32" fill="#440044"/>
+  <rect x="574" y="45" width="4" height="32" fill="#000044"/>
+  <rect x="579" y="45" width="6" height="32" fill="#550000"/>
+  <rect x="586" y="45" width="5" height="32" fill="#222200"/>
+  <rect x="592" y="45" width="8" height="32" fill="#003300"/>
+  <rect x="601" y="45" width="4" height="32" fill="#111111"/>
+  <rect x="606" y="45" width="6" height="32" fill="#440000"/>
+  <rect x="613" y="45" width="7" height="32" fill="#000033"/>
+  
+  <!-- Middle shelf right -->
+  <rect x="525" y="125" width="6" height="32" fill="#003333"/>
+  <rect x="532" y="125" width="4" height="32" fill="#440000"/>
+  <rect x="537" y="125" width="7" height="32" fill="#002200"/>
+  <rect x="545" y="125" width="5" height="32" fill="#330033"/>
+  <rect x="551" y="125" width="8" height="32" fill="#000044"/>
+  <rect x="560" y="125" width="6" height="32" fill="#550000"/>
+  <rect x="567" y="125" width="4" height="32" fill="#004400"/>
+  <rect x="572" y="125" width="5" height="32" fill="#220000"/>
+  <rect x="578" y="125" width="7" height="32" fill="#444400"/>
+  <rect x="586" y="125" width="4" height="32" fill="#000022"/>
+  <rect x="591" y="125" width="6" height="32" fill="#330000"/>
+  <rect x="598" y="125" width="8" height="32" fill="#003300"/>
+  <rect x="607" y="125" width="5" height="32" fill="#222222"/>
+  <rect x="613" y="125" width="6" height="32" fill="#440044"/>
+  
+  <!-- Vignette -->
+  <rect x="0" y="0" width="640" height="400" fill="#000" opacity="0.15"/>
+</svg>

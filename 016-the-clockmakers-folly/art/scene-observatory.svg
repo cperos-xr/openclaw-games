@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+  <defs>
+    <pattern id="stone-dome" width="40" height="20" patternUnits="userSpaceOnUse">
+      <rect width="40" height="20" fill="#1a1a1a"/>
+      <rect x="2" y="2" width="36" height="16" fill="#111" stroke="#000" stroke-width="1"/>
+    </pattern>
+    <pattern id="star-chart" width="30" height="30" patternUnits="userSpaceOnUse">
+      <rect width="30" height="30" fill="#1a1a1a"/>
+      <circle cx="5" cy="5" r="1" fill="#333"/>
+      <circle cx="15" cy="10" r="0.5" fill="#333"/>
+      <circle cx="25" cy="20" r="1" fill="#333"/>
+      <circle cx="10" cy="25" r="0.5" fill="#333"/>
+      <line x1="5" y1="5" x2="15" y2="10" stroke="#222" stroke-width="0.5"/>
+      <line x1="15" y1="10" x2="25" y2="20" stroke="#222" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  
+  <!-- Layer 1: Background - circular room, domed ceiling -->
+  <rect width="640" height="400" fill="#0a0a0a"/>
+  <!-- Curved wall hint (left and right) -->
+  <ellipse cx="320" cy="200" rx="310" ry="190" fill="#0d0d0d" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Wall surface -->
+  <rect x="0" y="0" width="640" height="280" fill="url(#stone-dome)"/>
+  
+  <!-- Layer 2: Floor -->
+  <rect x="0" y="280" width="640" height="120" fill="#111"/>
+  <!-- Floor pattern -->
+  <ellipse cx="320" cy="340" rx="200" ry="40" fill="#0a0a0a" stroke="#1a1a1a" stroke-width="1"/>
+  
+  <!-- Layer 3: Domed ceiling with oculus (top center) -->
+  <!-- Ceiling dome -->
+  <ellipse cx="320" cy="80" rx="250" ry="70" fill="#0d0d0d" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Oculus opening -->
+  <ellipse cx="320" cy="50" rx="50" ry="25" fill="#000033" stroke="#222" stroke-width="3"/>
+  <!-- Shuttered oculus - shutters partially open -->
+  <rect x="275" y="38" width="20" height="24" fill="#111" opacity="0.6"/>
+  <rect x="345" y="38" width="20" height="24" fill="#111" opacity="0.6"/>
+  <!-- Twilight sky through oculus -->
+  <ellipse cx="320" cy="52" rx="25" ry="10" fill="#000044" opacity="0.6"/>
+  <!-- Stars visible through oculus -->
+  <circle cx="312" cy="48" r="1" fill="#FFF" opacity="0.5"/>
+  <circle cx="322" cy="50" r="0.8" fill="#FFF" opacity="0.4"/>
+  <circle cx="318" cy="55" r="0.6" fill="#FFF" opacity="0.3"/>
+  <circle cx="328" cy="47" r="1" fill="#FFF" opacity="0.4"/>
+  
+  <!-- Layer 4: Brass telescope (center, pointing at oculus) -->
+  <!-- Telescope tube -->
+  <rect x="295" y="120" width="50" height="160" fill="#b87333" stroke="#885500" stroke-width="2" rx="3"/>
+  <!-- Telescope narrowing toward eyepiece -->
+  <rect x="300" y="115" width="40" height="10" fill="#b87333" stroke="#885500" stroke-width="2"/>
+  <!-- Eyepiece mount (empty - lens missing) -->
+  <circle cx="320" cy="115" r="12" fill="#000" stroke="#885500" stroke-width="2"/>
+  <circle cx="320" cy="115" r="8" fill="#000"/>
+  <!-- Empty lens mount visible -->
+  <circle cx="320" cy="115" r="6" fill="#111" stroke="#555" stroke-width="1"/>
+  <!-- Base mount -->
+  <rect x="285" y="275" width="70" height="15" fill="#1a0d00" stroke="#885500" stroke-width="2"/>
+  <!-- Tripod stand -->
+  <line x1="300" y1="285" x2="280" y2="340" stroke="#885500" stroke-width="4"/>
+  <line x1="340" y1="285" x2="360" y2="340" stroke="#885500" stroke-width="4"/>
+  <line x1="320" y1="285" x2="320" y2="350" stroke="#885500" stroke-width="4"/>
+  
+  <!-- Layer 5: Astronomical clocks on curved walls -->
+  <!-- Left wall clock (large, complex) -->
+  <circle cx="80" cy="160" r="50" fill="#0d0d0d" stroke="#b87333" stroke-width="3"/>
+  <circle cx="80" cy="160" r="42" fill="#111" stroke="#885500" stroke-width="1"/>
+  <!-- Multiple hands -->
+  <line x1="80" y1="160" x2="80" y2="125" stroke="#b87333" stroke-width="2"/>
+  <line x1="80" y1="160" x2="105" y2="155" stroke="#b87333" stroke-width="2"/>
+  <line x1="80" y1="160" x2="75" y2="140" stroke="#885500" stroke-width="1.5"/>
+  <line x1="80" y1="160" x2="100" y2="170" stroke="#885500" stroke-width="1.5"/>
+  <line x1="80" y1="160" x2="60" y2="165" stroke="#664400" stroke-width="1"/>
+  <!-- Small subdials -->
+  <circle cx="80" cy="135" r="8" fill="#000" stroke="#664400" stroke-width="1"/>
+  <circle cx="100" cy="160" r="6" fill="#000" stroke="#664400" stroke-width="1"/>
+  <circle cx="60" cy="165" r="6" fill="#000" stroke="#664400" stroke-width="1"/>
+  <circle cx="80" cy="185" r="8" fill="#000" stroke="#664400" stroke-width="1"/>
+  <!-- Clock stopped - all same time -->
+  <circle cx="65" cy="135" r="1" fill="#b87333"/>
+  <circle cx="95" cy="160" r="1" fill="#b87333"/>
+  
+  <!-- Right wall clock -->
+  <circle cx="560" cy="160" r="50" fill="#0d0d0d" stroke="#b87333" stroke-width="3"/>
+  <circle cx="560" cy="160" r="42" fill="#111" stroke="#885500" stroke-width="1"/>
+  <line x1="560" y1="160" x2="560" y2="125" stroke="#b87333" stroke-width="2"/>
+  <line x1="560" y1="160" x2="585" y2="155" stroke="#b87333" stroke-width="2"/>
+  <line x1="560" y1="160" x2="555" y2="140" stroke="#885500" stroke-width="1.5"/>
+  <line x1="560" y1="160" x2="580" y2="170" stroke="#885500" stroke-width="1.5"/>
+  <circle cx="560" cy="135" r="8" fill="#000" stroke="#664400" stroke-width="1"/>
+  <circle cx="580" cy="160" r="6" fill="#000" stroke="#664400" stroke-width="1"/>
+  <circle cx="540" cy="165" r="6" fill="#000" stroke="#664400" stroke-width="1"/>
+  <circle cx="560" cy="185" r="8" fill="#000" stroke="#664400" stroke-width="1"/>
+  
+  <!-- Smaller astronomical clocks -->
+  <circle cx="200" cy="140" r="25" fill="#0d0d0d" stroke="#b87333" stroke-width="2"/>
+  <circle cx="200" cy="140" r="20" fill="#111"/>
+  <line x1="200" y1="140" x2="200" y2="124" stroke="#b87333" stroke-width="2"/>
+  <line x1="200" y1="140" x2="215" y2="138" stroke="#b87333" stroke-width="1.5"/>
+  
+  <circle cx="440" cy="140" r="25" fill="#0d0d0d" stroke="#b87333" stroke-width="2"/>
+  <circle cx="440" cy="140" r="20" fill="#111"/>
+  <line x1="440" y1="140" x2="440" y2="124" stroke="#b87333" stroke-width="2"/>
+  <line x1="440" y1="140" x2="455" y2="138" stroke="#b87333" stroke-width="1.5"/>
+  
+  <!-- Layer 6: Star charts pinned to walls with red thread -->
+  <!-- Left star chart -->
+  <rect x="20" y="220" width="60" height="50" fill="url(#star-chart)" stroke="#333" stroke-width="1"/>
+  <rect x="22" y="222" width="56" height="46" fill="#111" opacity="0.5"/>
+  <!-- Constellation lines -->
+  <line x1="35" y1="235" x2="50" y2="242" stroke="#555" stroke-width="1"/>
+  <line x1="50" y1="242" x2="60" y2="235" stroke="#555" stroke-width="1"/>
+  <line x1="60" y1="235" x2="55" y2="255" stroke="#555" stroke-width="1"/>
+  <circle cx="35" cy="235" r="2" fill="#555"/>
+  <circle cx="50" cy="242" r="2" fill="#555"/>
+  <circle cx="60" cy="235" r="2" fill="#555"/>
+  <circle cx="55" cy="255" r="2" fill="#555"/>
+  
+  <!-- Right star chart -->
+  <rect x="560" y="220" width="60" height="50" fill="url(#star-chart)" stroke="#333" stroke-width="1"/>
+  <rect x="562" y="222" width="56" height="46" fill="#111" opacity="0.5"/>
+  <line x1="575" y1="235" x2="590" y2="240" stroke="#555" stroke-width="1"/>
+  <line x1="590" y1="240" x2="600" y2="250" stroke="#555" stroke-width="1"/>
+  <circle cx="575" cy="235" r="2" fill="#555"/>
+  <circle cx="590" cy="240" r="2" fill="#555"/>
+  <circle cx="600" cy="250" r="2" fill="#555"/>
+  
+  <!-- Red thread web connecting charts -->
+  <line x1="80" y1="250" x2="200" y2="200" stroke="#FF0000" stroke-width="1" opacity="0.3"/>
+  <line x1="200" y1="200" x2="320" y2="180" stroke="#FF0000" stroke-width="1" opacity="0.25"/>
+  <line x1="320" y1="180" x2="440" y2="200" stroke="#FF0000" stroke-width="1" opacity="0.25"/>
+  <line x1="440" y1="200" x2="560" y2="250" stroke="#FF0000" stroke-width="1" opacity="0.3"/>
+  <!-- Thread pinned points -->
+  <circle cx="200" cy="200" r="2" fill="#FF0000" opacity="0.5"/>
+  <circle cx="440" cy="200" r="2" fill="#FF0000" opacity="0.5"/>
+  <!-- Dates and times noted -->
+  <rect x="90" y="255" width="20" height="8" fill="#330000" opacity="0.5"/>
+  <text x="100" y="261" font-family="serif" font-size="4" fill="#880000" text-anchor="middle">03:14</text>
+  <rect x="530" y="255" width="20" height="8" fill="#330000" opacity="0.5"/>
+  <text x="540" y="261" font-family="serif" font-size="4" fill="#880000" text-anchor="middle">11:59</text>
+  
+  <!-- Layer 7: Winding key on velvet cushion -->
+  <rect x="480" y="310" width="60" height="30" fill="#330022" stroke="#220011" stroke-width="1" rx="3"/>
+  <!-- Velvet texture -->
+  <rect x="485" y="315" width="50" height="20" fill="#2a0018" opacity="0.7" rx="2"/>
+  <!-- Master Winding Key -->
+  <!-- Handle shaped like ouroboros/serpent eating tail -->
+  <circle cx="510" cy="325" r="8" fill="#111" stroke="#444" stroke-width="2"/>
+  <!-- Serpent body -->
+  <path d="M510 317 Q518 317 518 325 Q518 333 510 333 Q502 333 502 325 Q502 317 510 317" fill="none" stroke="#666" stroke-width="2"/>
+  <!-- Serpent head biting tail -->
+  <circle cx="516" cy="319" r="2" fill="#555"/>
+  <!-- Key shaft -->
+  <rect x="518" y="323" width="15" height="4" fill="#444" stroke="#333" stroke-width="1"/>
+  <!-- Key teeth -->
+  <rect x="528" y="326" width="3" height="4" fill="#444"/>
+  <rect x="531" y="326" width="2" height="2" fill="#444"/>
+  
+  <!-- Layer 8: Staircase down to bedroom (spiral, in floor) -->
+  <!-- Staircase opening -->
+  <ellipse cx="320" cy="360" rx="30" ry="15" fill="#000" stroke="#333" stroke-width="2"/>
+  <!-- Steps going down -->
+  <rect x="295" y="350" width="20" height="5" fill="#1a1a1a"/>
+  <rect x="298" y="354" width="18" height="5" fill="#151515"/>
+  <rect x="302" y="358" width="15" height="4" fill="#111"/>
+  <!-- Iron railing -->
+  <path d="M290 345 Q320 335 350 345" fill="none" stroke="#555" stroke-width="2"/>
+  <line x1="300" y1="345" x2="300" y2="350" stroke="#555" stroke-width="2"/>
+  <line x1="340" y1="345" x2="340" y2="350" stroke="#555" stroke-width="2"/>
+  
+  <!-- Layer 9: Atmosphere - cold, thin air, perpetual twilight -->
+  <!-- Stars in the sky through oculus -->
+  <circle cx="280" cy="30" r="1" fill="#FFF" opacity="0.4"/>
+  <circle cx="350" cy="25" r="0.8" fill="#FFF" opacity="0.3"/>
+  <circle cx="370" cy="35" r="1" fill="#FFF" opacity="0.35"/>
+  <circle cx="290" cy="45" r="0.6" fill="#FFF" opacity="0.3"/>
+  <circle cx="360" cy="40" r="0.8" fill="#FFF" opacity="0.4"/>
+  
+  <!-- Cold air effect -->
+  <rect x="280" y="100" width="80" height="50" fill="#000044" opacity="0.05"/>
+  
+  <!-- Dust/atmosphere particles -->
+  <circle cx="150" cy="180" r="1" fill="#FFF" opacity="0.08"/>
+  <circle cx="400" cy="170" r="1" fill="#FFF" opacity="0.06"/>
+  <circle cx="500" cy="200" r="1" fill="#FFF" opacity="0.07"/>
+  
+  <!-- Shadow under telescope -->
+  <ellipse cx="320" cy="350" rx="40" ry="8" fill="#000" opacity="0.4"/>
+  
+  <!-- Vignette -->
+  <ellipse cx="320" cy="200" rx="310" ry="190" fill="#000" opacity="0.15" stroke="none"/>
+</svg>

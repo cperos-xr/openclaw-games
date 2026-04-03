@@ -1,0 +1,124 @@
+{
+  "game": "010-vanity-of-dreams",
+  "file": "games/010-vanity-of-dreams/game.html",
+  "timestamp": "2026-04-03T06:26:04.594Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"hallway-10th\" prose too short: 36 words (min 60)",
+      "location": "scenes.hallway-10th.prose",
+      "expected": "60-400 words",
+      "actual": "36 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"room-1010\" prose too short: 37 words (min 60)",
+      "location": "scenes.room-1010.prose",
+      "expected": "60-400 words",
+      "actual": "37 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"service-elevator\" prose too short: 43 words (min 60)",
+      "location": "scenes.service-elevator.prose",
+      "expected": "60-400 words",
+      "actual": "43 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"boiler-room\" prose too short: 43 words (min 60)",
+      "location": "scenes.boiler-room.prose",
+      "expected": "60-400 words",
+      "actual": "43 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"ballroom\" prose too short: 52 words (min 60)",
+      "location": "scenes.ballroom.prose",
+      "expected": "60-400 words",
+      "actual": "52 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-maintenance-log.svg\" has 4 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/010-vanity-of-dreams/art/item-maintenance-log.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-hallway-10th.svg\" uses 11 colors (max recommended 8)",
+      "location": "games/010-vanity-of-dreams/art/scene-hallway-10th.svg",
+      "expected": "<= 8 colors",
+      "actual": "11 colors: fill, #0d0d1a, #2a2a4a, #16213e, #ff0055, #fff, #1a1a2e, stroke, #0f0, #ffd700",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-008",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-service-elevator.svg\" uses 11 colors (max recommended 8)",
+      "location": "games/010-vanity-of-dreams/art/scene-service-elevator.svg",
+      "expected": "<= 8 colors",
+      "actual": "11 colors: fill, #0d0d1a, #16213e, #1a1a2e, #2a2a4a, stroke, #0f0, #333, #f00, #4a4a6a",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 6,
+    "items": 6,
+    "puzzles": 5,
+    "reachableScenes": 6,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 12,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 8 issues (0 CRITICAL, 0 HIGH, 5 MEDIUM, 3 LOW)"
+}

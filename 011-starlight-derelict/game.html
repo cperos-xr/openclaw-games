@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starlight Derelict | Game #011</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* =====================================================
+           VERTICAL LAYOUT — single-column, image-first
+           Optimised for cheaper raster images (16:9 landscape)
+           Mobile-first; scales cleanly to tablet and desktop.
+           ===================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            padding: 12px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        header { text-align: center; margin-bottom: 8px; }
+
+        h1 {
+            font-size: 14px;
+            color: #0f0;
+            text-shadow: 0 0 6px #0f0;
+            margin-bottom: 4px;
+        }
+
+        h2 { font-size: 10px; color: #080; margin-bottom: 6px; }
+
+        #scene-name {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 8px;
+            color: #0f0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 4px #0f0;
+        }
+
+        /* --- Art panel: full width, 16:9 ratio --- */
+        .art-panel {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: 2px solid #0f0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        #art-display {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #art-display img,
+        #art-display svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* --- Text panel --- */
+        .text-panel {
+            border: 2px solid #0f0;
+            background-color: #000;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        #text-display {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #033;
+            scrollbar-width: thin;
+            scrollbar-color: #0f0 #000;
+        }
+
+        #text-display::-webkit-scrollbar { width: 4px; }
+        #text-display::-webkit-scrollbar-track { background: #000; }
+        #text-display::-webkit-scrollbar-thumb { background: #0f0; }
+
+        #text-display p { margin-bottom: 8px; color: #0f0; }
+        #text-display .system { color: #0a0; font-style: italic; }
+        #text-display .success { color: #0f0; font-weight: bold; animation: itemGlow 1s infinite alternate; }
+        #text-display .locked { color: #f00; font-weight: bold; }
+        #text-display .error { color: #f00; }
+        #text-display .hint { color: #FFAA00; font-style: italic; }
+
+        .hint-toggle {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 2px 6px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        .hint-toggle:hover { background-color: #0f0; color: #000; }
+
+        /* --- Command buttons: equal-width row --- */
+        .command-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cmd-btn {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 6px 10px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            min-width: 60px;
+            text-align: center;
+        }
+        .cmd-btn:hover, .cmd-btn.active { background-color: #0f0; color: #000; }
+
+        /* --- Inventory + Exits: 2-col on tablet+, stacked on mobile --- */
+        .panels-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .panels-row { grid-template-columns: 1fr; }
+            h1 { font-size: 12px; }
+            .cmd-btn { font-size: 9px; padding: 5px 6px; }
+        }
+
+        .inventory-panel, .exits-panel {
+            border: 2px solid #0f0;
+            background-color: #000;
+            padding: 10px;
+        }
+
+        .inventory-panel h3, .exits-panel h3 {
+            font-size: 10px;
+            margin-bottom: 6px;
+            color: #0f0;
+            border-bottom: 1px solid #033;
+            padding-bottom: 4px;
+        }
+
+        #inventory-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            min-height: 20px;
+        }
+
+        .inv-item {
+            border: 1px solid #0f0;
+            padding: 3px 6px;
+            font-size: 9px;
+            cursor: pointer;
+            background-color: #000;
+            color: #0f0;
+        }
+        .inv-item.selected { background-color: #0f0; color: #000; }
+
+        #exits-bar { display: flex; flex-wrap: wrap; gap: 6px; }
+
+        .exit-btn {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 5px 8px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 9px;
+            cursor: pointer;
+        }
+        .exit-btn.available:hover { background-color: #0f0; color: #000; }
+
+        .look-target { color: #0af; text-decoration: underline; cursor: pointer; }
+        .look-target:hover { color: #0ff; }
+
+        /* --- Animations --- */
+        @keyframes puzzle-solved {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(2); }
+            100% { filter: brightness(1); }
+        }
+
+        @keyframes itemGlow {
+            0% { text-shadow: 0 0 5px #0f0; }
+            100% { text-shadow: 0 0 15px #0f0; }
+        }
+
+        .puzzle-solved { animation: puzzle-solved 0.6s ease-in-out; }
+
+        footer {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 8px;
+            color: #080;
+            padding: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>STARLIGHT DERELICT</h1>
+        <h2>Game #011</h2>
+        <button id="hint-toggle" class="hint-toggle">HINTS: ON</button>
+            <button id="reset-btn" class="cmd-btn reset-btn" style="color:#ff6666;border-color:#ff6666;">RESET</button>
+    </header>
+
+    <div id="scene-name">THE LOBBY</div>
+
+    <div class="art-panel">
+        <div id="art-display">
+            <!-- Art inserted by JavaScript -->
+        </div>
+    </div>
+
+    <div class="text-panel">
+        <div id="text-display">
+            <!-- Game text appears here -->
+        </div>
+        <div class="command-bar">
+            <button class="cmd-btn" data-cmd="look">LOOK</button>
+            <button class="cmd-btn" data-cmd="take">TAKE</button>
+            <button class="cmd-btn" data-cmd="use">USE</button>
+            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+        </div>
+    </div>
+
+    <div class="panels-row">
+        <div class="inventory-panel">
+            <h3>INVENTORY</h3>
+            <div id="inventory-bar">
+                <span id="inv-empty">(empty)</span>
+            </div>
+        </div>
+        <div class="exits-panel">
+            <h3>EXITS</h3>
+            <div id="exits-bar">
+                <!-- Exit buttons inserted by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Use the command buttons or click on highlighted words. Click exits to move.
+        Type /restart in the text area to reset the game.
+    </footer>
+
+    <script>
+// ============================================================
+// GAME DATA — replace with assembled content from game-script.json
+// ============================================================
+var GAME_DATA = {"title": "Starlight Derelict", "slug": "starlight-derelict", "number": 11, "setting": "The SS Starlight, a derelict deep-space research vessel drifting in orbit around a dead planet. The crew vanished after an experiment with alien organic matter went wrong. Something still moves in the dark corridors.", "characters": [{"id": "dr-ramos", "name": "Dr. Althea Ramos", "description": "The station's chief xenobiologist. Her final logs describe a 'living membrane' that consumes everything it touches."}, {"id": "the-ooze", "name": "The Grey Matter", "description": "An alien biological entity that spreads like a sentient mold, absorbing organic material and mimicking human voices."}], "items": [{"id": "access-key", "name": "Access Keycard", "description": "A standard crew access card. It should open most doors on the station.", "foundIn": "airlock", "usedIn": "airlock", "usedOn": "airlock-door"}, {"id": "plasma-cutter", "name": "Plasma Cutter", "description": "A heavy-duty cutter used for hull repairs. Whines ominously when activated.", "foundIn": "maintenance-bay", "usedIn": "engineering-bay", "usedOn": "shut-down-valve"}, {"id": "data-crystal", "name": "Data Crystal", "description": "A small crystalline storage device containing the station's final research logs and the creature's weakness.", "foundIn": "laboratory", "usedIn": "communications-array", "usedOn": "terminal"}, {"id": "power-cell", "name": "Emergency Power Cell", "description": "A high-capacity battery used to start the auxiliary power system.", "foundIn": "storage-room", "usedIn": "engineering-bay", "usedOn": "power-conduit"}, {"id": "override-chip", "name": "Override Chip", "description": "A specialized chip that can bypass the docking clamp's auto-lock sequence.", "foundIn": "engineering-bay", "usedIn": "airlock", "usedOn": "clamp-control"}, {"id": "oxygen-tank", "name": "Oxygen Tank", "description": "A full-tank portable oxygen supply. Essential for EVA.", "foundIn": "crew-quarters", "usedIn": "airlock", "usedOn": "suit-hooks"}], "scenes": [{"id": "airlock", "name": "Airlock", "prose": "You float in the inner airlock chamber. The metal walls are scarred and slimy. An inner door leads deeper into the station. An EVA suit hangs on a hook, its helmet cracked. The outer hatch is sealed by an automatic clamp mechanism.", "exits": {"inner": "maintenance-bay"}, "items": ["access-key", "oxygen-tank"], "puzzles": ["airlock-door", "clamp-control"], "lookDescriptions": {"eva suit": "The oxygen feed is severed. It's useless without an air supply.", "clamp control": "A magnetic locking clamp preventing the outer hatch from opening. It requires an override signal.", "inner door": "A standard crew door with a card reader."}}, {"id": "maintenance-bay", "name": "Maintenance Bay", "prose": "A cramped workshop filled with tools and spare parts. The floor is sticky with a grey, fibrous substance. A power conduit runs along the ceiling, sparking intermittently. A door to the crew quarters lies to the north.", "exits": {"north": "crew-quarters", "south": "engineering-bay"}, "items": ["plasma-cutter"], "puzzles": ["shut-down-valve"], "lookDescriptions": {"power conduit": "The main power feed to the station is shorted. It needs a reset after being cut.", "sticky floor": "The grey fuzz spreads from the vents. It pulses faintly."}}, {"id": "crew-quarters", "name": "Crew Quarters", "prose": "Rows of sleeping pods line the walls. Most are empty, their sheets stained with the same grey residue. A personal locker is ajar, spilling clothes. The air smells of damp earth.", "exits": {"south": "maintenance-bay"}, "items": [], "puzzles": [], "lookDescriptions": {"locker": "Inside you find a faded family photo and a bottle of whiskey. Nothing useful."}}, {"id": "engineering-bay", "name": "Engineering Bay", "prose": "The station's power core hums faintly, its coolant pipes leaking a viscous fluid. A primary control console is dark. An emergency power terminal sits near the wall. A shut-down valve for the coolant system is nearby, coated in the grey growth.", "exits": {"north": "maintenance-bay", "east": "laboratory"}, "items": ["power-cell"], "puzzles": ["power-conduit"], "lookDescriptions": {"power core": "The reactor is stable but output is minimal without a main power feed.", "shut-down valve": "The valve handle is encased in a thick layer of the alien growth. You'll need to cut through it."}}, {"id": "laboratory", "name": "Laboratory", "prose": "This wing housed xenobiology research. Workstations are overturned. Petri dishes and sample vials litter the floor. In the center, a containment chamber has been shattered. A terminal flickers with a warning screen. A data crystal rests on a console.", "exits": {"west": "engineering-bay", "south": "storage-room"}, "items": ["data-crystal"], "puzzles": [], "lookDescriptions": {"containment breach": "Something big broke out of here.", "terminal": "It requests an access code, but the override chip might bypass it."}}, {"id": "storage-room", "name": "Storage Room", "prose": "Supplies for the long mission: food packs, tools, and spare parts. Everything is covered in the creeping grey matter. A sealed escape pod bay lies to the east, its door requiring manual release from inside. A communications array panel is on the north wall, its transmitter fried.", "exits": {"north": "laboratory", "east": "pod-bay"}, "items": [], "puzzles": ["terminal-access"], "lookDescriptions": {"escape pod": "The hatch is sealed. Once you start the ejection sequence, there's no turning back.", "communications array": "The transmitter needs a data upload to send a distress signal and unlock the pod."}}, {"id": "pod-bay", "name": "Escape Pod Bay", "prose": "A single escape pod waits in the small launch bay. The cockpit canopy is clear. Inside, there are three seats and a control panel that asks for an authorization code. The pod will launch once the station's docking clamps are released and you have a secured oxygen supply.", "exits": {}, "items": [], "puzzles": ["launch-sequence"], "lookDescriptions": {"control panel": "It displays: 'AUTHORIZATION REQUIRED - INSERT OVERRIDE CHIP'.", "seats": "Safety harnesses are in place. The trip will be rough."}}], "puzzles": [{"id": "airlock-door", "scene": "airlock", "requires": ["access-key"], "action": "use access-key on card reader", "result": "The inner door clicks and slides open with a hiss of equalizing pressure.", "reveals": ["maintenance-bay"], "blocksExit": {"scene": "airlock", "direction": "inner"}, "blockedMessage": "The door is locked. Swipe an access card to proceed."}, {"id": "shut-down-valve", "scene": "maintenance-bay", "requires": ["plasma-cutter"], "action": "use plasma-cutter on growth-covered valve", "result": "The cutter burns through the fibrous mass. You turn the valve, stopping the coolant leak and restoring partial power to engineering.", "reveals": ["engineering-bay", "power-conduit"], "blocksExit": {}, "blockedMessage": ""}, {"id": "power-conduit", "scene": "engineering-bay", "requires": ["power-cell"], "action": "connect power-cell to main conduit", "result": "Sparks fly as station power comes online. Lights flicker on throughout the ship. The communications array in Storage now has power.", "reveals": ["storage-room", "terminal-access"], "blocksExit": {}, "blockedMessage": ""}, {"id": "terminal-access", "scene": "storage-room", "requires": ["data-crystal"], "action": "use data-crystal on terminal", "result": "The terminal accepts the crystal and downloads its contents. It displays: 'DOCKING CLAMPS OVERRIDE CODE: 7-7-7'. The escape pod now accepts the override chip. An airlock cycle completes, clearing the grey matter from the pod bay entrance.", "reveals": ["pod-bay"], "blocksExit": {"scene": "storage-room", "direction": "east"}, "blockedMessage": "The pod bay hatch is sealed. You need to activate the terminal and clear the airlock."}, {"id": "launch-sequence", "scene": "pod-bay", "requires": ["override-chip", "oxygen-tank"], "action": "use override-chip on panel and attach oxygen-tank", "result": "Override chip accepted. Oxygen supply secured. The pod detaches from the station and rockets away into the void. The SS Starlight becomes a tomb once more \u2014 this time with you gone.", "reveals": [], "blocksExit": {}, "blockedMessage": ""}], "winCondition": {"scene": "pod-bay", "requires": ["override-chip", "oxygen-tank"], "description": "The pod clears the station's hull and enters a stable trajectory. You watch the derelict recede into the starfield. You've survived the Starlight Derelict."}};var GAME_ART={"airlock": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a1a\"/>\n  <!-- metallic walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#1a1a2a\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#0d0d1a\"/>\n  <!-- inner door -->\n  <rect x=\"200\" y=\"150\" width=\"100\" height=\"120\" fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"250\" y=\"210\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">INNER</text>\n  <!-- outer hatch -->\n  <circle cx=\"480\" cy=\"180\" r=\"60\" fill=\"#1a1a2a\" stroke=\"#f00\" stroke-width=\"6\"/>\n  <text x=\"480\" y=\"185\" font-family=\"monospace\" font-size=\"10\" fill=\"#f00\" text-anchor=\"middle\">HATCH</text>\n  <!-- EVA suit -->\n  <g transform=\"translate(100,180)\">\n    <rect x=\"0\" y=\"20\" width=\"40\" height=\"60\" fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"20\" cy=\"10\" r=\"15\" fill=\"#1a1a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <line x1=\"20\" y1=\"25\" x2=\"20\" y2=\"50\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  </g>\n  <!-- access keycard on floor -->\n  <g transform=\"translate(320,300)\">\n    <rect x=\"0\" y=\"0\" width=\"30\" height=\"20\" fill=\"#4a7fff\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  </g>\n</svg>", "maintenance-bay": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a1a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#1a1a2a\"/>\n  <!-- floor sticky with ooze -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#2a2a3a\"/>\n  <g fill=\"#3a3a4a\" opacity=\"0.6\">\n    <ellipse cx=\"100\" cy=\"300\" rx=\"40\" ry=\"15\"/>\n    <ellipse cx=\"300\" cy=\"320\" rx=\"60\" ry=\"20\"/>\n    <ellipse cx=\"540\" cy=\"290\" rx=\"50\" ry=\"18\"/>\n  </g>\n  <!-- workbench with tools -->\n  <rect x=\"50\" y=\"200\" width=\"150\" height=\"50\" fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <!-- plasma cutter on bench -->\n  <g transform=\"translate(80,210)\">\n    <rect x=\"0\" y=\"0\" width=\"20\" height=\"30\" fill=\"#4a4a5a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <rect x=\"5\" y=\"10\" width=\"10\" height=\"15\" fill=\"#0f0\"/>\n  </g>\n  <!-- power conduit on ceiling -->\n  <g transform=\"translate(0,80)\">\n    <rect x=\"0\" y=\"0\" width=\"640\" height=\"10\" fill=\"#1a1a2a\" stroke=\"#ff4500\" stroke-width=\"2\"/>\n    <circle cx=\"320\" cy=\"5\" r=\"8\" fill=\"#ff4500\"/>\n  </g>\n  <!-- exit north to crew-quarters -->\n  <rect x=\"300\" y=\"50\" width=\"80\" height=\"60\" fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"85\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">CREW</text>\n  <!-- exit south to engineering-bay -->\n  <rect x=\"300\" y=\"320\" width=\"80\" height=\"60\" fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"355\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ENG</text>\n</svg>", "crew-quarters": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a1a\"/>\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"200\" fill=\"#1a1a2a\"/>\n  <rect x=\"0\" y=\"200\" width=\"640\" height=\"200\" fill=\"#0d0d1a\"/>\n  <!-- rows of sleeping pods -->\n  <g fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"2\">\n    <rect x=\"50\" y=\"80\" width=\"60\" height=\"40\"/>\n    <rect x=\"150\" y=\"80\" width=\"60\" height=\"40\"/>\n    <rect x=\"250\" y=\"80\" width=\"60\" height=\"40\"/>\n    <rect x=\"350\" y=\"80\" width=\"60\" height=\"40\"/>\n    <rect x=\"450\" y=\"80\" width=\"60\" height=\"40\"/>\n    <rect x=\"550\" y=\"80\" width=\"60\" height=\"40\"/>\n    <rect x=\"50\" y=\"150\" width=\"60\" height=\"40\"/>\n    <rect x=\"150\" y=\"150\" width=\"60\" height=\"40\"/>\n    <rect x=\"250\" y=\"150\" width=\"60\" height=\"40\"/>\n    <rect x=\"350\" y=\"150\" width=\"60\" height=\"40\"/>\n    <rect x=\"450\" y=\"150\" width=\"60\" height=\"40\"/>\n    <rect x=\"550\" y=\"150\" width=\"60\" height=\"40\"/>\n  </g>\n  <!-- grey residue on floor -->\n  <rect x=\"0\" y=\"300\" width=\"640\" height=\"100\" fill=\"#3a3a4a\" opacity=\"0.5\"/>\n  <!-- locker ajar -->\n  <g transform=\"translate(500,200)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"60\" fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"60\" stroke=\"#0f0\" stroke-width=\"2\" transform=\"rotate(20)\"/>\n  </g>\n  <!-- exit south to maintenance-bay -->\n  <rect x=\"300\" y=\"350\" width=\"80\" height=\"40\" fill=\"#1a1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"372\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">MAINT</text>\n</svg>", "engineering-bay": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a1a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"220\" fill=\"#1a1a2a\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"220\" width=\"640\" height=\"180\" fill=\"#0d0d1a\"/>\n  <!-- power core -->\n  <circle cx=\"320\" cy=\"150\" r=\"50\" fill=\"#2a2a3a\" stroke=\"#ff4500\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"155\" font-family=\"monospace\" font-size=\"12\" fill=\"#ff4500\" text-anchor=\"middle\">CORE</text>\n  <!-- coolant pipes -->\n  <g stroke=\"#4a4a5a\" stroke-width=\"6\">\n    <path d=\"M100,150 L100,250 L200,250\"/>\n    <path d=\"M540,150 L540,250 L440,250\"/>\n  </g>\n  <!-- viscous leak -->\n  <ellipse cx=\"320\" cy=\"260\" rx=\"30\" ry=\"10\" fill=\"#4a4a5a\"/>\n  <!-- emergency power terminal -->\n  <g transform=\"translate(500,120)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"40\" fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"30\" cy=\"20\" r=\"10\" fill=\"#0f0\"/>\n  </g>\n  <!-- shut-down valve (coated in growth) -->\n  <g transform=\"translate(100,200)\">\n    <circle cx=\"20\" cy=\"20\" r=\"20\" fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <circle cx=\"20\" cy=\"20\" r=\"12\" fill=\"#3a5a3a\"/>\n  </g>\n  <!-- exits -->\n  <rect x=\"200\" y=\"350\" width=\"80\" height=\"40\" fill=\"#1a1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"240\" y=\"372\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">LAB</text>\n  <rect x=\"340\" y=\"50\" width=\"80\" height=\"60\" fill=\"#1a1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"380\" y=\"82\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">MAINT</text>\n</svg>", "laboratory": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a1a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"250\" fill=\"#1a1a2a\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"250\" width=\"640\" height=\"150\" fill=\"#0d0d1a\"/>\n  <!-- workstations -->\n  <g fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"2\">\n    <rect x=\"50\" y=\"180\" width=\"120\" height=\"70\"/>\n    <rect x=\"200\" y=\"180\" width=\"120\" height=\"70\"/>\n    <rect x=\"350\" y=\"180\" width=\"120\" height=\"70\"/>\n  </g>\n  <!-- overturned petri dishes -->\n  <g transform=\"translate(80,220)\" fill=\"#3a3a4a\">\n    <circle cx=\"10\" cy=\"10\" r=\"8\"/>\n    <circle cx=\"30\" cy=\"10\" r=\"8\"/>\n  </g>\n  <!-- containment chamber (shattered) -->\n  <rect x=\"450\" y=\"100\" width=\"120\" height=\"100\" fill=\"#1a1a2a\" stroke=\"#f00\" stroke-width=\"4\"/>\n  <text x=\"510\" y=\"155\" font-family=\"monospace\" font-size=\"10\" fill=\"#f00\" text-anchor=\"middle\">BREACH</text>\n  <!-- terminal flickering -->\n  <g transform=\"translate(500,250)\">\n    <rect x=\"0\" y=\"0\" width=\"60\" height=\"40\" fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"30\" y=\"20\" font-family=\"monospace\" font-size=\"8\" fill=\"#0f0\" text-anchor=\"middle\">ERR</text>\n  </g>\n  <!-- data crystal on console -->\n  <g transform=\"translate(530,270)\">\n    <polygon points=\"10,0 20,15 0,15\" fill=\"#0ff\" stroke=\"#0f0\" stroke-width=\"1\"/>\n  </g>\n  <!-- exits -->\n  <rect x=\"150\" y=\"320\" width=\"80\" height=\"60\" fill=\"#1a1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"190\" y=\"352\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">STORAGE</text>\n  <rect x=\"300\" y=\"280\" width=\"80\" height=\"60\" fill=\"#1a1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"340\" y=\"312\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">ENG</text>\n</svg>", "storage-room": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a1a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"230\" fill=\"#1a1a2a\"/>\n  <!-- floor covered in grey ooze -->\n  <rect x=\"0\" y=\"230\" width=\"640\" height=\"170\" fill=\"#2a2a3a\"/>\n  <g fill=\"#3a3a4a\" opacity=\"0.7\">\n    <rect x=\"100\" y=\"250\" width=\"200\" height=\"100\"/>\n    <rect x=\"350\" y=\"270\" width=\"180\" height=\"80\"/>\n  </g>\n  <!-- supply crates -->\n  <g fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"2\">\n    <rect x=\"50\" y=\"150\" width=\"60\" height=\"60\"/>\n    <rect x=\"130\" y=\"150\" width=\"60\" height=\"60\"/>\n    <rect x=\"50\" y=\"230\" width=\"60\" height=\"60\"/>\n    <rect x=\"130\" y=\"230\" width=\"60\" height=\"60\"/>\n  </g>\n  <!-- communications array panel -->\n  <g transform=\"translate(500,100)\">\n    <rect x=\"0\" y=\"0\" width=\"80\" height=\"50\" fill=\"#1a1a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <rect x=\"10\" y=\"15\" width=\"60\" height=\"20\" fill=\"#0f0\"/>\n    <text x=\"40\" y=\"28\" font-family=\"monospace\" font-size=\"8\" fill=\"#000\" text-anchor=\"middle\">TX</text>\n  </g>\n  <!-- escape pod hatch (sealed) -->\n  <g transform=\"translate(300,80)\">\n    <rect x=\"0\" y=\"0\" width=\"100\" height=\"120\" fill=\"#2a2a3a\" stroke=\"#f00\" stroke-width=\"4\"/>\n    <text x=\"50\" y=\"60\" font-family=\"monospace\" font-size=\"10\" fill=\"#f00\" text-anchor=\"middle\">POD</text>\n  </g>\n  <!-- exits -->\n  <rect x=\"200\" y=\"350\" width=\"80\" height=\"40\" fill=\"#1a1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"240\" y=\"372\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">LAB</text>\n  <rect x=\"500\" y=\"300\" width=\"80\" height=\"60\" fill=\"#1a1a2a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"540\" y=\"335\" font-family=\"monospace\" font-size=\"10\" fill=\"#0f0\" text-anchor=\"middle\">POD BAY</text>\n</svg>", "pod-bay": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\">\n  <rect width=\"640\" height=\"400\" fill=\"#0a0a1a\"/>\n  <!-- walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"200\" fill=\"#1a1a2a\"/>\n  <!-- floor -->\n  <rect x=\"0\" y=\"200\" width=\"640\" height=\"200\" fill=\"#0d0d1a\"/>\n  <!-- escape pod -->\n  <ellipse cx=\"320\" cy=\"220\" rx=\"150\" ry=\"80\" fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"4\"/>\n  <text x=\"320\" y=\"225\" font-family=\"monospace\" font-size=\"14\" fill=\"#0f0\" text-anchor=\"middle\">ESCAPE POD</text>\n  <!-- cockpit canopy -->\n  <ellipse cx=\"320\" cy=\"180\" rx=\"100\" ry=\"40\" fill=\"#0a0a1a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <!-- control panel inside -->\n  <g transform=\"translate(280,260)\">\n    <rect x=\"0\" y=\"0\" width=\"80\" height=\"40\" fill=\"#1a1a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n    <text x=\"40\" y=\"20\" font-family=\"monospace\" font-size=\"8\" fill=\"#0f0\" text-anchor=\"middle\">INSERT CHIP</text>\n  </g>\n  <!-- docking clamps (outside view) -->\n  <g transform=\"translate(100,50)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"80\" fill=\"#2a2a3a\" stroke=\"#f00\" stroke-width=\"2\"/>\n    <text x=\"20\" y=\"45\" font-family=\"monospace\" font-size=\"8\" fill=\"#f00\" text-anchor=\"middle\">CLAMP</text>\n  </g>\n  <g transform=\"translate(500,50)\">\n    <rect x=\"0\" y=\"0\" width=\"40\" height=\"80\" fill=\"#2a2a3a\" stroke=\"#f00\" stroke-width=\"2\"/>\n    <text x=\"20\" y=\"45\" font-family=\"monospace\" font-size=\"8\" fill=\"#f00\" text-anchor=\"middle\">CLAMP</text>\n  </g>\n</svg>", "access-key": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"10\" y=\"20\" width=\"30\" height=\"20\" fill=\"#4a7fff\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"5\" fill=\"#4a7fff\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"25\" y=\"27\" font-family=\"monospace\" font-size=\"6\" fill=\"#fff\" text-anchor=\"middle\">KEY</text>\n</svg>", "plasma-cutter": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"10\" width=\"24\" height=\"44\" fill=\"#2a2a3a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"27\" y=\"20\" width=\"10\" height=\"20\" fill=\"#0f0\"/>\n  <text x=\"32\" y=\"50\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">PLASMA</text>\n</svg>", "data-crystal": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"32,10 42,30 22,30\" fill=\"#0ff\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <polygon points=\"32,54 42,34 22,34\" fill=\"#0ff\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"28\" y=\"30\" width=\"8\" height=\"14\" fill=\"#0ff\"/>\n</svg>", "power-cell": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"15\" y=\"15\" width=\"34\" height=\"34\" fill=\"#1a3a1a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"25\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">PWR</text>\n  <text x=\"32\" y=\"35\" font-family=\"monospace\" font-size=\"7\" fill=\"#0f0\" text-anchor=\"middle\">CELL</text>\n  <rect x=\"20\" y=\"42\" width=\"24\" height=\"6\" fill=\"#2a4a2a\"/>\n</svg>", "override-chip": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"20\" y=\"20\" width=\"24\" height=\"24\" fill=\"#ff4500\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"29\" font-family=\"monospace\" font-size=\"8\" fill=\"#000\" text-anchor=\"middle\">OVR</text>\n  <rect x=\"26\" y=\"44\" width=\"12\" height=\"6\" fill=\"#ff4500\"/>\n</svg>", "oxygen-tank": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\">\n  <rect width=\"64\" height=\"64\" fill=\"none\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"22\" y=\"10\" width=\"20\" height=\"44\" fill=\"#1a1a2a\" stroke=\"#0f0\" stroke-width=\"2\"/>\n  <rect x=\"24\" y=\"15\" width=\"16\" height=\"25\" fill=\"#e0e0e0\"/>\n  <text x=\"32\" y=\"45\" font-family=\"monospace\" font-size=\"6\" fill=\"#0f0\" text-anchor=\"middle\">O2</text>\n</svg>"}
+
+// ============================================================
+// GAME ART — replace with inlined SVGs from art/*.svg
+// ============================================================
+
+
+// ============================================================
+// STARLIGHT DERELICT - GAME LOGIC
+// Produced by Gameplay Coder (Hex Corbin)
+// ============================================================
+
+// Game data will be embedded by the Game Assembler
+var GAME_DATA = {}; // Replace with actual game-script.json contents
+
+// ---- Game State ----
+const state = {
+  currentScene: 'airlock',
+  inventory: [],
+  solvedPuzzles: [],
+  visitedScenes: ['airlock'],
+  activeCommand: null,
+  selectedItem: null,
+  won: false
+};
+
+// ---- DOM References ----
+const artDisplay = document.getElementById('art-display');
+const sceneName = document.getElementById('scene-name');
+const textDisplay = document.getElementById('text-display');
+const invBar = document.getElementById('inventory-bar');
+const exitsBar = document.getElementById('exits-bar');
+
+// ---- Display Functions ----
+function addText(text, cls = '') {
+  const p = document.createElement('p');
+  p.className = cls;
+  p.innerHTML = text;
+  textDisplay.appendChild(p);
+  textDisplay.scrollTop = textDisplay.scrollHeight;
+}
+
+function clearText() { textDisplay.innerHTML = ''; }
+
+function renderScene(sceneId) {
+  const scene = GAME_DATA.scenes.find(s => s.id === sceneId);
+  if (!scene) { addText('ERROR: Scene not found!', 'error'); return; }
+
+  state.currentScene = sceneId;
+  if (!state.visitedScenes.includes(sceneId)) state.visitedScenes.push(sceneId);
+
+  // Update scene name
+  sceneName.textContent = scene.name.toUpperCASE();
+
+  // Update art
+  const artKey = 'scene-' + sceneId.replace('scene-', '');
+  let artHtml = null;
+  if (typeof GAME_ART !== 'undefined' && GAME_ART[artKey]) {
+    artHtml = GAME_ART[artKey];
+  } else if (window.GAME_ART && window.GAME_ART[artKey]) {
+    artHtml = window.GAME_ART[artKey];
+  } else if (typeof GAME_ART !== 'undefined' && GAME_ART[sceneId]) {
+    artHtml = GAME_ART[sceneId];
+  } else if (window.GAME_ART && window.GAME_ART[sceneId]) {
+    artHtml = window.GAME_ART[sceneId];
+  }
+
+  if (artHtml) {
+    artDisplay.innerHTML = artHtml;
+  } else {
+    artDisplay.innerHTML = '<span class="no-art">[ ' + scene.name.toUpperCase() + ' ]</span>';
+  }
+
+  // Display prose
+  clearText();
+  addText(scene.prose);
+
+  // Show available items (not yet taken)
+  const availableItems = (scene.items || []).filter(itemId =>
+    !state.inventory.includes(itemId)
+  );
+  if (availableItems.length > 0) {
+    const itemNames = availableItems.map(id => {
+      const item = GAME_DATA.items.find(i => i.id === id);
+      return item ? `<span class="look-target" data-look="${id}">${item.name}</span>` : id;
+    });
+    addText('You notice: ' + itemNames.join(', '), 'system');
+  }
+
+  // Show unsolved puzzles
+  const scenePuzzles = (scene.puzzles || []).filter(pid =>
+    !state.solvedPuzzles.includes(pid)
+  );
+  scenePuzzles.forEach(pid => {
+    const puzzle = GAME_DATA.puzzles.find(p => p.id === pid);
+    if (puzzle) {
+      addText('There is something here that catches your attention...', 'system');
+    }
+  });
+
+  // Render exits
+  renderExits(scene.exits || {});
+
+  // Render inventory
+  renderInventory();
+
+  // Check win condition
+  checkWin();
+
+  // Save state
+  saveState();
+}
+
+function canExit(sceneId, direction) {
+  const exit = GAME_DATA.scenes.find(s => s.id === sceneId)?.exits?.[direction];
+  if (!exit) return false;
+  
+  // Check if any unsolved puzzle blocks this exit
+  const blocker = GAME_DATA.puzzles.find(p =>
+    p.blocksExit?.scene === sceneId &&
+    p.blocksExit?.direction === direction &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+  
+  if (blocker) {
+    addText(`[The way ${direction} is blocked. ${blocker.blockedMessage || 'Something prevents you from going that way.'}]`, 'locked');
+    return false;
+  }
+  
+  return true;
+}
+
+function renderExits(exits) {
+  exitsBar.innerHTML = '';
+  const directions = ['north', 'south', 'east', 'west'];
+  directions.forEach(dir => {
+    const btn = document.createElement('button');
+    btn.className = 'exit-btn' + (exits[dir] ? ' available' : '');
+    btn.textContent = dir.toUpperCase();
+    btn.disabled = !exits[dir];
+    if (exits[dir] && canExit(state.currentScene, dir)) {
+      btn.onclick = () => go(exits[dir]);
+    }
+    exitsBar.appendChild(btn);
+  });
+}
+
+function renderInventory() {
+  const items = invBar.querySelectorAll('.inv-item');
+  items.forEach(el => el.remove());
+  const empty = document.getElementById('inv-empty');
+
+  if (state.inventory.length === 0) {
+    empty.style.display = '';
+  } else {
+    empty.style.display = 'none';
+    state.inventory.forEach(itemId => {
+      const item = GAME_DATA.items.find(i => i.id === itemId);
+      if (!item) return;
+      const el = document.createElement('span');
+      el.className = 'inv-item' + (state.selectedItem === itemId ? ' selected' : '');
+      el.textContent = item.name;
+      el.onclick = () => selectItem(itemId);
+      invBar.appendChild(el);
+    });
+  }
+}
+
+// ---- Command Handlers ----
+function setCommand(cmd) {
+  state.activeCommand = cmd;
+  document.querySelectorAll('.cmd-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.cmd === cmd);
+  });
+  if (cmd === 'look') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    if (scene && scene.lookDescriptions) {
+      const targets = Object.keys(scene.lookDescriptions);
+      if (targets.length > 0) {
+        addText('You can examine: ' + targets.map(t =>
+          `<span class="look-target" data-look="${t}">${t}</span>`
+        ).join(', '), 'system');
+      }
+    }
+  } else if (cmd === 'use') {
+    if (state.inventory.length > 0) {
+      addText('Select an item from your inventory, then click what to use it on.', 'system');
+    } else {
+      addText('You have nothing to use.', 'system');
+    }
+  } else if (cmd === 'take') {
+    const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+    const available = (scene.items || []).filter(id => !state.inventory.includes(id));
+    if (available.length > 0) {
+      available.forEach(id => takeItem(id));
+    } else {
+      addText('Nothing here to take.', 'system');
+    }
+  }
+}
+
+function selectItem(itemId) {
+  state.selectedItem = state.selectedItem === itemId ? null : itemId;
+  renderInventory();
+  if (state.selectedItem) {
+    const item = GAME_DATA.items.find(i => i.id === itemId);
+    addText(`Selected: ${item.name}. Click USE, then a target.`, 'system');
+  }
+}
+
+function takeItem(itemId) {
+  if (state.inventory.includes(itemId)) return;
+  const item = GAME_DATA.items.find(i => i.id === itemId);
+  if (!item) return;
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (!scene || !(scene.items || []).includes(itemId)) return;
+
+  state.inventory.push(itemId);
+  addText(`You picked up: ${item.name} — ${item.description}`, 'success');
+  renderInventory();
+  saveState();
+  
+  // Apply item glow effect for newly acquired items
+  setTimeout(() => {
+    const itemElements = invBar.querySelectorAll('.inv-item');
+    itemElements.forEach(el => {
+      if (el.textContent === item.name) {
+        el.classList.add('item-new');
+        setTimeout(() => el.classList.remove('item-new'), 2000);
+      }
+    });
+  }, 100);
+}
+
+function lookAt(target) {
+  const scene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (scene && scene.lookDescriptions && scene.lookDescriptions[target]) {
+    addText(scene.lookDescriptions[target]);
+  } else {
+    // Check if it's an item
+    const item = GAME_DATA.items.find(i => i.id === target);
+    if (item) {
+      addText(item.description);
+    } else {
+      addText('Nothing interesting about that.', 'system');
+    }
+  }
+}
+
+function useItemOn(itemId, targetId) {
+  const puzzle = GAME_DATA.puzzles.find(p =>
+    p.scene === state.currentScene &&
+    p.requires.includes(itemId) &&
+    p.id === targetId &&
+    !state.solvedPuzzles.includes(p.id)
+  );
+
+  if (puzzle && puzzle.requires.every(req => state.inventory.includes(req))) {
+    state.solvedPuzzles.push(puzzle.id);
+    addText(puzzle.result, 'success');
+    
+    // Apply puzzle solved flash effect
+    artDisplay.classList.add('puzzle-solved');
+    setTimeout(() => artDisplay.classList.remove('puzzle-solved'), 600);
+    
+    // Reveal items or unlock scenes
+    (puzzle.reveals || []).forEach(revealId => {
+      const revealItem = GAME_DATA.items.find(i => i.id === revealId);
+      if (revealItem) {
+        state.inventory.push(revealId);
+        addText(`You found: ${revealItem.name}!`, 'success');
+        
+        // Apply item glow for newly revealed items
+        setTimeout(() => {
+          const itemElements = invBar.querySelectorAll('.inv-item');
+          itemElements.forEach(el => {
+            if (el.textContent === revealItem.name) {
+              el.classList.add('item-new');
+              setTimeout(() => el.classList.remove('item-new'), 2000);
+            }
+          });
+        }, 100);
+      }
+    });
+    
+    renderInventory();
+    
+    // Update exit buttons for newly unlocked exits
+    const exitButtons = exitsBar.querySelectorAll('.exit-btn');
+    exitButtons.forEach(btn => {
+      if (btn.classList.contains('available')) {
+        btn.classList.add('newly-unlocked');
+        setTimeout(() => btn.classList.remove('newly-unlocked'), 3000);
+      }
+    });
+    
+    checkWin();
+    saveState();
+  } else {
+    addText("That doesn't seem to work.", 'system');
+  }
+}
+
+function go(sceneId) {
+  if (!canExit(state.currentScene, getDirectionToScene(sceneId))) {
+    return; // canExit already shows the message
+  }
+  addText('---', 'system');
+  renderScene(sceneId);
+}
+
+function getDirectionToScene(targetSceneId) {
+  const currentScene = GAME_DATA.scenes.find(s => s.id === state.currentScene);
+  if (!currentScene || !currentScene.exits) return null;
+  
+  for (const [direction, sceneId] of Object.entries(currentScene.exits)) {
+    if (sceneId === targetSceneId) {
+      return direction;
+    }
+  }
+  return null;
+}
+
+function checkWin() {
+  if (state.won) return;
+  const wc = GAME_DATA.winCondition;
+  if (!wc) return;
+  if (state.currentScene === wc.scene &&
+      wc.requires.every(req => state.inventory.includes(req))) {
+    state.won = true;
+    addText('', '');
+    addText('*** ' + wc.description + ' ***', 'success');
+    addText('', '');
+    addText('CONGRATULATIONS! YOU HAVE COMPLETED THE GAME!', 'success');
+    addText('Type /restart to play again.', 'system');
+  }
+}
+
+// ---- Persistence ----
+function saveState() {
+  try {
+    localStorage.setItem('game-' + GAME_DATA.slug, JSON.stringify(state));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('game-' + GAME_DATA.slug);
+    if (saved) {
+      const s = JSON.parse(saved);
+      Object.assign(state, s);
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+// ---- Event Listeners ----
+document.querySelectorAll('.cmd-btn').forEach(btn => {
+  btn.onclick = () => setCommand(btn.dataset.cmd);
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('look-target')) {
+    const target = e.target.dataset.look;
+    if (state.activeCommand === 'use' && state.selectedItem) {
+      useItemOn(state.selectedItem, target);
+    } else {
+      lookAt(target);
+    }
+  }
+});
+
+// ---- Initialize ----
+function init() {
+  if (Object.keys(GAME_DATA).length === 0) {
+    addText('ERROR: No game data loaded. This is a template file.', 'error');
+    addText('The Gameplay Coder will embed game data here.', 'system');
+    return;
+  }
+
+  addText('=== ' + GAME_DATA.title.toUpperCase() + ' ===', 'success');
+  addText(GAME_DATA.setting, 'system');
+  addText('', '');
+  addText('Commands: LOOK | TAKE | USE | EXAMINE', 'system');
+  addText('Click exits to move between rooms.', 'system');
+  addText('---', 'system');
+
+  if (!loadState()) {
+    renderScene('airlock');
+  } else {
+    renderScene(state.currentScene);
+    addText('[Game restored from save]', 'system');
+  }
+}
+
+init();
+document.getElementById("reset-btn")?.addEventListener("click", function() {
+    if (confirm("Reset the game to the beginning?")) {
+        state = {currentScene: GAME_DATA.scenes[0].id, inventory: [], solvedPuzzles: [], visitedScenes: [GAME_DATA.scenes[0].id], selectedItem: null, won: false};
+        clearText(); addText("The story begins anew...", "system");
+        renderScene(state.currentScene); renderInventory();
+    }
+});
+    </script></body>
+</html>

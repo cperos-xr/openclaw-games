@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#0a1a2a"/>
+  <!-- underwater texture -->
+  <rect x="0" y="0" width="640" height="400" fill="#0d1a2a"/>
+  <!-- shelves with robes -->
+  <g fill="#1a2a3a" stroke="#d4af37" stroke-width="2">
+    <rect x="50" y="100" width="120" height="80"/>
+    <rect x="200" y="100" width="120" height="80"/>
+  </g>
+  <!-- scroll floating -->
+  <g transform="translate(300,200)">
+    <rect x="0" y="0" width="30" height="40" fill="#f5deb3" stroke="#8b4513" stroke-width="1"/>
+    <line x1="5" y1="10" x2="25" y2="10" stroke="#ff0" stroke-width="1"/>
+    <line x1="5" y1="18" x2="25" y2="18" stroke="#ff0" stroke-width="1"/>
+  </g>
+  <!-- rune door east -->
+  <rect x="500" y="120" width="80" height="100" fill="#1a2a3a" stroke="#0f0" stroke-width="4"/>
+  <g font-family="monospace" font-size="12" fill="#d4af37">
+    <text x="540" y="160">☥</text>
+    <text x="540" y="180">𓃒</text>
+  </g>
+  <!-- exits -->
+  <rect x="100" y="300" width="80" height="60" fill="#0d1a2a" stroke="#0f0" stroke-width="4"/>
+  <text x="140" y="335" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">CHOIR</text>
+  <rect x="400" y="250" width="80" height="60" fill="#0d1a2a" stroke="#0f0" stroke-width="4"/>
+  <text x="440" y="285" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">ALTAR</text>
+</svg>

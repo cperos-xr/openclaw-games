@@ -1,0 +1,191 @@
+{
+  "title": "The Sand That Speaks",
+  "slug": "sand-that-speaks",
+  "number": 13,
+  "setting": "A newly discovered pyramid in the Egyptian desert, sealed for millennia. Inside, the sand tells secrets and the statues watch. Something ancient has awoken.",
+  "characters": [
+    {
+      "id": "pharaoh-ghost",
+      "name": "The Silent Pharaoh",
+      "description": "A spectral ruler whose presence fills the chambers. He judges those who disturb his rest."
+    },
+    {
+      "id": "scribe-ghost",
+      "name": "The Scribe",
+      "description": "A ghostly servant who whispers warnings in a dead language."
+    }
+  ],
+  "items": [
+    {
+      "id": "stone-key",
+      "name": "Stone Key",
+      "description": "A carved slab of stone that fits the entrance mechanism.",
+      "foundIn": "entrance-passage",
+      "usedIn": "entrance-passage",
+      "usedOn": "stone-door"
+    },
+    {
+      "id": "torch",
+      "name": "Reed Torch",
+      "description": "A dried reed that burns with a smoky flame. It reveals hidden markings.",
+      "foundIn": "entrance-passage",
+      "usedIn": "chamber-of-hieroglyphs",
+      "usedOn": "hidden-inscription"
+    },
+    {
+      "id": "ankh-amulet",
+      "name": "Ankh Amulet",
+      "description": "A golden ankh that pulses with warmth. It repels the darker spirits.",
+      "foundIn": "chamber-of-hieroglyphs",
+      "usedIn": "burial-chamber",
+      "usedOn": "sarcophagus-lid"
+    },
+    {
+      "id": "scroll-of-light",
+      "name": "Scroll of Light",
+      "description": "A papyrus scroll inscribed with a spell that illuminates the dark.",
+      "foundIn": "burial-chamber",
+      "usedIn": "treasury",
+      "usedOn": "darkness-curse"
+    },
+    {
+      "id": "golden-scarab",
+      "name": "Golden Scarab",
+      "description": "A precious beetle-shaped amulet that glows with inner light. It must be placed on the altar to break the curse.",
+      "foundIn": "treasury",
+      "usedIn": "altar-chamber",
+      "usedOn": "cursed-altar"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "entrance-passage",
+      "name": "Entrance Passage",
+      "prose": "A narrow corridor cut from solid rock. Hieroglyphs glow faintly on the walls. The floor is covered in a thick layer of sand. Ahead, a massive stone door blocks the way. A stone key lies half-buried in the sand.",
+      "exits": {"east": "chamber-of-hieroglyphs"},
+      "items": ["stone-key", "torch"],
+      "puzzles": ["stone-door"],
+      "lookDescriptions": {
+        "hieroglyphs": "They depict a warning: 'Do not disturb the sleeping king.'",
+        "sand": "The grains shift as if alive."
+      }
+    },
+    {
+      "id": "chamber-of-hieroglyphs",
+      "name": "Chamber of Hieroglyphs",
+      "prose": "A circular chamber lined with carved symbols. In the center, a pedestal holds a life-sized statue of a Pharaoh. The air hums with a low frequency. To the south, a dark passage leads deeper. The stone door behind you is sealed.",
+      "exits": {"south": "burial-chamber", "west": "entrance-passage"},
+      "items": ["ankh-amulet"],
+      "puzzles": ["hidden-inscription"],
+      "lookDescriptions": {
+        "statue": "Its eyes seem to follow you. The ankh around its neck is missing.",
+        "pedestal": "The inscription reads: 'Only the light of truth reveals the way.'"
+      }
+    },
+    {
+      "id": "burial-chamber",
+      "name": "Burial Chamber",
+      "prose": "The heart of the pyramid. A grand sarcophagus sits atop a raised dais. The walls are covered in intricate paintings of the afterlife. A doorway to the east is sealed with a complex mechanism. A scroll rests on a stone table.",
+      "exits": {"east": "treasury"},
+      "items": ["scroll-of-light"],
+      "puzzles": ["sarcophagus-lid"],
+      "lookDescriptions": {
+        "sarcophagus": "The lid is inscribed with a curse: 'He who opens this shall be consumed by sand.'",
+        "paintings": "They show the Pharaoh's spirit ascending to the stars."
+      }
+    },
+    {
+      "id": "treasury",
+      "name": "Treasury",
+      "prose": "A vault filled with ancient treasures — golden statues, jeweled crowns, and piles of artifacts. But the room is pitch black. Something glitters on a pedestal at the far end. The only light comes from your torch, and it fails quickly in this absolute dark.",
+      "exits": {"west": "burial-chamber"},
+      "items": ["golden-scarab"],
+      "puzzles": ["darkness-curse"],
+      "lookDescriptions": {
+        "pedestal": "A golden scarab sits here, radiating light.",
+        "treasure piles": "They shift and clatter in the dark. Something moves among them."
+      }
+    },
+    {
+      "id": "altar-chamber",
+      "name": "Altar Chamber",
+      "prose": "A small, sanctified room with a stone altar at its center. The air is thick with incense that smells of desert winds and time. The walls are covered in protective sigils. The altar is the focal point of the pyramid's curse. Placing the scarab here will either break the curse or awaken something worse.",
+      "exits": {"west": "treasury"},
+      "items": [],
+      "puzzles": ["cursed-altar"],
+      "lookDescriptions": {
+        "altar": "A depression in the center shaped like a scarab beetle.",
+        "sigils": "They glow faintly when you approach."
+      }
+    },
+    {
+      "id": "escape-passage",
+      "name": "Escape Passage",
+      "prose": "As the scarab settles into the altar, the pyramid trembles. A hidden doorway slides open in the entrance passage, revealing a tunnel leading to the surface. The sand stops moving. The Pharaoh's ghost bows silently. You have lifted the curse and escaped.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "tunnel": "A narrow shaft leads upward, lit by a shaft of sunlight.",
+        "pyramid": "The ancient stones settle, now at peace."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "stone-door",
+      "scene": "entrance-passage",
+      "requires": ["stone-key"],
+      "action": "use stone-key on door mechanism",
+      "result": "The key slides into a hidden slot. The stone door rumbles aside, revealing the hieroglyph chamber beyond.",
+      "reveals": ["chamber-of-hieroglyphs"],
+      "blocksExit": {"scene": "entrance-passage", "direction": "east"},
+      "blockedMessage": "The stone door is sealed. You need a key to open it."
+    },
+    {
+      "id": "hidden-inscription",
+      "scene": "chamber-of-hieroglyphs",
+      "requires": ["torch"],
+      "action": "use torch on hieroglyph wall",
+      "result": "The torch's smoke reveals an inscription that was invisible before. It shows a sequence: 'LIGHT, LIFE, LOVE'. The statue's ankh socket glows. The way south is now accessible.",
+      "reveals": ["burial-chamber"],
+      "blocksExit": {"scene": "chamber-of-hieroglyphs", "direction": "south"},
+      "blockedMessage": "The dark passage is blocked by a magical barrier. You need to reveal the secret to pass."
+    },
+    {
+      "id": "sarcophagus-lid",
+      "scene": "burial-chamber",
+      "requires": ["ankh-amulet"],
+      "action": "use ankh-amulet on sarcophagus lid",
+      "result": "The ankh emits a golden light. The curse on the sarcophagus recedes. The lid opens, revealing a scroll inside. The treasury door unlocks.",
+      "reveals": ["scroll-of-light", "treasury"],
+      "blocksExit": {"scene": "burial-chamber", "direction": "east"},
+      "blockedMessage": "The sarcophagus is cursed. You need a holy symbol to approach."
+    },
+    {
+      "id": "darkness-curse",
+      "scene": "treasury",
+      "requires": ["scroll-of-light"],
+      "action": "use scroll-of-light in treasury",
+      "result": "The spell banishes the darkness. The room fills with a soft glow. You can see the golden scarab on the pedestal. The way forward is clear.",
+      "reveals": ["altar-chamber"],
+      "blocksExit": {},
+      "blockedMessage": ""
+    },
+    {
+      "id": "cursed-altar",
+      "scene": "altar-chamber",
+      "requires": ["golden-scarab"],
+      "action": "place golden scarab on altar",
+      "result": "The scarab fits perfectly. Light explodes throughout the pyramid. The curse breaks. An escape tunnel opens. YOU WIN.",
+      "reveals": ["escape-passage"],
+      "blocksExit": {},
+      "blockedMessage": ""
+    }
+  ],
+  "winCondition": {
+    "scene": "escape-passage",
+    "requires": [],
+    "description": "You emerge from the pyramid as the sun rises. The sand is still. The curse is lifted. You have survived the Sand That Speaks."
+  }
+}

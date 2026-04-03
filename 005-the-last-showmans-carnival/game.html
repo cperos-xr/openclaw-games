@@ -6,126 +6,102 @@
     <title>The Last Showman's Carnival | Game #005</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* =====================================================
+           VERTICAL LAYOUT — single-column, image-first
+           Optimised for cheaper raster images (16:9 landscape)
+           Mobile-first; scales cleanly to tablet and desktop.
+           ===================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: #000;
             color: #0f0;
             font-family: 'Press Start 2P', monospace;
             font-size: 12px;
-            line-height: 1.4;
-            padding: 20px;
-            max-width: 1024px;
+            line-height: 1.6;
+            padding: 12px;
+            max-width: 720px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+        header { text-align: center; margin-bottom: 8px; }
 
         h1 {
-            font-size: 16px;
-            margin-bottom: 5px;
+            font-size: 14px;
             color: #0f0;
-            text-shadow: 0 0 5px #0f0;
+            text-shadow: 0 0 6px #0f0;
+            margin-bottom: 4px;
         }
 
-        h2 {
-            font-size: 14px;
-            margin-bottom: 10px;
-            color: #0f0;
-        }
+        h2 { font-size: 10px; color: #080; margin-bottom: 6px; }
 
         #scene-name {
-            font-size: 18px;
+            font-size: 14px;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #0f0;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 4px #0f0;
         }
 
-        .game-container {
-            display: flex;
-            flex: 1;
-            gap: 20px;
-            min-height: 0;
-        }
-
+        /* --- Art panel: full width, 16:9 ratio --- */
         .art-panel {
-            flex: 1;
+            width: 100%;
+            aspect-ratio: 16 / 9;
             border: 2px solid #0f0;
             background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            min-height: 400px;
+            margin-bottom: 8px;
         }
 
-        #art-display svg,
-        #art-display img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+        #art-display {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        #art-display img,
+        #art-display svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* --- Text panel --- */
         .text-panel {
-            flex: 1;
             border: 2px solid #0f0;
             background-color: #000;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            padding: 12px;
+            margin-bottom: 8px;
         }
 
         #text-display {
-            flex: 1;
+            max-height: 200px;
             overflow-y: auto;
             margin-bottom: 10px;
-            border-bottom: 1px solid #0f0;
             padding-bottom: 10px;
+            border-bottom: 1px solid #033;
+            scrollbar-width: thin;
+            scrollbar-color: #0f0 #000;
         }
 
-        #text-display p {
-            margin-bottom: 10px;
-            color: #0f0;
-        }
+        #text-display::-webkit-scrollbar { width: 4px; }
+        #text-display::-webkit-scrollbar-track { background: #000; }
+        #text-display::-webkit-scrollbar-thumb { background: #0f0; }
 
-        #text-display .system {
-            color: #0a0;
-            font-style: italic;
-        }
-
-        #text-display .success {
-            color: #0f0;
-            font-weight: bold;
-            animation: itemGlow 1s infinite alternate;
-        }
-
-        #text-display .locked {
-            color: #f00;
-            font-weight: bold;
-        }
-
-        #text-display .error {
-            color: #f00;
-        }
-
-        #text-display .hint {
-            color: #FFAA00;
-            font-style: italic;
-        }
+        #text-display p { margin-bottom: 8px; color: #0f0; }
+        #text-display .system { color: #0a0; font-style: italic; }
+        #text-display .success { color: #0f0; font-weight: bold; animation: itemGlow 1s infinite alternate; }
+        #text-display .locked { color: #f00; font-weight: bold; }
+        #text-display .error { color: #f00; }
+        #text-display .hint { color: #FFAA00; font-style: italic; }
 
         .hint-toggle {
             background-color: #000;
@@ -135,130 +111,98 @@
             font-family: 'Press Start 2P', monospace;
             font-size: 8px;
             cursor: pointer;
-            margin-top: 5px;
+            margin-top: 4px;
         }
+        .hint-toggle:hover { background-color: #0f0; color: #000; }
 
-        .hint-toggle:hover {
-            background-color: #0f0;
-            color: #000;
-        }
-
+        /* --- Command buttons: equal-width row --- */
         .command-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
         }
 
         .cmd-btn {
             background-color: #000;
             color: #0f0;
             border: 1px solid #0f0;
-            padding: 5px 10px;
+            padding: 6px 10px;
             font-family: 'Press Start 2P', monospace;
             font-size: 10px;
             cursor: pointer;
             transition: all 0.2s;
+            flex: 1;
+            min-width: 60px;
+            text-align: center;
+        }
+        .cmd-btn:hover, .cmd-btn.active { background-color: #0f0; color: #000; }
+
+        /* --- Inventory + Exits: 2-col on tablet+, stacked on mobile --- */
+        .panels-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
         }
 
-        .cmd-btn:hover {
-            background-color: #0f0;
-            color: #000;
+        @media (max-width: 480px) {
+            .panels-row { grid-template-columns: 1fr; }
+            h1 { font-size: 12px; }
+            .cmd-btn { font-size: 9px; padding: 5px 6px; }
         }
 
-        .cmd-btn.active {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .inventory-panel {
+        .inventory-panel, .exits-panel {
             border: 2px solid #0f0;
             background-color: #000;
             padding: 10px;
-            margin-bottom: 15px;
         }
 
-        .inventory-panel h3 {
-            font-size: 12px;
-            margin-bottom: 5px;
+        .inventory-panel h3, .exits-panel h3 {
+            font-size: 10px;
+            margin-bottom: 6px;
             color: #0f0;
+            border-bottom: 1px solid #033;
+            padding-bottom: 4px;
         }
 
         #inventory-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
             min-height: 20px;
         }
 
         .inv-item {
             border: 1px solid #0f0;
             padding: 3px 6px;
-            font-size: 10px;
+            font-size: 9px;
             cursor: pointer;
             background-color: #000;
             color: #0f0;
         }
+        .inv-item.selected { background-color: #0f0; color: #000; }
 
-        .inv-item.selected {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .exits-panel {
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 10px;
-        }
-
-        .exits-panel h3 {
-            font-size: 12px;
-            margin-bottom: 5px;
-            color: #0f0;
-        }
-
-        #exits-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
+        #exits-bar { display: flex; flex-wrap: wrap; gap: 6px; }
 
         .exit-btn {
             background-color: #000;
             color: #0f0;
             border: 1px solid #0f0;
-            padding: 5px 10px;
+            padding: 5px 8px;
             font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
+            font-size: 9px;
             cursor: pointer;
         }
+        .exit-btn.available:hover { background-color: #0f0; color: #000; }
 
-        .exit-btn.available:hover {
-            background-color: #0f0;
-            color: #000;
-        }
+        .look-target { color: #0af; text-decoration: underline; cursor: pointer; }
+        .look-target:hover { color: #0ff; }
 
-        .look-target {
-            color: #0af;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-
-        .look-target:hover {
-            color: #0ff;
-        }
-
-        /* Animations */
+        /* --- Animations --- */
         @keyframes puzzle-solved {
             0% { filter: brightness(1); }
             50% { filter: brightness(2); }
             100% { filter: brightness(1); }
-        }
-
-        @keyframes unlockPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
         }
 
         @keyframes itemGlow {
@@ -266,36 +210,15 @@
             100% { text-shadow: 0 0 15px #0f0; }
         }
 
-        .puzzle-solved {
-            animation: puzzle-solved 0.6s ease-in-out;
-        }
+        .puzzle-solved { animation: puzzle-solved 0.6s ease-in-out; }
 
         footer {
-            margin-top: 20px;
+            margin-top: 12px;
             text-align: center;
-            font-size: 10px;
+            font-size: 8px;
             color: #080;
+            padding: 8px 0;
         }
-
-        /* ── MOBILE FIX v3.0 ─────────────────────────────────────────
-         * The base layout above assumes desktop (height:100vh, side-by-side).
-         * These overrides restore a sane scrollable layout on mobile.
-         * ─────────────────────────────────────────────────────────── */
-        @media (max-width: 768px) {
-            body { height: auto !important; min-height: 100vh; overflow-y: auto !important; overflow-x: hidden !important; padding: 8px !important; }
-            h1 { font-size: 13px !important; }
-            h2 { font-size: 11px !important; }
-            #scene-name { font-size: 12px !important; }
-            .game-container { flex-direction: column !important; gap: 8px !important; flex: none !important; }
-            .art-panel { flex: none !important; min-height: 0 !important; width: 100% !important; aspect-ratio: 8 / 5; max-height: 56vw !important; }
-            .text-panel { flex: none !important; overflow: visible !important; padding: 10px !important; }
-            #text-display { max-height: 40vh !important; overflow-y: auto !important; }
-            .command-bar { flex-wrap: wrap !important; }
-            .cmd-btn { min-height: 44px !important; padding: 8px 10px !important; flex: 1 !important; font-size: 9px !important; }
-            .exit-btn { min-height: 44px !important; padding: 8px 10px !important; font-size: 9px !important; }
-            .inv-item { min-height: 36px !important; padding: 6px 8px !important; }
-        }
-        @media (max-width: 400px) { .art-panel { max-height: 50vw !important; } }
     </style>
 </head>
 <body>
@@ -303,41 +226,40 @@
         <h1>THE LAST SHOWMAN'S CARNIVAL</h1>
         <h2>Game #005</h2>
         <button id="hint-toggle" class="hint-toggle">HINTS: ON</button>
+            <button id="reset-btn" class="cmd-btn reset-btn" style="color:#ff6666;border-color:#ff6666;">RESET</button>
     </header>
 
     <div id="scene-name">THE LOBBY</div>
 
-    <div class="game-container">
-        <div class="art-panel">
-            <div id="art-display">
-                <!-- Art will be inserted here by JavaScript -->
+    <div class="art-panel">
+        <div id="art-display">
+            <!-- Art inserted by JavaScript -->
+        </div>
+    </div>
+
+    <div class="text-panel">
+        <div id="text-display">
+            <!-- Game text appears here -->
+        </div>
+        <div class="command-bar">
+            <button class="cmd-btn" data-cmd="look">LOOK</button>
+            <button class="cmd-btn" data-cmd="take">TAKE</button>
+            <button class="cmd-btn" data-cmd="use">USE</button>
+            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+        </div>
+    </div>
+
+    <div class="panels-row">
+        <div class="inventory-panel">
+            <h3>INVENTORY</h3>
+            <div id="inventory-bar">
+                <span id="inv-empty">(empty)</span>
             </div>
         </div>
-
-        <div class="text-panel">
-            <div id="text-display">
-                <!-- Game text will appear here -->
-            </div>
-
-            <div class="command-bar">
-                <button class="cmd-btn" data-cmd="look">LOOK</button>
-                <button class="cmd-btn" data-cmd="take">TAKE</button>
-                <button class="cmd-btn" data-cmd="use">USE</button>
-                <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
-            </div>
-
-            <div class="inventory-panel">
-                <h3>INVENTORY</h3>
-                <div id="inventory-bar">
-                    <span id="inv-empty">(empty)</span>
-                </div>
-            </div>
-
-            <div class="exits-panel">
-                <h3>EXITS</h3>
-                <div id="exits-bar">
-                    <!-- Exit buttons will appear here -->
-                </div>
+        <div class="exits-panel">
+            <h3>EXITS</h3>
+            <div id="exits-bar">
+                <!-- Exit buttons inserted by JavaScript -->
             </div>
         </div>
     </div>
@@ -350,294 +272,21 @@
     <script>
 // ============================================================
 // GAME DATA
-const GAME_DATA = {
-  "title": "The Last Showman's Carnival",
-  "slug": "the-last-showmans-carnival",
-  "number": 5,
-  "setting": "A derelict 1960s traveling carnival, abandoned for decades, with dark secrets buried beneath the rotting midway.",
-  "characters": [
-    {
-      "id": "madame_vesper",
-      "name": "Madame Vesper",
-      "description": "The carnival's fortune teller, now a ghostly presence in her wagon. Her crystal ball still glows with unnatural light."
-    },
-    {
-      "id": "grinning_man",
-      "name": "The Grinning Man",
-      "description": "A figure trapped behind the funhouse mirrors, never fully visible. The carnival's sideshow horror that never left."
-    },
-    {
-      "id": "barnaby_blackwood",
-      "name": "Barnaby Blackwood (echo)",
-      "description": "The carnival's last owner. His voice sometimes whispers from the carousel organ, a remnant of the final night."
-    }
-  ],
-  "items": [
-    {
-      "id": "rusty_key",
-      "name": "Rusty Key",
-      "description": "An old iron key, green with corrosion. Fits the padlock on the funhouse door.",
-      "foundIn": "midway",
-      "usedIn": "funhouse",
-      "usedOn": "funhouse_padlock"
-    },
-    {
-      "id": "broken_lever",
-      "name": "Broken Lever",
-      "description": "A metal lever with a chewed-up end. It once controlled the funhouse mirrors, but could fit another mechanism.",
-      "foundIn": "funhouse",
-      "usedIn": "carousel",
-      "usedOn": "gear_mechanism"
-    },
-    {
-      "id": "music_box",
-      "name": "Music Box",
-      "description": "A small brass music box. When wound, it plays a haunting fragment of 'The Carnival Waltz'.",
-      "foundIn": "carousel",
-      "usedIn": "fortune_wagon",
-      "usedOn": "crystal_ball"
-    },
-    {
-      "id": "crystal_lens",
-      "name": "Crystal Lens",
-      "description": "A clear, multifaceted lens that seems to gather light. Fits perfectly in the old film projector.",
-      "foundIn": "fortune_wagon",
-      "usedIn": "big_top",
-      "usedOn": "projector"
-    },
-    {
-      "id": "signal_flare",
-      "name": "Signal Flare",
-      "description": "A single red flare gun with one charge. Might be visible for miles in the dark.",
-      "foundIn": "big_top",
-      "usedIn": "midway",
-      "usedOn": "midway_entrance"
-    }
-  ],
-  "scenes": [
-    {
-      "id": "midway",
-      "name": "Midway Entrance",
-      "prose": "The carnival entrance is a graveyard of faded joy. A broken ticket booth tilts on rotted timber, its window smashed inward by decades of neglect. Beyond it stretches the midway \u2014 a corridor of rusted game booths and food stalls strangled by kudzu. The air is thick with the smell of wet earth and something else, something sweetly rotten beneath the decay. The giant Ferris wheel stands frozen against the twilight sky, its gondolas hanging like empty birdcages. A single working lamp flickers weakly over a rusted funhouse, its door padlocked with a heavy chain. To the east, the carousel sits silent, its wooden horses frozen mid-gallop. North, the looming silhouette of the Big Top tent sags under its own weight. West, a fortune teller's wagon leans precariously, its painted stars faded to ghosts.",
-      "exits": {
-        "east": "carousel",
-        "north": "big_top",
-        "west": "fortune_wagon",
-        "south": "sideshow_gallery",
-        "funhouse_door": "funhouse"
-      },
-      "items": [
-        "rusty_key"
-      ],
-      "puzzles": [
-        "finale_flare"
-      ],
-      "lookDescriptions": {
-        "ticket_booth": "The glass is gone, the counter covered in mildew and dead leaves. A faded poster still clings inside \u2014 'Blackwood's Traveling Carnival, 1963'.",
-        "funhouse_door": "Heavy oak with peeling clown paint. A thick rusted chain holds it shut, secured by an old padlock.",
-        "lamp_post": "The single electric lamp flickers arrhythmically, casting long, jumping shadows across the midway.",
-        "kudzu": "The vine has consumed half the booths, pulling them into a slow, green collapse."
-      }
-    },
-    {
-      "id": "funhouse",
-      "name": "The Funhouse",
-      "prose": "You step through the creaking door into a world of distorted reflections. The funhouse is a long, narrow corridor lined with warped mirrors that stretch and compress your image into grotesque shapes. The air is stale and smells of old varnish and mildew. At the far end, a huge mirror shows not your reflection, but the silhouette of a man in a faded ringmaster's coat \u2014 he turns and vanishes before you can focus. The floorboards groan with every step. To your left, a control panel for the hall of mirrors lies open, its wires frayed. A heavy lever sits disconnected from its mount. The only exit is back to the midway.",
-      "exits": {
-        "south": "midway"
-      },
-      "items": [
-        "broken_lever"
-      ],
-      "puzzles": [
-        "funhouse_padlock"
-      ],
-      "lookDescriptions": {
-        "mirrors": "They don't just distort \u2014 sometimes they show things that aren't there. A face in the glass, a hand reaching out, gone when you blink.",
-        "control_panel": "Rusted switches and torn wires. The lever mechanism is missing its handle.",
-        "silhouette_mirror": "The glass at the end holds no reflection of you \u2014 just that empty coat, turning away.",
-        "floorboards": "They creak in sequence, as if someone is walking beside you just out of sight."
-      }
-    },
-    {
-      "id": "carousel",
-      "name": "Carousel",
-      "prose": "The carousel is a ghostly carousel of painted horses and chariots, all frozen in a silent, eternal gallop. The central pole is wrapped in peeling gold leaf, and the platform is littered with dead leaves and broken glass. The calliope organ at the center is silent, its keys covered in dust. One horse \u2014 a black stallion with wild eyes \u2014 has a small compartment in its saddle that's slightly ajar. The air is cold here, and you can almost hear the faint echo of carnival music, a waltz played on a broken record. A rusty gear mechanism is visible beneath the platform, missing a lever to engage it.",
-      "exits": {
-        "west": "midway"
-      },
-      "items": [
-        "music_box"
-      ],
-      "puzzles": [
-        "gear_mechanism"
-      ],
-      "lookDescriptions": {
-        "horses": "Their painted eyes seem to follow you. The black stallion's mouth is open mid-snarl.",
-        "calliope": "Dusty keys, silent pipes. A faded music roll is still threaded through \u2014 'The Carnival Waltz'.",
-        "gear_mechanism": "A series of interlocking gears under the platform, rusted in place. A socket where a lever should fit is empty.",
-        "saddle_compartment": "On the black horse, a small hinged door hangs slightly open."
-      }
-    },
-    {
-      "id": "big_top",
-      "name": "Big Top Tent",
-      "prose": "The Big Top is a cavern of faded grandeur. The canvas sags overhead, stained with decades of rain and mildew. Rows of decaying bleachers face a central ring where sawdust has turned to black mud. A spotlight lies overturned, its lens cracked. At the far end, a stage holds a locked safe and an old film projector on a tripod. Costume racks line one wall \u2014 moth-eaten sequined dresses and clown suits that seem to shift when you're not looking. The air smells of wet canvas and old sweat. A trapdoor in the stage leads down into darkness, but it's rusted shut.",
-      "exits": {
-        "south": "midway"
-      },
-      "items": [
-        "signal_flare"
-      ],
-      "puzzles": [
-        "projector",
-        "safe"
-      ],
-      "lookDescriptions": {
-        "safe": "A heavy cast-iron safe with a combination dial. No markings except 'Blackwood' engraved on the front.",
-        "projector": "An old 16mm film projector, its lens missing. A reel is still threaded \u2014 'Carnival Memories, 1963'.",
-        "costumes": "They hang like empty people. One clown suit's grin seems wider than it was a moment ago.",
-        "trapdoor": "Rusted iron ring set into the stage floor. It won't budge."
-      }
-    },
-    {
-      "id": "fortune_wagon",
-      "name": "Fortune Teller's Wagon",
-      "prose": "Madame Vesper's wagon is a capsule of velvet and dust. Crystal balls and tarot cards litter a small round table draped in purple silk. The air is thick with the scent of sandalwood and something metallic. A large crystal ball on the table glows with a faint inner light, though no candle burns nearby. Shelves hold jars of herbs and curious trinkets \u2014 rabbit feet, dried flowers, animal bones. In one corner, a faded poster shows Madame Vesper, her eyes eerily lifelike. The wagon creaks with a rhythm that doesn't match the wind.",
-      "exits": {
-        "east": "midway"
-      },
-      "items": [
-        "crystal_lens"
-      ],
-      "puzzles": [
-        "crystal_ball"
-      ],
-      "lookDescriptions": {
-        "crystal_ball": "It glows with a soft, pulsing light. If you stare too long, shapes move inside \u2014 not your reflection.",
-        "tarot_cards": "The spread on the table shows The Tower, The Hanged Man, and Death. They weren't arranged that way when you entered.",
-        "poster": "Madame Vesper in her prime, eyes that seem to track you. The caption: 'See Your Fate \u2014 25\u00a2'.",
-        "jars": "Cloudy liquids with suspended shapes. One holds what looks like a human finger."
-      }
-    },
-    {
-      "id": "sideshow_gallery",
-      "name": "Sideshow Gallery",
-      "prose": "This long tent is lined with glass display cases, each containing something that shouldn't exist. A two-headed calf floats in formaldehyde. A jar claims to hold a mermaid's hand. A skeleton with too many ribs. The air is cold and smells of preservative chemicals. At the far end, a curtained stage bears a sign: 'The Grinning Man \u2014 See the Horror That Laughs!' The curtain is drawn shut. One display case is shattered, its contents missing. A hidden door behind a velvet drape leads backstage, but it's locked from the other side.",
-      "exits": {
-        "north": "midway"
-      },
-      "items": [],
-      "puzzles": [],
-      "lookDescriptions": {
-        "display_cases": "The specimens look almost real. The two-headed calf's eyes are open and glassy.",
-        "grinning_man_stage": "The curtain trembles slightly, as if someone is breathing behind it.",
-        "shattered_case": "Glass shards on the floor. A label reads 'The Last Laugh \u2014 The Grinning Man's Mask'.",
-        "velvet_drape": "Heavy burgundy velvet covering what might be a doorway."
-      }
-    }
-  ],
-  "puzzles": [
-    {
-      "id": "funhouse_padlock",
-      "scene": "funhouse",
-      "requires": [
-        "rusty_key"
-      ],
-      "action": "Use rusty key on the padlock",
-      "result": "The padlock clicks open. The chain falls away, and the funhouse door swings inward.",
-      "reveals": [
-        "funhouse"
-      ],
-      "blocksExit": "funhouse_door"
-    },
-    {
-      "id": "gear_mechanism",
-      "scene": "carousel",
-      "requires": [
-        "broken_lever"
-      ],
-      "action": "Insert broken lever into the gear socket",
-      "result": "The lever fits. With a grinding shriek, the gears turn. The carousel rotates once, and a compartment in the black horse's saddle pops open.",
-      "reveals": [
-        "music_box"
-      ],
-      "blocksExit": ""
-    },
-    {
-      "id": "crystal_ball",
-      "scene": "fortune_wagon",
-      "requires": [
-        "music_box"
-      ],
-      "action": "Wind the music box near the crystal ball",
-      "result": "The music box plays its haunting waltz. The crystal ball flashes bright, and inside, a multifaceted lens materializes.",
-      "reveals": [
-        "crystal_lens"
-      ],
-      "blocksExit": ""
-    },
-    {
-      "id": "projector",
-      "scene": "big_top",
-      "requires": [
-        "crystal_lens"
-      ],
-      "action": "Place crystal lens in the projector",
-      "result": "The lens snaps into place. The projector whirs to life, casting flickering numbers on the safe's face: '1883'.",
-      "reveals": [],
-      "blocksExit": ""
-    },
-    {
-      "id": "safe",
-      "scene": "big_top",
-      "requires": [],
-      "action": "Enter code 1883 on the safe dial",
-      "result": "The safe unlocks with a heavy thunk. Inside lies a single red flare gun.",
-      "reveals": [
-        "signal_flare"
-      ],
-      "blocksExit": ""
-    },
-    {
-      "id": "finale_flare",
-      "scene": "midway",
-      "requires": [
-        "signal_flare"
-      ],
-      "action": "Fire the signal flare into the sky",
-      "result": "The flare arcs high, burning brilliant red. Minutes later, headlights appear on the distant road. Rescue has seen your signal.",
-      "reveals": [],
-      "blocksExit": ""
-    }
-  ],
-  "winCondition": {
-    "scene": "midway",
-    "requires": [
-      "signal_flare"
-    ],
-    "description": "Fire the signal flare to alert rescuers and escape the carnival."
-  },
-  "ending": {
-    "title": "Escape from Blackwood's Carnival",
-    "prose": "You fire the flare gun into the night sky. The red spark arcs high above the derelict carnival, illuminating the midway in a blood-red glow. The Ferris wheel casts a long shadow across the rotting booths, and for just a second, you swear you see the carousel horses turn to watch. Minutes pass. Then headlights appear on the distant road \u2014 rescue has seen your signal. As you walk toward the approaching vehicles, you glance back at the funhouse one last time. In the flickering lamplight, a figure stands in the doorway \u2014 the Grinning Man, his smile too wide, his wave too friendly. He mouths something: 'See you next time.' The carnival lights flicker once, then die. When you look again, the funhouse door is closed. The carnival is dark. But you're free."
-  }
-};
 
 // ============================================================
 // GAME ART
-const GAME_ART = {
-  "midway": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark sky -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Ground -->\n  <rect y=\"320\" width=\"640\" height=\"80\" fill=\"#006600\"/>\n  \n  <!-- Ticket Booth -->\n  <rect x=\"50\" y=\"200\" width=\"80\" height=\"100\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"55\" y=\"205\" width=\"70\" height=\"20\" fill=\"#654321\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- Counter -->\n  <line x1=\"50\" y1=\"230\" x2=\"130\" y2=\"230\" stroke=\"#FFFFFF\" stroke-width=\"2\"/> <!-- Broken window -->\n  <rect x=\"60\" y=\"210\" width=\"20\" height=\"30\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/> <!-- Poster -->\n  \n  <!-- Kudzu vines -->\n  <path d=\"M100,280 Q120,260 140,280 Q160,300 180,280\" fill=\"none\" stroke=\"#006600\" stroke-width=\"3\"/>\n  <path d=\"M150,300 Q170,280 190,300 Q210,320 230,300\" fill=\"none\" stroke=\"#006600\" stroke-width=\"3\"/>\n  \n  <!-- Rusted game booths -->\n  <rect x=\"200\" y=\"220\" width=\"60\" height=\"80\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"270\" y=\"200\" width=\"60\" height=\"100\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"340\" y=\"210\" width=\"60\" height=\"90\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Food stalls -->\n  <rect x=\"410\" y=\"230\" width=\"50\" height=\"70\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"470\" y=\"220\" width=\"50\" height=\"80\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Ferris wheel -->\n  <circle cx=\"550\" cy=\"150\" radius=\"80\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <line x1=\"550\" y1=\"70\" x2=\"550\" y2=\"230\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <line x1=\"470\" y1=\"150\" x2=\"630\" y2=\"150\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <line x1=\"550\" y1=\"70\" x2=\"470\" y2=\"110\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"550\" y1=\"70\" x2=\"630\" y2=\"110\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"550\" y1=\"230\" x2=\"470\" y2=\"190\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"550\" y1=\"230\" x2=\"630\" y2=\"190\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Gondolas -->\n  <rect x=\"470\" y=\"65\" width=\"20\" height=\"30\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"550\" y=\"65\" width=\"20\" height=\"30\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"610\" y=\"65\" width=\"20\" height=\"30\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"470\" y=\"235\" width=\"20\" height=\"30\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"550\" y=\"235\" width=\"20\" height=\"30\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"610\" y=\"235\" width=\"20\" height=\"30\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Lamp post -->\n  <rect x=\"300\" y=\"100\" width=\"4\" height=\"120\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"302\" cy=\"100\" radius=\"8\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Funhouse -->\n  <rect x=\"100\" y=\"180\" width=\"120\" height=\"100\" fill=\"#DEB887\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"110\" y=\"190\" width=\"100\" height=\"20\" fill=\"#FF8C00\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- Clown paint -->\n  <rect x=\"140\" y=\"210\" width=\"40\" height=\"50\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- Door -->\n  <rect x=\"150\" y=\"220\" width=\"20\" height=\"30\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- Padlock -->\n  <line x1=\"160\" y1=\"200\" x2=\"160\" y2=\"250\" stroke=\"#000000\" stroke-width=\"3\"/> <!-- Chain -->\n  \n  <!-- Carousel (in distance) -->\n  <rect x=\"400\" y=\"150\" width=\"60\" height=\"60\" fill=\"#DAA520\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"430\" cy=\"180\" radius=\"30\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"430\" y1=\"150\" x2=\"430\" y2=\"210\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"400\" y1=\"180\" x2=\"460\" y2=\"180\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Big Top Tent (in distance) -->\n  <line x1=\"500\" y1=\"80\" x2=\"580\" y2=\"150\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"580\" y1=\"150\" x2=\"500\" y2=\"220\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"500\" y1=\"80\" x2=\"500\" y2=\"220\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Fortune Teller Wagon (in distance) -->\n  <rect x=\"80\" y=\"220\" width=\"60\" height=\"40\" fill=\"#9400D3\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"90\" y=\"200\" width=\"40\" height=\"20\" fill=\"#9400D3\" stroke=\"#000000\" stroke-width=\"2\"/>\n</svg>",
-  "funhouse": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Funhouse Scene -->\n  <!-- Background: Dark interior -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#8B4513\"/>\n  \n  <!-- Funhouse corridor walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"50\" fill=\"#8B0000\"/>\n  <rect x=\"0\" y=\"350\" width=\"640\" height=\"50\" fill=\"#8B0000\"/>\n  <rect x=\"0\" y=\"50\" width=\"50\" height=\"300\" fill=\"#8B0000\"/>\n  <rect x=\"590\" y=\"50\" width=\"50\" height=\"300\" fill=\"#8B0000\"/>\n  \n  <!-- Warped mirrors -->\n  <rect x=\"100\" y=\"80\" width=\"40\" height=\"200\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"160\" y=\"60\" width=\"40\" height=\"240\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"220\" y=\"100\" width=\"40\" height=\"160\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"280\" y=\"80\" width=\"40\" height=\"200\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"340\" y=\"60\" width=\"40\" height=\"240\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"400\" y=\"100\" width=\"40\" height=\"160\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"460\" y=\"80\" width=\"40\" height=\"200\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"520\" y=\"60\" width=\"40\" height=\"240\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Control panel -->\n  <rect x=\"120\" y=\"280\" width=\"100\" height=\"50\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"130\" y=\"290\" width=\"20\" height=\"10\" fill=\"#FF0000\"/>\n  <rect x=\"160\" y=\"290\" width=\"20\" height=\"10\" fill=\"#00FF00\"/>\n  <rect x=\"190\" y=\"290\" width=\"20\" height=\"10\" fill=\"#0000FF\"/>\n  <line x1=\"170\" y1=\"270\" x2=\"170\" y2=\"320\" stroke=\"#000000\" stroke-width=\"4\"/>\n  \n  <!-- Silhouette mirror at end -->\n  <rect x=\"540\" y=\"100\" width=\"80\" height=\"180\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"550\" y=\"120\" width=\"60\" height=\"20\" fill=\"#8B0000\"/>\n  <line x1=\"580\" y1=\"140\" x2=\"600\" y2=\"160\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"580\" y1=\"160\" x2=\"600\" y2=\"140\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  \n  <!-- Floorboard lines -->\n  <line x1=\"0\" y1=\"360\" x2=\"640\" y2=\"360\" stroke=\"#654321\" stroke-width=\"1\"/>\n  <line x1=\"0\" y1=\"370\" x2=\"640\" y2=\"370\" stroke=\"#654321\" stroke-width=\"1\"/>\n  <line x1=\"0\" y1=\"380\" x2=\"640\" y2=\"380\" stroke=\"#654321\" stroke-width=\"1\"/>\n  <line x1=\"0\" y1=\"390\" x2=\"640\" y2=\"390\" stroke=\"#654321\" stroke-width=\"1\"/>\n</svg>",
-  "carousel": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark sky -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Ground -->\n  <rect y=\"320\" width=\"640\" height=\"80\" fill=\"#006600\"/>\n  \n  <!-- Carousel platform -->\n  <ellipse cx=\"320\" cy=\"300\" rx=\"200\" ry=\"40\" fill=\"#DAA520\" stroke=\"#000000\" stroke-width=\"3\"/>\n  \n  <!-- Central pole -->\n  <rect x=\"315\" y=\"100\" width=\"10\" height=\"200\" fill=\"#DAA520\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Carousel roof -->\n  <polygon points=\"320,50 400,150 240,150\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <polygon points=\"320,70 380,150 260,150\" fill=\"#FF8C00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Horses -->\n  <!-- Black stallion with wild eyes -->\n  <path d=\"M200,280 Q210,260 230,260 Q240,260 250,270 Q260,280 250,300 Q240,310 230,310 Q220,310 210,300 Z\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"220\" cy=\"270\" r=\"3\" fill=\"#FFFFFF\"/> <!-- Eye -->\n  <rect x=\"230\" y=\"260\" width=\"20\" height=\"10\" fill=\"#000000\"/> <!-- Mane -->\n  <rect x=\"240\" y=\"270\" width=\"10\" height=\"8\" fill=\"#000000\"/> <!-- Mouth open -->\n  \n  <!-- White horse -->\n  <path d=\"M350,280 Q360,260 380,260 Q390,260 400,270 Q410,280 400,300 Q390,310 380,310 Q370,310 360,300 Z\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"370\" cy=\"270\" r=\"3\" fill=\"#000000\"/> <!-- Eye -->\n  <rect x=\"380\" y=\"260\" width=\"20\" height=\"10\" fill=\"#FFFFFF\"/> <!-- Mane -->\n  \n  <!-- Red horse -->\n  <path d=\"M280,280 Q290,260 310,260 Q320,260 330,270 Q340,280 330,300 Q320,310 310,310 Q300,310 290,300 Z\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"300\" cy=\"270\" r=\"3\" fill=\"#FFFFFF\"/> <!-- Eye -->\n  <rect x=\"310\" y=\"260\" width=\"20\" height=\"10\" fill=\"#8B0000\"/> <!-- Mane -->\n  \n  <!-- Chariot -->\n  <rect x=\"420\" y=\"270\" width=\"60\" height=\"30\" fill=\"#DAA520\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"430\" y=\"260\" width=\"40\" height=\"10\" fill=\"#FF8C00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Calliope organ -->\n  <rect x=\"300\" y=\"220\" width=\"40\" height=\"40\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"305\" y=\"225\" width=\"30\" height=\"10\" fill=\"#FFFFFF\"/> <!-- Keys -->\n  <line x1=\"310\" y1=\"235\" x2=\"330\" y2=\"235\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"310\" y=\"200\" width=\"5\" height=\"20\" fill=\"#DAA520\"/> <!-- Pipe -->\n  <rect x=\"320\" y=\"195\" width=\"5\" height=\"25\" fill=\"#DAA520\"/> <!-- Pipe -->\n  <rect x=\"330\" y=\"190\" width=\"5\" height=\"30\" fill=\"#DAA520\"/> <!-- Pipe -->\n  \n  <!-- Gear mechanism -->\n  <circle cx=\"320\" cy=\"340\" r=\"20\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <line x1=\"320\" y1=\"320\" x2=\"320\" y2=\"360\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"300\" y1=\"340\" x2=\"340\" y2=\"340\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"350\" y=\"335\" width=\"20\" height=\"10\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- Socket -->\n  \n  <!-- Dead leaves and debris -->\n  <ellipse cx=\"250\" cy=\"340\" rx=\"10\" ry=\"5\" fill=\"#654321\"/>\n  <ellipse cx=\"380\" cy=\"345\" rx=\"8\" ry=\"4\" fill=\"#654321\"/>\n  <ellipse cx=\"300\" cy=\"350\" rx=\"12\" ry=\"6\" fill=\"#654321\"/>\n  <rect x=\"400\" y=\"340\" width=\"15\" height=\"5\" fill=\"#654321\"/> <!-- Broken glass -->\n</svg>",
-  "big_top": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark interior -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Ground (sawdust turned to black mud) -->\n  <rect y=\"320\" width=\"640\" height=\"80\" fill=\"#000000\"/>\n  \n  <!-- Tent canvas ceiling -->\n  <polygon points=\"320,20 640,150 640,50 320,80 0,50 0,150\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"320\" y1=\"20\" x2=\"0\" y2=\"150\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"320\" y1=\"20\" x2=\"640\" y2=\"150\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"320\" y1=\"20\" x2=\"320\" y2=\"150\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Bleachers -->\n  <rect x=\"50\" y=\"250\" width=\"150\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"200\" y=\"270\" width=\"150\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"350\" y=\"250\" width=\"150\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"500\" y=\"270\" width=\"100\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Center ring -->\n  <ellipse cx=\"320\" cy=\"320\" rx=\"80\" ry=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Stage -->\n  <rect x=\"250\" y=\"150\" width=\"140\" height=\"40\" fill=\"#DAA520\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Safe -->\n  <rect x=\"270\" y=\"160\" width=\"40\" height=\"30\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"290\" cy=\"175\" r=\"8\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"1\"/> <!-- Dial -->\n  <text x=\"275\" y=\"180\" font-family=\"serif\" font-size=\"8\" fill=\"#000000\">Blackwood</text>\n  \n  <!-- Projector -->\n  <rect x=\"320\" y=\"160\" width=\"30\" height=\"20\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"340\" y=\"165\" width=\"10\" height=\"5\" fill=\"#000000\"/> <!-- Lens mount -->\n  <line x1=\"335\" y1=\"180\" x2=\"335\" y2=\"200\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- Tripod -->\n  <line x1=\"325\" y1=\"180\" x2=\"320\" y2=\"200\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"345\" y1=\"180\" x2=\"350\" y2=\"200\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Costume rack -->\n  <rect x=\"50\" y=\"180\" width=\"80\" height=\"60\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"50\" y1=\"190\" x2=\"130\" y2=\"190\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- Rack -->\n  <!-- Sequined dresses -->\n  <polygon points=\"60,190 70,210 80,190\" fill=\"#FF8C00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"90,190 100,210 110,190\" fill=\"#0000FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Clown suit -->\n  <polygon points=\"120,190 130,220 140,190\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"130\" cy=\"185\" r=\"5\" fill=\"#FFFFFF\"/> <!-- Grin -->\n  \n  <!-- Overturned spotlight -->\n  <rect x=\"450\" y=\"280\" width=\"40\" height=\"20\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"470\" cy=\"290\" r=\"10\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- Cracked lens -->\n  <line x1=\"460\" y1=\"290\" x2=\"480\" y2=\"290\" stroke=\"#FFFFFF\" stroke-width=\"1\"/> <!-- Crack -->\n  <line x1=\"470\" y1=\"280\" x2=\"470\" y2=\"300\" stroke=\"#FFFFFF\" stroke-width=\"1\"/> <!-- Crack -->\n  \n  <!-- Trapdoor -->\n  <rect x=\"300\" y=\"350\" width=\"40\" height=\"20\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"320\" cy=\"360\" r=\"5\" fill=\"#000000\"/> <!-- Iron ring -->\n</svg>",
-  "fortune_wagon": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark interior -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Wagon walls -->\n  <rect x=\"50\" y=\"50\" width=\"540\" height=\"300\" fill=\"#9400D3\" stroke=\"#000000\" stroke-width=\"3\"/>\n  \n  <!-- Velvet drapes -->\n  <rect x=\"60\" y=\"60\" width=\"520\" height=\"20\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <path d=\"M60,80 Q100,120 140,80 Q180,40 220,80 Q260,120 300,80 Q340,40 380,80 Q420,120 460,80 Q500,40 540,80 L540,350 L60,350 Z\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Round table -->\n  <ellipse cx=\"320\" cy=\"250\" rx=\"80\" ry=\"30\" fill=\"#9400D3\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"240\" y=\"280\" width=\"160\" height=\"40\" fill=\"#9400D3\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- Table leg -->\n  \n  <!-- Purple silk tablecloth -->\n  <ellipse cx=\"320\" cy=\"250\" rx=\"85\" ry=\"35\" fill=\"#9400D3\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Crystal ball -->\n  <circle cx=\"320\" cy=\"220\" r=\"30\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"320\" cy=\"220\" r=\"20\" fill=\"#E0FFFF\" opacity=\"0.5\"/> <!-- Glow -->\n  <circle cx=\"320\" cy=\"220\" r=\"10\" fill=\"#FFFFFF\" opacity=\"0.3\"/> <!-- Inner glow -->\n  <rect x=\"290\" y=\"250\" width=\"60\" height=\"10\" fill=\"#DAA520\" stroke=\"#000000\" stroke-width=\"1\"/> <!-- Base -->\n  \n  <!-- Tarot cards on table -->\n  <rect x=\"250\" y=\"240\" width=\"20\" height=\"30\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"280\" y=\"235\" width=\"20\" height=\"30\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"310\" y=\"240\" width=\"20\" height=\"30\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <text x=\"255\" y=\"255\" font-family=\"serif\" font-size=\"6\" fill=\"#000000\">Tower</text>\n  <text x=\"283\" y=\"250\" font-family=\"serif\" font-size=\"6\" fill=\"#000000\">Hanged</text>\n  <text x=\"315\" y=\"255\" font-family=\"serif\" font-size=\"6\" fill=\"#000000\">Death</text>\n  \n  <!-- Shelves with jars -->\n  <rect x=\"100\" y=\"150\" width=\"150\" height=\"10\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"400\" y=\"150\" width=\"150\" height=\"10\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Jars -->\n  <rect x=\"110\" y=\"120\" width=\"20\" height=\"30\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"140\" y=\"125\" width=\"20\" height=\"25\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"170\" y=\"120\" width=\"20\" height=\"30\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"410\" y=\"120\" width=\"20\" height=\"30\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"440\" y=\"125\" width=\"20\" height=\"25\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"470\" y=\"120\" width=\"20\" height=\"30\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Poster of Madame Vesper -->\n  <rect x=\"250\" y=\"80\" width=\"140\" height=\"100\" fill=\"#FF8C00\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"320\" cy=\"110\" r=\"20\" fill=\"#FF8C00\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- Head -->\n  <ellipse cx=\"320\" cy=\"130\" rx=\"25\" ry=\"15\" fill=\"#9400D3\" stroke=\"#000000\" stroke-width=\"1\"/> <!-- Body -->\n  <text x=\"270\" y=\"165\" font-family=\"serif\" font-size=\"10\" fill=\"#000000\">See Your Fate - 25\u00a2</text>\n  \n  <!-- Rabbit foot -->\n  <ellipse cx=\"120\" cy=\"135\" rx=\"8\" ry=\"5\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Dried flowers -->\n  <circle cx=\"150\" cy=\"135\" r=\"4\" fill=\"#FF8C00\"/>\n  <circle cx=\"155\" cy=\"130\" r=\"4\" fill=\"#FF8C00\"/>\n  <circle cx=\"145\" cy=\"130\" r=\"4\" fill=\"#FF8C00\"/>\n  \n  <!-- Animal bones -->\n  <rect x=\"420\" y=\"130\" width=\"15\" height=\"4\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"420\" cy=\"132\" r=\"3\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"435\" cy=\"132\" r=\"3\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
-  "sideshow_gallery": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Sideshow Gallery Scene -->\n  <!-- Background: Dark interior -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#006600\"/>\n  \n  <!-- Tent walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"50\" fill=\"#8B0000\"/>\n  <rect x=\"0\" y=\"0\" width=\"50\" height=\"350\" fill=\"#8B0000\"/>\n  <rect x=\"590\" y=\"0\" width=\"50\" height=\"350\" fill=\"#8B0000\"/>\n  \n  <!-- Display cases -->\n  <!-- Two-headed calf -->\n  <rect x=\"100\" y=\"100\" width=\"80\" height=\"120\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"110\" y=\"110\" width=\"60\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"120\" cy=\"125\" r=\"8\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"135\" cy=\"125\" r=\"8\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"118\" cy=\"125\" r=\"3\" fill=\"#FFFFFF\"/>\n  <circle cx=\"133\" cy=\"125\" r=\"3\" fill=\"#FFFFFF\"/>\n  \n  <!-- Mermaid's hand -->\n  <rect x=\"250\" y=\"100\" width=\"80\" height=\"120\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <path d=\"M280,180 Q290,160 300,180 Q310,160 320,180\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"2\"/>\n  <text x=\"260\" y=\"110\" font-family=\"serif\" font-size=\"8\" fill=\"#000000\">Mermaid</text>\n  \n  <!-- Skeleton -->\n  <rect x=\"400\" y=\"100\" width=\"80\" height=\"120\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"440\" cy=\"120\" r=\"15\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"440\" y1=\"135\" x2=\"440\" y2=\"200\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"420\" y1=\"150\" x2=\"460\" y2=\"150\" stroke=\"#FFFFFF\" stroke-width=\"1\"/>\n  <line x1=\"415\" y1=\"160\" x2=\"465\" y2=\"160\" stroke=\"#FFFFFF\" stroke-width=\"1\"/>\n  <line x1=\"418\" y1=\"170\" x2=\"462\" y2=\"170\" stroke=\"#FFFFFF\" stroke-width=\"1\"/>\n  <line x1=\"412\" y1=\"180\" x2=\"468\" y2=\"180\" stroke=\"#FFFFFF\" stroke-width=\"1\"/>\n  <line x1=\"416\" y1=\"190\" x2=\"464\" y2=\"190\" stroke=\"#FFFFFF\" stroke-width=\"1\"/>\n  \n  <!-- Shattered display case -->\n  <rect x=\"50\" y=\"250\" width=\"100\" height=\"80\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"60\" y1=\"260\" x2=\"140\" y2=\"320\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <line x1=\"140\" y1=\"260\" x2=\"60\" y2=\"320\" stroke=\"#FFFFFF\" stroke-width=\"2\"/>\n  <text x=\"60\" y=\"280\" font-family=\"serif\" font-size=\"8\" fill=\"#000000\">Last Laugh</text>\n  \n  <!-- Grinning Man stage -->\n  <rect x=\"300\" y=\"250\" width=\"140\" height=\"100\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <path d=\"M300,250 Q320,280 340,250 Q360,220 380,250 Q400,280 420,250 Q440,220 440,250\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <text x=\"320\" y=\"240\" font-family=\"serif\" font-size=\"10\" fill=\"#FFFFFF\">Grinning Man</text>\n  \n  <!-- Velvet drape -->\n  <rect x=\"500\" y=\"150\" width=\"80\" height=\"150\" fill=\"#800080\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <path d=\"M500,150 Q520,180 540,150 Q560,120 580,150\" fill=\"#800080\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"530\" y=\"220\" width=\"20\" height=\"30\" fill=\"#000000\"/>\n  \n  <!-- Glass shards -->\n  <polygon points=\"70,340 80,335 75,345\" fill=\"#FFFFFF\"/>\n  <polygon points=\"120,345 130,340 125,350\" fill=\"#FFFFFF\"/>\n  <polygon points=\"90,350 100,345 95,355\" fill=\"#FFFFFF\"/>\n</svg>",
-  "rusty_key": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Rusty Key -->\n  <rect x=\"10\" y=\"28\" width=\"44\" height=\"8\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Bow (handle) -->\n  <circle cx=\"18\" cy=\"32\" r=\"10\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"18\" cy=\"32\" r=\"6\" fill=\"#000000\"/>\n  <!-- Bit (teeth) -->\n  <rect x=\"46\" y=\"36\" width=\"8\" height=\"4\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"50\" y=\"40\" width=\"4\" height=\"4\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Rust spots -->\n  <circle cx=\"25\" cy=\"30\" r=\"2\" fill=\"#006600\"/>\n  <circle cx=\"35\" cy=\"32\" r=\"2\" fill=\"#006600\"/>\n  <circle cx=\"45\" cy=\"34\" r=\"2\" fill=\"#006600\"/>\n</svg>",
-  "broken_lever": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Broken Lever -->\n  <!-- Main shaft -->\n  <rect x=\"28\" y=\"10\" width=\"8\" height=\"44\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Handle (chewed up end) -->\n  <rect x=\"24\" y=\"44\" width=\"16\" height=\"10\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"26\" y=\"50\" width=\"4\" height=\"4\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/> <!-- Chewed -->\n  <rect x=\"34\" y=\"48\" width=\"4\" height=\"4\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/> <!-- Chewed -->\n  <!-- Top attachment point -->\n  <rect x=\"26\" y=\"6\" width=\"12\" height=\"6\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <circle cx=\"32\" cy=\"9\" r=\"2\" fill=\"#000000\"/> <!-- Hole -->\n  <!-- Rust and damage -->\n  <rect x=\"30\" y=\"18\" width=\"4\" height=\"2\" fill=\"#006600\"/> <!-- Rust -->\n  <rect x=\"29\" y=\"25\" width=\"6\" height=\"2\" fill=\"#006600\"/> <!-- Rust -->\n</svg>",
-  "music_box": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Music Box -->\n  <!-- Main body -->\n  <rect x=\"12\" y=\"20\" width=\"40\" height=\"30\" fill=\"#DAA520\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Lid -->\n  <rect x=\"14\" y=\"16\" width=\"36\" height=\"8\" fill=\"#DAA520\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"14\" y1=\"24\" x2=\"50\" y2=\"24\" stroke=\"#000000\" stroke-width=\"1\"/> <!-- Lid seam -->\n  <!-- Hinges -->\n  <rect x=\"20\" y=\"18\" width=\"4\" height=\"2\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"40\" y=\"18\" width=\"4\" height=\"2\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Clasp -->\n  <rect x=\"28\" y=\"30\" width=\"8\" height=\"6\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"32\" cy=\"33\" r=\"2\" fill=\"#000000\"/> <!-- Keyhole -->\n  <!-- Decorative pattern -->\n  <circle cx=\"32\" cy=\"40\" r=\"6\" fill=\"none\" stroke=\"#8B4513\" stroke-width=\"1\"/>\n  <circle cx=\"32\" cy=\"40\" r=\"3\" fill=\"#8B4513\"/>\n  <!-- Music notes (subtle) -->\n  <text x=\"50\" y=\"14\" font-family=\"serif\" font-size=\"8\" fill=\"#FFFFFF\">\u266a</text>\n</svg>",
-  "crystal_lens": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Crystal Lens -->\n  <!-- Lens shape -->\n  <ellipse cx=\"32\" cy=\"32\" rx=\"20\" ry=\"20\" fill=\"#ADD8E6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Inner facets -->\n  <polygon points=\"32,12 40,24 32,52 24,24\" fill=\"#E0FFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"32,12 52,32 40,24\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"32,12 12,32 24,24\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"12,32 24,40 32,52\" fill=\"#E0FFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"52,32 40,40 32,52\" fill=\"#E0FFFF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Center highlight -->\n  <circle cx=\"32\" cy=\"32\" r=\"4\" fill=\"#FFFFFF\"/>\n  <!-- Light gathering effect -->\n  <circle cx=\"32\" cy=\"32\" r=\"16\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.5\"/>\n  <!-- Frame/mount -->\n  <rect x=\"28\" y=\"8\" width=\"8\" height=\"4\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"28\" y=\"52\" width=\"8\" height=\"4\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
-  "signal_flare": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Signal Flare -->\n  <!-- Flare gun body -->\n  <rect x=\"16\" y=\"30\" width=\"32\" height=\"16\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Barrel -->\n  <rect x=\"40\" y=\"24\" width=\"16\" height=\"12\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Handle -->\n  <rect x=\"20\" y=\"46\" width=\"12\" height=\"12\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Trigger -->\n  <rect x=\"32\" y=\"38\" width=\"6\" height=\"6\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Flare (red tip) -->\n  <rect x=\"52\" y=\"26\" width=\"8\" height=\"8\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Flare glow -->\n  <circle cx=\"56\" cy=\"30\" r=\"8\" fill=\"#FF0000\" opacity=\"0.3\"/>\n  <circle cx=\"56\" cy=\"30\" r=\"4\" fill=\"#FF4500\" opacity=\"0.5\"/>\n  <!-- Sight -->\n  <rect x=\"44\" y=\"22\" width=\"4\" height=\"4\" fill=\"#696969\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>"
+var GAME_ART = {
+    "midway": "<img src='art/scene-midway.png' alt='midway scene' loading=lazy/>",
+    "funhouse": "<img src='art/scene-funhouse.png' alt='funhouse scene' loading=lazy/>",
+    "carousel": "<img src='art/scene-carousel.png' alt='carousel scene' loading=lazy/>",
+    "big_top": "<img src='art/scene-big_top.png' alt='big_top scene' loading=lazy/>",
+    "fortune_wagon": "<img src='art/scene-fortune_wagon.png' alt='fortune_wagon scene' loading=lazy/>",
+    "sideshow_gallery": "<img src='art/scene-sideshow_gallery.png' alt='sideshow_gallery scene' loading=lazy/>",
+    "rusty_key": "<img src='art/item-rusty_key.png' alt='rusty_key scene' loading=lazy/>",
+    "broken_lever": "<img src='art/item-broken_lever.png' alt='broken_lever scene' loading=lazy/>",
+    "music_box": "<img src='art/item-music_box.png' alt='music_box scene' loading=lazy/>",
+    "crystal_lens": "<img src='art/item-crystal_lens.png' alt='crystal_lens scene' loading=lazy/>",
+    "signal_flare": "<img src='art/item-signal_flare.png' alt='signal_flare scene' loading=lazy/>"
 };
 
 // ============================================================
@@ -647,7 +296,7 @@ const GAME_ART = {
 // Data-driven point-and-click adventure engine
 // ============================================================
 
-const GAME_DATA = {
+var GAME_DATA = {
   "title": "The Last Showman's Carnival",
   "slug": "the-last-showmans-carnival",
   "setting": "A derelict 1960s traveling carnival, abandoned for decades, with dark secrets buried beneath the rotting midway.",

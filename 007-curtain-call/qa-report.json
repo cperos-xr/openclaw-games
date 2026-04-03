@@ -1,0 +1,168 @@
+{
+  "game": "007-curtain-call",
+  "file": "games/007-curtain-call/game.html",
+  "timestamp": "2026-04-03T06:26:04.461Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-conductor-baton.svg\" has 7 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/007-curtain-call/art/item-conductor-baton.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-cue-sheet.svg\" has 9 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/007-curtain-call/art/item-cue-sheet.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-ghost-light.svg\" has 4 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/007-curtain-call/art/item-ghost-light.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-illuminated-mirror.svg\" has 4 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/007-curtain-call/art/item-illuminated-mirror.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-makeup-kit.svg\" has 3 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/007-curtain-call/art/item-makeup-kit.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-backstage.svg\" has 9 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/007-curtain-call/art/scene-backstage.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-catwalk.svg\" uses 13 colors (max recommended 8)",
+      "location": "games/007-curtain-call/art/scene-catwalk.svg",
+      "expected": "<= 8 colors",
+      "actual": "13 colors: fill, #0a0008, #1a0015, stroke, #4a0035, #330028, #ff0000, #00ff00, #ffffff, #ffff00",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-008",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-catwalk.svg\" has 15 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/007-curtain-call/art/scene-catwalk.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-009",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-dressing-rooms.svg\" uses 15 colors (max recommended 8)",
+      "location": "games/007-curtain-call/art/scene-dressing-rooms.svg",
+      "expected": "<= 8 colors",
+      "actual": "15 colors: fill, #0a0008, #050004, #1a0015, stroke, #4a0035, #2b001e, #330028, #ff8800, #ffff00",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-010",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-dressing-rooms.svg\" has 13 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/007-curtain-call/art/scene-dressing-rooms.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-011",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-foyer.svg\" uses 11 colors (max recommended 8)",
+      "location": "games/007-curtain-call/art/scene-foyer.svg",
+      "expected": "<= 8 colors",
+      "actual": "11 colors: fill, #2b001e, #1a0015, #330028, #4a0035, stroke, #8b004b, #ffffff, #ffff00, #ff8800",
+      "suggestedFix": "Reduce color palette for Apple II aesthetic",
+      "assignTo": "devstral-art-coder"
+    },
+    {
+      "id": "BUG-012",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"scene-stage.svg\" has 4 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "games/007-curtain-call/art/scene-stage.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 6,
+    "items": 6,
+    "puzzles": 5,
+    "reachableScenes": 6,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 12,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 12 issues (0 CRITICAL, 0 HIGH, 0 MEDIUM, 12 LOW)"
+}

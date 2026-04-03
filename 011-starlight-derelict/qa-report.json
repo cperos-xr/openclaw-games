@@ -1,0 +1,124 @@
+{
+  "game": "011-starlight-derelict",
+  "file": "games/011-starlight-derelict/game.html",
+  "timestamp": "2026-04-03T06:26:04.627Z",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"airlock\" prose too short: 42 words (min 60)",
+      "location": "scenes.airlock.prose",
+      "expected": "60-400 words",
+      "actual": "42 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"maintenance-bay\" prose too short: 37 words (min 60)",
+      "location": "scenes.maintenance-bay.prose",
+      "expected": "60-400 words",
+      "actual": "37 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"crew-quarters\" prose too short: 31 words (min 60)",
+      "location": "scenes.crew-quarters.prose",
+      "expected": "60-400 words",
+      "actual": "31 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "LOW",
+      "category": "data",
+      "description": "Scene \"crew-quarters\" has only 1 lookDescriptions (recommend >= 3)",
+      "location": "scenes.crew-quarters.lookDescriptions",
+      "expected": ">= 3",
+      "actual": "1",
+      "suggestedFix": "Add more interactive objects",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"engineering-bay\" prose too short: 41 words (min 60)",
+      "location": "scenes.engineering-bay.prose",
+      "expected": "60-400 words",
+      "actual": "41 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"laboratory\" prose too short: 39 words (min 60)",
+      "location": "scenes.laboratory.prose",
+      "expected": "60-400 words",
+      "actual": "39 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-007",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"storage-room\" prose too short: 47 words (min 60)",
+      "location": "scenes.storage-room.prose",
+      "expected": "60-400 words",
+      "actual": "47 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-008",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "Scene \"pod-bay\" prose too short: 48 words (min 60)",
+      "location": "scenes.pod-bay.prose",
+      "expected": "60-400 words",
+      "actual": "48 words",
+      "suggestedFix": "Expand scene prose",
+      "assignTo": "brian-shakespeare"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "max-width constraint present",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 7,
+    "items": 6,
+    "puzzles": 5,
+    "reachableScenes": 7,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 13,
+    "artAssetsMissing": 0
+  },
+  "summary": "PASS — 8 issues (0 CRITICAL, 0 HIGH, 7 MEDIUM, 1 LOW)"
+}

@@ -1,0 +1,22 @@
+{
+  "scenes": {
+    "library": {
+      "name": "Library & Observatory",
+      "brief": "The door opens on air thick with old paper, machine oil, and ozone. Bookshelves line the curved walls, packed with volumes whose titles your eyes slide off — *Paradox Mechanics*, *The Cartography of Hours*, *On the Inward Geometry of Temporal Collapse*. A brass telescope points not through a window but up at the painted dome — and the dome is wrong. Ursa Major has a star in the wrong position. Orion carries a third sword. Unknown constellations — *The Jaw*, *The Pendulum*, something like an eye — form a spiral tightening inward, toward *here*. On a pedestal, a chronometer ticks with the organic rhythm of a heartbeat, warm and alive against your fingertips.",
+      "style": "Apple II aesthetic: geometric shapes, limited palette (brass, copper, deep blues/purples), thick stroke lines, 640x400 viewport, 6-8 colors, pixelated look, dithering for shading, scanlines, low resolution, bold outlines, chunky polygons, high contrast between lit surfaces and black shadows, cold and eerie mood, hand-drawn feel, thick uneven ink lines, geometric but slightly warped, like a CRT screen glitch."
+    },
+    "gear-chamber": {
+      "name": "Gear Chamber",
+      "brief": "You step inside and your hindbrain screams. The vertical shaft drops into darkness below and climbs into more darkness above, lined with gears the size of coffins. They interlock in patterns that hurt to follow — forward, backward, sideways through grooves that shouldn't exist. The vibration isn't a sound; it's a pressure behind your eardrums, the kind of grinding that makes your fillings ache. Blue light from above paints everything in fractured cobalt, making the gears look wet. Alive. They *breathe* — each rotation accompanied by a faint exhalation of ozone and old pennies. Temporal static. A control panel to your left holds a slot the exact size of the chronometer. The mechanism wants feeding.",
+      "style": "Apple II aesthetic: sharp geometric shapes, limited palette (brass, copper, cobalt blue, deep purple), thick stroke lines, 640x400 viewport, 6-8 colors, pixelated look, dithering for shading, scanlines, low resolution, bold outlines, chunky polygons, high contrast, cold and eerie mood, geometric but slightly warped, like a CRT screen glitch."
+    },
+    "workshop": {
+      "name": "Ground Floor Workshop",
+      "brief": "The smell hits you first — hot oil, iron filings, and something electric, like air before a lightning strike that never comes. The floor vibrates beneath your boots, a pulse from grinding gears below that don't sound like they're working. They sound like they're *chewing*. Two workbenches overflow with brass gears and tools that look more like surgical instruments. A wrench lies beside an overturned stool, and a dark smear trails from a broken gear mechanism toward the wall — too thin to be blood, too deliberate to be oil. The mechanism is frozen mid-rotation, one gear cracked clean through. Something metallic glints deep inside it. A brass key.",
+      "style": "Apple II aesthetic: geometric shapes, limited palette (brass, copper, oil-slick blues/purples), thick stroke lines, 640x400 viewport, 6-8 colors, pixelated look, dithering for shading, scanlines, low resolution, bold outlines, chunky polygons, high contrast, cold and eerie mood, hand-drawn feel, thick uneven ink lines, geometric but slightly warped, like a CRT screen glitch."
+    }
+  },
+  "items": {}
+  },
+  "items": {}
+}

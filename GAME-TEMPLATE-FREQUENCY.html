@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{GAME_TITLE}} | Game #{{GAME_NUMBER}}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+         * OPENCLAW GAME TEMPLATE v3 — FREQUENCY / SHOWCASE LAYOUT
+         *
+         * ARCHITECTURE:
+         *   Desktop (≥769px): 4-row CSS Grid.
+         *     Row 1: Header (compact, full-width)
+         *     Row 2: Art (3fr, 60%) | Text sidebar (2fr, 40%)
+         *     Row 3: Controls bar (full-width: commands + inventory + exits)
+         *     Row 4: Footer
+         *
+         *   Mobile (<769px): Flex column. Scrollable. Natural flow.
+         *
+         * KEY DIFFERENCES FROM ASHMORE TEMPLATE:
+         *   • Art gets 60% width (vs 50%) — ideal for atmospheric 640×400 art
+         *   • Scene name lives inside the sidebar, not above the layout
+         *   • Controls (commands/inventory/exits) are a full-width bottom bar,
+         *     not inside the sidebar — sidebar is 100% dedicated to narrative text
+         *   • Exits are horizontal buttons in the bottom bar, not a stacked column
+         * ============================================================ */
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* CRT scanline overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                transparent, transparent 2px,
+                rgba(0, 0, 0, 0.12) 2px, rgba(0, 0, 0, 0.12) 4px
+            );
+        }
+
+        /* ── DESKTOP BASE (≥769px) ───────────────────────────────── */
+        html, body {
+            height: 100%;
+            background: #000;
+            color: #33ff33;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            overflow: hidden;
+        }
+
+        #game-container {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            grid-template-rows: auto 1fr auto auto;
+            height: 100vh;
+            gap: 8px;
+            padding: 8px;
+        }
+
+        /* Row 1: Compact header — full width */
+        #header {
+            grid-column: 1 / -1;
+            grid-row: 1;
+            text-align: center;
+            padding: 6px;
+            border-bottom: 1px solid #226622;
+        }
+
+        #header h1 {
+            font-size: 15px;
+            color: #33ff33;
+            text-shadow: 0 0 8px #33ff33;
+            margin-bottom: 2px;
+        }
+
+        #header .subtitle {
+            font-size: 8px;
+            color: #226622;
+        }
+
+        /* Row 2, Col 1: Art — fills available space */
+        #art-display {
+            grid-column: 1;
+            grid-row: 2;
+            background: #000;
+            border: 2px solid #33ff33;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            overflow: hidden;
+            padding-top: 8px;
+        }
+
+        /* width/height 100% lets the SVG/img scale UP to fill the panel.
+         * object-fit: contain + the SVG's viewBox handle aspect ratio. */
+        #art-display svg,
+        #art-display img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: contain;
+            object-position: top center;
+            display: block;
+        }
+
+        #art-display .no-art {
+            color: #226622;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        /* Row 2, Col 2: Text sidebar — scene name + scrolling narrative */
+        #text-panel {
+            grid-column: 2;
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #33ff33;
+            background: #111;
+            overflow: hidden;
+        }
+
+        #scene-name {
+            background: #000;
+            padding: 8px 10px;
+            border-bottom: 1px solid #33ff33;
+            text-align: center;
+            font-size: 12px;
+            color: #ffff33;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+        }
+
+        #text-display {
+            flex: 1;
+            padding: 10px 12px;
+            overflow-y: auto;
+            font-size: 11px;
+        }
+
+        #text-display p { margin-bottom: 10px; }
+        #text-display .system  { color: #33bbff; font-style: italic; }
+        #text-display .success { color: #ffff33; font-weight: bold; }
+        #text-display .locked  { color: #ff3333; }
+        #text-display .error   { color: #ff5555; }
+
+        .look-target {
+            color: #ffff33;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .look-target:hover { color: #ffcc00; }
+
+        .hint {
+            color: #ffaa00 !important;
+            font-style: italic;
+            border-left: 2px solid #ffaa00;
+            padding-left: 8px;
+            margin: 5px 0;
+        }
+
+        .hint::before { content: 'HINT: '; font-weight: bold; }
+
+        /* Row 3: Full-width controls bar (commands + inventory + exits) */
+        #controls-bar {
+            grid-column: 1 / -1;
+            grid-row: 3;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 8px;
+            border-top: 1px solid #226622;
+        }
+
+        /* Command buttons */
+        .cmd-btn {
+            background: #000;
+            color: #33ff33;
+            border: 1px solid #33ff33;
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 10px;
+            cursor: pointer;
+            height: 36px;
+        }
+
+        .cmd-btn:hover, .cmd-btn.active {
+            background: #33ff33;
+            color: #000;
+        }
+
+        /* Divider between command groups */
+        .controls-divider {
+            width: 1px;
+            height: 28px;
+            background: #226622;
+            flex-shrink: 0;
+        }
+
+        /* Inventory section (inline in controls bar) */
+        #inv-label {
+            color: #ffff33;
+            font-size: 10px;
+            flex-shrink: 0;
+        }
+
+        #inv-empty {
+            color: #226622;
+            font-size: 10px;
+        }
+
+        #inventory-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            flex: 1;
+        }
+
+        .inv-item {
+            background: #000;
+            color: #33ff33;
+            border: 1px solid #33ff33;
+            padding: 6px 10px;
+            font-family: inherit;
+            font-size: 9px;
+            cursor: pointer;
+            height: 32px;
+            display: flex;
+            align-items: center;
+        }
+
+        .inv-item:hover, .inv-item.selected {
+            background: #33ff33;
+            color: #000;
+        }
+
+        .inv-item.item-new { animation: itemGlow 1s ease-in-out 3; }
+
+        /* Exits section (inline in controls bar) */
+        #exits-label {
+            color: #ffff33;
+            font-size: 10px;
+            flex-shrink: 0;
+        }
+
+        #exits-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .exit-btn {
+            background: #000;
+            color: #33ff33;
+            border: 1px solid #33ff33;
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 10px;
+            cursor: pointer;
+            height: 36px;
+        }
+
+        .exit-btn.available:hover {
+            background: #33ff33;
+            color: #000;
+        }
+
+        .exit-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* Row 4: Footer */
+        #footer {
+            grid-column: 1 / -1;
+            grid-row: 4;
+            text-align: center;
+            padding: 4px;
+            color: #113311;
+            font-size: 7px;
+            border-top: 1px solid #113311;
+        }
+
+        /* Animations */
+        @keyframes puzzle-solved {
+            0%   { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
+            50%  { filter: brightness(1.8) drop-shadow(0 0 20px #ffff33); }
+            100% { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
+        }
+
+        @keyframes itemGlow {
+            0%   { box-shadow: 0 0 4px #33ff33; }
+            50%  { box-shadow: 0 0 16px #33ff33; }
+            100% { box-shadow: 0 0 4px #33ff33; }
+        }
+
+        @keyframes unlockPulse {
+            0%, 100% { border-color: #33ff33; }
+            50% { border-color: #ffff33; box-shadow: 0 0 12px #ffff33; }
+        }
+
+        .puzzle-solved  { animation: puzzle-solved 0.6s ease-out; }
+        .unlock-pulse   { animation: unlockPulse 1s ease 3; }
+
+        /* ── MOBILE (<769px): Flex column, natural scroll ────────── */
+        @media (max-width: 768px) {
+            html, body {
+                overflow: auto !important;
+                height: auto !important;
+                min-height: 100vh;
+            }
+
+            #game-container {
+                display: flex !important;
+                flex-direction: column !important;
+                height: auto !important;
+                gap: 6px !important;
+                padding: 4px !important;
+            }
+
+            #header { border-bottom: none; padding-bottom: 4px; }
+            #header h1 { font-size: 13px !important; }
+
+            #art-display {
+                width: 100% !important;
+                aspect-ratio: 8 / 5;
+                max-height: 56vw !important;
+                min-height: 0 !important;
+            }
+
+            #text-panel {
+                height: auto !important;
+                overflow: visible !important;
+                flex: none !important;
+            }
+
+            #text-display {
+                max-height: 38vh !important;
+                overflow-y: auto !important;
+                font-size: 10px;
+            }
+
+            #controls-bar {
+                flex-wrap: wrap !important;
+                gap: 6px !important;
+                padding: 6px 4px !important;
+            }
+
+            .controls-divider { display: none; }
+
+            /* Commands fill row */
+            .cmd-btn {
+                min-height: 44px !important;
+                height: auto !important;
+                flex: 1 1 auto !important;
+                min-width: 44px !important;
+                font-size: 9px !important;
+                padding: 8px 6px !important;
+            }
+
+            .exit-btn {
+                min-height: 44px !important;
+                height: auto !important;
+                flex: 1 1 auto !important;
+                min-width: 44px !important;
+                font-size: 9px !important;
+                padding: 8px 6px !important;
+            }
+
+            .inv-item {
+                min-height: 36px !important;
+                height: auto !important;
+                font-size: 9px !important;
+            }
+
+            /* Stack inventory and exits below commands */
+            #inv-label, #exits-label { width: 100%; }
+            #inventory-bar, #exits-bar { width: 100%; flex: none; }
+        }
+
+        @media (max-width: 400px) {
+            #art-display { max-height: 50vw !important; }
+        }
+    </style>
+</head>
+<body>
+<div id="game-container">
+    <!-- Row 1: Compact header -->
+    <div id="header">
+        <h1>{{GAME_TITLE_UPPER}}</h1>
+        <div class="subtitle">{{GAME_SUBTITLE}}</div>
+    </div>
+
+    <!-- Row 2, Col 1: Art — fills 60% of width -->
+    <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+    </div>
+
+    <!-- Row 2, Col 2: Text sidebar — 100% narrative, scene name at top -->
+    <div id="text-panel">
+        <div id="scene-name">{{FIRST_SCENE_NAME}}</div>
+        <div id="text-display"></div>
+    </div>
+
+    <!-- Row 3: Full-width controls bar — commands | inventory | exits -->
+    <div id="controls-bar">
+        <button class="cmd-btn" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+        <button id="hint-toggle" class="cmd-btn">HINTS: ON</button>
+
+        <div class="controls-divider"></div>
+
+        <span id="inv-label">INV:</span>
+        <div id="inventory-bar">
+            <span id="inv-empty">(empty)</span>
+        </div>
+
+        <div class="controls-divider"></div>
+
+        <span id="exits-label">EXITS:</span>
+        <div id="exits-bar">
+            <!-- Populated by game logic -->
+        </div>
+    </div>
+
+    <!-- Row 4: Footer -->
+    <div id="footer">
+        OpenClaw Point &amp; Click Studio | LOOK · TAKE · USE · EXAMINE | Click exits to move | /restart to reset
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    // GAME DATA — replace with assembled content from game-script.json
+    // ============================================================
+    const GAME_DATA = { /* ... */ };
+
+    // ============================================================
+    // GAME ART — replace with inlined SVGs from art/*.svg
+    // ============================================================
+    window.GAME_ART = { /* ... */ };
+
+    // ============================================================
+    // GAME ENGINE — paste game-logic.js content here
+    // ============================================================
+    /* ... */
+</script>
+</body>
+</html>

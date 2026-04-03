@@ -1,0 +1,320 @@
+const GAME_DATA = {
+  "title": "The Hollow of Saint Vex",
+  "slug": "the-hollow-of-saint-vex",
+  "number": 2,
+  "setting": "Abandoned Victorian mine-temple, Colorado Rockies, 1891",
+  "characters": [
+    {
+      "id": "char-ezekiel-vex",
+      "name": "Ezekiel Vex",
+      "description": "Founder of the Vex Mining Company. Converted the tunnels into a temple to worship an ancient entity called Saint Vex. Died under mysterious circumstances."
+    },
+    {
+      "id": "char-saint-vex",
+      "name": "Saint Vex",
+      "description": "An ancient entity unearthed by the miners. Worshipped as a saint by Ezekiel Vex. Its presence corrupts the hollow."
+    }
+  ],
+  "items": [
+    {
+      "id": "item-pickaxe",
+      "name": "Pickaxe",
+      "description": "A miner's tool with a worn wooden handle. The head is dull but still serviceable.",
+      "foundIn": "scene-1-entrance",
+      "usedIn": "scene-1-entrance",
+      "usedOn": "puzzle-clear-collapse"
+    },
+    {
+      "id": "item-lantern",
+      "name": "Oil Lantern",
+      "description": "A brass lantern, unlit. The glass is grimy, the wick dry.",
+      "foundIn": "scene-2-supply-tunnel",
+      "usedIn": "scene-2-supply-tunnel",
+      "usedOn": "puzzle-light-lantern"
+    },
+    {
+      "id": "item-matches",
+      "name": "Matches",
+      "description": "A small box of sulfur matches. Strikes with a satisfying hiss.",
+      "foundIn": "scene-2-supply-tunnel",
+      "usedIn": "scene-2-supply-tunnel",
+      "usedOn": "puzzle-light-lantern"
+    },
+    {
+      "id": "item-crowbar",
+      "name": "Crowbar",
+      "description": "A heavy iron crowbar, rusted but sturdy.",
+      "foundIn": "scene-3-equipment-room",
+      "usedIn": "scene-3-equipment-room",
+      "usedOn": "puzzle-open-crate"
+    },
+    {
+      "id": "item-ritual-book",
+      "name": "Ritual Book",
+      "description": "A leather-bound journal filled with occult diagrams and Latin incantations. Pages are water-stained.",
+      "foundIn": "scene-5-flooded-nave",
+      "usedIn": "scene-7-reliquary",
+      "usedOn": "puzzle-ring-bells"
+    },
+    {
+      "id": "item-bell-saint-vex",
+      "name": "Bell of Saint Vex",
+      "description": "A small silver bell engraved with the name 'VEX'. It chimes with a hollow resonance.",
+      "foundIn": "scene-4-chapel-antechamber",
+      "usedIn": "scene-7-reliquary",
+      "usedOn": "puzzle-ring-bells"
+    },
+    {
+      "id": "item-bell-hollow",
+      "name": "Bell of the Hollow",
+      "description": "A tarnished silver bell marked with a spiral symbol. Its sound is deep and mournful.",
+      "foundIn": "scene-3-equipment-room",
+      "usedIn": "scene-7-reliquary",
+      "usedOn": "puzzle-ring-bells"
+    },
+    {
+      "id": "item-bell-bone",
+      "name": "Bell of Bone",
+      "description": "A silver bell etched with skeletal motifs. It rings with a brittle, sharp tone.",
+      "foundIn": "scene-6-bell-tower",
+      "usedIn": "scene-7-reliquary",
+      "usedOn": "puzzle-ring-bells"
+    },
+    {
+      "id": "item-bell-mercy",
+      "name": "Bell of Mercy",
+      "description": "A pristine silver bell inscribed with the word 'MISERICORDIA'. Its chime is clear and pure.",
+      "foundIn": "scene-7-reliquary",
+      "usedIn": "scene-7-reliquary",
+      "usedOn": "puzzle-ring-bells"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "scene-1-entrance",
+      "name": "The Collapsed Entrance",
+      "prose": "The Vex Mining Company entrance, 1891. Rotting timber braces frame a dark maw in the mountainside. A sign, splintered and faded, reads 'CONDEMNED - BY ORDER OF TELLER COUNTY.' Cold wind whistles from the blackness within, carrying a scent of damp earth and something older—ozone and rust.\n\nRusted mine cart tracks disappear into the shadow. To the north, a passage is choked with fallen rock and timber. A pickaxe is wedged into a support beam, its handle worn smooth by decades of grip. The mountain looms above, silent and watchful.",
+      "exits": {
+        "north": "scene-2-supply-tunnel"
+      },
+      "items": [
+        "item-pickaxe"
+      ],
+      "puzzles": [
+        "puzzle-clear-collapse"
+      ],
+      "lookDescriptions": {
+        "sign": "The county seal is barely legible. Below it, someone has scratched 'HE LISTENS' in the wood.",
+        "tracks": "They lead into darkness, speckled with orange rust like dried blood.",
+        "collapsed passage": "A cave-in blocks the way north. Stones and splintered beams form an impassable wall.",
+        "pickaxe": "A miner's tool, left behind. The head is dull but could still break stone.",
+        "mountainside": "Pine trees cling to the slopes. The sky is iron-grey, threatening snow."
+      }
+    },
+    {
+      "id": "scene-2-supply-tunnel",
+      "name": "The Supply Tunnel",
+      "prose": "Darkness swallows the tunnel ahead. The air is thick with dust and the smell of old timber. On the wall, mining graffiti repeats 'HE LISTENS' in shaky white paint. A crate sits against the wall, holding an unlit oil lantern and a coil of frayed rope.\n\nThe passage continues east into utter blackness. To the south, the entrance is a rectangle of grey light. The floor is scattered with broken bottles and rusted nails.",
+      "exits": {
+        "south": "scene-1-entrance",
+        "east": "scene-3-equipment-room"
+      },
+      "items": [
+        "item-lantern",
+        "item-matches"
+      ],
+      "lookDescriptions": {
+        "graffiti": "The words are painted with a hurried hand. Beneath them, smaller script reads 'VEX VIVIT'.",
+        "crate": "A wooden supply crate, lid half-off. Inside: the lantern, rope, and a layer of coal dust.",
+        "lantern": "A brass lantern, cold and dark. The wick is dry; it needs oil or a match.",
+        "floor": "Littered with debris. Something glints beneath the dust—a broken pocket watch.",
+        "darkness east": "The tunnel disappears into black. Without light, you'd be walking blind."
+      },
+      "puzzles": [
+        "puzzle-light-lantern"
+      ]
+    },
+    {
+      "id": "scene-3-equipment-room",
+      "name": "The Equipment Room",
+      "prose": "This chamber was once a hive of activity, now a graveyard of industry. Rusted machinery stands like skeletal husks against the walls. A heavy workbench is covered in blueprints that have turned to mush from the humidity. In the corner, a reinforced wooden crate is bolted to the floor, its iron padlock mocking your intrusion.\n\nThe air here is stagnant. A doorway to the north leads toward a flickering, rhythmic orange glow.",
+      "exits": {
+        "west": "scene-2-supply-tunnel",
+        "north": "scene-4-chapel-antechamber"
+      },
+      "items": [
+        "item-crowbar"
+      ],
+      "lookDescriptions": {
+        "machinery": "Gears and pulleys frozen in place by decades of rust. They look like they might scream if turned.",
+        "workbench": "The blueprints are illegible, but you can make out the name 'Ezekiel Vex' signed in elegant, mad script. A crowbar lies on the bench.",
+        "crate": "A stout box bound in iron. It's locked tight. Perfect for the crowbar.",
+        "crowbar": "A heavy iron crowbar, rusted but sturdy.",
+        "glow": "A faint, orange light pulses from the north, accompanied by a low, vibrating hum."
+      },
+      "puzzles": [
+        "puzzle-open-crate"
+      ]
+    },
+    {
+      "id": "scene-4-chapel-antechamber",
+      "name": "The Chapel Antechamber",
+      "prose": "The industrial mine gives way to something far more sinister. The walls have been smoothed and carved with intricate, disturbing sigils. A low stone altar sits in the center, surrounded by hundreds of half-melted candles. The air carries the sickly-sweet scent of incense and old copper.\n\nA heavy iron crowbar leans against a crumbling pillar. In the eastern wall, a loose stone seems to vibrate slightly with a hollow frequency.",
+      "exits": {
+        "south": "scene-3-equipment-room",
+        "east": "scene-5-flooded-nave"
+      },
+      "items": [
+        "item-bell-saint-vex"
+      ],
+      "lookDescriptions": {
+        "sigils": "They hurt to look at. Spirals that seem to turn when you blink, and eyes that follow your movement.",
+        "altar": "Dried dark stains mar the surface. It wasn't built for prayer—it was built for payment.",
+        "crowbar": "A sturdy tool of forged iron. Perfect for prying or smashing.",
+        "loose stone": "Wiggling it reveals a hidden niche behind the masonry. Something silver glints within."
+      },
+      "puzzles": []
+    },
+    {
+      "id": "scene-5-flooded-nave",
+      "name": "The Flooded Nave",
+      "prose": "You step into a vast, cavernous hall. Ankle-deep black water covers the floor, rippling with your every step. Stone pillars rise like trees into the vaulted ceiling, where stalactites hang like jagged teeth. At the far end, a grand stone lectern stands on a raised dais, dry and untouched by the flood.\n\nThe silence here is absolute, broken only by the steady 'drip... drip... drip' of water from the heights.",
+      "exits": {
+        "west": "scene-4-chapel-antechamber",
+        "north": "scene-6-bell-tower"
+      },
+      "items": [
+        "item-ritual-book"
+      ],
+      "lookDescriptions": {
+        "water": "Oily and opaque. You can feel things brushing against your ankles, but you're too afraid to look down.",
+        "lectern": "A massive block of obsidian carved with weeping faces. A leather-bound book rests upon it.",
+        "ceiling": "The vault is shrouded in shadow. You get the distinct feeling that something is hanging up there, watching.",
+        "ripples": "The ripples from your feet travel across the room and don't stop when they hit the walls—they seem to sink into them."
+      },
+      "puzzles": [
+        "puzzle-read-book"
+      ]
+    },
+    {
+      "id": "scene-6-bell-tower",
+      "name": "The Bell Tower",
+      "prose": "The mine opens into a natural chimney-like cavern that vents toward the surface. A bronze framework has been erected here, spanning the chasm. Hanging from the center of the frame is a single, beautiful silver bell. Moonlight filters down from a narrow crack high above, illuminating the dust motes like dancing spirits.\n\nA narrow bridge of planks leads east toward a chamber of intense, suffocating pressure.",
+      "exits": {
+        "south": "scene-5-flooded-nave",
+        "east": "scene-7-reliquary"
+      },
+      "items": [
+        "item-bell-bone"
+      ],
+      "lookDescriptions": {
+        "frame": "Victorian engineering repurposed for ritual. The bronze is green with age but the structure is sound.",
+        "bell": "It hangs perfectly still, yet you can hear a faint ringing in the back of your skull just by looking at it.",
+        "moonlight": "A column of pale blue light that feels cold to the touch. It's the only clean thing in this mountain.",
+        "chasm": "The darkness below the bridge is bottomless. Don't slip."
+      },
+      "puzzles": []
+    },
+    {
+      "id": "scene-7-reliquary",
+      "name": "The Reliquary",
+      "prose": "This is the heart of the hollow. The walls are lined with shelves containing jars of preserved organs and jars of mountain soil. In the center, a circle of white salt has been laid out on the floor, surrounding a second, much larger altar. The presence of Saint Vex is heavy here, a weight on your chest that makes it hard to breathe.\n\nA final silver bell sits on a velvet cushion atop a stone pedestal. This is where the song must end.",
+      "exits": {
+        "west": "scene-6-bell-tower"
+      },
+      "items": [
+        "item-bell-mercy"
+      ],
+      "lookDescriptions": {
+        "shelves": "Relics of the Vex family's madness. Each jar is meticulously labeled with a date and a name.",
+        "salt circle": "Untouched and perfect. It's meant to keep something in... or you out.",
+        "altar": "Carved from a single block of mountain granite. It vibrates with a frequency that makes your teeth ache.",
+        "pedestal": "The bell resting here seems to absorb the very light around it."
+      },
+      "puzzles": [
+        "puzzle-ring-bells"
+      ]
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-clear-collapse",
+      "scene": "scene-1-entrance",
+      "requires": [
+        "item-pickaxe"
+      ],
+      "action": "Use pickaxe on collapsed passage",
+      "result": "You swing the pickaxe with desperate strength. The timbers groan and the stones tumble, revealing the way forward.",
+      "blocksExit": {
+        "scene": "scene-1-entrance",
+        "direction": "north",
+        "blockedMessage": "The passage is choked with fallen rock and timber."
+      },
+      "reveals": [
+        "scene-2-supply-tunnel"
+      ]
+    },
+    {
+      "id": "puzzle-open-crate",
+      "scene": "scene-3-equipment-room",
+      "requires": [
+        "item-crowbar"
+      ],
+      "action": "Use crowbar on locked crate",
+      "result": "With a screech of protesting iron, the crate lid flies off. Inside: the Bell of the Hollow, tarnished and mournful. Supplies tucked away for a ritual that never happened.",
+      "reveals": [
+        "item-bell-hollow"
+      ]
+    },
+    {
+      "id": "puzzle-light-lantern",
+      "scene": "scene-2-supply-tunnel",
+      "requires": [
+        "item-matches",
+        "item-lantern"
+      ],
+      "action": "Use matches on lantern",
+      "result": "A flare of sulfur, a steady flame. The golden light pushes back the oppressive shadows of the maze.",
+      "blocksExit": {
+        "scene": "scene-2-supply-tunnel",
+        "direction": "east",
+        "blockedMessage": "The tunnel disappears into black. Without light, you'd be walking blind."
+      },
+      "reveals": []
+    },
+    {
+      "id": "puzzle-read-book",
+      "scene": "scene-5-flooded-nave",
+      "requires": [
+        "item-lantern"
+      ],
+      "action": "Read ritual book with illuminated lantern",
+      "result": "The light reveals the hidden ink. The order is clear: 'Mercy shall lead, followed by Bone. Vex must follow, and the Hollow shall close.'",
+      "reveals": []
+    },
+    {
+      "id": "puzzle-ring-bells",
+      "scene": "scene-7-reliquary",
+      "requires": [
+        "item-bell-mercy",
+        "item-bell-bone",
+        "item-bell-saint-vex",
+        "item-bell-hollow",
+        "item-ritual-book"
+      ],
+      "action": "Ring the bells in the order: Mercy, Bone, Saint Vex, Hollow",
+      "result": "The four notes entwine into a powerful harmonic. The air shimmers, and the oppressive weight lifts.",
+      "reveals": []
+    }
+  ],
+  "winCondition": {
+    "scene": "scene-7-reliquary",
+    "requires": [
+      "item-bell-mercy",
+      "item-bell-bone",
+      "item-bell-saint-vex",
+      "item-bell-hollow"
+    ],
+    "description": "The song of the silver bells echoes through the mountain. A scream that is not human erupts from the altar as Saint Vex is pulled back into the void. You run for the surface as the mine begins to tremble and collapse. You emerge into the cold mountain air just as the entrance vanishes under a mountain of stone. The hollow is sealed."
+  }
+};

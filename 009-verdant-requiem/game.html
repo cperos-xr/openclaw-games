@@ -6,237 +6,203 @@
     <title>Verdant Requiem | Game #009</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* =====================================================
+           VERTICAL LAYOUT — single-column, image-first
+           Optimised for cheaper raster images (16:9 landscape)
+           Mobile-first; scales cleanly to tablet and desktop.
+           ===================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: #000;
             color: #0f0;
             font-family: 'Press Start 2P', monospace;
             font-size: 12px;
-            line-height: 1.4;
-            padding: 20px;
-            max-width: 1024px;
+            line-height: 1.6;
+            padding: 12px;
+            max-width: 720px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+        header { text-align: center; margin-bottom: 8px; }
 
         h1 {
-            font-size: 16px;
-            margin-bottom: 5px;
+            font-size: 14px;
             color: #0f0;
-            text-shadow: 0 0 5px #0f0;
+            text-shadow: 0 0 6px #0f0;
+            margin-bottom: 4px;
         }
 
-        h2 {
-            font-size: 14px;
-            margin-bottom: 10px;
-            color: #0f0;
-        }
+        h2 { font-size: 10px; color: #080; margin-bottom: 6px; }
 
         #scene-name {
-            font-size: 18px;
+            font-size: 14px;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #0f0;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 4px #0f0;
         }
 
-        .game-container {
-            display: flex;
-            flex: 1;
-            gap: 20px;
-            min-height: 0;
-        }
-
+        /* --- Art panel: full width, 16:9 ratio --- */
         .art-panel {
-            flex: 1;
+            width: 100%;
+            aspect-ratio: 16 / 9;
             border: 2px solid #0f0;
             background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            min-height: 400px;
+            margin-bottom: 8px;
         }
 
-        #art-display svg,
-        #art-display img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+        #art-display {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        #art-display img,
+        #art-display svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* --- Text panel --- */
         .text-panel {
-            flex: 1;
             border: 2px solid #0f0;
             background-color: #000;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            padding: 12px;
+            margin-bottom: 8px;
         }
 
         #text-display {
-            flex: 1;
+            max-height: 200px;
             overflow-y: auto;
             margin-bottom: 10px;
-            border-bottom: 1px solid #0f0;
             padding-bottom: 10px;
+            border-bottom: 1px solid #033;
+            scrollbar-width: thin;
+            scrollbar-color: #0f0 #000;
         }
 
-        #text-display p {
-            margin-bottom: 10px;
+        #text-display::-webkit-scrollbar { width: 4px; }
+        #text-display::-webkit-scrollbar-track { background: #000; }
+        #text-display::-webkit-scrollbar-thumb { background: #0f0; }
+
+        #text-display p { margin-bottom: 8px; color: #0f0; }
+        #text-display .system { color: #0a0; font-style: italic; }
+        #text-display .success { color: #0f0; font-weight: bold; animation: itemGlow 1s infinite alternate; }
+        #text-display .locked { color: #f00; font-weight: bold; }
+        #text-display .error { color: #f00; }
+        #text-display .hint { color: #FFAA00; font-style: italic; }
+
+        .hint-toggle {
+            background-color: #000;
             color: #0f0;
+            border: 1px solid #0f0;
+            padding: 2px 6px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            cursor: pointer;
+            margin-top: 4px;
         }
+        .hint-toggle:hover { background-color: #0f0; color: #000; }
 
-        #text-display .system {
-            color: #0a0;
-            font-style: italic;
-        }
-
-        #text-display .success {
-            color: #0f0;
-            font-weight: bold;
-            animation: itemGlow 1s infinite alternate;
-        }
-
-        #text-display .locked {
-            color: #f00;
-            font-weight: bold;
-        }
-
-        #text-display .error {
-            color: #f00;
-        }
-
+        /* --- Command buttons: equal-width row --- */
         .command-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
         }
 
         .cmd-btn {
             background-color: #000;
             color: #0f0;
             border: 1px solid #0f0;
-            padding: 5px 10px;
+            padding: 6px 10px;
             font-family: 'Press Start 2P', monospace;
             font-size: 10px;
             cursor: pointer;
             transition: all 0.2s;
+            flex: 1;
+            min-width: 60px;
+            text-align: center;
+        }
+        .cmd-btn:hover, .cmd-btn.active { background-color: #0f0; color: #000; }
+
+        /* --- Inventory + Exits: 2-col on tablet+, stacked on mobile --- */
+        .panels-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
         }
 
-        .cmd-btn:hover {
-            background-color: #0f0;
-            color: #000;
+        @media (max-width: 480px) {
+            .panels-row { grid-template-columns: 1fr; }
+            h1 { font-size: 12px; }
+            .cmd-btn { font-size: 9px; padding: 5px 6px; }
         }
 
-        .cmd-btn.active {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .inventory-panel {
+        .inventory-panel, .exits-panel {
             border: 2px solid #0f0;
             background-color: #000;
             padding: 10px;
-            margin-bottom: 15px;
         }
 
-        .inventory-panel h3 {
-            font-size: 12px;
-            margin-bottom: 5px;
+        .inventory-panel h3, .exits-panel h3 {
+            font-size: 10px;
+            margin-bottom: 6px;
             color: #0f0;
+            border-bottom: 1px solid #033;
+            padding-bottom: 4px;
         }
 
         #inventory-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
             min-height: 20px;
         }
 
         .inv-item {
             border: 1px solid #0f0;
             padding: 3px 6px;
-            font-size: 10px;
+            font-size: 9px;
             cursor: pointer;
             background-color: #000;
             color: #0f0;
         }
+        .inv-item.selected { background-color: #0f0; color: #000; }
 
-        .inv-item.selected {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .exits-panel {
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 10px;
-        }
-
-        .exits-panel h3 {
-            font-size: 12px;
-            margin-bottom: 5px;
-            color: #0f0;
-        }
-
-        #exits-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
+        #exits-bar { display: flex; flex-wrap: wrap; gap: 6px; }
 
         .exit-btn {
             background-color: #000;
             color: #0f0;
             border: 1px solid #0f0;
-            padding: 5px 10px;
+            padding: 5px 8px;
             font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
+            font-size: 9px;
             cursor: pointer;
         }
+        .exit-btn.available:hover { background-color: #0f0; color: #000; }
 
-        .exit-btn.available:hover {
-            background-color: #0f0;
-            color: #000;
-        }
+        .look-target { color: #0af; text-decoration: underline; cursor: pointer; }
+        .look-target:hover { color: #0ff; }
 
-        .look-target {
-            color: #0af;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-
-        .look-target:hover {
-            color: #0ff;
-        }
-
+        /* --- Animations --- */
         @keyframes puzzle-solved {
             0% { filter: brightness(1); }
             50% { filter: brightness(2); }
             100% { filter: brightness(1); }
-        }
-
-        @keyframes unlockPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
         }
 
         @keyframes itemGlow {
@@ -244,77 +210,56 @@
             100% { text-shadow: 0 0 15px #0f0; }
         }
 
-        .puzzle-solved {
-            animation: puzzle-solved 0.6s ease-in-out;
-        }
+        .puzzle-solved { animation: puzzle-solved 0.6s ease-in-out; }
 
         footer {
-            margin-top: 20px;
+            margin-top: 12px;
             text-align: center;
-            font-size: 10px;
+            font-size: 8px;
             color: #080;
+            padding: 8px 0;
         }
-
-        /* ── MOBILE FIX v3.0 ─────────────────────────────────────────
-         * The base layout above assumes desktop (height:100vh, side-by-side).
-         * These overrides restore a sane scrollable layout on mobile.
-         * ─────────────────────────────────────────────────────────── */
-        @media (max-width: 768px) {
-            body { height: auto !important; min-height: 100vh; overflow-y: auto !important; overflow-x: hidden !important; padding: 8px !important; }
-            h1 { font-size: 13px !important; }
-            h2 { font-size: 11px !important; }
-            #scene-name { font-size: 12px !important; }
-            .game-container { flex-direction: column !important; gap: 8px !important; flex: none !important; }
-            .art-panel { flex: none !important; min-height: 0 !important; width: 100% !important; aspect-ratio: 8 / 5; max-height: 56vw !important; }
-            .text-panel { flex: none !important; overflow: visible !important; padding: 10px !important; }
-            #text-display { max-height: 40vh !important; overflow-y: auto !important; }
-            .command-bar { flex-wrap: wrap !important; }
-            .cmd-btn { min-height: 44px !important; padding: 8px 10px !important; flex: 1 !important; font-size: 9px !important; }
-            .exit-btn { min-height: 44px !important; padding: 8px 10px !important; font-size: 9px !important; }
-            .inv-item { min-height: 36px !important; padding: 6px 8px !important; }
-        }
-        @media (max-width: 400px) { .art-panel { max-height: 50vw !important; } }
     </style>
 </head>
 <body>
     <header>
         <h1>VERDANT REQUIEM</h1>
         <h2>Game #009</h2>
+        <button id="hint-toggle" class="hint-toggle">HINTS: ON</button>
+            <button id="reset-btn" class="cmd-btn reset-btn" style="color:#ff6666;border-color:#ff6666;">RESET</button>
     </header>
 
-    <div id="scene-name">GRAND ENTRANCE HALL</div>
+    <div id="scene-name">THE LOBBY</div>
 
-    <div class="game-container">
-        <div class="art-panel">
-            <div id="art-display">
-                <!-- Art will be inserted here by JavaScript -->
+    <div class="art-panel">
+        <div id="art-display">
+            <!-- Art inserted by JavaScript -->
+        </div>
+    </div>
+
+    <div class="text-panel">
+        <div id="text-display">
+            <!-- Game text appears here -->
+        </div>
+        <div class="command-bar">
+            <button class="cmd-btn" data-cmd="look">LOOK</button>
+            <button class="cmd-btn" data-cmd="take">TAKE</button>
+            <button class="cmd-btn" data-cmd="use">USE</button>
+            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+        </div>
+    </div>
+
+    <div class="panels-row">
+        <div class="inventory-panel">
+            <h3>INVENTORY</h3>
+            <div id="inventory-bar">
+                <span id="inv-empty">(empty)</span>
             </div>
         </div>
-
-        <div class="text-panel">
-            <div id="text-display">
-                <!-- Game text will appear here -->
-            </div>
-
-            <div class="command-bar">
-                <button class="cmd-btn" data-cmd="look">LOOK</button>
-                <button class="cmd-btn" data-cmd="take">TAKE</button>
-                <button class="cmd-btn" data-cmd="use">USE</button>
-                <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
-            </div>
-
-            <div class="inventory-panel">
-                <h3>INVENTORY</h3>
-                <div id="inventory-bar">
-                    <span id="inv-empty">(empty)</span>
-                </div>
-            </div>
-
-            <div class="exits-panel">
-                <h3>EXITS</h3>
-                <div id="exits-bar">
-                    <!-- Exit buttons will appear here -->
-                </div>
+        <div class="exits-panel">
+            <h3>EXITS</h3>
+            <div id="exits-bar">
+                <!-- Exit buttons inserted by JavaScript -->
             </div>
         </div>
     </div>
@@ -326,8 +271,9 @@
 
     <script>
 // ============================================================
-// GAME DATA
-const GAME_DATA = {
+// GAME DATA — replace with assembled content from game-script.json
+// ============================================================
+var GAME_DATA = {
   "title": "Verdant Requiem",
   "slug": "verdant-requiem",
   "number": 9,
@@ -587,23 +533,12 @@ const GAME_DATA = {
     ],
     "description": "Grow a living vine bridge through the root wall to escape the conservatory."
   }
-};
-
-// Transform puzzles: convert blocksExit string to object
-GAME_DATA.puzzles = GAME_DATA.puzzles.map(p => {
-    if (typeof p.blocksExit === 'string') {
-        return {
-            ...p,
-            blocksExit: { scene: p.scene, direction: p.blocksExit },
-            blockedMessage: `The way ${p.blocksExit} is blocked.`
-        };
-    }
-    return p;
-});
+}
 
 // ============================================================
-// GAME ART
-const GAME_ART = {
+// GAME ART — replace with inlined SVGs from art/*.svg
+// ============================================================
+var GAME_ART = {
   "entrance": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: dark mossy green -->\n  <rect width=\"640\" height=\"400\" fill=\"#003300\"/>\n  \n  <!-- Glass ceiling with cracks -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"80\" fill=\"#006600\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Cracks in glass -->\n  <line x1=\"100\" y1=\"0\" x2=\"100\" y2=\"80\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"300\" y1=\"0\" x2=\"300\" y2=\"80\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <line x1=\"500\" y1=\"0\" x2=\"500\" y2=\"80\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Mossy flagstones -->\n  <rect x=\"0\" y=\"320\" width=\"640\" height=\"80\" fill=\"#004400\" stroke=\"#002200\" stroke-width=\"2\"/>\n  <!-- Cracks in flagstones -->\n  <line x1=\"0\" y1=\"360\" x2=\"640\" y2=\"360\" stroke=\"#002200\" stroke-width=\"1\"/>\n  <line x1=\"320\" y1=\"320\" x2=\"320\" y2=\"400\" stroke=\"#002200\" stroke-width=\"1\"/>\n  \n  <!-- Workbench -->\n  <rect x=\"50\" y=\"280\" width=\"200\" height=\"40\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Tools on workbench -->\n  <rect x=\"60\" y=\"290\" width=\"20\" height=\"30\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- trowel -->\n  <rect x=\"100\" y=\"285\" width=\"15\" height=\"40\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- trowel -->\n  <rect x=\"140\" y=\"295\" width=\"10\" height=\"30\" fill=\"#884400\" stroke=\"#000000\" stroke-width=\"2\"/> <!-- pruning shears -->\n  \n  <!-- Glass doors (east) -->\n  <rect x=\"550\" y=\"100\" width=\"60\" height=\"200\" fill=\"#004400\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Door frame -->\n  <rect x=\"545\" y=\"95\" width=\"70\" height=\"210\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Floral etching on doors -->\n  <circle cx=\"580\" cy=\"150\" r=\"8\" fill=\"#002200\"/>\n  <circle cx=\"580\" cy=\"200\" r=\"6\" fill=\"#002200\"/>\n  \n  <!-- Moonlight -->\n  <circle cx=\"320\" cy=\"40\" r=\"50\" fill=\"#ffffff\" opacity=\"0.3\"/>\n</svg>",
   "palm-house": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: oppressive humid green -->\n  <rect width=\"640\" height=\"400\" fill=\"#002200\"/>\n  \n  <!-- Giant palm fronds -->\n  <path d=\"M100,50 Q150,0 200,50 Q250,0 300,50 Q350,0 400,50 Q450,0 500,50 Q550,0 600,50\" fill=\"none\" stroke=\"#004400\" stroke-width=\"5\"/>\n  <path d=\"M120,80 Q170,30 220,80 Q270,30 320,80 Q370,30 420,80 Q470,30 520,80 Q570,30 620,80\" fill=\"none\" stroke=\"#004400\" stroke-width=\"5\"/>\n  <!-- Browned edges on fronds -->\n  <path d=\"M100,50 Q150,0 200,50 Q250,0 300,50 Q350,0 400,50 Q450,0 500,50 Q550,0 600,50\" fill=\"none\" stroke=\"#663300\" stroke-width=\"3\"/>\n  \n  <!-- Dead fern barrier (north path) -->\n  <rect x=\"280\" y=\"100\" width=\"80\" height=\"200\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Fern texture -->\n  <line x1=\"300\" y1=\"120\" x2=\"300\" y2=\"280\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"310\" y1=\"130\" x2=\"310\" y2=\"270\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Water drips -->\n  <line x1=\"500\" y1=\"20\" x2=\"500\" y2=\"30\" stroke=\"#ffffff\" stroke-width=\"2\"/>\n  <line x1=\"505\" y1=\"40\" x2=\"505\" y2=\"50\" stroke=\"#ffffff\" stroke-width=\"2\"/>\n  <line x1=\"495\" y1=\"60\" x2=\"495\" y2=\"70\" stroke=\"#ffffff\" stroke-width=\"2\"/>\n  \n  <!-- Eastern opening blocked by vines -->\n  <rect x=\"550\" y=\"150\" width=\"60\" height=\"180\" fill=\"#003300\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Vines texture -->\n  <path d=\"M550,150 Q580,180 610,150 Q580,120 550,150\" fill=\"none\" stroke=\"#005500\" stroke-width=\"2\"/>\n  <path d=\"M550,250 Q580,280 610,250 Q580,220 550,250\" fill=\"none\" stroke=\"#005500\" stroke-width=\"2\"/>\n  \n  <!-- Ground -->\n  <rect x=\"0\" y=\"350\" width=\"640\" height=\"50\" fill=\"#004400\" stroke=\"#000000\" stroke-width=\"2\"/>\n</svg>",
   "cactus-wing": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: dry, chalky -->\n  <rect width=\"640\" height=\"400\" fill=\"#333300\"/>\n  \n  <!-- Rows of cacti -->\n  <!-- First row -->\n  <rect x=\"50\" y=\"50\" width=\"30\" height=\"100\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"120\" y=\"30\" width=\"25\" height=\"130\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"200\" y=\"50\" width=\"30\" height=\"100\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"280\" y=\"20\" width=\"25\" height=\"150\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  \n  <!-- Second row -->\n  <rect x=\"400\" y=\"80\" width=\"30\" height=\"80\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"480\" y=\"60\" width=\"25\" height=\"120\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"560\" y=\"90\" width=\"30\" height=\"70\" fill=\"#005500\" stroke=\"#000000\" stroke-width=\"3\"/>\n  \n  <!-- Withered cactus (large, collapsed) -->\n  <path d=\"M320,50 Q350,0 380,50 Q410,0 440,50 Q440,200 400,220 Q360,240 320,200 Q280,240 240,220 Q200,240 160,200 Q120,240 80,220 Q40,200 0,180 Q40,160 80,140 Q120,120 160,100 Q200,80 240,60 Q280,40 320,20\" fill=\"#663300\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Crack in withered cactus -->\n  <line x1=\"380\" y1=\"80\" x2=\"380\" y2=\"180\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Stone bench -->\n  <rect x=\"100\" y=\"280\" width=\"120\" height=\"20\" fill=\"#666666\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Watering can on bench -->\n  <rect x=\"140\" y=\"250\" width=\"20\" height=\"40\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"135\" y=\"245\" width=\"30\" height=\"10\" fill=\"#664400\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Eastern wooden door -->\n  <rect x=\"550\" y=\"150\" width=\"60\" height=\"180\" fill=\"#442200\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Door frame -->\n  <rect x=\"545\" y=\"145\" width=\"70\" height=\"190\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Iron fittings (rusted) -->\n  <circle cx=\"580\" cy=\"200\" r=\"8\" fill=\"#663300\"/>\n  <circle cx=\"580\" cy=\"250\" r=\"8\" fill=\"#663300\"/>\n  \n  <!-- Ground -->\n  <rect x=\"0\" y=\"350\" width=\"640\" height=\"50\" fill=\"#222200\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Chalky texture -->\n  <rect x=\"0\" y=\"350\" width=\"640\" height=\"10\" fill=\"#444400\" opacity=\"0.3\"/>\n</svg>",
@@ -616,7 +551,7 @@ const GAME_ART = {
   "phosphorus-fertilizer": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background -->\n  <rect width=\"64\" height=\"64\" fill=\"#001100\"/>\n  \n  <!-- Phosphorus fertilizer pouch -->\n  <!-- Pouch outline -->\n  <path d=\"M16,20 Q24,8 32,20 Q40,8 48,20 Q56,20 56,44 Q48,52 32,52 Q16,52 16,20 Z\" fill=\"#221100\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Pouch closure -->\n  <line x1=\"32\" y1=\"20\" x2=\"32\" y2=\"12\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Glowing blue powder visible -->\n  <circle cx=\"24\" cy=\"30\" r=\"3\" fill=\"#00ffff\" opacity=\"0.8\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"3\" fill=\"#00ffff\" opacity=\"0.8\"/>\n  <circle cx=\"32\" cy=\"40\" r=\"3\" fill=\"#00ffff\" opacity=\"0.8\"/>\n  <circle cx=\"24\" cy=\"40\" r=\"2\" fill=\"#00ffff\" opacity=\"0.8\"/>\n  <circle cx=\"40\" cy=\"40\" r=\"2\" fill=\"#00ffff\" opacity=\"0.8\"/>\n  \n  <!-- Pouch texture/stitching -->\n  <line x1=\"20\" y1=\"24\" x2=\"20\" y2=\"48\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"44\" y1=\"24\" x2=\"44\" y2=\"48\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"32\" x2=\"48\" y2=\"32\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
   "thornwood-journal": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background -->\n  <rect width=\"64\" height=\"64\" fill=\"#001100\"/>\n  \n  <!-- Thornwood's journal -->\n  <!-- Leather cover -->\n  <rect x=\"12\" y=\"12\" width=\"40\" height=\"40\" fill=\"#221100\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Leather texture -->\n  <line x1=\"12\" y1=\"20\" x2=\"52\" y2=\"20\" stroke=\"#110000\" stroke-width=\"1\"/>\n  <line x1=\"12\" y1=\"28\" x2=\"52\" y2=\"28\" stroke=\"#110000\" stroke-width=\"1\"/>\n  <line x1=\"12\" y1=\"36\" x2=\"52\" y2=\"36\" stroke=\"#110000\" stroke-width=\"1\"/>\n  \n  <!-- Journal details -->\n  <!-- Franted notes lines -->\n  <line x1=\"16\" y1=\"18\" x2=\"48\" y2=\"18\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"22\" x2=\"40\" y2=\"22\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"26\" x2=\"44\" y2=\"26\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"30\" x2=\"36\" y2=\"30\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"16\" y1=\"34\" x2=\"28\" y2=\"34\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Diagram elements -->\n  <circle cx=\"24\" cy=\"24\" r=\"3\" fill=\"#000000\"/>\n  <line x1=\"24\" y1=\"24\" x2=\"32\" y2=\"32\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <circle cx=\"32\" cy=\"32\" r=\"2\" fill=\"#000000\"/>\n  <line x1=\"32\" y1=\"32\" x2=\"40\" y2=\"24\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Leather strap/binding -->\n  <rect x=\"8\" y=\"12\" width=\"4\" height=\"40\" fill=\"#110000\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
   "seed-pods": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background -->\n  <rect width=\"64\" height=\"64\" fill=\"#001100\"/>\n  \n  <!-- Dried seed pods -->\n  <!-- Cluster of pods -->\n  <ellipse cx=\"20\" cy=\"32\" rx=\"6\" ry=\"10\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <ellipse cx=\"32\" cy=\"28\" rx=\"6\" ry=\"10\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <ellipse cx=\"44\" cy=\"32\" rx=\"6\" ry=\"10\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <ellipse cx=\"28\" cy=\"20\" rx=\"6\" ry=\"10\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <ellipse cx=\"36\" cy=\"20\" rx=\"6\" ry=\"10\" fill=\"#332200\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Pod texture (brittle, papery) -->\n  <line x1=\"20\" y1=\"26\" x2=\"20\" y2=\"38\" stroke=\"#443300\" stroke-width=\"1\"/>\n  <line x1=\"32\" y1=\"22\" x2=\"32\" y2=\"34\" stroke=\"#443300\" stroke-width=\"1\"/>\n  <line x1=\"44\" y1=\"26\" x2=\"44\" y2=\"38\" stroke=\"#443300\" stroke-width=\"1\"/>\n  <line x1=\"28\" y1=\"16\" x2=\"28\" y2=\"24\" stroke=\"#443300\" stroke-width=\"1\"/>\n  <line x1=\"36\" y1=\"16\" x2=\"36\" y2=\"24\" stroke=\"#443300\" stroke-width=\"1\"/>\n  \n  <!-- Seeds visible inside (rattling) -->\n  <circle cx=\"18\" cy=\"30\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"22\" cy=\"34\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"30\" cy=\"26\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"34\" cy=\"30\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"42\" cy=\"30\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"46\" cy=\"34\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"26\" cy=\"18\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"30\" cy=\"22\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"38\" cy=\"18\" r=\"2\" fill=\"#221100\"/>\n  <circle cx=\"42\" cy=\"22\" r=\"2\" fill=\"#221100\"/>\n</svg>"
-};
+}
 
 // ============================================================
 // GAME LOGIC
@@ -626,7 +561,7 @@ const GAME_ART = {
 // ============================================================
 
 // Game data will be embedded here by the Game Assembler
-// const GAME_DATA = {...}; // Replaced with actual game-script.json contents
+// var GAME_DATA = {...}; // Replaced with actual game-script.json contents
 
 // ---- Game State ----
 const state = {
@@ -982,6 +917,14 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
-    </script>
-</body>
+    
+// Reset button
+document.getElementById('reset-btn')?.addEventListener('click', function() {
+    if (confirm('Reset the game to the beginning?')) {
+        state = {currentScene: GAME_DATA.scenes[0].id, inventory: [], solvedPuzzles: [], visitedScenes: [GAME_DATA.scenes[0].id], selectedItem: null, won: false};
+        clearText(); addText('The story begins anew...', 'system');
+        renderScene(state.currentScene); renderInventory();
+    }
+});
+    </script></body>
 </html>

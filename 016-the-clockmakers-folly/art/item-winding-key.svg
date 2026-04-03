@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Background -->
+  <rect width="64" height="64" fill="#020202" opacity="0.3" rx="2"/>
+  
+  <!-- Master Winding Key - heavy iron, ouroboros (serpent eating tail) handle -->
+  
+  <!-- Key shaft - long, cold iron -->
+  <rect x="10" y="29" width="30" height="6" fill="#333" stroke="#444" stroke-width="1.5" rx="1"/>
+  <rect x="12" y="30" width="26" height="4" fill="#3a3a3a" opacity="0.5"/>
+  
+  <!-- Ouroboros handle - serpent eating its tail -->
+  <!-- Serpent body forming circle -->
+  <circle cx="48" cy="32" r="12" fill="none" stroke="#555" stroke-width="3.5"/>
+  
+  <!-- Ouroboros interior (dark) -->
+  <circle cx="48" cy="32" r="10" fill="#222" stroke="#444" stroke-width="0.5"/>
+  
+  <!-- Serpent head at the top, biting its own tail -->
+  <!-- Head shape -->
+  <ellipse cx="48" cy="20" rx="5" ry="4" fill="#444" stroke="#555" stroke-width="1"/>
+  <!-- Eye -->
+  <circle cx="46.5" cy="19.5" r="1.5" fill="#666" stroke="#555" stroke-width="0.5"/>
+  <circle cx="46.5" cy="19.5" r="0.7" fill="#222"/>
+  <!-- Mouth biting tail -->
+  <path d="M44 22 Q46 24 48 24 Q50 24 52 22" fill="none" stroke="#555" stroke-width="1"/>
+  
+  <!-- Tail being eaten (bottom of serpent circle) -->
+  <path d="M44 42 Q46 44 48 44 Q50 44 52 42" fill="none" stroke="#444" stroke-width="1.5"/>
+  
+  <!-- Serpent scale texture on body -->
+  <circle cx="38" cy="26" r="1.5" fill="#444" opacity="0.5"/>
+  <circle cx="36" cy="32" r="1.5" fill="#444" opacity="0.5"/>
+  <circle cx="38" cy="38" r="1.5" fill="#444" opacity="0.5"/>
+  <circle cx="58" cy="26" r="1.5" fill="#444" opacity="0.5"/>
+  <circle cx="60" cy="32" r="1.5" fill="#444" opacity="0.5"/>
+  <circle cx="58" cy="38" r="1.5" fill="#444" opacity="0.5"/>
+  
+  <!-- Key teeth at end of shaft -->
+  <rect x="36" y="35" width="4" height="8" fill="#333" stroke="#444" stroke-width="1"/>
+  <rect x="38" y="35" width="3" height="5" fill="#333"/>
+  
+  <!-- Iron texture - cold, heavy -->
+  <rect x="14" y="30" width="6" height="1" fill="#222" opacity="0.4"/>
+  <rect x="22" y="31" width="5" height="1" fill="#222" opacity="0.3"/>
+  <rect x="30" y="30" width="4" height="1" fill="#222" opacity="0.3"/>
+  
+  <!-- Cold iron gleam -->
+  <line x1="12" y1="30" x2="38" y2="30" stroke="#555" stroke-width="0.5" opacity="0.3"/>
+  
+  <!-- Faint hum of latent purpose (very subtle glow) -->
+  <circle cx="48" cy="32" r="16" fill="#000022" opacity="0.1"/>
+  
+  <!-- Ornate detail on ouroboros - mystical significance -->
+  <circle cx="48" cy="32" r="6" fill="none" stroke="#333" stroke-width="0.5" opacity="0.4"/>
+  <!-- Rune/symbol in center -->
+  <text x="48" y="34" font-family="serif" font-size="7" fill="#444" text-anchor="middle" opacity="0.5">∞</text>
+</svg>

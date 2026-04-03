@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#000000"/>
+  <!-- abyssal blackness -->
+  <!-- beast silhouette -->
+  <g transform="translate(220,100)">
+    <ellipse cx="100" cy="100" rx="120" ry="80" fill="#1a2a3a" stroke="#d4af37" stroke-width="3"/>
+    <!-- eyes -->
+    <circle cx="80" cy="90" r="10" fill="#d4af37"/>
+    <circle cx="120" cy="90" r="10" fill="#d4af37"/>
+    <!-- bioluminescent patches -->
+    <ellipse cx="60" cy="150" rx="20" ry="10" fill="#0ff"/>
+    <ellipse cx="140" cy="160" rx="15" ry="8" fill="#0ff"/>
+  </g>
+  <!-- pressure lines -->
+  <g stroke="#444" stroke-width="1">
+    <line x1="0" y1="100" x2="200" y2="100"/>
+    <line x1="440" y1="100" x2="640" y2="100"/>
+  </g>
+</svg>

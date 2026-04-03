@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+  <defs>
+    <!-- Wall pattern -->
+    <pattern id="wall-texture" width="40" height="20" patternUnits="userSpaceOnUse">
+      <rect width="40" height="20" fill="#1a0d00"/>
+      <rect x="1" y="1" width="38" height="18" fill="#0d0600" stroke="#1a0d00" stroke-width="1"/>
+    </pattern>
+    <!-- Floor dither -->
+    <pattern id="floor-dark" width="8" height="8" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#000000"/>
+      <rect x="4" y="4" width="4" height="4" fill="#000000"/>
+    </pattern>
+    <!-- Wood grain -->
+    <pattern id="wood-plank" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#1a0d00"/>
+      <line x1="0" y1="0" x2="80" y2="0" stroke="#0d0600" stroke-width="2"/>
+      <line x1="0" y1="20" x2="80" y2="20" stroke="#0d0600" stroke-width="1" opacity="0.5"/>
+      <line x1="0" y1="40" x2="80" y2="40" stroke="#0d0600" stroke-width="1" opacity="0.5"/>
+      <line x1="0" y1="60" x2="80" y2="60" stroke="#0d0600" stroke-width="1" opacity="0.5"/>
+    </pattern>
+  </defs>
+  
+  <!-- Layer 1: Background wall -->
+  <rect width="640" height="400" fill="#0a0a00"/>
+  <rect x="0" y="0" width="640" height="280" fill="url(#wall-texture)"/>
+  
+  <!-- Layer 2: Floor -->
+  <rect x="0" y="280" width="640" height="120" fill="url(#wood-plank)"/>
+  <rect x="0" y="320" width="640" height="80" fill="url(#floor-dark)" opacity="0.3"/>
+  
+  <!-- Layer 3: Grandfather clock (center wall) -->
+  <!-- Clock case -->
+  <rect x="280" y="60" width="80" height="220" fill="#0d0600" stroke="#000000" stroke-width="3"/>
+  <!-- Clock face -->
+  <circle cx="320" cy="110" r="30" fill="#1a1a00" stroke="#333" stroke-width="3"/>
+  <!-- Clock hands frozen at 11:59 -->
+  <line x1="320" y1="110" x2="320" y2="88" stroke="#000" stroke-width="3"/>
+  <line x1="320" y1="110" x2="332" y2="98" stroke="#000" stroke-width="2"/>
+  <!-- Broken face crack -->
+  <line x1="305" y1="95" x2="325" y2="120" stroke="#333" stroke-width="2"/>
+  <!-- Clock bottom -->
+  <rect x="285" y="200" width="70" height="70" fill="#0d0600" stroke="#000" stroke-width="2"/>
+  <!-- Pendulum arrested mid-swing -->
+  <line x1="320" y1="140" x2="340" y2="260" stroke="#333" stroke-width="3"/>
+  <circle cx="342" cy="260" r="15" fill="#1a0d00" stroke="#333" stroke-width="2"/>
+  <!-- Inscription -->
+  <rect x="290" y="285" width="60" height="12" fill="#0a0a00" stroke="#333" stroke-width="1"/>
+  <text x="320" y="294" font-family="serif" font-size="6" fill="#555" text-anchor="middle">11:59</text>
+  
+  <!-- Layer 4: Front door (east/right, ajar) -->
+  <rect x="520" y="80" width="80" height="200" fill="#000" stroke="#1a0d00" stroke-width="3"/>
+  <!-- Door opening - gray daylight -->
+  <rect x="525" y="85" width="20" height="190" fill="#666" opacity="0.4"/>
+  <!-- Door frame -->
+  <rect x="545" y="80" width="60" height="200" fill="#0d0600" stroke="#1a0d00" stroke-width="2"/>
+  <!-- Door knob -->
+  <circle cx="530" cy="185" r="4" fill="#664400" stroke="#000"/>
+  
+  <!-- Layer 4b: Staircase (left side, winding up) -->
+  <!-- Stair base -->
+  <rect x="20" y="200" width="100" height="80" fill="#0d0600" stroke="#1a0d00" stroke-width="2"/>
+  <!-- Steps -->
+  <rect x="20" y="260" width="40" height="20" fill="#1a0d00" stroke="#000" stroke-width="1"/>
+  <rect x="35" y="245" width="40" height="20" fill="#1a0d00" stroke="#000" stroke-width="1"/>
+  <rect x="50" y="230" width="40" height="20" fill="#1a0d00" stroke="#000" stroke-width="1"/>
+  <rect x="65" y="215" width="40" height="20" fill="#1a0d00" stroke="#000" stroke-width="1"/>
+  <!-- Railing -->
+  <line x1="30" y1="220" x2="70" y2="180" stroke="#1a0d00" stroke-width="3"/>
+  <line x1="50" y1="200" x2="50" y2="185" stroke="#1a0d00" stroke-width="2"/>
+  <line x1="60" y1="210" x2="60" y2="195" stroke="#1a0d00" stroke-width="2"/>
+  <!-- Staircase going up into shadow -->
+  <rect x="10" y="160" width="80" height="60" fill="url(#floor-dark)" opacity="0.5"/>
+  
+  <!-- Layer 5: Side table with brass key and pocket watch -->
+  <!-- Table near staircase -->
+  <rect x="130" y="260" width="50" height="40" fill="#1a0d00" stroke="#0d0600" stroke-width="2"/>
+  <rect x="125" y="255" width="60" height="5" fill="#0d0600" stroke="#000" stroke-width="1"/>
+  <!-- Table legs -->
+  <rect x="130" y="300" width="5" height="15" fill="#0d0600"/>
+  <rect x="175" y="300" width="5" height="15" fill="#0d0600"/>
+  
+  <!-- Brass key on table -->
+  <rect x="145" y="248" width="18" height="5" fill="#FF8800" rx="1"/>
+  <circle cx="145" cy="250" r="6" fill="none" stroke="#FF8800" stroke-width="2"/>
+  <!-- Key teeth -->
+  <rect x="158" y="252" width="3" height="4" fill="#FF8800"/>
+  <rect x="161" y="252" width="2" height="3" fill="#FF8800"/>
+  
+  <!-- Pocket watch -->
+  <circle cx="165" cy="250" r="7" fill="#555" stroke="#777" stroke-width="1"/>
+  <circle cx="165" cy="250" r="5" fill="#333"/>
+  <!-- Bent hands -->
+  <line x1="165" y1="250" x2="165" y2="246" stroke="#777" stroke-width="1"/>
+  <line x1="165" y1="250" x2="168" y2="249" stroke="#777" stroke-width="1"/>
+  <!-- Cracked glass -->
+  <line x1="161" y1="246" x2="166" y2="253" stroke="#888" stroke-width="1" opacity="0.5"/>
+  <line x1="168" y1="247" x2="164" y2="252" stroke="#888" stroke-width="1" opacity="0.5"/>
+  
+  <!-- Layer 6: West door (left wall, shut) -->
+  <rect x="0" y="100" width="15" height="180" fill="#000" stroke="#1a0d00" stroke-width="2"/>
+  <rect x="0" y="100" width="15" height="180" fill="#0d0600"/>
+  <!-- Brass handle tarnished green -->
+  <rect x="12" y="185" width="6" height="3" fill="#336600" opacity="0.6"/>
+  
+  <!-- Layer 7: Atmospheric shadows and shafts of light -->
+  <!-- Light shaft from front door -->
+  <rect x="525" y="85" width="100" height="200" fill="#FF8800" opacity="0.02" transform="skewX(-10)"/>
+  <!-- Shadow pool under the clock -->
+  <ellipse cx="320" cy="290" rx="50" ry="8" fill="#000" opacity="0.6"/>
+  <!-- Shadow under table -->
+  <ellipse cx="155" cy="318" rx="25" ry="4" fill="#000" opacity="0.5"/>
+  <!-- Dust motes in light -->
+  <circle cx="480" cy="150" r="1" fill="#FFF" opacity="0.15"/>
+  <circle cx="500" cy="180" r="1" fill="#FFF" opacity="0.12"/>
+  <circle cx="490" cy="210" r="1" fill="#FFF" opacity="0.1"/>
+  
+  <!-- Pale afternoon light shaft -->
+  <rect x="480" y="40" width="60" height="240" fill="#FFFF00" opacity="0.03"/>
+  
+  <!-- Vignette darkening at corners -->
+  <rect x="0" y="0" width="640" height="400" fill="url(#floor-dark)" opacity="0.1"/>
+</svg>

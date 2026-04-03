@@ -1,0 +1,219 @@
+{
+  "title": "The Clockmaker's Folly",
+  "slug": "the-clockmakers-folly",
+  "number": 16,
+  "setting": "A Victorian clockwork manor frozen in fractured time",
+  "characters": [
+    {
+      "id": "char-clockmaker",
+      "name": "Silas Thornwick",
+      "description": "The late clockmaker, whose obsession with stopping time consumed his mansion and his sanity."
+    }
+  ],
+  "items": [
+    {
+      "id": "ITEM_KEY",
+      "name": "Brass Key",
+      "description": "An ornate brass key with clock gear teeth cut into its bow. It catches the flickering light.",
+      "foundIn": "scene-foyer",
+      "usedIn": "scene-workshop",
+      "usedOn": "P1"
+    },
+    {
+      "id": "ITEM_GEAR",
+      "name": "Escapement Gear",
+      "description": "A small polished brass gear with worn teeth. It looks like it belongs to a clock mechanism.",
+      "foundIn": "scene-workshop",
+      "usedIn": "scene-library",
+      "usedOn": "P2"
+    },
+    {
+      "id": "ITEM_JOURNAL",
+      "name": "Clockmaker's Journal",
+      "description": "A leather-bound journal filled with frantic scrawls about time loops and the 'eternal tick.'",
+      "foundIn": "scene-library",
+      "usedIn": "scene-bedroom",
+      "usedOn": "P3"
+    },
+    {
+      "id": "ITEM_CRYSTAL",
+      "name": "Obsidian Lens",
+      "description": "A dark crystalline lens that seems to drink the light around it. The edges are cut with astronomical precision.",
+      "foundIn": "scene-bedroom",
+      "usedIn": "scene-observatory",
+      "usedOn": "P4"
+    },
+    {
+      "id": "ITEM_WINDING_KEY",
+      "name": "Master Winding Key",
+      "description": "A heavy iron winding key, long and cold. The handle is shaped like a serpent eating its own tail.",
+      "foundIn": "scene-observatory",
+      "usedIn": "scene-heart",
+      "usedOn": "P5"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "scene-foyer",
+      "name": "The Foyer",
+      "prose": "You stand in the grand foyer of Thornwick Manor. The air smells of old wood and machine oil. Dust motes hang motionless in shafts of pale afternoon light, as if time itself has forgotten to move. A massive grandfather clock looms against the far wall, its face frozen at 11:59. The pendulum is arrested mid-swing, caught in an eternal pause. To the south, the front door — the way you came in — hangs slightly ajar, a rectangle of gray daylight beyond. A narrow hallway extends east. Upwards, a staircase winds toward shadowed floors above. To the west, a heavy oak door stands shut, its brass handle tarnished green. On a small side table near the staircase, a single brass key glints faintly, abandoned next to a stopped pocket watch.",
+      "exits": {
+        "north": "scene-workshop",
+        "east": "scene-library",
+        "south": null,
+        "west": null,
+        "up": "scene-bedroom"
+      },
+      "items": ["ITEM_KEY"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "grandfather clock": "The clock face is cracked, frozen eternally at 11:59. The hands tremble faintly as if trying to move. An inscription below reads: 'Time waits for no man, yet here we are.'",
+        "brass key": "A heavy brass key with ornate teeth carved like clockwork gears. It fits no lock you can see from here, but it feels cold and purposeful in your imagination.",
+        "front door": "The front door stands ajar, showing a rectangle of gray courtyard beyond. But something feels wrong — the light outside never changes, the leaves never fall. You cannot bring yourself to leave.",
+        "pocket watch": "A silver pocket watch lying open on the table. Its hands are bent at impossible angles, the glass face spiderwebbed with cracks."
+      }
+    },
+    {
+      "id": "scene-workshop",
+      "name": "The Workshop",
+      "prose": "Silas Thornwick's workshop is a cathedral of broken time. Workbenches groan under the weight of disassembled clocks in every state of undress — gears scattered like metallic confetti, mainsprings coiled like sleeping serpents, pendulums standing in silent ranks against the wall. The air is thick with the ghost of ticking, a phantom rhythm your ears chase but cannot catch. Light filters through grimy windows, catching on brass and steel. To the north, a door leads back to the foyer. To the west, a narrow passage opens into the library, its threshold littered with fallen pages. To the east, another door stands half-shut, revealing a dim corridor. On the main workbench sits a large clock mechanism, its guts spilled open. A locked drawer set into the bench gleams with a keyhole shaped strangely like a gear-tooth pattern.",
+      "exits": {
+        "south": "scene-foyer",
+        "west": "scene-library",
+        "east": "scene-bedroom",
+        "north": null
+      },
+      "items": [],
+      "puzzles": ["P1"],
+      "lookDescriptions": {
+        "workbench": "A scarred oak workbench covered in tools: fine screwdrivers, tiny hammers, tweezers stained dark with oil. A half-assembled pocket watch lies in pieces.",
+        "locked drawer": "A deep drawer set into the workbench, locked with an unusual mechanism. The keyhole is cut in the shape of a clock gear, demanding a very specific key.",
+        "clock mechanism": "The innards of a large clock, spread open like a dissected bird. Gears, springs, and levers fill every surface. Something vital is missing — an escapement gear that would set it all in motion.",
+        "gears": "Brass gears of every size are scattered across the bench and floor, some no larger than a fingernail, others the width of dinner plates. None seem to fit the obvious gaps."
+      }
+    },
+    {
+      "id": "scene-library",
+      "name": "The Library",
+      "prose": "The library of Thornwick Manor is a labyrinth of forgotten knowledge. Floor-to-ceiling shelves groan under the weight of leather-bound volumes, their spines stamped with titles on horology, celestial mechanics, and the philosophy of time. A thick carpet swallows your footsteps. Dust hangs in stagnant columns of light from high windows. In one corner, a reading desk holds scattered notes, ink blots frozen mid-spread like dark flowers. The room smells of paper and old leather. To the east, double doors lead back to the foyer, their brass handles worn smooth by generations of hands. To the west, a short corridor leads to the workshop. But the north wall is dominated by an enormous bookshelf that blocks a doorway — or rather, a bookshelf that IS a doorway, disguised among the rest. A mechanism on its side has a gear-shaped slot, currently empty. Through the cracks around the shelf, you can see a flicker of movement in the room beyond.",
+      "exits": {
+        "south": "scene-foyer",
+        "east": "scene-workshop",
+        "west": "scene-bedroom",
+        "north": "scene-bedroom"
+      },
+      "items": [],
+      "puzzles": ["P2"],
+      "lookDescriptions": {
+        "bookshelf door": "A massive oak bookshelf that conceals a hidden doorway. A gear-shaped slot on its side is empty. Through the gaps between books, you can make out a dim room beyond.",
+        "reading desk": "A polished desk covered in the clockmaker's frantic notes. Diagrams of clock mechanisms mingle with increasingly paranoid scribbles about 'the tick that never ends' and 'what waits at midnight.'",
+        "books": "Volumes on timekeeping through the ages: water clocks, sundials, atomic precision. One title stands out — 'The Paradox of Stopped Time' — its pages are dog-eared and annotated in a shaky hand.",
+        "gear slot": "A recessed slot in the bookshelf door's mechanism, shaped to accept a specific brass gear. It looks like turning it would rotate the entire shelf away from the wall."
+      }
+    },
+    {
+      "id": "scene-bedroom",
+      "name": "The Bedroom",
+      "prose": "Silas Thornwick's bedroom is a capsule of a life interrupted. The bed is neatly made, the blankets pulled taut as if the occupant stepped out moments ago and plans to return. A washstand holds a pitcher and basin, the water inside undisturbed and perfectly clear. On the wall, a calendar is turned to April 1887, the 14th circled in heavy black ink. The room is oppressively still. A wardrobe stands in one corner, its doors slightly ajar, revealing hanging coats that seem to breathe with phantom movement. A safe is set into the wall near the bed, its dial cold and silent. The door to the east leads back toward the library and foyer. Another door, to the north, stands locked — its keyhole is an ornate shape that demands more than a simple key. On the nightstand, a leather journal lies open to a page filled with numbers and a single underlined phrase: 'The safe code is the hour I lost forever.'",
+      "exits": {
+        "south": "scene-library",
+        "west": "scene-observatory",
+        "north": "scene-heart",
+        "east": "scene-foyer"
+      },
+      "items": [],
+      "puzzles": ["P3"],
+      "lookDescriptions": {
+        "bed": "A four-poster bed with heavy curtains. The sheets are pristine, the pillow indented as if someone slept here recently, though the dust on the frame tells a different story.",
+        "safe": "A wall safe with a circular combination dial. It is locked tight, but the journal on the nightstand might hold the secret to opening it.",
+        "journal": "Silas Thornwick's personal journal, open to a page covered in frantic arithmetic. At the bottom, underlined twice: 'The safe code is the hour I lost forever — 1159.'",
+        "wardrobe": "A tall oak wardrobe filled with Victorian coats and waistcoats. At the bottom, wrapped in tissue paper, a dark crystalline object glints from within a small box."
+      }
+    },
+    {
+      "id": "scene-observatory",
+      "name": "The Observatory",
+      "prose": "The observatory crowns Thornwick Manor, a circular room with a domed ceiling split by a shuttered oculus. Astronomical clocks of impossible complexity line the curved walls, their faces showing not just hours but phases of the moon, positions of planets, and cycles no living astronomer has named. A large brass telescope points through the oculus at the frozen sky. Star charts are pinned to every available surface, connected by red thread to dates and times — a web of obsession. The air is cold and thin up here. Through the oculus, the sky is a perpetual twilight, neither day nor night, stars fixed in positions that feel wrong. A staircase in the floor leads down to the bedroom. In the center of the room, the telescope's eyepiece is empty — its lens is missing. On a shelf beneath the largest astronomical clock, a small heavy object rests on a velvet cushion: a winding key, black iron, waiting.",
+      "exits": {
+        "down": "scene-bedroom",
+        "up": "scene-heart"
+      },
+      "items": [],
+      "puzzles": ["P4"],
+      "lookDescriptions": {
+        "telescope": "A large brass telescope aimed at the oculus. Its eyepiece is empty — the lens has been removed. Without it, the telescope is useless, just a hollow tube pointing at eternity.",
+        "astronomical clocks": "Clocks of breathtaking complexity show celestial movements. One large clock has twelve hands, each labeled with a planet, a star, or a symbol you cannot name. All are stopped at the same impossible moment.",
+        "star charts": "Maps of the night sky, annotated with red ink. Dates are circled, times noted. One page shows a constellation in a configuration that hasn't existed for centuries — or won't exist for millennia.",
+        "winding key": "A heavy iron winding key resting on a velvet cushion. Its handle is shaped like an ouroboros — a serpent eating its tail. It feels cold and heavy, humming with latent purpose."
+      }
+    },
+    {
+      "id": "scene-heart",
+      "name": "The Heart",
+      "prose": "You have reached the heart of Thornwick Manor — the inner chamber that Silas Thornwick built to house his greatest and final creation. The room is small, circular, and dominated by a single object: the Master Clock. It stands eight feet tall, a tower of brass and glass and interlocking gears visible through transparent panels. But it is still. Silent. The great pendulum hangs motionless. The gears do not turn. The clock face, larger than a man's torso, shows no hands at all — only a blank white expanse, waiting. In the center of the clock's chest is a keyhole, shaped with the cruel elegance of a serpent devouring its own tail. The walls of the chamber are lined with smaller clocks, all synchronized, all stopped. A narrow staircase leads back down toward the observatory. There are no other exits. This is the end. The Master Clock waits. It has always waited.",
+      "exits": {
+        "down": "scene-observatory"
+      },
+      "items": [],
+      "puzzles": ["P5"],
+      "lookDescriptions": {
+        "master clock": "A towering clock of brass and glass, silent and still. A keyhole shaped like an ouroboros waits in its center. This is what Silas built. This is what consumed him.",
+        "keyhole": "A keyhole shaped like a serpent eating its own tail. It demands the Master Winding Key. Something tells you that once you wind this clock, nothing will ever be the same.",
+        "walls": "The walls are lined with dozens of small clocks, all showing the same frozen time: 11:59. Below each clock, a name is engraved. You do not recognize any of them.",
+        "staircase": "The only way back down, a narrow iron staircase spiraling into shadow. But you did not climb all these stairs to leave. You climbed them to end this."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "P1",
+      "scene": "scene-workshop",
+      "requires": ["ITEM_KEY"],
+      "action": "use brass key on locked drawer",
+      "result": "The brass key turns with a satisfying click. The drawer slides open, revealing a small polished gear nestled in oil-stained velvet — the Escapement Gear, vital to any clock mechanism.",
+      "reveals": ["ITEM_GEAR"],
+      "blocksExit": null
+    },
+    {
+      "id": "P2",
+      "scene": "scene-library",
+      "requires": ["ITEM_GEAR"],
+      "action": "use escapement gear on gear slot",
+      "result": "You fit the gear into the slot on the bookshelf door. With a deep mechanical groan, the entire shelf rotates away from the wall, revealing the hidden passage north into the Bedroom.",
+      "reveals": [],
+      "blocksExit": "north"
+    },
+    {
+      "id": "P3",
+      "scene": "scene-bedroom",
+      "requires": ["ITEM_JOURNAL"],
+      "action": "use clockmaker's journal on safe",
+      "result": "The journal revealed the safe code: 1159. You dial it into the safe. It clicks open, and inside, wrapped in faded velvet, you find the Obsidian Lens — a dark crystal cut for the observatory's telescope.",
+      "reveals": ["ITEM_CRYSTAL"],
+      "blocksExit": null
+    },
+    {
+      "id": "P4",
+      "scene": "scene-observatory",
+      "requires": ["ITEM_CRYSTAL"],
+      "action": "use obsidian lens on telescope",
+      "result": "You slide the Obsidian Lens into the telescope's eyepiece. The dark crystal drinks the light, then focuses it into a beam that shoots through the oculus. The telescope whirs to life, sliding aside to reveal a hidden compartment — inside rests the Master Winding Key.",
+      "reveals": ["ITEM_WINDING_KEY"],
+      "blocksExit": null
+    },
+    {
+      "id": "P5",
+      "scene": "scene-heart",
+      "requires": ["ITEM_WINDING_KEY"],
+      "action": "use master winding key on master clock",
+      "result": "You insert the Master Winding Key into the ouroboros-shaped keyhole. It turns once, twice, three times — and the Master Clock comes alive. Gears engage. The pendulum swings. The hands appear on the face and begin to move. Time flows again. Silas Thornwick's folly is undone. You have escaped the frozen manor. VICTORY.",
+      "reveals": [],
+      "blocksExit": null
+    }
+  ],
+  "winCondition": {
+    "scene": "scene-heart",
+    "requires": ["ITEM_WINDING_KEY"],
+    "description": "Insert the Master Winding Key into the Master Clock to restore the flow of time and escape Thornwick Manor."
+  }
+}

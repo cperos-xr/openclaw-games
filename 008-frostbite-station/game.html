@@ -6,126 +6,102 @@
     <title>Frostbite Station | Game #008</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* =====================================================
+           VERTICAL LAYOUT — single-column, image-first
+           Optimised for cheaper raster images (16:9 landscape)
+           Mobile-first; scales cleanly to tablet and desktop.
+           ===================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: #000;
             color: #0f0;
             font-family: 'Press Start 2P', monospace;
             font-size: 12px;
-            line-height: 1.4;
-            padding: 20px;
-            max-width: 1024px;
+            line-height: 1.6;
+            padding: 12px;
+            max-width: 720px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+        header { text-align: center; margin-bottom: 8px; }
 
         h1 {
-            font-size: 16px;
-            margin-bottom: 5px;
+            font-size: 14px;
             color: #0f0;
-            text-shadow: 0 0 5px #0f0;
+            text-shadow: 0 0 6px #0f0;
+            margin-bottom: 4px;
         }
 
-        h2 {
-            font-size: 14px;
-            margin-bottom: 10px;
-            color: #0f0;
-        }
+        h2 { font-size: 10px; color: #080; margin-bottom: 6px; }
 
         #scene-name {
-            font-size: 18px;
+            font-size: 14px;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #0f0;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 4px #0f0;
         }
 
-        .game-container {
-            display: flex;
-            flex: 1;
-            gap: 20px;
-            min-height: 0;
-        }
-
+        /* --- Art panel: full width, 16:9 ratio --- */
         .art-panel {
-            flex: 1;
+            width: 100%;
+            aspect-ratio: 16 / 9;
             border: 2px solid #0f0;
             background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            min-height: 400px;
+            margin-bottom: 8px;
         }
 
-        #art-display svg,
-        #art-display img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+        #art-display {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        #art-display img,
+        #art-display svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* --- Text panel --- */
         .text-panel {
-            flex: 1;
             border: 2px solid #0f0;
             background-color: #000;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            padding: 12px;
+            margin-bottom: 8px;
         }
 
         #text-display {
-            flex: 1;
+            max-height: 200px;
             overflow-y: auto;
             margin-bottom: 10px;
-            border-bottom: 1px solid #0f0;
             padding-bottom: 10px;
+            border-bottom: 1px solid #033;
+            scrollbar-width: thin;
+            scrollbar-color: #0f0 #000;
         }
 
-        #text-display p {
-            margin-bottom: 10px;
-            color: #0f0;
-        }
+        #text-display::-webkit-scrollbar { width: 4px; }
+        #text-display::-webkit-scrollbar-track { background: #000; }
+        #text-display::-webkit-scrollbar-thumb { background: #0f0; }
 
-        #text-display .system {
-            color: #0a0;
-            font-style: italic;
-        }
-
-        #text-display .success {
-            color: #0f0;
-            font-weight: bold;
-            animation: itemGlow 1s infinite alternate;
-        }
-
-        #text-display .locked {
-            color: #f00;
-            font-weight: bold;
-        }
-
-        #text-display .error {
-            color: #f00;
-        }
-
-        #text-display .hint {
-            color: #FFAA00;
-            font-style: italic;
-        }
+        #text-display p { margin-bottom: 8px; color: #0f0; }
+        #text-display .system { color: #0a0; font-style: italic; }
+        #text-display .success { color: #0f0; font-weight: bold; animation: itemGlow 1s infinite alternate; }
+        #text-display .locked { color: #f00; font-weight: bold; }
+        #text-display .error { color: #f00; }
+        #text-display .hint { color: #FFAA00; font-style: italic; }
 
         .hint-toggle {
             background-color: #000;
@@ -135,129 +111,98 @@
             font-family: 'Press Start 2P', monospace;
             font-size: 8px;
             cursor: pointer;
-            margin-top: 5px;
+            margin-top: 4px;
         }
+        .hint-toggle:hover { background-color: #0f0; color: #000; }
 
-        .hint-toggle:hover {
-            background-color: #0f0;
-            color: #000;
-        }
-
+        /* --- Command buttons: equal-width row --- */
         .command-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
         }
 
         .cmd-btn {
             background-color: #000;
             color: #0f0;
             border: 1px solid #0f0;
-            padding: 5px 10px;
+            padding: 6px 10px;
             font-family: 'Press Start 2P', monospace;
             font-size: 10px;
             cursor: pointer;
             transition: all 0.2s;
+            flex: 1;
+            min-width: 60px;
+            text-align: center;
+        }
+        .cmd-btn:hover, .cmd-btn.active { background-color: #0f0; color: #000; }
+
+        /* --- Inventory + Exits: 2-col on tablet+, stacked on mobile --- */
+        .panels-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
         }
 
-        .cmd-btn:hover {
-            background-color: #0f0;
-            color: #000;
+        @media (max-width: 480px) {
+            .panels-row { grid-template-columns: 1fr; }
+            h1 { font-size: 12px; }
+            .cmd-btn { font-size: 9px; padding: 5px 6px; }
         }
 
-        .cmd-btn.active {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .inventory-panel {
+        .inventory-panel, .exits-panel {
             border: 2px solid #0f0;
             background-color: #000;
             padding: 10px;
-            margin-bottom: 15px;
         }
 
-        .inventory-panel h3 {
-            font-size: 12px;
-            margin-bottom: 5px;
+        .inventory-panel h3, .exits-panel h3 {
+            font-size: 10px;
+            margin-bottom: 6px;
             color: #0f0;
+            border-bottom: 1px solid #033;
+            padding-bottom: 4px;
         }
 
         #inventory-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
             min-height: 20px;
         }
 
         .inv-item {
             border: 1px solid #0f0;
             padding: 3px 6px;
-            font-size: 10px;
+            font-size: 9px;
             cursor: pointer;
             background-color: #000;
             color: #0f0;
         }
+        .inv-item.selected { background-color: #0f0; color: #000; }
 
-        .inv-item.selected {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .exits-panel {
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 10px;
-        }
-
-        .exits-panel h3 {
-            font-size: 12px;
-            margin-bottom: 5px;
-            color: #0f0;
-        }
-
-        #exits-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
+        #exits-bar { display: flex; flex-wrap: wrap; gap: 6px; }
 
         .exit-btn {
             background-color: #000;
             color: #0f0;
             border: 1px solid #0f0;
-            padding: 5px 10px;
+            padding: 5px 8px;
             font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
+            font-size: 9px;
             cursor: pointer;
         }
+        .exit-btn.available:hover { background-color: #0f0; color: #000; }
 
-        .exit-btn.available:hover {
-            background-color: #0f0;
-            color: #000;
-        }
+        .look-target { color: #0af; text-decoration: underline; cursor: pointer; }
+        .look-target:hover { color: #0ff; }
 
-        .look-target {
-            color: #0af;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-
-        .look-target:hover {
-            color: #0ff;
-        }
-
+        /* --- Animations --- */
         @keyframes puzzle-solved {
             0% { filter: brightness(1); }
             50% { filter: brightness(2); }
             100% { filter: brightness(1); }
-        }
-
-        @keyframes unlockPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
         }
 
         @keyframes itemGlow {
@@ -265,36 +210,15 @@
             100% { text-shadow: 0 0 15px #0f0; }
         }
 
-        .puzzle-solved {
-            animation: puzzle-solved 0.6s ease-in-out;
-        }
+        .puzzle-solved { animation: puzzle-solved 0.6s ease-in-out; }
 
         footer {
-            margin-top: 20px;
+            margin-top: 12px;
             text-align: center;
-            font-size: 10px;
+            font-size: 8px;
             color: #080;
+            padding: 8px 0;
         }
-
-        /* ── MOBILE FIX v3.0 ─────────────────────────────────────────
-         * The base layout above assumes desktop (height:100vh, side-by-side).
-         * These overrides restore a sane scrollable layout on mobile.
-         * ─────────────────────────────────────────────────────────── */
-        @media (max-width: 768px) {
-            body { height: auto !important; min-height: 100vh; overflow-y: auto !important; overflow-x: hidden !important; padding: 8px !important; }
-            h1 { font-size: 13px !important; }
-            h2 { font-size: 11px !important; }
-            #scene-name { font-size: 12px !important; }
-            .game-container { flex-direction: column !important; gap: 8px !important; flex: none !important; }
-            .art-panel { flex: none !important; min-height: 0 !important; width: 100% !important; aspect-ratio: 8 / 5; max-height: 56vw !important; }
-            .text-panel { flex: none !important; overflow: visible !important; padding: 10px !important; }
-            #text-display { max-height: 40vh !important; overflow-y: auto !important; }
-            .command-bar { flex-wrap: wrap !important; }
-            .cmd-btn { min-height: 44px !important; padding: 8px 10px !important; flex: 1 !important; font-size: 9px !important; }
-            .exit-btn { min-height: 44px !important; padding: 8px 10px !important; font-size: 9px !important; }
-            .inv-item { min-height: 36px !important; padding: 6px 8px !important; }
-        }
-        @media (max-width: 400px) { .art-panel { max-height: 50vw !important; } }
     </style>
 </head>
 <body>
@@ -302,41 +226,40 @@
         <h1>FROSTBITE STATION</h1>
         <h2>Game #008</h2>
         <button id="hint-toggle" class="hint-toggle">HINTS: ON</button>
+            <button id="reset-btn" class="cmd-btn reset-btn" style="color:#ff6666;border-color:#ff6666;">RESET</button>
     </header>
 
-    <div id="scene-name">LANDING PAD</div>
+    <div id="scene-name">THE LOBBY</div>
 
-    <div class="game-container">
-        <div class="art-panel">
-            <div id="art-display">
-                <!-- Art will be inserted here by JavaScript -->
+    <div class="art-panel">
+        <div id="art-display">
+            <!-- Art inserted by JavaScript -->
+        </div>
+    </div>
+
+    <div class="text-panel">
+        <div id="text-display">
+            <!-- Game text appears here -->
+        </div>
+        <div class="command-bar">
+            <button class="cmd-btn" data-cmd="look">LOOK</button>
+            <button class="cmd-btn" data-cmd="take">TAKE</button>
+            <button class="cmd-btn" data-cmd="use">USE</button>
+            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+        </div>
+    </div>
+
+    <div class="panels-row">
+        <div class="inventory-panel">
+            <h3>INVENTORY</h3>
+            <div id="inventory-bar">
+                <span id="inv-empty">(empty)</span>
             </div>
         </div>
-
-        <div class="text-panel">
-            <div id="text-display">
-                <!-- Game text will appear here -->
-            </div>
-
-            <div class="command-bar">
-                <button class="cmd-btn" data-cmd="look">LOOK</button>
-                <button class="cmd-btn" data-cmd="take">TAKE</button>
-                <button class="cmd-btn" data-cmd="use">USE</button>
-                <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
-            </div>
-
-            <div class="inventory-panel">
-                <h3>INVENTORY</h3>
-                <div id="inventory-bar">
-                    <span id="inv-empty">(empty)</span>
-                </div>
-            </div>
-
-            <div class="exits-panel">
-                <h3>EXITS</h3>
-                <div id="exits-bar">
-                    <!-- Exit buttons will appear here -->
-                </div>
+        <div class="exits-panel">
+            <h3>EXITS</h3>
+            <div id="exits-bar">
+                <!-- Exit buttons inserted by JavaScript -->
             </div>
         </div>
     </div>
@@ -348,8 +271,9 @@
 
     <script>
 // ============================================================
-// GAME DATA
-const GAME_DATA = {
+// GAME DATA — replace with assembled content from game-script.json
+// ============================================================
+var GAME_DATA = {
   "title": "Frostbite Station",
   "slug": "frostbite-station",
   "number": 8,
@@ -620,25 +544,26 @@ const GAME_DATA = {
     ],
     "description": "Place the ice\u2011core artifact into the pedestal and activate the frequency transmitter to resonate with the ancient device, sealing the Watcher back into the ice."
   }
-};
+}
 
 // ============================================================
-// GAME ART
-const GAME_ART = {
-  "landing-pad": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark Arctic sky -->\n  <rect width=\"640\" height=\"400\" fill=\"#000088\"/>\n  \n  <!-- Snow-covered ground -->\n  <rect y=\"300\" width=\"640\" height=\"100\" fill=\"#FFFFFF\" opacity=\"0.8\"/>\n  \n  <!-- Frostbite Station buildings -->\n  <!-- Main building -->\n  <rect x=\"150\" y=\"100\" width=\"300\" height=\"200\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"4\"/>\n  <!-- Building details -->\n  <rect x=\"160\" y=\"120\" width=\"280\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"160\" y=\"160\" width=\"100\" height=\"40\" fill=\"#1A1A1A\"/>\n  <rect x=\"380\" y=\"160\" width=\"100\" height=\"40\" fill=\"#1A1A1A\"/>\n  <!-- Windows -->\n  <rect x=\"180\" y=\"140\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  <rect x=\"230\" y=\"140\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  <rect x=\"280\" y=\"140\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  <rect x=\"330\" y=\"140\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  \n  <!-- Blast door -->\n  <rect x=\"270\" y=\"220\" width=\"80\" height=\"100\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Ice on door -->\n  <rect x=\"270\" y=\"220\" width=\"80\" height=\"20\" fill=\"#E0F8FF\" opacity=\"0.7\"/>\n  \n  <!-- Frozen corridor entrance -->\n  <rect x=\"250\" y=\"180\" width=\"120\" height=\"60\" fill=\"#E0F8FF\" opacity=\"0.6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Snow drifts -->\n  <path d=\"M50,300 Q100,250 150,300 T250,300 Q300,250 350,300 T450,300 Q500,250 550,300 T640,300 L640,400 L0,400 Z\" fill=\"#FFFFFF\" opacity=\"0.9\"/>\n  \n  <!-- Overturned crates -->\n  <rect x=\"100\" y=\"260\" width=\"80\" height=\"40\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"100\" y=\"260\" width=\"20\" height=\"40\" fill=\"#654321\"/>\n  <rect x=\"200\" y=\"240\" width=\"60\" height=\"60\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"200\" y=\"240\" width=\"15\" height=\"60\" fill=\"#654321\"/>\n  \n  <!-- Flare torch -->\n  <rect x=\"180\" y=\"250\" width=\"12\" height=\"30\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"178\" y=\"280\" width=\"16\" height=\"8\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Wind lines -->\n  <line x1=\"0\" y1=\"50\" x2=\"640\" y2=\"50\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"20\" y1=\"100\" x2=\"620\" y2=\"100\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"40\" y1=\"150\" x2=\"600\" y2=\"150\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n</svg>",
-  "main-corridor": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark corridor -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#1A1A1A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#000000\"/>\n  \n  <!-- Red emergency lighting effect -->\n  <rect y=\"0\" width=\"640\" height=\"350\" fill=\"#8B0000\" opacity=\"0.2\"/>\n  \n  <!-- Frost patterns on walls -->\n  <path d=\"M50,100 Q70,80 90,100 T130,100 Q150,80 170,100 T210,100 Q230,80 250,100 T290,100 Q310,80 330,100 T370,100 Q390,80 410,100 T450,100 Q470,80 490,100 T530,100 Q550,80 570,100 T610,100\" stroke=\"#8B0000\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M80,150 Q100,130 120,150 T160,150 Q180,130 200,150 T240,150 Q260,130 280,150 T320,150 Q340,130 360,150 T400,150 Q420,130 440,150 T480,150 Q500,130 520,150 T560,150 Q580,130 600,150\" stroke=\"#8B0000\" stroke-width=\"2\" fill=\"none\"/>\n  \n  <!-- Doors -->\n  <!-- Comm room door (west) -->\n  <rect x=\"20\" y=\"150\" width=\"60\" height=\"100\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <text x=\"30\" y=\"210\" text-anchor=\"middle\" transform=\"rotate(-90 30,210)\" fill=\"#FFFFFF\" font-size=\"10\">COMM</text>\n  \n  <!-- Lab door (east) -->\n  <rect x=\"560\" y=\"150\" width=\"60\" height=\"100\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"570\" y=\"160\" width=\"40\" height=\"20\" fill=\"#FF8800\"/>\n  <text x=\"590\" y=\"175\" text-anchor=\"middle\" fill=\"#000000\" font-size=\"8\">LAB</text>\n  \n  <!-- Generator room door (north) -->\n  <rect x=\"290\" y=\"20\" width=\"60\" height=\"100\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"300\" y=\"30\" width=\"40\" height=\"20\" fill=\"#FF0000\"/>\n  \n  <!-- Fallen locker -->\n  <rect x=\"100\" y=\"280\" width=\"80\" height=\"60\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\" transform=\"rotate(15 100,280)\">\n    <animateTransform attributeName=\"transform\" type=\"rotate\" from \"0 100 280\" to \"15 100 280\" dur=\"2s\" repeatCount=\"indefinite\"/>\n  </rect>\n  <rect x=\"100\" y=\"280\" width=\"20\" height=\"60\" fill=\"#654321\" transform=\"rotate(15 100,280)\"/>\n  \n  <!-- Spilled items from locker -->\n  <rect x=\"120\" y=\"320\" width=\"25\" height=\"15\" fill=\"#000080\"/>\n  <rect x=\"150\" y=\"320\" width=\"15\" height=\"10\" fill=\"#FFFFFF\"/>\n  <rect x=\"170\" y=\"325\" width=\"10\" height=\"5\" fill=\"#8B4513\"/>\n  \n  <!-- Maintenance keycard -->\n  <rect x=\"320\" y=\"340\" width=\"20\" height=\"12\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"322\" y=\"342\" width=\"16\" height=\"8\" fill=\"#FFFF00\"/>\n  \n  <!-- Corridor perspective lines -->\n  <line x1=\"0\" y1=\"200\" x2=\"320\" y2=\"200\" stroke=\"#404040\" stroke-width=\"1\"/>\n  <line x1=\"0\" y1=\"250\" x2=\"320\" y2=\"250\" stroke=\"#404040\" stroke-width=\"1\"/>\n  <line x1=\"320\" y1=\"200\" x2=\"640\" y2=\"100\" stroke=\"#404040\" stroke-width=\"1\"/>\n  <line x1=\"320\" y1=\"250\" x2=\"640\" y2=\"150\" stroke=\"#404040\" stroke-width=\"1\"/>\n</svg>",
-  "comm-room": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark room -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#1A1A1A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#000000\"/>\n  \n  <!-- Equipment racks -->\n  <!-- Left rack -->\n  <rect x=\"50\" y=\"50\" width=\"100\" height=\"250\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"55\" y=\"60\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"90\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"120\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"150\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"180\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"210\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  \n  <!-- Right rack -->\n  <rect x=\"490\" y=\"50\" width=\"100\" height=\"250\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"495\" y=\"60\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"90\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"120\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"150\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"180\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"210\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  \n  <!-- Central console -->\n  <rect x=\"250\" y=\"150\" width=\"140\" height=\"100\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"260\" y=\"160\" width=\"120\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"260\" y=\"190\" width=\"120\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"260\" y=\"220\" width=\"120\" height=\"20\" fill=\"#1A1A1A\"/>\n  \n  <!-- Frozen spill on floor -->\n  <ellipse cx=\"320\" cy=\"370\" rx=\"30\" ry=\"15\" fill=\"#8B4513\" opacity=\"0.7\"/>\n  \n  <!-- Frequency transmitter -->\n  <rect x=\"300\" y=\"280\" width=\"40\" height=\"30\" fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"305\" y=\"285\" width=\"30\" height=\"20\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"295\" r=\"3\" fill=\"#00FF00\"/>\n  \n  <!-- World map on wall -->\n  <rect x=\"200\" y=\"80\" width=\"240\" height=\"120\" fill=\"#000080\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Map details -->\n  <rect x=\"210\" y=\"90\" width=\"10\" height=\"10\" fill=\"#FF0000\"/> <!-- Frostbite Station -->\n  <circle cx=\"220\" cy=\"100\" r=\"3\" fill=\"#FFFFFF\"/>\n  <circle cx=\"250\" cy=\"110\" r=\"2\" fill=\"#FFFFFF\"/>\n  <circle cx=\"280\" cy=\"95\" r=\"2\" fill=\"#FFFFFF\"/>\n  <circle cx=\"310\" cy=\"105\" r=\"2\" fill=\"#FFFFFF\"/>\n  <circle cx=\"350\" cy=\"100\" r=\"2\" fill=\"#FFFFFF\"/>\n  <!-- Circle around Frostbite Station -->\n  <ellipse cx=\"215\" cy=\"95\" rx=\"20\" ry=\"15\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- GROUND ZERO text area -->\n  <rect x=\"240\" y=\"110\" width=\"80\" height=\"20\" fill=\"#000000\"/>\n  \n  <!-- Note on console -->\n  <rect x=\"270\" y=\"170\" width=\"100\" height=\"30\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Chair -->\n  <rect x=\"300\" y=\"230\" width=\"40\" height=\"20\" fill=\"#8B0000\"/>\n  <rect x=\"295\" y=\"250\" width=\"50\" height=\"10\" fill=\"#8B0000\"/>\n</svg>",
-  "laboratory": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark laboratory -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#1A1A1A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#000000\"/>\n  \n  <!-- Permafrost sampling rig (center) -->\n  <rect x=\"270\" y=\"50\" width=\"100\" height=\"250\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"280\" y=\"60\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"90\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"120\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"150\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"180\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"210\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"240\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  \n  <!-- Drill bit -->\n  <rect x=\"305\" y=\"30\" width=\"10\" height=\"30\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"310,30 300,50 320,50\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Borehole in wall -->\n  <rect x=\"315\" y=\"100\" width=\"10\" height=\"80\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Dark mass in borehole -->\n  <rect x=\"315\" y=\"150\" width=\"10\" height=\"30\" fill=\"#2F2F2F\"/>\n  \n  <!-- Workbench -->\n  <rect x=\"100\" y=\"280\" width=\"200\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"110\" y=\"290\" width=\"180\" height=\"10\" fill=\"#654321\"/>\n  \n  <!-- Sample drill on workbench -->\n  <rect x=\"120\" y=\"250\" width=\"60\" height=\"20\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"125\" y=\"255\" width=\"50\" height=\"10\" fill=\"#2F2F2F\"/>\n  <rect x=\"130\" y=\"240\" width=\"40\" height=\"5\" fill=\"#C0C0C0\"/>\n  \n  <!-- Spilled toolbox -->\n  <rect x=\"200\" y=\"270\" width=\"80\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"205\" y=\"275\" width=\"20\" height=\"10\" fill=\"#C0C0C0\"/> <!-- wrench -->\n  <rect x=\"230\" y=\"275\" width=\"15\" height=\"10\" fill=\"#C0C0C0\"/> <!-- screwdriver -->\n  <rect x=\"250\" y=\"275\" width=\"10\" height=\"10\" fill=\"#C0C0C0\"/> <!-- pliers -->\n  \n  <!-- Spare parts cabinet -->\n  <rect x=\"400\" y=\"100\" width=\"100\" height=\"150\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"405\" y=\"105\" width=\"90\" height=\"20\" fill=\"#654321\"/> <!-- door -->\n  <rect x=\"410\" y=\"130\" width=\"20\" height=\"10\" fill=\"#FF0000\"/> <!-- fuse -->\n  <rect x=\"440\" y=\"130\" width=\"10\" height=\"10\" fill=\"#0000FF\"/> <!-- wire -->\n  <rect x=\"460\" y=\"130\" width=\"10\" height=\"10\" fill=\"#00FF00\"/> <!-- wire -->\n  \n  <!-- Broken sample jars -->\n  <rect x=\"500\" y=\"300\" width=\"30\" height=\"20\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"505\" y=\"305\" width=\"20\" height=\"10\" fill=\"#FFFFFF\"/> <!-- ice -->\n  <polygon points=\"500,320 510,300 530,300 540,320\" fill=\"#8B0000\"/> <!-- shattered glass -->\n  \n  <rect x=\"540\" y=\"300\" width=\"30\" height=\"20\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"545\" y=\"305\" width=\"20\" height=\"10\" fill=\"#FFFFFF\"/> <!-- ice -->\n  <polygon points=\"540,320 550,300 570,300 580,320\" fill=\"#8B0000\"/> <!-- shattered glass -->\n  \n  <!-- Frost spirals on floor -->\n  <path d=\"M320,350 C340,320 300,280 320,250 C340,220 300,180 320,150\" fill=\"none\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n  <path d=\"300,350 C320,320 280,280 300,250 C320,220 280,180 300,150\" fill=\"none\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n</svg>",
-  "generator-room": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark generator room -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#1A1A1A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#000000\"/>\n  \n  <!-- Massive diesel generator (center) -->\n  <rect x=\"220\" y=\"100\" width=\"200\" height=\"200\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"4\"/>\n  <!-- Generator details -->\n  <rect x=\"230\" y=\"110\" width=\"180\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"230\" y=\"140\" width=\"180\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"230\" y=\"170\" width=\"180\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"230\" y=\"200\" width=\"180\" height=\"20\" fill=\"#1A1A1A\"/>\n  <!-- Frost on generator -->\n  <rect x=\"220\" y=\"100\" width=\"200\" height=\"20\" fill=\"#E0F8FF\" opacity=\"0.5\"/>\n  \n  <!-- Control panels -->\n  <!-- Left panel -->\n  <rect x=\"50\" y=\"100\" width=\"120\" height=\"200\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"60\" y=\"110\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/> <!-- gauges -->\n  <rect x=\"60\" y=\"135\" width=\"100\" height=\"15> fill=\"#1A1A1A\"/>\n  <rect x=\"60\" y=\"160\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"60\" y=\"185\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"60\" y=\"210\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <!-- Smashed panel -->\n  <rect x=\"80\" y=\"160\" width=\"60\" height=\"40\" fill=\"#000000\"/>\n  <line x1=\"80\" y1=\"160\" x2=\"140\" y2=\"200\" stroke=\"#FF0000\" stroke-width=\"2\"/>\n  <line x1=\"140\" y1=\"160\" x2=\"80\" y2=\"200\" stroke=\"#FF0000\" stroke-width=\"2\"/>\n  \n  <!-- Right panel -->\n  <rect x=\"470\" y=\"100\" width=\"120\" height=\"200\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"480\" y=\"110\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"480\" y=\"135\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"480\" y=\"160\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"480\" y=\"185\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"480\" y=\"210\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  \n  <!-- Vault door (south) -->\n  <rect x=\"290\" y=\"250\" width=\"60\" height=\"100\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Frost glyphs on vault door -->\n  <path d=\"M300,270 Q310,250 320,270 T330,270 Q340,250 350,270\" fill=\"none\" sting=\"#0000FF\" stroke-width=\"2\"/>\n  <path d=\"M305,290 Q310,270 315,290 T320,290 Q325,270 330,290 T335,290 Q340,270 345,290\" fill=\"none\" stroke=\"#0000FF\" stroke-width=\"2\"/>\n  <!-- Viewport -->\n  <ellipse cx=\"320\" cy=\"300\" rx=\"20\" ry=\"15\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Workbench -->\n  <rect x=\"100\" y=\"280\" width=\"150\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"110\" y=\"290\" width=\"130\" height=\"10\" fill=\"#654321\"/>\n  \n  <!-- Frequency coupler -->\n  <rect x=\"120\" y=\"240\" width=\"60\" height=\"40\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"125\" y=\"245\" width=\"10\" height=\"30\" fill=\"#00FF00\"/> <!-- input -->\n  <rect x=\"155\" y=\"245\" width=\"10\" height=\"30\" fill=\"#0000FF\"/> <!-- output -->\n  \n  <!-- Vibration lines -->\n  <path d=\"M220,180 Q270,150 320,180 T370,180 Q420,150 470,180\" fill=\"none\" stroke=\"#FFFF00\" stroke-width=\"2\" opacity=\"0.7\"/>\n  <path d=\"M220,200 Q270,170 320,200 T370,200 Q420,170 470,200\" fill=\"none\" stroke=\"#FFFF00\" stroke-width=\"2\" opacity=\"0.5\"/>\n  \n  <!-- Power lines -->\n  <line x1=\"0\" y1=\"200\" x2=\"640\" y2=\"200\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"0\" y1=\"220\" x2=\"640\" y2=\"220\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n</svg>",
-  "frozen-chamber": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark cavern -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Ice floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#E0F8FF\" opacity=\"0.8\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Ice walls (glowing) -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#E0F8FF\"/>\n  <!-- Inner dark layer for depth -->\n  <rect x=\"20\" y=\"20\" width=\"600\" height=\"310\" fill=\"#000080\" opacity=\"0.3\"/>\n  \n  <!-- Frozen shadows in ice -->\n  <path d=\"M100,100 Q120,80 140,100 T180,100 Q200,80 220,100 T260,100 Q280,80 300,100 T340,100 Q360,80 380,100 T420,100 Q440,80 460,100 T500,100 Q520,80 540,100 T580,100\" fill=\"#000080\" opacity=\"0.6\"/>\n  <path d=\"M150,200 Q170,180 190,200 T230,200 Q250,180 270,200 T310,200 Q330,180 350,200 T390,200 Q410,180 430,200 T470,200 Q490,180 510,200 T550,200 Q570,180 590,200\" fill=\"#000080\" opacity=\"0.5\"/>\n  \n  <!-- Ancient device (center) -->\n  <rect x=\"270\" y=\"100\" width=\"100\" height=\"150\" fill=\"#000000\" stroke=\"#0000FF\" stroke-width=\"3\"/>\n  <!-- Device details -->\n  <rect x=\"280\" y=\"110\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"140\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"170\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"200\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"230\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  \n  <!-- Glyphs on device -->\n  <path d=\"M285,120 Q295,100 305,120 T315,120 Q325,100 335,120\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  <path d=\"M290,140 Q300,120 310,140 T320,140 Q330,120 340,140\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  <path d=\"M295,160 Q305,140 315,160 T325,160 Q335,140 345,160\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  <path d=\"M300,180 Q310,160 320,180 T330,180 Q340,160 350,180\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  <path d=\"M305,200 Q315,180 325,200 T335,200 Q345,180 355,200\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  \n  <!-- Pedestal -->\n  <rect x=\"295\" y=\"260\" width=\"50\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Slot in pedestal -->\n  <rect x=\"305\" y=\"260\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  \n  <!-- Ice core artifact in pedestal -->\n  <rect x=\"307\" y=\"262\" width=\"26\" height=\"26\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Dark mass inside -->\n  <rect x=\"310\" y=\"270\" width=\"20\" height=\"10\" fill=\"#2F2F2F\"/>\n  \n  <!-- Pulsing light around pedestal -->\n  <ellipse cx=\"320\" cy=\"280\" rx=\"35\" ry=\"25\" fill=\"#00FFFF\" opacity=\"0.3\"/>\n  \n  <!-- Cold breath lines -->\n  <path d=\"M100,300 Q150,250 200,300 T300,300 Q350,250 400,300 T500,300 Q550,250 600,300\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.5\"/>\n  <path d=\"M120,320 Q170,270 220,320 T320,320 Q370,270 420,320 T520,320 Q570,270 620,320\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.4\"/>\n</svg>",
-  "flare-torch": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Flare torch body -->\n  <rect x=\"26\" y=\"10\" width=\"12\" height=\"30\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Striker wheel -->\n  <rect x=\"24\" y=\"40\" width=\"16\" height=\"8\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Label area -->\n  <rect x=\"27\" y=\"15\" width=\"10\" height=\"20\" fill=\"#FFFF00\"/>\n  <!-- Text representation -->\n  <rect x=\"28\" y=\"18\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"31\" y=\"18\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"28\" y=\"22\" width=\"5\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"28\" y=\"26\" width=\"5\" height=\"2\" fill=\"#000000\"/>\n</svg>",
-  "keycard-maintenance": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Keycard -->\n  <rect x=\"22\" y=\"18\" width=\"20\" height=\"12\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Chip area with frost -->\n  <rect x=\"24\" y=\"20\" width=\"16\" height=\"8\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"25\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"29\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"25\" y=\"24\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"29\" y=\"24\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <!-- Frost damage -->\n  <rect x=\"22\" y=\"18\" width=\"3\" height=\"12\" fill=\"#E0F8FF\" opacity=\"0.7\"/>\n  <rect x=\"39\" y=\"18\" width=\"3\" height=\"12\" fill=\"#E0F8FF\" opacity=\"0.7\"/>\n  <!-- Text -->\n  <rect x=\"23\" y=\"23\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- M -->\n  <rect x=\"27\" y=\"23\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- A -->\n  <rect x=\"31\" y=\"23\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- I -->\n  <rect x=\"35\" y=\"23\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- N -->\n  <rect x=\"23\" y=\"26\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- T -->\n  <rect x=\"27\" y=\"26\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- - -->\n  <rect x=\"29\" y=\"26\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- 0 -->\n  <rect x=\"33\" y=\"26\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- 4 -->\n</svg>",
-  "sample-drill": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Drill body -->\n  <rect x=\"27\" y=\"10\" width=\"10\" height=\"30\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Handle -->\n  <rect x=\"24\" y=\"40\" width=\"16\" height=\"8\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Drill bit -->\n  <rect x=\"30\" y=\"5\" width=\"4\" height=\"10\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"32,5 28,15 36,15\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Motor housing -->\n  <rect x=\"25\" y=\"15\" width=\"14\" height=\"10\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Ventilation slots -->\n  <rect x=\"27\" y=\"17\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"33\" y=\"17\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"27\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"33\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n</svg>",
-  "ice-core-artifact": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Ice core cylinder -->\n  <rect x=\"22\" y=\"20\" width=\"20\" height=\"24\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- End caps -->\n  <rect x=\"20\" y=\"20\" width=\"4\" height=\"24\" fill=\"#B0E0FF\"/>\n  <rect x=\"40\" y=\"20\" width=\"4\" height=\"24\" fill=\"#B0E0FF\"/>\n  <!-- Dark organic mass inside -->\n  <rect x=\"25\" y=\"25\" width=\"14\" height=\"14\" fill=\"#2F2F2F\"/>\n  <!-- Surface texture -->\n  <line x1=\"22\" y1=\"22\" x2=\"42\" y2=\"22\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"26\" x2=\"42\" y2=\"26\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"30\" x2=\"42\" y2=\"30\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"34\" x2=\"42\" y2=\"34\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"38\" x2=\"42\" y2=\"38\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"42\" x2=\"42\" y2=\"42\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
-  "research-journal": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Journal cover -->\n  <rect x=\"18\" y=\"20\" width=\"28\" height=\"24\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Leather texture -->\n  <rect x=\"20\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"24\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"28\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"32\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"36\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"20\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"24\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"28\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"32\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"36\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"20\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"24\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"28\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"32\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"36\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"20\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"24\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"28\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"32\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"36\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <!-- Spine -->\n  <rect x=\"18\" y=\"20\" width=\"4\" height=\"24\" fill=\"#654321\"/>\n  <!-- Page edges -->\n  <rect x=\"22\" y=\"24\" width=\"20\" height=\"16\" fill=\"#FFFFFF\"/>\n  <!-- Writing/lines -->\n  <line x1=\"24\" y1=\"28\" x2=\"40\" y2=\"28\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"32\" x2=\"40\" y2=\"32\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"36\" x2=\"40\" y2=\"36\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Frequency notes -->\n  <rect x=\"25\" y=\"29\" width=\"3\" height=\"3\" fill=\"#000000\"/> <!-- 7 -->\n  <rect x=\"30\" y=\"29\" width=\"1\" height=\"3\" fill=\"#000000\"/> <!-- . -->\n  <rect x=\"32\" y=\"29\" width=\"3\" height=\"3\" fill=\"#000000\"/> <!-- 8 -->\n  <rect x=\"36\" y=\"29\" width=\"1\" height=\"3\" fill=\"#000000\"/> <!-- . -->\n  <rect x=\"38\" y=\"29\" width=\"3\" height=\"3\" fill=\"#000000\"/> <!-- 3 -->\n</svg>",
-  "frequency-transmitter": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Transmitter body -->\n  <rect x=\"20\" y=\"18\" width=\"24\" height=\"28\" fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Screen/display -->\n  <rect x=\"24\" y=\"22\" width=\"16\" height=\"8\" fill=\"#000000\"/>\n  <!-- Frequency display -->\n  <rect x=\"26\" y=\"24\" width=\"2\" height=\"2\" fill=\"#00FF00\"/> <!-- 1 -->\n  <rect x=\"29\" y=\"24\" width=\"1\" height=\"2\" fill=\"#00FF00\"/> <!-- . -->\n  <rect x=\"31\" y=\"24\" width=\"2\" height=\"2\" fill=\"#00FF00\"/> <!-- 0 -->\n  <rect x=\"34\" y=\"24\" width=\"1\" height=\"2\" fill=\"#00FF00\"/> <!-- . -->\n  <rect x=\"36\" y=\"24\" width=\"2\" height=\"2\" fill=\"#00FF00\"/> <!-- 0 -->\n  <!-- Knobs/dials -->\n  <circle cx=\"24\" cy=\"30\" r=\"2\" fill=\"#2F2F2F\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"2\" fill=\"#2F2F2F\"/>\n  <!-- Antenna -->\n  <rect x=\"31\" y=\"10\" width=\"2\" height=\"8\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"8\" width=\"4\" height=\"2\" fill=\"#2F2F2F\"/>\n  <!-- Label area -->\n  <rect x=\"22\" y=\"16\" width=\"20\" height=\"2\" fill=\"#FFFF00\"/>\n  <!-- Text representation -->\n  <rect x=\"23\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- R -->\n  <rect x=\"26\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- E -->\n  <rect x=\"29\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- S -->\n  <rect x=\"32\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- O -->\n  <rect x=\"35\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- N -->\n</svg>",
-  "emergency-fuse": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Fuse body -->\n  <rect x=\"26\" y=\"18\" width=\"12\" height=\"28\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Ceramic ends -->\n  <rect x=\"24\" y=\"16\" width=\"16\" height=\"4\" fill=\"#8B4513\"/>\n  <rect x=\"24\" y=\"44\" width=\"16\" height=\"4\" fill=\"#8B4513\"/>\n  <!-- Metal caps -->\n  <rect x=\"22\" y=\"18\" width=\"4\" height=\"28\" fill=\"#C0C0C0\"/>\n  <rect x=\"38\" y=\"18\" width=\"4\" height=\"28\" fill=\"#C0C0C0\"/>\n  <!-- Fuse element (visible through glass) -->\n  <rect x=\"28\" y=\"24\" width=\"8\" height=\"2\" fill=\"#FF0000\"/>\n  <!-- Label -->\n  <rect x=\"27\" y=\"20\" width=\"10\" height=\"8\" fill=\"#FF8800\"/>\n  <rect x=\"28\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- 1 -->\n  <rect x=\"31\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- 0 -->\n  <rect x=\"28\" y=\"24\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- k -->\n  <rect x=\"31\" y=\"24\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- V -->\n</svg>"
-};
+// GAME ART — replace with inlined SVGs from art/*.svg
+// ============================================================
+var GAME_ART = {
+  "scene-landing-pad": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark Arctic sky -->\n  <rect width=\"640\" height=\"400\" fill=\"#000088\"/>\n  \n  <!-- Snow-covered ground -->\n  <rect y=\"300\" width=\"640\" height=\"100\" fill=\"#FFFFFF\" opacity=\"0.8\"/>\n  \n  <!-- Frostbite Station buildings -->\n  <!-- Main building -->\n  <rect x=\"150\" y=\"100\" width=\"300\" height=\"200\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"4\"/>\n  <!-- Building details -->\n  <rect x=\"160\" y=\"120\" width=\"280\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"160\" y=\"160\" width=\"100\" height=\"40\" fill=\"#1A1A1A\"/>\n  <rect x=\"380\" y=\"160\" width=\"100\" height=\"40\" fill=\"#1A1A1A\"/>\n  <!-- Windows -->\n  <rect x=\"180\" y=\"140\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  <rect x=\"230\" y=\"140\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  <rect x=\"280\" y=\"140\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  <rect x=\"330\" y=\"140\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  \n  <!-- Blast door -->\n  <rect x=\"270\" y=\"220\" width=\"80\" height=\"100\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Ice on door -->\n  <rect x=\"270\" y=\"220\" width=\"80\" height=\"20\" fill=\"#E0F8FF\" opacity=\"0.7\"/>\n  \n  <!-- Frozen corridor entrance -->\n  <rect x=\"250\" y=\"180\" width=\"120\" height=\"60\" fill=\"#E0F8FF\" opacity=\"0.6\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Snow drifts -->\n  <path d=\"M50,300 Q100,250 150,300 T250,300 Q300,250 350,300 T450,300 Q500,250 550,300 T640,300 L640,400 L0,400 Z\" fill=\"#FFFFFF\" opacity=\"0.9\"/>\n  \n  <!-- Overturned crates -->\n  <rect x=\"100\" y=\"260\" width=\"80\" height=\"40\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"100\" y=\"260\" width=\"20\" height=\"40\" fill=\"#654321\"/>\n  <rect x=\"200\" y=\"240\" width=\"60\" height=\"60\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"200\" y=\"240\" width=\"15\" height=\"60\" fill=\"#654321\"/>\n  \n  <!-- Flare torch -->\n  <rect x=\"180\" y=\"250\" width=\"12\" height=\"30\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"178\" y=\"280\" width=\"16\" height=\"8\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Wind lines -->\n  <line x1=\"0\" y1=\"50\" x2=\"640\" y2=\"50\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"20\" y1=\"100\" x2=\"620\" y2=\"100\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"40\" y1=\"150\" x2=\"600\" y2=\"150\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.3\"/>\n</svg>",
+  "scene-main-corridor": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark corridor -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#1A1A1A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#000000\"/>\n  \n  <!-- Red emergency lighting effect -->\n  <rect y=\"0\" width=\"640\" height=\"350\" fill=\"#8B0000\" opacity=\"0.2\"/>\n  \n  <!-- Frost patterns on walls -->\n  <path d=\"M50,100 Q70,80 90,100 T130,100 Q150,80 170,100 T210,100 Q230,80 250,100 T290,100 Q310,80 330,100 T370,100 Q390,80 410,100 T450,100 Q470,80 490,100 T530,100 Q550,80 570,100 T610,100\" stroke=\"#8B0000\" stroke-width=\"2\" fill=\"none\"/>\n  <path d=\"M80,150 Q100,130 120,150 T160,150 Q180,130 200,150 T240,150 Q260,130 280,150 T320,150 Q340,130 360,150 T400,150 Q420,130 440,150 T480,150 Q500,130 520,150 T560,150 Q580,130 600,150\" stroke=\"#8B0000\" stroke-width=\"2\" fill=\"none\"/>\n  \n  <!-- Doors -->\n  <!-- Comm room door (west) -->\n  <rect x=\"20\" y=\"150\" width=\"60\" height=\"100\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <text x=\"30\" y=\"210\" text-anchor=\"middle\" transform=\"rotate(-90 30,210)\" fill=\"#FFFFFF\" font-size=\"10\">COMM</text>\n  \n  <!-- Lab door (east) -->\n  <rect x=\"560\" y=\"150\" width=\"60\" height=\"100\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"570\" y=\"160\" width=\"40\" height=\"20\" fill=\"#FF8800\"/>\n  <text x=\"590\" y=\"175\" text-anchor=\"middle\" fill=\"#000000\" font-size=\"8\">LAB</text>\n  \n  <!-- Generator room door (north) -->\n  <rect x=\"290\" y=\"20\" width=\"60\" height=\"100\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"300\" y=\"30\" width=\"40\" height=\"20\" fill=\"#FF0000\"/>\n  \n  <!-- Fallen locker -->\n  <rect x=\"100\" y=\"280\" width=\"80\" height=\"60\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\" transform=\"rotate(15 100,280)\">\n    <animateTransform attributeName=\"transform\" type=\"rotate\" from \"0 100 280\" to \"15 100 280\" dur=\"2s\" repeatCount=\"indefinite\"/>\n  </rect>\n  <rect x=\"100\" y=\"280\" width=\"20\" height=\"60\" fill=\"#654321\" transform=\"rotate(15 100,280)\"/>\n  \n  <!-- Spilled items from locker -->\n  <rect x=\"120\" y=\"320\" width=\"25\" height=\"15\" fill=\"#000080\"/>\n  <rect x=\"150\" y=\"320\" width=\"15\" height=\"10\" fill=\"#FFFFFF\"/>\n  <rect x=\"170\" y=\"325\" width=\"10\" height=\"5\" fill=\"#8B4513\"/>\n  \n  <!-- Maintenance keycard -->\n  <rect x=\"320\" y=\"340\" width=\"20\" height=\"12\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"322\" y=\"342\" width=\"16\" height=\"8\" fill=\"#FFFF00\"/>\n  \n  <!-- Corridor perspective lines -->\n  <line x1=\"0\" y1=\"200\" x2=\"320\" y2=\"200\" stroke=\"#404040\" stroke-width=\"1\"/>\n  <line x1=\"0\" y1=\"250\" x2=\"320\" y2=\"250\" stroke=\"#404040\" stroke-width=\"1\"/>\n  <line x1=\"320\" y1=\"200\" x2=\"640\" y2=\"100\" stroke=\"#404040\" stroke-width=\"1\"/>\n  <line x1=\"320\" y1=\"250\" x2=\"640\" y2=\"150\" stroke=\"#404040\" stroke-width=\"1\"/>\n</svg>",
+  "scene-comm-room": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark room -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#1A1A1A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#000000\"/>\n  \n  <!-- Equipment racks -->\n  <!-- Left rack -->\n  <rect x=\"50\" y=\"50\" width=\"100\" height=\"250\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"55\" y=\"60\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"90\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"120\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"150\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"180\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"55\" y=\"210\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  \n  <!-- Right rack -->\n  <rect x=\"490\" y=\"50\" width=\"100\" height=\"250\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"495\" y=\"60\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"90\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"120\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"150\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"180\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"495\" y=\"210\" width=\"90\" height=\"20\" fill=\"#1A1A1A\"/>\n  \n  <!-- Central console -->\n  <rect x=\"250\" y=\"150\" width=\"140\" height=\"100\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"260\" y=\"160\" width=\"120\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"260\" y=\"190\" width=\"120\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"260\" y=\"220\" width=\"120\" height=\"20\" fill=\"#1A1A1A\"/>\n  \n  <!-- Frozen spill on floor -->\n  <ellipse cx=\"320\" cy=\"370\" rx=\"30\" ry=\"15\" fill=\"#8B4513\" opacity=\"0.7\"/>\n  \n  <!-- Frequency transmitter -->\n  <rect x=\"300\" y=\"280\" width=\"40\" height=\"30\" fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"305\" y=\"285\" width=\"30\" height=\"20\" fill=\"#000000\"/>\n  <circle cx=\"320\" cy=\"295\" r=\"3\" fill=\"#00FF00\"/>\n  \n  <!-- World map on wall -->\n  <rect x=\"200\" y=\"80\" width=\"240\" height=\"120\" fill=\"#000080\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Map details -->\n  <rect x=\"210\" y=\"90\" width=\"10\" height=\"10\" fill=\"#FF0000\"/> <!-- Frostbite Station -->\n  <circle cx=\"220\" cy=\"100\" r=\"3\" fill=\"#FFFFFF\"/>\n  <circle cx=\"250\" cy=\"110\" r=\"2\" fill=\"#FFFFFF\"/>\n  <circle cx=\"280\" cy=\"95\" r=\"2\" fill=\"#FFFFFF\"/>\n  <circle cx=\"310\" cy=\"105\" r=\"2\" fill=\"#FFFFFF\"/>\n  <circle cx=\"350\" cy=\"100\" r=\"2\" fill=\"#FFFFFF\"/>\n  <!-- Circle around Frostbite Station -->\n  <ellipse cx=\"215\" cy=\"95\" rx=\"20\" ry=\"15\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- GROUND ZERO text area -->\n  <rect x=\"240\" y=\"110\" width=\"80\" height=\"20\" fill=\"#000000\"/>\n  \n  <!-- Note on console -->\n  <rect x=\"270\" y=\"170\" width=\"100\" height=\"30\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Chair -->\n  <rect x=\"300\" y=\"230\" width=\"40\" height=\"20\" fill=\"#8B0000\"/>\n  <rect x=\"295\" y=\"250\" width=\"50\" height=\"10\" fill=\"#8B0000\"/>\n</svg>",
+  "scene-laboratory": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark laboratory -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#1A1A1A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#000000\"/>\n  \n  <!-- Permafrost sampling rig (center) -->\n  <rect x=\"270\" y=\"50\" width=\"100\" height=\"250\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"280\" y=\"60\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"90\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"120\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"150\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"180\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"210\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"240\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  \n  <!-- Drill bit -->\n  <rect x=\"305\" y=\"30\" width=\"10\" height=\"30\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"310,30 300,50 320,50\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Borehole in wall -->\n  <rect x=\"315\" y=\"100\" width=\"10\" height=\"80\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Dark mass in borehole -->\n  <rect x=\"315\" y=\"150\" width=\"10\" height=\"30\" fill=\"#2F2F2F\"/>\n  \n  <!-- Workbench -->\n  <rect x=\"100\" y=\"280\" width=\"200\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"110\" y=\"290\" width=\"180\" height=\"10\" fill=\"#654321\"/>\n  \n  <!-- Sample drill on workbench -->\n  <rect x=\"120\" y=\"250\" width=\"60\" height=\"20\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"125\" y=\"255\" width=\"50\" height=\"10\" fill=\"#2F2F2F\"/>\n  <rect x=\"130\" y=\"240\" width=\"40\" height=\"5\" fill=\"#C0C0C0\"/>\n  \n  <!-- Spilled toolbox -->\n  <rect x=\"200\" y=\"270\" width=\"80\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"205\" y=\"275\" width=\"20\" height=\"10\" fill=\"#C0C0C0\"/> <!-- wrench -->\n  <rect x=\"230\" y=\"275\" width=\"15\" height=\"10\" fill=\"#C0C0C0\"/> <!-- screwdriver -->\n  <rect x=\"250\" y=\"275\" width=\"10\" height=\"10\" fill=\"#C0C0C0\"/> <!-- pliers -->\n  \n  <!-- Spare parts cabinet -->\n  <rect x=\"400\" y=\"100\" width=\"100\" height=\"150\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"405\" y=\"105\" width=\"90\" height=\"20\" fill=\"#654321\"/> <!-- door -->\n  <rect x=\"410\" y=\"130\" width=\"20\" height=\"10\" fill=\"#FF0000\"/> <!-- fuse -->\n  <rect x=\"440\" y=\"130\" width=\"10\" height=\"10\" fill=\"#0000FF\"/> <!-- wire -->\n  <rect x=\"460\" y=\"130\" width=\"10\" height=\"10\" fill=\"#00FF00\"/> <!-- wire -->\n  \n  <!-- Broken sample jars -->\n  <rect x=\"500\" y=\"300\" width=\"30\" height=\"20\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"505\" y=\"305\" width=\"20\" height=\"10\" fill=\"#FFFFFF\"/> <!-- ice -->\n  <polygon points=\"500,320 510,300 530,300 540,320\" fill=\"#8B0000\"/> <!-- shattered glass -->\n  \n  <rect x=\"540\" y=\"300\" width=\"30\" height=\"20\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"545\" y=\"305\" width=\"20\" height=\"10\" fill=\"#FFFFFF\"/> <!-- ice -->\n  <polygon points=\"540,320 550,300 570,300 580,320\" fill=\"#8B0000\"/> <!-- shattered glass -->\n  \n  <!-- Frost spirals on floor -->\n  <path d=\"M320,350 C340,320 300,280 320,250 C340,220 300,180 320,150\" fill=\"none\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n  <path d=\"300,350 C320,320 280,280 300,250 C320,220 280,180 300,150\" fill=\"none\" stroke=\"#8B0000\" stroke-width=\"2\"/>\n</svg>",
+  "scene-generator-room": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark generator room -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#1A1A1A\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Walls -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#000000\"/>\n  \n  <!-- Massive diesel generator (center) -->\n  <rect x=\"220\" y=\"100\" width=\"200\" height=\"200\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"4\"/>\n  <!-- Generator details -->\n  <rect x=\"230\" y=\"110\" width=\"180\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"230\" y=\"140\" width=\"180\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"230\" y=\"170\" width=\"180\" height=\"20\" fill=\"#1A1A1A\"/>\n  <rect x=\"230\" y=\"200\" width=\"180\" height=\"20\" fill=\"#1A1A1A\"/>\n  <!-- Frost on generator -->\n  <rect x=\"220\" y=\"100\" width=\"200\" height=\"20\" fill=\"#E0F8FF\" opacity=\"0.5\"/>\n  \n  <!-- Control panels -->\n  <!-- Left panel -->\n  <rect x=\"50\" y=\"100\" width=\"120\" height=\"200\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"60\" y=\"110\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/> <!-- gauges -->\n  <rect x=\"60\" y=\"135\" width=\"100\" height=\"15> fill=\"#1A1A1A\"/>\n  <rect x=\"60\" y=\"160\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"60\" y=\"185\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"60\" y=\"210\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <!-- Smashed panel -->\n  <rect x=\"80\" y=\"160\" width=\"60\" height=\"40\" fill=\"#000000\"/>\n  <line x1=\"80\" y1=\"160\" x2=\"140\" y2=\"200\" stroke=\"#FF0000\" stroke-width=\"2\"/>\n  <line x1=\"140\" y1=\"160\" x2=\"80\" y2=\"200\" stroke=\"#FF0000\" stroke-width=\"2\"/>\n  \n  <!-- Right panel -->\n  <rect x=\"470\" y=\"100\" width=\"120\" height=\"200\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <rect x=\"480\" y=\"110\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"480\" y=\"135\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"480\" y=\"160\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"480\" y=\"185\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  <rect x=\"480\" y=\"210\" width=\"100\" height=\"15\" fill=\"#1A1A1A\"/>\n  \n  <!-- Vault door (south) -->\n  <rect x=\"290\" y=\"250\" width=\"60\" height=\"100\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"3\"/>\n  <!-- Frost glyphs on vault door -->\n  <path d=\"M300,270 Q310,250 320,270 T330,270 Q340,250 350,270\" fill=\"none\" sting=\"#0000FF\" stroke-width=\"2\"/>\n  <path d=\"M305,290 Q310,270 315,290 T320,290 Q325,270 330,290 T335,290 Q340,270 345,290\" fill=\"none\" stroke=\"#0000FF\" stroke-width=\"2\"/>\n  <!-- Viewport -->\n  <ellipse cx=\"320\" cy=\"300\" rx=\"20\" ry=\"15\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  \n  <!-- Workbench -->\n  <rect x=\"100\" y=\"280\" width=\"150\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"110\" y=\"290\" width=\"130\" height=\"10\" fill=\"#654321\"/>\n  \n  <!-- Frequency coupler -->\n  <rect x=\"120\" y=\"240\" width=\"60\" height=\"40\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <rect x=\"125\" y=\"245\" width=\"10\" height=\"30\" fill=\"#00FF00\"/> <!-- input -->\n  <rect x=\"155\" y=\"245\" width=\"10\" height=\"30\" fill=\"#0000FF\"/> <!-- output -->\n  \n  <!-- Vibration lines -->\n  <path d=\"M220,180 Q270,150 320,180 T370,180 Q420,150 470,180\" fill=\"none\" stroke=\"#FFFF00\" stroke-width=\"2\" opacity=\"0.7\"/>\n  <path d=\"M220,200 Q270,170 320,200 T370,200 Q420,170 470,200\" fill=\"none\" stroke=\"#FFFF00\" stroke-width=\"2\" opacity=\"0.5\"/>\n  \n  <!-- Power lines -->\n  <line x1=\"0\" y1=\"200\" x2=\"640\" y2=\"200\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n  <line x1=\"0\" y1=\"220\" x2=\"640\" y2=\"220\" stroke=\"#00FF00\" stroke-width=\"1\" opacity=\"0.3\"/>\n</svg>",
+  "scene-frozen-chamber": "<svg width=\"640\" height=\"400\" viewBox=\"0 0 640 400\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background: Dark cavern -->\n  <rect width=\"640\" height=\"400\" fill=\"#000000\"/>\n  \n  <!-- Ice floor -->\n  <rect y=\"350\" width=\"640\" height=\"50\" fill=\"#E0F8FF\" opacity=\"0.8\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Ice walls (glowing) -->\n  <rect x=\"0\" y=\"0\" width=\"640\" height=\"350\" fill=\"#E0F8FF\"/>\n  <!-- Inner dark layer for depth -->\n  <rect x=\"20\" y=\"20\" width=\"600\" height=\"310\" fill=\"#000080\" opacity=\"0.3\"/>\n  \n  <!-- Frozen shadows in ice -->\n  <path d=\"M100,100 Q120,80 140,100 T180,100 Q200,80 220,100 T260,100 Q280,80 300,100 T340,100 Q360,80 380,100 T420,100 Q440,80 460,100 T500,100 Q520,80 540,100 T580,100\" fill=\"#000080\" opacity=\"0.6\"/>\n  <path d=\"M150,200 Q170,180 190,200 T230,200 Q250,180 270,200 T310,200 Q330,180 350,200 T390,200 Q410,180 430,200 T470,200 Q490,180 510,200 T550,200 Q570,180 590,200\" fill=\"#000080\" opacity=\"0.5\"/>\n  \n  <!-- Ancient device (center) -->\n  <rect x=\"270\" y=\"100\" width=\"100\" height=\"150\" fill=\"#000000\" stroke=\"#0000FF\" stroke-width=\"3\"/>\n  <!-- Device details -->\n  <rect x=\"280\" y=\"110\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"140\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"170\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"200\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  <rect x=\"280\" y=\"230\" width=\"80\" height=\"20\" fill=\"#2F2F2F\"/>\n  \n  <!-- Glyphs on device -->\n  <path d=\"M285,120 Q295,100 305,120 T315,120 Q325,100 335,120\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  <path d=\"M290,140 Q300,120 310,140 T320,140 Q330,120 340,140\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  <path d=\"M295,160 Q305,140 315,160 T325,160 Q335,140 345,160\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  <path d=\"M300,180 Q310,160 320,180 T330,180 Q340,160 350,180\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  <path d=\"M305,200 Q315,180 325,200 T335,200 Q345,180 355,200\" fill=\"none\" stroke=\"#00FFFF\" stroke-width=\"1\"/>\n  \n  <!-- Pedestal -->\n  <rect x=\"295\" y=\"260\" width=\"50\" height=\"30\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Slot in pedestal -->\n  <rect x=\"305\" y=\"260\" width=\"30\" height=\"30\" fill=\"#000000\"/>\n  \n  <!-- Ice core artifact in pedestal -->\n  <rect x=\"307\" y=\"262\" width=\"26\" height=\"26\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Dark mass inside -->\n  <rect x=\"310\" y=\"270\" width=\"20\" height=\"10\" fill=\"#2F2F2F\"/>\n  \n  <!-- Pulsing light around pedestal -->\n  <ellipse cx=\"320\" cy=\"280\" rx=\"35\" ry=\"25\" fill=\"#00FFFF\" opacity=\"0.3\"/>\n  \n  <!-- Cold breath lines -->\n  <path d=\"M100,300 Q150,250 200,300 T300,300 Q350,250 400,300 T500,300 Q550,250 600,300\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.5\"/>\n  <path d=\"M120,320 Q170,270 220,320 T320,320 Q370,270 420,320 T520,320 Q570,270 620,320\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"1\" opacity=\"0.4\"/>\n</svg>",
+  "scene-flare-torch": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Flare torch body -->\n  <rect x=\"26\" y=\"10\" width=\"12\" height=\"30\" fill=\"#FF0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Striker wheel -->\n  <rect x=\"24\" y=\"40\" width=\"16\" height=\"8\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Label area -->\n  <rect x=\"27\" y=\"15\" width=\"10\" height=\"20\" fill=\"#FFFF00\"/>\n  <!-- Text representation -->\n  <rect x=\"28\" y=\"18\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"31\" y=\"18\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"28\" y=\"22\" width=\"5\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"28\" y=\"26\" width=\"5\" height=\"2\" fill=\"#000000\"/>\n</svg>",
+  "scene-keycard-maintenance": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Keycard -->\n  <rect x=\"22\" y=\"18\" width=\"20\" height=\"12\" fill=\"#FF8800\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Chip area with frost -->\n  <rect x=\"24\" y=\"20\" width=\"16\" height=\"8\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"25\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"29\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"25\" y=\"24\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"29\" y=\"24\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <!-- Frost damage -->\n  <rect x=\"22\" y=\"18\" width=\"3\" height=\"12\" fill=\"#E0F8FF\" opacity=\"0.7\"/>\n  <rect x=\"39\" y=\"18\" width=\"3\" height=\"12\" fill=\"#E0F8FF\" opacity=\"0.7\"/>\n  <!-- Text -->\n  <rect x=\"23\" y=\"23\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- M -->\n  <rect x=\"27\" y=\"23\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- A -->\n  <rect x=\"31\" y=\"23\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- I -->\n  <rect x=\"35\" y=\"23\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- N -->\n  <rect x=\"23\" y=\"26\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- T -->\n  <rect x=\"27\" y=\"26\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- - -->\n  <rect x=\"29\" y=\"26\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- 0 -->\n  <rect x=\"33\" y=\"26\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- 4 -->\n</svg>",
+  "scene-sample-drill": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Drill body -->\n  <rect x=\"27\" y=\"10\" width=\"10\" height=\"30\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Handle -->\n  <rect x=\"24\" y=\"40\" width=\"16\" height=\"8\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Drill bit -->\n  <rect x=\"30\" y=\"5\" width=\"4\" height=\"10\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <polygon points=\"32,5 28,15 36,15\" fill=\"#C0C0C0\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Motor housing -->\n  <rect x=\"25\" y=\"15\" width=\"14\" height=\"10\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Ventilation slots -->\n  <rect x=\"27\" y=\"17\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"33\" y=\"17\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"27\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n  <rect x=\"33\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/>\n</svg>",
+  "scene-ice-core-artifact": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Ice core cylinder -->\n  <rect x=\"22\" y=\"20\" width=\"20\" height=\"24\" fill=\"#E0F8FF\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- End caps -->\n  <rect x=\"20\" y=\"20\" width=\"4\" height=\"24\" fill=\"#B0E0FF\"/>\n  <rect x=\"40\" y=\"20\" width=\"4\" height=\"24\" fill=\"#B0E0FF\"/>\n  <!-- Dark organic mass inside -->\n  <rect x=\"25\" y=\"25\" width=\"14\" height=\"14\" fill=\"#2F2F2F\"/>\n  <!-- Surface texture -->\n  <line x1=\"22\" y1=\"22\" x2=\"42\" y2=\"22\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"26\" x2=\"42\" y2=\"26\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"30\" x2=\"42\" y2=\"30\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"34\" x2=\"42\" y2=\"34\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"38\" x2=\"42\" y2=\"38\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"22\" y1=\"42\" x2=\"42\" y2=\"42\" stroke=\"#000000\" stroke-width=\"1\"/>\n</svg>",
+  "scene-research-journal": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Journal cover -->\n  <rect x=\"18\" y=\"20\" width=\"28\" height=\"24\" fill=\"#8B0000\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Leather texture -->\n  <rect x=\"20\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"24\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"28\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"32\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"36\" y=\"22\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"20\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"24\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"28\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"32\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"36\" y=\"26\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"20\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"24\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"28\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"32\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"36\" y=\"30\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"20\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"24\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"28\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"32\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <rect x=\"36\" y=\"34\" width=\"2\" height=\"2\" fill=\"#654321\"/>\n  <!-- Spine -->\n  <rect x=\"18\" y=\"20\" width=\"4\" height=\"24\" fill=\"#654321\"/>\n  <!-- Page edges -->\n  <rect x=\"22\" y=\"24\" width=\"20\" height=\"16\" fill=\"#FFFFFF\"/>\n  <!-- Writing/lines -->\n  <line x1=\"24\" y1=\"28\" x2=\"40\" y2=\"28\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"32\" x2=\"40\" y2=\"32\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <line x1=\"24\" y1=\"36\" x2=\"40\" y2=\"36\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <!-- Frequency notes -->\n  <rect x=\"25\" y=\"29\" width=\"3\" height=\"3\" fill=\"#000000\"/> <!-- 7 -->\n  <rect x=\"30\" y=\"29\" width=\"1\" height=\"3\" fill=\"#000000\"/> <!-- . -->\n  <rect x=\"32\" y=\"29\" width=\"3\" height=\"3\" fill=\"#000000\"/> <!-- 8 -->\n  <rect x=\"36\" y=\"29\" width=\"1\" height=\"3\" fill=\"#000000\"/> <!-- . -->\n  <rect x=\"38\" y=\"29\" width=\"3\" height=\"3\" fill=\"#000000\"/> <!-- 3 -->\n</svg>",
+  "scene-frequency-transmitter": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Transmitter body -->\n  <rect x=\"20\" y=\"18\" width=\"24\" height=\"28\" fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Screen/display -->\n  <rect x=\"24\" y=\"22\" width=\"16\" height=\"8\" fill=\"#000000\"/>\n  <!-- Frequency display -->\n  <rect x=\"26\" y=\"24\" width=\"2\" height=\"2\" fill=\"#00FF00\"/> <!-- 1 -->\n  <rect x=\"29\" y=\"24\" width=\"1\" height=\"2\" fill=\"#00FF00\"/> <!-- . -->\n  <rect x=\"31\" y=\"24\" width=\"2\" height=\"2\" fill=\"#00FF00\"/> <!-- 0 -->\n  <rect x=\"34\" y=\"24\" width=\"1\" height=\"2\" fill=\"#00FF00\"/> <!-- . -->\n  <rect x=\"36\" y=\"24\" width=\"2\" height=\"2\" fill=\"#00FF00\"/> <!-- 0 -->\n  <!-- Knobs/dials -->\n  <circle cx=\"24\" cy=\"30\" r=\"2\" fill=\"#2F2F2F\"/>\n  <circle cx=\"40\" cy=\"30\" r=\"2\" fill=\"#2F2F2F\"/>\n  <!-- Antenna -->\n  <rect x=\"31\" y=\"10\" width=\"2\" height=\"8\" fill=\"#2F2F2F\" stroke=\"#000000\" stroke-width=\"1\"/>\n  <rect x=\"30\" y=\"8\" width=\"4\" height=\"2\" fill=\"#2F2F2F\"/>\n  <!-- Label area -->\n  <rect x=\"22\" y=\"16\" width=\"20\" height=\"2\" fill=\"#FFFF00\"/>\n  <!-- Text representation -->\n  <rect x=\"23\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- R -->\n  <rect x=\"26\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- E -->\n  <rect x=\"29\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- S -->\n  <rect x=\"32\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- O -->\n  <rect x=\"35\" y=\"17\" width=\"2\" height=\"1\" fill=\"#000000\"/> <!-- N -->\n</svg>",
+  "scene-emergency-fuse": "<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Fuse body -->\n  <rect x=\"26\" y=\"18\" width=\"12\" height=\"28\" fill=\"#FFFF00\" stroke=\"#000000\" stroke-width=\"2\"/>\n  <!-- Ceramic ends -->\n  <rect x=\"24\" y=\"16\" width=\"16\" height=\"4\" fill=\"#8B4513\"/>\n  <rect x=\"24\" y=\"44\" width=\"16\" height=\"4\" fill=\"#8B4513\"/>\n  <!-- Metal caps -->\n  <rect x=\"22\" y=\"18\" width=\"4\" height=\"28\" fill=\"#C0C0C0\"/>\n  <rect x=\"38\" y=\"18\" width=\"4\" height=\"28\" fill=\"#C0C0C0\"/>\n  <!-- Fuse element (visible through glass) -->\n  <rect x=\"28\" y=\"24\" width=\"8\" height=\"2\" fill=\"#FF0000\"/>\n  <!-- Label -->\n  <rect x=\"27\" y=\"20\" width=\"10\" height=\"8\" fill=\"#FF8800\"/>\n  <rect x=\"28\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- 1 -->\n  <rect x=\"31\" y=\"21\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- 0 -->\n  <rect x=\"28\" y=\"24\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- k -->\n  <rect x=\"31\" y=\"24\" width=\"2\" height=\"2\" fill=\"#000000\"/> <!-- V -->\n</svg>"
+}
 
 // ============================================================
 // GAME LOGIC
@@ -648,7 +573,7 @@ const GAME_ART = {
 // Data-driven adventure engine for 008-frostbite-station
 // ============================================================
 
-const GAME_DATA = {
+var GAME_DATA = {
   "title": "Frostbite Station",
   "slug": "frostbite-station",
   "number": 8,
@@ -1307,6 +1232,14 @@ function init() {
 
 init();
 
-    </script>
-</body>
+    
+// Reset button
+document.getElementById('reset-btn')?.addEventListener('click', function() {
+    if (confirm('Reset the game to the beginning?')) {
+        state = {currentScene: GAME_DATA.scenes[0].id, inventory: [], solvedPuzzles: [], visitedScenes: [GAME_DATA.scenes[0].id], selectedItem: null, won: false};
+        clearText(); addText('The story begins anew...', 'system');
+        renderScene(state.currentScene); renderInventory();
+    }
+});
+    </script></body>
 </html>

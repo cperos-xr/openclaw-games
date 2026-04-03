@@ -1,0 +1,288 @@
+{
+  "title": "The Last Broadcast",
+  "slug": "last-broadcast",
+  "number": 15,
+  "setting": "A decommissioned TV station on a remote mountain. The transmission towers still emit a signal, luring viewers into a coma. Something lives in the broadcast loop.",
+  "characters": [
+    {
+      "id": "anchor-ghost",
+      "name": "The Anchor",
+      "description": "A spectral figure in a crisp suit, eternally reading the news that never ends."
+    },
+    {
+      "id": "static-entity",
+      "name": "The Static",
+      "description": "A living noise that consumes those who watch too closely."
+    }
+  ],
+  "items": [
+    {
+      "id": "master-key",
+      "name": "Master Key",
+      "description": "A brass key that opens all doors in the station.",
+      "foundIn": "lobby",
+      "usedIn": "lobby",
+      "usedOn": "security-door"
+    },
+    {
+      "id": "backup-tape",
+      "name": "Backup Tape",
+      "description": "A VHS tape containing the original broadcast that started the curse.",
+      "foundIn": "lobby",
+      "usedIn": "studio",
+      "usedOn": "playback-deck"
+    },
+    {
+      "id": "signal-analyzer",
+      "name": "Signal Analyzer",
+      "description": "A handheld device that can decode the hidden frequency.",
+      "foundIn": "engineering-closet",
+      "usedIn": "control-room",
+      "usedOn": "modulator"
+    },
+    {
+      "id": "ferrite-beads",
+      "name": "Ferrite Beads",
+      "description": "Heavy-duty choke coils that can block the signal's spread.",
+      "foundIn": "main-transmitter-room",
+      "usedIn": "main-transmitter-room",
+      "usedOn": "transmitter-array"
+    },
+    {
+      "id": "emergency-knife",
+      "name": "Emergency Knife",
+      "description": "A serrated blade for cutting coaxial cables. It must be used on the main feed.",
+      "foundIn": "control-room",
+      "usedIn": "main-transmitter-room",
+      "usedOn": "main-cable"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "lobby",
+      "name": "Lobby",
+      "prose": "The entrance hall of the TV station. A check-in desk sits abandoned. The walls are lined with monitors showing a looping news broadcast. A security door blocks the way to the studio. A master key glints on the desk.",
+      "exits": {
+        "east": "studio"
+      },
+      "items": [
+        "master-key",
+        "backup-tape"
+      ],
+      "puzzles": [
+        "security-door"
+      ],
+      "lookDescriptions": {
+        "monitors": "They all show the same smiling anchor repeating the same sentence.",
+        "desk": "Phone lines are dead. The key is the only thing that works."
+      }
+    },
+    {
+      "id": "studio",
+      "name": "Studio",
+      "prose": "The main broadcast studio. Cameras point at a vacant anchor desk. A playback deck sits ready. A door to the archive room is locked. The air hums with a low frequency. Something is feeding through the monitors.",
+      "exits": {
+        "west": "lobby",
+        "south": "archive-room"
+      },
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "cameras": "Their lenses are cracked, but they still follow you.",
+        "playback deck": "It accepts VHS tapes."
+      }
+    },
+    {
+      "id": "archive-room",
+      "name": "Archive Room",
+      "prose": "Shelves of tapes and disk drives fill this side room. Dust covers everything except a single VHS tape on a table: 'The First Broadcast'. The door to the engineering closet is rusted shut.",
+      "exits": {
+        "north": "studio",
+        "east": "engineering-closet"
+      },
+      "items": [],
+      "puzzles": [
+        "archive-lock"
+      ],
+      "lookDescriptions": {
+        "tape": "The label reads: 'DO NOT PLAY'. It feels warm.",
+        "shelves": "Most tapes are labeled 'REJECTED CONTENT'."
+      }
+    },
+    {
+      "id": "engineering-closet",
+      "name": "Engineering Closet",
+      "prose": "A cramped space filled with test equipment, routers, and a signal analyzer. A door leads to the control room. The floor is littered with cable scraps. The signal analyzer looks functional.",
+      "exits": {
+        "west": "archive-room",
+        "south": "control-room"
+      },
+      "items": [
+        "signal-analyzer"
+      ],
+      "puzzles": [
+        "closet-jam"
+      ],
+      "lookDescriptions": {
+        "analyzer": "It has a glowing screen and a tuning knob.",
+        "cables": "They pulse with a faint signal."
+      }
+    },
+    {
+      "id": "control-room",
+      "name": "Control Room",
+      "prose": "The heart of the broadcast operation. A massive console with sliders, lights, and a modulator. A door leads to the main transmitter room. The signal analyzer can be used here to find the hidden frequency.",
+      "exits": {
+        "north": "engineering-closet",
+        "east": "main-transmitter-room"
+      },
+      "items": [
+        "emergency-knife"
+      ],
+      "puzzles": [
+        "modulator-fix"
+      ],
+      "lookDescriptions": {
+        "modulator": "Its input is missing a cable. The output is dangerously high.",
+        "console": "Sliders are stuck in the 'MAX' position."
+      }
+    },
+    {
+      "id": "main-transmitter-room",
+      "name": "Main Transmitter Room",
+      "prose": "A towering array of vacuum tubes and coils. The main feed cable runs to the antenna mast. A ferrite bead kit sits on a workbench. A security office door is locked. The static is thick here; you feel watched.",
+      "exits": {
+        "west": "control-room",
+        "south": "security-office"
+      },
+      "items": [
+        "ferrite-beads",
+        "emergency-knife"
+      ],
+      "puzzles": [
+        "kill-transmitter"
+      ],
+      "lookDescriptions": {
+        "tubes": "They glow with an unnatural blue light.",
+        "cable": "The main feed is thick and armored. It needs to be cut."
+      }
+    },
+    {
+      "id": "security-office",
+      "name": "Security Office",
+      "prose": "A small room with monitors showing every corner of the station. The guard's chair is empty. A cabinet holds emergency tools. The only exit is north to the transmitter room. The signal is weakest here; the static clears slightly.",
+      "exits": {
+        "north": "main-transmitter-room"
+      },
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "monitors": "One shows the lobby in real time, but you're not there.",
+        "cabinet": "It's locked, but the glass is broken."
+      }
+    },
+    {
+      "id": "escape-roof",
+      "name": "Escape Roof",
+      "prose": "You cut the main feed and jam the transmitter. The signal dies. The monitors go black. A service ladder leads to the roof. The static clears, and the night sky is clear. You've stopped the broadcast and broken the entity's hold. You escape by helicopter that arrives at dawn. Freedom.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "ladder": "It's rusted but stable. Climb to freedom.",
+        "sky": "The stars are normal again."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "security-door",
+      "scene": "lobby",
+      "requires": [
+        "master-key"
+      ],
+      "action": "use master-key on security door",
+      "result": "The lock clicks. The door swings open, granting access to the studio.",
+      "reveals": [
+        "studio"
+      ],
+      "blocksExit": {
+        "scene": "lobby",
+        "direction": "east"
+      },
+      "blockedMessage": "The security door is locked. You need a key."
+    },
+    {
+      "id": "archive-lock",
+      "scene": "archive-room",
+      "requires": [
+        "backup-tape"
+      ],
+      "action": "take backup-tape from archive",
+      "result": "You acquire the backup tape. It hums with cursed energy. The closet door is now accessible.",
+      "reveals": [
+        "engineering-closet"
+      ],
+      "blocksExit": {
+        "scene": "archive-room",
+        "direction": "east"
+      },
+      "blockedMessage": "The closet door is rusted shut. Something in the archives might help."
+    },
+    {
+      "id": "closet-jam",
+      "scene": "engineering-closet",
+      "requires": [
+        "signal-analyzer"
+      ],
+      "action": "use signal-analyzer to align the router",
+      "result": "The analyzer emits a beep. The closet door unlocks. The control room is now accessible.",
+      "reveals": [
+        "control-room"
+      ],
+      "blocksExit": {
+        "scene": "engineering-closet",
+        "direction": "south"
+      },
+      "blockedMessage": "The door is jammed by a faulty router. Use the analyzer to fix it."
+    },
+    {
+      "id": "modulator-fix",
+      "scene": "control-room",
+      "requires": [
+        "signal-analyzer"
+      ],
+      "action": "connect analyzer to modulator and tune the frequency",
+      "result": "The analyzer finds the cursed frequency: 101.7 FM. The modulator output normalizes. The transmitter room door unlocks.",
+      "reveals": [
+        "main-transmitter-room"
+      ],
+      "blocksExit": {
+        "scene": "control-room",
+        "direction": "east"
+      },
+      "blockedMessage": "The modulator is misaligned. Use the analyzer to tune it."
+    },
+    {
+      "id": "kill-transmitter",
+      "scene": "main-transmitter-room",
+      "requires": [
+        "ferrite-beads",
+        "emergency-knife"
+      ],
+      "action": "install ferrite beads on the array, then cut the main cable",
+      "result": "The beads absorb the residual signal. You slash the main cable. The transmitter dies. The security office door unlocks. The signal is dead. The path to escape is clear.",
+      "reveals": [
+        "security-office",
+        "escape-roof"
+      ],
+      "blocksExit": {},
+      "blockedMessage": ""
+    }
+  ],
+  "winCondition": {
+    "scene": "escape-roof",
+    "requires": [],
+    "description": "You climb the ladder to the roof as dawn breaks. The broadcast is dead. The static recedes. Rescue arrives. You've survived The Last Broadcast."
+  }
+}

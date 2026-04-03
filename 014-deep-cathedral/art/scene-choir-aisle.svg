@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#0a1a2a"/>
+  <!-- water -->
+  <rect x="0" y="0" width="640" height="400" fill="#0d1a2a"/>
+  <!-- benches rows -->
+  <g fill="#1a2a3a" stroke="#d4af37" stroke-width="1">
+    <rect x="50" y="100" width="150" height="40"/>
+    <rect x="50" y="160" width="150" height="40"/>
+    <rect x="440" y="100" width="150" height="40"/>
+    <rect x="440" y="160" width="150" height="40"/>
+  </g>
+  <!-- ghostly monks (simple ellipses) -->
+  <g fill="#4a5a7a" opacity="0.6">
+    <ellipse cx="120" cy="120" rx="15" ry="25"/>
+    <ellipse cx="140" cy="120" rx="15" ry="25"/>
+    <ellipse cx="520" cy="120" rx="15" ry="25"/>
+    <ellipse cx="540" cy="120" rx="15" ry="25"/>
+  </g>
+  <!-- bell on floor -->
+  <g transform="translate(300,200)">
+    <ellipse cx="15" cy="25" rx="15" ry="10" fill="#bc8f8f" stroke="#d4af37" stroke-width="2"/>
+    <text x="15" y="30" font-family="monospace" font-size="6" fill="#d4af37" text-anchor="middle">RITUAL</text>
+  </g>
+  <!-- exits -->
+  <rect x="100" y="300" width="80" height="60" fill="#0d1a2a" stroke="#0f0" stroke-width="4"/>
+  <text x="140" y="335" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">ENTRANCE</text>
+  <rect x="400" y="280" width="80" height="60" fill="#0d1a2a" stroke="#0f0" stroke-width="4"/>
+  <text x="440" y="315" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">CHANCEL</text>
+  <rect x="500" y="180" width="80" height="60" fill="#0d1a2a" stroke="#0f0" stroke-width="4"/>
+  <text x="540" y="215" font-family="monospace" font-size="10" fill="#0f0" text-anchor="middle">SACRISTY</text>
+</svg>

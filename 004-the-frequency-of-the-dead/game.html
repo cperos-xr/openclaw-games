@@ -3,370 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Frequency of the Dead | Game #004</title>
+    <title>The Frequency of the Dead | Game #4</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* ============================================================
+         * OPENCLAW GAME TEMPLATE v3.0 — MOBILE-FIRST
+         *
+         * ARCHITECTURE:
+         *   Mobile (<769px): Scrollable page. Art top. Content below.
+         *   Desktop (≥769px): Fixed 100vh. Art left 60%. Text right 40%.
+         *
+         * FIVE RULES THAT MUST NEVER BE BROKEN:
+         *   1. NEVER add height:100vh + overflow:hidden outside the desktop media query
+         *   2. NEVER set min-height > 0px on .art-panel at base/mobile level
+         *   3. ALWAYS use aspect-ratio: 8/5 (640x400) for the art panel on mobile
+         *   4. ALWAYS use min-height:44px on every clickable button (touch targets)
+         *   5. ALWAYS use flex-wrap:wrap on .command-bar and #exits-bar
+         * ============================================================ */
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* CRT scanline overlay */
+        body::after {
+            content: ''; position: fixed; inset: 0; z-index: 999; pointer-events: none;
+            background: repeating-linear-gradient(
+                transparent, transparent 2px,
+                rgba(0,0,0,0.10) 2px, rgba(0,0,0,0.10) 4px
+            );
         }
 
+        /* ── MOBILE BASE (default, all screens) ─────────────────────
+         * Normal document flow. No height:100vh. No overflow:hidden.
+         * Everything stacks vertically and scrolls naturally.
+         * ──────────────────────────────────────────────────────────── */
         body {
-            background-color: #000;
-            color: #0f0;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 12px;
-            line-height: 1.4;
-            padding: 20px;
-            max-width: 1024px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
+            background: #000; color: #33ff33;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 11px; line-height: 1.6;
+            padding: 8px; max-width: 1200px; margin: 0 auto;
+            overflow-x: hidden; /* prevent horizontal scroll from oversized art */
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        h1 {
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: #0f0;
-            text-shadow: 0 0 5px #0f0;
-        }
-
-        h2 {
-            font-size: 14px;
-            margin-bottom: 10px;
-            color: #0f0;
-        }
+        header { text-align: center; padding-bottom: 8px; }
+        h1 { font-size: 13px; color: #33ff33; text-shadow: 0 0 8px #33ff33; margin-bottom: 4px; }
+        .subtitle { font-size: 8px; color: #226622; }
 
         #scene-name {
-            font-size: 18px;
-            text-align: center;
-            margin-bottom: 10px;
-            color: #0f0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 12px; text-align: center; color: #ffff33;
+            text-transform: uppercase; letter-spacing: 1px; padding: 6px 0;
         }
 
-        .game-container {
-            display: flex;
-            flex: 1;
-            gap: 20px;
-            min-height: 0;
-        }
-
+        /* Art panel: fills width, keeps 8:5 (640×400) aspect ratio.
+         * max-height: 56vw = ~210px on a 375px phone — art is clear but
+         * leaves plenty of room below for text and controls. */
         .art-panel {
-            flex: 1;
-            border: 2px solid #0f0;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 100%; aspect-ratio: 8 / 5; max-height: 56vw;
+            border: 2px solid #33ff33; background: #111;
+            display: flex; align-items: center; justify-content: center;
             overflow: hidden;
-            min-height: 400px;
         }
+        #art-display { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        #art-display svg, #art-display img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+        .no-art { color: #226622; font-size: 9px; text-align: center; }
 
-        #art-display svg,
-        #art-display img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
+        /* Text panel: plain block on mobile, no fixed height */
         .text-panel {
-            flex: 1;
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            border: 2px solid #33ff33; background: #111;
+            padding: 10px; margin-top: 8px;
         }
 
+        /* Story text: scrollable, capped so it doesn't swallow the whole screen */
         #text-display {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #0f0;
-            padding-bottom: 10px;
+            overflow-y: auto; max-height: 40vh;
+            border-bottom: 1px solid #226622; padding-bottom: 8px; margin-bottom: 8px;
         }
+        #text-display p { margin-bottom: 8px; }
+        #text-display .system  { color: #33bbff; font-style: italic; }
+        #text-display .success { color: #ffff33; font-weight: bold; }
+        #text-display .locked  { color: #ff3333; }
+        #text-display .error   { color: #ff5555; }
+        .look-target { color: #ffff33; text-decoration: underline; cursor: pointer; }
+        .look-target:hover { color: #ffcc00; }
 
-        #text-display p {
-            margin-bottom: 10px;
-            color: #0f0;
-        }
-
-        #text-display .system {
-            color: #0a0;
-            font-style: italic;
-        }
-
-        #text-display .success {
-            color: #0f0;
-            font-weight: bold;
-            animation: itemGlow 1s infinite alternate;
-        }
-
-        #text-display .locked {
-            color: #f00;
-            font-weight: bold;
-        }
-
-        #text-display .error {
-            color: #f00;
-        }
-
-        .command-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
+        /* Command buttons: wrapping row, 44px tap targets */
+        .command-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
         .cmd-btn {
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 5px 10px;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 10px 14px; min-height: 44px; min-width: 44px; flex: 1;
+            font-family: 'Press Start 2P', monospace; font-size: 9px; cursor: pointer;
         }
+        .cmd-btn:hover, .cmd-btn.active { background: #33ff33; color: #000; }
+        #hint-toggle { flex: 0 0 auto; }
 
-        .cmd-btn:hover {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .cmd-btn.active {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .inventory-panel {
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 10px;
-            margin-bottom: 15px;
-        }
-
-        .inventory-panel h3 {
-            font-size: 12px;
-            margin-bottom: 5px;
-            color: #0f0;
-        }
-
-        #inventory-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            min-height: 20px;
-        }
-
+        /* Inventory */
+        .inventory-panel { border: 1px solid #226622; background: #000; padding: 8px; margin-bottom: 8px; }
+        .inventory-panel h3 { font-size: 8px; color: #ffff33; margin-bottom: 6px; }
+        #inventory-bar { display: flex; flex-wrap: wrap; gap: 6px; min-height: 18px; }
+        #inv-empty { color: #226622; font-size: 9px; }
         .inv-item {
-            border: 1px solid #0f0;
-            padding: 3px 6px;
-            font-size: 10px;
-            cursor: pointer;
-            background-color: #000;
-            color: #0f0;
+            border: 1px solid #33ff33; padding: 8px 10px; min-height: 36px;
+            font-family: inherit; font-size: 9px; cursor: pointer; background: #000; color: #33ff33;
         }
+        .inv-item:hover, .inv-item.selected { background: #33ff33; color: #000; }
 
-        .inv-item.selected {
-            background-color: #0f0;
-            color: #000;
-        }
-
-        .exits-panel {
-            border: 2px solid #0f0;
-            background-color: #000;
-            padding: 10px;
-        }
-
-        .exits-panel h3 {
-            font-size: 12px;
-            margin-bottom: 5px;
-            color: #0f0;
-        }
-
-        #exits-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
+        /* Exits */
+        .exits-panel { border: 1px solid #226622; background: #000; padding: 8px; }
+        .exits-panel h3 { font-size: 8px; color: #ffff33; margin-bottom: 6px; }
+        #exits-bar { display: flex; flex-wrap: wrap; gap: 6px; }
         .exit-btn {
-            background-color: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 5px 10px;
-            font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
-            cursor: pointer;
+            background: #000; color: #33ff33; border: 1px solid #33ff33;
+            padding: 10px 14px; min-height: 44px; min-width: 44px;
+            font-family: 'Press Start 2P', monospace; font-size: 9px; cursor: pointer;
         }
+        .exit-btn.available:hover { background: #33ff33; color: #000; }
+        .exit-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-        .exit-btn.available:hover {
-            background-color: #0f0;
-            color: #000;
-        }
+        .hint { color: #FFAA00 !important; font-style: italic; border-left: 2px solid #FFAA00; padding-left: 8px; margin: 5px 0; }
+        .hint::before { content: "HINT: "; font-weight: bold; }
 
-        .look-target {
-            color: #0af;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-
-        .look-target:hover {
-            color: #0ff;
-        }
-
-        .hint {
-            color: #FFAA00 !important;
-            font-style: italic;
-            border-left: 2px solid #FFAA00;
-            padding-left: 8px;
-            margin: 5px 0;
-        }
-        .hint::before {
-            content: "🤔 HINT: ";
-            font-weight: bold;
-        }
-        #hint-toggle {
-            background: #000;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-family: 'Press Start 2P', monospace;
-            margin-left: 10px;
-        }
+        footer { margin-top: 8px; text-align: center; font-size: 7px; color: #113311; padding: 8px 0; }
 
         /* Animations */
         @keyframes puzzle-solved {
-            0% { filter: brightness(1); }
-            50% { filter: brightness(2); }
-            100% { filter: brightness(1); }
+            0%   { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
+            50%  { filter: brightness(1.8) drop-shadow(0 0 20px #ffff33); }
+            100% { filter: brightness(1) drop-shadow(0 0 4px #ffff33); }
         }
-
-        @keyframes unlockPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
         @keyframes itemGlow {
-            0% { text-shadow: 0 0 5px #0f0; }
-            100% { text-shadow: 0 0 15px #0f0; }
+            0%   { box-shadow: 0 0 4px #33ff33; }
+            50%  { box-shadow: 0 0 16px #33ff33; }
+            100% { box-shadow: 0 0 4px #33ff33; }
+        }
+        @keyframes unlockPulse {
+            0%, 100% { border-color: #33ff33; }
+            50% { border-color: #ffff33; box-shadow: 0 0 12px #ffff33; }
+        }
+        .puzzle-solved { animation: puzzle-solved 0.6s ease-out; }
+        .item-new { animation: itemGlow 1s ease-in-out 3; }
+        .newly-unlocked { animation: unlockPulse 1s ease 3; }
+
+        /* ── DESKTOP (≥769px): side-by-side, fits 100vh ─────────────
+         * Only here do we apply height:100vh + overflow:hidden.
+         * Flex layout with min-height:0 so panels can shrink properly.
+         * ──────────────────────────────────────────────────────────── */
+        @media (min-width: 769px) {
+            body {
+                display: flex; flex-direction: column;
+                height: 100vh; overflow: hidden;
+                font-size: 12px; padding: 12px;
+            }
+            header { flex-shrink: 0; margin-bottom: 6px; }
+            h1 { font-size: 16px; }
+            .subtitle { font-size: 9px; }
+            #scene-name { font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; flex-shrink: 0; }
+
+            .game-container {
+                display: flex; flex: 1; gap: 12px;
+                min-height: 0; /* CRITICAL: lets flex children shrink below content height */
+            }
+            .art-panel {
+                flex: 3; aspect-ratio: unset; max-height: none; /* flex dictates height */
+                margin-top: 0;
+            }
+            .text-panel {
+                flex: 2; display: flex; flex-direction: column;
+                overflow: hidden; margin-top: 0;
+            }
+            #text-display { flex: 1; max-height: none; overflow-y: auto; }
+            .cmd-btn    { flex: 1; padding: 6px 10px; min-height: 36px; }
+            .exit-btn   { padding: 6px 10px; min-height: 36px; }
+            .inv-item   { padding: 4px 8px; min-height: 30px; }
+            footer { flex-shrink: 0; }
         }
 
-        .puzzle-solved {
-            animation: puzzle-solved 0.6s ease-in-out;
+        /* ── LANDSCAPE MOBILE (short + wide) ───────────────────────── */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .game-container { display: flex !important; flex-direction: row !important; }
+            .art-panel { flex: 1; aspect-ratio: unset; max-height: none; }
+            .text-panel { flex: 1; overflow-y: auto; }
+            #text-display { max-height: 45vh; }
         }
-
-        footer {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 10px;
-            color: #080;
-        }
-
-        /* ── MOBILE FIX v3.0 ─────────────────────────────────────────
-         * The base layout above assumes desktop (height:100vh, side-by-side).
-         * These overrides restore a sane scrollable layout on mobile.
-         * ─────────────────────────────────────────────────────────── */
-        @media (max-width: 768px) {
-            body { height: auto !important; min-height: 100vh; overflow-y: auto !important; overflow-x: hidden !important; padding: 8px !important; }
-            h1 { font-size: 13px !important; }
-            h2 { font-size: 11px !important; }
-            #scene-name { font-size: 12px !important; }
-            .game-container { flex-direction: column !important; gap: 8px !important; flex: none !important; }
-            .art-panel { flex: none !important; min-height: 0 !important; width: 100% !important; aspect-ratio: 8 / 5; max-height: 56vw !important; }
-            .text-panel { flex: none !important; overflow: visible !important; padding: 10px !important; }
-            #text-display { max-height: 40vh !important; overflow-y: auto !important; }
-            .command-bar { flex-wrap: wrap !important; }
-            .cmd-btn { min-height: 44px !important; padding: 8px 10px !important; flex: 1 !important; font-size: 9px !important; }
-            .exit-btn { min-height: 44px !important; padding: 8px 10px !important; font-size: 9px !important; }
-            .inv-item { min-height: 36px !important; padding: 6px 8px !important; }
-        }
-        @media (max-width: 400px) { .art-panel { max-height: 50vw !important; } }
     </style>
 </head>
 <body>
-    <header>
-        <h1>THE FREQUENCY OF THE DEAD</h1>
-        <h2>Game #004 — WXBH Radio Station</h2>
-    </header>
 
-    <div id="scene-name">THE LOBBY</div>
+<header>
+    <h1>THE FREQUENCY OF THE DEAD</h1>
+    <div class="subtitle">OpenClaw Adventures — Game #4</div>
+</header>
 
-    <div class="game-container">
-        <div class="art-panel">
-            <div id="art-display">
-                <!-- Art will be inserted here by JavaScript -->
-            </div>
-        </div>
+<div id="scene-name">The Lobby</div>
 
-        <div class="text-panel">
-            <div id="text-display">
-                <!-- Game text will appear here -->
-            </div>
-
-            <div class="command-bar">
-                <button class="cmd-btn" data-cmd="look">LOOK</button>
-                <button class="cmd-btn" data-cmd="take">TAKE</button>
-                <button class="cmd-btn" data-cmd="use">USE</button>
-                <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
-                <button id="hint-toggle" class="cmd-btn">HINTS: ON</button>
-            </div>
-
-            <div class="inventory-panel">
-                <h3>INVENTORY</h3>
-                <div id="inventory-bar">
-                    <span id="inv-empty">(empty)</span>
-                </div>
-            </div>
-
-            <div class="exits-panel">
-                <h3>EXITS</h3>
-                <div id="exits-bar">
-                    <!-- Exit buttons will appear here -->
-                </div>
-            </div>
+<div class="game-container">
+    <!-- Art panel: 640x400 SVG art, scales to fill panel -->
+    <div class="art-panel">
+        <div id="art-display">
+            <span class="no-art">[ART LOADING]</span>
         </div>
     </div>
 
-    <footer>
-        Use the command buttons or click on highlighted words. Click exits to move.
-        Type /restart in the text area to reset the game.
-    </footer>
+    <!-- Text panel: narrative, commands, inventory, exits -->
+    <div class="text-panel">
+        <div id="text-display"></div>
 
-    <script>
+        <div class="command-bar">
+            <button class="cmd-btn" data-cmd="look">LOOK</button>
+            <button class="cmd-btn" data-cmd="take">TAKE</button>
+            <button class="cmd-btn" data-cmd="use">USE</button>
+            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+            <button id="hint-toggle" class="cmd-btn">HINTS: ON</button>
+            <button id="reset-btn" class="cmd-btn reset-btn" style="color:#ff6666;border-color:#ff6666;">RESET</button>
+        </div>
+
+        <div class="inventory-panel">
+            <h3>INVENTORY</h3>
+            <div id="inventory-bar">
+                <span id="inv-empty">(empty)</span>
+            </div>
+        </div>
+
+        <div class="exits-panel">
+            <h3>EXITS</h3>
+            <div id="exits-bar"></div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    OpenClaw Point &amp; Click Studio | LOOK · TAKE · USE · EXAMINE | Click exits to move | /restart to reset
+</footer>
+
+<script>
 // ============================================================
-// GAME DATA
-const GAME_DATA = {
+// THE FREQUENCY OF THE DEAD — Game Logic
+// Generated by Gameplay Coder (Hex Corbin)
+// ============================================================
+
+var GAME_DATA = {
   "title": "The Frequency of the Dead",
   "slug": "the-frequency-of-the-dead",
   "number": 4,
-  "setting": "WXBH \u2014 an abandoned 1930s coastal radio broadcast station perched on a fog-shrouded cliff. Art Deco decay, phantom broadcasts, electromagnetic dread.",
-  "characters": [
-    {
-      "id": "dead-announcer",
-      "name": "Marcus Webb",
-      "description": "WXBH's final announcer. Found as a perfect dust outline in the control booth. His last broadcast echoes through the static, a man who talked into the void until the void answered back."
-    },
-    {
-      "id": "dr-holloway",
-      "name": "Dr. Helen Holloway",
-      "description": "Parapsychologist who was studying the station's supernatural phenomena. Her journal in the archives reveals her attempt to contact the dead through radio frequency manipulation. Her final entry is frantic and unfinished."
-    }
-  ],
+  "setting": "WXBH — an abandoned 1930s coastal radio broadcast station perched on a fog-shrouded cliff. Art Deco decay, phantom broadcasts, electromagnetic dread.",
+
   "items": [
     {
       "id": "brass-relay",
@@ -417,39 +295,33 @@ const GAME_DATA = {
       "usedOn": "puzzle-5"
     }
   ],
+
   "scenes": [
     {
       "id": "lobby",
       "name": "The Lobby",
-      "prose": "The fog pours through the cracked windows like something alive, curling across the Art Deco tiles of WXBH's lobby. Wallpaper peels in long, curling strips, revealing dark plaster beneath \u2014 as if the station is shedding its skin. A reception desk sits at the room's center, dust-coated and gray, its appointments ledger swollen with moisture. Behind it, mounted on a frayed pad of velvet, a brass relay switch catches the dying light. The air smells of salt, rot, and ozone. Beyond the desk, a heavy steel door bears stenciled letters: TRANSMITTER ROOM. It's locked. The silence here is wrong \u2014 thick, expectant \u2014 as though the station remembers filling this air with voices, and resents their absence.",
+      "prose": "The fog pours through the cracked windows like something alive, curling across the Art Deco tiles of WXBH's lobby. Wallpaper peels in long, curling strips, revealing dark plaster beneath — as if the station is shedding its skin. A reception desk sits at the room's center, dust-coated and gray, its appointments ledger swollen with moisture. Behind it, mounted on a frayed pad of velvet, a brass relay switch catches the dying light. The air smells of salt, rot, and ozone. Beyond the desk, a heavy steel door bears stenciled letters: TRANSMITTER ROOM. It's locked. The silence here is wrong — thick, expectant — as though the station remembers filling this air with voices, and resents their absence.",
       "exits": {
         "east": "transmitter-room"
       },
-      "items": [
-        "brass-relay"
-      ],
+      "items": ["brass-relay"],
       "puzzles": [],
       "lookDescriptions": {
         "reception desk": "A heavy oak desk coated in dust. The appointments ledger shows entries stopping abruptly on October 31, 1937.",
         "brass relay": "A tarnished brass switch, about the size of your palm. It feels cold to the touch.",
-        "transmitter room door": "A heavy steel door with stenciled lettering. A thick padlock secures it, but the lock looks mechanical \u2014 there must be a way to open it from here."
+        "transmitter room door": "A heavy steel door with stenciled lettering. A thick padlock secures it, but the lock looks mechanical — there must be a way to open it from here."
       }
     },
     {
       "id": "transmitter-room",
       "name": "Transmitter Room",
-      "prose": "The transmitter room opens before you like the ribcage of some iron leviathan. Vacuum tubes line the far wall in rows \u2014 dozens of them \u2014 and several pulse with a faint amber glow, though nothing here has drawn power in decades. Thick cables snake across the concrete floor, slick with condensation. A broadcasting console squats at the center, its dials frozen at impossible frequencies. On the eastern wall, you spot a fuse box, its metal face pitted with rust. One slot gapes empty \u2014 a missing relay, maybe. The door to the west leads toward what was once the control booth, but darkness swallows the corridor whole. Something hums. Not from the equipment. From beneath the floor.",
+      "prose": "The transmitter room opens before you like the ribcage of some iron leviathan. Vacuum tubes line the far wall in rows — dozens of them — and several pulse with a faint amber glow, though nothing here has drawn power in decades. Thick cables snake across the concrete floor, slick with condensation. A broadcasting console squats at the center, its dials frozen at impossible frequencies. On the eastern wall, you spot a fuse box, its metal face pitted with rust. One slot gapes empty — a missing relay, maybe. The door to the west leads toward what was once the control booth, but darkness swallows the corridor whole. Something hums. Not from the equipment. From beneath the floor.",
       "exits": {
         "west": "control-booth",
         "south": "lobby"
       },
-      "items": [
-        "power-fuse"
-      ],
-      "puzzles": [
-        "puzzle-1",
-        "puzzle-2"
-      ],
+      "items": ["power-fuse"],
+      "puzzles": ["puzzle-1", "puzzle-2"],
       "lookDescriptions": {
         "fuse box": "A rusted metal box with multiple slots for relays and fuses. The bottom-right slot is empty, waiting for a component.",
         "broadcasting console": "A massive control panel with dozens of dials and switches. They're all frozen at strange, impossible frequencies that don't correspond to any known radio band.",
@@ -460,18 +332,14 @@ const GAME_DATA = {
     {
       "id": "control-booth",
       "name": "Control Booth",
-      "prose": "The mixing board stretches before you like an altar, its faders frozen mid-burn. Scorch marks crawl across the dials in blackened fingers \u2014 fire kissed this equipment once, and nobody bothered to clean up. Through the thick glass, the sound booth waits in darkness. Two reel-to-reel machines sit idle, tape spooled tight as clenched teeth. On the floor beside the board, dust has settled into a shape \u2014 a body, arms at its sides, head tilted toward the microphone that's no longer there. Marcus Webb. He laid down and never got up. The outline is perfect, preserved beneath decades of grime like a chalk drawing at a crime scene nobody closed. A brass studio key hangs from a hook near the glass. Beside it, the sound booth door \u2014 locked.",
+      "prose": "The mixing board stretches before you like an altar, its faders frozen mid-burn. Scorch marks crawl across the dials in blackened fingers — fire kissed this equipment once, and nobody bothered to clean up. Through the thick glass, the sound booth waits in darkness. Two reel-to-reel machines sit idle, tape spooled tight as clenched teeth. On the floor beside the board, dust has settled into a shape — a body, arms at its sides, head tilted toward the microphone that's no longer there. Marcus Webb. He laid down and never got up. The outline is perfect, preserved beneath decades of grime like a chalk drawing at a crime scene nobody closed. A brass studio key hangs from a hook near the glass. Beside it, the sound booth door — locked.",
       "exits": {
         "east": "transmitter-room",
         "north": "sound-booth",
         "down": "archives"
       },
-      "items": [
-        "studio-key"
-      ],
-      "puzzles": [
-        "puzzle-3"
-      ],
+      "items": ["studio-key"],
+      "puzzles": ["puzzle-3"],
       "lookDescriptions": {
         "mixing board": "A massive audio mixing console covered in scorch marks. The faders are fused in place, as if something surged through them.",
         "reel-to-reel machines": "Two professional tape decks, their reels full of magnetic tape. One machine has tape stretched taut, as if it snapped during playback.",
@@ -482,16 +350,12 @@ const GAME_DATA = {
     {
       "id": "sound-booth",
       "name": "Sound Booth",
-      "prose": "The door seals behind you with a pneumatic hiss, and the world goes dead. Sound doesn't exist here \u2014 it's been murdered, packed into the diamond-patterned foam that lines every surface like some geometric disease. Your breathing vanishes. Your footsteps vanish. Only your heartbeat remains, trapped inside your skull, hammering against bone like it wants out. A microphone stand rises from the floor, skeletal, grasping at nothing. Beside it, a scroll of yellowed paper waits as if left for you. On the far wall, the foam shifts in tone \u2014 darker, disturbed. Scratched deep into the material: numbers. 7-3-1-9. Almost invisible unless you're looking. The foam absorbs everything. Sound. Light. Thought. You feel it pulling at the edges of your mind, trying to swallow you whole.",
+      "prose": "The door seals behind you with a pneumatic hiss, and the world goes dead. Sound doesn't exist here — it's been murdered, packed into the diamond-patterned foam that lines every surface like some geometric disease. Your breathing vanishes. Your footsteps vanish. Only your heartbeat remains, trapped inside your skull, hammering against bone like it wants out. A microphone stand rises from the floor, skeletal, grasping at nothing. Beside it, a scroll of yellowed paper waits as if left for you. On the far wall, the foam shifts in tone — darker, disturbed. Scratched deep into the material: numbers. 7-3-1-9. Almost invisible unless you're looking. The foam absorbs everything. Sound. Light. Thought. You feel it pulling at the edges of your mind, trying to swallow you whole.",
       "exits": {
         "south": "control-booth"
       },
-      "items": [
-        "frequency-code-scroll"
-      ],
-      "puzzles": [
-        "puzzle-4"
-      ],
+      "items": ["frequency-code-scroll"],
+      "puzzles": ["puzzle-4"],
       "lookDescriptions": {
         "microphone stand": "A skeletal metal stand reaching upward, as if grasping for a microphone that's long gone.",
         "acoustic foam": "Diamond-patterned foam covering every surface. It feels unnervingly soft, like dead flesh.",
@@ -502,21 +366,16 @@ const GAME_DATA = {
     {
       "id": "archives",
       "name": "The Archives",
-      "prose": "The filing cabinets groan under decades of yellowed research. Reel-to-reel tapes are stacked like vertebrae, each labeled in Dr. Holloway's increasingly erratic hand. Her journal lies open on the oak desk \u2014 clinical observations devolving into desperation, the final entry trailing off mid-sentence. A steel lockbox sits before you, its combination dial waiting. Beyond the desk, concrete stairs climb upward into darkness, leading to the rooftop. The air down here is thick with dust and something else \u2014 the faint hum of frequencies long since silenced. Every paper in this room is proof: she found something. And it found her back.",
+      "prose": "The filing cabinets groan under decades of yellowed research. Reel-to-reel tapes are stacked like vertebrae, each labeled in Dr. Holloway's increasingly erratic hand. Her journal lies open on the oak desk — clinical observations devolving into desperation, the final entry trailing off mid-sentence. A steel lockbox sits before you, its combination dial waiting. Beyond the desk, concrete stairs climb upward into darkness, leading to the rooftop. The air down here is thick with dust and something else — the faint hum of frequencies long since silenced. Every paper in this room is proof: she found something. And it found her back.",
       "exits": {
         "up": "rooftop",
         "upstairs": "control-booth"
       },
-      "items": [
-        "maintenance-wrench",
-        "antenna-crystal"
-      ],
-      "puzzles": [
-        "puzzle-5"
-      ],
+      "items": ["maintenance-wrench", "antenna-crystal"],
+      "puzzles": ["puzzle-5"],
       "lookDescriptions": {
         "filing cabinets": "Rows of metal cabinets stuffed with research papers. Each drawer is labeled with frequency ranges and dates from 1935-1937.",
-        "Dr. Holloway's journal": "A leather-bound journal open to the final page. The handwriting grows progressively shakier, ending mid-sentence: 'The frequency is not empty. It's watching\u2014'",
+        "Dr. Holloway's journal": "A leather-bound journal open to the final page. The handwriting grows progressively shakier, ending mid-sentence: 'The frequency is not empty. It's watching—'",
         "lockbox": "A heavy steel lockbox with a four-digit combination dial. It waits patiently.",
         "stairs": "Concrete stairs leading up to the rooftop. Cold air drifts down from above, carrying the scent of salt and ozone."
       }
@@ -524,7 +383,7 @@ const GAME_DATA = {
     {
       "id": "rooftop",
       "name": "The Rooftop",
-      "prose": "The wind screams across the rooftop like the last breath of a dying god. Fog clings to the steel lattice of the antenna tower, curling through its bones like something alive. Below, the cliff falls three hundred feet into black water that gnaws the rock with white teeth. Inside the tower, the great transmission coil rises overhead \u2014 a cathedral of rust and silence. The service panel hangs ajar, bolts stripped long ago, revealing a hollow cavity within. A crystalline socket sits at its heart, dark and empty, patient as a grave. The coil hums. Not sound. Memory. The station has been waiting decades for someone to finish what Marcus Webb started. The fog rolls in. The cliff waits.",
+      "prose": "The wind screams across the rooftop like the last breath of a dying god. Fog clings to the steel lattice of the antenna tower, curling through its bones like something alive. Below, the cliff falls three hundred feet into black water that gnaws the rock with white teeth. Inside the tower, the great transmission coil rises overhead — a cathedral of rust and silence. The service panel hangs ajar, bolts stripped long ago, revealing a hollow cavity within. A crystalline socket sits at its heart, dark and empty, patient as a grave. The coil hums. Not sound. Memory. The station has been waiting decades for someone to finish what Marcus Webb started. The fog rolls in. The cliff waits.",
       "exits": {
         "down": "archives",
         "into": "antenna-tower"
@@ -541,14 +400,12 @@ const GAME_DATA = {
     {
       "id": "antenna-tower",
       "name": "Antenna Tower",
-      "prose": "You stand inside the tower's skeletal frame. The transmission coil dominates the space, copper windings gleaming dully in the fog-light. The service panel hangs fully open now, revealing the crystalline socket waiting at its center. This is where it ends \u2014 or begins. The station has held its breath since 1937, trapped between transmission and reception. The coil hums louder as you approach, a vibration that travels up your spine. Marcus Webb's final broadcast hangs in the air, unfinished. The cliff waits. The fog waits. The frequency waits. All it needs is completion.",
+      "prose": "You stand inside the tower's skeletal frame. The transmission coil dominates the space, copper windings gleaming dully in the fog-light. The service panel hangs fully open now, revealing the crystalline socket waiting at its center. This is where it ends — or begins. The station has held its breath since 1937, trapped between transmission and reception. The coil hums louder as you approach, a vibration that travels up your spine. Marcus Webb's final broadcast hangs in the air, unfinished. The cliff waits. The fog waits. The frequency waits. All it needs is completion.",
       "exits": {
         "out": "rooftop"
       },
       "items": [],
-      "puzzles": [
-        "puzzle-5"
-      ],
+      "puzzles": ["puzzle-5"],
       "lookDescriptions": {
         "transmission coil": "Massive copper windings that hum with latent energy. They seem to pulse in time with your heartbeat.",
         "crystalline socket": "Now occupied by the antenna crystal, which glows with soft inner light. The crystal vibrates in harmony with the coil.",
@@ -556,127 +413,89 @@ const GAME_DATA = {
       }
     }
   ],
+
   "puzzles": [
     {
       "id": "puzzle-1",
       "scene": "transmitter-room",
-      "requires": [
-        "brass-relay"
-      ],
+      "requires": ["brass-relay"],
       "action": "use brass-relay on fuse-box",
-      "result": "The brass relay clicks into place with a satisfying thunk. Lights flicker to life across the transmitter room \u2014 the vacuum tubes glow brighter, and a soft hum fills the air. From a hidden compartment in the fuse box, a ceramic power fuse drops into your hand.",
-      "reveals": [
-        "power-fuse"
-      ],
+      "result": "The brass relay clicks into place with a satisfying thunk. Lights flicker to life across the transmitter room — the vacuum tubes glow brighter, and a soft hum fills the air. From a hidden compartment in the fuse box, a ceramic power fuse drops into your hand.",
+      "reveals": ["power-fuse"],
       "blocksExit": "west"
     },
     {
       "id": "puzzle-2",
       "scene": "control-booth",
-      "requires": [
-        "power-fuse"
-      ],
+      "requires": ["power-fuse"],
       "action": "use power-fuse on mixing-board power-port",
-      "result": "You slot the power fuse into the mixing board's port. With a crackle of static, the board lights up \u2014 dials glow amber, and the scorch marks seem to pulse. From a hook beside the sound booth window, a brass studio key falls, clattering to the floor.",
-      "reveals": [
-        "studio-key"
-      ],
-      "blocksExit": "north"
+      "result": "You slot the power fuse into the mixing board's port. With a crackle of static, the board lights up — dials glow amber, and the scorch marks seem to pulse. From a hook beside the sound booth window, a brass studio key falls, clattering to the floor.",
+      "reveals": ["studio-key"],
+      "blocksExit": ""
     },
     {
       "id": "puzzle-3",
       "scene": "control-booth",
-      "requires": [
-        "studio-key"
-      ],
+      "requires": ["studio-key"],
       "action": "use studio-key on sound-booth-door",
       "result": "The key turns smoothly in the lock. The sound booth door swings open with a pneumatic hiss, revealing the acoustic chamber beyond. The air from inside feels unnaturally still, as if sound itself has been vacuumed out.",
-      "reveals": [
-        "sound-booth"
-      ],
+      "reveals": ["sound-booth"],
       "blocksExit": "north"
     },
     {
       "id": "puzzle-4",
       "scene": "archives",
-      "requires": [
-        "frequency-code-scroll"
-      ],
+      "requires": ["frequency-code-scroll"],
       "action": "enter code 7-3-1-9 on lockbox",
       "result": "You dial 7-3-1-9 on the lockbox. With a sharp click, the lid pops open. Inside, you find a heavy maintenance wrench and a clear quartz crystal that pulses with faint inner light.",
-      "reveals": [
-        "maintenance-wrench",
-        "antenna-crystal"
-      ],
+      "reveals": ["maintenance-wrench", "antenna-crystal"],
       "blocksExit": ""
     },
     {
       "id": "puzzle-5",
       "scene": "antenna-tower",
-      "requires": [
-        "maintenance-wrench",
-        "antenna-crystal"
-      ],
+      "requires": ["maintenance-wrench", "antenna-crystal"],
       "action": "use maintenance-wrench on service-panel, then antenna-crystal on crystalline-socket",
-      "result": "You tighten the service panel bolts with the wrench, securing the panel fully open. Then you place the antenna crystal into the socket. It slots home perfectly. The crystal erupts with brilliant white light, and the transmission coil hums to life \u2014 a deep, resonant frequency that shakes the entire tower. Through the static, a voice emerges: Marcus Webb's final broadcast, completing the sentence he left unfinished decades ago: '...and now I see you.' The broadcast completes. The fog parts. The station falls silent at last.",
+      "result": "You tighten the service panel bolts with the wrench, securing the panel fully open. Then you place the antenna crystal into the socket. It slots home perfectly. The crystal erupts with brilliant white light, and the transmission coil hums to life — a deep, resonant frequency that shakes the entire tower. Through the static, a voice emerges: Marcus Webb's final broadcast, completing the sentence he left unfinished decades ago: '...and now I see you.' The broadcast completes. The fog parts. The station falls silent at last.",
       "reveals": [],
       "blocksExit": ""
     }
   ],
+
   "winCondition": {
     "scene": "antenna-tower",
-    "requires": [
-      "maintenance-wrench",
-      "antenna-crystal"
-    ],
+    "requires": ["maintenance-wrench", "antenna-crystal"],
     "description": "Repair the antenna tower by securing the service panel with the wrench and installing the antenna crystal. This completes Marcus Webb's final broadcast, freeing the station from its decades-long haunting."
   }
 };
 
-// ============================================================
-// GAME ART
-const GAME_ART = {
-  "lobby": "<img src=\"art/scene-lobby.png\" alt=\"lobby\">",
-  "transmitter-room": "<img src=\"art/scene-transmitter-room.png\" alt=\"transmitter-room\">",
-  "control-booth": "<img src=\"art/scene-control-booth.png\" alt=\"control-booth\">",
-  "sound-booth": "<img src=\"art/scene-sound-booth.png\" alt=\"sound-booth\">",
-  "archives": "<img src=\"art/scene-archives.png\" alt=\"archives\">",
-  "rooftop": "<img src=\"art/scene-rooftop.png\" alt=\"rooftop\">",
-  "antenna-tower": "<img src=\"art/scene-antenna-tower.png\" alt=\"antenna-tower\">",
-  "brass-relay": "<img src=\"art/item-brass-relay.png\" alt=\"brass-relay\">",
-  "power-fuse": "<img src=\"art/item-power-fuse.png\" alt=\"power-fuse\">",
-  "studio-key": "<img src=\"art/item-studio-key.png\" alt=\"studio-key\">",
-  "frequency-code-scroll": "<img src=\"art/item-frequency-code-scroll.png\" alt=\"frequency-code-scroll\">",
-  "maintenance-wrench": "<img src=\"art/item-maintenance-wrench.png\" alt=\"maintenance-wrench\">",
-  "antenna-crystal": "<img src=\"art/item-antenna-crystal.png\" alt=\"antenna-crystal\">"
+window.GAME_ART = {
+  "scene-lobby": '<img src="art/scene-lobby.png" alt="scene-lobby">',
+  "scene-transmitter-room": '<img src="art/scene-transmitter-room.png" alt="scene-transmitter-room">',
+  "scene-control-booth": '<img src="art/scene-control-booth.png" alt="scene-control-booth">',
+  "scene-sound-booth": '<img src="art/scene-sound-booth.png" alt="scene-sound-booth">',
+  "scene-archives": '<img src="art/scene-archives.png" alt="scene-archives">',
+  "scene-rooftop": '<img src="art/scene-rooftop.png" alt="scene-rooftop">',
+  "scene-antenna-tower": '<img src="art/scene-antenna-tower.png" alt="scene-antenna-tower">'
 };
 
-// ============================================================
-// GAME LOGIC
-// ============================================================
-// THE FREQUENCY OF THE DEAD — Game Logic
-// Generated by Gameplay Coder (Hex Corbin)
-// ============================================================
-
 // ---- Game State ----
-const state = {
+var state = {
   currentScene: 'lobby',
   inventory: [],
   solvedPuzzles: [],
   visitedScenes: ['lobby'],
   activeCommand: null,
   selectedItem: null,
-  won: false,
-  hintsEnabled: true,
-  hintTimeouts: []
+  won: false
 };
 
 // ---- DOM References ----
-const artDisplay = document.getElementById('art-display');
-const sceneName = document.getElementById('scene-name');
-const textDisplay = document.getElementById('text-display');
-const invBar = document.getElementById('inventory-bar');
-const exitsBar = document.getElementById('exits-bar');
+var artDisplay = document.getElementById('art-display');
+var sceneName = document.getElementById('scene-name');
+var textDisplay = document.getElementById('text-display');
+var invBar = document.getElementById('inventory-bar');
+var exitsBar = document.getElementById('exits-bar');
 
 // ---- Display Functions ----
 function addText(text, cls = '') {
@@ -688,41 +507,6 @@ function addText(text, cls = '') {
 }
 
 function clearText() { textDisplay.innerHTML = ''; }
-
-// ---- Hint System ----
-function clearHintTimers() {
-  state.hintTimeouts.forEach(timeout => clearTimeout(timeout));
-  state.hintTimeouts = [];
-}
-
-function showHint(sceneId, index) {
-  if (!state.hintsEnabled) return;
-  const hints = GAME_DATA.hints && GAME_DATA.hints[sceneId];
-  if (!hints || index >= hints.length) return;
-  const hint = hints[index];
-  addText(hint.text, 'hint');
-}
-
-function startHintTimer(sceneId) {
-  clearHintTimers();
-  const hints = GAME_DATA.hints && GAME_DATA.hints[sceneId];
-  if (!hints || !state.hintsEnabled) return;
-  hints.forEach((hint, idx) => {
-    const timeout = setTimeout(() => showHint(sceneId, idx), hint.delay * 1000);
-    state.hintTimeouts.push(timeout);
-  });
-}
-
-function toggleHints() {
-  state.hintsEnabled = !state.hintsEnabled;
-  const btn = document.getElementById('hint-toggle');
-  if (btn) btn.textContent = state.hintsEnabled ? 'HINTS: ON' : 'HINTS: OFF';
-  if (!state.hintsEnabled) {
-    clearHintTimers();
-  } else {
-    startHintTimer(state.currentScene);
-  }
-}
 
 // ---- Locked Exit Logic ----
 // Puzzle blocksExit format in this game is just a direction string like "west"
@@ -762,20 +546,14 @@ function renderScene(sceneId) {
   state.currentScene = sceneId;
   if (!state.visitedScenes.includes(sceneId)) state.visitedScenes.push(sceneId);
 
-  // Hint timer
-  clearHintTimers();
-  startHintTimer(sceneId);
-
   // Update scene name
   sceneName.textContent = scene.name.toUpperCase();
 
   // Update art
-  const artKey = sceneId;
-  let artHtml = null;
-  if (typeof GAME_ART !== 'undefined' && GAME_ART[artKey]) { artHtml = GAME_ART[artKey]; }
-  else if (window.GAME_ART && window.GAME_ART[artKey]) { artHtml = window.GAME_ART[artKey]; }
-  
-  if (artHtml) { artDisplay.innerHTML = artHtml; } else {
+  const artKey = 'scene-' + sceneId;
+  if (window.GAME_ART && window.GAME_ART[artKey]) {
+    artDisplay.innerHTML = window.GAME_ART[artKey];
+  } else {
     artDisplay.innerHTML = '<span class="no-art">[ ' + scene.name.toUpperCase() + ' ]</span>';
   }
 
@@ -1096,8 +874,6 @@ function loadState() {
 document.querySelectorAll('.cmd-btn').forEach(btn => {
   btn.onclick = () => setCommand(btn.dataset.cmd);
 });
-
-document.getElementById('hint-toggle').addEventListener('click', toggleHints);
 
 document.addEventListener('click', (e) => {
   if (e.target.classList.contains('look-target')) {
