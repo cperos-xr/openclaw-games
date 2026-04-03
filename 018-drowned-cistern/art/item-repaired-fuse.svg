@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Repaired Fuse - gleams with fresh oil, contacts shine dull gold -->
+  <!-- Ceramic body -->
+  <rect x="14" y="22" width="36" height="18" fill="#334466" stroke="#000" stroke-width="2" rx="2"/>
+  <!-- Ceramic highlight (oiled sheen) -->
+  <rect x="16" y="24" width="32" height="3" fill="#aa9988" opacity="0.3"/>
+  <!-- Ends (metal caps) -->
+  <rect x="10" y="23" width="6" height="16" fill="#334466" stroke="#000" stroke-width="1.5" rx="1"/>
+  <rect x="48" y="23" width="6" height="16" fill="#334466" stroke="#000" stroke-width="1.5" rx="1"/>
+  <!-- Repaired contacts - dull gold shine -->
+  <rect x="8" y="22" width="4" height="18" fill="#aa8833" rx="1" stroke="#000" stroke-width="0.5"/>
+  <rect x="52" y="22" width="4" height="18" fill="#aa8833" rx="1" stroke="#000" stroke-width="0.5"/>
+  <!-- Gold contact highlights -->
+  <rect x="8" y="23" width="3" height="2" fill="#ccaa44" opacity="0.5"/>
+  <rect x="53" y="23" width="3" height="2" fill="#ccaa44" opacity="0.5"/>
+  <!-- Oil sheen on body -->
+  <rect x="20" y="26" width="10" height="2" fill="#aa9988" opacity="0.35"/>
+  <rect x="34" y="28" width="8" height="2" fill="#aa9988" opacity="0.3"/>
+  <!-- Cleaned appearance (no char marks) -->
+  <rect x="14" y="24" width="4" height="2" fill="#334466" opacity="0.4"/>
+  <rect x="46" y="24" width="4" height="2" fill="#334466" opacity="0.4"/>
+  <!-- Subtle glow (renewed conductivity) -->
+  <rect x="12" y="20" width="40" height="22" fill="#ccaa44" opacity="0.06" rx="3"/>
+</svg>

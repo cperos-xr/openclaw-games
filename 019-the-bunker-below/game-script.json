@@ -1,0 +1,258 @@
+{
+  "title": "The Bunker Below",
+  "slug": "the-bunker-below",
+  "number": 19,
+  "layout": "standard",
+  "setting": "An abandoned Cold War bunker buried beneath an overgrown forest. The concrete corridors hum with dying power, and the air tastes of rust and old fear.",
+  "characters": [
+    {
+      "id": "player",
+      "name": "Scavenger",
+      "description": "You. A copper-wire scavenger who pried open a buried airlock looking for scrap. You found something else."
+    },
+    {
+      "id": "the-voice",
+      "name": "The Voice",
+      "description": "A distorted recording that loops through the bunker's intercom. No one has operated this intercom in decades."
+    }
+  ],
+  "items": [
+    {
+      "id": "breaker-handle",
+      "name": "Breaker Handle",
+      "description": "A heavy iron handle, cold and pitted with rust. The lever is missing teeth from a long-ago struggle.",
+      "foundIn": "entrance-hall",
+      "usedIn": "entrance-hall",
+      "usedOn": "puzzle-1"
+    },
+    {
+      "id": "rusted-key",
+      "name": "Rusted Key",
+      "description": "A bent steel key wrapped in oilcloth. The cloth is stained dark with something that shouldn't be there.",
+      "foundIn": "generator-room",
+      "usedIn": "storage-locker",
+      "usedOn": "puzzle-2"
+    },
+    {
+      "id": "flashlight",
+      "name": "Flashlight",
+      "description": "A military-grade flashlight, heavy and waterproof. The batteries still have a charge, miraculously.",
+      "foundIn": "storage-locker",
+      "usedIn": "observation-deck",
+      "usedOn": "puzzle-3"
+    },
+    {
+      "id": "wire-cutters",
+      "name": "Wire Cutters",
+      "description": "Insulated shears with yellow plastic grips. The metal jaws still gleam. Someone oiled these recently.",
+      "foundIn": "observation-deck",
+      "usedIn": "ventilation-shaft",
+      "usedOn": "puzzle-4"
+    },
+    {
+      "id": "valve-wheel",
+      "name": "Valve Wheel",
+      "description": "A red steel wheel, four feet across, torn from its mount. The paint has peeled away to reveal something written beneath.",
+      "foundIn": "ventilation-shaft",
+      "usedIn": "reactor-core",
+      "usedOn": "puzzle-5"
+    },
+    {
+      "id": "keycard",
+      "name": "Emergency Keycard",
+      "description": "A yellowed plastic card embossed with a clearance level you've never heard of. The photo on the card has been scratched away.",
+      "foundIn": "reactor-core",
+      "usedIn": "escape-tunnel",
+      "usedOn": "escape-door"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "entrance-hall",
+      "name": "Entrance Hall",
+      "prose": "The airlock groans shut behind you, sealing with a hydraulic hiss that sounds final. You're standing in a concrete cube, twenty feet across, lit by a single flickering bulb on a frayed wire. The bulb buzzes, stutters, and dims, and in the half-dark you see the walls are lined with faded warning placards—symbols you don't recognize, printed in a language that isn't English. The floor is littered with debris: shattered glass from a broken light fixture, a coil of copper wire you came here to harvest, and the thing that stopped you cold—a human handprint, smeared in something dark and old, pressed against the inside of the airlock door. Someone tried to keep this door open. Someone failed. To the north, a steel bulkhead stands slightly ajar, its hinge mechanism seized. Beside it, a breaker box with an empty slot where a handle should be. Near the breaker box, half-buried in the debris, you see the dark shape of a heavy iron handle. Something scratches at the other side of the bulkhead. Something slow. Something patient.",
+      "exits": {
+        "north": "generator-room"
+      },
+      "items": ["breaker-handle"],
+      "puzzles": ["puzzle-1"],
+      "lookDescriptions": {
+        "break-bulb": "The bulb flickers in a pattern. Almost rhythmic. Almost intentional.",
+        "warning-placards": "The symbols are Cyrillic. The word ПОЖАР repeats. Then something else, scratched out. You can't read what remains.",
+        "handprint": "It's on the inside. The fingers are pointing toward you. Someone was trying to get in.",
+        "bulkhead": "The steel door is cold enough to burn your palm. On the other side, something breathes.",
+        "breaker-box": "Dead. Cold. It needs a handle. You can see the ghost of one, torn away long ago."
+      }
+    },
+    {
+      "id": "generator-room",
+      "name": "Generator Room",
+      "prose": "You push through the bulkhead into a chamber that smells of diesel and dried copper. The generator itself dominates the space—a monstrous engine the size of a small car, covered in dust thick enough to write your name in. But it's not the silence that unnerves you. Generators this size don't go quiet. They idle. They hum. They wait. This one is corpse-cold, and the silence feels like something died in it. Tool benches line the walls, their drawers frozen shut by rust. On one bench, half-buried in a pile of oily rags, something metal glints—a bent steel key wrapped in stained oilcloth. The floor is a grid pattern of metal gratings, and beneath them, darkness. You can hear water moving down there. Or something moving in water. A doorway to the east stands open, its frame rusted but clear. Something in the darkness beyond it shifts, and the air from that direction carries the smell of old paper and something sweet that has gone wrong.",
+      "exits": {
+        "south": "entrance-hall",
+        "east": "storage-locker"
+      },
+      "items": ["rusted-key"],
+      "puzzles": ["puzzle-2"],
+      "lookDescriptions": {
+        "generator": "Engine block: silent. Fuel tank: empty. But the starter motor is warm. As if someone cranked it. Recently.",
+        "tool-benches": "Frozen drawers. Inside, you can see shadows of tools. Something small moves behind the metal.",
+        "floor-grate": "The grating is loose here. One corner lifts. Beneath is a ladder, descending into black water. The water is moving.",
+        "east-doorway": "Opens into a storage corridor. The darkness there is thick. It has weight."
+      }
+    },
+    {
+      "id": "storage-locker",
+      "name": "Storage Locker",
+      "prose": "The storage corridor stretches into darkness, its ceiling so low you have to stoop. Thirty metal lockers line both walls, each numbered in fading white paint. Number 13 has been painted over, then scratched open again. The scratches were made from the inside—one clear gouge, four shallow marks below it. A hand. Trapped. One locker near the back is partially open, its door bent and screeching. Inside, among rotting ration tins and bundles of copper wire stripped clean, sits a green metal flashlight on a shelf. The flashlight is heavy and solid, its lens intact. It should not work after thirty years underground. The batteries inside are warm. At the far end of the corridor, a doorway leads north into a room that must have been an observation deck—you can see the silhouette of thick glass through the frame. But the corridor between here and there is pitch black. The flashlight in the open locker flickers once when you look at it. Its beam cuts through the darkness for a heartbeat, and in that flash you see something moving on the far wall. Something that shouldn't be there.",
+      "exits": {
+        "west": "generator-room",
+        "north": "observation-deck"
+      },
+      "items": ["flashlight"],
+      "puzzles": ["puzzle-3"],
+      "lookDescriptions": {
+        "locker-13": "Painted over. Scratched open. The numbers are gone. Inside, the metal is scored with something sharp. Claws.",
+        "open-locker": "Rotted tins. Mold in the shapes of food. And wire—copper, stripped clean. Fresh strips, not old. And a green flashlight.",
+        "flashlight-on-shelf": "Military-grade. Heavy. The lens is clean. When you pick it up, the batteries hum in your grip.",
+        "north-doorway": "Pitch black beyond. Even with the flashlight, the beam doesn't reach the end."
+      }
+    },
+    {
+      "id": "observation-deck",
+      "name": "Observation Deck",
+      "prose": "You cross the threshold into a room that should be full of light but is full of nothing. The observation deck is a circular chamber with a wall of reinforced glass overlooking something vast and dark—a reactor core, you realize, though you can't see much through the glass. It's too thick, too old, too scratched. But you can feel it. The glass vibrates against your palm, a low thrum that travels up your arm and settles in your teeth. On a work table beside the glass, something gleams: a pair of insulated wire cutters with yellow plastic grips. The metal jaws are polished, oiled, fresh. Someone used these recently. Someone set them down with purpose, as if they knew they'd be needed further north. The corridor north from here is a tunnel of complete blackness. Your eyes can't adjust to it. Can't find edges, can't find the floor. You'd be walking blind without the flashlight. On the wall by the work table, scratched into the paint with something sharp, is a single word: LISTEN. You listen. In the darkness ahead, something is breathing. Slow. Wet. Waiting for you to enter so it can stop.",
+      "exits": {
+        "south": "storage-locker",
+        "north": "ventilation-shaft"
+      },
+      "items": ["wire-cutters"],
+      "puzzles": ["puzzle-4"],
+      "lookDescriptions": {
+        "reactor-glass": "Thick reinforced window. Scratched on the inside. Something was trying to get out. Or in.",
+        "dark-corridor-north": "A tunnel into nothing. Even the flashlight beam dies after ten feet. Something is in there.",
+        "work-table": "Wire cutters with yellow grips. Fresh oil. Someone was working here. Yesterday, maybe. Today.",
+        "scratched-word": "LISTEN. The letters are deep. Gouged with a fingernail or a blade. The hand that wrote it was shaking."
+      }
+    },
+    {
+      "id": "ventilation-shaft",
+      "name": "Ventilation Shaft",
+      "prose": "The corridor narrows into a cramped metal shaft, barely wide enough to squeeze through. The walls are corrugated steel, slick with condensation that drips onto the back of your neck. The air is thick and warm, carrying the metallic smell of old blood. Halfway down the shaft, someone has strung wires across the passage—live wires, their insulation burned and peeling, sparks jumping between them in a sickly blue rhythm. They hum with a current that makes your fillings ache. You'd have to cut them to get through, and whoever strung them didn't want them cut. Around the wires, the metal walls are scorched in patterns that look like fingers. Five distinct burns. A hand pressed here. The metal melted around it. Beyond the wires, you can see the shaft continues deeper, descending at a steep angle. Something gleams at the bottom, caught in the blue spark-light. A round red shape. A valve wheel, torn from its housing, lying among the shadows below. At the bottom, past the valve, the shaft opens into a westward passage that smells of electricity and something organic and wrong.",
+      "exits": {
+        "south": "observation-deck",
+        "west": "reactor-core"
+      },
+      "items": ["valve-wheel"],
+      "puzzles": ["puzzle-5"],
+      "lookDescriptions": {
+        "live-wires": "Strung across the shaft. Still live. Insulation burned. The sparks are blue and smell like ozone and meat.",
+        "scorch-marks": "Finger-shaped burns on the metal. Five distinct prints. A hand pressed here. The metal melted around it.",
+        "shaft-below": "Descending into darkness. At the bottom: something red. A wheel. A valve. Something that needs turning.",
+        "condensation": "Water that isn't water. Warm, thick, tasting wrong. It runs like blood along the steel."
+      }
+    },
+    {
+      "id": "reactor-core",
+      "name": "Reactor Core",
+      "prose": "You drop from the shaft into a cathedral of concrete and wrongness. The reactor core stands before you, a cylindrical column of dark metal veined with pulsing blue light that throbs like a heartbeat. The air here is hot and electric, charged with something that makes the hair on your arms stand up and the taste in your mouth go copper. Around the base of the core, a walkway circles once, and on it stands an emergency valve post, its threads bare and waiting. The valve wheel you brought from above belongs here. Beyond the valve, a heavy blast door stands sealed with a slot for a plastic card. Beside the card reader, etched into the steel in careful block letters, someone has written instructions: TURN VALVE. WAIT FOR DRAIN. TAKE CARD. GO. The handwriting is steady. Precise. Final. The person who wrote this did not plan to survive. On a side table, next to the blast door, a yellowed keycard lies on a bed of dust. It's the only thing in the room not covered in grime. Not touched. Not moved. Someone left it here for you, specifically. Someone who knew you'd come this far.",
+      "exits": {
+        "east": "ventilation-shaft",
+        "south": "escape-tunnel"
+      },
+      "items": ["keycard"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "reactor-column": "Blue light pulses. Slow at first. Faster when you stare. It speeds up. It's counting you.",
+        "valve-post": "Threads bare. Waiting for a wheel. The metal is cold. Too cold for this heat. Something is wrong with the thermodynamics here.",
+        "blast-door": "Sealed. Card reader slot empty. The instructions beside it are a suicide note.",
+        "keycard-on-table": "Yellowed. Heavy plastic. The photo is scratched away. The clearance level is one you've never heard of."
+      }
+    },
+    {
+      "id": "escape-tunnel",
+      "name": "Escape Tunnel",
+      "prose": "The blast door groans open, and the air changes. It's cleaner here. Colder. The concrete tunnel slopes upward at a gentle grade, the walls lined with emergency strip lighting you haven't seen in the other chambers. The lights work. They hum with a steady, honest electricity that feels alive in a way nothing else in this bunker has. At the far end, perhaps fifty yards ahead, a rectangle of daylight glows white and pure and impossible. Real sun. Real sky. Between you and that light stands one final door—a steel bulkhead sealed with an electronic lock. The card reader beside it blinks green when it senses the keycard in your hand. The door begins to open, slow and hydraulic. Through the narrowing gap, you can see trees. Green. Growing. Real. But you hear something behind you. Behind you, in the reactor room, the blue light is pulsing faster now. Frantic. Angry. Something is coming up the tunnel. Something that learned how to open doors.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "daylight": "Real sun. Real trees. You haven't seen green in hours. It looks like a dream.",
+        "final-door": "Steel. Electronic. The card reader blinks green. It's waiting for you to decide.",
+        "tunnel-lights": "Working. Honest electricity. The hum is steady. It doesn't pulse. It doesn't watch."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-1",
+      "scene": "entrance-hall",
+      "requires": ["breaker-handle"],
+      "action": "use breaker-handle on breaker-box",
+      "result": "You jam the handle into the breaker slot and shove. The box screams—metal grinding, circuits firing—and power surges back through the bunker's dead veins. The bulkhead lock clicks. The lights stop flickering. For the first time, the buzzing becomes a steady hum.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "entrance-hall",
+        "direction": "north"
+      },
+      "blockedMessage": "The breaker box is dead. The bulkhead to the north won't open without power. You need a handle."
+    },
+    {
+      "id": "puzzle-2",
+      "scene": "generator-room",
+      "requires": ["rusted-key"],
+      "action": "use rusted-key on east-doorway",
+      "result": "The key turns in a lock you hadn't noticed, hidden in the rusted frame of the east doorway. A heavy bolt slides back with a sound like breaking bone. The door to the storage locker is open. Beyond it, the darkness breathes.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "generator-room",
+        "direction": "east"
+      },
+      "blockedMessage": "The east doorway is locked from this side. The frame is rusted shut, but there's a hidden keyhole. You need a key."
+    },
+    {
+      "id": "puzzle-3",
+      "scene": "storage-locker",
+      "requires": ["flashlight"],
+      "action": "use flashlight on north-doorway",
+      "result": "The flashlight beam cuts through the darkness like a blade. In its cone, you see the corridor clearly—the floor is intact, the walls are clear, and the path is safe. The darkness retreats. For now.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "storage-locker",
+        "direction": "north"
+      },
+      "blockedMessage": "The north corridor is pitch black. You can't see the floor. You can't see the walls. You need the flashlight."
+    },
+    {
+      "id": "puzzle-4",
+      "scene": "observation-deck",
+      "requires": ["wire-cutters"],
+      "action": "use wire-cutters on live-wires",
+      "result": "The cutters snap through the first wire with a shower of sparks. The second wire hisses, then dies. The hum stops. The air cools. The path north is clear now, leading into a cramped ventilation shaft. But beyond the wires, something red gleams at the bottom.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "observation-deck",
+        "direction": "north"
+      },
+      "blockedMessage": "Live wires block the north passage. The current is strong enough to kill. You need insulated cutters."
+    },
+    {
+      "id": "puzzle-5",
+      "scene": "ventilation-shaft",
+      "requires": ["valve-wheel"],
+      "action": "use valve-wheel on valve-post",
+      "result": "The wheel locks into place in the shaft floor. You turn it, clockwise, then counter, and a hatch below grinds open. Cool air rushes up from the depths. The passage west is now clear—the reactor core calls from below. Somewhere in that blue glow, a yellowed card waits.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "ventilation-shaft",
+        "direction": "west"
+      },
+      "blockedMessage": "The west passage leads down to the reactor core, but the access hatch is sealed. A valve wheel is needed to open it."
+    }
+  ],
+  "winCondition": {
+    "scene": "escape-tunnel",
+    "requires": ["keycard"],
+    "description": "You swipe the keycard. The door swings wide. Daylight punches through the gloom, and for a moment you're blind with it. Then your eyes adjust, and you see trees, and sky, and the ground sloping up toward the world you almost forgot. Behind you, the bunker groans. The blue light in the reactor pulses one last time, then dies. You step into the sun. You made it out."
+  }
+}

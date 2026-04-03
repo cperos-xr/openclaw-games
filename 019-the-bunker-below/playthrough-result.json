@@ -1,0 +1,10 @@
+{
+  "passed": 25,
+  "failed": 0,
+  "total": 25,
+  "errors": [],
+  "allScenesVisited": true,
+  "allPuzzlesSolved": true,
+  "allItemsTaken": true,
+  "winConditionMet": true
+}

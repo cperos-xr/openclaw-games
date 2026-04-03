@@ -1,0 +1,229 @@
+{
+  "title": "The Drowned Cistern",
+  "slug": "drowned-cistern",
+  "number": 18,
+  "layout": "standard",
+  "setting": "A flooded Victorian underground cistern, half a mile beneath the city streets. The water here has been stagnant for decades, and something has been growing in the dark.",
+  "characters": [
+    {
+      "id": "player",
+      "name": "The Maintenance Worker",
+      "description": "You were sent down here to fix the pump. The order said it was routine. The order was wrong."
+    }
+  ],
+  "items": [
+    {
+      "id": "rusty-wrench",
+      "name": "Rusty Wrench",
+      "description": "A heavy pipe wrench, pitted with rust and slick with condensation. The jaws are still sharp enough to bite.",
+      "foundIn": "cistern-entrance",
+      "usedIn": "cistern-entrance",
+      "usedOn": "puzzle-remove-grate"
+    },
+    {
+      "id": "gate-key",
+      "name": "Brass Gate Key",
+      "description": "A small brass key, tarnished green with age. It feels warm despite the cold water.",
+      "foundIn": "cistern-entrance",
+      "usedIn": "overflow-chamber",
+      "usedOn": "puzzle-unlock-grate"
+    },
+    {
+      "id": "blown-fuse",
+      "name": "Blown Fuse",
+      "description": "A ceramic cartridge fuse, its contacts blackened and corroded. Something burned out in here long ago.",
+      "foundIn": "overflow-chamber",
+      "usedIn": "pump-room",
+      "usedOn": "puzzle-oil-fuse"
+    },
+    {
+      "id": "oil-can",
+      "name": "Oil Can",
+      "description": "A small tin oil can, dented but still half-full. The oil inside is thick and dark, smelling of petroleum and old machinery.",
+      "foundIn": "pump-room",
+      "usedIn": "pump-room",
+      "usedOn": "puzzle-oil-fuse"
+    },
+    {
+      "id": "repaired-fuse",
+      "name": "Repaired Fuse",
+      "description": "The fuse gleams with a fresh coat of oil. The contacts shine dull gold. It might just work now.",
+      "foundIn": "pump-room",
+      "usedIn": "pump-room",
+      "usedOn": "puzzle-insert-fuse"
+    },
+    {
+      "id": "valve-wheel",
+      "name": "Brass Valve Wheel",
+      "description": "A cast brass valve wheel, heavy and cold. Five spokes radiate from a central hub. It fits standard Victorian pipe fittings.",
+      "foundIn": "maintenance-tunnel",
+      "usedIn": "filter-gallery",
+      "usedOn": "puzzle-open-gate"
+    },
+    {
+      "id": "drain-handle",
+      "name": "Drain Handle",
+      "description": "A T-shaped iron handle, worn smooth by generations of hands. This is what you came for.",
+      "foundIn": "filter-gallery",
+      "usedIn": "drain-chamber",
+      "usedOn": "winCondition"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "cistern-entrance",
+      "name": "Cistern Entrance",
+      "prose": "The ladder ends in ankle-deep water. Your boots splash as you step off the last rung, and the sound echoes in the darkness like something waking up. The air here is thick—wet stone, iron, and beneath it all, the sweet rot of stagnant water that has forgotten the sun.\n\nA rusted grate blocks the northern passage, its bars thick with orange corrosion. Beyond it, you can make out the suggestion of a larger chamber, the water still and black as oil. The grate looks like it hasn't moved in decades. To the south, the ladder you descended vanishes into blackness above.\n\nSomething scrapes in the water. Not loud—just enough that you feel it in your teeth. You shine your lamp down and see only ripples, spreading from no visible source.\n\nNear the base of the ladder, half-submerged in the muck, something metal catches the light. A wrench. Heavy, rusted, but intact. The kind of tool a worker would need. The kind of tool that was left here intentionally.\n\nThe walls press close. Victorian brick, sweating, the mortar crumbling into the water like wet sugar. Above you, somewhere, London carries on in ignorance. Down here, the water has its own gravity. Its own hunger.",
+      "exits": {
+        "north": "overflow-chamber"
+      },
+      "items": ["rusty-wrench"],
+      "puzzles": ["puzzle-remove-grate"],
+      "lookDescriptions": {
+        "ladder": "A wrought-iron ladder, slick with condensation. It disappears into darkness above. You came down this way, but there's no going back now—not until the job is done.",
+        "rusted-grate": "Iron bars, three inches thick, locked together by decades of rust. Behind it, the overflow chamber waits. The grate won't budge without force.",
+        "water": "Black and still. Your lamp beam dies after a few feet. Something disturbed the surface moments ago, but you saw nothing. The water smells wrong—sweet, like flowers left too long in a sealed room."
+      }
+    },
+    {
+      "id": "overflow-chamber",
+      "name": "Overflow Chamber",
+      "prose": "The northern grate groans open under pressure, and you slip through into a space that was not meant for human scale. The overflow chamber yawns wide—twenty feet across, the ceiling lost in shadow. Stagnant water fills the floor to your knees, warm in a way that makes your skin crawl.\n\nOld overflow pipes line the far wall, their mouths gaping like the throats of fish. They drip with a sound that is almost rhythmic, almost a pattern, and you catch yourself listening for meaning in it. Don't.\n\nThe southern passage—the one you entered through—is blocked by an iron grate-door, sealed with a lock that gleams brass-bright against the rust. A keyhole, small and precise, waits in its center. The lock is dry. Everything else here is wet.\n\nFloating in the water near the eastern wall, bobbing gently as if stirred by a breath, is a ceramic object. A fuse. Its contacts are blackened, burned out. Someone tried to power something down here once. It didn't go well.\n\nThe water around your legs moves. Not from the pipes—from beneath you. Slow circles, widening. You keep your lamp pointed forward. You tell yourself it's just the settling of ancient water. You tell yourself many things.",
+      "exits": {
+        "south": "pump-room"
+      },
+      "items": ["blown-fuse"],
+      "puzzles": ["puzzle-unlock-grate"],
+      "lookDescriptions": {
+        "overflow-pipes": "Cast-iron pipes, each large enough to crawl through. They drip from the ceiling in rows, their contents unknown. The water that falls from them is warmer than the pool below. The sound is almost a whisper.",
+        "iron-grate-door": "A heavy iron door, barred and locked. The lock is brass—untarnished, impossible in this place. It waits for a key. You have the feeling it has been waiting a very long time.",
+        "floating-fuse": "A ceramic cartridge fuse, drifting in circles on the water's surface. The contacts are charred black. Something drew too much current through here. Something that should have stayed off."
+      }
+    },
+    {
+      "id": "pump-room",
+      "name": "Pump Room",
+      "prose": "The iron door unlocks with a wet click, and you push through into a room that still remembers its purpose. The pump dominates the space—a monstrous thing of brass and riveted iron, its flywheel frozen mid-rotation, the belt that once drove it rotting away to black threads. The pump room is smaller than the chamber beyond, cramped and industrial, built for function, not for comfort.\n\nAn electrical panel hangs on the far wall, its glass door spiderwebbed with cracks. Inside, fuse slots gape empty. Without power, the eastern hatch remains sealed. You can see its outline—a circular iron door, bolted from this side, sealed tight.\n\nOn a workbench bolted to the wall, a tin oil can sits beside a rusted rag. The oil inside is thick, almost gelatinous, but usable. Someone was working here when whatever happened, happened. They left their tools. They didn't leave alive.\n\nThe air here tastes of ozone and wet copper. Your lamp flickers—not from the bulb, but from something in the air itself. Static. The kind that builds before a storm, except storms don't reach this deep.\n\nThe pump's flywheel bears scratches. Not tool marks—claw marks. Three parallel gouges in the brass, deep enough to show the iron beneath. You count them. Three. You try not to imagine the hand that made them.",
+      "exits": {
+        "east": "maintenance-tunnel"
+      },
+      "items": ["oil-can"],
+      "puzzles": ["puzzle-oil-fuse", "puzzle-insert-fuse"],
+      "lookDescriptions": {
+        "pump": "A Victorian centrifugal pump, massive and silent. The flywheel is frozen, the belt rotted away. Claw marks scar the brass casing. Three parallel grooves, deep and deliberate. The pump never turned again after someone—or something—tried to stop it.",
+        "electrical-panel": "A cracked glass door reveals empty fuse slots. No power flows here. Without a working fuse, the eastern hatch stays sealed. The panel smells of burnt insulation and old fear.",
+        "eastern-hatch": "A circular iron door, bolted shut. No handle on this side. It won't open until power is restored. Behind it, something waits. Or something is kept in."
+      }
+    },
+    {
+      "id": "maintenance-tunnel",
+      "name": "Maintenance Tunnel",
+      "prose": "The eastern hatch opens with a shriek of protesting metal, and the air that flows out is cold enough to burn your lungs. The maintenance tunnel is narrow—barely wide enough for your shoulders—its brick walls sweating condensation in endless beads. Pipes run along the ceiling and floor, parallel, following the tunnel's gentle downward slope. They hum. Not with water. With something else.\n\nEvery few feet, a maintenance alcove breaks the wall. Most are empty. One holds a brass valve wheel, mounted on its bracket like a trophy. It's clean. Unusually clean, in a place where everything wears a skin of rust and decay. Someone polished this. Recently.\n\nThe tunnel narrows ahead. The pipes converge, merging into a single massive conduit that vanishes into the wall. Beyond it, you can hear water—moving water, flowing with purpose. The cistern's main drain. The thing you came to fix.\n\nYour light catches movement in the corner of your eye. You turn. Nothing. The tunnel is empty. But the hum in the pipes rises, just for a moment, like a breath held and released. The walls seem closer than they were. The ceiling, lower. The distance between you and the world above has grown.\n\nThe valve wheel on its bracket waits. It is the only clean thing in this rotting throat of the city. You think about whose hands polished it. You think about whether those hands are still attached.",
+      "exits": {
+        "down": "filter-gallery"
+      },
+      "items": ["valve-wheel"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "brass-valve-wheel": "Mounted on a bracket at shoulder height. Polished to a mirror shine, impossibly clean. It feels warm when you touch it. Someone maintains this tunnel. Someone has been here recently. The question is whether they left.",
+        "converging-pipes": "Three massive conduits merge into one, vanishing into the brick wall. The water inside moves with purpose. You can feel it through the soles of your boots—a vibration, a pulse. The cistern is alive. It breathes.",
+        "tunnel-narrowing": "The passage ahead narrows to a crawl space. Beyond it, the sound of flowing water grows louder. This is the throat of the cistern. Further down, the drain awaits."
+      }
+    },
+    {
+      "id": "filter-gallery",
+      "name": "Filter Gallery",
+      "prose": "The narrowing opens into a circular chamber, and you stop breathing for a moment. The filter gallery is a cathedral of Victorian engineering—sand filters in tiered stone basins, each basin separated by iron railings gone green with oxidation. The air here is different. Drier. Filtered, as the name implies, but also scrubbed of something else. Of warning.\n\nIn the center of the room, a massive gate valve dominates the far wall. It has no wheel. Without one, it's a dead thing, frozen in place. The water behind it is black and still, held back by the weight of decades. When it moves, something beneath it will be revealed. Something the cistern was built to contain.\n\nNear the northern basin, half-buried in the sand filter, an iron handle protrudes. A T-shaped drain handle, its grip worn smooth by generations of workers who stood where you stand now. It is the tool you came for. The final piece.\n\nThe sand in the filters is not clean. It holds shapes. Impressions. Something lay here, curled, for a long time. The sand has set around the memory of it, preserving the impression like a mold. You don't examine it closely.\n\nYour lamp flickers. Not from power—from fear. The gallery is silent, but the silence is loud. It presses against your eardrums. The sand, the valve, the handle. Everything is in place. Everything is waiting. For you to turn the wheel. For you to take the handle. For you to open what should have stayed closed.",
+      "exits": {
+        "down": "drain-chamber"
+      },
+      "items": ["drain-handle"],
+      "puzzles": ["puzzle-open-gate"],
+      "lookDescriptions": {
+        "gate-valve": "A massive Victorian gate valve, set into the far wall. It has no wheel. Without one, it cannot turn. Behind it, black water waits. The valve body bears an inscription, worn almost smooth: DO NOT OPEN.\n        ",
+        "sand-filters": "Tiered stone basins filled with sand. The sand is not clean—it holds impressions. Shapes. Something lay here once, curled tight, and the sand remembers. You keep your distance.",
+        "drain-handle": "A T-shaped iron handle, half-buried in the sand. The grip is worn smooth. This is your purpose. This is why you came down. The question is whether you still want to finish the job."
+      }
+    },
+    {
+      "id": "drain-chamber",
+      "name": "Drain Chamber",
+      "prose": "The descent into the drain chamber is not a staircase. It is a pipe, wide enough to crawl through, its walls slick with algae and something you refuse to identify. You slide down it, feet first, your lamp clutched in your teeth, and the darkness takes you for three seconds before your boots hit standing water.\n\nThe drain chamber is the lowest point of the cistern. The ceiling arches overhead, a perfect semi-circle of Victorian brick, and the water here is different. Clear. Cold. Moving, draining slowly through a central grate that spirals into absolute blackness. This is the city's wound. Its hidden throat. The place where everything unwanted flows, and flows away, and is forgotten.\n\nIn the center of the room, protruding from the stone floor beside the drain, is a T-shaped socket. Iron. Waiting. You hold the handle you found above. It fits. You know it fits. The handle is the key, and the drain is the lock, and turning it will release everything the cistern has held for a century.\n\nThe water laps at your ankles. It is so cold it burns. Behind you, the pipe you descended is dark. There is no sound. No hum from the pipes. No dripping. The cistern holds its breath.\n\nYou place the handle in the socket. It seats perfectly, as if cast for this moment, for your hands. The iron is warm. Waiting. Below you, in the drain's black throat, something stirs. Something that has been waiting longer than the handle. Longer than the cistern. Longer than the city above.\n\nThe choice is yours. Turn the handle. Complete the job. Or leave it. Walk back up through the dark. Climb the ladder. Pretend you never heard the water whisper your name.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "drain-socket": "A T-shaped iron socket, set into the stone floor beside the drain. It waits for the handle. It has been waiting a very long time. The iron is warm. Patient.",
+        "central-drain": "A spiraling grate, black water flowing into absolute darkness. The drain is the cistern's purpose. Everything unwanted flows here. Everything. The water moves slowly, as if reluctant to release what it holds.",
+        "algae-covered-walls": "The brick walls are coated in green-black algae, slick and cold. In places, the algae forms patterns. Shapes. Words, almost. You don't read them. You don't let yourself."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-remove-grate",
+      "scene": "cistern-entrance",
+      "requires": ["rusty-wrench"],
+      "action": "use rusty-wrench on rusted-grate",
+      "result": "The grate shrieks as rust flakes away. It groans open. Beneath it, a small brass key glints in the muck.",
+      "reveals": ["gate-key"],
+      "blocksExit": {
+        "scene": "cistern-entrance",
+        "direction": "north"
+      },
+      "blockedMessage": "The grated opening is rusted shut. You'll need something to force it."
+    },
+    {
+      "id": "puzzle-unlock-grate",
+      "scene": "overflow-chamber",
+      "requires": ["gate-key"],
+      "action": "use gate-key on iron-grate-door",
+      "result": "The key turns with a wet click. The iron grate-door creaks open, revealing a passage south.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "overflow-chamber",
+        "direction": "south"
+      },
+      "blockedMessage": "The iron grate-door is locked. It needs a key."
+    },
+    {
+      "id": "puzzle-oil-fuse",
+      "scene": "pump-room",
+      "requires": ["blown-fuse", "oil-can"],
+      "action": "use oil-can on blown-fuse",
+      "result": "The oil seeps into the corroded contacts. The fuse gleams with a dull, renewed conductivity.",
+      "reveals": ["repaired-fuse"]
+    },
+    {
+      "id": "puzzle-insert-fuse",
+      "scene": "pump-room",
+      "requires": ["repaired-fuse"],
+      "action": "use repaired-fuse on fusebox",
+      "result": "The fuse slots home. Lights surge on. The eastern hatch motor whines to life, unbarring the passage.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "pump-room",
+        "direction": "east"
+      },
+      "blockedMessage": "The eastern hatch won't open without power. The fusebox is empty."
+    },
+    {
+      "id": "puzzle-open-gate",
+      "scene": "filter-gallery",
+      "requires": ["valve-wheel"],
+      "action": "use valve-wheel on gate-valve",
+      "result": "The valve groans. Water drains away. A passage down opens, revealing the lowest chamber of the cistern.",
+      "reveals": [],
+      "blocksExit": {
+        "scene": "filter-gallery",
+        "direction": "down"
+      },
+      "blockedMessage": "The gate valve is stuck. You need a wheel to turn it."
+    }
+  ],
+  "winCondition": {
+    "scene": "drain-chamber",
+    "requires": ["drain-handle"],
+    "description": "You lower the drain handle into its socket. It turns. The cistern empties. The black water spirals away, and with it, whatever waited beneath. Your work is done. You climb. You do not look back."
+  }
+}

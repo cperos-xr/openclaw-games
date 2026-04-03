@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Derelict Station Delta | Game #017</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../standard-game-style.css">
+</head>
+<body class="openclaw-game layout-standard" data-layout="standard">
+  <header>
+    <h1>DERELICT STATION DELTA</h1>
+    <div class="subtitle">OpenClaw Adventures - Game #017</div>
+  </header>
+
+  <div id="scene-name">CRYO-BAY</div>
+
+  <div class="game-container">
+    <div class="art-panel">
+      <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+      </div>
+    </div>
+
+    <div class="text-panel">
+      <div id="text-display"></div>
+
+      <div id="command-status" class="status-line"></div>
+
+      <div class="command-bar">
+        <button class="cmd-btn active" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      </div>
+
+      <div class="subpanel targets-panel">
+        <h3>TARGETS</h3>
+        <div id="targets-bar"></div>
+      </div>
+
+      <div class="subpanel inventory-panel">
+        <h3>INVENTORY</h3>
+        <div id="inventory-bar">
+          <span class="empty-state">(empty)</span>
+        </div>
+      </div>
+
+      <div class="subpanel exits-panel">
+        <h3>EXITS</h3>
+        <div id="exits-bar"></div>
+      </div>
+
+      <div class="utility-bar">
+        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+        <button id="reset-game" class="utility-btn">RESET</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
+  </footer>
+
+  <script>
+window.GAME_DATA = {
+  "title": "Derelict Station Delta",
+  "slug": "derelict-station-delta",
+  "number": 17,
+  "layout": "standard",
+  "setting": "Deep-space research station, adrift after a containment breach. The lights flicker. The walls bleed. Something is still here.",
+  "characters": [
+    {
+      "id": "protagonist",
+      "name": "You",
+      "description": "A lone crew member waking from cryo-sleep into a nightmare."
+    }
+  ],
+  "items": [
+    {
+      "id": "wrist-keycard",
+      "name": "Wrist Keycard",
+      "description": "A cracked plastic ID card strapped to the cryo-pod restraints. The magnetic strip is frayed but the chip glows faint red.",
+      "foundIn": "cryo-pod",
+      "usedIn": "cryo-pod",
+      "usedOn": "puzzle-1"
+    },
+    {
+      "id": "diagnostic-tablet",
+      "name": "Diagnostic Tablet",
+      "description": "A hand-held medical terminal, its screen spiderwebbed with cracks. Faint text scrolls on the display: SECURITY PROTOCOL—LOCKDOWN.",
+      "foundIn": "med-bay",
+      "usedIn": "med-bay",
+      "usedOn": "puzzle-2"
+    },
+    {
+      "id": "plasma-cutter",
+      "name": "Plasma Cutter",
+      "description": "An industrial cutting torch, still warm. The nozzle is caked with dried organic matter.",
+      "foundIn": "corridor-alpha",
+      "usedIn": "engineering",
+      "usedOn": "puzzle-4"
+    },
+    {
+      "id": "relay-fuse",
+      "name": "Relay Fuse",
+      "description": "A cylindrical capacitor module pulled from the life-support rack. It hums with residual charge.",
+      "foundIn": "engineering",
+      "usedIn": "comms-room",
+      "usedOn": "puzzle-5"
+    },
+    {
+      "id": "oxygen-tank",
+      "name": "Oxygen Tank",
+      "description": "A standard-issue O2 canister, dented but pressurized. The gauge reads half full.",
+      "foundIn": "comms-room",
+      "usedIn": "engineering",
+      "usedOn": "puzzle-4"
+    },
+    {
+      "id": "emergency-cipher-log",
+      "name": "Emergency Cipher Log",
+      "description": "A data pad showing a three-symbol maintenance code: TRIANGLE, CIRCLE, STAR. The screen flickers as if the station itself is breathing.",
+      "foundIn": "comms-room",
+      "usedIn": "corridor-alpha",
+      "usedOn": "puzzle-3"
+    },
+    {
+      "id": "charged-cutter",
+      "name": "Charged Plasma Cutter",
+      "description": "The plasma cutter blazing with oxygen-fed fury. A blue-white flame erupts from its nozzle, capable of melting through almost anything.",
+      "foundIn": "engineering",
+      "usedIn": "airlock",
+      "usedOn": "puzzle-6"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "cryo-pod",
+      "name": "Cryo-Bay",
+      "prose": "The pod door hisses open, spraying cryo-mist across the metal floor. You pull yourself upright, shivering in the bone-deep cold. The cryo-bay is a claustrophobic cell of frozen steel. Red emergency lights pulse across the walls like a slow, dying heartbeat. The other pods are dark — glass fogged from within, faces pressed against the ice. Something has scraped at the bulkhead door, gouging deep furrows in the rivets. Your wrist restraints are still clamped, a cracked keycard tucked beneath the strap. The east door is sealed, its keypad dead. A service panel beside it hangs open, wires dangling like exposed veins. You can hear breathing — wet, labored — coming from somewhere beyond the door. Or maybe it is your own.",
+      "exits": {
+        "east": "med-bay"
+      },
+      "items": [
+        "wrist-keycard"
+      ],
+      "puzzles": [
+        "puzzle-1"
+      ],
+      "lookDescriptions": {
+        "other pods": "Fogged glass conceals frozen faces. One pod lid is pried open from the inside, the hinges twisted like taffy.",
+        "bulkhead door": "Deep gouges carve the metal. The scratches are not random — they form a pattern, almost like writing.",
+        "keycard": "A frayed ID card with a flickering red chip. It was clamped to the cryo-restraints.",
+        "service panel": "Wires dangle from the keypad housing. There is room to insert a keycard behind the panel."
+      }
+    },
+    {
+      "id": "med-bay",
+      "name": "Med-Bay",
+      "prose": "The med-bay smells of antiseptic and old blood. Surgical trays lie overturned, instruments scattered like metal bone shards. The monitors on the wall are dark except for one — a single EKG line dragging across the screen, flat and unwavering. A medical gurney dominates the center of the room, its restraints snapped. Dark stains spread from beneath it, soaking into the floor grating. To the north, a sealed corridor door has a manual override console beside it. The console reads ACCESS DENIED in blocky amber letters. A cracked diagnostic tablet rests on a collapsed shelf, its screen flickering with corrupted security protocols. In the corner, a supply locker hangs ajar, shelves stripped bare. You notice a vent cover in the ceiling, its screws loose, darkness pooling inside.",
+      "exits": {
+        "north": "corridor-alpha",
+        "south": "cryo-pod"
+      },
+      "items": [
+        "diagnostic-tablet"
+      ],
+      "puzzles": [
+        "puzzle-2"
+      ],
+      "lookTranslations": {},
+      "lookDescriptions": {
+        "monitors": "Dark screens except one: a flat EKG line crawling across the display, frozen on nothing.",
+        "gurney": "Restraints snapped like thread. A dark stain pools beneath it, still wet.",
+        "override console": "Amber letters: ACCESS DENIED. A slot waits to accept a diagnostic tablet.",
+        "vent": "Screws loose. Something dark moves inside, but it might just be your shadow."
+      }
+    },
+    {
+      "id": "corridor-alpha",
+      "name": "Corridor Alpha",
+      "prose": "Corridor Alpha stretches in both directions, a ribcage of steel and wire. Fluorescent strips flicker overhead, casting stuttering shadows that seem to lunge at the edges of vision. The east branch leads toward comms room, west toward engineering. A heavy blast door blocks the west path — its control panel displays a three-symbol lock: blank, blank, blank. Symbols glow faintly beside the keypad: triangle, circle, square, star, cross. The correct sequence must unlock the door. To the south, a narrow maintenance passage slopes downward toward the airlock, but the hatch is jammed — a hydraulic piston has seized. A plasma cutter lies on the grated floor near the comms junction, its nozzle crusted with organic residue. The walls here are scored with the same claw marks from the cryo-bay, but deeper, fresher. As you stand in the corridor, you hear a scuttling sound above the lights. It stops when you stop breathing.",
+      "exits": {
+        "east": "comms-room",
+        "west": "engineering",
+        "south": "airlock",
+        "north": "med-bay"
+      },
+      "items": [
+        "plasma-cutter"
+      ],
+      "puzzles": [
+        "puzzle-3",
+        "puzzle-4"
+      ],
+      "lookDescriptions": {
+        "blast door": "A heavy steel door with a three-symbol lock. Symbols available: triangle, circle, square, star, cross.",
+        "airlock hatch": "Jammed by a seized hydraulic piston. The passage beyond drops toward the outer airlock.",
+        "plasma cutter": "Industrial cutting tool, still warm. The nozzle is caked with something organic and dried black.",
+        "ceiling": "Conduit pipes run the length of the corridor. Something has peeled back the insulation, exposing live wires."
+      }
+    },
+    {
+      "id": "engineering",
+      "name": "Engineering",
+      "prose": "The engineering bay is a cathedral of machinery. Massive turbines fill the room, their housings scarred with claw-deep gouges. The main reactor core glows a sickly green through its containment chamber, flickering as voltage sags. Consoles line the south wall, blinking red warnings: LIFE SUPPORT FAILING. OXYGEN RESERVES CRITICAL. To the north, a tool rack still holds an oxygen tank, its valve sealed tight. A relay fuse has been pulled from the communications subpanel, leaving a dark socket behind. The floor is littered with maintenance logs, pages torn and scattered. One page shows a wiring diagram with the words DO NOT REMOVE FUSE — COMMS RELAY handwritten in frantic script. The air is thick with the smell of ozone and something else — sweet, rotten, wrong. A service ladder climbs to the upper gantry, but the rungs are slick with a viscous fluid.",
+      "exits": {
+        "east": "corridor-alpha"
+      },
+      "items": [
+        "relay-fuse",
+        "oxygen-tank",
+        "charged-cutter"
+      ],
+      "puzzles": [
+        "puzzle-4"
+      ],
+      "lookDescriptions": {
+        "reactor core": "Green containment glow flickers erratically. The chamber glass is clouded with condensation and scratches.",
+        "tool rack": "An empty rack with a single oxygen tank still mounted, its valve sealed.",
+        "comms subpanel": "A dark socket where a relay fuse was forcibly removed. Wires hang loose inside.",
+        "maintenance logs": "Scattered pages. One warns against removing the comms relay fuse. Another shows a ventilation schematic."
+      }
+    },
+    {
+      "id": "comms-room",
+      "name": "Comms Room",
+      "prose": "The communications room is a tomb of dead electronics. Consoles line the walls, their screens shattered from the inside. A central antenna array dominates the floor, its dish cracked and tilted. Emergency lighting casts everything in a bruised purple glow. The main comms panel — a raised console at the center — has an empty fuse socket labeled RELAY INPUT. The panel is dead, dark, but the socket gleams with purpose. Behind a collapsed chair lies an emergency cipher log, its data pad showing three symbols: triangle, circle, star. A spare oxygen tank rests against a supply crate, its gauge steady. A terminal on the far wall still displays text, frozen mid-transmission: IT IS IN THE VENTS. IT LEARNED THE LOCKS. DO NOT LET IT— The rest is scorched away. The ceiling vent in this room is wide open, a black mouth staring down at you.",
+      "exits": {
+        "west": "corridor-alpha",
+        "south": "airlock"
+      },
+      "items": [
+        "relay-fuse",
+        "oxygen-tank",
+        "emergency-cipher-log"
+      ],
+      "puzzles": [
+        "puzzle-5"
+      ],
+      "lookDescriptions": {
+        "comms panel": "Dead central console with a glowing empty socket: RELAY INPUT. A relay fuse would restore power here.",
+        "cipher log": "A data pad showing three symbols: triangle, circle, star. The screen flickers as the station breathes.",
+        "oxygen tank": "Pressurized O2 canister, dented but full. The gauge needle holds steady at half.",
+        "terminal message": "Frozen text: IT IS IN THE VENTS. IT LEARNED THE LOCKS. DO NOT LET IT— Scorch marks obliterate the rest.",
+        "ceiling vent": "Wide open. Darkness inside. You hear nothing down there. It is worse than hearing something."
+      }
+    },
+    {
+      "id": "airlock",
+      "name": "Airlock",
+      "prose": "The airlock is a narrow steel throat, curved walls closing in from both sides. The inner hatch behind you leads back to corridor alpha. The outer hatch — the way out — is a massive circular door with a central mechanism. The seal around the outer door is fused shut, welded by extreme heat or something else entirely. Scorch marks radiate from the center in a spiderweb pattern. A control panel beside the door reads SEAL INTEGRITY COMPROMISED — MANUAL OVERRIDE REQUIRED. The override slot is a narrow opening designed for a cutting tool. To the north, beyond the outer door, you can just make out the silhouette of a rescue shuttle docked at the exterior umbilical. Its running lights pulse in a slow green rhythm — a beacon, a promise. The airlock floor is littered with spent shell casings. Someone fired every round they had right at this door. They did not make it through.",
+      "exits": {
+        "north": "rescue-shuttle",
+        "north-entry": "airlock",
+        "south": "corridor-alpha"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-6"
+      ],
+      "lookDescriptions": {
+        "outer hatch": "A massive circular door, its seal fused by extreme heat. A central override slot waits for a cutting tool.",
+        "control panel": "SEAL INTEGRITY COMPROMISED. MANUAL OVERRIDE REQUIRED. The override slot is sized for a plasma cutter nozzle.",
+        "rescue shuttle": "Visible through the outer viewport. A compact escape pod, its green running lights pulsing like a heartbeat.",
+        "shell casings": "Spent ammunition scattered across the airlock floor. Dozens of rounds. All fired at the sealed door."
+      }
+    },
+    {
+      "id": "rescue-shuttle",
+      "name": "Escape",
+      "prose": "The outer hatch groans open as the plasma cutter sears through the final metal bonds. The airlock pressure equalizes with a thunderous roar. You stumble across the umbilical bridge into the rescue shuttle cockpit. The hatch seals behind you, cutting off the station, the corridor, the thing in the vents. Through the forward viewport, the derelict station recedes into the black — a broken toy tumbling through the void. The shuttle's auto-pilot engages, engines flaring blue. Coordinates for the nearest outpost lock into the nav computer. You are alone, but you are alive. The comms radio crackles to life with a dispatcher's voice: Delta Station survivor detected. We have you on long-range scan. Hold position. Extraction team en route. You lean back in the pilot's seat, hands trembling, and watch the nightmare fade into the stars.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "viewport": "The station tumbles away into darkness. Its lights are going out, one by one.",
+        "nav computer": "Coordinates locked to Outpost Theta-9. ETA: 14 hours. You will be safe by then. Maybe.",
+        "radio": "Delta Station survivor detected. Extraction team en route. The voice on the other end sounds almost human."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-1",
+      "scene": "cryo-pod",
+      "requires": [
+        "wrist-keycard"
+      ],
+      "action": "use wrist-keycard on service panel",
+      "result": "The keycard's chip flares red. With a hydraulic hiss, the east door disengages and slides open. Cold air rushes in from the corridor beyond.",
+      "reveals": [
+        "med-bay"
+      ],
+      "blocksExit": {
+        "scene": "cryo-pod",
+        "direction": "east"
+      },
+      "blockedMessage": "The east door is sealed. A service panel beside the keypad hangs open, wires dangling."
+    },
+    {
+      "id": "puzzle-2",
+      "scene": "med-bay",
+      "requires": [
+        "diagnostic-tablet"
+      ],
+      "action": "use diagnostic-tablet on override console",
+      "result": "The tablet slots into the console. Amber lights turn green. ACCESS GRANTED flashes across the display. The north door to corridor-alpha unlocks with a heavy magnetic clunk.",
+      "reveals": [
+        "corridor-alpha"
+      ],
+      "blocksExit": {
+        "scene": "med-bay",
+        "direction": "north"
+      },
+      "blockedMessage": "ACCESS DENIED. The override console needs a diagnostic tablet to bypass the security lockout."
+    },
+    {
+      "id": "puzzle-3",
+      "scene": "corridor-alpha",
+      "requires": [
+        "emergency-cipher-log"
+      ],
+      "action": "enter triangle-circle-star on blast door keypad",
+      "result": "The keypad accepts the three-symbol code. The blast door to engineering grinds open, its hydraulic arms groaning after years of disuse.",
+      "reveals": [
+        "engineering"
+      ],
+      "blocksExit": {
+        "scene": "corridor-alpha",
+        "direction": "west"
+      },
+      "blockedMessage": "The blast door displays a three-symbol lock. You need the correct code."
+    },
+    {
+      "id": "puzzle-4",
+      "scene": "engineering",
+      "requires": [
+        "oxygen-tank",
+        "plasma-cutter"
+      ],
+      "action": "attach oxygen-tank to plasma-cutter",
+      "result": "You connect the oxygen tank to the plasma cutter's fuel intake. The cutter ROARS to life, its nozzle erupting in a blue-white flame. You now have a charged plasma cutting tool.",
+      "reveals": [
+        "charged-cutter"
+      ],
+      "blocksExit": {},
+      "blockedMessage": "The plasma cutter needs an oxygen source to activate. Find a tank and combine them."
+    },
+    {
+      "id": "puzzle-5",
+      "scene": "comms-room",
+      "requires": [
+        "relay-fuse"
+      ],
+      "action": "insert relay-fuse into comms panel",
+      "result": "The relay fuse clicks into place. The comms panel powers up, and the airlock signal line turns from red to green. The south passage to the airlock is now open.",
+      "reveals": [
+        "airlock"
+      ],
+      "blocksExit": {
+        "scene": "comms-room",
+        "direction": "south"
+      },
+      "blockedMessage": "The south passage is dark. The comms panel must be powered to open the airlock corridor."
+    },
+    {
+      "id": "puzzle-6",
+      "scene": "airlock",
+      "requires": [
+        "charged-cutter"
+      ],
+      "action": "use charged-cutter on outer hatch",
+      "result": "The plasma cutter shrieks as it melts through the fused seal. Sparks rain down like metal confetti. The outer hatch groans, then swings open, revealing the rescue shuttle beyond.",
+      "reveals": [
+        "rescue-shuttle"
+      ],
+      "blocksExit": {
+        "scene": "airlock",
+        "direction": "north"
+      },
+      "blockedMessage": "The outer hatch seal is fused shut. You need a powered cutting tool to override it."
+    }
+  ],
+  "winCondition": {
+    "scene": "rescue-shuttle",
+    "requires": [
+      "charged-cutter"
+    ],
+    "description": "You escaped Derelict Station Delta. The rescue shuttle carries you away from the nightmare. You survived."
+  }
+};
+window.GAME_ART = {
+  "item-diagnostic-tablet": "<img src=\"art/item-diagnostic-tablet.png\" alt=\"item-diagnostic-tablet\" loading=\"lazy\">",
+  "ITEM-DIAGNOSTIC-TABLET": "<img src=\"art/item-diagnostic-tablet.png\" alt=\"item-diagnostic-tablet\" loading=\"lazy\">",
+  "diagnostic-tablet": "<img src=\"art/item-diagnostic-tablet.png\" alt=\"item-diagnostic-tablet\" loading=\"lazy\">",
+  "DIAGNOSTIC-TABLET": "<img src=\"art/item-diagnostic-tablet.png\" alt=\"item-diagnostic-tablet\" loading=\"lazy\">",
+  "item_diagnostic_tablet": "<img src=\"art/item-diagnostic-tablet.png\" alt=\"item-diagnostic-tablet\" loading=\"lazy\">",
+  "scene-diagnostic-tablet": "<img src=\"art/item-diagnostic-tablet.png\" alt=\"item-diagnostic-tablet\" loading=\"lazy\">",
+  "item-wrist-keycard": "<img src=\"art/item-wrist-keycard.png\" alt=\"item-wrist-keycard\" loading=\"lazy\">",
+  "ITEM-WRIST-KEYCARD": "<img src=\"art/item-wrist-keycard.png\" alt=\"item-wrist-keycard\" loading=\"lazy\">",
+  "wrist-keycard": "<img src=\"art/item-wrist-keycard.png\" alt=\"item-wrist-keycard\" loading=\"lazy\">",
+  "WRIST-KEYCARD": "<img src=\"art/item-wrist-keycard.png\" alt=\"item-wrist-keycard\" loading=\"lazy\">",
+  "item_wrist_keycard": "<img src=\"art/item-wrist-keycard.png\" alt=\"item-wrist-keycard\" loading=\"lazy\">",
+  "scene-wrist-keycard": "<img src=\"art/item-wrist-keycard.png\" alt=\"item-wrist-keycard\" loading=\"lazy\">",
+  "scene-airlock": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "SCENE-AIRLOCK": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "airlock": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "AIRLOCK": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "scene_airlock": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "item-airlock": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "scene-comms-room": "<img src=\"art/scene-comms-room.png\" alt=\"scene-comms-room\" loading=\"lazy\">",
+  "SCENE-COMMS-ROOM": "<img src=\"art/scene-comms-room.png\" alt=\"scene-comms-room\" loading=\"lazy\">",
+  "comms-room": "<img src=\"art/scene-comms-room.png\" alt=\"scene-comms-room\" loading=\"lazy\">",
+  "COMMS-ROOM": "<img src=\"art/scene-comms-room.png\" alt=\"scene-comms-room\" loading=\"lazy\">",
+  "scene_comms_room": "<img src=\"art/scene-comms-room.png\" alt=\"scene-comms-room\" loading=\"lazy\">",
+  "item-comms-room": "<img src=\"art/scene-comms-room.png\" alt=\"scene-comms-room\" loading=\"lazy\">",
+  "scene-corridor-alpha": "<img src=\"art/scene-corridor-alpha.png\" alt=\"scene-corridor-alpha\" loading=\"lazy\">",
+  "SCENE-CORRIDOR-ALPHA": "<img src=\"art/scene-corridor-alpha.png\" alt=\"scene-corridor-alpha\" loading=\"lazy\">",
+  "corridor-alpha": "<img src=\"art/scene-corridor-alpha.png\" alt=\"scene-corridor-alpha\" loading=\"lazy\">",
+  "CORRIDOR-ALPHA": "<img src=\"art/scene-corridor-alpha.png\" alt=\"scene-corridor-alpha\" loading=\"lazy\">",
+  "scene_corridor_alpha": "<img src=\"art/scene-corridor-alpha.png\" alt=\"scene-corridor-alpha\" loading=\"lazy\">",
+  "item-corridor-alpha": "<img src=\"art/scene-corridor-alpha.png\" alt=\"scene-corridor-alpha\" loading=\"lazy\">",
+  "scene-cryo-pod": "<img src=\"art/scene-cryo-pod.png\" alt=\"scene-cryo-pod\" loading=\"lazy\">",
+  "SCENE-CRYO-POD": "<img src=\"art/scene-cryo-pod.png\" alt=\"scene-cryo-pod\" loading=\"lazy\">",
+  "cryo-pod": "<img src=\"art/scene-cryo-pod.png\" alt=\"scene-cryo-pod\" loading=\"lazy\">",
+  "CRYO-POD": "<img src=\"art/scene-cryo-pod.png\" alt=\"scene-cryo-pod\" loading=\"lazy\">",
+  "scene_cryo_pod": "<img src=\"art/scene-cryo-pod.png\" alt=\"scene-cryo-pod\" loading=\"lazy\">",
+  "item-cryo-pod": "<img src=\"art/scene-cryo-pod.png\" alt=\"scene-cryo-pod\" loading=\"lazy\">",
+  "scene-engineering": "<img src=\"art/scene-engineering.png\" alt=\"scene-engineering\" loading=\"lazy\">",
+  "SCENE-ENGINEERING": "<img src=\"art/scene-engineering.png\" alt=\"scene-engineering\" loading=\"lazy\">",
+  "engineering": "<img src=\"art/scene-engineering.png\" alt=\"scene-engineering\" loading=\"lazy\">",
+  "ENGINEERING": "<img src=\"art/scene-engineering.png\" alt=\"scene-engineering\" loading=\"lazy\">",
+  "scene_engineering": "<img src=\"art/scene-engineering.png\" alt=\"scene-engineering\" loading=\"lazy\">",
+  "item-engineering": "<img src=\"art/scene-engineering.png\" alt=\"scene-engineering\" loading=\"lazy\">",
+  "scene-med-bay": "<img src=\"art/scene-med-bay.png\" alt=\"scene-med-bay\" loading=\"lazy\">",
+  "SCENE-MED-BAY": "<img src=\"art/scene-med-bay.png\" alt=\"scene-med-bay\" loading=\"lazy\">",
+  "med-bay": "<img src=\"art/scene-med-bay.png\" alt=\"scene-med-bay\" loading=\"lazy\">",
+  "MED-BAY": "<img src=\"art/scene-med-bay.png\" alt=\"scene-med-bay\" loading=\"lazy\">",
+  "scene_med_bay": "<img src=\"art/scene-med-bay.png\" alt=\"scene-med-bay\" loading=\"lazy\">",
+  "item-med-bay": "<img src=\"art/scene-med-bay.png\" alt=\"scene-med-bay\" loading=\"lazy\">",
+  "scene-rescue-shuttle": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\" width=\"640\" height=\"400\">\n<rect width=\"640\" height=\"400\" fill=\"#0a0a18\"/>\n<!-- Stars through shuttle window -->\n<circle cx=\"100\" cy=\"50\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.8\"/>\n<circle cx=\"200\" cy=\"30\" r=\"1\" fill=\"#ffffff\" opacity=\"0.6\"/>\n<circle cx=\"350\" cy=\"60\" r=\"1.2\" fill=\"#ffffff\" opacity=\"0.7\"/>\n<circle cx=\"500\" cy=\"40\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.9\"/>\n<circle cx=\"450\" cy=\"80\" r=\"1\" fill=\"#ffffff\" opacity=\"0.5\"/>\n<circle cx=\"580\" cy=\"25\" r=\"1.3\" fill=\"#ffffff\" opacity=\"0.8\"/>\n<circle cx=\"150\" cy=\"90\" r=\"1\" fill=\"#ffffff\" opacity=\"0.4\"/>\n<circle cx=\"50\" cy=\"70\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.7\"/>\n<circle cx=\"300\" cy=\"45\" r=\"1\" fill=\"#ffffff\" opacity=\"0.6\"/>\n<circle cx=\"550\" cy=\"100\" r=\"1.2\" fill=\"#ffffff\" opacity=\"0.5\"/>\n<!-- Window frame -->\n<rect x=\"120\" y=\"20\" width=\"400\" height=\"180\" rx=\"8\" fill=\"#0d0d22\" stroke=\"#445566\" stroke-width=\"4\"/>\n<rect x=\"320\" y=\"20\" width=\"2\" height=\"180\" fill=\"#445566\" stroke-width=\"1\"/>\n<rect x=\"120\" y=\"110\" width=\"400\" height=\"2\" fill=\"#445566\" stroke-width=\"1\"/>\n<!-- Distant planet glow -->\n<circle cx=\"500\" cy=\"140\" r=\"40\" fill=\"#1a2244\" opacity=\"0.6\"/>\n<circle cx=\"500\" cy=\"140\" r=\"38\" fill=\"none\" stroke=\"#3388cc\" stroke-width=\"1\" opacity=\"0.4\"/>\n<!-- Shuttle interior floor -->\n<rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#1a1a2a\"/>\n<rect x=\"0\" y=\"280\" width=\"640\" height=\"3\" fill=\"#333344\"/>\n<!-- Floor detail lines -->\n<line x1=\"0\" y1=\"310\" x2=\"640\" y2=\"310\" stroke=\"#222233\" stroke-width=\"1\"/>\n<line x1=\"0\" y1=\"340\" x2=\"640\" y2=\"340\" stroke=\"#222233\" stroke-width=\"1\"/>\n<!-- Side panels -->\n<rect x=\"0\" y=\"200\" width=\"60\" height=\"200\" fill=\"#151528\" stroke=\"#334455\" stroke-width=\"2\"/>\n<rect x=\"580\" y=\"200\" width=\"60\" height=\"200\" fill=\"#151528\" stroke=\"#334455\" stroke-width=\"2\"/>\n<!-- Panel lights - green for safety -->\n<circle cx=\"20\" cy=\"250\" r=\"4\" fill=\"#33cc33\" opacity=\"0.8\"/>\n<circle cx=\"20\" cy=\"280\" r=\"4\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<circle cx=\"20\" cy=\"310\" r=\"4\" fill=\"#33cc33\" opacity=\"0.9\"/>\n<circle cx=\"620\" cy=\"250\" r=\"4\" fill=\"#33cc33\" opacity=\"0.7\"/>\n<circle cx=\"620\" cy=\"280\" r=\"4\" fill=\"#33cc33\" opacity=\"0.8\"/>\n<circle cx=\"620\" cy=\"310\" r=\"4\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<!-- Pilot seat silhouette -->\n<rect x=\"270\" y=\"240\" width=\"100\" height=\"100\" rx=\"10\" fill=\"#111122\" stroke=\"#334455\" stroke-width=\"2\"/>\n<rect x=\"290\" y=\"250\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#1a1a30\"/>\n<!-- Console lights blinking -->\n<rect x=\"300\" y=\"350\" width=\"40\" height=\"15\" rx=\"2\" fill=\"#3388cc\" opacity=\"0.7\"/>\n<rect x=\"350\" y=\"350\" width=\"30\" height=\"15\" rx=\"2\" fill=\"#cc8833\" opacity=\"0.5\"/>\n<rect x=\"260\" y=\"350\" width=\"30\" height=\"15\" rx=\"2\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<!-- ESCAPE text -->\n<text x=\"320\" y=\"210\" font-family=\"monospace\" font-size=\"14\" fill=\"#33cc33\" text-anchor=\"middle\" opacity=\"0.9\">RESCUE TRANSPORT ACTIVE</text>\n<text x=\"320\" y=\"230\" font-family=\"monospace\" font-size=\"10\" fill=\"#3388cc\" text-anchor=\"middle\" opacity=\"0.7\">DESTINATION: EARTH // ETA 14 DAYS</text>\n</svg>",
+  "SCENE-RESCUE-SHUTTLE": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\" width=\"640\" height=\"400\">\n<rect width=\"640\" height=\"400\" fill=\"#0a0a18\"/>\n<!-- Stars through shuttle window -->\n<circle cx=\"100\" cy=\"50\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.8\"/>\n<circle cx=\"200\" cy=\"30\" r=\"1\" fill=\"#ffffff\" opacity=\"0.6\"/>\n<circle cx=\"350\" cy=\"60\" r=\"1.2\" fill=\"#ffffff\" opacity=\"0.7\"/>\n<circle cx=\"500\" cy=\"40\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.9\"/>\n<circle cx=\"450\" cy=\"80\" r=\"1\" fill=\"#ffffff\" opacity=\"0.5\"/>\n<circle cx=\"580\" cy=\"25\" r=\"1.3\" fill=\"#ffffff\" opacity=\"0.8\"/>\n<circle cx=\"150\" cy=\"90\" r=\"1\" fill=\"#ffffff\" opacity=\"0.4\"/>\n<circle cx=\"50\" cy=\"70\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.7\"/>\n<circle cx=\"300\" cy=\"45\" r=\"1\" fill=\"#ffffff\" opacity=\"0.6\"/>\n<circle cx=\"550\" cy=\"100\" r=\"1.2\" fill=\"#ffffff\" opacity=\"0.5\"/>\n<!-- Window frame -->\n<rect x=\"120\" y=\"20\" width=\"400\" height=\"180\" rx=\"8\" fill=\"#0d0d22\" stroke=\"#445566\" stroke-width=\"4\"/>\n<rect x=\"320\" y=\"20\" width=\"2\" height=\"180\" fill=\"#445566\" stroke-width=\"1\"/>\n<rect x=\"120\" y=\"110\" width=\"400\" height=\"2\" fill=\"#445566\" stroke-width=\"1\"/>\n<!-- Distant planet glow -->\n<circle cx=\"500\" cy=\"140\" r=\"40\" fill=\"#1a2244\" opacity=\"0.6\"/>\n<circle cx=\"500\" cy=\"140\" r=\"38\" fill=\"none\" stroke=\"#3388cc\" stroke-width=\"1\" opacity=\"0.4\"/>\n<!-- Shuttle interior floor -->\n<rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#1a1a2a\"/>\n<rect x=\"0\" y=\"280\" width=\"640\" height=\"3\" fill=\"#333344\"/>\n<!-- Floor detail lines -->\n<line x1=\"0\" y1=\"310\" x2=\"640\" y2=\"310\" stroke=\"#222233\" stroke-width=\"1\"/>\n<line x1=\"0\" y1=\"340\" x2=\"640\" y2=\"340\" stroke=\"#222233\" stroke-width=\"1\"/>\n<!-- Side panels -->\n<rect x=\"0\" y=\"200\" width=\"60\" height=\"200\" fill=\"#151528\" stroke=\"#334455\" stroke-width=\"2\"/>\n<rect x=\"580\" y=\"200\" width=\"60\" height=\"200\" fill=\"#151528\" stroke=\"#334455\" stroke-width=\"2\"/>\n<!-- Panel lights - green for safety -->\n<circle cx=\"20\" cy=\"250\" r=\"4\" fill=\"#33cc33\" opacity=\"0.8\"/>\n<circle cx=\"20\" cy=\"280\" r=\"4\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<circle cx=\"20\" cy=\"310\" r=\"4\" fill=\"#33cc33\" opacity=\"0.9\"/>\n<circle cx=\"620\" cy=\"250\" r=\"4\" fill=\"#33cc33\" opacity=\"0.7\"/>\n<circle cx=\"620\" cy=\"280\" r=\"4\" fill=\"#33cc33\" opacity=\"0.8\"/>\n<circle cx=\"620\" cy=\"310\" r=\"4\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<!-- Pilot seat silhouette -->\n<rect x=\"270\" y=\"240\" width=\"100\" height=\"100\" rx=\"10\" fill=\"#111122\" stroke=\"#334455\" stroke-width=\"2\"/>\n<rect x=\"290\" y=\"250\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#1a1a30\"/>\n<!-- Console lights blinking -->\n<rect x=\"300\" y=\"350\" width=\"40\" height=\"15\" rx=\"2\" fill=\"#3388cc\" opacity=\"0.7\"/>\n<rect x=\"350\" y=\"350\" width=\"30\" height=\"15\" rx=\"2\" fill=\"#cc8833\" opacity=\"0.5\"/>\n<rect x=\"260\" y=\"350\" width=\"30\" height=\"15\" rx=\"2\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<!-- ESCAPE text -->\n<text x=\"320\" y=\"210\" font-family=\"monospace\" font-size=\"14\" fill=\"#33cc33\" text-anchor=\"middle\" opacity=\"0.9\">RESCUE TRANSPORT ACTIVE</text>\n<text x=\"320\" y=\"230\" font-family=\"monospace\" font-size=\"10\" fill=\"#3388cc\" text-anchor=\"middle\" opacity=\"0.7\">DESTINATION: EARTH // ETA 14 DAYS</text>\n</svg>",
+  "rescue-shuttle": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\" width=\"640\" height=\"400\">\n<rect width=\"640\" height=\"400\" fill=\"#0a0a18\"/>\n<!-- Stars through shuttle window -->\n<circle cx=\"100\" cy=\"50\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.8\"/>\n<circle cx=\"200\" cy=\"30\" r=\"1\" fill=\"#ffffff\" opacity=\"0.6\"/>\n<circle cx=\"350\" cy=\"60\" r=\"1.2\" fill=\"#ffffff\" opacity=\"0.7\"/>\n<circle cx=\"500\" cy=\"40\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.9\"/>\n<circle cx=\"450\" cy=\"80\" r=\"1\" fill=\"#ffffff\" opacity=\"0.5\"/>\n<circle cx=\"580\" cy=\"25\" r=\"1.3\" fill=\"#ffffff\" opacity=\"0.8\"/>\n<circle cx=\"150\" cy=\"90\" r=\"1\" fill=\"#ffffff\" opacity=\"0.4\"/>\n<circle cx=\"50\" cy=\"70\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.7\"/>\n<circle cx=\"300\" cy=\"45\" r=\"1\" fill=\"#ffffff\" opacity=\"0.6\"/>\n<circle cx=\"550\" cy=\"100\" r=\"1.2\" fill=\"#ffffff\" opacity=\"0.5\"/>\n<!-- Window frame -->\n<rect x=\"120\" y=\"20\" width=\"400\" height=\"180\" rx=\"8\" fill=\"#0d0d22\" stroke=\"#445566\" stroke-width=\"4\"/>\n<rect x=\"320\" y=\"20\" width=\"2\" height=\"180\" fill=\"#445566\" stroke-width=\"1\"/>\n<rect x=\"120\" y=\"110\" width=\"400\" height=\"2\" fill=\"#445566\" stroke-width=\"1\"/>\n<!-- Distant planet glow -->\n<circle cx=\"500\" cy=\"140\" r=\"40\" fill=\"#1a2244\" opacity=\"0.6\"/>\n<circle cx=\"500\" cy=\"140\" r=\"38\" fill=\"none\" stroke=\"#3388cc\" stroke-width=\"1\" opacity=\"0.4\"/>\n<!-- Shuttle interior floor -->\n<rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#1a1a2a\"/>\n<rect x=\"0\" y=\"280\" width=\"640\" height=\"3\" fill=\"#333344\"/>\n<!-- Floor detail lines -->\n<line x1=\"0\" y1=\"310\" x2=\"640\" y2=\"310\" stroke=\"#222233\" stroke-width=\"1\"/>\n<line x1=\"0\" y1=\"340\" x2=\"640\" y2=\"340\" stroke=\"#222233\" stroke-width=\"1\"/>\n<!-- Side panels -->\n<rect x=\"0\" y=\"200\" width=\"60\" height=\"200\" fill=\"#151528\" stroke=\"#334455\" stroke-width=\"2\"/>\n<rect x=\"580\" y=\"200\" width=\"60\" height=\"200\" fill=\"#151528\" stroke=\"#334455\" stroke-width=\"2\"/>\n<!-- Panel lights - green for safety -->\n<circle cx=\"20\" cy=\"250\" r=\"4\" fill=\"#33cc33\" opacity=\"0.8\"/>\n<circle cx=\"20\" cy=\"280\" r=\"4\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<circle cx=\"20\" cy=\"310\" r=\"4\" fill=\"#33cc33\" opacity=\"0.9\"/>\n<circle cx=\"620\" cy=\"250\" r=\"4\" fill=\"#33cc33\" opacity=\"0.7\"/>\n<circle cx=\"620\" cy=\"280\" r=\"4\" fill=\"#33cc33\" opacity=\"0.8\"/>\n<circle cx=\"620\" cy=\"310\" r=\"4\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<!-- Pilot seat silhouette -->\n<rect x=\"270\" y=\"240\" width=\"100\" height=\"100\" rx=\"10\" fill=\"#111122\" stroke=\"#334455\" stroke-width=\"2\"/>\n<rect x=\"290\" y=\"250\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#1a1a30\"/>\n<!-- Console lights blinking -->\n<rect x=\"300\" y=\"350\" width=\"40\" height=\"15\" rx=\"2\" fill=\"#3388cc\" opacity=\"0.7\"/>\n<rect x=\"350\" y=\"350\" width=\"30\" height=\"15\" rx=\"2\" fill=\"#cc8833\" opacity=\"0.5\"/>\n<rect x=\"260\" y=\"350\" width=\"30\" height=\"15\" rx=\"2\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<!-- ESCAPE text -->\n<text x=\"320\" y=\"210\" font-family=\"monospace\" font-size=\"14\" fill=\"#33cc33\" text-anchor=\"middle\" opacity=\"0.9\">RESCUE TRANSPORT ACTIVE</text>\n<text x=\"320\" y=\"230\" font-family=\"monospace\" font-size=\"10\" fill=\"#3388cc\" text-anchor=\"middle\" opacity=\"0.7\">DESTINATION: EARTH // ETA 14 DAYS</text>\n</svg>",
+  "RESCUE-SHUTTLE": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\" width=\"640\" height=\"400\">\n<rect width=\"640\" height=\"400\" fill=\"#0a0a18\"/>\n<!-- Stars through shuttle window -->\n<circle cx=\"100\" cy=\"50\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.8\"/>\n<circle cx=\"200\" cy=\"30\" r=\"1\" fill=\"#ffffff\" opacity=\"0.6\"/>\n<circle cx=\"350\" cy=\"60\" r=\"1.2\" fill=\"#ffffff\" opacity=\"0.7\"/>\n<circle cx=\"500\" cy=\"40\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.9\"/>\n<circle cx=\"450\" cy=\"80\" r=\"1\" fill=\"#ffffff\" opacity=\"0.5\"/>\n<circle cx=\"580\" cy=\"25\" r=\"1.3\" fill=\"#ffffff\" opacity=\"0.8\"/>\n<circle cx=\"150\" cy=\"90\" r=\"1\" fill=\"#ffffff\" opacity=\"0.4\"/>\n<circle cx=\"50\" cy=\"70\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.7\"/>\n<circle cx=\"300\" cy=\"45\" r=\"1\" fill=\"#ffffff\" opacity=\"0.6\"/>\n<circle cx=\"550\" cy=\"100\" r=\"1.2\" fill=\"#ffffff\" opacity=\"0.5\"/>\n<!-- Window frame -->\n<rect x=\"120\" y=\"20\" width=\"400\" height=\"180\" rx=\"8\" fill=\"#0d0d22\" stroke=\"#445566\" stroke-width=\"4\"/>\n<rect x=\"320\" y=\"20\" width=\"2\" height=\"180\" fill=\"#445566\" stroke-width=\"1\"/>\n<rect x=\"120\" y=\"110\" width=\"400\" height=\"2\" fill=\"#445566\" stroke-width=\"1\"/>\n<!-- Distant planet glow -->\n<circle cx=\"500\" cy=\"140\" r=\"40\" fill=\"#1a2244\" opacity=\"0.6\"/>\n<circle cx=\"500\" cy=\"140\" r=\"38\" fill=\"none\" stroke=\"#3388cc\" stroke-width=\"1\" opacity=\"0.4\"/>\n<!-- Shuttle interior floor -->\n<rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#1a1a2a\"/>\n<rect x=\"0\" y=\"280\" width=\"640\" height=\"3\" fill=\"#333344\"/>\n<!-- Floor detail lines -->\n<line x1=\"0\" y1=\"310\" x2=\"640\" y2=\"310\" stroke=\"#222233\" stroke-width=\"1\"/>\n<line x1=\"0\" y1=\"340\" x2=\"640\" y2=\"340\" stroke=\"#222233\" stroke-width=\"1\"/>\n<!-- Side panels -->\n<rect x=\"0\" y=\"200\" width=\"60\" height=\"200\" fill=\"#151528\" stroke=\"#334455\" stroke-width=\"2\"/>\n<rect x=\"580\" y=\"200\" width=\"60\" height=\"200\" fill=\"#151528\" stroke=\"#334455\" stroke-width=\"2\"/>\n<!-- Panel lights - green for safety -->\n<circle cx=\"20\" cy=\"250\" r=\"4\" fill=\"#33cc33\" opacity=\"0.8\"/>\n<circle cx=\"20\" cy=\"280\" r=\"4\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<circle cx=\"20\" cy=\"310\" r=\"4\" fill=\"#33cc33\" opacity=\"0.9\"/>\n<circle cx=\"620\" cy=\"250\" r=\"4\" fill=\"#33cc33\" opacity=\"0.7\"/>\n<circle cx=\"620\" cy=\"280\" r=\"4\" fill=\"#33cc33\" opacity=\"0.8\"/>\n<circle cx=\"620\" cy=\"310\" r=\"4\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<!-- Pilot seat silhouette -->\n<rect x=\"270\" y=\"240\" width=\"100\" height=\"100\" rx=\"10\" fill=\"#111122\" stroke=\"#334455\" stroke-width=\"2\"/>\n<rect x=\"290\" y=\"250\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#1a1a30\"/>\n<!-- Console lights blinking -->\n<rect x=\"300\" y=\"350\" width=\"40\" height=\"15\" rx=\"2\" fill=\"#3388cc\" opacity=\"0.7\"/>\n<rect x=\"350\" y=\"350\" width=\"30\" height=\"15\" rx=\"2\" fill=\"#cc8833\" opacity=\"0.5\"/>\n<rect x=\"260\" y=\"350\" width=\"30\" height=\"15\" rx=\"2\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<!-- ESCAPE text -->\n<text x=\"320\" y=\"210\" font-family=\"monospace\" font-size=\"14\" fill=\"#33cc33\" text-anchor=\"middle\" opacity=\"0.9\">RESCUE TRANSPORT ACTIVE</text>\n<text x=\"320\" y=\"230\" font-family=\"monospace\" font-size=\"10\" fill=\"#3388cc\" text-anchor=\"middle\" opacity=\"0.7\">DESTINATION: EARTH // ETA 14 DAYS</text>\n</svg>",
+  "scene_rescue_shuttle": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\" width=\"640\" height=\"400\">\n<rect width=\"640\" height=\"400\" fill=\"#0a0a18\"/>\n<!-- Stars through shuttle window -->\n<circle cx=\"100\" cy=\"50\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.8\"/>\n<circle cx=\"200\" cy=\"30\" r=\"1\" fill=\"#ffffff\" opacity=\"0.6\"/>\n<circle cx=\"350\" cy=\"60\" r=\"1.2\" fill=\"#ffffff\" opacity=\"0.7\"/>\n<circle cx=\"500\" cy=\"40\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.9\"/>\n<circle cx=\"450\" cy=\"80\" r=\"1\" fill=\"#ffffff\" opacity=\"0.5\"/>\n<circle cx=\"580\" cy=\"25\" r=\"1.3\" fill=\"#ffffff\" opacity=\"0.8\"/>\n<circle cx=\"150\" cy=\"90\" r=\"1\" fill=\"#ffffff\" opacity=\"0.4\"/>\n<circle cx=\"50\" cy=\"70\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.7\"/>\n<circle cx=\"300\" cy=\"45\" r=\"1\" fill=\"#ffffff\" opacity=\"0.6\"/>\n<circle cx=\"550\" cy=\"100\" r=\"1.2\" fill=\"#ffffff\" opacity=\"0.5\"/>\n<!-- Window frame -->\n<rect x=\"120\" y=\"20\" width=\"400\" height=\"180\" rx=\"8\" fill=\"#0d0d22\" stroke=\"#445566\" stroke-width=\"4\"/>\n<rect x=\"320\" y=\"20\" width=\"2\" height=\"180\" fill=\"#445566\" stroke-width=\"1\"/>\n<rect x=\"120\" y=\"110\" width=\"400\" height=\"2\" fill=\"#445566\" stroke-width=\"1\"/>\n<!-- Distant planet glow -->\n<circle cx=\"500\" cy=\"140\" r=\"40\" fill=\"#1a2244\" opacity=\"0.6\"/>\n<circle cx=\"500\" cy=\"140\" r=\"38\" fill=\"none\" stroke=\"#3388cc\" stroke-width=\"1\" opacity=\"0.4\"/>\n<!-- Shuttle interior floor -->\n<rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#1a1a2a\"/>\n<rect x=\"0\" y=\"280\" width=\"640\" height=\"3\" fill=\"#333344\"/>\n<!-- Floor detail lines -->\n<line x1=\"0\" y1=\"310\" x2=\"640\" y2=\"310\" stroke=\"#222233\" stroke-width=\"1\"/>\n<line x1=\"0\" y1=\"340\" x2=\"640\" y2=\"340\" stroke=\"#222233\" stroke-width=\"1\"/>\n<!-- Side panels -->\n<rect x=\"0\" y=\"200\" width=\"60\" height=\"200\" fill=\"#151528\" stroke=\"#334455\" stroke-width=\"2\"/>\n<rect x=\"580\" y=\"200\" width=\"60\" height=\"200\" fill=\"#151528\" stroke=\"#334455\" stroke-width=\"2\"/>\n<!-- Panel lights - green for safety -->\n<circle cx=\"20\" cy=\"250\" r=\"4\" fill=\"#33cc33\" opacity=\"0.8\"/>\n<circle cx=\"20\" cy=\"280\" r=\"4\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<circle cx=\"20\" cy=\"310\" r=\"4\" fill=\"#33cc33\" opacity=\"0.9\"/>\n<circle cx=\"620\" cy=\"250\" r=\"4\" fill=\"#33cc33\" opacity=\"0.7\"/>\n<circle cx=\"620\" cy=\"280\" r=\"4\" fill=\"#33cc33\" opacity=\"0.8\"/>\n<circle cx=\"620\" cy=\"310\" r=\"4\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<!-- Pilot seat silhouette -->\n<rect x=\"270\" y=\"240\" width=\"100\" height=\"100\" rx=\"10\" fill=\"#111122\" stroke=\"#334455\" stroke-width=\"2\"/>\n<rect x=\"290\" y=\"250\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#1a1a30\"/>\n<!-- Console lights blinking -->\n<rect x=\"300\" y=\"350\" width=\"40\" height=\"15\" rx=\"2\" fill=\"#3388cc\" opacity=\"0.7\"/>\n<rect x=\"350\" y=\"350\" width=\"30\" height=\"15\" rx=\"2\" fill=\"#cc8833\" opacity=\"0.5\"/>\n<rect x=\"260\" y=\"350\" width=\"30\" height=\"15\" rx=\"2\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<!-- ESCAPE text -->\n<text x=\"320\" y=\"210\" font-family=\"monospace\" font-size=\"14\" fill=\"#33cc33\" text-anchor=\"middle\" opacity=\"0.9\">RESCUE TRANSPORT ACTIVE</text>\n<text x=\"320\" y=\"230\" font-family=\"monospace\" font-size=\"10\" fill=\"#3388cc\" text-anchor=\"middle\" opacity=\"0.7\">DESTINATION: EARTH // ETA 14 DAYS</text>\n</svg>",
+  "item-rescue-shuttle": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 400\" width=\"640\" height=\"400\">\n<rect width=\"640\" height=\"400\" fill=\"#0a0a18\"/>\n<!-- Stars through shuttle window -->\n<circle cx=\"100\" cy=\"50\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.8\"/>\n<circle cx=\"200\" cy=\"30\" r=\"1\" fill=\"#ffffff\" opacity=\"0.6\"/>\n<circle cx=\"350\" cy=\"60\" r=\"1.2\" fill=\"#ffffff\" opacity=\"0.7\"/>\n<circle cx=\"500\" cy=\"40\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.9\"/>\n<circle cx=\"450\" cy=\"80\" r=\"1\" fill=\"#ffffff\" opacity=\"0.5\"/>\n<circle cx=\"580\" cy=\"25\" r=\"1.3\" fill=\"#ffffff\" opacity=\"0.8\"/>\n<circle cx=\"150\" cy=\"90\" r=\"1\" fill=\"#ffffff\" opacity=\"0.4\"/>\n<circle cx=\"50\" cy=\"70\" r=\"1.5\" fill=\"#ffffff\" opacity=\"0.7\"/>\n<circle cx=\"300\" cy=\"45\" r=\"1\" fill=\"#ffffff\" opacity=\"0.6\"/>\n<circle cx=\"550\" cy=\"100\" r=\"1.2\" fill=\"#ffffff\" opacity=\"0.5\"/>\n<!-- Window frame -->\n<rect x=\"120\" y=\"20\" width=\"400\" height=\"180\" rx=\"8\" fill=\"#0d0d22\" stroke=\"#445566\" stroke-width=\"4\"/>\n<rect x=\"320\" y=\"20\" width=\"2\" height=\"180\" fill=\"#445566\" stroke-width=\"1\"/>\n<rect x=\"120\" y=\"110\" width=\"400\" height=\"2\" fill=\"#445566\" stroke-width=\"1\"/>\n<!-- Distant planet glow -->\n<circle cx=\"500\" cy=\"140\" r=\"40\" fill=\"#1a2244\" opacity=\"0.6\"/>\n<circle cx=\"500\" cy=\"140\" r=\"38\" fill=\"none\" stroke=\"#3388cc\" stroke-width=\"1\" opacity=\"0.4\"/>\n<!-- Shuttle interior floor -->\n<rect x=\"0\" y=\"280\" width=\"640\" height=\"120\" fill=\"#1a1a2a\"/>\n<rect x=\"0\" y=\"280\" width=\"640\" height=\"3\" fill=\"#333344\"/>\n<!-- Floor detail lines -->\n<line x1=\"0\" y1=\"310\" x2=\"640\" y2=\"310\" stroke=\"#222233\" stroke-width=\"1\"/>\n<line x1=\"0\" y1=\"340\" x2=\"640\" y2=\"340\" stroke=\"#222233\" stroke-width=\"1\"/>\n<!-- Side panels -->\n<rect x=\"0\" y=\"200\" width=\"60\" height=\"200\" fill=\"#151528\" stroke=\"#334455\" stroke-width=\"2\"/>\n<rect x=\"580\" y=\"200\" width=\"60\" height=\"200\" fill=\"#151528\" stroke=\"#334455\" stroke-width=\"2\"/>\n<!-- Panel lights - green for safety -->\n<circle cx=\"20\" cy=\"250\" r=\"4\" fill=\"#33cc33\" opacity=\"0.8\"/>\n<circle cx=\"20\" cy=\"280\" r=\"4\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<circle cx=\"20\" cy=\"310\" r=\"4\" fill=\"#33cc33\" opacity=\"0.9\"/>\n<circle cx=\"620\" cy=\"250\" r=\"4\" fill=\"#33cc33\" opacity=\"0.7\"/>\n<circle cx=\"620\" cy=\"280\" r=\"4\" fill=\"#33cc33\" opacity=\"0.8\"/>\n<circle cx=\"620\" cy=\"310\" r=\"4\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<!-- Pilot seat silhouette -->\n<rect x=\"270\" y=\"240\" width=\"100\" height=\"100\" rx=\"10\" fill=\"#111122\" stroke=\"#334455\" stroke-width=\"2\"/>\n<rect x=\"290\" y=\"250\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#1a1a30\"/>\n<!-- Console lights blinking -->\n<rect x=\"300\" y=\"350\" width=\"40\" height=\"15\" rx=\"2\" fill=\"#3388cc\" opacity=\"0.7\"/>\n<rect x=\"350\" y=\"350\" width=\"30\" height=\"15\" rx=\"2\" fill=\"#cc8833\" opacity=\"0.5\"/>\n<rect x=\"260\" y=\"350\" width=\"30\" height=\"15\" rx=\"2\" fill=\"#33cc33\" opacity=\"0.6\"/>\n<!-- ESCAPE text -->\n<text x=\"320\" y=\"210\" font-family=\"monospace\" font-size=\"14\" fill=\"#33cc33\" text-anchor=\"middle\" opacity=\"0.9\">RESCUE TRANSPORT ACTIVE</text>\n<text x=\"320\" y=\"230\" font-family=\"monospace\" font-size=\"10\" fill=\"#3388cc\" text-anchor=\"middle\" opacity=\"0.7\">DESTINATION: EARTH // ETA 14 DAYS</text>\n</svg>",
+  "scene-xenomorph-lair": "<img src=\"art/scene-xenomorph-lair.png\" alt=\"scene-xenomorph-lair\" loading=\"lazy\">",
+  "SCENE-XENOMORPH-LAIR": "<img src=\"art/scene-xenomorph-lair.png\" alt=\"scene-xenomorph-lair\" loading=\"lazy\">",
+  "xenomorph-lair": "<img src=\"art/scene-xenomorph-lair.png\" alt=\"scene-xenomorph-lair\" loading=\"lazy\">",
+  "XENOMORPH-LAIR": "<img src=\"art/scene-xenomorph-lair.png\" alt=\"scene-xenomorph-lair\" loading=\"lazy\">",
+  "scene_xenomorph_lair": "<img src=\"art/scene-xenomorph-lair.png\" alt=\"scene-xenomorph-lair\" loading=\"lazy\">",
+  "item-xenomorph-lair": "<img src=\"art/scene-xenomorph-lair.png\" alt=\"scene-xenomorph-lair\" loading=\"lazy\">"
+};
+  </script>
+  <script src="../standard-game-runtime.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <pattern id="sand" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#1a1810"/>
+      <circle cx="1" cy="1" r="0.5" fill="#222015" opacity="0.6"/>
+      <circle cx="3" cy="3" r="0.5" fill="#222015" opacity="0.6"/>
+    </pattern>
+    <pattern id="oxidized-iron" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#336633" opacity="0.3"/>
+      <line x1="0" y1="0" x2="10" y2="10" stroke="#334466" stroke-width="0.5" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <!-- Layer 1: Dark circular chamber background -->
+  <rect width="640" height="400" fill="#08080f"/>
+  <!-- Layer 2: Chamber walls (curved suggestion) -->
+  <ellipse cx="320" cy="200" rx="310" ry="190" fill="#0a0a10" stroke="#1a1a18" stroke-width="3"/>
+  <!-- Layer 3: Sand filter basins (tiered, left and right) -->
+  <!-- Left basin -->
+  <rect x="20" y="180" width="180" height="120" fill="#1a1810" stroke="#334466" stroke-width="3" rx="2"/>
+  <rect x="20" y="180" width="180" height="120" fill="url(#sand)" opacity="0.5"/>
+  <rect x="20" y="180" width="180" height="15" fill="#334466" stroke="#000" stroke-width="2" rx="1"/>
+  <!-- Left basin sand with impressions -->
+  <ellipse cx="80" cy="250" rx="30" ry="15" fill="#121008" opacity="0.3"/>
+  <ellipse cx="140" cy="260" rx="20" ry="10" fill="#121008" opacity="0.25"/>
+  <!-- Right basin -->
+  <rect x="440" y="180" width="180" height="120" fill="#1a1810" stroke="#334466" stroke-width="3" rx="2"/>
+  <rect x="440" y="180" width="180" height="120" fill="url(#sand)" opacity="0.5"/>
+  <rect x="440" y="180" width="180" height="15" fill="#334466" stroke="#000" stroke-width="2" rx="1"/>
+  <!-- Right basin sand impressions -->
+  <ellipse cx="490" cy="255" rx="25" ry="12" fill="#121008" opacity="0.3"/>
+  <ellipse cx="560" cy="265" rx="18" ry="9" fill="#121008" opacity="0.2"/>
+  <!-- Oxidized iron railings between basins -->
+  <g fill="none" stroke="#336633" stroke-width="2" opacity="0.6">
+    <line x1="200" y1="170" x2="200" y2="300"/>
+    <line x1="210" y1="170" x2="210" y2="300"/>
+    <line x1="220" y1="170" x2="220" y2="300"/>
+    <line x1="200" y1="175" x2="220" y2="175"/>
+    <line x1="200" y1="295" x2="220" y2="295"/>
+    <line x1="420" y1="170" x2="420" y2="300"/>
+    <line x1="430" y1="170" x2="430" y2="300"/>
+    <line x1="440" y1="170" x2="440" y2="300"/>
+    <line x1="420" y1="175" x2="440" y2="175"/>
+    <line x1="420" y1="295" x2="440" y2="295"/>
+  </g>
+  <!-- Layer 4: Massive gate valve (far wall center, no wheel) -->
+  <g>
+    <!-- Valve body -->
+    <rect x="270" y="120" width="100" height="140" fill="#334466" stroke="#000" stroke-width="4" rx="4"/>
+    <!-- Valve center hub (missing wheel) -->
+    <circle cx="320" cy="190" r="15" fill="#0a0a10" stroke="#334466" stroke-width="3"/>
+    <!-- Socket where wheel attaches -->
+    <circle cx="320" cy="190" r="6" fill="#1a1a10"/>
+    <!-- DO NOT OPEN inscription (stylized) -->
+    <rect x="280" y="265" width="80" height="8" fill="#336633" opacity="0.3"/>
+    <line x1="285" y1="267" x2="355" y2="267" stroke="#000" stroke-width="1" opacity="0.4"/>
+    <!-- Black water behind valve -->
+    <rect x="275" y="130" width="90" height="120" fill="#000" opacity="0.4"/>
+  </g>
+  <!-- Layer 5: Drain handle in sand (near left basin, half-buried) -->
+  <g>
+    <!-- T-handle vertical stem -->
+    <rect x="100" y="260" width="6" height="30" fill="#664433" stroke="#000" stroke-width="1"/>
+    <!-- T-handle horizontal grip (worn smooth) -->
+    <rect x="90" y="255" width="26" height="8" fill="#664433" stroke="#000" stroke-width="1" rx="2"/>
+    <!-- Half-buried in sand -->
+    <rect x="95" y="280" width="16" height="10" fill="#1a1810" opacity="0.6"/>
+  </g>
+  <!-- Layer 6: Drier air / atmosphere difference -->
+  <!-- Light shaft suggestion -->
+  <line x1="200" y1="20" x2="280" y2="120" stroke="#aa9988" stroke-width="1" opacity="0.08"/>
+  <line x1="250" y1="10" x2="320" y2="120" stroke="#aa9988" stroke-width="1" opacity="0.06"/>
+  <!-- Layer 7: Circular floor -->
+  <ellipse cx="320" cy="360" rx="300" ry="25" fill="#121008" opacity="0.5"/>
+  <ellipse cx="320" cy="370" rx="250" ry="15" fill="#0a0808" opacity="0.4"/>
+  <!-- Layer 8: Atmospheric warning -->
+  <ellipse cx="320" cy="200" rx="100" ry="150" fill="#336633" opacity="0.03"/>
+</svg>

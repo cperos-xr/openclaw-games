@@ -1,0 +1,49 @@
+{
+  "game": "The Drowned Cistern",
+  "gameSlug": "drowned-cistern",
+  "gameNumber": 18,
+  "qaDate": "2026-04-03",
+  "qaAgent": "Glitch Warden",
+  "verdict": "PASS",
+  "summary": "All 8 checks pass. The previously reported bug (puzzle-open-gate.reveals referencing scene ID instead of item IDs) has been fixed. Game is ready for publish.",
+  "checks": {
+    "solvabilityValidation": {
+      "status": "PASS",
+      "details": "standard-game-validation.mjs reports 018-drowned-cistern: PASS - No issues found in script structure."
+    },
+    "sceneCount": {
+      "status": "PASS",
+      "details": "6 scenes defined (cistern-entrance, overflow-chamber, pump-room, maintenance-tunnel, filter-gallery, drain-chamber). All referenced exits point to valid scenes."
+    },
+    "assetCheck": {
+      "status": "PASS",
+      "details": "6 scene SVGs (scene-cistern-entrance.svg, scene-overflow-chamber.svg, scene-pump-room.svg, scene-maintenance-tunnel.svg, scene-filter-gallery.svg, scene-drain-chamber.svg) and 7 item SVGs (item-rusty-wrench.svg, item-gate-key.svg, item-blown-fuse.svg, item-oil-can.svg, item-repaired-fuse.svg, item-valve-wheel.svg, item-drain-handle.svg) present in art/ directory. All SVGs are valid and well-formed. HTML file renders without external asset dependencies (SVGs embedded inline)."
+    },
+    "itemIntegrity": {
+      "status": "PASS",
+      "details": "7 items (rusty-wrench, gate-key, blown-fuse, oil-can, repaired-fuse, valve-wheel, drain-handle) all defined. All foundIn fields match their parent scenes: rusty-wrench→cistern-entrance, gate-key→cistern-entrance, blown-fuse→overflow-chamber, oil-can→pump-room, repaired-fuse→pump-room, valve-wheel→maintenance-tunnel, drain-handle→filter-gallery."
+    },
+    "puzzleValidation": {
+      "status": "PASS",
+      "details": "5 puzzles all have valid scene references, valid item requirements, valid reveals arrays, and blockedMessages. puzzle-open-gate.reveals is correctly set to [] (previously had \"drain-chamber\" which was a scene ID - now fixed)."
+    },
+    "fullPlaythroughSimulation": {
+      "status": "PASS",
+      "details": "Complete playthrough path verified: cistern-entrance (take rusty-wrench, solve puzzle-remove-grate) → overflow-chamber (take blown-fuse, solve puzzle-unlock-grate) → pump-room (take oil-can, solve puzzle-oil-fuse with blown-fuse+oil-can → repaired-fuse, solve puzzle-insert-fuse with repaired-fuse) → maintenance-tunnel (take valve-wheel) → filter-gallery (solve puzzle-open-gate with valve-wheel, take drain-handle) → drain-chamber (use drain-handle for win). All 5 puzzles solvable. Win condition met."
+    },
+    "lookDescriptions": {
+      "status": "PASS",
+      "details": "All 18 lookDescriptions (3 per scene × 6 scenes) have meaningful, atmospheric text."
+    },
+    "dataSchemaCheck": {
+      "status": "PASS",
+      "details": "All puzzle reveals fields now contain only valid item IDs or empty arrays. The previous bug (puzzle-open-gate.reveals contained \"drain-chamber\", a scene ID) was fixed to reveals: []. No schema violations remain."
+    }
+  },
+  "bugs": [],
+  "totalChecks": 8,
+  "passedChecks": 8,
+  "failedChecks": 0,
+  "totalBugs": 0,
+  "publishReady": true
+}

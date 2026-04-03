@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Drain Handle - T-shaped iron, worn smooth by generations of hands -->
+  <!-- Vertical shaft -->
+  <rect x="28" y="18" width="8" height="38" fill="#664433" stroke="#000" stroke-width="2" rx="1"/>
+  <!-- Horizontal T-grip (worn smooth) -->
+  <rect x="12" y="14" width="40" height="8" fill="#664433" stroke="#000" stroke-width="2" rx="4"/>
+  <!-- Worn smooth highlights on grip -->
+  <rect x="16" y="16" width="10" height="2" fill="#aa9988" opacity="0.3" rx="1"/>
+  <rect x="38" y="16" width="10" height="2" fill="#aa9988" opacity="0.25" rx="1"/>
+  <!-- Worn areas on shaft -->
+  <rect x="30" y="24" width="4" height="6" fill="#aa9988" opacity="0.2" rx="1"/>
+  <rect x="30" y="36" width="4" height="8" fill="#aa9988" opacity="0.15" rx="1"/>
+  <!-- Iron texture details -->
+  <rect x="29" y="20" width="2" height="2" fill="#554433" opacity="0.4"/>
+  <rect x="33" y="30" width="2" height="2" fill="#554433" opacity="0.4"/>
+  <!-- Bottom end -->
+  <rect x="28" y="52" width="8" height="4" fill="#664433" stroke="#000" stroke-width="1.5" rx="2"/>
+  <!-- Warm iron suggestion (it was found warm in the game) -->
+  <rect x="26" y="12" width="12" height="46" fill="#aa5544" opacity="0.06" rx="3"/>
+</svg>

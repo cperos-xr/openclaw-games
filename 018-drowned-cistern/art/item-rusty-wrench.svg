@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Rusty Wrench - heavy pipe wrench, pitted with rust -->
+  <g fill="#cc3333" stroke="#000" stroke-width="1.5">
+    <!-- Wrench head (adjustable jaw) -->
+    <rect x="4" y="14" width="18" height="28" rx="2"/>
+    <!-- Jaw opening -->
+    <rect x="7" y="18" width="12" height="20" fill="#0a0a12" rx="1"/>
+    <!-- Fixed jaw top -->
+    <rect x="4" y="14" width="8" height="6" rx="1"/>
+    <!-- Fixed jaw bottom -->
+    <rect x="4" y="36" width="8" height="6" rx="1"/>
+    <!-- Adjustable jaw side -->
+    <rect x="18" y="14" width="6" height="28" rx="1"/>
+  </g>
+  <!-- Shaft -->
+  <rect x="22" y="24" width="32" height="14" fill="#cc3333" stroke="#000" stroke-width="1.5" rx="2"/>
+  <!-- Handle end -->
+  <rect x="50" y="22" width="10" height="18" fill="#cc3333" stroke="#000" stroke-width="1.5" rx="2"/>
+  <!-- Rust texture -->
+  <rect x="26" y="26" width="4" height="3" fill="#aa5533" opacity="0.6"/>
+  <rect x="34" y="28" width="3" height="2" fill="#aa5533" opacity="0.5"/>
+  <rect x="42" y="26" width="2" height="4" fill="#aa5533" opacity="0.5"/>
+  <rect x="52" y="30" width="3" height="3" fill="#aa5533" opacity="0.6"/>
+  <!-- Highlight -->
+  <rect x="24" y="25" width="6" height="2" fill="#aa9988" opacity="0.3"/>
+</svg>

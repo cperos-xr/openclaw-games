@@ -1,0 +1,89 @@
+{
+  "game": "019-the-bunker-below",
+  "title": "The Bunker Below",
+  "gameNumber": 19,
+  "file": "/home/node/.openclaw/workspace/games/019-the-bunker-below/game.html",
+  "timestamp": "2026-04-03T12:32:00.000Z",
+  "verdict": "PASS",
+  "issues": [],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete (title, slug, scenes, items, puzzles, winCondition all present)",
+    "All 7 scenes reachable from start via BFS",
+    "Item availability checks complete (all items found before used)",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete (5 blocked exits properly handled)",
+    "Win condition scene exists (escape-tunnel)",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration (window.GAME_ART)",
+    "HTML/CSS/JS integrity checks complete",
+    "Viewport meta tag present",
+    "Grid row values within bounds",
+    "Word count checks complete (all scenes 60-400 words)",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "External CSS file linked correctly via ../standard-game-style.css",
+    "CSS contains @keyframes puzzle-solved (line 317)",
+    "CSS contains @keyframes item-glow (line 331)",
+    "CSS contains @keyframes unlock-pulse (line 345)",
+    "CSS contains max-width: 1200px on body (line 33)",
+    "External CSS path resolves correctly relative to game directory",
+    "Canvas browser loads external CSS via relative path (same pattern as game #18 which passed QA)"
+  ],
+  "playthroughSimulation": {
+    "passed": 25,
+    "failed": 0,
+    "total": 25,
+    "allScenesVisited": true,
+    "allPuzzlesSolved": true,
+    "allItemsTaken": true,
+    "winConditionMet": true,
+    "details": "Full linear playthrough from entrance-hall through all 7 scenes, solving all 5 puzzles, collecting all 6 items, and reaching the escape-tunnel win scene with required keycard."
+  },
+  "stats": {
+    "scenes": 7,
+    "items": 6,
+    "puzzles": 5,
+    "reachableScenes": 7,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 7,
+    "artAssetsMissing": 0,
+    "totalSteps": 19
+  },
+  "solvabilityValidation": {
+    "passed": true,
+    "validator": "standard-game-validation.mjs",
+    "result": "PASS - No issues found"
+  },
+  "artVerification": {
+    "sceneArtPngFiles": 7,
+    "allRealFiles": true,
+    "noSymlinks": true,
+    "dimensions": "640x400",
+    "files": [
+      "scene-entrance-hall.png",
+      "scene-generator-room.png",
+      "scene-storage-locker.png",
+      "scene-observation-deck.png",
+      "scene-ventilation-shaft.png",
+      "scene-reactor-core.png",
+      "scene-escape-tunnel.png"
+    ]
+  },
+  "cssAudit": {
+    "pattern": "external-link",
+    "cssFile": "../standard-game-style.css",
+    "cssFileResolved": "/home/node/.openclaw/workspace/games/standard-game-style.css",
+    "keyframesPresent": [
+      "puzzle-solved (line 317)",
+      "item-glow (line 331)",
+      "unlock-pulse (line 345)",
+      "text-fresh (line 355)"
+    ],
+    "maxWidthPresent": "max-width: 1200px on body (line 33)",
+    "notes": "The 4 issues from the previous QA run (BUG-001 through BUG-004) were false positives. The CSS rules exist in the external standard-game-style.css file. Game #18 'The Drowned Cistern' uses the identical external-link pattern and passed QA. The canvas browser correctly resolves ../standard-game-style.css relative to the game directory."
+  },
+  "summary": "PASS - All checks pass. Previous FAIL verdict was based on a misunderstanding: the game uses externally-linked CSS (../standard-game-style.css) rather than inline styles. All 4 missing CSS items (3 animation keyframes + max-width constraint) are present in the external CSS file. This external-link pattern is the standard used by game #18 which passed QA. Game #19 is functionally and visually complete.",
+  "recommendation": "Game is ready for publish. No changes needed.",
+  "publishReady": true
+}

@@ -93,6 +93,12 @@ rsync_output=$(rsync -avL --delete \
   --include='015-last-broadcast/**' \
   --include='016-the-clockmakers-folly/' \
   --include='016-the-clockmakers-folly/**' \
+  --include='017-derelict-station-delta/' \
+  --include='017-derelict-station-delta/**' \
+  --include='018-drowned-cistern/' \
+  --include='018-drowned-cistern/**' \
+  --include='019-the-bunker-below/' \
+  --include='019-the-bunker-below/**' \
   --exclude='*' \
   "$WORKSPACE_GAMES/" "$SCRIPT_DIR/" 2>&1)
 rsync_status=$?

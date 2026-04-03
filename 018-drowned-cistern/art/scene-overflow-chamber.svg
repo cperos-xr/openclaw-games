@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <pattern id="stone-overflow" width="30" height="15" patternUnits="userSpaceOnUse">
+      <rect width="30" height="15" fill="#0a0a12"/>
+      <rect x="1" y="1" width="28" height="13" fill="#121018" stroke="#000" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <!-- Layer 1: Void background -->
+  <rect width="640" height="400" fill="#08080f"/>
+  <!-- Layer 2: Chamber walls -->
+  <rect x="0" y="0" width="640" height="260" fill="#0a0a12"/>
+  <rect x="0" y="0" width="640" height="260" fill="url(#stone-overflow)" opacity="0.6"/>
+  <!-- Layer 3: Knee-deep water -->
+  <rect x="0" y="260" width="640" height="140" fill="#0a0e1a"/>
+  <line x1="0" y1="260" x2="640" y2="260" stroke="#334466" stroke-width="2"/>
+  <!-- Water ripples -->
+  <ellipse cx="160" cy="320" rx="50" ry="8" fill="#334466" opacity="0.15"/>
+  <ellipse cx="480" cy="340" rx="35" ry="6" fill="#334466" opacity="0.12"/>
+  <!-- Layer 4: Overflow pipes (far wall, dripping) -->
+  <!-- Pipe row 1 (top) -->
+  <g fill="#0a0a12" stroke="#334466" stroke-width="3">
+    <rect x="50" y="40" width="80" height="30" rx="4"/>
+    <rect x="180" y="40" width="80" height="30" rx="4"/>
+    <rect x="310" y="40" width="80" height="30" rx="4"/>
+    <rect x="440" y="40" width="80" height="30" rx="4"/>
+  </g>
+  <!-- Drips from pipes -->
+  <g fill="#334466" opacity="0.6">
+    <circle cx="90" cy="80" r="2"/>
+    <circle cx="220" cy="85" r="2"/>
+    <circle cx="350" cy="78" r="2"/>
+    <circle cx="480" cy="82" r="2"/>
+    <line x1="90" y1="75" x2="90" y2="90" stroke="#334466" stroke-width="1" opacity="0.4"/>
+    <line x1="220" y1="80" x2="220" y2="95" stroke="#334466" stroke-width="1" opacity="0.4"/>
+    <line x1="350" y1="73" x2="350" y2="88" stroke="#334466" stroke-width="1" opacity="0.4"/>
+  </g>
+  <!-- Layer 5: Iron grate-door (south side, locked) -->
+  <g fill="none" stroke="#664433" stroke-width="4">
+    <rect x="250" y="100" width="140" height="160"/>
+    <line x1="275" y1="100" x2="275" y2="260"/>
+    <line x1="300" y1="100" x2="300" y2="260"/>
+    <line x1="340" y1="100" x2="340" y2="260"/>
+    <line x1="365" y1="100" x2="365" y2="260"/>
+    <line x1="250" y1="150" x2="390" y2="150"/>
+    <line x1="250" y1="190" x2="390" y2="190"/>
+    <line x1="250" y1="230" x2="390" y2="230"/>
+  </g>
+  <!-- Brass lock on door -->
+  <circle cx="320" cy="180" r="12" fill="none" stroke="#cc3333" stroke-width="3" opacity="0.6"/>
+  <circle cx="320" cy="180" r="4" fill="#334466" opacity="0.4"/>
+  <!-- Keyhole -->
+  <rect x="319" y="180" width="2" height="8" fill="#000"/>
+  <!-- Layer 6: Floating ceramic fuse (near east wall) -->
+  <g>
+    <!-- Fuse body -->
+    <rect x="540" y="310" width="40" height="16" fill="#334466" rx="2" stroke="#aa9988" stroke-width="1"/>
+    <!-- Blackened contacts -->
+    <rect x="536" y="312" width="6" height="12" fill="#000" rx="1"/>
+    <rect x="578" y="312" width="6" height="12" fill="#000" rx="1"/>
+    <!-- Burn marks -->
+    <rect x="542" y="314" width="4" height="3" fill="#cc3333" opacity="0.5"/>
+    <rect x="574" y="315" width="3" height="4" fill="#cc3333" opacity="0.4"/>
+  </g>
+  <!-- Layer 7: Dark void beyond pipes -->
+  <rect x="50" y="60" width="470" height="20" fill="#000" opacity="0.3"/>
+  <!-- Layer 8: Atmospheric shadow -->
+  <ellipse cx="100" cy="370" rx="60" ry="12" fill="#000" opacity="0.4"/>
+  <ellipse cx="500" cy="375" rx="50" ry="10" fill="#000" opacity="0.35"/>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Brass Gate Key - small, tarnished green with age -->
+  <!-- Key bow (ring) -->
+  <circle cx="16" cy="24" r="10" fill="none" stroke="#336633" stroke-width="3"/>
+  <circle cx="16" cy="24" r="5" fill="none" stroke="#336633" stroke-width="2"/>
+  <!-- Key shaft -->
+  <rect x="24" y="22" width="28" height="5" fill="#336633" stroke="#000" stroke-width="1.5" rx="1"/>
+  <!-- Key teeth -->
+  <rect x="42" y="27" width="4" height="7" fill="#336633" stroke="#000" stroke-width="1"/>
+  <rect x="48" y="27" width="4" height="5" fill="#336633" stroke="#000" stroke-width="1"/>
+  <!-- Tarnished green detail -->
+  <rect x="26" y="23" width="3" height="2" fill="#334466" opacity="0.5"/>
+  <rect x="34" y="23" width="2" height="3" fill="#334466" opacity="0.4"/>
+  <!-- Warm brass undertone (key feels warm) -->
+  <rect x="28" y="23" width="4" height="1" fill="#aa9988" opacity="0.3"/>
+  <circle cx="16" cy="24" r="3" fill="#aa9988" opacity="0.15"/>
+</svg>
