@@ -52,7 +52,6 @@ fi
 echo "Syncing latest agent games..."
 # Mirror only content we intentionally want live in the publish repo.
 rsync_output=$(rsync -avL --delete \
-  --include='.nojekyll' \
   --include='index.html' \
   --include='standard-game-runtime.js' \
   --include='standard-game-style.css' \
@@ -62,24 +61,67 @@ rsync_output=$(rsync -avL --delete \
   --include='GAME-TEMPLATE-FREQUENCY.html' \
   --include='GAME-TEMPLATE-VERTICAL.html' \
   --include='STANDARD-ENGINE-GUIDE.md' \
-  --include='[0-9][0-9][0-9]-*/' \
-  --include='[0-9][0-9][0-9]-*/**' \
+  --include='001-clockwork-lighthouse/' \
+  --include='001-clockwork-lighthouse/**' \
+  --include='002-the-hollow-of-saint-vex/' \
+  --include='002-the-hollow-of-saint-vex/**' \
+  --include='003-ashmore-sanatorium/' \
+  --include='003-ashmore-sanatorium/**' \
+  --include='004-the-frequency-of-the-dead/' \
+  --include='004-the-frequency-of-the-dead/**' \
+  --include='005-the-last-showmans-carnival/' \
+  --include='005-the-last-showmans-carnival/**' \
+  --include='006-pressure-point/' \
+  --include='006-pressure-point/**' \
+  --include='007-curtain-call/' \
+  --include='007-curtain-call/**' \
+  --include='008-frostbite-station/' \
+  --include='008-frostbite-station/**' \
+  --include='009-verdant-requiem/' \
+  --include='009-verdant-requiem/**' \
+  --include='010-vanity-of-dreams/' \
+  --include='010-vanity-of-dreams/**' \
+  --include='011-starlight-derelict/' \
+  --include='011-starlight-derelict/**' \
+  --include='012-subway-ghost-train/' \
+  --include='012-subway-ghost-train/**' \
+  --include='013-sand-that-speaks/' \
+  --include='013-sand-that-speaks/**' \
+  --include='014-deep-cathedral/' \
+  --include='014-deep-cathedral/**' \
+  --include='015-last-broadcast/' \
+  --include='015-last-broadcast/**' \
+  --include='016-the-clockmakers-folly/' \
+  --include='016-the-clockmakers-folly/**' \
   --exclude='*' \
   "$WORKSPACE_GAMES/" "$SCRIPT_DIR/" 2>&1)
+rsync_status=$?
 
 echo "$rsync_output"
+
+if [ $rsync_status -ne 0 ]; then
+  echo "Error: rsync failed."
+  if [ "$1" = "--watch" ]; then
+    write_result "error" "rsync failed" "$rsync_output"
+  fi
+  exit 1
+fi
+
+touch "$SCRIPT_DIR/.nojekyll"
 
 # ── Check for changes ──
 echo "Checking for changes..."
 if [ -z "$(git status --porcelain)" ]; then
   echo "No changes to publish. Everything is up to date."
-  [ "$1" = "--watch" ] && write_result "success" "No changes to publish. Everything is already up to date." ""
+  if [ "$1" = "--watch" ]; then
+    write_result "success" "No changes to publish. Everything is already up to date." ""
+  fi
   exit 0
 fi
 
 # ── Commit and push ──
 echo "Adding changes..."
-git add .
+git add -A
 timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 git_output=$(git commit -m "Auto-publish games: $timestamp" 2>&1)
 echo "$git_output"
@@ -90,9 +132,14 @@ echo "$push_output"
 
 if [ $push_status -eq 0 ]; then
   echo "Successfully published to GitHub Pages!"
-  [ "$1" = "--watch" ] && write_result "success" "Successfully published to GitHub Pages!" "$git_output"
+  if [ "$1" = "--watch" ]; then
+    write_result "success" "Successfully published to GitHub Pages!" "$git_output"
+  fi
+  exit 0
 else
   echo "Error: git push failed."
-  [ "$1" = "--watch" ] && write_result "error" "git push failed" "$push_output"
+  if [ "$1" = "--watch" ]; then
+    write_result "error" "git push failed" "$push_output"
+  fi
   exit 1
 fi
