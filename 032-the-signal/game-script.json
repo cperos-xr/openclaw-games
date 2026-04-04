@@ -1,0 +1,245 @@
+{
+  "title": "The Midnight Arcade - Part III: The Signal",
+  "slug": "the-signal",
+  "number": 32,
+  "artStyle": "HYBRID",
+  "layout": "vertical-carnival",
+  "setting": "The Overwritten Town. Reality is pixelating. The digital and physical worlds are colliding at the edge of the Pacific Northwest.",
+  "characters": [
+    {
+      "id": "the-survivor",
+      "name": "The Survivor",
+      "description": "You've returned from The Void, but the world you knew is being overwritten. You're the only one who can stop the terminal meltdown."
+    },
+    {
+      "id": "toby-rescued",
+      "name": "Toby",
+      "description": "Exhausted and pale, but real. He's clutching his BMX handles like a lifeline as the town dissolves around him."
+    }
+  ],
+  "items": [
+    {
+      "id": "magnetic-lens",
+      "name": "Magnetic Lens",
+      "description": "A heavy glass optic that filters out digital static. It reveals the stable paths hidden in the pixel fog.",
+      "foundIn": "parking-lot",
+      "usedIn": "parking-lot",
+      "usedOn": "puzzle-fog"
+    },
+    {
+      "id": "white-noise-crystal",
+      "name": "White-Noise Crystal",
+      "description": "A jagged growth of pure silicon. It vibrates with the frequency of the Signal.",
+      "foundIn": "static-forest",
+      "usedIn": "transmission-base",
+      "usedOn": "puzzle-frequency"
+    },
+    {
+      "id": "kill-code-tape",
+      "name": "Kill-Code Tape",
+      "description": "A magnetic reel labeled 'EMERGENCY SHUTDOWN - DO NOT BROADCAST.' It feels cold, like dead air.",
+      "foundIn": "transmission-base",
+      "usedIn": "transmission-base",
+      "usedOn": "puzzle-lift"
+    },
+    {
+      "id": "resonant-antenna",
+      "name": "Resonant Antenna",
+      "description": "A copper-wound rod that hums when pointed at the tower. It tames the wild lightning.",
+      "foundIn": "tower-top",
+      "usedIn": "tower-top",
+      "usedOn": "puzzle-signal"
+    },
+    {
+      "id": "final-token",
+      "name": "The Final Token",
+      "description": "A golden coin that doesn't belong to any arcade. It feels warm, heavy, and absolute.",
+      "foundIn": "terminal",
+      "usedIn": "terminal",
+      "usedOn": "puzzle-reset"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "parking-lot",
+      "name": "Overwritten Lot",
+      "prose": "The arcade parking lot is no longer asphalt. It has become a sea of grey voxels, shifting and crunching under your boots like digital gravel. Your BMX bike lies in a heap of cubes, his chrome overwritten by raw code. Toby sits on the curb, his eyes wide as he watches the horizon de-pixelate. A thick pixel-fog rolls in from the street, hiding the path to town. You spot a magnetic-lens lying in a pile of glitched trash, its glass humming with a low frequency.",
+      "exits": {
+        "north": "main-street"
+      },
+      "items": [
+        "magnetic-lens"
+      ],
+      "puzzles": [
+        "puzzle-fog"
+      ],
+      "lookDescriptions": {
+        "voxel-asphalt": "Calculated geometry where the road should be. It's perfectly flat.",
+        "shattered-bike": "Your ticket out has been deleted. You're on foot now.",
+        "pixel-fog": "A wall of grinding static. You can't see an inch through it."
+      }
+    },
+    {
+      "id": "main-street",
+      "name": "Glitched Main Street",
+      "prose": "Main Street is a terminal meltdown. Cars float three feet off the ground, their chassis shivering in a three-frame loop. Storefronts display 'ERROR 404' neon signs, and the very air smells of hot solder. To the west, the town's edge is being consumed by a static-forest of green binary trees. The silence is broken only by the rhythmic grinding of the reality-engine somewhere nearby. You feel the pull of the Signal, dragging you toward the radio tower on the hill.",
+      "exits": {
+        "south": "parking-lot",
+        "west": "static-forest"
+      },
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "floating-cars": "They look like clay models that haven't been placed correctly.",
+        "error-neon": "Flickering pink and cyan text that says 'RETRY' and 'ABORT'.",
+        "the-signal": "An invisible weight in the air. It makes your teeth ache."
+      }
+    },
+    {
+      "id": "static-forest",
+      "name": "The Static Forest",
+      "prose": "The trees here are made of vibrant green binary code, their leaves falling as zeros and ones. A white-noise wind howls through the branches, carrying the distorted echoes of arcade music. Hanging from a binary branch like a strange fruit, a white-noise-crystal glows with a pulsating violet light. To the north, the transmission-base at the foot of the massive radio tower vibrates with enough energy to make your bones hum. The path is narrow, cut through the growing static.",
+      "exits": {
+        "east": "main-street",
+        "north": "transmission-base"
+      },
+      "items": [
+        "white-noise-crystal"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "binary-trees": "Perfectly vertical lines of code. They don't react to your touch.",
+        "noise-wind": "It doesn't move the leaves; it just changes the volume of the world.",
+        "transmission-hut": "A small concrete bunker at the base of the steel giant."
+      }
+    },
+    {
+      "id": "transmission-base",
+      "name": "Transmission Base",
+      "prose": "The concrete hut is a high-security tomb. A massive radio-receiver dominates the room, its dials spinning wildly without a signal to lock onto. Inside a high-security safe that has glitched open, a magnetic kill-code-tape sits on a reel, its magnetic surface blacker than the void. A magnetic-degausser sits on a nearby desk, its power cables leading to the tower's elevator lift. The air here is freezing, and the hum of the tower above is deafening.",
+      "exits": {
+        "south": "static-forest",
+        "up": "tower-top"
+      },
+      "items": [
+        "kill-code-tape"
+      ],
+      "puzzles": [
+        "puzzle-frequency",
+        "puzzle-lift"
+      ],
+      "lookDescriptions": {
+        "radio-receiver": "A mess of vacuum tubes and digital displays. It's screaming.",
+        "open-safe": "The heavy door is stuck in a state of being both open and closed.",
+        "elevator-lift": "A rust-caked platform. It needs a massive surge to move."
+      }
+    },
+    {
+      "id": "tower-top",
+      "name": "Radio Tower Top",
+      "prose": "You are perched on a web of steel, high above the pixelating town. Lightning crackles through the air, jumping between the girders in a rhythmic dance. The view is a kaleidoscope of reality and code—shifting between the Pacific Northwest mountains and an infinite neon grid. A resonant-antenna is snagged on a metal girder, vibrating in time with the tower's tilt. To the north, a platform of solid light leads to the reality-terminal floating in the eye of the storm.",
+      "exits": {
+        "down": "transmission-base",
+        "north": "terminal"
+      },
+      "items": [
+        "resonant-antenna"
+      ],
+      "puzzles": [
+        "puzzle-signal"
+      ],
+      "lookDescriptions": {
+        "pixelated-town": "Buildings are dissolving into colourful squares. The world is being deleted.",
+        "lightning-dance": "Each bolt is a jagged line of high-contrast white pixels.",
+        "light-bridge": "A bridge made of solid frequency. It's beautiful and lethal."
+      }
+    },
+    {
+      "id": "terminal",
+      "name": "Reality Terminal",
+      "prose": "This is the eye of the storm. A vast, calm circle of ordinary air in the center of the chaos. Floating in the middle is a single console—the Reality Terminal—featuring a star-shaped star-shaped reality-slot and a single blinking red button. A final-token floats just above the console like a golden sun, its surface reflecting your real, non-pixelated face. There are no more exits. No more levels. Only the final reset.",
+      "exits": {
+        "south": "tower-top"
+      },
+      "items": [
+        "final-token"
+      ],
+      "puzzles": [
+        "puzzle-reset"
+      ],
+      "lookDescriptions": {
+        "the-console": "The BIOS of the universe. It's waiting for the kill-code.",
+        "reality-slot": "A star-shaped hole that perfectly matches the token.",
+        "your-face": "You're no longer a sprite. You're yourself again."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-fog",
+      "scene": "parking-lot",
+      "requires": [
+        "magnetic-lens"
+      ],
+      "action": "use lens on fog",
+      "result": "The magnetic lens filters the grey voxels, revealing a ribbon of stable asphalt leading to Main Street. The fog parts with a hiss of static.",
+      "reveals": [
+        "main-street"
+      ],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-frequency",
+      "scene": "transmission-base",
+      "requires": [
+        "white-noise-crystal"
+      ],
+      "action": "use crystal on receiver",
+      "result": "The white-noise crystal shatters as it touches the receiver. The vibrations harmonize perfectly, and the hut's locked door to the lift clicks open.",
+      "reveals": []
+    },
+    {
+      "id": "puzzle-lift",
+      "scene": "transmission-base",
+      "requires": [
+        "kill-code-tape"
+      ],
+      "action": "use tape on degausser",
+      "result": "You scrub the tape clean. The massive power drain from the degausser reactivates the tower's lift. The platform groans and begins to descend.",
+      "reveals": [
+        "tower-top"
+      ],
+      "blocksExit": "up"
+    },
+    {
+      "id": "puzzle-signal",
+      "scene": "tower-top",
+      "requires": [
+        "resonant-antenna"
+      ],
+      "action": "use antenna on spark",
+      "result": "The antenna tames the wild lightning, channelling it into a bridge of solid light that extends toward the Eye. The path is stable.",
+      "reveals": [
+        "terminal"
+      ],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-reset",
+      "scene": "terminal",
+      "requires": [
+        "final-token"
+      ],
+      "action": "use final-token on slot",
+      "result": " You insert the final token. A blinding flash of white light erupts. The sound of 10,000 arcade cabinets powering down echoes through the town. Everything goes dark.",
+      "reveals": []
+    }
+  ],
+  "winCondition": {
+    "scene": "terminal",
+    "requires": [
+      "final-token"
+    ],
+    "description": "The broadcast begins—the Kill Code. Reality resets. You wake up on the arcade floor, the sun rising outside. Toby is beside you, breathing. The machines are dark. The Signal is gone. You've won. The end."
+  }
+}
