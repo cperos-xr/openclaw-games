@@ -190,7 +190,7 @@
     },
     {
       "id": "puzzle-compile",
-      "scene": "core",
+      "scene": "temple",
       "requires": [
         "binary-shards"
       ],
@@ -203,7 +203,7 @@
     },
     {
       "id": "puzzle-restore",
-      "scene": "core",
+      "scene": "temple",
       "requires": [
         "toby-user-file"
       ],
