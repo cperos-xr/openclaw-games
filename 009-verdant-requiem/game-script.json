@@ -2,6 +2,7 @@
   "title": "Verdant Requiem",
   "slug": "verdant-requiem",
   "number": 9,
+  "layout": "vertical-carnival",
   "setting": "An abandoned Victorian botanical conservatory where the plants have grown unnaturally sentient and hostile after a botanical experiment gone wrong.",
   "characters": [
     {

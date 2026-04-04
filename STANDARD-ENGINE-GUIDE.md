@@ -31,12 +31,14 @@ There are exactly two approved shared layouts:
 1. `standard`
    - Mobile: stacked, scrollable, art first
    - Desktop: side-by-side art + text
-   - Use for SVG, portrait-ish scenes, or games where art and text should stay visible together on desktop
+  - Legacy-friendly layout for Games 001-008 and deliberate exception cases
+  - Use when a game specifically benefits from the older split desktop presentation
 
 2. `vertical-carnival`
    - Single-column at every size
    - Full-width top art, scrollable text below, controls below the text
-   - Use for wide scene art, especially the Game 005 style
+  - Uses the Game 005 frame: `640x400` scene art shown edge-to-edge in an `8:5` panel
+  - Preferred layout for Game 009 onward and all future games unless a legacy exception is intentional
 
 Live example:
 - `games/005-the-last-showmans-carnival/game-script.json` uses `"layout": "vertical-carnival"`
@@ -47,7 +49,7 @@ Set it in `game-script.json`:
 
 ```json
 {
-  "layout": "standard"
+  "layout": "vertical-carnival"
 }
 ```
 
@@ -55,11 +57,17 @@ or
 
 ```json
 {
-  "layout": "vertical-carnival"
+  "layout": "standard"
 }
 ```
 
-If omitted, the engine defaults to `standard`.
+For new work, set the field explicitly.
+
+- Preferred default: `vertical-carnival`
+- Legacy/default exception: `standard`
+- Games 001-008 may stay on `standard` when that older presentation is part of the game's identity
+
+If omitted, the engine still falls back to `standard` for backward compatibility, but new and converted games should not rely on that omission.
 
 ### Template wrappers
 
@@ -68,6 +76,8 @@ For manual assembly only, the approved wrappers are:
 - `games/GAME-TEMPLATE-VERTICAL.html`
 
 These wrappers are interchangeable because both load the same shared style and runtime. The preferred switch is still the `layout` field in `game-script.json`, not custom HTML surgery.
+
+Use the phrase "vertical carnival" when referring to the preferred single-column template in reviews, briefs, and future game instructions.
 
 ---
 
@@ -79,6 +89,7 @@ Every correct game built on the new engine must expose:
 
 The runtime supplies:
 - LOOK / TAKE / USE / EXAMINE verbs
+- EXAMINE-driven item/detail art previews when matching art assets exist
 - target buttons
 - inventory panel
 - exits panel
@@ -203,6 +214,7 @@ The generator must stay validation-gated.
 
 - Use only the shared style and shared runtime.
 - Pick `layout` in `game-script.json` instead of inventing custom page structure.
+- Default new games to `vertical-carnival`; use `standard` only when a legacy-style exception is intentional.
 - Make sure every blocked exit exists in the blocker scene.
 - Make sure every required item is obtainable before its puzzle.
 - Add explicit `hints` only when the game needs authored nudges; otherwise rely on fallback hints.

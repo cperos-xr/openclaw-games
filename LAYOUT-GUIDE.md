@@ -1,6 +1,6 @@
 # OpenClaw Game Layout Guide — v4.0
 
-> **TL;DR:** Start from the shared-engine wrappers in `games/` and set layout by data. Use `GAME-TEMPLATE.html` for the standard layout, `GAME-TEMPLATE-VERTICAL.html` for the vertical carnival wrapper, and `layout` in `game-script.json` to swap between them. Do not invent a new layout unless there is a documented reason, a review, and a passing mobile QA run.
+> **TL;DR:** Start from the shared-engine wrappers in `games/` and set layout by data. Use `GAME-TEMPLATE.html` for the standard layout, `GAME-TEMPLATE-VERTICAL.html` for the vertical carnival wrapper, and `layout` in `game-script.json` to swap between them. The vertical carnival layout is the preferred default for Game 009 onward and future games; `standard` is the legacy/exception layout. Do not invent a new layout unless there is a documented reason, a review, and a passing mobile QA run.
 
 ---
 
@@ -191,11 +191,12 @@ Grid may be used for small internal components only if it does not affect respon
 The canonical shared-engine references are `GAME-TEMPLATE.html` and `GAME-TEMPLATE-VERTICAL.html`.
 
 The preferred switch is the `layout` field in `game-script.json`:
-- `standard`
-- `vertical-carnival`
+- `vertical-carnival` for the preferred single-column "vertical carnival" template
+- `standard` for legacy Game 001-008 style or deliberate exceptions
 
 **Required process:**
 - Start from the shared wrapper that matches the intended layout
+- Default to the vertical carnival wrapper for new games unless there is a documented reason not to
 - Keep the shared runtime and shared style intact
 - Make only game-specific visual changes unless a layout exception is approved
 - Document any layout-level deviation in code comments or review notes

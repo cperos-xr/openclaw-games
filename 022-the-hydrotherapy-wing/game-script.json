@@ -180,7 +180,7 @@
     }
   ],
   "number": 22,
-  "layout": "standard",
+  "layout": "vertical-carnival",
   "puzzles": [
     {
       "id": "gate",

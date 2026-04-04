@@ -1,0 +1,179 @@
+{
+  "title": "The Obsidian Retreat",
+  "slug": "the-obsidian-retreat",
+  "number": 26,
+  "setting": "A modern obsidian glass retreat cantilevered over a black, mirrored lake.",
+  "layout": "vertical-carnival",
+  "characters": [
+    {
+      "id": "the-witness",
+      "name": "The Witness",
+      "description": "A silent observer of their own replacement, seeking the final moment of consent."
+    }
+  ],
+  "items": [
+    {
+      "id": "item-polarized-lens",
+      "name": "Polarized Lens",
+      "description": "A circular lens that cuts through glare and reveals hidden smudges on glass.",
+      "foundIn": "scene-lake-edge",
+      "usedIn": "scene-lake-edge",
+      "usedOn": "puzzle-enter-foyer"
+    },
+    {
+      "id": "item-obsidian-shard",
+      "name": "Obsidian Shard",
+      "description": "A sharp fragment of volcanic glass. It feels unnaturally cold.",
+      "foundIn": "scene-gallery-self",
+      "usedIn": "scene-gallery-self",
+      "usedOn": "puzzle-open-sunken"
+    },
+    {
+      "id": "item-glass-key",
+      "name": "Glass Key",
+      "description": "A transparent key shaped from hardened glass. It catches the teal light.",
+      "foundIn": "scene-sunken-lounge",
+      "usedIn": "scene-glass-foyer",
+      "usedOn": "puzzle-unlock-bedroom"
+    },
+    {
+      "id": "item-mercury-votive",
+      "name": "Mercury Votive",
+      "description": "A small candle filled with liquid mercury. It reflects distorted images of anyone who looks at it.",
+      "foundIn": "scene-master-bedroom",
+      "usedIn": "scene-master-bedroom",
+      "usedOn": "puzzle-unlock-mirror-cell"
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-enter-foyer",
+      "scene": "scene-lake-edge",
+      "blocksExit": "north",
+      "requires": ["item-polarized-lens"],
+      "action": "use polarized-lens on glass door",
+      "result": "The polarized lens cuts the glare on the keypad. Four smudged buttons glow amber: 3, 7, 2, 5. You press the sequence. The door clicks open.",
+      "reveals": ["scene-glass-foyer"]
+    },
+    {
+      "id": "puzzle-mimic-reflection",
+      "scene": "scene-glass-foyer",
+      "blocksExit": "east",
+      "requires": [],
+      "action": "mimic reflection via vase and painting",
+      "result": "Your reflection nods slowly. The eastern glass door slides open with a soft hiss.",
+      "reveals": ["scene-gallery-self"]
+    },
+    {
+      "id": "puzzle-open-sunken",
+      "scene": "scene-gallery-self",
+      "blocksExit": "down",
+      "requires": ["item-obsidian-shard"],
+      "action": "use obsidian-shard on portrait",
+      "result": "The obsidian shard scratches a deep line across the portrait's eyes. The wall slides aside, revealing a descending staircase.",
+      "reveals": ["scene-sunken-lounge"]
+    },
+    {
+      "id": "puzzle-unlock-bedroom",
+      "scene": "scene-glass-foyer",
+      "blocksExit": "up",
+      "requires": ["item-glass-key"],
+      "action": "use glass-key on upstairs-gate",
+      "result": "The glass key turns smoothly. The door to the upper floor swings open.",
+      "reveals": ["scene-master-bedroom"]
+    },
+    {
+      "id": "puzzle-unlock-mirror-cell",
+      "scene": "scene-master-bedroom",
+      "blocksExit": "north",
+      "requires": ["item-mercury-votive"],
+      "action": "use mercury-votive on ornate mirror",
+      "result": "The mercury spreads across the glass like liquid silver. The mirror's surface ripples, becoming a doorway.",
+      "reveals": ["scene-mirror-cell"]
+    }
+  ],
+  "scenes": [
+    {
+      "id": "scene-lake-edge",
+      "name": "The Lake Edge",
+      "prose": "The lake is a sheet of polished obsidian, stretching to a horizon that feels too close. You stand on a modern teak deck, its cool gray railings sharp against the stillness. The air tastes of ozone and silence, thick enough to choke on. Your reflection in the water is perfect—until you blink and it’s a half-second behind, a ghost-frame lagging in the glass. Deep below the surface, something amber stirs: a slow, swirling bruise in the black.",
+      "exits": { "north": "scene-glass-foyer" },
+      "items": ["item-polarized-lens"],
+      "puzzles": ["puzzle-enter-foyer"],
+      "lookDescriptions": {
+        "glass-door": "A heavy pane of glass blocking the way inside. A digital keypad is mounted beside it.",
+        "black-lake": "The water is unnaturally still. It looks like it could hold the weight of the sky.",
+        "glass-table": "A minimalist table on the deck. A lens has been left here."
+      }
+    },
+    {
+      "id": "scene-glass-foyer",
+      "name": "The Glass Foyer",
+      "prose": "Infinite copies of you stare back from walls of floor-to-ceiling glass. The room is a study in monochrome: teal carpets, gray steel supports, and an ambient light that seems to come from nowhere. A large mirror dominates the space, but the figure within is out of sync, its movements urgent and mocking. The glass walls ripple occasionally, as if something gargantuan is pressing against the structure from the outside.",
+      "exits": { "south": "scene-lake-edge", "east": "scene-gallery-self", "down": "scene-sunken-lounge", "up": "scene-master-bedroom" },
+      "items": [],
+      "puzzles": ["puzzle-mimic-reflection", "puzzle-unlock-bedroom"],
+      "lookDescriptions": {
+        "large-mirror": "A massive, silvered surface. Your reflection is watching you with a terrifying intensity.",
+        "floor-hatch": "A glass hatch set into the floor. It belongs to the lower level.",
+        "upstairs-gate": "A modern glass gate at the top of the stairs, currently locked."
+      }
+    },
+    {
+      "id": "scene-gallery-self",
+      "name": "The Gallery of Self",
+      "prose": "The air is thick with the scent of ozone and burnt amber. Obsidian frames line the walls, each containing a portrait of you—different ages, different lives, none of them your own. The paintings shift subtly when you turn away; a smile widens, a gaze shifts, a hand inches toward the edge of the canvas. In the center, a large portrait of your own face with hollow, dark eyes tracks your every movement.",
+      "exits": { "west": "scene-glass-foyer", "down": "scene-sunken-lounge" },
+      "items": ["item-obsidian-shard"],
+      "puzzles": ["puzzle-open-sunken"],
+      "lookDescriptions": {
+        "large-portrait": "A life-sized portrait of yourself. The eyes are empty holes into a dark void.",
+        "obsidian-pedestal": "A plinth of black rock holding a sharp shard of glass.",
+        "gallery-walls": "The frames seem to grow out of the walls like dark bone."
+      }
+    },
+    {
+      "id": "scene-sunken-lounge",
+      "name": "The Sunken Lounge",
+      "prose": "Water presses against the thick glass walls of the lounge, the black lake outside an infinite, crushing depth. You are below the waterline now, where the only light is a sickly amber pulse from the 'Flesh Tornado'—a swirling mass of limbs and discarded faces drifting just beyond the barrier. Modern furniture floats in the heavy air, anchored by thin, vibrating chains. The glass shudders with regular, rhythmic impacts.",
+      "exits": { "up": "scene-glass-foyer" },
+      "items": ["item-glass-key"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "flesh-tornado": "An impossible mass of organic matter swirling in the black water. It is a storm of failed lives.",
+        "floating-table": "A coffee table that drifts inches from the ground. A key rests on its surface.",
+        "anchors": "Thick steel chains that keep the furniture from drifting through the ceiling."
+      }
+    },
+    {
+      "id": "scene-master-bedroom",
+      "name": "The Master Bedroom",
+      "prose": "This is a kaleidoscope of mirrors. Every surface—ceiling, walls, closet doors—reflects you in a million fractured angles. A low bed with teal linens sits in the center of the room, looking untouched and impossibly cold. The reflections here are malignant, their movements dragging behind yours with a perceptible, cruel intent. You can feel the weight of a thousand gazes, all waiting for you to look away.",
+      "exits": { "down": "scene-glass-foyer", "north": "scene-mirror-cell" },
+      "items": ["item-mercury-votive"],
+      "puzzles": ["puzzle-unlock-mirror-cell"],
+      "lookDescriptions": {
+        "nightstand": "A modular gray nightstand. A silver candle is placed there.",
+        "ornate-mirror": "A floor-to-ceiling mirror with an obsidian frame. It reflects no light.",
+        "teal-bed": "The linens are stiff and cold, as if made of woven glass."
+      }
+    },
+    {
+      "id": "scene-mirror-cell",
+      "name": "The Mirror Cell",
+      "prose": "A perfect cube of obsidian glass. There is nothing here but you and the other. Your reflection stands opposite you, smiling with a serenity that you have never felt. Identical in every way, except for the eyes—warm, glowing amber pits that look through you rather than at you. Teal light pulses softly from the seams of the walls. Etched into the floor at your feet are two words that seem to vibrate with the room's heartbeat: ACCEPT SUCCESSION.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "reflection": "The entity that used to be your image. It looks finished. It looks perfect.",
+        "etched-floor": "The words are burned into the glass, glowing with that same sickly amber light."
+      }
+    }
+  ],
+  "winCondition": {
+    "scene": "scene-mirror-cell",
+    "requires": [],
+    "description": "Accept your own obsolescence and yield your existence to the perfected reflection."
+  }
+}

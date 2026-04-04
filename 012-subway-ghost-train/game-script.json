@@ -2,6 +2,7 @@
   "title": "Ghost Line",
   "slug": "subway-ghost-train",
   "number": 12,
+  "layout": "vertical-carnival",
   "setting": "An abandoned underground subway station where a phantom train still runs on its cursed schedule. The spirits of commuters from a flood disaster forever ride the rails.",
   "characters": [
     {

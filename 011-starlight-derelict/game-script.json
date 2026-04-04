@@ -2,6 +2,7 @@
   "title": "Starlight Derelict",
   "slug": "starlight-derelict",
   "number": 11,
+  "layout": "vertical-carnival",
   "setting": "The SS Starlight, a derelict deep-space research vessel drifting in orbit around a dead planet. The crew vanished after an experiment with alien organic matter went wrong. Something still moves in the dark corridors.",
   "characters": [
     {

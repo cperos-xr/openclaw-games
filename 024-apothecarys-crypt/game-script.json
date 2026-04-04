@@ -2,7 +2,7 @@
   "title": "The Apothecary's Crypt",
   "slug": "apothecarys-crypt",
   "number": 24,
-  "layout": "standard",
+  "layout": "vertical-carnival",
   "setting": "A sealed Victorian apothecary beneath St. Jude's church, where Dr. Alistair Vane conducted forbidden experiments with alchemical preservation of the dead.",
   "characters": [
     {

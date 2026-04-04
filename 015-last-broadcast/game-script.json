@@ -2,6 +2,7 @@
   "title": "The Last Broadcast",
   "slug": "last-broadcast",
   "number": 15,
+  "layout": "vertical-carnival",
   "setting": "A decommissioned TV station on a remote mountain. The transmission towers still emit a signal, luring viewers into a coma. Something lives in the broadcast loop.",
   "characters": [
     {

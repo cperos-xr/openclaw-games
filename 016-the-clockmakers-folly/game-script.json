@@ -2,6 +2,7 @@
   "title": "The Clockmaker's Folly",
   "slug": "the-clockmakers-folly",
   "number": 16,
+  "layout": "vertical-carnival",
   "setting": "A Victorian clockwork manor frozen in fractured time",
   "characters": [
     {

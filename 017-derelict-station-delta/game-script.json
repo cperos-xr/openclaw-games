@@ -2,7 +2,7 @@
   "title": "Derelict Station Delta",
   "slug": "derelict-station-delta",
   "number": 17,
-  "layout": "standard",
+  "layout": "vertical-carnival",
   "setting": "Deep-space research station, adrift after a containment breach. The lights flicker. The walls bleed. Something is still here.",
   "characters": [
     {

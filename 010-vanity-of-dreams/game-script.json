@@ -2,6 +2,7 @@
   "title": "The Vanity of Dreams",
   "slug": "vanity-of-dreams",
   "number": 10,
+  "layout": "vertical-carnival",
   "setting": "A haunted hotel room 1010 where mirrors show other times. The Hotel Majestic is trapped in a time loop, and only by solving the mirror puzzles can you escape.",
   "characters": [
     {

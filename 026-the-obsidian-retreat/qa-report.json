@@ -1,0 +1,101 @@
+{
+  "game": "026-the-obsidian-retreat",
+  "file": "/home/node/.openclaw/workspace/games/026-the-obsidian-retreat/game.html",
+  "timestamp": "2026-04-04T00:36:13.056Z",
+  "verdict": "FAIL",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "MEDIUM",
+      "category": "puzzle-logic",
+      "description": "Item \"item-glass-key\" found (scene index 3) AFTER it's used (scene index 1) in BFS order",
+      "location": "items.item-glass-key",
+      "expected": "Found before used",
+      "actual": "Found after",
+      "suggestedFix": "Ensure player can reach foundIn scene before usedIn scene",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "MEDIUM",
+      "category": "code",
+      "description": "Missing CSS animation: puzzle-solved",
+      "location": "game.html <style>",
+      "expected": "@keyframes puzzle-solved",
+      "actual": "Not found",
+      "suggestedFix": "Add @keyframes puzzle-solved to CSS",
+      "assignTo": "game-assembler"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "MEDIUM",
+      "category": "code",
+      "description": "Missing CSS animation: unlockPulse",
+      "location": "game.html <style>",
+      "expected": "@keyframes unlockPulse",
+      "actual": "Not found",
+      "suggestedFix": "Add @keyframes unlockPulse to CSS",
+      "assignTo": "game-assembler"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "MEDIUM",
+      "category": "code",
+      "description": "Missing CSS animation: itemGlow",
+      "location": "game.html <style>",
+      "expected": "@keyframes itemGlow",
+      "actual": "Not found",
+      "suggestedFix": "Add @keyframes itemGlow to CSS",
+      "assignTo": "game-assembler"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "HIGH",
+      "category": "layout",
+      "description": "No max-width set — layout will explode on ultrawide monitors",
+      "location": "game.html CSS",
+      "expected": "max-width: 1200px or similar",
+      "actual": "Not found",
+      "suggestedFix": "Add max-width to body or game-container",
+      "assignTo": "game-assembler"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "LOW",
+      "category": "art",
+      "description": "SVG \"item-mercury-votive.svg\" has 3 thin strokes (< 1.5px) — may be invisible at game scale",
+      "location": "/home/node/.openclaw/workspace/games/026-the-obsidian-retreat/art/item-mercury-votive.svg",
+      "expected": "stroke-width >= 2",
+      "actual": "Thin strokes found",
+      "suggestedFix": "Increase stroke-width to 2-4px",
+      "assignTo": "devstral-art-coder"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 6,
+    "items": 4,
+    "puzzles": 5,
+    "reachableScenes": 6,
+    "solvablePuzzles": 5,
+    "artAssetsFound": 10,
+    "artAssetsMissing": 0
+  },
+  "summary": "FAIL — 6 issues (0 CRITICAL, 1 HIGH, 4 MEDIUM, 1 LOW)"
+}

@@ -22,6 +22,7 @@
   const itemMap = new Map((gameData.items || []).map((item) => [item.id, item]));
   const puzzles = Array.isArray(gameData.puzzles) ? gameData.puzzles : [];
   const winCondition = gameData.winCondition || {};
+  const PROGRESS_STORAGE_KEY = 'openclaw-game-progress-v1';
   const itemRevealers = new Map();
 
   puzzles.forEach((puzzle) => {
@@ -37,6 +38,7 @@
   });
 
   const dom = {
+    artPanel: document.querySelector('.art-panel'),
     artDisplay: document.getElementById('art-display'),
     sceneName: document.getElementById('scene-name'),
     textDisplay: document.getElementById('text-display'),
@@ -55,11 +57,14 @@
     solvedPuzzles: [],
     visitedScenes: [gameData.scenes[0].id],
     activeCommand: 'look',
+    artPreview: null,
     selectedItemId: null,
     sceneMessages: [],
     hintsEnabled: Boolean(gameData.hintsEnabledByDefault),
     hintTimer: null,
+    solveFlashTimer: null,
     hintCursorByScene: {},
+    winMessage: '',
     won: false
   };
 
@@ -86,12 +91,108 @@
     document.body.dataset.layout = layoutName;
   }
 
+  function ensureIndexLink() {
+    const existingLink = document.querySelector('[data-openclaw-index-link]');
+    if (existingLink) {
+      return;
+    }
+
+    const link = document.createElement('a');
+    link.href = '../index.html';
+    link.textContent = 'GAME INDEX';
+    link.className = 'utility-btn utility-link';
+    link.setAttribute('data-openclaw-index-link', 'true');
+
+    const utilityBar = document.querySelector('.utility-bar');
+    if (utilityBar) {
+      utilityBar.appendChild(link);
+      return;
+    }
+
+    const footer = document.querySelector('footer');
+    if (footer) {
+      footer.appendChild(document.createTextNode(' | '));
+      footer.appendChild(link);
+    }
+  }
+
+  ensureIndexLink();
+
+  function getCurrentGameId() {
+    const pathParts = String(window.location.pathname || '').split('/').filter(Boolean);
+    if (pathParts.length >= 2 && pathParts[pathParts.length - 1] === 'game.html') {
+      return pathParts[pathParts.length - 2];
+    }
+
+    const number = String(gameData.number || '').replace(/\D+/g, '').padStart(3, '0');
+    const slug = String(gameData.slug || '').trim();
+    if (number && slug) {
+      return `${number}-${slug}`;
+    }
+
+    return slug || number || null;
+  }
+
+  function loadProgressStore() {
+    try {
+      const raw = window.localStorage.getItem(PROGRESS_STORAGE_KEY);
+      if (!raw) {
+        return { completedGames: {} };
+      }
+
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object') {
+        return { completedGames: {} };
+      }
+
+      if (!parsed.completedGames || typeof parsed.completedGames !== 'object') {
+        parsed.completedGames = {};
+      }
+
+      return parsed;
+    } catch {
+      return { completedGames: {} };
+    }
+  }
+
+  function saveProgressStore(store) {
+    try {
+      window.localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(store));
+    } catch {
+      // Ignore storage failures and keep gameplay uninterrupted.
+    }
+  }
+
+  function recordCompletion() {
+    const gameId = getCurrentGameId();
+    if (!gameId) {
+      return;
+    }
+
+    const store = loadProgressStore();
+    store.completedGames[gameId] = {
+      title: gameData.title || gameId,
+      number: gameData.number || null,
+      slug: gameData.slug || null,
+      completedAt: new Date().toISOString()
+    };
+    saveProgressStore(store);
+  }
+
   function titleCase(value) {
     return String(value || '')
       .replace(/[_-]+/g, ' ')
       .replace(/\s+/g, ' ')
       .trim()
       .replace(/\b\w/g, (char) => char.toUpperCase());
+  }
+
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
   }
 
   function isSceneId(value) {
@@ -222,18 +323,66 @@
     return null;
   }
 
+  function setArtPreview(preview) {
+    state.artPreview = preview || null;
+  }
+
+  function clearArtPreview() {
+    setArtPreview(null);
+  }
+
+  function resolveArtPreview(id, preferredType, label) {
+    const types = preferredType === 'item' ? ['item', 'scene'] : ['scene', 'item'];
+
+    for (const type of types) {
+      const html = getArtHtml(id, type);
+      if (html) {
+        return {
+          id,
+          label: label || id,
+          kind: type,
+          html
+        };
+      }
+    }
+
+    return null;
+  }
+
   function renderArt(scene) {
     if (!dom.artDisplay) {
       return;
     }
 
-    const artHtml = getArtHtml(scene.id, 'scene');
-    if (artHtml) {
-      dom.artDisplay.innerHTML = artHtml;
+    const sceneArtHtml = getArtHtml(scene.id, 'scene') || '<span class="no-art">[ ' + escapeHtml(scene.name.toUpperCase()) + ' ]</span>';
+    const previewHtml = !state.won && state.activeCommand === 'examine' && state.artPreview && state.artPreview.html
+      ? `<div class="art-preview-overlay" data-preview-kind="${escapeHtml(state.artPreview.kind || 'detail')}" data-preview-label="${escapeHtml(state.artPreview.label || '')}"><div class="art-preview-window">${state.artPreview.html}</div></div>`
+      : '';
+    const winOverlayHtml = state.won
+      ? `<div class="win-overlay"><div class="win-modal"><div class="win-kicker">CASE CLOSED</div><h2 class="win-title">YOU SURVIVED</h2><p class="win-subtitle">${escapeHtml(gameData.title || 'OpenClaw Adventure')} complete.</p><p class="win-message">${escapeHtml(state.winMessage || winCondition.description || 'You made it out alive.')}</p><div class="win-actions"><a href="../index.html" class="utility-btn utility-link">BACK TO INDEX</a><button type="button" class="utility-btn" data-win-reset="true">PLAY AGAIN</button></div></div></div>`
+      : '';
+
+    dom.artDisplay.innerHTML = `<div class="art-scene-layer">${sceneArtHtml}</div>${previewHtml}${winOverlayHtml}`;
+  }
+
+  function triggerSolveFlash() {
+    const flashTarget = dom.artPanel || document.body;
+    if (!flashTarget) {
       return;
     }
 
-    dom.artDisplay.innerHTML = '<span class="no-art">[ ' + scene.name.toUpperCase() + ' ]</span>';
+    flashTarget.classList.remove('solve-flash');
+    void flashTarget.offsetWidth;
+    flashTarget.classList.add('solve-flash');
+
+    if (state.solveFlashTimer) {
+      clearTimeout(state.solveFlashTimer);
+    }
+
+    state.solveFlashTimer = setTimeout(() => {
+      flashTarget.classList.remove('solve-flash');
+      state.solveFlashTimer = null;
+    }, 650);
   }
 
   function renderText(scene) {
@@ -434,7 +583,7 @@
     }
 
     if (state.won) {
-      dom.commandStatus.textContent = 'Game complete. Reset to play again.';
+      dom.commandStatus.textContent = 'Victory recorded. Choose BACK TO INDEX or PLAY AGAIN.';
       return;
     }
 
@@ -444,6 +593,15 @@
         dom.commandStatus.textContent = 'USE ' + (selectedItem ? selectedItem.name : state.selectedItemId) + ' on a target.';
       } else {
         dom.commandStatus.textContent = 'USE mode: select an inventory item, then choose a target.';
+      }
+      return;
+    }
+
+    if (state.activeCommand === 'examine') {
+      if (state.artPreview && state.artPreview.label) {
+        dom.commandStatus.textContent = 'EXAMINE mode: previewing ' + state.artPreview.label + '.';
+      } else {
+        dom.commandStatus.textContent = 'EXAMINE mode: choose a target or inventory item for a close-up.';
       }
       return;
     }
@@ -653,6 +811,7 @@
     renderTargets(scene);
     renderInventory();
     renderExits(scene);
+    bindWinOverlayActions();
 
     if (state.won) {
       clearHintTimer();
@@ -785,10 +944,26 @@
   }
 
   function markWon(message) {
+    if (state.won) {
+      return;
+    }
+
     state.won = true;
+    state.winMessage = message || winCondition.description || 'You made it out alive.';
     clearHintTimer();
-    addSceneMessage(message || winCondition.description || 'You made it out alive.', 'success');
+    recordCompletion();
+    addSceneMessage(state.winMessage, 'success');
     renderAll();
+  }
+
+  function bindWinOverlayActions() {
+    const resetButton = document.querySelector('[data-win-reset="true"]');
+    if (!resetButton || resetButton.dataset.bound === 'true') {
+      return;
+    }
+
+    resetButton.dataset.bound = 'true';
+    resetButton.addEventListener('click', resetGame);
   }
 
   function moveToRevealedWinScene(puzzle) {
@@ -813,6 +988,7 @@
     }
 
     state.solvedPuzzles.push(puzzle.id);
+    triggerSolveFlash();
     addSceneMessage(puzzle.result || 'Something changes in the room.', 'success');
 
     (puzzle.reveals || []).forEach(announceReveal);
@@ -859,7 +1035,17 @@
     renderAll();
   }
 
-  function describeTarget(target) {
+  function describeTarget(target, showArtPreview) {
+    if (showArtPreview) {
+      if (target.kind === 'item') {
+        setArtPreview(resolveArtPreview(target.itemId, 'item', target.label));
+      } else {
+        setArtPreview(resolveArtPreview(target.targetKey || target.label, 'item', target.label));
+      }
+    } else {
+      clearArtPreview();
+    }
+
     if (target.kind === 'item') {
       const item = findItem(target.itemId);
       addSceneMessage(item ? item.description || item.name : 'Nothing unusual.', 'system');
@@ -876,8 +1062,13 @@
       return;
     }
 
-    if (state.activeCommand === 'look' || state.activeCommand === 'examine') {
-      describeTarget(target);
+    if (state.activeCommand === 'look') {
+      describeTarget(target, false);
+      return;
+    }
+
+    if (state.activeCommand === 'examine') {
+      describeTarget(target, true);
       return;
     }
 
@@ -926,6 +1117,14 @@
       return;
     }
 
+    if (state.activeCommand === 'examine') {
+      setArtPreview(resolveArtPreview(itemId, 'item', item.name));
+      addSceneMessage(item.description || item.name, 'system');
+      renderAll();
+      return;
+    }
+
+    clearArtPreview();
     addSceneMessage(item.description || item.name, 'system');
     renderAll();
   }
@@ -953,6 +1152,7 @@
     }
 
     state.currentScene = targetSceneId;
+    clearArtPreview();
     state.selectedItemId = null;
     clearSceneMessages();
     if (!state.visitedScenes.includes(targetSceneId)) {
@@ -970,20 +1170,35 @@
     if (command !== 'use') {
       state.selectedItemId = null;
     }
+    if (command !== 'examine') {
+      clearArtPreview();
+    }
     renderAll();
   }
 
   function resetGame() {
     clearHintTimer();
+    if (state.solveFlashTimer) {
+      clearTimeout(state.solveFlashTimer);
+      state.solveFlashTimer = null;
+    }
+    if (dom.artPanel) {
+      dom.artPanel.classList.remove('solve-flash');
+    }
+    if (document.body) {
+      document.body.classList.remove('solve-flash');
+    }
     state.currentScene = gameData.scenes[0].id;
     state.inventory = [];
     state.solvedPuzzles = [];
     state.visitedScenes = [gameData.scenes[0].id];
     state.activeCommand = 'look';
+    clearArtPreview();
     state.selectedItemId = null;
     state.sceneMessages = [];
     state.hintsEnabled = Boolean(gameData.hintsEnabledByDefault);
     state.hintCursorByScene = {};
+    state.winMessage = '';
     state.won = false;
     renderAll();
   }

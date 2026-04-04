@@ -2,6 +2,7 @@
   "title": "The Deep Cathedral",
   "slug": "deep-cathedral",
   "number": 14,
+  "layout": "vertical-carnival",
   "setting": "A submerged sea cave cathedral carved by a forgotten monastic order. The drowned monks still chant in the currents. Something ancient sleeps beneath the altar.",
   "characters": [
     {

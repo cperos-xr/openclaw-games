@@ -54,9 +54,38 @@
     box-shadow: 0 0 20px rgba(51,255,51,0.2);
   }
 
+  .game-entry.is-complete {
+    border-color: #ffff33;
+    box-shadow: 0 0 18px rgba(255,255,51,0.12);
+  }
+
   .game-number { color: #ffff33; font-size: 10px; }
-  .game-title { font-size: 14px; margin: 4px 0; }
+  .game-title {
+    font-size: 14px; margin: 4px 0;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
   .game-setting { color: #226622; font-size: 10px; }
+
+  .game-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 6px;
+    border: 1px solid #226622;
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: #226622;
+  }
+
+  .game-badge.complete {
+    color: #ffff33;
+    border-color: #ffff33;
+    box-shadow: 0 0 10px rgba(255,255,51,0.2);
+  }
+
+  .game-badge.incomplete {
+    color: #226622;
+    border-color: #226622;
+  }
 
   .no-games {
     text-align: center; color: #226622; padding: 48px 0;
@@ -264,6 +293,20 @@
         <div class="game-setting">A Victorian apothecary's secret crypt where Dr. Vane's elixirs preserved the dead—and trapped their souls in glass.</div>
       </a>
     </li>
+    <li>
+      <a href="025-the-weavers-spire/game.html" class="game-entry">
+        <div class="game-number">GAME #025</div>
+        <div class="game-title">The Weaver's Spire</div>
+        <div class="game-setting">A vertical biological monolith at the edge of a thinning reality.</div>
+      </a>
+    </li>
+    <li>
+      <a href="026-the-obsidian-retreat/game.html" class="game-entry">
+        <div class="game-number">GAME #026</div>
+        <div class="game-title">The Obsidian Retreat</div>
+        <div class="game-setting">A modern obsidian glass retreat cantilevered over a black, mirrored lake.</div>
+      </a>
+    </li>
   </ul>
 
   <div class="no-games" id="no-games" style="display: none;">
@@ -277,7 +320,7 @@
 
   <hr class="divider">
 
-  <div class="stats" id="stats">
+  <div class="stats" id="progress-stats">
   </div>
 
   <hr class="divider">
@@ -295,13 +338,90 @@
 
   <hr class="divider">
 
-  <div class="stats" id="stats">
-    Games completed: 24 | Pipeline status: IN PROGRESS
+  <div class="stats" id="pipeline-stats">
+    Games completed: 26 | Pipeline status: IN PROGRESS
   </div>
 
   <footer>
     OpenClaw Point & Click Studio | Powered by AI Agents | 2026
   </footer>
 </div>
+<script>
+(() => {
+  const STORAGE_KEY = 'openclaw-game-progress-v1';
+
+  function loadProgressStore() {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        return { completedGames: {} };
+      }
+
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object') {
+        return { completedGames: {} };
+      }
+
+      if (!parsed.completedGames || typeof parsed.completedGames !== 'object') {
+        parsed.completedGames = {};
+      }
+
+      return parsed;
+    } catch {
+      return { completedGames: {} };
+    }
+  }
+
+  function getGameIdFromHref(href) {
+    try {
+      const url = new URL(href, window.location.href);
+      const parts = url.pathname.split('/').filter(Boolean);
+      if (parts.length >= 2 && parts[parts.length - 1] === 'game.html') {
+        return parts[parts.length - 2];
+      }
+    } catch {
+      return null;
+    }
+
+    return null;
+  }
+
+  const progressStore = loadProgressStore();
+  const completedGames = progressStore.completedGames || {};
+  const gameEntries = Array.from(document.querySelectorAll('.game-entry[href$="game.html"]'));
+  let clearedCount = 0;
+
+  gameEntries.forEach((entry) => {
+    const gameId = getGameIdFromHref(entry.getAttribute('href'));
+    const isComplete = Boolean(gameId && completedGames[gameId]);
+    if (isComplete) {
+      clearedCount += 1;
+    }
+
+    const title = entry.querySelector('.game-title');
+    if (title) {
+      const existingBadge = title.querySelector('.game-badge');
+      const badge = existingBadge || document.createElement('span');
+      badge.className = `game-badge ${isComplete ? 'complete' : 'incomplete'}`;
+      badge.textContent = isComplete ? 'CLEARED' : 'OPEN';
+      if (!existingBadge) {
+        title.appendChild(badge);
+      }
+    }
+
+    entry.classList.toggle('is-complete', isComplete);
+    entry.classList.toggle('is-incomplete', !isComplete);
+
+    if (isComplete && completedGames[gameId].completedAt) {
+      entry.title = `Completed ${new Date(completedGames[gameId].completedAt).toLocaleString()}`;
+    }
+  });
+
+  const progressStats = document.getElementById('progress-stats');
+  if (progressStats) {
+    progressStats.textContent = `Progress: ${clearedCount} / ${gameEntries.length} cleared`;
+  }
+})();
+</script>
 </body>
 </html>

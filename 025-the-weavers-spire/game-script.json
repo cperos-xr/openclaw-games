@@ -1,0 +1,282 @@
+{
+  "title": "The Weaver's Spire",
+  "slug": "the-weavers-spire",
+  "number": 25,
+  "layout": "vertical-carnival",
+  "setting": "A vertical biological monolith at the edge of a thinning reality.",
+  "characters": [
+    {
+      "id": "the-climber",
+      "name": "The Climber",
+      "description": "An exhausted soul driven by an instinctual need to reach the Spire's apex before the universe dissolves."
+    }
+  ],
+  "items": [
+    {
+      "id": "weaver-shuttle",
+      "name": "Weaver's Shuttle",
+      "description": "A heavy, bone-carved shuttle with notches that match the Spire's ancient geometry.",
+      "foundIn": "root-cell",
+      "usedIn": "root-cell",
+      "usedOn": "unlock-up-root"
+    },
+    {
+      "id": "silver-oil",
+      "name": "Silver Oil",
+      "description": "A viscous, metallic fluid that smells of ozone and old blood.",
+      "foundIn": "bone-chamber",
+      "usedIn": "loom-heart",
+      "usedOn": "lubricate-loom"
+    },
+    {
+      "id": "unravelling-thread",
+      "name": "Unravelling Thread",
+      "description": "A strand of raw reality, vibrating with a frequency that hurts the eyes.",
+      "foundIn": "bone-chamber",
+      "usedIn": "reality-needle",
+      "usedOn": "forge-heartbeat"
+    },
+    {
+      "id": "wax-mold",
+      "name": "Wax Mold",
+      "description": "A stone-cold mold designed to capture the shape of something that shouldn't exist.",
+      "foundIn": "loom-heart",
+      "usedIn": "pulsating-gallery",
+      "usedOn": "extract-wax"
+    },
+    {
+      "id": "resonating-wax",
+      "name": "Resonating Wax",
+      "description": "Warm, pulsating wax that hums with the same rhythm as the Spire's deeper layers.",
+      "foundIn": "pulsating-gallery",
+      "usedIn": "loom-heart",
+      "usedOn": "resonate-heart"
+    },
+    {
+      "id": "reality-needle-item",
+      "name": "Reality Needle",
+      "description": "A needle forged from solidified silence, sharp enough to pierce the veil.",
+      "foundIn": "reality-needle",
+      "usedIn": "cosmic-throne",
+      "usedOn": "win-condition"
+    },
+    {
+      "id": "spire-heartbeat",
+      "name": "Spire Heartbeat",
+      "description": "A captured rhythm, a liquid thrumming of the tower's own life force.",
+      "foundIn": "reality-needle",
+      "usedIn": "cosmic-throne",
+      "usedOn": "win-condition"
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "unlock-up-root",
+      "scene": "root-cell",
+      "requires": [
+        "weaver-shuttle"
+      ],
+      "action": "use weaver-shuttle on rusted-gears",
+      "blocksExit": "up",
+      "result": "The shuttle fits perfectly into the notched gear. With a wet, grinding screech, the gears turn, and the calcified ceiling retracts, revealing the bone-shaft leading upward.",
+      "reveals": [
+        "bone-chamber"
+      ]
+    },
+    {
+      "id": "lubricate-loom",
+      "scene": "loom-heart",
+      "requires": [
+        "silver-oil"
+      ],
+      "action": "use silver-oil on dry-loom",
+      "result": "The oil hisses as it hits the parched metal and bone. The loom shudders, its bellows giving a weak, wheezing puff of air. A hidden compartment clicks open, revealing a stone mold.",
+      "reveals": [
+        "wax-mold"
+      ]
+    },
+    {
+      "id": "extract-wax",
+      "scene": "pulsating-gallery",
+      "requires": [
+        "wax-mold"
+      ],
+      "result": "You press the cold stone against the warm, throbbing membrane. The pod splits with a soft 'pop,' filling the mold with a thick, resonating liquid that solidifies instantly into a perfect, humming shape.",
+      "reveals": [
+        "resonating-wax"
+      ]
+    },
+    {
+      "id": "resonate-heart",
+      "scene": "loom-heart",
+      "requires": [
+        "resonating-wax"
+      ],
+      "result": "The wax melds with the crystalline core. The frequency changes from a discordant screech to a harmonious thrum. The wax-wall blocking the upward path melts away into a puddle of golden light.",
+      "reveals": [
+        "reality-needle"
+      ]
+    },
+    {
+      "id": "forge-heartbeat",
+      "scene": "reality-needle",
+      "requires": [
+        "reality-needle-item",
+        "unravelling-thread"
+      ],
+      "result": "You thread the vibrating strand through the obsidian eye. The needle begins to glow with a fierce, rhythmic light, and a small, liquid sphere of pure energy—the Spire's heartbeat—condenses on the tip.",
+      "reveals": [
+        "spire-heartbeat"
+      ]
+    },
+    {
+      "id": "win-condition",
+      "scene": "cosmic-throne",
+      "requires": [
+        "reality-needle-item",
+        "spire-heartbeat"
+      ],
+      "action": "use reality-needle-item on unfinished-tapestry",
+      "result": "You plunge the needle into the center of the fraying map, the Heartbeat flowing through the thread like liquid light. The grey void recedes. The colors of the tapestry bleed out into the real world, mending the sky, the air, and the very ground beneath you. The Spire sighs—a long, contented sound—and you sink into the Throne, your work finally done. Reality is whole again."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "root-cell",
+      "name": "The Root",
+      "prose": "You wake at the very bottom, where the Spire burrows into the soft, rotting earth of a world that is already half-vapor. The air is thick with the smell of stagnant salt and iron. Above you, the Spire stretches into a sky that hasn't seen a sun in eons—a vertical graveyard of calcified meat and rusted iron. Your lungs burn with every shallow breath, the weight of the climb ahead already pressing down on your shoulders. The walls here are not stone, but a weave of ancient, petrified tendons, slick with a slow-dripping ichor that mirrors the steady, agonizing heartbeat of the tower. This is the Root, the foundation of a dying god's ladder, and the only way is up. Every muscle in your body screams for rest, but the thinning of the universe outside—a grey, featureless void encroaching on the Spire's base—leaves no room for hesitation. You must climb, or cease to be. The silence here is heavy, punctuated only by the wet 'thwip' of fat droplets hitting the floor and the distant, grinding moan of the Spire shifting its immense, biological weight. You are a flea on the back of a leviathan, and the leviathan is screaming in slow motion.",
+      "exits": {
+        "up": "bone-chamber"
+      },
+      "items": [
+        "weaver-shuttle"
+      ],
+      "puzzles": [
+        "unlock-up-root"
+      ],
+      "lookDescriptions": {
+        "calcified-meat": "Large chunks of what used to be muscle have hardened into something sturdier than granite, forming the steps of the initial ascent.",
+        "grey-void": "Outside the jagged threshold, reality has simply... stopped. There is no horizon, only an absence that makes your head throb.",
+        "ichor-pools": "A thick, black liquid that smells like copper and old memories. It reflects nothing.",
+        "rusted-gears": "Enormous iron teeth, coated in a layer of dried, flaky blood. They are jammed by years of neglect.",
+        "tendon-walls": "The walls pulse with a sickly violet light, the fibers shifting like a nest of worms."
+      }
+    },
+    {
+      "id": "bone-chamber",
+      "name": "The Chamber",
+      "prose": "The climb is a grueling ritual. Your fingers bleed as they claw into the porous, bone-like rungs of the shaft. You emerge into The Chamber, a hollowed-out ribcage of impossible proportions. Shafts of pale, sickly light filter through the gaps in the 'walls,' illuminating a floor of crushed vertebrae and salt. The air here is colder, thinner, tasting of ozone and ancient dust. You can feel the universe fraying at the edges; the shadows in the corners of the room don't behave, stretching and snapping like rubber. In the center of the room, a massive, rusted crane made of scavenged femur-steel dangles over an abyss that drops back down to the Root. To continue upward, you must find a way to lubricate the vertical winch, but your limbs feel like lead. Every step is a battle against the crushing gravity of your own exhaustion. The Spire groans—a deep, resonant sound that vibrates in your teeth. It is a hunger, a demand for completion. You find yourself staring into the dark, watching the way the dust motes swirl in patterns that look like dying stars.",
+      "exits": {
+        "down": "root-cell",
+        "up": "loom-heart"
+      },
+      "items": [
+        "silver-oil",
+        "unravelling-thread"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "femur-crane": "A derrick of polished bone and rusted pulleys, silent and unmoving.",
+        "ozone-mist": "A shimmering haze that clings to the floor, smelling of a storm that never broke.",
+        "rib-pillars": "Immense arches of white calcium that support the ceiling, etched with hundreds of names that have been worn away by time.",
+        "shadow-corners": "Darkness that seems to have its own weight, flickering with a static-like energy that hurts to look at.",
+        "vertebrae-floor": "The ground is uneven, composed of thousands of bleached-white discs that crunch unpleasantly underfoot."
+      }
+    },
+    {
+      "id": "loom-heart",
+      "name": "The Heart",
+      "prose": "The ascent becomes a blur of pain. Higher now, the Spire’s verticality is terrifying; a single slip would mean a long, wet end. You pull yourself into The Heart. This chamber is dominated by a gargantuan, organic apparatus: the Dry Loom. It looks like a lung made of wood and brass, its bellows stilled, its shuttles empty. The floor is covered in a layer of fine, red dust—dried blood, pounded into powder by the machine’s once-rhythmic operation. The silence here is the worst part; it’s the silence of a stopped heart. To the north, the 'stairwell' is blocked by a wall of translucent, resonating wax that vibrates with a discordant frequency, preventing any further progress. The smell of copper is overwhelming here, and the heat is rising, a fever-heat that makes the air shimmer. You feel the Spire's desperation. It needs to weave. It needs to mend the hole you saw at the base of the tower. Your pulse thumps in your ears, a frantic counterpoint to the Spire's sluggish, failing rhythm.",
+      "exits": {
+        "down": "bone-chamber",
+        "up": "pulsating-gallery"
+      },
+      "items": [
+        "wax-mold"
+      ],
+      "puzzles": [
+        "lubricate-loom",
+        "resonate-heart"
+      ],
+      "lookDescriptions": {
+        "blood-dust": "A fine, velvet-red powder that coats everything. It tastes of salt and iron when you breathe it in.",
+        "brass-bellows": "Large, leather-and-metal lungs that huff a hot, fetid air whenever you move near them.",
+        "dry-loom": "A skeletal machine of gears and gut-strings. It looks thirsty.",
+        "loom-heart-obj": "The central node of the machine, a crystalline core that looks like a frozen, multi-chambered heart.",
+        "wax-wall": "A shimmering, honey-colored barrier that hums so loudly it makes your nose bleed."
+      }
+    },
+    {
+      "id": "pulsating-gallery",
+      "name": "The Gallery",
+      "prose": "You have breached the mid-point of the Spire. The Gallery is a long, curving corridor that wraps around the tower's outer shell. One side is open to the void, offering a nauseating view of the universe dissolving into a grey, misty nothingness. The other wall is lined with pulsating, fleshy pods, each the size of a man. They throb with a rhythmic, golden light, casting long, distorted shadows across the floor of wet salt. The exhaustion is no longer just physical; it is a weight on your soul, a whisper that tells you it would be so easy to simply step out into the grey. But the pods... they contain the essence of the Spire's repair mechanism. The air here is thick and humid, smelling of heated wax and sweat. Every time the Spire sways in the cosmic wind, the Gallery moans, a sound of structural agony. You are walking on the edge of a dream, and the dreamer is waking up. The ground beneath your feet feels soft, almost like moss, but with a disturbing warmth.",
+      "exits": {
+        "down": "loom-heart",
+        "up": "reality-needle"
+      },
+      "items": [
+        "resonating-wax"
+      ],
+      "puzzles": [
+        "extract-wax"
+      ],
+      "lookDescriptions": {
+        "cosmic-void": "The ultimate end. A grey expanse where stars are being snuffed out like candles.",
+        "fleshy-pods": "Transparent membranes containing a thick, glowing fluid. Something small and multi-limbed moves within them.",
+        "pulsating-pod": "A specific pod that hums with a focused, intense frequency. It seems ready to burst.",
+        "salt-floor": "The ground is white and crystalline, crunching wetly under your boots.",
+        "shadow-ripples": "The light from the pods creates patterns on the walls that look like frantic, weaving hands."
+      }
+    },
+    {
+      "id": "reality-needle",
+      "name": "The Eye",
+      "prose": "The air is so thin here that your vision begins to tunnel. You crawl through a narrow, bone-lined duct and emerge into The Eye. This is a tall, circular room with a ceiling that tapers to a sharp point far above. In the center stands a single, obsidian pillar, carved with runes that seem to bleed light. At the summit of this pillar, held in place by a field of pure tension, is the Reality Needle. The room is silent, save for a high-pitched whine that vibrates in the marrow of your bones. The walls are mirrors of polished salt, reflecting back a version of yourself that looks hollowed out, ancient, and terrifyingly fragile. This is where the weaver's tools are forged. The Spire is narrowed here, the verticality so extreme that you feel as if you are standing on the tip of a needle yourself. The universe outside is gone; there is only the Spire, and the work that must be done. Your hands shake as you reach for the pillar, your skin pale and translucent in the cold, blue light.",
+      "exits": {
+        "down": "pulsating-gallery",
+        "up": "cosmic-throne"
+      },
+      "items": [
+        "reality-needle-item",
+        "spire-heartbeat"
+      ],
+      "puzzles": [
+        "forge-heartbeat"
+      ],
+      "lookDescriptions": {
+        "bleeding-runes": "Ancient symbols that weep a glowing, silver liquid. The light they cast is sharp and clinical.",
+        "bone-duct": "The way back down is a narrow, claustrophobic tunnel of grey-white calcium.",
+        "central-pillar": "The point of highest tension in the room, where the air feels like it's about to shatter.",
+        "obsidian-pillar": "A monolith of frozen night, cold enough to burn your skin if you touch it.",
+        "salt-mirrors": "The walls show you a dozen versions of your own failure."
+      }
+    },
+    {
+      "id": "cosmic-throne",
+      "name": "The Throne",
+      "prose": "This is the end. You pull yourself onto the final platform, the very apex of the Spire. There is no ceiling here, only a vortex of swirling, colorful nebulae that are being sucked into a black hole of non-existence at the center of the sky. In the middle of the platform sits a massive, unfinished tapestry, suspended between two pillars of solid moonlight. The tapestry depicts a world of green and blue—a memory of the world as it was before the thinning. But the edges are frayed, dissolving into the grey. Next to the tapestry is an empty throne made of woven stars and calcified grief. You are at the top of everything, and you are completely alone. The exhaustion is absolute now; you can no longer feel your feet, and your heart feels like a dying bird in your chest. The spire sways violently, a final, desperate heave. You have the needle. You have the thread. The universe is waiting for its final stitch. Every breath is a victory, every movement a miracle of will.",
+      "exits": {
+        "down": "reality-needle"
+      },
+      "items": [],
+      "puzzles": [
+        "win-condition"
+      ],
+      "lookDescriptions": {
+        "cosmic-vortex": "A swirling maelstrom of light and darkness that threatens to pull you off the platform.",
+        "frayed-edges": "The part of the tapestry where the colors bleed into a dull, flat grey.",
+        "moonlight-pillars": "Solid beams of cold, white light that hold the tapestry in place.",
+        "star-throne": "A seat of impossible beauty and infinite sadness. It hums with the power of a thousand suns.",
+        "unfinished-tapestry": "A work of art that is also a map of reality. It is missing its final, central thread."
+      }
+    }
+  ],
+  "winCondition": {
+    "scene": "cosmic-throne",
+    "requires": [
+      "reality-needle-item",
+      "spire-heartbeat"
+    ],
+    "description": "Restore the thinning universe by sewing the final stitch into the Weaver's tapestry at the peak of the Spire."
+  }
+}

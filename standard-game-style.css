@@ -83,6 +83,7 @@ h1 {
   width: 100%;
   aspect-ratio: 8 / 5;
   max-height: 56vw;
+  position: relative;
   border: 2px solid var(--oc-border);
   background: var(--oc-panel);
   display: flex;
@@ -91,32 +92,146 @@ h1 {
   overflow: hidden;
 }
 
+.art-panel.solve-flash::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border: 3px solid rgba(255, 255, 51, 0.95);
+  box-shadow: inset 0 0 30px rgba(255, 255, 51, 0.28), 0 0 18px rgba(255, 255, 51, 0.75), 0 0 54px rgba(255, 204, 0, 0.5);
+  background: radial-gradient(circle at center, rgba(255, 255, 102, 0.18), rgba(255, 255, 102, 0.05) 40%, rgba(255, 255, 102, 0) 72%);
+  animation: solve-art-flash 0.65s ease-out;
+}
+
 body.layout-vertical-carnival .art-panel {
-  aspect-ratio: 16 / 9;
-  max-height: 56.25vw;
+  aspect-ratio: 8 / 5;
+  max-height: 62.5vw;
 }
 
 body.layout-vertical-carnival #art-display {
-  padding: 4px;
+  padding: 0;
 }
 
 #art-display {
   width: 100%;
   height: 100%;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px;
 }
 
-#art-display svg,
-#art-display img {
+.art-scene-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: inherit;
+}
+
+.art-scene-layer svg,
+.art-scene-layer img {
   display: block;
   width: 100%;
   height: 100%;
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+}
+
+.art-preview-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  padding: 12px;
+}
+
+.art-preview-window {
+  width: min(42%, 220px);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 2px solid var(--oc-text-warn);
+  background: rgba(0, 0, 0, 0.78);
+  box-shadow: 0 0 14px rgba(255, 255, 51, 0.28);
+  backdrop-filter: blur(1px);
+}
+
+.art-preview-window svg,
+.art-preview-window img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.win-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.52);
+}
+
+.win-modal {
+  width: min(92%, 420px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 16px;
+  border: 2px solid var(--oc-text-warn);
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 18px rgba(255, 255, 51, 0.35), 0 0 52px rgba(255, 204, 0, 0.18);
+  text-align: center;
+  animation: win-popup 0.45s ease-out;
+}
+
+.win-kicker {
+  color: var(--oc-text-warn);
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+
+.win-title {
+  color: var(--oc-text-warn);
+  font-size: 16px;
+  text-shadow: 0 0 12px rgba(255, 255, 51, 0.4);
+}
+
+.win-subtitle,
+.win-message {
+  font-size: 9px;
+}
+
+.win-message {
+  color: var(--oc-text-info);
+}
+
+.win-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.win-actions .utility-btn,
+.win-actions .utility-link {
+  min-width: 150px;
 }
 
 .no-art {
@@ -291,6 +406,13 @@ body.layout-vertical-carnival .exits-panel {
 
 .utility-btn {
   flex: 0 0 auto;
+}
+
+.utility-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .empty-state {
@@ -516,7 +638,7 @@ footer {
 
   body.layout-vertical-carnival .art-panel {
     flex: none;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 8 / 5;
     max-height: none;
   }
 
@@ -552,5 +674,34 @@ footer {
 
   #text-display {
     max-height: 45vh;
+  }
+}
+
+@keyframes solve-art-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+
+  20% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.015);
+  }
+}
+
+@keyframes win-popup {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

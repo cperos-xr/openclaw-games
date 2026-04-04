@@ -2,6 +2,7 @@
   "title": "The Sand That Speaks",
   "slug": "sand-that-speaks",
   "number": 13,
+  "layout": "vertical-carnival",
   "setting": "A newly discovered pyramid in the Egyptian desert, sealed for millennia. Inside, the sand tells secrets and the statues watch. Something ancient has awoken.",
   "characters": [
     {

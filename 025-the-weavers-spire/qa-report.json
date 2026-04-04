@@ -1,0 +1,101 @@
+{
+  "game": "025-the-weavers-spire",
+  "file": "/home/node/.openclaw/workspace/games/025-the-weavers-spire/game.html",
+  "timestamp": "2026-04-03T22:50:36.626Z",
+  "verdict": "FAIL",
+  "issues": [
+    {
+      "id": "BUG-001",
+      "severity": "MEDIUM",
+      "category": "data",
+      "description": "6 puzzles (studio rule: exactly 5)",
+      "location": "GAME_DATA.puzzles",
+      "expected": "5 puzzles",
+      "actual": "6",
+      "suggestedFix": "Adjust puzzle count to 5",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-002",
+      "severity": "MEDIUM",
+      "category": "puzzle-logic",
+      "description": "Item \"resonating-wax\" found (scene index 3) AFTER it's used (scene index 2) in BFS order",
+      "location": "items.resonating-wax",
+      "expected": "Found before used",
+      "actual": "Found after",
+      "suggestedFix": "Ensure player can reach foundIn scene before usedIn scene",
+      "assignTo": "brian-shakespeare"
+    },
+    {
+      "id": "BUG-003",
+      "severity": "MEDIUM",
+      "category": "code",
+      "description": "Missing CSS animation: puzzle-solved",
+      "location": "game.html <style>",
+      "expected": "@keyframes puzzle-solved",
+      "actual": "Not found",
+      "suggestedFix": "Add @keyframes puzzle-solved to CSS",
+      "assignTo": "game-assembler"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "MEDIUM",
+      "category": "code",
+      "description": "Missing CSS animation: unlockPulse",
+      "location": "game.html <style>",
+      "expected": "@keyframes unlockPulse",
+      "actual": "Not found",
+      "suggestedFix": "Add @keyframes unlockPulse to CSS",
+      "assignTo": "game-assembler"
+    },
+    {
+      "id": "BUG-005",
+      "severity": "MEDIUM",
+      "category": "code",
+      "description": "Missing CSS animation: itemGlow",
+      "location": "game.html <style>",
+      "expected": "@keyframes itemGlow",
+      "actual": "Not found",
+      "suggestedFix": "Add @keyframes itemGlow to CSS",
+      "assignTo": "game-assembler"
+    },
+    {
+      "id": "BUG-006",
+      "severity": "HIGH",
+      "category": "layout",
+      "description": "No max-width set — layout will explode on ultrawide monitors",
+      "location": "game.html CSS",
+      "expected": "max-width: 1200px or similar",
+      "actual": "Not found",
+      "suggestedFix": "Add max-width to body or game-container",
+      "assignTo": "game-assembler"
+    }
+  ],
+  "passedChecks": [
+    "GAME_DATA extracted and parsed",
+    "Data integrity checks complete",
+    "All scenes reachable from start",
+    "Item availability checks complete",
+    "Puzzle dependency graph is acyclic (no circular dependencies)",
+    "Exit lock verification complete",
+    "Win condition scene exists",
+    "Win condition checks complete",
+    "GAME_ART uses correct variable declaration",
+    "HTML/CSS/JS integrity checks complete",
+    "Viewport meta tag present",
+    "Word count checks complete",
+    "Exit symmetry check complete",
+    "Prose-item cross reference complete",
+    "Art quality automated checks complete"
+  ],
+  "stats": {
+    "scenes": 6,
+    "items": 7,
+    "puzzles": 6,
+    "reachableScenes": 6,
+    "solvablePuzzles": 6,
+    "artAssetsFound": 6,
+    "artAssetsMissing": 0
+  },
+  "summary": "FAIL — 6 issues (0 CRITICAL, 1 HIGH, 5 MEDIUM, 0 LOW)"
+}
