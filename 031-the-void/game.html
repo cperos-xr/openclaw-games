@@ -1,369 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Midnight Arcade - Part II: The Void | Game #031</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../standard-game-style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{GAME_TITLE}} | Game #{{GAME_NUMBER}}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../standard-game-style.css">
 </head>
-<body class="openclaw-game layout-vertical-carnival" data-layout="vertical-carnival">
-  <header>
-    <h1>THE MIDNIGHT ARCADE - PART II: THE VOID</h1>
-    <div class="subtitle">OpenClaw Adventures - Game #031</div>
-  </header>
+<body class="openclaw-game layout-vertical-carnival">
 
-  <div id="scene-name">THE BUFFER</div>
+<header>
+    <h1>{{GAME_TITLE_UPPER}}</h1>
+    <div class="subtitle">OpenClaw Adventures - Game #{{GAME_NUMBER}}</div>
+</header>
 
-  <div class="game-container">
+<div id="scene-name">{{FIRST_SCENE_NAME}}</div>
+
+<div class="game-container">
     <div class="art-panel">
-      <div id="art-display">
-        <span class="no-art">[ART LOADING]</span>
-      </div>
+        <div id="art-display">
+            <span class="no-art">[ART LOADING]</span>
+        </div>
     </div>
 
     <div class="text-panel">
-      <div id="text-display"></div>
+        <div id="text-display"></div>
 
-      <div id="command-status" class="status-line"></div>
+        <div id="command-status" class="status-line"></div>
 
-      <div class="command-bar">
-        <button class="cmd-btn active" data-cmd="look">LOOK</button>
-        <button class="cmd-btn" data-cmd="take">TAKE</button>
-        <button class="cmd-btn" data-cmd="use">USE</button>
-        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
-      </div>
-
-      <div class="subpanel targets-panel">
-        <h3>TARGETS</h3>
-        <div id="targets-bar"></div>
-      </div>
-
-      <div class="subpanel inventory-panel">
-        <h3>INVENTORY</h3>
-        <div id="inventory-bar">
-          <span class="empty-state">(empty)</span>
+        <div class="command-bar">
+            <button class="cmd-btn active" data-cmd="look">LOOK</button>
+            <button class="cmd-btn" data-cmd="take">TAKE</button>
+            <button class="cmd-btn" data-cmd="use">USE</button>
+            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
         </div>
-      </div>
 
-      <div class="subpanel exits-panel">
-        <h3>EXITS</h3>
-        <div id="exits-bar"></div>
-      </div>
+        <div class="subpanel targets-panel">
+            <h3>TARGETS</h3>
+            <div id="targets-bar"></div>
+        </div>
 
-      <div class="utility-bar">
-        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
-        <button id="reset-game" class="utility-btn">RESET</button>
-      </div>
+        <div class="subpanel inventory-panel">
+            <h3>INVENTORY</h3>
+            <div id="inventory-bar">
+                <span class="empty-state">(empty)</span>
+            </div>
+        </div>
+
+        <div class="subpanel exits-panel">
+            <h3>EXITS</h3>
+            <div id="exits-bar"></div>
+        </div>
+
+        <div class="utility-bar">
+            <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+            <button id="reset-game" class="utility-btn">RESET</button>
+        </div>
     </div>
-  </div>
+</div>
 
-  <footer>
+<footer>
     OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
-  </footer>
+</footer>
 
-  <script>
-window.GAME_DATA = {
-  "title": "The Midnight Arcade - Part II: The Void",
-  "slug": "the-void",
-  "number": 31,
-  "artStyle": "HYBRID",
-  "layout": "vertical-carnival",
-  "setting": "Digital Limbo. A surreal landscape built from fragmented 16-bit code and psychedelic memories.",
-  "characters": [
-    {
-      "id": "the-avatar",
-      "name": "The Avatar",
-      "description": "Your physical form has been converted into a series of high-contrast pixels. You feel weightless, yet anchored by Toby's presence."
-    },
-    {
-      "id": "toby-ghost",
-      "name": "Ghost of Toby",
-      "description": "A flickering digital sprite. He doesn't speak, but his movements guide you through the corruption."
-    }
-  ],
-  "items": [
-    {
-      "id": "glitched-joystick",
-      "name": "Glitched Joystick",
-      "description": "A joystick from a cabinet that doesn't exist. It pulses with a rhythm that matches the world's heartbeat.",
-      "foundIn": "buffer",
-      "usedIn": "buffer",
-      "usedOn": "puzzle-input"
-    },
-    {
-      "id": "binary-shards",
-      "name": "Binary Shards",
-      "description": "Jagged fragments of raw code. They hum with a cold, logical energy that makes your skin crawl.",
-      "foundIn": "graveyard",
-      "usedIn": "core",
-      "usedOn": "puzzle-compile"
-    },
-    {
-      "id": "toby-user-file",
-      "name": "Toby User-File",
-      "description": "A 3.5-inch floppy disk containing Toby's digital consciousness. It's covered in sketches of BMX bikes.",
-      "foundIn": "cache",
-      "usedIn": "core",
-      "usedOn": "puzzle-restore"
-    },
-    {
-      "id": "debug-module",
-      "name": "Debug Module",
-      "description": "A heavy, gold-plated circuit board. It bypasses any security lock in the digital realm.",
-      "foundIn": "core",
-      "usedIn": "cache",
-      "usedOn": "puzzle-bypass"
-    },
-    {
-      "id": "exit-code-disk",
-      "name": "Exit Code Disk",
-      "description": "The final sequence. It pulses with a blinding white light that signals the end of the simulation.",
-      "foundIn": "logout",
-      "usedIn": "logout",
-      "usedOn": "puzzle-extract"
-    }
-  ],
-  "scenes": [
-    {
-      "id": "buffer",
-      "name": "The Buffer",
-      "prose": "The transition was a silent explosion. You are standing on a horizon of neon lines that stretch into a purple infinity. Drifting fragments of game code—floating platforms, pixelated clouds, and flickering error messages—hang in an airless sky. A glitched-joystick floats nearby, its cable trailing like a tail. To the north, a towering monolith of glowing digits—the High-Score Temple—looms over the digital landscape. The silence here isn't empty; it's the hum of an idle engine.",
-      "exits": {
-        "north": "temple"
-      },
-      "items": [
-        "glitched-joystick"
-      ],
-      "puzzles": [
-        "puzzle-input"
-      ],
-      "lookDescriptions": {
-        "neon-horizon": "Perfectly straight lines of cyan light. They don't reflect anything.",
-        "code-debris": "Fragmented sprites and broken script lines. They're cold to the touch.",
-        "temple-monolith": "A skyscraper made of emerald numbers. They're counting down."
-      }
-    },
-    {
-      "id": "temple",
-      "name": "High-Score Temple",
-      "prose": "You stand at the foot of the Monolith. The emerald digits are a cascade of light, falling like water from a height you can't see. The floor is a polished obsidian mirror, reflecting a sky full of dancing sprites. To the west, a static-filled mist hides a graveyard of broken character models. To the east, a pulsating geometric heart—the Logic Core—beams a steady red light. Above you, a distorted recreation of Toby's bedroom hangs suspended, its walls shivering with instability.",
-      "exits": {
-        "south": "buffer",
-        "west": "graveyard",
-        "east": "core",
-        "up": "cache"
-      },
-      "items": [],
-      "puzzles": [],
-      "lookDescriptions": {
-        "obsidian-floor": "Every step you take sends ripples through the reflection.",
-        "digit-cascade": "The numbers 1 and 0 fall in a rhythmic pattern.",
-        "floating-room": "A suspended cube of suburban normalcy in this digital chaos."
-      }
-    },
-    {
-      "id": "graveyard",
-      "name": "Sprite Graveyard",
-      "prose": "The graveyard is a limb-tangle of discarded dreams. Broken heroes, frozen explosion animations, and half-rendered monsters float in a thick, white-noise mist. The air tastes of burnt silicon. Inside the hollow chest of a shattered knight-model, a cluster of binary-shards glows with a pale, steady light. The exit back to the temple is a shimmering slit in the static. Something in the mist is still trying to play its animation sequence.",
-      "exits": {
-        "east": "temple"
-      },
-      "items": [
-        "binary-shards"
-      ],
-      "puzzles": [],
-      "lookDescriptions": {
-        "static-mist": "Coarse and grainy. It feels like sand against your pixels.",
-        "shattered-knight": "A 16-bit hero whose sword has been overwritten by a 'File Not Found' error.",
-        "glitching-monster": "A mess of pixelated claws and eyes that stutters in a 3-frame loop."
-      }
-    },
-    {
-      "id": "core",
-      "name": "The Logic Core",
-      "prose": "The Core is a pulsating tesseract of ruby light. It is the heart of the world's gravity, its thumping bass note vibrating through your entire being. A central-oscillator spins in the middle of the room, missing its logical alignment bits. A magnetic card-slot sits on a control pedestal, waiting for a user profile to be restored. The walls are covered in scrolling hex-code, documenting every move you've made since entering The Void.",
-      "exits": {
-        "west": "temple"
-      },
-      "items": [
-        "debug-module"
-      ],
-      "puzzles": [
-        "puzzle-compile",
-        "puzzle-restore"
-      ],
-      "lookDescriptions": {
-        "ruby-tesseract": "A four-dimensional cage of pure logic. It's beautiful and terrifying.",
-        "oscillator": "A spinning ring of light. It's decelerating as the world loses logic.",
-        "hex-walls": "Rows of FE and A0 digits. They're your thoughts in machine language."
-      }
-    },
-    {
-      "id": "cache",
-      "name": "The Memory Cache",
-      "prose": "This room is a fragile lie. A perfect, 16-bit recreation of Toby's bedroom—the wood-paneling, the BMX posters, the smell of cherry soda—but the floor is missing, revealing the neon void below. The walls shiver and pixelate whenever you touch them. A dresser sits against the north wall, its top drawer propped open. A glowing-portal to the north is blocked by a massive, glitched wall of red 'ACCESS DENIED' characters. You can feel Toby's presence here, a faint smell of pine and ozone.",
-      "exits": {
-        "down": "temple",
-        "north": "logout"
-      },
-      "items": [
-        "toby-user-file"
-      ],
-      "puzzles": [
-        "puzzle-bypass"
-      ],
-      "lookDescriptions": {
-        "bmx-posters": "The wheels seem to spin when you aren't looking.",
-        "dresser-drawer": "Inside, nestled among old arcade-tokens, is a floppy disk.",
-        "access-denied-wall": "A solid barrier of red text. It's a wall of pure refusal."
-      }
-    },
-    {
-      "id": "logout",
-      "name": "The User Logout",
-      "prose": "The final terminal. A vast, white space where the ceiling and floor meet in a single line. In the center, a massive mainframe computer—a 1980s supercomputer with spinning tape reels—hums with the power of an entire sun. An exit-code-disk floats in the center of the room, anchored by a beam of white light. To the north, a shimmering exit-portal waits to take you back to the arcade. Toby is here, standing by the terminal, his pixelated form glowing with a soft, warm light.",
-      "exits": {
-        "south": "cache"
-      },
-      "items": [
-        "exit-code-disk"
-      ],
-      "puzzles": [
-        "puzzle-extract"
-      ],
-      "lookDescriptions": {
-        "mainframe": "The CRAY-1 of the digital afterlife. It knows your name.",
-        "exit-portal": "A blinding white rectangle. It looks like morning.",
-        "toby-sprite": "He's transparent, but he's smiling. He's holding his bike handles."
-      }
-    }
-  ],
-  "puzzles": [
-    {
-      "id": "puzzle-input",
-      "scene": "buffer",
-      "requires": [
-        "glitched-joystick"
-      ],
-      "action": "use joystick on terminal-port",
-      "result": "You jam the joystick into the port. A surge of neon energy flows through your arm, and the horizon ripples open, creating a bridge to the Temple.",
-      "reveals": [
-        "temple"
-      ],
-      "blocksExit": "north"
-    },
-    {
-      "id": "puzzle-compile",
-      "scene": "temple",
-      "requires": [
-        "binary-shards"
-      ],
-      "action": "use shards on central-oscillator",
-      "result": "The shards snap into place. The oscillator accelerates, and gravity shifts. Floating platforms extend from the Temple toward Toby's room.",
-      "reveals": [
-        "cache"
-      ],
-      "blocksExit": "up"
-    },
-    {
-      "id": "puzzle-restore",
-      "scene": "temple",
-      "requires": [
-        "toby-user-file"
-      ],
-      "action": "use toby-file on card-slot",
-      "result": "The file is read with a series of frantic beeps. Toby's avatar materializes in the room, pointing toward the exit. The pedestal ejects a debug-module.",
-      "reveals": [
-        "debug-module"
-      ]
-    },
-    {
-      "id": "puzzle-bypass",
-      "scene": "cache",
-      "requires": [
-        "debug-module"
-      ],
-      "action": "use debug-module on portal",
-      "result": "The 'ACCESS DENIED' wall shatters into a million harmless characters. The path to the Logout is clear.",
-      "reveals": [
-        "logout"
-      ],
-      "blocksExit": "north"
-    },
-    {
-      "id": "puzzle-extract",
-      "scene": "logout",
-      "requires": [
-        "exit-code-disk"
-      ],
-      "action": "use exit-disk on mainframe",
-      "result": "You insert the extraction disk. The world starts to de-pixelate. The white light consumes everything. You are leaving The Void.",
-      "reveals": []
-    }
-  ],
-  "winCondition": {
-    "scene": "logout",
-    "requires": [
-      "exit-code-disk"
-    ],
-    "description": "You insert the code. Toby's hand reaches for yours as the screen turns blindingly white. The digital hum fades into the silence of early morning. TO BE CONCLUDED IN PART III."
-  }
-};
-window.GAME_ART = {
-  "buffer": "<img src="art/buffer.png" alt="buffer" loading="lazy">",
-  "BUFFER": "<img src="art/buffer.png" alt="buffer" loading="lazy">",
-  "buffer": "<img src="art/buffer.png" alt="buffer" loading="lazy">",
-  "BUFFER": "<img src="art/buffer.png" alt="buffer" loading="lazy">",
-  "buffer": "<img src="art/buffer.png" alt="buffer" loading="lazy">",
-  "item-buffer": "<img src="art/buffer.png" alt="buffer" loading="lazy">",
-  "temple": "<img src="art/temple.png" alt="temple" loading="lazy">",
-  "TEMPLE": "<img src="art/temple.png" alt="temple" loading="lazy">",
-  "temple": "<img src="art/temple.png" alt="temple" loading="lazy">",
-  "TEMPLE": "<img src="art/temple.png" alt="temple" loading="lazy">",
-  "temple": "<img src="art/temple.png" alt="temple" loading="lazy">",
-  "item-temple": "<img src="art/temple.png" alt="temple" loading="lazy">",
-  "graveyard": "<img src="art/graveyard.png" alt="graveyard" loading="lazy">",
-  "GRAVEYARD": "<img src="art/graveyard.png" alt="graveyard" loading="lazy">",
-  "graveyard": "<img src="art/graveyard.png" alt="graveyard" loading="lazy">",
-  "GRAVEYARD": "<img src="art/graveyard.png" alt="graveyard" loading="lazy">",
-  "graveyard": "<img src="art/graveyard.png" alt="graveyard" loading="lazy">",
-  "item-graveyard": "<img src="art/graveyard.png" alt="graveyard" loading="lazy">",
-  "core": "<img src="art/core.png" alt="core" loading="lazy">",
-  "CORE": "<img src="art/core.png" alt="core" loading="lazy">",
-  "core": "<img src="art/core.png" alt="core" loading="lazy">",
-  "CORE": "<img src="art/core.png" alt="core" loading="lazy">",
-  "core": "<img src="art/core.png" alt="core" loading="lazy">",
-  "item-core": "<img src="art/core.png" alt="core" loading="lazy">",
-  "cache": "<img src="art/cache.png" alt="cache" loading="lazy">",
-  "CACHE": "<img src="art/cache.png" alt="cache" loading="lazy">",
-  "cache": "<img src="art/cache.png" alt="cache" loading="lazy">",
-  "CACHE": "<img src="art/cache.png" alt="cache" loading="lazy">",
-  "cache": "<img src="art/cache.png" alt="cache" loading="lazy">",
-  "item-cache": "<img src="art/cache.png" alt="cache" loading="lazy">",
-  "logout": "<img src="art/logout.png" alt="logout" loading="lazy">",
-  "LOGOUT": "<img src="art/logout.png" alt="logout" loading="lazy">",
-  "logout": "<img src="art/logout.png" alt="logout" loading="lazy">",
-  "LOGOUT": "<img src="art/logout.png" alt="logout" loading="lazy">",
-  "logout": "<img src="art/logout.png" alt="logout" loading="lazy">",
-  "item-logout": "<img src="art/logout.png" alt="logout" loading="lazy">",
-  "glitched-joystick": "<img src="art/glitched-joystick.svg" alt="glitched-joystick" loading="lazy">",
-  "GLITCHED-JOYSTICK": "<img src="art/glitched-joystick.svg" alt="glitched-joystick" loading="lazy">",
-  "item-glitched-joystick": "<img src="art/glitched-joystick.svg" alt="glitched-joystick" loading="lazy">",
-  "binary-shards": "<img src="art/binary-shards.svg" alt="binary-shards" loading="lazy">",
-  "BINARY-SHARDS": "<img src="art/binary-shards.svg" alt="binary-shards" loading="lazy">",
-  "item-binary-shards": "<img src="art/binary-shards.svg" alt="binary-shards" loading="lazy">",
-  "toby-user-file": "<img src="art/toby-user-file.svg" alt="toby-user-file" loading="lazy">",
-  "TOBY-USER-FILE": "<img src="art/toby-user-file.svg" alt="toby-user-file" loading="lazy">",
-  "item-toby-user-file": "<img src="art/toby-user-file.svg" alt="toby-user-file" loading="lazy">",
-  "debug-module": "<img src="art/debug-module.svg" alt="debug-module" loading="lazy">",
-  "DEBUG-MODULE": "<img src="art/debug-module.svg" alt="debug-module" loading="lazy">",
-  "item-debug-module": "<img src="art/debug-module.svg" alt="debug-module" loading="lazy">",
-  "exit-code-disk": "<img src="art/exit-code-disk.svg" alt="exit-code-disk" loading="lazy">",
-  "EXIT-CODE-DISK": "<img src="art/exit-code-disk.svg" alt="exit-code-disk" loading="lazy">",
-  "item-exit-code-disk": "<img src="art/exit-code-disk.svg" alt="exit-code-disk" loading="lazy">"
-};
-  </script>
-  <script src="../standard-game-runtime.js"></script>
+<script>
+// ============================================================
+// GAME DATA — replace with assembled content from game-script.json
+// ============================================================
+const GAME_DATA = { /* ... */ };
+
+// ============================================================
+// GAME ART — replace with inlined SVGs from art/*.svg
+// ============================================================
+window.GAME_ART = { /* ... */ };
+
+// ============================================================
+// GAME ENGINE — paste game-logic.js content here
+// ============================================================
+/* ... */
+
+if (typeof GAME_DATA !== 'undefined') {
+    window.GAME_DATA = GAME_DATA;
+}
+</script>
+<script src="../standard-game-runtime.js"></script>
 </body>
 </html>

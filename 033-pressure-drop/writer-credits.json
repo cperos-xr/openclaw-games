@@ -1,0 +1,9 @@
+[
+  {
+    "agentId": "brian-shakespeare",
+    "personaName": "Brian The Brain",
+    "configuredModel": "nvidia/nemotron-3-super-120b-a12b:free",
+    "observedModel": "nvidia/nemotron-3-super-120b-a12b:free",
+    "contributionType": "Full script synthesis for the deep-sea industrial horror transition."
+  }
+]
