@@ -1,0 +1,277 @@
+{
+  "title": "The Midnight Arcade",
+  "slug": "the-midnight-arcade",
+  "number": 30,
+  "layout": "vertical-carnival",
+  "setting": "A neon-drenched arcade in 1986. Flickering CRT screens cast long shadows across wood-paneled walls and geometric-patterned carpet. The air smells of stale popcorn and ozone. You broke in after hours to investigate the disappearance of a local kid who vanished three days ago after setting the high score on a cabinet called 'The Void.' Something is different tonight. The machines still hum.",
+  "characters": [
+    {
+      "id": "riley",
+      "name": "Riley",
+      "description": "A local teenager who disappeared three days ago after achieving the impossible high score on 'The Void' arcade cabinet. Their jacket still hangs on a chair."
+    },
+    {
+      "id": "player",
+      "name": "You",
+      "description": "Riley's friend who broke into the arcade after hours to find out what happened."
+    }
+  ],
+  "items": [
+    {
+      "id": "flashlight",
+      "name": "Flashlight",
+      "description": "A heavy metal flashlight with dying batteries. The beam flickers but still cuts through the arcade's shadows.",
+      "foundIn": "arcade-entrance",
+      "usedIn": "back-hallway",
+      "usedOn": "puzzle-dark-hallway"
+    },
+    {
+      "id": "riley-jacket",
+      "name": "Riley's Jacket",
+      "description": "A denim jacket covered in band patches. Riley left it behind on their last visit. Something heavy weighs down the pockets.",
+      "foundIn": "main-floor",
+      "usedIn": "main-floor",
+      "usedOn": "puzzle-jacket-pocket"
+    },
+    {
+      "id": "arcade-token",
+      "name": "Arcade Token",
+      "description": "A worn brass token stamped with 'VOID - ONE PLAY.' The metal is unnaturally cold to the touch.",
+      "foundIn": "main-floor",
+      "usedIn": "void-cabinet",
+      "usedOn": "puzzle-coin-slot"
+    },
+    {
+      "id": "staff-key",
+      "name": "Staff Key",
+      "description": "A small brass key on a red lanyard marked 'STAFF ONLY.' Found in Riley's jacket pocket.",
+      "foundIn": "main-floor",
+      "usedIn": "emergency-exit",
+      "usedOn": "puzzle-staff-door"
+    },
+    {
+      "id": "glowing-fuse",
+      "name": "Glowing Fuse",
+      "description": "A circuit fuse that pulses with a sickly green light. It hums with barely-contained energy pulled from The Void cabinet.",
+      "foundIn": "void-cabinet",
+      "usedIn": "break-room",
+      "usedOn": "puzzle-breaker-box"
+    },
+    {
+      "id": "the-void-cartridge",
+      "name": "The Void Cartridge",
+      "description": "A glowing game cartridge extracted from the arcade cabinet. The label reads 'THE VOID - INSERT INTO ANYTHING.' It pulses with impossible colors.",
+      "foundIn": "void-cabinet",
+      "usedIn": "break-room",
+      "usedOn": "puzzle-final-cartridge"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "arcade-entrance",
+      "name": "Arcade Entrance",
+      "prose": "The front doors loom behind you, locked tight against the night. Neon from street signs bleeds through the windows, painting the checkered tile floor in streaks of pink and cyan. The main game floor stretches ahead, filled with rows of arcade cabinets whose screens flicker with attract modes no one programmed tonight. To your left, a narrow hallway leads toward the back offices. Something glints on the floor near the entrance\u2014a flashlight, half-buried under a fallen 'OUT OF ORDER' sign.",
+      "exits": {
+        "east": "main-floor",
+        "north": "back-hallway"
+      },
+      "items": [
+        "flashlight"
+      ],
+      "puzzles": [
+        "puzzle-flashlight-pickup"
+      ],
+      "lookDescriptions": {
+        "front-doors": "Double glass doors with DEADBOLT signs. The exterior locks are engaged\u2014you broke in through the broken window out back.",
+        "arcade-cabinets": "Rows of towering machines casting blue-green CRT glow. Their screens display the same looping high-score tables, names that don't match any kids you know.",
+        "flashlight": "A heavy-duty metal flashlight with a cracked lens. The battery compartment rattles loose."
+      }
+    },
+    {
+      "id": "main-floor",
+      "name": "Main Game Floor",
+      "prose": "The heart of the arcade spreads before you. Dozens of cabinets glow in the darkness, their joysticks and buttons worn smooth by countless desperate hands. The carpet\u2014a nauseating geometric pattern of purple and orange\u2014seems to shift when you're not looking directly at it. In the corner sits Riley's usual seat, a broken plastic chair with their denim jacket still draped over it. Beyond the rows of machines, you can see the back hallway leading to maintenance. Near the center of the floor stands a cabinet unlike the others, its marquee dark except for three pulsing words: THE VOID. The air around it feels thick, like walking through water.",
+      "exits": {
+        "west": "arcade-entrance",
+        "north": "void-cabinet",
+        "south": "back-hallway"
+      },
+      "items": [
+        "riley-jacket"
+      ],
+      "puzzles": [
+        "puzzle-jacket-pocket"
+      ],
+      "lookDescriptions": {
+        "riley-chair": "A cracked red plastic chair. Riley sat here for hours every day. Their jacket still hangs off the back.",
+        "the-void-cabinet": "A towering black arcade cabinet with no visible brand. The screen shows only swirling static, deeper than black. Your reflection doesn't appear in the glass.",
+        "arcade-machines": "Familiar cabinets\u2014Street fighter clones, racing games, space shooters. But tonight they all show the same thing: YOUR name on the high score list, though you've never played any of them."
+      }
+    },
+    {
+      "id": "back-hallway",
+      "name": "Back Hallway",
+      "prose": "The hallway beyond the game floor is swallowed by darkness. Your flashlight beam catches dust motes frozen mid-fall, the fluorescent lights above dead and dark. Faded posters peel from the walls\u2014tournament announcements, a missing-person flyer with Riley's face, and something else you can't quite make out. At the far end, an emergency exit door stands slightly ajar, cold air leaking through the crack. A staff supply door runs along the right wall, secured with a heavy padlock. The shadows here feel thick, deliberate. Something waits past the circle of your light.",
+      "exits": {
+        "north": "arcade-entrance",
+        "south": "emergency-exit",
+        "east": "main-floor"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-dark-hallway"
+      ],
+      "lookDescriptions": {
+        "missing-poster": "Riley's face stares out from a photocopied flyer. LAST SEEN: OCTOBER 12, 1986. WEARING: Denim jacket, black jeans. If found, call...",
+        "emergency-exit": "A heavy steel door with a push-bar. Cold air seeps through a crack at the bottom. It's slightly ajar but won't open further without a key.",
+        "staff-door": "A wooden door with a brass padlock. The frame is marked STAFF ONLY. Something mechanical hums behind the wood."
+      }
+    },
+    {
+      "id": "void-cabinet",
+      "name": "The Void Cabinet",
+      "prose": "You stand before the cabinet that started it all. The Void looms taller than any normal arcade machine, its marquee dead black. The screen shows nothing\u2014not static, not darkness, but an absence that pulls at your eyes. There's a coin slot beside the screen, tarnished with age. Below it, a panel marked 'SERVICE - AUTHORIZED PERSONNEL ONLY' hangs slightly loose from its screws. Something glows from inside the cabinet\u2014you can see it through the gap. The air tastes metallic, like licking a battery. Your skin prickles.",
+      "exits": {
+        "south": "main-floor"
+      },
+      "items": [
+        "the-void-cartridge"
+      ],
+      "puzzles": [
+        "puzzle-coin-slot"
+      ],
+      "lookDescriptions": {
+        "the-void-screen": "Not a screen. A hole. Looking at it too long makes your teeth ache and your thoughts scatter. For a moment you swear you see Riley's face pressed against the glass from the other side.",
+        "coin-slot": "An ancient brass slot shaped like a six-pointed star. Words around it read: INSERT TOKEN TO ENTER. The VOYD TOKEN.",
+        "service-panel": "A metal panel held by four screws, one of which has been removed. A warm green light leaks from within, and something pulses behind it like a heartbeat."
+      }
+    },
+    {
+      "id": "emergency-exit",
+      "name": "Emergency Exit & Break Room",
+      "prose": "The emergency exit door opens onto a cramped break room that smells of old coffee and cigarette ash. A vending machine hums in the corner, stocked with snacks that expired in 1983. A flickering fluorescent tube buzzes overhead, throwing the room in epileptic strobes. On the far wall, a breaker box hangs open\u2014its fuses pulled, plunging half the arcade into darkness. There's an empty slot that seems to demand something specific. Through a grimy window, you can see the parking lot and the chain-link fence beyond. Freedom. But something pulls you back toward the arcade floor, toward The Void.",
+      "exits": {
+        "north": "back-hallway",
+        "west": "break-room"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-staff-door"
+      ],
+      "lookDescriptions": {
+        "vending-machine": "A glass-fronted snack machine. Everything inside is decades-old. The candy has melted into unrecognizable shapes. A single coin return button glows faintly.",
+        "breaker-box": "An open electrical panel with six fuse slots. Five are filled with normal fuses; the sixth is empty and seems to absorb light around it. A handwritten label reads: DO NOT REPLACE. THE VOID REQUIRES SPECIAL POWER.",
+        "window": "Grimy glass looking out onto the asphalt parking lot. You can see the fence, your bike, everything normal outside. Going out now means abandoning Riley forever."
+      }
+    },
+    {
+      "id": "break-room",
+      "name": "Break Room - Beyond",
+      "prose": "Power surges through the arcade as the breaker box hums to life. The fluorescent light stabilizes, revealing what was hidden in darkness: a bulletin board plastered with newspaper clippings about disappearances, all connected by red string. At the center: Riley's photo. Someone has been watching. Someone knew this would happen. Beside the board sits a small CRT monitor, ancient and boxy, its screen displaying a single blinking cursor next to a prompt that reads: INSERT GAME CARTRIDGE. The air crackles. The walls seem closer than they were a moment ago. You feel the pull of The Void cabinet, stronger now, demanding completion. Something terrible waits in the space between the machines.",
+      "exits": {
+        "east": "emergency-exit"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-breaker-box",
+        "puzzle-final-cartridge"
+      ],
+      "lookDescriptions": {
+        "bulletin-board": "Photos, articles, and maps connected by red string. Names of missing kids spanning decades. Riley is the latest. At the bottom, in handwriting that matches Riley's: IT CALLS TO US EVERYONE. I HAVE TO ANSWER.",
+        "monitor": "An ancient CRT displaying a green-on-black terminal. The cursor blinks rhythmically, like a heartbeat. Text reads: INSERT GAME CARTRIDGE TO CONTINUE. The cabinet seems to know you're coming.",
+        "red-string": "The connections form a pattern that matches the carpet design on the arcade floor. Every missing person vanished after playing The Void. Every single one."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-flashlight-pickup",
+      "scene": "arcade-entrance",
+      "requires": [],
+      "action": "examine flashlight",
+      "result": "You pick up the flashlight. It flickers weakly but produces enough light to push back the shadows. You might need it for the dark hallway.",
+      "reveals": [
+        "flashlight"
+      ],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-jacket-pocket",
+      "scene": "main-floor",
+      "requires": [
+        "riley-jacket"
+      ],
+      "action": "search jacket pockets",
+      "result": "You dig through Riley's jacket pockets and find a heavy brass token and a staff key on a red lanyard. The token is cold enough to burn your fingers. The key feels like it belongs to the staff door back in the hallway.",
+      "reveals": [
+        "arcade-token",
+        "staff-key"
+      ],
+      "blocksExit": "south"
+    },
+    {
+      "id": "puzzle-dark-hallway",
+      "scene": "back-hallway",
+      "requires": [
+        "flashlight"
+      ],
+      "action": "use flashlight in hallway",
+      "result": "The flashlight beam cuts through the oppressive darkness of the hallway. You can now see clearly\u2014the missing person poster, the emergency exit door, and the staff supply door with its brass padlock. The shadows retreat from your light.",
+      "reveals": [],
+      "blocksExit": "south"
+    },
+    {
+      "id": "puzzle-staff-door",
+      "scene": "emergency-exit",
+      "requires": [
+        "staff-key"
+      ],
+      "action": "use staff key on staff door",
+      "result": "The brass key fits perfectly. With a click, the padlock falls open. You push through the staff door and enter the emergency exit area leading to the break room. Cold air rushes past you from outside.",
+      "reveals": [],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-coin-slot",
+      "scene": "void-cabinet",
+      "requires": [
+        "arcade-token"
+      ],
+      "action": "insert arcade-token in coin-slot",
+      "result": "The brass token slides into the star-shaped slot with a sound like a key turning in a lock deep underground. The Void's screen flickers. The service panel pops open with a hiss of escaping air. Inside, glowing with impossible green light, sits a game cartridge labeled THE VOID. As you reach for it, the cabinet's screen briefly shows Riley's face\u2014terrified, mouthing words you can't hear. You grab the cartridge. It's warm and vibrates in your hand.",
+      "reveals": [
+        "the-void-cartridge",
+        "glowing-fuse"
+      ],
+      "blocksExit": "south"
+    },
+    {
+      "id": "puzzle-breaker-box",
+      "scene": "break-room",
+      "requires": [
+        "glowing-fuse"
+      ],
+      "action": "insert glowing-fuse in breaker-box",
+      "result": "The glowing fuse slides into the empty slot. The breaker box hums to life. The fluorescent lights stop flickering. Power surges through the arcade, waking machines that should be dead. The monitor in the break room springs to life, displaying: INSERT GAME CARTRIDGE TO CONTINUE.",
+      "reveals": [],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-final-cartridge",
+      "scene": "break-room",
+      "requires": [
+        "the-void-cartridge"
+      ],
+      "action": "insert the-void-cartridge in monitor",
+      "result": "You slide the glowing cartridge into the monitor. The screen erupts in a cascade of impossible colors. Text scrolls upward: PLAYER 2 HAS JOINED THE GAME. RILEY IS STILL IN THE VOID. TO RESCUE THEM, YOU MUST ENTER THE ARCADE. THE GAME IS WAITING. The monitor's screen deepens, becoming liquid, pulling at the light in the room. From inside the screen, a pixelated hand reaches out. Then another. Then Riley's voice, distorted by static: 'DON'T LET IT TAKE YOU TOO. BREAK THE SCORE. BREAK THE\u2014' The voice cuts off. The game has begun. You feel yourself being pulled forward, into the screen, into The Void. The arcade cabinets around you power up simultaneously, their screens all showing the same thing: GAME START.",
+      "reveals": []
+    }
+  ],
+  "winCondition": {
+    "scene": "break-room",
+    "requires": [
+      "the-void-cartridge"
+    ],
+    "description": "Insert The Void Cartridge into the monitor to trigger the game's start and be pulled into The Void cabinet, setting up Part 2."
+  }
+}

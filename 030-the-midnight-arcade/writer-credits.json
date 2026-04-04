@@ -1,0 +1,23 @@
+[
+  {
+    "agentId": "brian-shakespeare",
+    "personaName": "Brian The Brain",
+    "configuredModel": "nvidia/nemotron-3-super-120b-a12b:free",
+    "observedModel": "nvidia/nemotron-3-super-120b-a12b:free",
+    "contributionType": "outline, writer routing, final game-script.json, writer-credits.json"
+  },
+  {
+    "agentId": "writer-deepseek",
+    "personaName": "Desmond Vex",
+    "configuredModel": "openrouter/deepseek/deepseek-v3.2",
+    "observedModel": "openrouter/deepseek/deepseek-v3.2",
+    "contributionType": "full scene drafts, atmospheric prose, sustained emotional tone"
+  },
+  {
+    "agentId": "malachi-gravewright",
+    "personaName": "Malachi Gravewright",
+    "configuredModel": "ollama/cactus-dream-12b:latest",
+    "observedModel": "ollama/cactus-dream-12b:latest",
+    "contributionType": "visceral horror prose, dark humor, atmospheric scene painting"
+  }
+]
