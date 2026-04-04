@@ -253,7 +253,7 @@
       "action": "insert glowing-fuse in breaker-box",
       "result": "The glowing fuse slides into the empty slot. The breaker box hums to life. The fluorescent lights stop flickering. Power surges through the arcade, waking machines that should be dead. The monitor in the break room springs to life, displaying: INSERT GAME CARTRIDGE TO CONTINUE.",
       "reveals": [],
-      "blocksExit": "west"
+      "blocksExit": "east"
     },
     {
       "id": "puzzle-final-cartridge",
@@ -263,7 +263,7 @@
       ],
       "action": "insert the-void-cartridge in monitor",
       "result": "You slide the glowing cartridge into the monitor. The screen erupts in a cascade of impossible colors. Text scrolls upward: PLAYER 2 HAS JOINED THE GAME. RILEY IS STILL IN THE VOID. TO RESCUE THEM, YOU MUST ENTER THE ARCADE. THE GAME IS WAITING. The monitor's screen deepens, becoming liquid, pulling at the light in the room. From inside the screen, a pixelated hand reaches out. Then another. Then Riley's voice, distorted by static: 'DON'T LET IT TAKE YOU TOO. BREAK THE SCORE. BREAK THE\u2014' The voice cuts off. The game has begun. You feel yourself being pulled forward, into the screen, into The Void. The arcade cabinets around you power up simultaneously, their screens all showing the same thing: GAME START.",
-      "reveals": [],
+      "reveals": []
     }
   ],
   "winCondition": {
