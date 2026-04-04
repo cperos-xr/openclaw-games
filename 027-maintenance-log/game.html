@@ -1,4 +1,69 @@
-{
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Maintenance Log | Game #027</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../standard-game-style.css">
+</head>
+<body class="openclaw-game layout-vertical-carnival" data-layout="vertical-carnival">
+  <header>
+    <h1>THE MAINTENANCE LOG</h1>
+    <div class="subtitle">OpenClaw Adventures - Game #027</div>
+  </header>
+
+  <div id="scene-name">BASEMENT PUMP ROOM</div>
+
+  <div class="game-container">
+    <div class="art-panel">
+      <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+      </div>
+    </div>
+
+    <div class="text-panel">
+      <div id="text-display"></div>
+
+      <div id="command-status" class="status-line"></div>
+
+      <div class="command-bar">
+        <button class="cmd-btn active" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      </div>
+
+      <div class="subpanel targets-panel">
+        <h3>TARGETS</h3>
+        <div id="targets-bar"></div>
+      </div>
+
+      <div class="subpanel inventory-panel">
+        <h3>INVENTORY</h3>
+        <div id="inventory-bar">
+          <span class="empty-state">(empty)</span>
+        </div>
+      </div>
+
+      <div class="subpanel exits-panel">
+        <h3>EXITS</h3>
+        <div id="exits-bar"></div>
+      </div>
+
+      <div class="utility-bar">
+        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+        <button id="reset-game" class="utility-btn">RESET</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
+  </footer>
+
+  <script>
+window.GAME_DATA = {
   "title": "The Maintenance Log",
   "slug": "maintenance-log",
   "number": 27,
@@ -66,7 +131,9 @@
       "exits": {
         "up": "pipe-junction"
       },
-      "items": ["manometer-gauge"],
+      "items": [
+        "manometer-gauge"
+      ],
       "puzzles": [],
       "lookDescriptions": {
         "pump": "A centrifugal pump, model CS-200. Nameplate reads 'Elliott Pump Co., 1962'. Impeller visible through a cracked inspection port — still wet inside.",
@@ -84,8 +151,12 @@
         "down": "basement-pump-room",
         "up": "valve-catwalk"
       },
-      "items": ["pipe-wrench"],
-      "puzzles": ["puzzle-pressure-monitor"],
+      "items": [
+        "pipe-wrench"
+      ],
+      "puzzles": [
+        "puzzle-pressure-monitor"
+      ],
       "lookDescriptions": {
         "pipes": "Galvanized steel, eight-inch diameter. Stamped with part numbers from Elliott Pump Co. They vibrate faintly, as if water is still flowing through the municipal system outside. But the tower is decommissioned.",
         "pressure-monitor": "A circular pressure gauge, face cracked, needle stuck at zero. Behind the glass, a slot is visible — it accepts the manometer gauge as a calibration key. A faded label reads 'Junction Pressure — Insert Gauge to Read.'",
@@ -102,8 +173,12 @@
         "down": "pipe-junction",
         "up": "tank-access"
       },
-      "items": ["filter-cartridge"],
-      "puzzles": ["puzzle-overflow-valve"],
+      "items": [
+        "filter-cartridge"
+      ],
+      "puzzles": [
+        "puzzle-overflow-valve"
+      ],
       "lookDescriptions": {
         "catwalk": "Perforated steel grating underfoot. You can see through to the darkness below. Every step echoes with a hollow boom. The railings are more rust than metal.",
         "pressure-gauges": "Six identical round gauges, all labeled 'MAIN TANK PRESSURE.' The needles spin in perfect unison, climbing past 200 PSI. The glass faces are fogged from the inside with condensation.",
@@ -120,8 +195,12 @@
         "down": "valve-catwalk",
         "up": "main-tank"
       },
-      "items": ["bleed-valve-key"],
-      "puzzles": ["puzzle-airlock-filter"],
+      "items": [
+        "bleed-valve-key"
+      ],
+      "puzzles": [
+        "puzzle-airlock-filter"
+      ],
       "lookDescriptions": {
         "airlock-door": "Heavy steel door, curved to match the chamber wall. Two wheels control it: the left labeled 'FILTER INSERT' with a slot for the filter cartridge, the right labeled 'PRESSURE EQUALIZE' with no visible mechanism. The door is sealed shut.",
         "warning-light": "A red rotating beacon, the kind used in industrial settings. It blinks once every seven seconds. The rhythm matches the tape recording you can hear faintly from above.",
@@ -138,8 +217,12 @@
         "down": "tank-access",
         "up": "control-room"
       },
-      "items": ["shutdown-crank"],
-      "puzzles": ["puzzle-emergency-drain"],
+      "items": [
+        "shutdown-crank"
+      ],
+      "puzzles": [
+        "puzzle-emergency-drain"
+      ],
       "lookDescriptions": {
         "tank-walls": "Reinforced concrete, curved into a perfect cylinder. Mineral stains run in horizontal bands, marking previous water levels. The highest stain is six feet above the current water line. The water is rising.",
         "platform": "Circular steel grate, bolted to the tank floor. Water flows through the openings. The center is driest — something was placed here deliberately to keep it above the waterline.",
@@ -154,7 +237,9 @@
       "prose": "A glass-walled office suspended inside the tank's upper section. The floor is transparent acrylic, showing the water far below. Banks of analog meters line the walls, every needle pinned in the red. And in the center: a reel-to-reel tape recorder, Model 4, its reels spinning slowly.\n\nThe tape plays Marcus Ellery's voice on a loop: 'Pressure climb cannot be explained. If you are hearing this, the system is still active. The shutdown crank engages the recorder's emergency stop. Insert it. Turn it clockwise. Please.' The recorder has a hexagonal socket on its side. The crank from the tank below fits perfectly.",
       "exits": {},
       "items": [],
-      "puzzles": ["puzzle-recorder-shutdown"],
+      "puzzles": [
+        "puzzle-recorder-shutdown"
+      ],
       "lookDescriptions": {
         "meters": "Twenty analog gauges, every needle trembling past maximum. Labels include 'TANK PRESSURE,' 'PIPE FLOW,' 'VALVE STATUS,' 'AIRLOCK INTEGRITY.' One meter, unlabeled, shows a slow sine wave — the recording's audio waveform, visualized.",
         "recorder": "Ellery Industries Model 4 reel-to-reel. Mahogany case, brass fittings. The reels spin at 7.5 inches per second. Marcus's voice emerges from the speaker, clear and calm, repeating his final log entry. A hexagonal socket on the side panel accepts the shutdown crank.",
@@ -167,43 +252,62 @@
     {
       "id": "puzzle-pressure-monitor",
       "scene": "pipe-junction",
-      "requires": ["manometer-gauge"],
+      "requires": [
+        "manometer-gauge"
+      ],
       "action": "use manometer-gauge on pressure-monitor",
       "result": "You insert the manometer gauge into the pressure monitor's calibration slot. The mercury column rises, revealing the correct valve sequence: three turns clockwise on the east valve wheel. The rusted valve wheel releases with a groan, turning smoothly now. The eastern passage opens.",
-      "reveals": ["valve-catwalk"],
+      "reveals": [
+        "valve-catwalk"
+      ],
       "blocksExit": "up"
     },
     {
       "id": "puzzle-overflow-valve",
       "scene": "valve-catwalk",
-      "requires": ["pipe-wrench"],
+      "requires": [
+        "pipe-wrench"
+      ],
       "action": "use pipe-wrench on overflow-valve",
       "result": "You fit the pipe wrench onto the seized overflow valve handle. With effort, you turn it three times. A deep hiss echoes through the pipes as pressure vents into the tower's outer shell. The spinning pressure gauges slow, then stabilize. The maintenance hatch above unlocks with a clack.",
-      "reveals": ["tank-access"],
+      "reveals": [
+        "tank-access"
+      ],
       "blocksExit": "up"
     },
     {
       "id": "puzzle-airlock-filter",
       "scene": "tank-access",
-      "requires": ["filter-cartridge"],
+      "requires": [
+        "filter-cartridge"
+      ],
       "action": "use filter-cartridge on airlock-door",
       "result": "You slide the filter cartridge into the 'FILTER INSERT' slot on the airlock door. The cartridge seats with a click. The 'PRESSURE EQUALIZE' wheel becomes operable. You turn it, and the airlock cycles with a pneumatic sigh. The red warning light stops blinking. The door hisses open.",
-      "reveals": ["main-tank"],
+      "reveals": [
+        "main-tank"
+      ],
       "blocksExit": "up"
     },
     {
       "id": "puzzle-emergency-drain",
       "scene": "main-tank",
-      "requires": ["bleed-valve-key"],
+      "requires": [
+        "bleed-valve-key"
+      ],
       "action": "use bleed-valve-key on emergency-drain",
       "result": "You insert the bleed-valve key into the emergency drain's hex socket and turn. The drain cap unscrews with a wet pop. Water rushes downward through the grate, the level dropping rapidly. As the water recedes, the shutdown crank is fully exposed on the platform — you retrieve it. The service hatch to the control room unlocks.",
-      "reveals": ["shutdown-crank", "control-room"],
+      "reveals": [
+        "shutdown-crank",
+        "control-room"
+      ],
       "blocksExit": "up"
     },
     {
       "id": "puzzle-recorder-shutdown",
       "scene": "control-room",
-      "requires": ["shutdown-crank"],
+      "requires": [
+        "shutdown-crank"
+      ],
       "action": "use shutdown-crank on recorder",
       "result": "You insert the shutdown crank into the recorder's emergency socket. Marcus's voice says: 'Thank you.' You turn the crank clockwise. The reels slow, then stop. The tape goes silent. Across the room, every pressure gauge needle drops to zero. The system powers down. The tower is quiet for the first time in thirty-nine years. You have shut down the maintenance log.",
       "reveals": []
@@ -211,7 +315,51 @@
   ],
   "winCondition": {
     "scene": "control-room",
-    "requires": ["shutdown-crank"],
+    "requires": [
+      "shutdown-crank"
+    ],
     "description": "Insert the shutdown crank into the reel-to-reel recorder and turn it clockwise. The tape stops. The pressure releases. The tower falls silent. Game complete."
   }
-}
+};
+window.GAME_ART = {
+  "scene-basement-pump-room": "<img src=\"art/scene-basement-pump-room.png\" alt=\"scene-basement-pump-room\" loading=\"lazy\">",
+  "SCENE-BASEMENT-PUMP-ROOM": "<img src=\"art/scene-basement-pump-room.png\" alt=\"scene-basement-pump-room\" loading=\"lazy\">",
+  "basement-pump-room": "<img src=\"art/scene-basement-pump-room.png\" alt=\"scene-basement-pump-room\" loading=\"lazy\">",
+  "BASEMENT-PUMP-ROOM": "<img src=\"art/scene-basement-pump-room.png\" alt=\"scene-basement-pump-room\" loading=\"lazy\">",
+  "scene_basement_pump_room": "<img src=\"art/scene-basement-pump-room.png\" alt=\"scene-basement-pump-room\" loading=\"lazy\">",
+  "item-basement-pump-room": "<img src=\"art/scene-basement-pump-room.png\" alt=\"scene-basement-pump-room\" loading=\"lazy\">",
+  "scene-control-room": "<img src=\"art/scene-control-room.png\" alt=\"scene-control-room\" loading=\"lazy\">",
+  "SCENE-CONTROL-ROOM": "<img src=\"art/scene-control-room.png\" alt=\"scene-control-room\" loading=\"lazy\">",
+  "control-room": "<img src=\"art/scene-control-room.png\" alt=\"scene-control-room\" loading=\"lazy\">",
+  "CONTROL-ROOM": "<img src=\"art/scene-control-room.png\" alt=\"scene-control-room\" loading=\"lazy\">",
+  "scene_control_room": "<img src=\"art/scene-control-room.png\" alt=\"scene-control-room\" loading=\"lazy\">",
+  "item-control-room": "<img src=\"art/scene-control-room.png\" alt=\"scene-control-room\" loading=\"lazy\">",
+  "scene-main-tank": "<img src=\"art/scene-main-tank.png\" alt=\"scene-main-tank\" loading=\"lazy\">",
+  "SCENE-MAIN-TANK": "<img src=\"art/scene-main-tank.png\" alt=\"scene-main-tank\" loading=\"lazy\">",
+  "main-tank": "<img src=\"art/scene-main-tank.png\" alt=\"scene-main-tank\" loading=\"lazy\">",
+  "MAIN-TANK": "<img src=\"art/scene-main-tank.png\" alt=\"scene-main-tank\" loading=\"lazy\">",
+  "scene_main_tank": "<img src=\"art/scene-main-tank.png\" alt=\"scene-main-tank\" loading=\"lazy\">",
+  "item-main-tank": "<img src=\"art/scene-main-tank.png\" alt=\"scene-main-tank\" loading=\"lazy\">",
+  "scene-pipe-junction": "<img src=\"art/scene-pipe-junction.png\" alt=\"scene-pipe-junction\" loading=\"lazy\">",
+  "SCENE-PIPE-JUNCTION": "<img src=\"art/scene-pipe-junction.png\" alt=\"scene-pipe-junction\" loading=\"lazy\">",
+  "pipe-junction": "<img src=\"art/scene-pipe-junction.png\" alt=\"scene-pipe-junction\" loading=\"lazy\">",
+  "PIPE-JUNCTION": "<img src=\"art/scene-pipe-junction.png\" alt=\"scene-pipe-junction\" loading=\"lazy\">",
+  "scene_pipe_junction": "<img src=\"art/scene-pipe-junction.png\" alt=\"scene-pipe-junction\" loading=\"lazy\">",
+  "item-pipe-junction": "<img src=\"art/scene-pipe-junction.png\" alt=\"scene-pipe-junction\" loading=\"lazy\">",
+  "scene-tank-access": "<img src=\"art/scene-tank-access.png\" alt=\"scene-tank-access\" loading=\"lazy\">",
+  "SCENE-TANK-ACCESS": "<img src=\"art/scene-tank-access.png\" alt=\"scene-tank-access\" loading=\"lazy\">",
+  "tank-access": "<img src=\"art/scene-tank-access.png\" alt=\"scene-tank-access\" loading=\"lazy\">",
+  "TANK-ACCESS": "<img src=\"art/scene-tank-access.png\" alt=\"scene-tank-access\" loading=\"lazy\">",
+  "scene_tank_access": "<img src=\"art/scene-tank-access.png\" alt=\"scene-tank-access\" loading=\"lazy\">",
+  "item-tank-access": "<img src=\"art/scene-tank-access.png\" alt=\"scene-tank-access\" loading=\"lazy\">",
+  "scene-valve-catwalk": "<img src=\"art/scene-valve-catwalk.png\" alt=\"scene-valve-catwalk\" loading=\"lazy\">",
+  "SCENE-VALVE-CATWALK": "<img src=\"art/scene-valve-catwalk.png\" alt=\"scene-valve-catwalk\" loading=\"lazy\">",
+  "valve-catwalk": "<img src=\"art/scene-valve-catwalk.png\" alt=\"scene-valve-catwalk\" loading=\"lazy\">",
+  "VALVE-CATWALK": "<img src=\"art/scene-valve-catwalk.png\" alt=\"scene-valve-catwalk\" loading=\"lazy\">",
+  "scene_valve_catwalk": "<img src=\"art/scene-valve-catwalk.png\" alt=\"scene-valve-catwalk\" loading=\"lazy\">",
+  "item-valve-catwalk": "<img src=\"art/scene-valve-catwalk.png\" alt=\"scene-valve-catwalk\" loading=\"lazy\">"
+};
+  </script>
+  <script src="../standard-game-runtime.js"></script>
+</body>
+</html>

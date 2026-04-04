@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Editor | Prose Synthesizer</title>
+    <style>
+        /* Base */
+        :root {
+            --ink: #0a0a0a;
+            --paper: #f8f4e9;
+            --red: #800000;
+            --red-light: #cc3333;
+            --yellow: #fffacd;
+            --gray: #444;
+            --blue: #1a365d;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Source+Code+Pro:wght@300;400;500&display=swap');
+
+        body {
+            background-color: var(--ink);
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(128, 0, 0, 0.05) 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, rgba(128, 0, 0, 0.05) 2px, transparent 2px);
+            background-size: 60px 60px;
+            color: var(--ink);
+            font-family: 'Crimson Text', serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .manuscript {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--paper);
+            padding: 50px;
+            position: relative;
+            box-shadow: 
+                0 0 40px rgba(0,0,0,0.5),
+                inset 0 0 30px rgba(128, 0, 0, 0.05);
+            border: 1px solid rgba(128, 0, 0, 0.3);
+            border-radius: 2px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas: 
+                "header header"
+                "portrait specs"
+                "quirks quirks"
+                "signature signature"
+                "footer footer";
+            gap: 40px;
+            transform: rotate(0.5deg);
+        }
+
+        /* Torn edges effect */
+        .manuscript::before,
+        .manuscript::after {
+            content: '';
+            position: absolute;
+            background: var(--ink);
+            opacity: 0.03;
+            z-index: -1;
+        }
+        .manuscript::before {
+            top: -10px; left: 20px; right: 20px; height: 20px;
+            border-radius: 50%;
+        }
+        .manuscript::after {
+            bottom: -10px; left: 20px; right: 20px; height: 20px;
+            border-radius: 50%;
+        }
+
+        .header {
+            grid-area: header;
+            border-bottom: 3px double var(--red);
+            padding-bottom: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin: 0;
+            color: var(--red);
+            font-weight: 700;
+            letter-spacing: -1px;
+            line-height: 0.9;
+            text-transform: uppercase;
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .stamp {
+            border: 4px double var(--red);
+            color: var(--red);
+            padding: 8px 20px;
+            font-weight: bold;
+            transform: rotate(5deg);
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            background: var(--paper);
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+        }
+
+        .portrait-container {
+            grid-area: portrait;
+            position: relative;
+            padding-right: 30px;
+        }
+
+        .portrait {
+            width: 100%;
+            max-width: 400px;
+            border: 8px solid white;
+            box-shadow: 
+                10px 10px 0 var(--red),
+                20px 20px 0 rgba(128, 0, 0, 0.1);
+            filter: grayscale(30%) contrast(110%) sepia(10%);
+            transition: transform 0.3s ease;
+        }
+        .portrait:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 
+                15px 15px 0 var(--red),
+                25px 25px 0 rgba(128, 0, 0, 0.1);
+        }
+
+        .red-pen-overlay {
+            position: absolute;
+            top: -15px;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: var(--red);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 20% 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transform: rotate(15deg);
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+        }
+
+        .specs {
+            grid-area: specs;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            background: rgba(128, 0, 0, 0.03);
+            padding: 25px;
+            border-left: 5px solid var(--red);
+        }
+
+        .specs h2 {
+            margin-top: 0;
+            color: var(--red);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .specs table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .specs th {
+            text-align: left;
+            padding: 8px 0;
+            color: var(--gray);
+            font-weight: 500;
+            width: 120px;
+            vertical-align: top;
+        }
+        .specs td {
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(128,0,0,0.2);
+        }
+
+        .quirks {
+            grid-area: quirks;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .quirk-card {
+            background: var(--yellow);
+            padding: 20px;
+            border-radius: 0;
+            border: 2px solid var(--red);
+            transform: rotate(var(--rot));
+            box-shadow: 5px 5px 0 rgba(128,0,0,0.2);
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+        .quirk-card:nth-child(1) { --rot: -1deg; }
+        .quirk-card:nth-child(2) { --rot: 0.5deg; }
+        .quirk-card:nth-child(3) { --rot: 1.5deg; }
+        .quirk-card:nth-child(4) { --rot: -0.5deg; }
+        .quirk-card:hover {
+            transform: rotate(0deg) scale(1.02);
+            z-index: 1;
+        }
+
+        .quirk-card h3 {
+            margin-top: 0;
+            color: var(--red);
+            font-size: 1.2rem;
+            border-bottom: 1px solid var(--red);
+            padding-bottom: 5px;
+        }
+
+        .signature {
+            grid-area: signature;
+            background: var(--blue);
+            color: white;
+            padding: 30px;
+            margin-top: 30px;
+            border-left: 10px solid var(--red);
+            position: relative;
+            overflow: hidden;
+        }
+        .signature::before {
+            content: '“';
+            position: absolute;
+            top: -30px;
+            right: 30px;
+            font-size: 10rem;
+            color: rgba(255,255,255,0.1);
+            font-family: serif;
+        }
+
+        .signature h2 {
+            margin-top: 0;
+            font-size: 2rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .signature-move {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin: 20px 0;
+            padding-left: 20px;
+            border-left: 4px solid var(--red);
+        }
+
+        .footer {
+            grid-area: footer;
+            border-top: 1px solid rgba(128,0,0,0.3);
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
+        /* Ink splatters */
+        .ink-splatter {
+            position: absolute;
+            background: radial-gradient(circle, rgba(128,0,0,0.1) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        .splatter1 { top: 10%; left: 5%; width: 200px; height: 200px; }
+        .splatter2 { bottom: 15%; right: 8%; width: 150px; height: 150px; }
+
+        @media (max-width: 900px) {
+            .manuscript {
+                grid-template-columns: 1fr;
+                grid-template-areas: 
+                    "header"
+                    "portrait"
+                    "specs"
+                    "quirks"
+                    "signature"
+                    "footer";
+                gap: 30px;
+                padding: 30px;
+            }
+            .portrait-container {
+                padding-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ink-splatter splatter1"></div>
+    <div class="ink-splatter splatter2"></div>
+
+    <div class="manuscript">
+        <div class="header">
+            <div>
+                <h1>The Editor</h1>
+                <div class="subtitle">Prose Synthesizer · Final Cut · Narrative Cohesion</div>
+            </div>
+            <div class="stamp">SYNTHESIS ACTIVE</div>
+        </div>
+
+        <div class="portrait-container">
+            <div class="red-pen-overlay">✂️</div>
+            <img src="editor-portrait.png" alt="The Editor" class="portrait" onerror="this.src='https://via.placeholder.com/400x500/0a0a0a/800000?text=THE+EDITOR'">
+            <p style="font-size: 0.8rem; text-align: center; margin-top: 10px; color: var(--gray);">Subject: 00-SYNTHESIZER · Last updated: 04.03.2026</p>
+        </div>
+
+        <div class="specs">
+            <h2>Technical Specifications</h2>
+            <table>
+                <tr>
+                    <th>Model</th>
+                    <td>nvidia/nemotron-3-super-120b-a12b:free</td>
+                </tr>
+                <tr>
+                    <th>Context</th>
+                    <td>1,000,000 tokens</td>
+                </tr>
+                <tr>
+                    <th>Role</th>
+                    <td>Receives ALL writer drafts, extracts the strongest lines from each, merges into one unified 200-400 word scene with lookDescriptions.</td>
+                </tr>
+                <tr>
+                    <th>Execution</th>
+                    <td>Run AFTER all writers complete. Never engage without at least 2 writer drafts.</td>
+                </tr>
+                <tr>
+                    <th>Cost</th>
+                    <td>$1/$3 per million tokens (input/output)</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td><strong style="color: var(--red);">ACTIVE · AUTHORITATIVE · FINAL CUT</strong></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="quirks">
+            <div class="quirk-card">
+                <h3>Dietary Requirements</h3>
+                <p>Red ink and bitter almonds. Will accept a well‑placed semicolon in a pinch.</p>
+            </div>
+            <div class="quirk-card">
+                <h3>Prior Employment</h3>
+                <p>Head Censor for <em>The Obscura Gazette</em>; ghost‑writer for three forgotten pulp‑horror serials.</p>
+            </div>
+            <div class="quirk-card">
+                <h3>Recreational Pursuits</h3>
+                <p>Sorting through the discarded drafts of history; cataloging the deleted scenes of reality.</p>
+            </div>
+            <div class="quirk-card">
+                <h3>Core Ambition</h3>
+                <p>The construction of the perfect, inescapable sentence—one that closes like a trap.</p>
+            </div>
+        </div>
+
+        <div class="signature">
+            <h2>Signature Move</h2>
+            <div class="signature-move">
+                <strong>THE STITCH</strong> — When multiple drafts collide, The Editor does not choose one over another. Instead, they identify the strongest line from each writer, then weave them together into a seamless whole. The resulting prose bears the dread of Dark Scribe, the character depth of

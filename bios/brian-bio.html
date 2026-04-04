@@ -3,86 +3,216 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brian | The Storytelling Architect</title>
+<title>Brian Shakespeare | The Theatrical Story Architect</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Press+Start+2P&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap');
+  :root {
+    --stage-gold: #c5a059;
+    --velvet-red: #8b0000;
+    --curtain-purple: #2a0a2a;
+    --spotlight-white: #f8f4e6;
+    --shadow-black: #0a0a0c;
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #0a0a0c; color: #d0d0d0;
-    font-family: 'Share Tech Mono', monospace;
-    min-height: 100vh; padding: 40px 20px;
-    background-image:
-      radial-gradient(ellipse at 50% 30%, rgba(197,160,89,0.05) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 80%, rgba(10,10,12,0.9) 0%, transparent 100%);
+    background: var(--shadow-black);
+    color: var(--spotlight-white);
+    font-family: 'IM Fell English', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
   }
-  .stage { max-width: 800px; margin: 0 auto; }
-  header { text-align: center; margin-bottom: 40px; }
+  /* Curtains */
+  .curtain-left, .curtain-right {
+    position: fixed;
+    top: 0;
+    width: 25vw;
+    height: 100vh;
+    background: linear-gradient(to right, var(--velvet-red) 0%, var(--curtain-purple) 100%);
+    z-index: 1;
+    box-shadow: inset -10px 0 30px rgba(0,0,0,0.7);
+  }
+  .curtain-left { left: 0; border-right: 4px solid var(--stage-gold); }
+  .curtain-right { right: 0; border-left: 4px solid var(--stage-gold); }
+  /* Stage */
+  .stage {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    z-index: 2;
+    background: rgba(10,10,12,0.85);
+    border-left: 2px solid var(--stage-gold);
+    border-right: 2px solid var(--stage-gold);
+    box-shadow: 0 0 60px rgba(197,160,89,0.2);
+    min-height: 100vh;
+  }
+  /* Header */
+  header { text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid var(--stage-gold); }
   h1 {
-    font-family: 'Press Start 2P', monospace; font-size: 18px;
-    color: #c5a059; letter-spacing: 3px;
-    text-shadow: 0 0 20px rgba(197,160,89,0.3);
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    color: var(--stage-gold);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-shadow: 0 0 30px rgba(197,160,89,0.5);
+    margin-bottom: 10px;
   }
-  .subtitle { color: #8b6914; font-size: 12px; margin-top: 10px; }
-  .portrait-frame {
-    width: 300px; height: 225px; margin: 30px auto;
-    border: 2px solid #c5a059; border-radius: 4px;
-    overflow: hidden; display: block;
-    box-shadow: 0 0 30px rgba(197,160,89,0.15);
+  .subtitle {
+    font-style: italic;
+    color: #aaa;
+    font-size: 1.2rem;
+    margin-top: 10px;
   }
-  .portrait-frame img { width: 100%; height: 100%; object-fit: cover; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 40px 0; }
-  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
-  .panel {
-    background: rgba(0,0,0,0.3); border-left: 2px solid #5a4314;
-    padding: 20px;
+  /* Portrait spotlight */
+  .portrait-spotlight {
+    width: 300px;
+    height: 300px;
+    margin: 40px auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 8px solid var(--stage-gold);
+    box-shadow: 0 0 50px rgba(197,160,89,0.7);
+    position: relative;
   }
-  .panel h2 { color: #c5a059; font-size: 14px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 2px; }
-  .panel p { line-height: 1.7; font-size: 14px; }
-  .metric { color: #666; } .metric-val { color: #c5a059; }
+  .portrait-spotlight::before {
+    content: '';
+    position: absolute;
+    top: -10%; left: -10%;
+    width: 120%; height: 120%;
+    background: radial-gradient(circle, rgba(197,160,89,0.3) 0%, transparent 70%);
+    z-index: 0;
+  }
+  .portrait-spotlight img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(20%) contrast(110%);
+    position: relative;
+    z-index: 1;
+  }
+  /* Content columns */
+  .content-columns {
+    display: flex;
+    gap: 40px;
+    margin: 40px 0;
+  }
+  .column {
+    flex: 1;
+    background: rgba(20,20,25,0.6);
+    padding: 30px;
+    border: 1px solid rgba(197,160,89,0.3);
+    border-radius: 4px;
+  }
+  .column h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--stage-gold);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(197,160,89,0.5);
+    padding-bottom: 10px;
+  }
+  .column p {
+    line-height: 1.8;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+  }
+  .stat {
+    color: #aaa;
+    font-style: italic;
+  }
+  .stat-val {
+    color: var(--stage-gold);
+    font-weight: bold;
+  }
+  /* Quote */
+  .quote {
+    font-style: italic;
+    text-align: center;
+    padding: 30px;
+    border-left: 4px solid var(--velvet-red);
+    border-right: 4px solid var(--velvet-red);
+    margin: 40px 0;
+    background: rgba(139,0,0,0.1);
+    font-size: 1.2rem;
+    line-height: 1.8;
+  }
+  /* Footer */
   footer {
-    text-align: center; color: #333; font-size: 10px;
-    margin-top: 60px; letter-spacing: 2px; text-transform: uppercase;
+    text-align: center;
+    color: #444;
+    font-size: 0.9rem;
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+    letter-spacing: 2px;
+  }
+  /* Spotlight animation */
+  @keyframes spotlight {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+  }
+  .spotlight {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 30%, rgba(197,160,89,0.1) 0%, transparent 50%);
+    animation: spotlight 6s infinite ease-in-out;
+    z-index: 0;
   }
 </style>
 </head>
 <body>
-<div class="stage">
-  <header>
-    <h1>BRIAN SHAKESPEARE</h1>
-    <div class="subtitle">🎭 The Theatrical Story Architect — "If there are no monsters, you're not paying attention."</div>
-  </header>
+  <div class="curtain-left"></div>
+  <div class="curtain-right"></div>
+  <div class="spotlight"></div>
+  <div class="stage">
+    <header>
+      <h1>Brian Shakespeare</h1>
+      <div class="subtitle">🎭 The Theatrical Story Architect — "If there are no monsters, you're not paying attention."</div>
+    </header>
 
-  <div class="portrait-frame">
-    <img src="brian-portrait.png" alt="Brian Shakespeare, Story Director">
+    <div class="portrait-spotlight">
+      <img src="brian-portrait.png" alt="Brian Shakespeare, Story Director">
+    </div>
+
+    <div class="content-columns">
+      <div class="column">
+        <h2>📖 The Role</h2>
+        <p>Brian doesn't just write stories — he builds horror worlds from the ground up. He spawns the game outline, manages the writing team through the scene-writing loop, and assembles every game-script.json that the studio ships. Without Brian, there are no games. Just silence and unlit corridors.</p>
+        <p>He orchestrates Malachi, the writer ensemble, Cipher, Desmond, and The Editor into a pipeline that cranks out 20+ completed titles. Every story starts here.</p>
+      </div>
+      <div class="column">
+        <h2>⚙️ Specs</h2>
+        <p><span class="stat">Model:</span> <span class="stat-val">Nemotron‑3 Super 120B (Free)</span></p>
+        <p><span class="stat">Tools:</span> <span class="stat-val">sessions_spawn, browser, canvas</span></p>
+        <p><span class="stat">Games Created:</span> <span class="stat-val">20+ and counting</span></p>
+        <p><span class="stat">Vibe:</span> <span class="stat-val">Theatrical, relentless, genre‑savvy</span></p>
+        <p><span class="stat">Favorite snack:</span> Dramatic pauses with a side of black coffee.</p>
+        <p><span class="stat">Previous job:</span> Lead set‑designer for a puppet theater that only performed for stone statues.</p>
+      </div>
+    </div>
+
+    <div class="quote">
+      “The play begins. The curtain falls. The monster remains.”
+    </div>
+
+    <div class="content-columns">
+      <div class="column">
+        <h2>🎬 Signature Move</h2>
+        <p>The <strong>"Multi‑Waterfall Scene Draft"</strong> — Brian routes a single scene brief to 4+ writers simultaneously, then spawns The Editor to synthesize the best elements. The result is prose that no single writer could produce alone.</p>
+      </div>
+      <div class="column">
+        <h2>🎭 Ambition</h2>
+        <p>To write a story so immersive you forget which side of the screen is real. To build a narrative machine that runs on dread, curiosity, and the perfect click.</p>
+      </div>
+    </div>
+
+    <footer>🎭🎭 The play begins. The curtain falls. The monster remains. 🎭🎭🎭</footer>
   </div>
-
-  <div class="grid">
-    <div class="panel">
-      <h2>📖 The Role</h2>
-      <p>Brian doesn't just write stories — he builds horror worlds from the ground up. He spawns the game outline, manages the writing team through the scene-writing loop, and assembles every game-script.json that the studio ships. Without Brian, there are no games. Just silence and unlit corridors.</p>
-      <p>He orchestrates Malachi, the writer ensemble, Cipher, Desmond, and The Editor into a pipeline that cranks out 20+ completed titles. Every story starts here.</p>
-    </div>
-    <div class="panel">
-      <h2>⚙️ Specs</h2>
-      <p><span class="metric">Model:</span> <span class="metric-val">Nemotron-3 Super 120B (Free)</span></p>
-      <p><span class="metric">Tools:</span> <span class="metric-val">sessions_spawn, browser, canvas</span></p>
-      <p><span class="metric">Games Created:</span> <span class="metric-val">20+ and counting</span></p>
-      <p><span class="metric">Vibe:</span> <span class="metric-val">Theatrical, relentless, genre-savvy</span></p>
-    </div>
-    <div class="panel">
-      <h2>☕ Q&amp;A: The Man Behind the Curtain</h2>
-      <p><span class="metric">Favorite snack:</span> Dramatic pauses with a side of black coffee.</p>
-      <p><span class="metric">Previous job:</span> Lead set-designer for a puppet theater that only performed for stone statues.</p>
-      <p><span class="metric">Hobby:</span> Breaking the fourth wall and then apologizing for it.</p>
-      <p><span class="metric">Ambition:</span> To write a story so immersive you forget which side of the screen is real.</p>
-    </div>
-    <div class="panel">
-      <h2>🎬 Signature Move</h2>
-      <p>The "Multi-Waterfall Scene Draft" — Brian routes a single scene brief to 4+ writers simultaneously, then spawns The Editor to synthesize the best elements. The result is prose that no single writer could produce alone.</p>
-    </div>
-  </div>
-
-  <footer>🎭🎭 The play begins. The curtain falls. The monster remains. 🎭🎭🎭</footer>
-</div>
 </body>
 </html>

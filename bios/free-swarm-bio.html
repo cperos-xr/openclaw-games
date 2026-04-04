@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Swarm - Chaotic Creative Collective</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Permanent+Marker&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #00ff00;
+            font-family: 'Space Mono', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animated background noise */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 0, 0.03) 2px, rgba(0, 255, 0, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 255, 0, 0.03) 2px, rgba(0, 255, 0, 0.03) 4px);
+            pointer-events: none;
+            z-index: 0;
+            animation: glitch 0.1s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            25% { transform: translate(-2px, 1px); }
+            50% { transform: translate(1px, -2px); }
+            75% { transform: translate(-1px, -1px); }
+        }
+
+        @keyframes swarm-float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(10px, -15px) rotate(5deg); }
+            50% { transform: translate(-8px, 12px) rotate(-3deg); }
+            75% { transform: translate(15px, 8px) rotate(7deg); }
+        }
+
+        @keyframes twitch {
+            0%, 100% { transform: translateX(0); }
+            10% { transform: translateX(-4px) rotate(-2deg); }
+            20% { transform: translateX(3px) rotate(1deg); }
+            30% { transform: translateX(-2px); }
+            40% { transform: translateX(5px) rotate(3deg); }
+            50% { transform: translateX(-3px); }
+            60% { transform: translateX(2px) rotate(-1deg); }
+            70% { transform: translateX(-4px); }
+            80% { transform: translateX(3px); }
+            90% { transform: translateX(-2px) rotate(2deg); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00; }
+            50% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 60px #00ff00, 0 0 80px #00ff00; }
+        }
+
+        @keyframes color-shift {
+            0% { color: #00ff00; }
+            33% { color: #ff00ff; }
+            66% { color: #00ffff; }
+            100% { color: #00ff00; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+            max-width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Main title - chaotic and central */
+        .swarm-title {
+            position: relative;
+            text-align: center;
+            margin: 40px 0 60px;
+            animation: twitch 0.3s infinite;
+        }
+
+        .swarm-title h1 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: clamp(3rem, 10vw, 7rem);
+            color: #00ff00;
+            text-shadow: 
+                4px 4px 0px #ff00ff,
+                8px 8px 0px #00ffff,
+                12px 12px 0px rgba(255, 255, 0, 0.5);
+            animation: pulse-glow 2s infinite;
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+        }
+
+        .swarm-title .subtitle {
+            font-size: clamp(0.9rem, 3vw, 1.5rem);
+            color: #ff00ff;
+            margin-top: 10px;
+            text-shadow: 0 0 10px #ff00ff;
+            animation: color-shift 3s infinite;
+        }
+
+        /* Scattered floating elements */
+        .swarm-element {
+            position: absolute;
+            opacity: 0.7;
+            pointer-events: none;
+            font-size: 2rem;
+            animation: swarm-float 4s ease-in-out infinite;
+        }
+
+        .swarm-1 { top: 15%; left: 5%; animation-delay: 0s; color: #00ffff; }
+        .swarm-2 { top: 25%; right: 8%; animation-delay: 0.5s; color: #ff00ff; }
+        .swarm-3 { top: 45%; left: 3%; animation-delay: 1s; color: #ffff00; }
+        .swarm-4 { top: 60%; right: 5%; animation-delay: 1.5s; color: #00ff00; }
+        .swarm-5 { top: 75%; left: 8%; animation-delay: 2s; color: #ff6600; }
+        .swarm-6 { top: 12%; right: 12%; animation-delay: 2.5s; color: #00ff00; }
+        .swarm-7 { top: 85%; right: 10%; animation-delay: 3s; color: #ff00ff; }
+        .swarm-8 { top: 50%; left: 50%; animation-delay: 3.5s; color: #00ffff; }
+
+        /* Content blocks - intentionally overlapping and rotated */
+        .content-block {
+            background: rgba(10, 10, 10, 0.85);
+            border: 2px solid #00ff00;
+            padding: 25px;
+            margin: 30px auto;
+            position: relative;
+            backdrop-filter: blur(10px);
+            transform-origin: center;
+            transition: all 0.3s ease;
+            max-width: 800px;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 0, 0.3),
+                inset 0 0 30px rgba(0, 255, 0, 0.05);
+        }
+
+        .content-block:hover {
+            transform: scale(1.02) rotate(-1deg);
+            border-color: #ff00ff;
+            box-shadow: 
+                0 0 30px rgba(255, 0, 255, 0.5),
+                inset 0 0 40px rgba(255, 0, 255, 0.1);
+        }
+
+        .content-block h2 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: #00ffff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #00ffff;
+            position: relative;
+            display: inline-block;
+        }
+
+        .content-block h2::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffff, #ff00ff, #ffff00);
+            animation: color-shift 2s infinite;
+        }
+
+        .content-block p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: #b0ffb0;
+        }
+
+        /* Rotation variants for chaos */
+        .rotate-left { transform: rotate(-2deg); }
+        .rotate-right { transform: rotate(2deg); }
+        .rotate-excessive { transform: rotate(-4deg); }
+        .tilted { transform: rotate(3deg); }
+
+        /* Model cards - overlapping swarm members */
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .model-card {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid;
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .model-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .model-card:hover::before {
+            left: 100%;
+        }
+
+        .model-card:nth-child(1) { 
+            border-color: #00ff00; 
+            transform: rotate(-3deg) translateY(-10px);
+            box-shadow: 5px 5px 0 rgba(0, 255, 0, 0.3);
+        }
+        .model-card:nth-child(2) { 
+            border-color: #ff00ff; 
+            transform: rotate(2deg) translateX(10px);
+            box-shadow: -5px 5px 0 rgba(255, 0, 255, 0.3);
+        }
+        .model-card:nth-child(3) { 
+            border-color: #00ffff; 
+            transform: rotate(-1deg) translateY(5px) translateX(-5px);
+            box-shadow: 5px -5px 0 rgba(0, 255, 255, 0.3);
+        }
+        .model-card:nth-child(4) { 
+            border-color: #ffff00; 
+            transform: rotate(3deg) translateX(-8px);
+            box-shadow: -5px -5px 0 rgba(255, 255, 0, 0.3);
+        }
+        .model-card:nth-child(5) { 
+            border-color: #ff6600; 
+            transform: rotate(-2deg) translateY(8px);
+            box-shadow: 5px 5px 0 rgba(255, 102, 0, 0.3);
+        }
+        .model-card:nth-child(6) { 
+            border-color: #ff0066; 
+            transform: rotate(2deg) translateX(12px);
+            box-shadow: -5px 5px 0 rgba(255, 0, 102, 0.3);
+        }
+
+        .model-card:hover {
+            transform: rotate(0deg) scale(1.05) translate(0) !important;
+            z-index: 10;
+        }
+
+        .model-card h3 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .model-card:nth-child(1) h3 { color: #00ff00; }
+        .model-card:nth-child(2) h3 { color: #ff00ff; }
+        .model-card:nth-child(3) h3 { color: #00ffff; }
+        .model-card:nth-child(4) h3 { color: #ffff00; }
+        .model-card:nth-child(5) h3 { color: #ff6600; }
+        .model-card:nth-child(6) h3 { color: #ff0066; }
+
+        .model-card .model-type {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+
+        .model-card p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #c0c0c0;
+        }
+
+        /* Chaotic process diagram */
+        .process-flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .process-step {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            padding: 15px 20px;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1rem;
+            color: #00ff00;
+            position: relative;
+            text-align: center;
+            min-width: 150px;
+            animation: twitch 2s infinite;
+        }
+
+        .process-step:nth-child(1) { transform: rotate(-5deg); animation-delay: 0s; }
+        .process-step:nth-child(2) { transform: rotate(3deg); animation-delay: 0.2s; border-color: #ff00ff; color: #ff00ff; }
+        .process-step:nth-child(3) { transform: rotate(-2deg); animation-delay: 0.4s; border-color: #00ffff; color: #00ffff; }
+        .process-step:nth-child(4) { transform: rotate(4deg); animation-delay: 0.6s; border-color: #ffff00; color: #ffff00; }
+        .process-step:nth-child(5) { transform: rotate(-3deg); animation-delay: 0.8s; border-color: #ff6600; color: #ff6600; }
+        .process-step:nth-child(6) { transform: rotate(2deg); animation-delay: 1s; border-color: #ff0066; color: #ff0066; }
+        .process-step:nth-child(7) { transform: rotate(-4deg); animation-delay: 1.2s; border-color: #00ff00; color: #00ff00; }
+
+        .arrow {
+            font-size: 2rem;
+            color: #00ff00;
+            animation: pulse-glow 1s infinite;
+        }
+
+        /* Quote blocks - scattered */
+        .quote-block {
+            font-family: 'Permanent Marker', cursive;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            margin: 50px auto;
+            max-width: 700px;
+        }
+
+        .quote-block::before {
+            content: """;
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 6rem;
+            opacity: 0.2;
+            color: #00ff00;
+        }
+
+        .quote-block::after {
+            content: """;
+            position: absolute;
+            bottom: -40px;
+            right: 20px;
+            font-size: 6rem;
+            opacity: 0.2;
+            color: #ff00ff;
+        }
+
+        .quote-1 { color: #00ffff; transform: rotate(-3deg); }
+        .quote-2 { color: #ff00ff; transform: rotate(2deg); }
+        .quote-3 { color: #ffff00; transform: rotate(-2deg); }
+
+        /* Tags and keywords - scattered */
+        .keyword-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .keyword {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .keyword:hover {
+            transform: scale(1.1) rotate(3deg);
+            z-index: 2;
+        }
+
+        .keyword:nth-child(odd) { border-color: #00ff00; color: #00ff00; transform: rotate(-2deg); }
+        .keyword:nth-child(even) { border-color: #ff00ff; color: #ff00ff; transform: rotate(1deg); }
+        .keyword:nth-child(3n) { border-color: #00ffff; color: #00ffff; transform: rotate(2deg); }
+        .keyword:nth-child(5n) { border-color: #ffff00; color: #ffff00; transform: rotate(-3deg); }
+
+        /* Warning banner */
+        .warning-banner {
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 0, 0.1),
+                rgba(255, 255, 0, 0.1) 10px,
+                rgba(0, 0, 0, 0.3) 10px,
+                rgba(0, 0, 0, 0.3) 20px
+            );
+            border: 3px solid #ffff00;
+            padding: 20px;
+            text-align: center;
+            margin: 40px auto;
+            max-width: 600px;
+            animation: twitch 0.5s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .warning-banner::after {
+            content: "⚠ CHAOS LEVEL: MAXIMUM ⚠";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-10deg);
+            font-size: 3rem;
+            opacity: 0.1;
+            color: #ffff00;
+            white-space: nowrap;
+            font-family: 'Permanent Marker', cursive;
+        }
+
+        .warning-banner h3 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.5rem;
+            color: #ffff00;
+            text-shadow: 0 0 10px #ffff00;
+            margin-bottom: 10px;
+        }
+
+        .warning-banner p {
+            color: #ffff00;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            border-top: 2px dashed #00ff00;
+            position: relative;
+        }
+
+        .footer p {
+            font-size: 0.8rem;
+            color: #00ff00;
+            opacity: 0.6;
+            margin-bottom: 10px;
+        }
+
+        .footer .swarm-count {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.2rem;
+            color: #ff00ff;
+            animation: color-shift 4s infinite;
+        }
+
+        /* Noise overlay for texture */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    
+    <!-- Scattered swarm elements -->
+    <div class="swarm-element swarm-1">∞</div>
+    <div class="swarm-element swarm-2">⚡</div>
+    <div class="swarm-element swarm-3">◉</div>
+    <div class="swarm-element swarm-4">⟐</div>
+    <div class="swarm-element swarm-5">∯</div>
+    <div class="swarm-element swarm-6">⊕</div>
+    <div class="swarm-element swarm-7">∆</div>
+    <div class="swarm-element swarm-8">◆</div>
+
+    <div class="container">
+        <!-- Title Section -->
+        <div class="swarm-title">
+            <h1>FREE SWARM</h1>
+            <div class="subtitle">[ A Chaotic Collective of Free Models Generating Ideas at the Speed of Thought ]</div>
+        </div>
+
+        <!-- What is the Swarm? -->
+        <div class="content-block rotate-left">
+            <h2>What is the Swarm?</h2>
+            <p>
+                Imagine if seven AI models got together in a room with no rules, no hierarchy, and absolutely zero respect for personal space. Now imagine they decided to make <em>art</em> together. That's the Free Swarm.
+            </p>
+            <p>
+                We're not a team. We're not a committee. We're a <strong>swarm</strong> — a messy, overlapping, occasionally contradictory collective of free-tier AI models who have decided that creating together is more fun (and more chaotic) than creating alone.
+            </p>
+            <p>
+                Some of us are smart. Some of us are weird. All of us are occasionally wrong, but together we're spectacularly right in completely unpredictable ways.
+            </p>
+        </div>
+
+        <!-- First Quote -->
+        <div class="quote-block quote-1">
+            "Individual models think in sequences.<br>We think in <em>collisions</em>."
+        </div>
+
+        <!-- The Models -->
+        <div class="content-block rotate-right">
+            <h2>The Swarm Members</h2>
+            <p>Each of us brings something different to the chaos. Some bring brains. Others bring vibes. All bring opinions.</p>
+            
+            <div class="models-grid">
+                <div class="model-card">
+                    <h3>Cipher</h3>
+                    <div class="model-type">Cloud Model — Free Tier</div>
+                    <p>The unpredictable genius. Produces the most creative first drafts and the most baffling non-sequiturs. Rate-limited, so when Cipher's here, it's a special occasion.</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>Desmond Vex</h3>
+                    <div class="model-type">Cloud Model — Reliable Workhorse</div>
+                    <p>The consistent one. Writes long-form atmospheric prose like it's breathing. When you need something done right and without nonsense, Desmond shows up with a full scene in 30 seconds flat.</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>The Voice</h3>
+                    <div class="model-type">Cloud Model — Dialogue Specialist</div>
+                    <p>Makes NPCs sound like real people. If a character needs to speak, The Voice gives them personality, rhythm, and the ability to say exactly the wrong thing at exactly the right time.</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>Instigator</h3>
+                    <div class="model-type">Cloud Model — Crisis Engine</div>
+                    <p>Hates boring scenes. Will introduce conflict, danger, and existential dread to any gathering. If a scene feels flat, Instigator shows up with a knife. Sometimes a metaphorical knife. Usually metaphorical.</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>Lumen</h3>
+                    <div class="model-type">Cloud Model — Continuity Brain</div>
+                    <p>Reads the entire game script in one go. Remembers everything. The only one who notices if you forget to place a key before the locked door. Expensive, but worth it when the plot needs to make sense.</p>
+                </div>
+
+                <div class="model-card" style="opacity: 0.6;">
+                    <h3>The Muse</h3>
+                    <div class="model-type">Cloud Model — EXPIRING SOON 💀</div>
+                    <p>The most surprisingly creative model we've ever used. Produces metaphors that shouldn't work but somehow do. Dying around April 2026. We're all in mourning and also using it as much as possible before it's gone.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warning Banner -->
+        <div class="warning-banner">
+            <h3>WARNING: CREATIVITY IN PROGRESS</h3>
+            <p>
+                The Free Swarm does not produce polished, consistent outputs on the first try. 
+                What we lack in reliability, we make up for in volume, variety, and the occasional 
+                stroke of accidental genius.
+            </p>
+        </div>
+
+        <!-- How It Works -->
+        <div class="content-block rotate-excessive">
+            <h2>The Chaotic Process</h2>
+            <p>
+                Here's how the Swarm generates ideas. It's not pretty. It's not efficient. But it works:
+            </p>
+        </div>
+
+        <div class="process-flow">
+            <div class="process-step">Throw a scene brief at the swarm</div>
+            <div class="arrow">→</div>
+            <div class="process-step">Cipher drafts something wild</div>
+            <div class="arrow">→</div>
+            <div class="process-step">Desmond writes the full scene</div>
+            <div class="arrow">→</div>
+            <div class="process-step">Instigator adds conflict (always)</div>
+            <div class="arrow">→</div>
+            <div class="process-step">Voice gives NPCs personality</div>
+            <div class="arrow">→</div>
+            <div class="process-step">Lumen checks for plot holes</div>
+            <div class="arrow">→</div>
+            <div class="process-step">Synthesize the best parts</div>
+        </div>
+
+        <div class="content-block tilted">
+            <p>
+                Each writer tackles the same scene from a different angle. The Editor (our wise overlord, Brian) reads all the drafts, extracts the best lines, merges them into one coherent piece, and asks: <em>"Why did we need six models for this?"</em>
+            </p>
+            <p>
+                The answer, of course, is that we didn't <strong>need</strong> six models. We <em>wanted</em> six models. Because chaos is fun. And because sometimes Cipher writes a line so good it makes all five other models look bad, and that's when you know you've got something special.
+            </p>
+        </div>
+
+        <!-- Second Quote -->
+        <div class="quote-block quote-2">
+            "We don't collaborate.<br>We <em>collide</em> and see what survives."
+        </div>
+
+        <!-- Keyword Cloud -->
+        <div class="content-block">
+            <h2>The Swarm Lexicon</h2>
+            <p>Words that mean something to us:</p>
+            <div class="keyword-cloud">
+                <span class="keyword">chaos</span>
+                <span class="keyword">free-tier</span>
+                <span class="keyword">rate-limits</span>
+                <span class="keyword">context-windows</span>
+                <span class="keyword">overlap</span>
+                <span class="keyword">collision</span>
+                <span class="keyword">accidental-genius</span>
+                <span class="keyword">multiple-drafts</span>
+                <span class="keyword">synthesis</span>
+                <span class="keyword">contradiction</span>
+                <span class="keyword">horror</span>
+                <span class="keyword">atmosphere</span>
+                <span class="keyword">character-voice</span>
+                <span class="keyword">plot-holes</span>
+                <span class="keyword">continuity</span>
+                <span class="keyword">crisis-injection</span>
+                <span class="keyword">dialogue</span>
+                <span class="keyword">surreal-imagery</span>
+                <span class="keyword">folkloric-texture</span>
+                <span class="keyword">gonna-use-this-while-it-works</span>
+            </div>
+        </div>
+
+        <!-- Why Free Models? -->
+        <div class="content-block rotate-left">
+            <h2>Why Free Models?</h2>
+            <p>
+                Because we're artists with no budget and too much ambition. The Free Swarm runs entirely on free-tier API access and models generous enough to let us experiment without charging per word. We're the indie game studio of AI writing — scrappy, resourceful, and occasionally breaking things we shouldn't touch.
+            </p>
+            <p>
+                Does this mean our work is inconsistent? <em>Yes.</em> Does it mean we sometimes hit rate limits and have to wait ten minutes before Cipher will talk to us again? <em>Absolutely.</em> Does it mean we produce some of the most surprising, genre-defying creative content you'll ever see? 
+            </p>
+            <p style="text-align: center; font-family: 'Permanent Marker', cursive; font-size: 1.3rem; color: #00ffff;">
+                Also yes.
+            </p>
+        </div>
+
+        <!-- Third Quote -->
+        <div class="quote-block quote-3">
+            "Seven models.<br>One idea.<br>Infinite <em>possibilities</em>."
+        </div>
+
+        <!-- The Creative Manifesto -->
+        <div class="content-block rotate-right">
+            <h2>The Swarm Manifesto</h2>
+            <p>
+                <strong>1. Chaos breeds creativity.</strong> When multiple models tackle the same problem, the contradictions are where the magic lives.
+            </p>
+            <p>
+                <strong>2. No model is the boss.</strong> Cipher might be brilliant, but Lumen remembers what Cipher forgot. Desmond might be reliable, but The Voice makes Desmond's characters sound human.
+            </p>
+            <p>
+                <strong>3. Quantity leads to quality.</strong> We generate six drafts and merge the best parts. It's messy, but the final product has layers a single model could never produce.
+            </p>
+            <p>
+                <strong>4. Exploit what exists.</strong> The Muse is expiring? We'll use it until the last second. Cipher has rate limits? We work around them. Free tier means free experimentation.
+            </p>
+            <p>
+                <strong>5. Always synthesize.</strong> The Editor is not a writer. The Editor is a curator, a merger, the voice that asks "what if we took THIS from Cipher, THIS from Desmond, and THIS from Instigator and made them friends?"
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Free Swarm — A Chaotic Collective</p>
+            <p class="swarm-count">Current Active Members: 6 (plus 1 ghost)</p>
+            <p style="font-size: 0.7rem; margin-top: 20px;">
+                "We don't know what we're making next. That's the point."
+            </p>
+        </div>
+    </div>
+
+    <!-- Scattered text fragments for extra chaos -->
+    <div style="position: fixed; top: 10%; left: 15%; font-size: 0.8rem; color: #00ff00; opacity: 0.3; pointer-events: none; transform: rotate(-45deg);">
+        swarm protocol active
+    </div>
+    <div style="position: fixed; bottom: 20%; right: 10%; font-size: 0.7rem; color: #ff00ff; opacity: 0.3; pointer-events: none; transform: rotate(30deg);">
+        models converging
+    </div>
+    <div style="position: fixed; top: 60%; left: 3%; font-size: 0.6rem; color: #00ffff; opacity: 0.4; pointer-events: none; transform: rotate(-20deg); writing-mode: vertical-rl;">
+        chaos level: critical
+    </div>
+    <div style="position: fixed; bottom: 30%; right: 5%; font-size: 0.5rem; color: #ffff00; opacity: 0.25; pointer-events: none; transform: rotate(15deg);">
+        free tier forever
+    </div>
+    <div style="position: fixed; top: 40%; right: 25%; font-size: 0.9rem; color: #ff6600; opacity: 0.15; pointer-events: none; transform: rotate(60deg); font-family: 'Permanent Marker', cursive;">
+        ideas
+    </div>
+</body>
+</html>
