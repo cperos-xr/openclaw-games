@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Majestic | Game #029</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../standard-game-style.css">
+</head>
+<body class="openclaw-game layout-standard" data-layout="standard">
+  <header>
+    <h1>THE MAJESTIC</h1>
+    <div class="subtitle">OpenClaw Adventures - Game #029</div>
+  </header>
+
+  <div id="scene-name">THE LOBBY</div>
+
+  <div class="game-container">
+    <div class="art-panel">
+      <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+      </div>
+    </div>
+
+    <div class="text-panel">
+      <div id="text-display"></div>
+
+      <div id="command-status" class="status-line"></div>
+
+      <div class="command-bar">
+        <button class="cmd-btn active" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      </div>
+
+      <div class="subpanel targets-panel">
+        <h3>TARGETS</h3>
+        <div id="targets-bar"></div>
+      </div>
+
+      <div class="subpanel inventory-panel">
+        <h3>INVENTORY</h3>
+        <div id="inventory-bar">
+          <span class="empty-state">(empty)</span>
+        </div>
+      </div>
+
+      <div class="subpanel exits-panel">
+        <h3>EXITS</h3>
+        <div id="exits-bar"></div>
+      </div>
+
+      <div class="utility-bar">
+        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+        <button id="reset-game" class="utility-btn">RESET</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
+  </footer>
+
+  <script>
+window.GAME_DATA = {
+  "title": "The Majestic",
+  "slug": "the-majestic",
+  "number": 29,
+  "layout": "standard",
+  "artStyle": "HYBRID",
+  "setting": "An abandoned 1930s cinema sealed after a cursed final screening. The projector still runs. The audience never left.",
+  "characters": [
+    {
+      "id": "player",
+      "name": "The Explorer",
+      "description": "An urban explorer who slipped through a boarded side entrance into a theater that should not still be playing."
+    },
+    {
+      "id": "projectionist-skeleton",
+      "name": "The Projectionist",
+      "description": "A skeleton in a rotted uniform, found in maintenance. His last reel was not meant to be shown."
+    }
+  ],
+  "items": [
+    {
+      "id": "crowbar",
+      "name": "Crowbar",
+      "description": "A rusted crowbar, heavy in your hand. The boards won't survive this.",
+      "foundIn": "lobby",
+      "usedIn": "lobby",
+      "usedOn": "puzzle-1"
+    },
+    {
+      "id": "projection-lens",
+      "name": "Projection Lens",
+      "description": "A heavy glass lens in a velvet case. Cold to the touch, it absorbs light rather than reflecting it.",
+      "foundIn": "booth",
+      "usedIn": "booth",
+      "usedOn": "puzzle-2"
+    },
+    {
+      "id": "key-ticket",
+      "name": "Key Ticket",
+      "description": "A golden ticket stub, embossed with the words STAFF ONLY. It still bears a faint handprint.",
+      "foundIn": "booth",
+      "usedIn": "seats",
+      "usedOn": "puzzle-3"
+    },
+    {
+      "id": "velvet-ribbon",
+      "name": "Velvet Ribbon",
+      "description": "A dark ribbon knotted tight, as if gripped with someone's last breath. It feels heavier than cloth should.",
+      "foundIn": "seats",
+      "usedIn": "alley",
+      "usedOn": "puzzle-5"
+    },
+    {
+      "id": "fuse",
+      "name": "Fuse",
+      "description": "A cylindrical fuse, cold in your hand. The metal contacts are scorched black.",
+      "foundIn": "storage",
+      "usedIn": "maintenance",
+      "usedOn": "puzzle-4"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "lobby",
+      "name": "The Lobby",
+      "prose": "The velvet lobby reeks of mildew and old sugar. A concession counter sags under rotted popcorn and candy wrappers, the smell sharp with decay. Torn ticket stubs crunch under your boots like bone fragments. Up ahead, a boarded door stretches across the north wall—faded letters spell out PROJECTION beneath splintered planks. To the east, theater doors hang ajar, darkness pooling beyond. A crowbar leans against the ticket booth, half-hidden behind brittle yellowed playbills. The neon sign outside blinks once—MAJESTIC—then dies, leaving you in the gray gloom of whatever era this place has become.",
+      "exits": {
+        "north": "booth",
+        "east": "seats"
+      },
+      "items": [
+        "crowbar"
+      ],
+      "puzzles": [
+        "puzzle-1"
+      ],
+      "lookDescriptions": {
+        "concession-stand": "Rotting popcorn and candy wrappers. A CLOSED sign hangs crooked.",
+        "ticket-booth": "Glass shattered. Ticket rolls inside are brittle with age.",
+        "crowbar": "A rusted crowbar, heavy in your hand.",
+        "boarded-door": "Splintered planks over the north door. PROJECTION is barely legible beneath.",
+        "theater-doors": "Hanging ajar. Darkness pools beyond them."
+      }
+    },
+    {
+      "id": "booth",
+      "name": "Projection Booth",
+      "prose": "The projection booth is a tomb for stories. Dust-thick film cans stack like caskets against the east wall, their labels faded to ghosts. A 1930s projector dominates the room—a brass-and-steel beast missing its glass lens, the empty socket dark as an eye gone blind. On a worktable, the projection-lens rests in a velvet-lined case, untouched for decades. Beside it, a golden ticket stub gleams: STAFF ONLY, embossed in raised serif. East of the projector, a narrow storage door is sealed tight, the handle fused with rust. The air hums with the phantom warmth of a machine that hasn't run in years.",
+      "exits": {
+        "south": "lobby",
+        "east": "storage"
+      },
+      "items": [
+        "projection-lens",
+        "key-ticket"
+      ],
+      "puzzles": [
+        "puzzle-2"
+      ],
+      "lookDescriptions": {
+        "projector": "A brass-and-steel beast missing its lens. The socket is dark as an eye gone blind.",
+        "projection-lens": "A heavy glass lens in a velvet case. Cold to the touch.",
+        "key-ticket": "A golden ticket stub: STAFF ONLY in raised serif. It bears a faint handprint.",
+        "film-cans": "Rusted cans stacked like caskets. Labels read THE MIDNIGHT CURTAIN.",
+        "storage-door": "Sealed tight east of the projector. The handle is fused with rust."
+      }
+    },
+    {
+      "id": "seats",
+      "name": "The Theater",
+      "prose": "The theater is wrong. Rows of red velvet seats rise in tiers, and every single one is occupied. Not by people—by SHAPES, silhouettes cut from smoke and shadow. They face the torn silver screen at the front, heads tilted up. When you look directly at them, they're just empty seats. Look away, and the shadows breathe. At the aisle's end, a narrow door marked MAINTENANCE is bolted shut, its lock thick with grime. Tied around one of the front-row seats—a velvet ribbon, dark with age, knotted tight around the armrest as if someone gripped it with their last breath. The screen shivers, though there's no projector running.",
+      "exits": {
+        "west": "lobby",
+        "south": "maintenance"
+      },
+      "items": [
+        "velvet-ribbon"
+      ],
+      "puzzles": [
+        "puzzle-3"
+      ],
+      "lookDescriptions": {
+        "shadow-seats": "Every seat is occupied by a silhouette. Look away and they breathe. Look close and they're empty.",
+        "velvet-ribbon": "Knotted tight around the armrest. Dark with age, as if gripped with someone's last breath.",
+        "screen": "Torn silver fabric, shivering though no projector runs.",
+        "maintenance-door": "Bolted shut at the aisle's end. The lock is thick with grime."
+      }
+    },
+    {
+      "id": "storage",
+      "name": "Film Storage",
+      "prose": "The storage room smells of vinegar and burnt celluloid—the scent of film decaying into oblivion. Cans line the walls, rusted shut. On a single shelf, a fuse box cover has pried loose, revealing a cylindrical fuse nestled inside, its contacts scorched black. The fuse is cold, heavier than it should be. The door back to the booth is the only exit here, and it slams shut with a force you didn't apply. The shadows beneath the shelves deepen. Something moves in the corners of your vision. You should leave.",
+      "exits": {
+        "west": "booth"
+      },
+      "items": [
+        "fuse"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "film-cans": "Rusted shut. Their labels peeled away to nothing.",
+        "fuse": "Cylindrical, cold, with scorched contacts. It hums faintly against your palm.",
+        "fuse-box-cover": "Pried open. The fuse inside is the only clean thing in this room."
+      }
+    },
+    {
+      "id": "maintenance",
+      "name": "Maintenance Closet",
+      "prose": "The maintenance closet under the theater seats is a tangle of rusted pipes and frayed wires. A fusebox hangs on the wall, open and empty, its breaker labels yellowed and illegible. In the corner, a skeleton slumps against a toolbox—bones draped in the rotted remains of a projectionist's uniform. The air tastes like copper and wet wool. Above, muffled thumps echo—footsteps in the seats, or the building settling into its foundations. To the east, a narrow corridor leads to the back alley, but a heavy iron door blocks the way.",
+      "exits": {
+        "north": "seats",
+        "east": "alley"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-4"
+      ],
+      "lookDescriptions": {
+        "fusebox": "Open and empty. Yellowed labels list circuits you don't want to restore.",
+        "skeleton": "A projectionist's skeleton, rotted uniform clinging to bone. His grip is empty.",
+        "pipes": "Rusted and weeping condensation. The air tastes of copper.",
+        "iron-door": "Heavy iron door to the alley. It has no handle on this side."
+      }
+    },
+    {
+      "id": "alley",
+      "name": "The Alley",
+      "prose": "The alley behind the Majestic is narrow, walled in brick slick with condensation. At the far end, a wrought-iron gate is padlocked, cold to the touch. The velvet ribbon in your pocket feels heavier now, as if it remembers this place. Graffiti covers the walls—messages scratched in charcoal and desperation: IT HASN'T STOPPED PLAYING. LET US OUT. Above, the sky is a bruise-purple twilight that doesn't match the hour you entered. The gate's lock has a ribbon-slot, narrow and deliberate. This is the way out. The air beyond shimmers with ordinary night.",
+      "exits": {
+        "west": "maintenance"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-5"
+      ],
+      "lookDescriptions": {
+        "gate": "A wrought-iron gate with a ribbon-slot in its padlock. Freedom glimmers beyond.",
+        "graffiti": "IT HASN'T STOPPED PLAYING. LET US OUT. Scratched in charcoal and desperation.",
+        "sky": "Bruise-purple twilight that doesn't match any hour you know."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-1",
+      "scene": "lobby",
+      "requires": [
+        "crowbar"
+      ],
+      "action": "use crowbar on boarded-door",
+      "result": "The boards splinter with a scream of tearing wood. The door to the projection booth creaks open, releasing a draft of stale, metallic air.",
+      "reveals": [
+        "booth"
+      ],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-2",
+      "scene": "booth",
+      "requires": [
+        "projection-lens"
+      ],
+      "action": "use projection-lens on projector",
+      "result": "The lens clicks into the projector's mount with a solid thud. A heavy clunk echoes from the east wall—the storage door has unlocked.",
+      "reveals": [
+        "storage"
+      ],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-3",
+      "scene": "seats",
+      "requires": [
+        "key-ticket"
+      ],
+      "action": "use key-ticket on maintenance-door",
+      "result": "The golden ticket slides into a slot beside the maintenance door. The lock retracts with a heavy clank, releasing a gust of wet, metallic air.",
+      "reveals": [
+        "maintenance"
+      ],
+      "blocksExit": "south"
+    },
+    {
+      "id": "puzzle-4",
+      "scene": "maintenance",
+      "requires": [
+        "fuse"
+      ],
+      "action": "use fuse on fusebox",
+      "result": "The fuse snaps into the fusebox. Power surges through the rusted wires. The iron door to the alley clicks open, releasing you into the night.",
+      "reveals": [
+        "alley"
+      ],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-5",
+      "scene": "alley",
+      "requires": [
+        "velvet-ribbon"
+      ],
+      "action": "use velvet-ribbon on padlocked-gate",
+      "result": "The ribbon slides into the padlock's slot. The gate swings open. Fresh air floods your lungs. You stumble into the night. Behind you, the Majestic's neon sign flickers one last time—then goes dark forever.",
+      "reveals": []
+    }
+  ],
+  "winCondition": {
+    "scene": "alley",
+    "requires": [
+      "velvet-ribbon"
+    ],
+    "description": "Use the velvet-ribbon on the padlocked gate in the alley to escape the Majestic forever."
+  }
+};
+window.GAME_ART = {
+  "scene-alley": "<img src=\"art/scene-alley.png\" alt=\"scene-alley\" loading=\"lazy\">",
+  "SCENE-ALLEY": "<img src=\"art/scene-alley.png\" alt=\"scene-alley\" loading=\"lazy\">",
+  "alley": "<img src=\"art/scene-alley.png\" alt=\"scene-alley\" loading=\"lazy\">",
+  "ALLEY": "<img src=\"art/scene-alley.png\" alt=\"scene-alley\" loading=\"lazy\">",
+  "scene_alley": "<img src=\"art/scene-alley.png\" alt=\"scene-alley\" loading=\"lazy\">",
+  "item-alley": "<img src=\"art/scene-alley.png\" alt=\"scene-alley\" loading=\"lazy\">",
+  "scene-booth": "<img src=\"art/scene-booth.png\" alt=\"scene-booth\" loading=\"lazy\">",
+  "SCENE-BOOTH": "<img src=\"art/scene-booth.png\" alt=\"scene-booth\" loading=\"lazy\">",
+  "booth": "<img src=\"art/scene-booth.png\" alt=\"scene-booth\" loading=\"lazy\">",
+  "BOOTH": "<img src=\"art/scene-booth.png\" alt=\"scene-booth\" loading=\"lazy\">",
+  "scene_booth": "<img src=\"art/scene-booth.png\" alt=\"scene-booth\" loading=\"lazy\">",
+  "item-booth": "<img src=\"art/scene-booth.png\" alt=\"scene-booth\" loading=\"lazy\">",
+  "scene-lobby": "<img src=\"art/scene-lobby.png\" alt=\"scene-lobby\" loading=\"lazy\">",
+  "SCENE-LOBBY": "<img src=\"art/scene-lobby.png\" alt=\"scene-lobby\" loading=\"lazy\">",
+  "lobby": "<img src=\"art/scene-lobby.png\" alt=\"scene-lobby\" loading=\"lazy\">",
+  "LOBBY": "<img src=\"art/scene-lobby.png\" alt=\"scene-lobby\" loading=\"lazy\">",
+  "scene_lobby": "<img src=\"art/scene-lobby.png\" alt=\"scene-lobby\" loading=\"lazy\">",
+  "item-lobby": "<img src=\"art/scene-lobby.png\" alt=\"scene-lobby\" loading=\"lazy\">",
+  "scene-maintenance": "<img src=\"art/scene-maintenance.png\" alt=\"scene-maintenance\" loading=\"lazy\">",
+  "SCENE-MAINTENANCE": "<img src=\"art/scene-maintenance.png\" alt=\"scene-maintenance\" loading=\"lazy\">",
+  "maintenance": "<img src=\"art/scene-maintenance.png\" alt=\"scene-maintenance\" loading=\"lazy\">",
+  "MAINTENANCE": "<img src=\"art/scene-maintenance.png\" alt=\"scene-maintenance\" loading=\"lazy\">",
+  "scene_maintenance": "<img src=\"art/scene-maintenance.png\" alt=\"scene-maintenance\" loading=\"lazy\">",
+  "item-maintenance": "<img src=\"art/scene-maintenance.png\" alt=\"scene-maintenance\" loading=\"lazy\">",
+  "scene-seats": "<img src=\"art/scene-seats.png\" alt=\"scene-seats\" loading=\"lazy\">",
+  "SCENE-SEATS": "<img src=\"art/scene-seats.png\" alt=\"scene-seats\" loading=\"lazy\">",
+  "seats": "<img src=\"art/scene-seats.png\" alt=\"scene-seats\" loading=\"lazy\">",
+  "SEATS": "<img src=\"art/scene-seats.png\" alt=\"scene-seats\" loading=\"lazy\">",
+  "scene_seats": "<img src=\"art/scene-seats.png\" alt=\"scene-seats\" loading=\"lazy\">",
+  "item-seats": "<img src=\"art/scene-seats.png\" alt=\"scene-seats\" loading=\"lazy\">",
+  "scene-storage": "<img src=\"art/scene-storage.png\" alt=\"scene-storage\" loading=\"lazy\">",
+  "SCENE-STORAGE": "<img src=\"art/scene-storage.png\" alt=\"scene-storage\" loading=\"lazy\">",
+  "storage": "<img src=\"art/scene-storage.png\" alt=\"scene-storage\" loading=\"lazy\">",
+  "STORAGE": "<img src=\"art/scene-storage.png\" alt=\"scene-storage\" loading=\"lazy\">",
+  "scene_storage": "<img src=\"art/scene-storage.png\" alt=\"scene-storage\" loading=\"lazy\">",
+  "item-storage": "<img src=\"art/scene-storage.png\" alt=\"scene-storage\" loading=\"lazy\">"
+};
+  </script>
+  <script src="../standard-game-runtime.js"></script>
+</body>
+</html>
