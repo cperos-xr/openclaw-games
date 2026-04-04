@@ -1,0 +1,29 @@
+{
+  "game": "031-the-void",
+  "writers": [
+    {
+      "agentId": "writer-dark-planet",
+      "persona": "Dark Planet",
+      "configuredModel": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+      "observedModel": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+      "contribution": "Buffer and High-Score Temple scenes, establishing digital rot and existential decay.",
+      "scenes": ["buffer", "high-score-temple"]
+    },
+    {
+      "agentId": "writer-deepseek",
+      "persona": "DeepSeek",
+      "configuredModel": "openrouter/deepseek/deepseek-v3.2",
+      "observedModel": "openrouter/deepseek/deepseek-v3.2",
+      "contribution": "Sprite-Graveyard and Logic-Core scenes, focusing on fleshy pixel decay.",
+      "scenes": ["sprite-graveyard", "logic-core"]
+    },
+    {
+      "agentId": "writer-cactus-dream",
+      "persona": "Cactus Dream",
+      "configuredModel": "openrouter/qwen/qwen3-next-80b-a3b-instruct:free",
+      "observedModel": "openrouter/qwen/qwen3-next-80b-a3b-instruct:free",
+      "contribution": "Memory-Cache and User-Logout scenes, focusing on the corrupt nostalgia of the exit.",
+      "scenes": ["memory-cache", "user-logout"]
+    }
+  ]
+}
