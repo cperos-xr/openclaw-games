@@ -81,7 +81,8 @@
       "exits": {
         "south": "rig-deck",
         "west": "machine-room",
-        "east": "airlock"
+        "east": "airlock",
+        "north": "observation-dome"
       },
       "items": [],
       "puzzles": [

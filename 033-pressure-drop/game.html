@@ -1,72 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pressure Drop | Game #033</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../standard-game-style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pressure Drop | Game #033</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../standard-game-style.css">
 </head>
-<body class="openclaw-game layout-vertical-carnival">
-
-<header>
+<body class="openclaw-game layout-vertical-carnival" data-layout="vertical-carnival">
+  <header>
     <h1>PRESSURE DROP</h1>
     <div class="subtitle">OpenClaw Adventures - Game #033</div>
-</header>
+  </header>
 
-<div id="scene-name">RIG DECK</div>
+  <div id="scene-name">RIG DECK</div>
 
-<div class="game-container">
+  <div class="game-container">
     <div class="art-panel">
-        <div id="art-display">
-            <span class="no-art">[ART LOADING]</span>
-        </div>
+      <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+      </div>
     </div>
 
     <div class="text-panel">
-        <div id="text-display"></div>
+      <div id="text-display"></div>
 
-        <div id="command-status" class="status-line"></div>
+      <div id="command-status" class="status-line"></div>
 
-        <div class="command-bar">
-            <button class="cmd-btn active" data-cmd="look">LOOK</button>
-            <button class="cmd-btn" data-cmd="take">TAKE</button>
-            <button class="cmd-btn" data-cmd="use">USE</button>
-            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      <div class="command-bar">
+        <button class="cmd-btn active" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      </div>
+
+      <div class="subpanel targets-panel">
+        <h3>TARGETS</h3>
+        <div id="targets-bar"></div>
+      </div>
+
+      <div class="subpanel inventory-panel">
+        <h3>INVENTORY</h3>
+        <div id="inventory-bar">
+          <span class="empty-state">(empty)</span>
         </div>
+      </div>
 
-        <div class="subpanel targets-panel">
-            <h3>TARGETS</h3>
-            <div id="targets-bar"></div>
-        </div>
+      <div class="subpanel exits-panel">
+        <h3>EXITS</h3>
+        <div id="exits-bar"></div>
+      </div>
 
-        <div class="subpanel inventory-panel">
-            <h3>INVENTORY</h3>
-            <div id="inventory-bar">
-                <span class="empty-state">(empty)</span>
-            </div>
-        </div>
-
-        <div class="subpanel exits-panel">
-            <h3>EXITS</h3>
-            <div id="exits-bar"></div>
-        </div>
-
-        <div class="utility-bar">
-            <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
-            <button id="reset-game" class="utility-btn">RESET</button>
-        </div>
+      <div class="utility-bar">
+        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+        <button id="reset-game" class="utility-btn">RESET</button>
+      </div>
     </div>
-</div>
+  </div>
 
-<footer>
+  <footer>
     OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
-</footer>
+  </footer>
 
-<script>
-// ============================================================
-// GAME DATA — replace with assembled content from game-script.json
-// ============================================================
+  <script>
 window.GAME_DATA = {
   "title": "Pressure Drop",
   "slug": "pressure-drop",
@@ -78,7 +74,7 @@ window.GAME_DATA = {
     {
       "id": "the-engineer",
       "name": "The Engineer",
-      "description": "A seasoned structural inspector who has seen everything\u2014except this."
+      "description": "A seasoned structural inspector who has seen everything—except this."
     }
   ],
   "items": [
@@ -127,7 +123,7 @@ window.GAME_DATA = {
     {
       "id": "rig-deck",
       "name": "Rig Deck",
-      "prose": "The Aegis\u20117 rig is a skeletal giant of rusted steel, moaning under the lash of a North Sea gale. Salt spray stings your eyes as you climb from the helicopter onto the slick deck. Torrents of grey rain wash away the thick patches of industrial oil. To the north, the bulkhead door to the command center is jammed shut by a buckled frame, its metal glowing with an internal heat that defies the freezing wind. A neglected emergency locker hangs open nearby, revealing a thermal\u2011cutter resting among the rags.",
+      "prose": "The Aegis‑7 rig is a skeletal giant of rusted steel, moaning under the lash of a North Sea gale. Salt spray stings your eyes as you climb from the helicopter onto the slick deck. Torrents of grey rain wash away the thick patches of industrial oil. To the north, the bulkhead door to the command center is jammed shut by a buckled frame, its metal glowing with an internal heat that defies the freezing wind. A neglected emergency locker hangs open nearby, revealing a thermal‑cutter resting among the rags.",
       "exits": {
         "north": "command-center"
       },
@@ -138,19 +134,20 @@ window.GAME_DATA = {
         "puzzle-jammed-door"
       ],
       "lookDescriptions": {
-        "rusted-steel": "The very foundations of the rig are shivering. It\u2019s not just the wind.",
-        "emergency-locker": "Battered and salt\u2011stained. Inside, the thermal\u2011cutter is clean and ready.",
+        "rusted-steel": "The very foundations of the rig are shivering. It’s not just the wind.",
+        "emergency-locker": "Battered and salt‑stained. Inside, the thermal‑cutter is clean and ready.",
         "jammed-bulkhead": "The steel has been warped as if by a massive, invisible hand."
       }
     },
     {
       "id": "command-center",
       "name": "Command Center",
-      "prose": "The air inside is static\u2011charged and smells of burnt wiring. This room was a high\u2011tech nerve center, now it's a graveyard of shattered glass and overturned consoles. Red emergency lights pulse in time with the deep, rhythmic thudding from the rig's legs. To the west, a heavy door leads into the roaring machine room. To the east, a pressure\u2011sealed airlock waits, its electronic display reading: PRESSURE MISMATCH. A central terminal stands in the middle of the chaos, its screen flickering blue and demanding a security\u2011override\u2011key.",
+      "prose": "The air inside is static‑charged and smells of burnt wiring. This room was a high‑tech nerve center, now it's a graveyard of shattered glass and overturned consoles. Red emergency lights pulse in time with the deep, rhythmic thudding from the rig's legs. To the west, a heavy door leads into the roaring machine room. To the east, a pressure‑sealed airlock waits, its electronic display reading: PRESSURE MISMATCH. A central terminal stands in the middle of the chaos, its screen flickering blue and demanding a security‑override‑key.",
       "exits": {
         "south": "rig-deck",
         "west": "machine-room",
-        "east": "airlock"
+        "east": "airlock",
+        "north": "observation-dome"
       },
       "items": [],
       "puzzles": [
@@ -159,14 +156,14 @@ window.GAME_DATA = {
       ],
       "lookDescriptions": {
         "shattered-consoles": "Someone was trying to shut the rig down in a hurry.",
-        "airlock-door": "Reinforced titanium. It won\u2019t budge until the internal pressure is equalized.",
-        "central-terminal": "The main interface for the rig\u2019s systems. It\u2019s waiting for authorization."
+        "airlock-door": "Reinforced titanium. It won’t budge until the internal pressure is equalized.",
+        "central-terminal": "The main interface for the rig’s systems. It’s waiting for authorization."
       }
     },
     {
       "id": "machine-room",
       "name": "Machine Room",
-      "prose": "The noise here is absolute\u2014a roaring, grinding cacophony of steam and grease. Massive engines pulse like the internal organs of a beast, leaking hot fluid onto the vibrating floor. Steam vents hiss, casting long, shifting shadows against the bulkheads. Behind a vibrating ventilation grille, you catch the glint of a security\u2011override\u2011key, snagged on a metal fan blade. The heat is suffocating, and the exit back to the command center is the only escape from the din.",
+      "prose": "The noise here is absolute—a roaring, grinding cacophony of steam and grease. Massive engines pulse like the internal organs of a beast, leaking hot fluid onto the vibrating floor. Steam vents hiss, casting long, shifting shadows against the bulkheads. Behind a vibrating ventilation grille, you catch the glint of a security‑override‑key, snagged on a metal fan blade. The heat is suffocating, and the exit back to the command center is the only escape from the din.",
       "exits": {
         "east": "command-center"
       },
@@ -175,7 +172,7 @@ window.GAME_DATA = {
       ],
       "puzzles": [],
       "lookDescriptions": {
-        "roaring-engines": "They\u2019re running at 110% capacity. They\u2019re going to blow.",
+        "roaring-engines": "They’re running at 110% capacity. They’re going to blow.",
         "vent-grille": "Rattling violently. The key behind it is just out of reach without the right angle.",
         "steam-clouds": "Hot and opaque. You can barely see your own hands."
       }
@@ -183,7 +180,7 @@ window.GAME_DATA = {
     {
       "id": "airlock",
       "name": "The Airlock",
-      "prose": "The airlock is a narrow, claustrophobic cylinder of cold grey metal. A pile of discarded, shredded wet\u2011suits lies in the corner, looking like the skin of a shed creature. A crane\u2011remote sits atop the pile, its yellow plastic casing cracked. A heavy floor hatch leads down into the dive\u2011bay, the ladder slick with grease. The air here is thick with the smell of old blood and ozone.",
+      "prose": "The airlock is a narrow, claustrophobic cylinder of cold grey metal. A pile of discarded, shredded wet‑suits lies in the corner, looking like the skin of a shed creature. A crane‑remote sits atop the pile, its yellow plastic casing cracked. A heavy floor hatch leads down into the dive‑bay, the ladder slick with grease. The air here is thick with the smell of old blood and ozone.",
       "exits": {
         "west": "command-center",
         "down": "dive-bay"
@@ -193,7 +190,7 @@ window.GAME_DATA = {
       ],
       "puzzles": [],
       "lookDescriptions": {
-        "shredded-suits": "They weren't cut\u2014they were torn from the inside out.",
+        "shredded-suits": "They weren't cut—they were torn from the inside out.",
         "floor-hatch": "Leads deep into the rig's structural substructure.",
         "remote-unit": "Designed for heavy industrial use. It feels sturdy in your grip."
       }
@@ -201,7 +198,7 @@ window.GAME_DATA = {
     {
       "id": "dive-bay",
       "name": "Dive Bay",
-      "prose": "The dive\u2011bay is a cathedral of dark water and cold iron. In the center, a massive moonpool chugs and swirls, the dark ocean below visible and hungry. A hydraulic\u2011crane looms over the water, its cable dangling into the abyss. To the north, a reinforced door leads to the observation\u2011dome, its viewport dark. The depth gauges on the wall continue to spin, reading depths that shouldn't exist in the North Sea. Something is dragging the rig down.",
+      "prose": "The dive‑bay is a cathedral of dark water and cold iron. In the center, a massive moonpool chugs and swirls, the dark ocean below visible and hungry. A hydraulic‑crane looms over the water, its cable dangling into the abyss. To the north, a reinforced door leads to the observation‑dome, its viewport dark. The depth gauges on the wall continue to spin, reading depths that shouldn't exist in the North Sea. Something is dragging the rig down.",
       "exits": {
         "up": "airlock",
         "north": "observation-dome"
@@ -221,7 +218,7 @@ window.GAME_DATA = {
     {
       "id": "observation-dome",
       "name": "Observation Dome",
-      "prose": "The dome is a panoramic glass eye peering into the crushing dark. Outside, the water is a wall of blackness, illuminated only by the faint, pulsing blue glow of something enormous moving in the distance. Clutched in the skeletal hand of a missing crewman, a distress\u2011beacon flickers with a failing red light. A transmitter\u2011dish stands in the center of the dome, aimed at the surface he can no longer reach. The glass of the dome is beginning to spiderweb with cracks under the impossible pressure.",
+      "prose": "The dome is a panoramic glass eye peering into the crushing dark. Outside, the water is a wall of blackness, illuminated only by the faint, pulsing blue glow of something enormous moving in the distance. Clutched in the skeletal hand of a missing crewman, a distress‑beacon flickers with a failing red light. A transmitter‑dish stands in the center of the dome, aimed at the surface he can no longer reach. The glass of the dome is beginning to spiderweb with cracks under the impossible pressure.",
       "exits": {
         "south": "dive-bay"
       },
@@ -234,7 +231,7 @@ window.GAME_DATA = {
       "lookDescriptions": {
         "panoramic-glass": "The web of cracks is growing. You are at the bottom of the world.",
         "missing-crewman": "He died watching the thing outside. His expression is one of pure awe.",
-        "transmitter-dish": "Your last hope. It\u2019s wired directly to the rig\u2019s main antenna."
+        "transmitter-dish": "Your last hope. It’s wired directly to the rig’s main antenna."
       }
     }
   ],
@@ -272,7 +269,7 @@ window.GAME_DATA = {
         "crane-remote"
       ],
       "action": "use remote on crane",
-      "result": "The crane whirrs to life, dragging a salt\u2011crusted research capsule from the depths. It deposits the sphere on the deck, and a black\u2011box\u2011recorder rolls out.",
+      "result": "The crane whirrs to life, dragging a salt‑crusted research capsule from the depths. It deposits the sphere on the deck, and a black‑box‑recorder rolls out.",
       "reveals": [
         "black-box-recorder"
       ]
@@ -284,7 +281,7 @@ window.GAME_DATA = {
         "black-box-recorder"
       ],
       "action": "use recorder on analyzer",
-      "result": "The screams in the recording match the frequency of the observation dome\u2019s lock. A heavy clonk anchors the door\u2014the dome is now accessible.",
+      "result": "The screams in the recording match the frequency of the observation dome’s lock. A heavy clonk anchors the door—the dome is now accessible.",
       "reveals": [
         "observation-dome"
       ],
@@ -306,52 +303,73 @@ window.GAME_DATA = {
     "requires": [
       "distress-beacon"
     ],
-    "description": "The pulse illuminates the water outside the dome\u2014revealing a creature the size of the rig itself. The signal is sent. As the glass begins to crack from the pressure of a massive tentacle, you see the rescue lights in the distance. You've done your part. The end."
+    "description": "The pulse illuminates the water outside the dome—revealing a creature the size of the rig itself. The signal is sent. As the glass begins to crack from the pressure of a massive tentacle, you see the rescue lights in the distance. You've done your part. The end."
   }
 };
-
-// ============================================================
-// GAME ART — replace with inlined SVGs from art/*.svg
-// ============================================================
 window.GAME_ART = {
-  "rig-deck": "<img src="art/scene-rig-deck.png" alt="rig-deck" loading="lazy">",
-  "RIG-DECK": "<img src="art/scene-rig-deck.png" alt="rig-deck" loading="lazy">",
-  "command-center": "<img src="art/scene-command-center.png" alt="command-center" loading="lazy">",
-  "COMMAND-CENTER": "<img src="art/scene-command-center.png" alt="command-center" loading="lazy">",
-  "machine-room": "<img src="art/scene-machine-room.png" alt="machine-room" loading="lazy">",
-  "MACHINE-ROOM": "<img src="art/scene-machine-room.png" alt="machine-room" loading="lazy">",
-  "airlock": "<img src="art/scene-airlock.png" alt="airlock" loading="lazy">",
-  "AIRLOCK": "<img src="art/scene-airlock.png" alt="airlock" loading="lazy">",
-  "dive-bay": "<img src="art/scene-dive-bay.png" alt="dive-bay" loading="lazy">",
-  "DIVE-BAY": "<img src="art/scene-dive-bay.png" alt="dive-bay" loading="lazy">",
-  "observation-dome": "<img src="art/scene-observation-dome.png" alt="observation-dome" loading="lazy">",
-  "OBSERVATION-DOME": "<img src="art/scene-observation-dome.png" alt="observation-dome" loading="lazy">",
-  "thermal-cutter": "<img src="art/thermal-cutter.svg" alt="thermal-cutter" loading="lazy">",
-  "THERMAL-CUTTER": "<img src="art/thermal-cutter.svg" alt="thermal-cutter" loading="lazy">",
-  "item-thermal-cutter": "<img src="art/thermal-cutter.svg" alt="thermal-cutter" loading="lazy">",
-  "security-override-key": "<img src="art/security-override-key.svg" alt="security-override-key" loading="lazy">",
-  "SECURITY-OVERRIDE-KEY": "<img src="art/security-override-key.svg" alt="security-override-key" loading="lazy">",
-  "item-security-override-key": "<img src="art/security-override-key.svg" alt="security-override-key" loading="lazy">",
-  "crane-remote": "<img src="art/crane-remote.svg" alt="crane-remote" loading="lazy">",
-  "CRANE-REMOTE": "<img src="art/crane-remote.svg" alt="crane-remote" loading="lazy">",
-  "item-crane-remote": "<img src="art/crane-remote.svg" alt="crane-remote" loading="lazy">",
-  "black-box-recorder": "<img src="art/black-box-recorder.svg" alt="black-box-recorder" loading="lazy">",
-  "BLACK-BOX-RECORDER": "<img src="art/black-box-recorder.svg" alt="black-box-recorder" loading="lazy">",
-  "item-black-box-recorder": "<img src="art/black-box-recorder.svg" alt="black-box-recorder" loading="lazy">",
-  "distress-beacon": "<img src="art/distress-beacon.svg" alt="distress-beacon" loading="lazy">",
-  "DISTRESS-BEACON": "<img src="art/distress-beacon.svg" alt="distress-beacon" loading="lazy">",
-  "item-distress-beacon": "<img src="art/distress-beacon.svg" alt="distress-beacon" loading="lazy">"
+  "black-box-recorder": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">black-box-recorder</text>\n</svg>",
+  "BLACK-BOX-RECORDER": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">black-box-recorder</text>\n</svg>",
+  "black_box_recorder": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">black-box-recorder</text>\n</svg>",
+  "scene-black-box-recorder": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">black-box-recorder</text>\n</svg>",
+  "item-black-box-recorder": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">black-box-recorder</text>\n</svg>",
+  "crane-remote": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crane-remote</text>\n</svg>",
+  "CRANE-REMOTE": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crane-remote</text>\n</svg>",
+  "crane_remote": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crane-remote</text>\n</svg>",
+  "scene-crane-remote": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crane-remote</text>\n</svg>",
+  "item-crane-remote": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crane-remote</text>\n</svg>",
+  "distress-beacon": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">distress-beacon</text>\n</svg>",
+  "DISTRESS-BEACON": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">distress-beacon</text>\n</svg>",
+  "distress_beacon": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">distress-beacon</text>\n</svg>",
+  "scene-distress-beacon": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">distress-beacon</text>\n</svg>",
+  "item-distress-beacon": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">distress-beacon</text>\n</svg>",
+  "scene-airlock": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "SCENE-AIRLOCK": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "airlock": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "AIRLOCK": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "scene_airlock": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "item-airlock": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "scene-command-center": "<img src=\"art/scene-command-center.png\" alt=\"scene-command-center\" loading=\"lazy\">",
+  "SCENE-COMMAND-CENTER": "<img src=\"art/scene-command-center.png\" alt=\"scene-command-center\" loading=\"lazy\">",
+  "command-center": "<img src=\"art/scene-command-center.png\" alt=\"scene-command-center\" loading=\"lazy\">",
+  "COMMAND-CENTER": "<img src=\"art/scene-command-center.png\" alt=\"scene-command-center\" loading=\"lazy\">",
+  "scene_command_center": "<img src=\"art/scene-command-center.png\" alt=\"scene-command-center\" loading=\"lazy\">",
+  "item-command-center": "<img src=\"art/scene-command-center.png\" alt=\"scene-command-center\" loading=\"lazy\">",
+  "scene-dive-bay": "<img src=\"art/scene-dive-bay.png\" alt=\"scene-dive-bay\" loading=\"lazy\">",
+  "SCENE-DIVE-BAY": "<img src=\"art/scene-dive-bay.png\" alt=\"scene-dive-bay\" loading=\"lazy\">",
+  "dive-bay": "<img src=\"art/scene-dive-bay.png\" alt=\"scene-dive-bay\" loading=\"lazy\">",
+  "DIVE-BAY": "<img src=\"art/scene-dive-bay.png\" alt=\"scene-dive-bay\" loading=\"lazy\">",
+  "scene_dive_bay": "<img src=\"art/scene-dive-bay.png\" alt=\"scene-dive-bay\" loading=\"lazy\">",
+  "item-dive-bay": "<img src=\"art/scene-dive-bay.png\" alt=\"scene-dive-bay\" loading=\"lazy\">",
+  "scene-machine-room": "<img src=\"art/scene-machine-room.png\" alt=\"scene-machine-room\" loading=\"lazy\">",
+  "SCENE-MACHINE-ROOM": "<img src=\"art/scene-machine-room.png\" alt=\"scene-machine-room\" loading=\"lazy\">",
+  "machine-room": "<img src=\"art/scene-machine-room.png\" alt=\"scene-machine-room\" loading=\"lazy\">",
+  "MACHINE-ROOM": "<img src=\"art/scene-machine-room.png\" alt=\"scene-machine-room\" loading=\"lazy\">",
+  "scene_machine_room": "<img src=\"art/scene-machine-room.png\" alt=\"scene-machine-room\" loading=\"lazy\">",
+  "item-machine-room": "<img src=\"art/scene-machine-room.png\" alt=\"scene-machine-room\" loading=\"lazy\">",
+  "scene-observation-dome": "<img src=\"art/scene-observation-dome.png\" alt=\"scene-observation-dome\" loading=\"lazy\">",
+  "SCENE-OBSERVATION-DOME": "<img src=\"art/scene-observation-dome.png\" alt=\"scene-observation-dome\" loading=\"lazy\">",
+  "observation-dome": "<img src=\"art/scene-observation-dome.png\" alt=\"scene-observation-dome\" loading=\"lazy\">",
+  "OBSERVATION-DOME": "<img src=\"art/scene-observation-dome.png\" alt=\"scene-observation-dome\" loading=\"lazy\">",
+  "scene_observation_dome": "<img src=\"art/scene-observation-dome.png\" alt=\"scene-observation-dome\" loading=\"lazy\">",
+  "item-observation-dome": "<img src=\"art/scene-observation-dome.png\" alt=\"scene-observation-dome\" loading=\"lazy\">",
+  "scene-rig-deck": "<img src=\"art/scene-rig-deck.png\" alt=\"scene-rig-deck\" loading=\"lazy\">",
+  "SCENE-RIG-DECK": "<img src=\"art/scene-rig-deck.png\" alt=\"scene-rig-deck\" loading=\"lazy\">",
+  "rig-deck": "<img src=\"art/scene-rig-deck.png\" alt=\"scene-rig-deck\" loading=\"lazy\">",
+  "RIG-DECK": "<img src=\"art/scene-rig-deck.png\" alt=\"scene-rig-deck\" loading=\"lazy\">",
+  "scene_rig_deck": "<img src=\"art/scene-rig-deck.png\" alt=\"scene-rig-deck\" loading=\"lazy\">",
+  "item-rig-deck": "<img src=\"art/scene-rig-deck.png\" alt=\"scene-rig-deck\" loading=\"lazy\">",
+  "security-override-key": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">security-override-key</text>\n</svg>",
+  "SECURITY-OVERRIDE-KEY": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">security-override-key</text>\n</svg>",
+  "security_override_key": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">security-override-key</text>\n</svg>",
+  "scene-security-override-key": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">security-override-key</text>\n</svg>",
+  "item-security-override-key": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">security-override-key</text>\n</svg>",
+  "thermal-cutter": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">thermal-cutter</text>\n</svg>",
+  "THERMAL-CUTTER": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">thermal-cutter</text>\n</svg>",
+  "thermal_cutter": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">thermal-cutter</text>\n</svg>",
+  "scene-thermal-cutter": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">thermal-cutter</text>\n</svg>",
+  "item-thermal-cutter": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#555555\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"10\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">thermal-cutter</text>\n</svg>"
 };
-
-// ============================================================
-// GAME ENGINE — paste game-logic.js content here
-// ============================================================
-/* ... */
-
-if (typeof GAME_DATA !== 'undefined') {
-    window.GAME_DATA = GAME_DATA;
-}
-</script>
-<script src="../standard-game-runtime.js"></script>
+  </script>
+  <script src="../standard-game-runtime.js"></script>
 </body>
 </html>

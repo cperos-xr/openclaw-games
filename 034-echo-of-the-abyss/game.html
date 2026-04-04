@@ -1,72 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echo of the Abyss | Game #034</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../standard-game-style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Echo of the Abyss | Game #034</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../standard-game-style.css">
 </head>
-<body class="openclaw-game layout-vertical-carnival">
-
-<header>
+<body class="openclaw-game layout-vertical-carnival" data-layout="vertical-carnival">
+  <header>
     <h1>ECHO OF THE ABYSS</h1>
     <div class="subtitle">OpenClaw Adventures - Game #034</div>
-</header>
+  </header>
 
-<div id="scene-name">AIRLOCK</div>
+  <div id="scene-name">THE AIRLOCK</div>
 
-<div class="game-container">
+  <div class="game-container">
     <div class="art-panel">
-        <div id="art-display">
-            <span class="no-art">[ART LOADING]</span>
-        </div>
+      <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+      </div>
     </div>
 
     <div class="text-panel">
-        <div id="text-display"></div>
+      <div id="text-display"></div>
 
-        <div id="command-status" class="status-line"></div>
+      <div id="command-status" class="status-line"></div>
 
-        <div class="command-bar">
-            <button class="cmd-btn active" data-cmd="look">LOOK</button>
-            <button class="cmd-btn" data-cmd="take">TAKE</button>
-            <button class="cmd-btn" data-cmd="use">USE</button>
-            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      <div class="command-bar">
+        <button class="cmd-btn active" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      </div>
+
+      <div class="subpanel targets-panel">
+        <h3>TARGETS</h3>
+        <div id="targets-bar"></div>
+      </div>
+
+      <div class="subpanel inventory-panel">
+        <h3>INVENTORY</h3>
+        <div id="inventory-bar">
+          <span class="empty-state">(empty)</span>
         </div>
+      </div>
 
-        <div class="subpanel targets-panel">
-            <h3>TARGETS</h3>
-            <div id="targets-bar"></div>
-        </div>
+      <div class="subpanel exits-panel">
+        <h3>EXITS</h3>
+        <div id="exits-bar"></div>
+      </div>
 
-        <div class="subpanel inventory-panel">
-            <h3>INVENTORY</h3>
-            <div id="inventory-bar">
-                <span class="empty-state">(empty)</span>
-            </div>
-        </div>
-
-        <div class="subpanel exits-panel">
-            <h3>EXITS</h3>
-            <div id="exits-bar"></div>
-        </div>
-
-        <div class="utility-bar">
-            <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
-            <button id="reset-game" class="utility-btn">RESET</button>
-        </div>
+      <div class="utility-bar">
+        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+        <button id="reset-game" class="utility-btn">RESET</button>
+      </div>
     </div>
-</div>
+  </div>
 
-<footer>
+  <footer>
     OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
-</footer>
+  </footer>
 
-<script>
-// ============================================================
-// GAME DATA — replace with assembled content from game-script.json
-// ============================================================
+  <script>
 window.GAME_DATA = {
   "title": "Echo of the Abyss",
   "slug": "echo-of-the-abyss",
@@ -132,7 +128,7 @@ window.GAME_DATA = {
     {
       "id": "airlock",
       "name": "The Airlock",
-      "prose": "The Abyssal Observatory greets you with a hiss of stale air and the smell of ancient wet iron. You stand in the emergency airlock, the floor shivering with the rhythmic thrum of the station's dying heart. The interior door is sealed tight, its access panel sparking with blue electricity. A narrow shaft of light from your submersible illuminates a neglected emergency locker. A distorted voice\u2014a recording of someone's final breath\u2014echoes through the comms, ending in a static scream.",
+      "prose": "The Abyssal Observatory greets you with a hiss of stale air and the smell of ancient wet iron. You stand in the emergency airlock, the floor shivering with the rhythmic thrum of the station's dying heart. The interior door is sealed tight, its access panel sparking with blue electricity. A narrow shaft of light from your submersible illuminates a neglected emergency locker. A distorted voice—a recording of someone's final breath—echoes through the comms, ending in a static scream.",
       "exits": {
         "north": "main-corridor"
       },
@@ -151,7 +147,7 @@ window.GAME_DATA = {
     {
       "id": "main-corridor",
       "name": "Main Corridor",
-      "prose": "The corridor is a long, dark throat of metal and shadow. Water drips from the ceiling in a slow, hypnotic rhythm, each splash echoing like a footstep. To the west, the hallway is completely submerged\u2014a wall of black, freezing water. To the east, lights flicker faintly, indicating the way to the living quarters. Directly ahead, a massive pressure-door blocks the path to the station's hub. A junction-box hangs open on the wall, its circuit breakers humming with a sound that isn't quite electrical.",
+      "prose": "The corridor is a long, dark throat of metal and shadow. Water drips from the ceiling in a slow, hypnotic rhythm, each splash echoing like a footstep. To the west, the hallway is completely submerged—a wall of black, freezing water. To the east, lights flicker faintly, indicating the way to the living quarters. Directly ahead, a massive pressure-door blocks the path to the station's hub. A junction-box hangs open on the wall, its circuit breakers humming with a sound that isn't quite electrical.",
       "exits": {
         "south": "airlock",
         "east": "quarters",
@@ -215,7 +211,7 @@ window.GAME_DATA = {
     {
       "id": "echo-chamber",
       "name": "Echo Chamber",
-      "prose": "This room is where the silence was broken. The walls are lined with acoustic-dampeners, most of them shattered or warped by internal pressure. In the center, the resonance-core pulses with a blinding violet light. The echo-entity\u2014a shimmering distortion of air and memory\u2014stands before the core, its form shifting as it speaks in a dozen voices at once. The north door to the hub is sealed by the entity's psychic interference. You feel your own thoughts beginning to pixelate.",
+      "prose": "This room is where the silence was broken. The walls are lined with acoustic-dampeners, most of them shattered or warped by internal pressure. In the center, the resonance-core pulses with a blinding violet light. The echo-entity—a shimmering distortion of air and memory—stands before the core, its form shifting as it speaks in a dozen voices at once. The north door to the hub is sealed by the entity's psychic interference. You feel your own thoughts beginning to pixelate.",
       "exits": {
         "west": "maintenance-bay",
         "north": "central-hub"
@@ -270,7 +266,7 @@ window.GAME_DATA = {
     {
       "id": "surface",
       "name": "Surface - Epilogue",
-      "prose": "The submersible breaks the surface of the North Sea. The air is cold and tastes of actual salt, not metal and rot. Behind you, a massive, silent bubble of air erupts as the Abyssal Observatory finally collapses into the trench. Whether you saved the echoes or buried them, the sea remains the same\u2014vast, dark, and indifferent. You watch the sun rise over the horizon, the only witness to what happened in the deep.",
+      "prose": "The submersible breaks the surface of the North Sea. The air is cold and tastes of actual salt, not metal and rot. Behind you, a massive, silent bubble of air erupts as the Abyssal Observatory finally collapses into the trench. Whether you saved the echoes or buried them, the sea remains the same—vast, dark, and indifferent. You watch the sun rise over the horizon, the only witness to what happened in the deep.",
       "exits": {},
       "items": [],
       "puzzles": [],
@@ -401,48 +397,81 @@ window.GAME_DATA = {
     "description": "You escape the Abyssal Observatory just as it collapses. The echoes are buried, and the North Sea keeps its secrets. You survive."
   }
 };
-
-// ============================================================
-// GAME ART — replace with inlined SVGs from art/*.svg
-// ============================================================
 window.GAME_ART = {
-  "airlock": "<img src="art/scene-airlock.png" alt="airlock" loading="lazy">",
-  "AIRLOCK": "<img src="art/scene-airlock.png" alt="airlock" loading="lazy">",
-  "main-corridor": "<img src="art/scene-main-corridor.png" alt="main-corridor" loading="lazy">",
-  "MAIN-CORRIDOR": "<img src="art/scene-main-corridor.png" alt="main-corridor" loading="lazy">",
-  "quarters": "<img src="art/scene-quarters.png" alt="quarters" loading="lazy">",
-  "QUARTERS": "<img src="art/scene-quarters.png" alt="quarters" loading="lazy">",
-  "maintenance-bay": "<img src="art/scene-maintenance-bay.png" alt="maintenance-bay" loading="lazy">",
-  "MAINTENANCE-BAY": "<img src="art/scene-maintenance-bay.png" alt="maintenance-bay" loading="lazy">",
-  "echo-chamber": "<img src="art/scene-echo-chamber.png" alt="echo-chamber" loading="lazy">",
-  "ECHO-CHAMBER": "<img src="art/scene-echo-chamber.png" alt="echo-chamber" loading="lazy">",
-  "central-hub": "<img src="art/scene-central-hub.png" alt="central-hub" loading="lazy">",
-  "CENTRAL-HUB": "<img src="art/scene-central-hub.png" alt="central-hub" loading="lazy">",
-  "escape-route": "<img src="art/scene-escape-route.png" alt="escape-route" loading="lazy">",
-  "ESCAPE-ROUTE": "<img src="art/scene-escape-route.png" alt="escape-route" loading="lazy">",
-  "surface": "<img src="art/scene-surface.png" alt="surface" loading="lazy">",
-  "SURFACE": "<img src="art/scene-surface.png" alt="surface" loading="lazy">",
-  "emergency-torch": "<img src="art/emergency-torch.svg" alt="emergency-torch" loading="lazy">",
-  "EMERGENCY-TORCH": "<img src="art/emergency-torch.svg" alt="emergency-torch" loading="lazy">",
-  "sound-dampener": "<img src="art/sound-dampener.svg" alt="sound-dampener" loading="lazy">",
-  "SOUND-DAMPENER": "<img src="art/sound-dampener.svg" alt="sound-dampener" loading="lazy">",
-  "crowbar": "<img src="art/crowbar.svg" alt="crowbar" loading="lazy">",
-  "CROWBAR": "<img src="art/crowbar.svg" alt="crowbar" loading="lazy">",
-  "engineer-keycard": "<img src="art/engineer-keycard.svg" alt="engineer-keycard" loading="lazy">",
-  "ENGINEER-KEYCARD": "<img src="art/engineer-keycard.svg" alt="engineer-keycard" loading="lazy">",
-  "emergency-flare": "<img src="art/emergency-flare.svg" alt="emergency-flare" loading="lazy">",
-  "EMERGENCY-FLARE": "<img src="art/emergency-flare.svg" alt="emergency-flare" loading="lazy">"
+  "crowbar": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crowbar</text>\n</svg>",
+  "CROWBAR": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crowbar</text>\n</svg>",
+  "scene-crowbar": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crowbar</text>\n</svg>",
+  "item-crowbar": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crowbar</text>\n</svg>",
+  "emergency-flare": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">emergency-flare</text>\n</svg>",
+  "EMERGENCY-FLARE": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">emergency-flare</text>\n</svg>",
+  "emergency_flare": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">emergency-flare</text>\n</svg>",
+  "scene-emergency-flare": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">emergency-flare</text>\n</svg>",
+  "item-emergency-flare": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">emergency-flare</text>\n</svg>",
+  "emergency-torch": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">emergency-torch</text>\n</svg>",
+  "EMERGENCY-TORCH": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">emergency-torch</text>\n</svg>",
+  "emergency_torch": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">emergency-torch</text>\n</svg>",
+  "scene-emergency-torch": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">emergency-torch</text>\n</svg>",
+  "item-emergency-torch": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">emergency-torch</text>\n</svg>",
+  "engineer-keycard": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">engineer-keycard</text>\n</svg>",
+  "ENGINEER-KEYCARD": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">engineer-keycard</text>\n</svg>",
+  "engineer_keycard": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">engineer-keycard</text>\n</svg>",
+  "scene-engineer-keycard": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">engineer-keycard</text>\n</svg>",
+  "item-engineer-keycard": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">engineer-keycard</text>\n</svg>",
+  "scene-airlock": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "SCENE-AIRLOCK": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "airlock": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "AIRLOCK": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "scene_airlock": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "item-airlock": "<img src=\"art/scene-airlock.png\" alt=\"scene-airlock\" loading=\"lazy\">",
+  "scene-central-hub": "<img src=\"art/scene-central-hub.png\" alt=\"scene-central-hub\" loading=\"lazy\">",
+  "SCENE-CENTRAL-HUB": "<img src=\"art/scene-central-hub.png\" alt=\"scene-central-hub\" loading=\"lazy\">",
+  "central-hub": "<img src=\"art/scene-central-hub.png\" alt=\"scene-central-hub\" loading=\"lazy\">",
+  "CENTRAL-HUB": "<img src=\"art/scene-central-hub.png\" alt=\"scene-central-hub\" loading=\"lazy\">",
+  "scene_central_hub": "<img src=\"art/scene-central-hub.png\" alt=\"scene-central-hub\" loading=\"lazy\">",
+  "item-central-hub": "<img src=\"art/scene-central-hub.png\" alt=\"scene-central-hub\" loading=\"lazy\">",
+  "scene-echo-chamber": "<img src=\"art/scene-echo-chamber.png\" alt=\"scene-echo-chamber\" loading=\"lazy\">",
+  "SCENE-ECHO-CHAMBER": "<img src=\"art/scene-echo-chamber.png\" alt=\"scene-echo-chamber\" loading=\"lazy\">",
+  "echo-chamber": "<img src=\"art/scene-echo-chamber.png\" alt=\"scene-echo-chamber\" loading=\"lazy\">",
+  "ECHO-CHAMBER": "<img src=\"art/scene-echo-chamber.png\" alt=\"scene-echo-chamber\" loading=\"lazy\">",
+  "scene_echo_chamber": "<img src=\"art/scene-echo-chamber.png\" alt=\"scene-echo-chamber\" loading=\"lazy\">",
+  "item-echo-chamber": "<img src=\"art/scene-echo-chamber.png\" alt=\"scene-echo-chamber\" loading=\"lazy\">",
+  "scene-escape-route": "<img src=\"art/scene-escape-route.png\" alt=\"scene-escape-route\" loading=\"lazy\">",
+  "SCENE-ESCAPE-ROUTE": "<img src=\"art/scene-escape-route.png\" alt=\"scene-escape-route\" loading=\"lazy\">",
+  "escape-route": "<img src=\"art/scene-escape-route.png\" alt=\"scene-escape-route\" loading=\"lazy\">",
+  "ESCAPE-ROUTE": "<img src=\"art/scene-escape-route.png\" alt=\"scene-escape-route\" loading=\"lazy\">",
+  "scene_escape_route": "<img src=\"art/scene-escape-route.png\" alt=\"scene-escape-route\" loading=\"lazy\">",
+  "item-escape-route": "<img src=\"art/scene-escape-route.png\" alt=\"scene-escape-route\" loading=\"lazy\">",
+  "scene-main-corridor": "<img src=\"art/scene-main-corridor.png\" alt=\"scene-main-corridor\" loading=\"lazy\">",
+  "SCENE-MAIN-CORRIDOR": "<img src=\"art/scene-main-corridor.png\" alt=\"scene-main-corridor\" loading=\"lazy\">",
+  "main-corridor": "<img src=\"art/scene-main-corridor.png\" alt=\"scene-main-corridor\" loading=\"lazy\">",
+  "MAIN-CORRIDOR": "<img src=\"art/scene-main-corridor.png\" alt=\"scene-main-corridor\" loading=\"lazy\">",
+  "scene_main_corridor": "<img src=\"art/scene-main-corridor.png\" alt=\"scene-main-corridor\" loading=\"lazy\">",
+  "item-main-corridor": "<img src=\"art/scene-main-corridor.png\" alt=\"scene-main-corridor\" loading=\"lazy\">",
+  "scene-maintenance-bay": "<img src=\"art/scene-maintenance-bay.png\" alt=\"scene-maintenance-bay\" loading=\"lazy\">",
+  "SCENE-MAINTENANCE-BAY": "<img src=\"art/scene-maintenance-bay.png\" alt=\"scene-maintenance-bay\" loading=\"lazy\">",
+  "maintenance-bay": "<img src=\"art/scene-maintenance-bay.png\" alt=\"scene-maintenance-bay\" loading=\"lazy\">",
+  "MAINTENANCE-BAY": "<img src=\"art/scene-maintenance-bay.png\" alt=\"scene-maintenance-bay\" loading=\"lazy\">",
+  "scene_maintenance_bay": "<img src=\"art/scene-maintenance-bay.png\" alt=\"scene-maintenance-bay\" loading=\"lazy\">",
+  "item-maintenance-bay": "<img src=\"art/scene-maintenance-bay.png\" alt=\"scene-maintenance-bay\" loading=\"lazy\">",
+  "scene-quarters": "<img src=\"art/scene-quarters.png\" alt=\"scene-quarters\" loading=\"lazy\">",
+  "SCENE-QUARTERS": "<img src=\"art/scene-quarters.png\" alt=\"scene-quarters\" loading=\"lazy\">",
+  "quarters": "<img src=\"art/scene-quarters.png\" alt=\"scene-quarters\" loading=\"lazy\">",
+  "QUARTERS": "<img src=\"art/scene-quarters.png\" alt=\"scene-quarters\" loading=\"lazy\">",
+  "scene_quarters": "<img src=\"art/scene-quarters.png\" alt=\"scene-quarters\" loading=\"lazy\">",
+  "item-quarters": "<img src=\"art/scene-quarters.png\" alt=\"scene-quarters\" loading=\"lazy\">",
+  "scene-surface": "<img src=\"art/scene-surface.png\" alt=\"scene-surface\" loading=\"lazy\">",
+  "SCENE-SURFACE": "<img src=\"art/scene-surface.png\" alt=\"scene-surface\" loading=\"lazy\">",
+  "surface": "<img src=\"art/scene-surface.png\" alt=\"scene-surface\" loading=\"lazy\">",
+  "SURFACE": "<img src=\"art/scene-surface.png\" alt=\"scene-surface\" loading=\"lazy\">",
+  "scene_surface": "<img src=\"art/scene-surface.png\" alt=\"scene-surface\" loading=\"lazy\">",
+  "item-surface": "<img src=\"art/scene-surface.png\" alt=\"scene-surface\" loading=\"lazy\">",
+  "sound-dampener": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">sound-dampener</text>\n</svg>",
+  "SOUND-DAMPENER": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">sound-dampener</text>\n</svg>",
+  "sound_dampener": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">sound-dampener</text>\n</svg>",
+  "scene-sound-dampener": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">sound-dampener</text>\n</svg>",
+  "item-sound-dampener": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#1a1a2a\" stroke=\"#6c5ce7\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">sound-dampener</text>\n</svg>"
 };
-
-// ============================================================
-// GAME ENGINE — paste game-logic.js content here
-// ============================================================
-/* ... */
-
-if (typeof GAME_DATA !== 'undefined') {
-    window.GAME_DATA = GAME_DATA;
-}
-</script>
-<script src="../standard-game-runtime.js"></script>
+  </script>
+  <script src="../standard-game-runtime.js"></script>
 </body>
 </html>
