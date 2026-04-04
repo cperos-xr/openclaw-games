@@ -1,0 +1,23 @@
+[
+  {
+    "agentId": "malachi-gravewright",
+    "persona": "Signature Horror Voice",
+    "configuredModel": "openrouter/google/gemini-3-flash-preview",
+    "contribution": "Atmospheric dread and core scene prose for the Airlock, Echo Chamber, and Surface epilogue.",
+    "scenes": ["airlock", "echo-chamber", "surface"]
+  },
+  {
+    "agentId": "writer-mistral-creative",
+    "persona": "Surprise & Off-Angle Specialist",
+    "configuredModel": "mistral/mistral-large-latest",
+    "contribution": "Surreal environmental descriptions for the Quarters Wing and the binary Static Forest in the Main Corridor.",
+    "scenes": ["main-corridor", "quarters"]
+  },
+  {
+    "agentId": "writer-dark-planet",
+    "persona": "Sensory Dread & Threat Implication",
+    "configuredModel": "openrouter/deepseek/deepseek-v3.2",
+    "contribution": "Technical dread and audio-themed hazard descriptions for the Maintenance Bay and Central Hub.",
+    "scenes": ["maintenance-bay", "central-hub", "escape-route"]
+  }
+]

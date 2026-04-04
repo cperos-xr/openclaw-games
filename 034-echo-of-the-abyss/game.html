@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo of the Abyss | Game #034</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../standard-game-style.css">
+</head>
+<body class="openclaw-game layout-vertical-carnival">
+
+<header>
+    <h1>ECHO OF THE ABYSS</h1>
+    <div class="subtitle">OpenClaw Adventures - Game #034</div>
+</header>
+
+<div id="scene-name">AIRLOCK</div>
+
+<div class="game-container">
+    <div class="art-panel">
+        <div id="art-display">
+            <span class="no-art">[ART LOADING]</span>
+        </div>
+    </div>
+
+    <div class="text-panel">
+        <div id="text-display"></div>
+
+        <div id="command-status" class="status-line"></div>
+
+        <div class="command-bar">
+            <button class="cmd-btn active" data-cmd="look">LOOK</button>
+            <button class="cmd-btn" data-cmd="take">TAKE</button>
+            <button class="cmd-btn" data-cmd="use">USE</button>
+            <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+        </div>
+
+        <div class="subpanel targets-panel">
+            <h3>TARGETS</h3>
+            <div id="targets-bar"></div>
+        </div>
+
+        <div class="subpanel inventory-panel">
+            <h3>INVENTORY</h3>
+            <div id="inventory-bar">
+                <span class="empty-state">(empty)</span>
+            </div>
+        </div>
+
+        <div class="subpanel exits-panel">
+            <h3>EXITS</h3>
+            <div id="exits-bar"></div>
+        </div>
+
+        <div class="utility-bar">
+            <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+            <button id="reset-game" class="utility-btn">RESET</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
+</footer>
+
+<script>
+// ============================================================
+// GAME DATA — replace with assembled content from game-script.json
+// ============================================================
+window.GAME_DATA = {
+  "title": "Echo of the Abyss",
+  "slug": "echo-of-the-abyss",
+  "number": 34,
+  "artStyle": "HYBRID",
+  "layout": "vertical-carnival",
+  "setting": "The Abyssal Observatory, a forgotten research station 3,000 meters below the North Sea. Cold, metallic, and currently singing itself apart.",
+  "characters": [
+    {
+      "id": "researcher",
+      "name": "The Researcher",
+      "description": "A man of science forced to navigate a landscape of surreal, acoustic nightmares."
+    },
+    {
+      "id": "the-echo",
+      "name": "The Echo Entity",
+      "description": "A sentient sonic anomaly that mimics the voices of the dead. It exists only as a shimmering distortion in the air."
+    }
+  ],
+  "items": [
+    {
+      "id": "emergency-torch",
+      "name": "Emergency Torch",
+      "description": "A heavy-duty waterproof torch. Its beam is narrow but powerful enough to reveal what the darkness hides.",
+      "foundIn": "airlock",
+      "usedIn": "airlock",
+      "usedOn": "puzzle-inner-door"
+    },
+    {
+      "id": "sound-dampener",
+      "name": "Sound Dampener",
+      "description": "A prototype device that filters out the high-frequency 'singing' of the echoes. It makes the silence feel even heavier.",
+      "foundIn": "main-corridor",
+      "usedIn": "quarters",
+      "usedOn": "puzzle-logs"
+    },
+    {
+      "id": "crowbar",
+      "name": "Heavy Crowbar",
+      "description": "A solid length of steel, rusted but reliable. Good for prying open things that were never meant to be revisited.",
+      "foundIn": "quarters",
+      "usedIn": "quarters",
+      "usedOn": "puzzle-barricade"
+    },
+    {
+      "id": "engineer-keycard",
+      "name": "Engineer Keycard",
+      "description": "The Chief Engineer's security badge. It still bears the logo of the Aegis-7 project.",
+      "foundIn": "quarters",
+      "usedIn": "main-corridor",
+      "usedOn": "puzzle-pressure-door"
+    },
+    {
+      "id": "emergency-flare",
+      "name": "Emergency Flare",
+      "description": "A standard-issue flare. It burns with a brilliant, desperate red light. One use only.",
+      "foundIn": "maintenance-bay",
+      "usedIn": "central-hub",
+      "usedOn": "puzzle-flare"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "airlock",
+      "name": "The Airlock",
+      "prose": "The Abyssal Observatory greets you with a hiss of stale air and the smell of ancient wet iron. You stand in the emergency airlock, the floor shivering with the rhythmic thrum of the station's dying heart. The interior door is sealed tight, its access panel sparking with blue electricity. A narrow shaft of light from your submersible illuminates a neglected emergency locker. A distorted voice\u2014a recording of someone's final breath\u2014echoes through the comms, ending in a static scream.",
+      "exits": {
+        "north": "main-corridor"
+      },
+      "items": [
+        "emergency-torch"
+      ],
+      "puzzles": [
+        "puzzle-inner-door"
+      ],
+      "lookDescriptions": {
+        "emergency-locker": "Battered and salt-stained. The latch is stuck, but the emergency-torch is visible inside.",
+        "damaged-panel": "The access terminal's cover is missing, revealing a tangle of exposed-wiring that pulses like veins.",
+        "airlock-door": "Reinforced titanium bulkhead. It's locked from the inside."
+      }
+    },
+    {
+      "id": "main-corridor",
+      "name": "Main Corridor",
+      "prose": "The corridor is a long, dark throat of metal and shadow. Water drips from the ceiling in a slow, hypnotic rhythm, each splash echoing like a footstep. To the west, the hallway is completely submerged\u2014a wall of black, freezing water. To the east, lights flicker faintly, indicating the way to the living quarters. Directly ahead, a massive pressure-door blocks the path to the station's hub. A junction-box hangs open on the wall, its circuit breakers humming with a sound that isn't quite electrical.",
+      "exits": {
+        "south": "airlock",
+        "east": "quarters",
+        "north": "central-hub"
+      },
+      "items": [
+        "sound-dampener"
+      ],
+      "puzzles": [
+        "puzzle-junction-box",
+        "puzzle-pressure-door"
+      ],
+      "lookDescriptions": {
+        "junction-box": "A metal cabinet of power-breakers. The labels for the right wing are dark.",
+        "pressure-door": "The main security threshold. The badge reader is dark, waiting for an engineer-keycard.",
+        "flooded-wing": "The left corridor is a solid block of dark water. Something moves deep inside it."
+      }
+    },
+    {
+      "id": "quarters",
+      "name": "Quarters Wing",
+      "prose": "The living quarters are a ghost of domestic life at 3,000 meters. Bunk beds are neatly made, and personal photographs shrivel under layers of salt-rot. One room at the far end has been crudely barricaded with furniture and metal plating. In a small maintenance-closet near the entrance, a heavy-crowbar leans against a stack of empty crates. A terminal screens glows with a sickly green light, displaying a prompt for audio-stabilization.",
+      "exits": {
+        "west": "main-corridor",
+        "north": "maintenance-bay"
+      },
+      "items": [
+        "crowbar",
+        "engineer-keycard"
+      ],
+      "puzzles": [
+        "puzzle-logs",
+        "puzzle-barricade"
+      ],
+      "lookDescriptions": {
+        "barricaded-door": "The room is sealed from the inside. Reaching the contents will require some leverage.",
+        "crew-terminal": "The station's log server. The files are corrupted by acoustic-interference.",
+        "maintenance-closet": "Small and cluttered. The crowbar is the only thing of value here."
+      }
+    },
+    {
+      "id": "maintenance-bay",
+      "name": "Maintenance Bay",
+      "prose": "The maintenance bay is a cathedral of machinery and cold iron. In the center sits the echo-amplifier, a massive apparatus of copper coils and glass tubes, currently emitting a lethal, high-pitched shriek. The very air shivers around it. Banks of power-conduits line the walls, their lights flashing in a frantic, illogical sequence. On a workbench near the exit, a single emergency-flare sits in a plastic tray, its red casing pristine against the grime.",
+      "exits": {
+        "south": "quarters",
+        "east": "echo-chamber"
+      },
+      "items": [
+        "emergency-flare"
+      ],
+      "puzzles": [
+        "puzzle-amplifier"
+      ],
+      "lookDescriptions": {
+        "echo-amplifier": "A vibrating monolith of sonic energy. It cannot be passed while active.",
+        "power-conduits": "Thick cables leading into the floor. They control the station's resonance filters.",
+        "workbench": "Covered in technical manuals for resonance core tuning."
+      }
+    },
+    {
+      "id": "echo-chamber",
+      "name": "Echo Chamber",
+      "prose": "This room is where the silence was broken. The walls are lined with acoustic-dampeners, most of them shattered or warped by internal pressure. In the center, the resonance-core pulses with a blinding violet light. The echo-entity\u2014a shimmering distortion of air and memory\u2014stands before the core, its form shifting as it speaks in a dozen voices at once. The north door to the hub is sealed by the entity's psychic interference. You feel your own thoughts beginning to pixelate.",
+      "exits": {
+        "west": "maintenance-bay",
+        "north": "central-hub"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-resonance-core"
+      ],
+      "lookDescriptions": {
+        "resonance-core": "The heart of the station's research. It needs a specific frequency to stabilize.",
+        "acoustic-dampeners": "Large panels designed to absorb sound. One of them has a code scratched into its surface.",
+        "echo-entity": "A ghost made of frequency. It seems to be waiting for a response."
+      }
+    },
+    {
+      "id": "central-hub",
+      "name": "Central Hub",
+      "prose": "The Central Hub is a panoramic view of disaster. The massive viewport looks out into a pitch-black abyss, save for the emergency stroboscopes of the station's legs. The floor is tilted, objects sliding into the shadows. The station-terminal sits in the shadows, its screen barely visible in the darkness. A countdown clock on the wall reads 00:04:12 and is accelerating. To the east, the heavy steel corridor to the escape-route is beginning to buckle under the pressure.",
+      "exits": {
+        "south": "main-corridor",
+        "east": "escape-route"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-flare",
+        "puzzle-station-terminal"
+      ],
+      "lookDescriptions": {
+        "station-terminal": "The master control console. It holds the station's scuttle-protocol.",
+        "giant-viewport": "Spiderweb cracks are appearing in the glass. The abyss is coming in.",
+        "scuttle-switch": "A red lever behind protective glass. The final solution."
+      }
+    },
+    {
+      "id": "escape-route",
+      "name": "Escape Route",
+      "prose": "This corridor is dying. The walls are weeping salt water, and concrete debris from the ceiling blocks the path to the elevator. The emergency lights have failed, leaving only a thick, velvet darkness. You can hear the echo-entity behind you, calling out in your own voice, pleading for you to stay. The floor is slick with oil and brine. The elevator-doors at the far end are slightly ajar, revealing a narrow path to the surface.",
+      "exits": {
+        "west": "central-hub",
+        "up": "surface"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-clear-path"
+      ],
+      "lookDescriptions": {
+        "fallen-debris": "Heavy blocks of concrete and twisted-reinforcement-bars block the way.",
+        "elevator-doors": "The final threshold. They require manual activation to ascend.",
+        "the-darkness": "Absolute and cold. Without a light source, you are blind."
+      }
+    },
+    {
+      "id": "surface",
+      "name": "Surface - Epilogue",
+      "prose": "The submersible breaks the surface of the North Sea. The air is cold and tastes of actual salt, not metal and rot. Behind you, a massive, silent bubble of air erupts as the Abyssal Observatory finally collapses into the trench. Whether you saved the echoes or buried them, the sea remains the same\u2014vast, dark, and indifferent. You watch the sun rise over the horizon, the only witness to what happened in the deep.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "the-ocean": "Grey, cold, and vast. It has reclaimed its secrets.",
+        "the-sub": "Your small, battered lifeboat in a world that feels too bright."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-inner-door",
+      "scene": "airlock",
+      "requires": [
+        "emergency-torch"
+      ],
+      "action": "use torch on panel",
+      "result": "The light from the torch reveals a specific sequence of exposed wires. You bridge the circuit, and the airlock door groans open into the main corridor.",
+      "reveals": [
+        "main-corridor"
+      ],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-junction-box",
+      "scene": "main-corridor",
+      "requires": [],
+      "action": "reconfigure breakers",
+      "result": "You flip the heavy switches in the junction box. With a surge of power, the lights in the East Wing click to life, revealing the path to the Quarters.",
+      "reveals": [
+        "quarters"
+      ],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-logs",
+      "scene": "quarters",
+      "requires": [
+        "sound-dampener"
+      ],
+      "action": "use dampener on terminal",
+      "result": "The sound dampener neutralizes the interference. The green text on the terminal stabilizes, revealing the resonance core frequency: 44.1 Hz.",
+      "reveals": []
+    },
+    {
+      "id": "puzzle-barricade",
+      "scene": "quarters",
+      "requires": [
+        "crowbar"
+      ],
+      "action": "pry door open",
+      "result": "The crowbar snaps the makeshift locks. Inside the barricaded room, you find the Chief Engineer's body and his security keycard.",
+      "reveals": [
+        "engineer-keycard"
+      ]
+    },
+    {
+      "id": "puzzle-pressure-door",
+      "scene": "main-corridor",
+      "requires": [
+        "engineer-keycard"
+      ],
+      "action": "use keycard on door",
+      "result": "The card reader beeps green. The massive pressure door retracts with a sound like a thunderclap, revealing the Central Hub.",
+      "reveals": [
+        "central-hub"
+      ],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-amplifier",
+      "scene": "maintenance-bay",
+      "requires": [],
+      "action": "reroute conduits",
+      "result": "By rerouting the power conduits, you overload the amplifier. The lethal shriek dies into a low hum, making the path to the Echo Chamber safe at last.",
+      "reveals": [
+        "echo-chamber"
+      ],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-resonance-core",
+      "scene": "echo-chamber",
+      "requires": [],
+      "action": "input frequency 44.1",
+      "result": "The frequency shatters the echo entity's hold. It disperses into violet mist, revealing a master override code: 1109. The psychic block on the north door is gone.",
+      "reveals": [],
+      "blocksExit": "north"
+    },
+    {
+      "id": "puzzle-flare",
+      "scene": "central-hub",
+      "requires": [
+        "emergency-flare"
+      ],
+      "action": "ignite flare",
+      "result": "The flare erupts in brilliant crimson, cutting through the heavy shadows and illuminating the terminal screen.",
+      "reveals": []
+    },
+    {
+      "id": "puzzle-station-terminal",
+      "scene": "central-hub",
+      "requires": [],
+      "action": "input override 1109",
+      "result": "The station terminal accepts the code. The scuttle protocol is armed, and the escape corridor to the east is unlocked.",
+      "reveals": [
+        "escape-route"
+      ],
+      "blocksExit": "east"
+    },
+    {
+      "id": "puzzle-clear-path",
+      "scene": "escape-route",
+      "requires": [
+        "crowbar"
+      ],
+      "action": "remove debris",
+      "result": "Using the crowbar as a lever, you shift the heavy concrete blocks. The path to the elevator is clear. Success is just a lift ride away.",
+      "reveals": [
+        "surface"
+      ],
+      "blocksExit": "up"
+    }
+  ],
+  "winCondition": {
+    "scene": "surface",
+    "requires": [],
+    "description": "You escape the Abyssal Observatory just as it collapses. The echoes are buried, and the North Sea keeps its secrets. You survive."
+  }
+};
+
+// ============================================================
+// GAME ART — replace with inlined SVGs from art/*.svg
+// ============================================================
+window.GAME_ART = {
+  "airlock": "<img src="art/scene-airlock.png" alt="airlock" loading="lazy">",
+  "AIRLOCK": "<img src="art/scene-airlock.png" alt="airlock" loading="lazy">",
+  "main-corridor": "<img src="art/scene-main-corridor.png" alt="main-corridor" loading="lazy">",
+  "MAIN-CORRIDOR": "<img src="art/scene-main-corridor.png" alt="main-corridor" loading="lazy">",
+  "quarters": "<img src="art/scene-quarters.png" alt="quarters" loading="lazy">",
+  "QUARTERS": "<img src="art/scene-quarters.png" alt="quarters" loading="lazy">",
+  "maintenance-bay": "<img src="art/scene-maintenance-bay.png" alt="maintenance-bay" loading="lazy">",
+  "MAINTENANCE-BAY": "<img src="art/scene-maintenance-bay.png" alt="maintenance-bay" loading="lazy">",
+  "echo-chamber": "<img src="art/scene-echo-chamber.png" alt="echo-chamber" loading="lazy">",
+  "ECHO-CHAMBER": "<img src="art/scene-echo-chamber.png" alt="echo-chamber" loading="lazy">",
+  "central-hub": "<img src="art/scene-central-hub.png" alt="central-hub" loading="lazy">",
+  "CENTRAL-HUB": "<img src="art/scene-central-hub.png" alt="central-hub" loading="lazy">",
+  "escape-route": "<img src="art/scene-escape-route.png" alt="escape-route" loading="lazy">",
+  "ESCAPE-ROUTE": "<img src="art/scene-escape-route.png" alt="escape-route" loading="lazy">",
+  "surface": "<img src="art/scene-surface.png" alt="surface" loading="lazy">",
+  "SURFACE": "<img src="art/scene-surface.png" alt="surface" loading="lazy">",
+  "emergency-torch": "<img src="art/emergency-torch.svg" alt="emergency-torch" loading="lazy">",
+  "EMERGENCY-TORCH": "<img src="art/emergency-torch.svg" alt="emergency-torch" loading="lazy">",
+  "sound-dampener": "<img src="art/sound-dampener.svg" alt="sound-dampener" loading="lazy">",
+  "SOUND-DAMPENER": "<img src="art/sound-dampener.svg" alt="sound-dampener" loading="lazy">",
+  "crowbar": "<img src="art/crowbar.svg" alt="crowbar" loading="lazy">",
+  "CROWBAR": "<img src="art/crowbar.svg" alt="crowbar" loading="lazy">",
+  "engineer-keycard": "<img src="art/engineer-keycard.svg" alt="engineer-keycard" loading="lazy">",
+  "ENGINEER-KEYCARD": "<img src="art/engineer-keycard.svg" alt="engineer-keycard" loading="lazy">",
+  "emergency-flare": "<img src="art/emergency-flare.svg" alt="emergency-flare" loading="lazy">",
+  "EMERGENCY-FLARE": "<img src="art/emergency-flare.svg" alt="emergency-flare" loading="lazy">"
+};
+
+// ============================================================
+// GAME ENGINE — paste game-logic.js content here
+// ============================================================
+/* ... */
+
+if (typeof GAME_DATA !== 'undefined') {
+    window.GAME_DATA = GAME_DATA;
+}
+</script>
+<script src="../standard-game-runtime.js"></script>
+</body>
+</html>
