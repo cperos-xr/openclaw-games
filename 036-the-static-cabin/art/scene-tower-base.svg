@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="576" viewBox="0 0 1024 576" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="576" fill="#000000"/>
+  <rect x="50" y="50" width="924" height="476" fill="#263238" stroke="#fff" stroke-width="2" opacity="0.3"/>
+  <text x="512" y="288" font-family="Courier New, monospace" font-size="48" fill="#fff" text-anchor="middle">Tower Base</text>
+  <text x="512" y="350" font-family="Courier New, monospace" font-size="20" fill="#aaa" text-anchor="middle">STATIC INTERFERENCE DETECTED</text>
+  <rect width="1024" height="576" fill="url(#static)" opacity="0.1"/>
+  <defs>
+    <pattern id="static" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="1" height="1" fill="#fff"/>
+      <rect x="2" y="2" width="1" height="1" fill="#aaa"/>
+    </pattern>
+  </defs>
+</svg>

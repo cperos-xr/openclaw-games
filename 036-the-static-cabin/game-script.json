@@ -1,0 +1,249 @@
+{
+  "title": "The Static Cabin",
+  "slug": "the-static-cabin",
+  "number": 36,
+  "artStyle": "VECTOR",
+  "layout": "vertical-carnival",
+  "setting": "An isolated wooden cabin deep in the Pacific Northwest forest. The air is buzzing with solar radiation.",
+  "characters": [
+    {
+      "id": "the-hobbyist",
+      "name": "The Hobbyist",
+      "description": "An amateur radio enthusiast who came here for the silence, but found something much louder."
+    }
+  ],
+  "items": [
+    {
+      "id": "brass-oil-can",
+      "name": "Brass Oil Can",
+      "description": "An old-fashioned oil can with a precision spout.",
+      "foundIn": "kitchenette",
+      "usedIn": "main-room",
+      "usedOn": "stove-door"
+    },
+    {
+      "id": "hand-crank",
+      "name": "Hand Crank",
+      "description": "A heavy iron T-handle for a manual winch.",
+      "foundIn": "main-room",
+      "usedIn": "main-room",
+      "usedOn": "winch"
+    },
+    {
+      "id": "heavy-wrench",
+      "name": "Heavy Wrench",
+      "description": "A massive steel pipe wrench.",
+      "foundIn": "attic",
+      "usedIn": "kitchenette",
+      "usedOn": "padlock"
+    },
+    {
+      "id": "vacuum-tube",
+      "name": "Vacuum Tube",
+      "description": "A glass 'glow-tube' from a high-power radio set.",
+      "foundIn": "cellar",
+      "usedIn": "main-room",
+      "usedOn": "radio"
+    },
+    {
+      "id": "magnetic-keycard",
+      "name": "Magnetic Keycard",
+      "description": "A plain white card with a magnetic strip.",
+      "foundIn": "main-room",
+      "usedIn": "tower-base",
+      "usedOn": "control-box"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "porch",
+      "name": "The Porch",
+      "prose": "The screen door bangs rhythmically against the frame. A shimmering wall of grey static swallows the trees just ten feet from the steps. To the north, the heavy oak door leads into the main cabin. To the north, the jagged silhouette of the radio tower looms.",
+      "exits": {
+        "north": "main-room",
+        "tower": "tower-base"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-tower-access"
+      ],
+      "lookDescriptions": {
+        "screen-door": "Banging in the wind.",
+        "static-wall": "A grinding visual roar.",
+        "tower-silhouette": "Jagged and dark."
+      }
+    },
+    {
+      "id": "main-room",
+      "name": "Main Room",
+      "prose": "The cabin is filled with wood-grain and glowing vacuum tubes. A cast-iron stove sits in the corner. A wall of radio equipment hisses nearby. Above, a wooden trapdoor is sealed into the ceiling.",
+      "exits": {
+        "south": "porch",
+        "west": "kitchenette",
+        "up": "attic"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-stove",
+        "puzzle-winch",
+        "puzzle-radio"
+      ],
+      "lookDescriptions": {
+        "radio-wall": "Dials are spinning wildly.",
+        "stove": "An old Pioneer model. The door is fused.",
+        "ceiling-trapdoor": "Leads to the crawlspace above. Missing a handle."
+      }
+    },
+    {
+      "id": "kitchenette",
+      "name": "The Kitchenette",
+      "prose": "A cramped corner smelling of woodsmoke. Shelves of canned goods line the walls. A heavy wooden trapdoor in the floor is secured by a thick padlock.",
+      "exits": {
+        "east": "main-room",
+        "down": "cellar"
+      },
+      "items": [
+        "brass-oil-can"
+      ],
+      "puzzles": [
+        "puzzle-padlock"
+      ],
+      "lookDescriptions": {
+        "sink": "Morse code drips.",
+        "floor-trapdoor": "Heavy timber.",
+        "rusted-drawer": "Jammed with old tools."
+      }
+    },
+    {
+      "id": "attic",
+      "name": "Attic Crawlspace",
+      "prose": "The air is thick with dust and dry cedar. A single window looks out at the solar-flushed sky.",
+      "exits": {
+        "down": "main-room"
+      },
+      "items": [
+        "heavy-wrench"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "window": "Hot to the touch.",
+        "beams": "Burnt scorch marks.",
+        "wrench": "Massive industrial equipment."
+      }
+    },
+    {
+      "id": "cellar",
+      "name": "Root Cellar",
+      "prose": "A cold, earth-walled room. The smell of stored potatoes and iron is sharp.",
+      "exits": {
+        "up": "kitchenette"
+      },
+      "items": [
+        "vacuum-tube"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "walls": "Roots are vibrating.",
+        "tube-caddy": "An 'Electro-Voice' model.",
+        "darkness": "Deep and safe."
+      }
+    },
+    {
+      "id": "tower-base",
+      "name": "Radio Tower Base",
+      "prose": "The ground is scorched black around the structure. The tower screams as it vibrates in the gale. A control-box is mounted to its base.",
+      "exits": {
+        "south": "porch"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-reset"
+      ],
+      "lookDescriptions": {
+        "tower": "Lightning rod for the cosmos.",
+        "control-box": "Magnetic lock lit red.",
+        "scorched-earth": "Carbonized grass."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-tower-access",
+      "scene": "porch",
+      "requires": [],
+      "action": "walk north",
+      "result": "You enter the cabin, escaping the static roar.",
+      "reveals": [
+        "main-room"
+      ],
+      "blocksExit": "tower"
+    },
+    {
+      "id": "puzzle-stove",
+      "scene": "main-room",
+      "requires": [
+        "brass-oil-can"
+      ],
+      "action": "use oil-can on stove",
+      "result": "The door swings open, revealing a hand-crank in the ash.",
+      "reveals": [
+        "hand-crank"
+      ]
+    },
+    {
+      "id": "puzzle-winch",
+      "scene": "main-room",
+      "requires": [
+        "hand-crank"
+      ],
+      "action": "use hand-crank on winch",
+      "result": "The trapdoor drops, revealing the ladder to the attic.",
+      "reveals": [
+        "attic"
+      ],
+      "blocksExit": "up"
+    },
+    {
+      "id": "puzzle-padlock",
+      "scene": "kitchenette",
+      "requires": [
+        "heavy-wrench"
+      ],
+      "action": "use wrench on padlock",
+      "result": "The padlock snaps, revealing the cellar entrance.",
+      "reveals": [
+        "cellar"
+      ],
+      "blocksExit": "down"
+    },
+    {
+      "id": "puzzle-radio",
+      "scene": "main-room",
+      "requires": [
+        "vacuum-tube"
+      ],
+      "action": "use tube on radio",
+      "result": "The radio hums to life and ejects a magnetic-keycard.",
+      "reveals": [
+        "magnetic-keycard"
+      ]
+    },
+    {
+      "id": "puzzle-reset",
+      "scene": "tower-base",
+      "requires": [
+        "magnetic-keycard"
+      ],
+      "action": "use magnetic-keycard on control-box",
+      "result": "The code is accepted.",
+      "reveals": []
+    }
+  ],
+  "winCondition": {
+    "scene": "tower-base",
+    "requires": [
+      "magnetic-keycard"
+    ],
+    "description": "The reset sequence triggers. Reality stabilizes. The end."
+  }
+}

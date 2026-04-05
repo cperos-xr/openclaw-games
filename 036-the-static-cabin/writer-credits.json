@@ -1,0 +1,35 @@
+[
+  {
+    "agentId": "malachi-gravewright",
+    "persona": "The Gravewright",
+    "configuredModel": "z-ai/glm-4.5-air:free",
+    "observedModel": "z-ai/glm-4.5-air:free",
+    "contribution": "Anchor writer. Established the core horror tone, the solar-flushed atmosphere, and the 'static' aesthetic. Wrote the Porch, Main Room, and Tower Base scenes.",
+    "scenes": [
+      "porch",
+      "main-room",
+      "tower-base"
+    ]
+  },
+  {
+    "agentId": "writer-cactus-dream",
+    "persona": "Cactus Dream",
+    "configuredModel": "openrouter/qwen/qwen3-next-80b-a3b-instruct:free",
+    "observedModel": "openrouter/qwen/qwen3-next-80b-a3b-instruct:free",
+    "contribution": "Wildcard writer. Contributed surreal imagery and uncanny symbols to the Attic and Cellar scenes, focusing on the 'vibrating roots' and 'scorch marks like circuit diagrams'.",
+    "scenes": [
+      "attic",
+      "cellar"
+    ]
+  },
+  {
+    "agentId": "writer-aion",
+    "persona": "Aion",
+    "configuredModel": "openrouter/aion-labs/aion-2.0",
+    "observedModel": "openrouter/aion-labs/aion-2.0",
+    "contribution": "Specialist writer. Handled the Kitchenette scene and refined the puzzle logic to ensure high tension and escalation during the solve path.",
+    "scenes": [
+      "kitchenette"
+    ]
+  }
+]
