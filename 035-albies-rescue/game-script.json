@@ -1,0 +1,240 @@
+{
+  "title": "Albie's Rescue",
+  "slug": "albies-rescue",
+  "number": 35,
+  "setting": "A derelict apartment building, 1980s horror",
+  "layout": "vertical-carnival",
+  "hintsEnabledByDefault": false,
+  "characters": [
+    {
+      "id": "player",
+      "name": "The Rescuer",
+      "description": "A well-meaning stranger who heard a whimper behind the door."
+    },
+    {
+      "id": "albie",
+      "name": "Albie",
+      "description": "A small terrier, mostly white with a distinctive black spot on his face. Scratched and terrified."
+    }
+  ],
+  "items": [
+    {
+      "id": "can-opener",
+      "name": "can opener",
+      "description": "A rusted but functional can opener found on the counter.",
+      "foundIn": "kitchen",
+      "usedIn": "kitchen",
+      "usedOn": "dog-food"
+    },
+    {
+      "id": "dog-food",
+      "name": "dog food",
+      "description": "An open can of dog food. The contents are congealed but edible.",
+      "foundIn": "kitchen",
+      "usedIn": "bedroom",
+      "usedOn": "albie"
+    },
+    {
+      "id": "flea-comb",
+      "name": "flea comb",
+      "description": "A fine-toothed comb, still sticky with something dark.",
+      "foundIn": "bathroom",
+      "usedIn": "bedroom",
+      "usedOn": "albie"
+    },
+    {
+      "id": "severed-foot",
+      "name": "severed foot",
+      "description": "A pale, shriveled foot. The middle toes are missing—cleanly severed.",
+      "foundIn": "hallway-closet",
+      "usedIn": "bedroom",
+      "usedOn": "hidden-compartment"
+    },
+    {
+      "id": "blanket",
+      "name": "moth-eaten blanket",
+      "description": "A thin, gray blanket, heavy with dust and neglect.",
+      "foundIn": "living-room",
+      "usedIn": "bedroom",
+      "usedOn": "albie"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "entrance",
+      "name": "The Doorway",
+      "prose": "The door hangs ajar, its paint blistered and peeling like sunburned skin. Inside, the air is thick with the smell of mildew and something older, something feral. A faint whimper echoes from deeper within the apartment. The hallway beyond is a tunnel of shadows, the wallpaper curling away from the walls in long, ragged strips.\n\nTo the left, a dark opening suggests a living room. To the right, the faint smell of rotting food pulls you toward what must be a kitchen. Straight ahead, the hallway continues past doors on either side.",
+      "exits": {
+        "north": "hallway",
+        "west": "living-room",
+        "east": "kitchen"
+      },
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "door": "The wood is swollen with damp. A scratch mark, deep and desperate, gouges the lower panel.",
+        "wallpaper": "It moves in your peripheral vision. When you look directly, it is still.",
+        "whimper": "It comes again. A small, broken sound from the back of the apartment."
+      }
+    },
+    {
+      "id": "hallway",
+      "name": "The Hallway",
+      "prose": "The hallway stretches narrow and dim. The floorboards groan underfoot, soft in places with rot. On the right, a closet door hangs askew, revealing a darkness that seems deeper than it should be. On the left, a bathroom door stands slightly ajar. At the end of the hall, a bedroom door stands closed. A thin line of light bleeds from beneath it, flickering like a dying pulse.",
+      "exits": {
+        "south": "entrance",
+        "east": "hallway-closet",
+        "west": "bathroom",
+        "north": "bedroom"
+      },
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "closet": "Something pale glints in the darkness within.",
+        "bedroom-door": "The light beneath it flickers, though there should be no power in this building.",
+        "bathroom-door": "It smells of stagnation and old water.",
+        "floorboards": "They sag dangerously. You choose your steps carefully."
+      }
+    },
+    {
+      "id": "hallway-closet",
+      "name": "The Closet",
+      "prose": "The closet is a tomb of forgotten things. Shelves sag under the weight of mildewed coats and boxes bloated with moisture. On the floor, half-buried in trash, lies a foot.\n\nIt is small, pale, and shriveled. The middle toes are gone—cut away with surgical precision. You do not want to touch it, but you know, with a certainty that chills your marrow, that it belongs in the equation of this place.",
+      "exits": {
+        "west": "hallway"
+      },
+      "items": ["severed-foot"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "foot": "The missing toes are a clean amputation. Not torn. Not chewed. Cut.",
+        "shelves": "The coats hang like hanged men. You do not look at them too long.",
+        "boxes": "They are swollen shut, their contents a mystery you do not wish to solve."
+      }
+    },
+    {
+      "id": "living-room",
+      "name": "The Living Room",
+      "prose": "The living room is a monument to collapse. A sofa, its stuffing ripped out and scattered like内脏, slumps against one wall. A television sits dark and dead on a stand, its screen a cracked mirror.\n\nOn the coffee table, beneath a drift of dust and debris, something waits. A blanket, once gray, now the color of everything that has died in this room.",
+      "exits": {
+        "east": "entrance"
+      },
+      "items": ["blanket"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "sofa": "The stuffing has been torn out in frantic handfuls. By a dog, or by something else?",
+        "television": "Your reflection in the screen looks wrong. Older. More afraid.",
+        "blanket": "It is heavy with dust. It smells of neglect and old tears."
+      }
+    },
+    {
+      "id": "kitchen",
+      "name": "The Kitchen",
+      "prose": "The kitchen is a landscape of decay. Cabinets hang open, their contents spilled and rotted. The sink is a monument to neglect, clogged with something that was once food.\n\nOn the counter, a rusted can opener lies beside a sealed can. The label has been eaten away by time, but the shape is unmistakable: dog food. The can is heavy, solid, a promise of sustenance in this place of hunger.",
+      "exits": {
+        "west": "entrance"
+      },
+      "items": ["can-opener"],
+      "puzzles": ["puzzle-open-can"],
+      "lookDescriptions": {
+        "sink": "Something pale floats in the stagnant water. You do not investigate.",
+        "cabinets": "They are empty save for cockroaches, which scatter in the light.",
+        "can-opener": "Rust-colored and grim, but the gears still turn."
+      }
+    },
+    {
+      "id": "bathroom",
+      "name": "The Bathroom",
+      "prose": "The bathroom is a shrine to neglect. The tub is stained brown, the mirror cracked into a spider-web of reflections. On the edge of the sink, caked in grime, sits a flea comb.\n\nIt is a small thing, plastic and fine-toothed. Something dark and sticky clings to the teeth. You do not want to know what it is, but you know what it is for.",
+      "exits": {
+        "east": "hallway"
+      },
+      "items": ["flea-comb"],
+      "puzzles": [],
+      "lookDescriptions": {
+        "tub": "The stain is in the shape of a body. You do not dwell on this.",
+        "mirror": "Your reflection is fractured. In one shard, something moves behind you.",
+        "flea-comb": "The sticky residue is black. It smells of iron and something sweet."
+      }
+    },
+    {
+      "id": "bedroom",
+      "name": "The Bedroom",
+      "prose": "The bedroom is small, the air thick with the smell of fear and wet fur. In the corner, huddled beneath a collapsed dresser, is a dog.\n\nAlbie is a small terrier, mostly white with a distinctive black spot over his left eye. He is trembling, his ribs visible beneath matted fur. Fleas crawl in black rivers across his skin. His eyes are wide, terrified, fixed on something behind the dresser that you cannot see.\n\nThe dresser is heavy, immovable by hand. But there is a narrow gap behind it, and something glints in the darkness there. A hidden compartment, perhaps. A place where things are stored.",
+      "exits": {
+        "south": "hallway"
+      },
+      "items": [],
+      "puzzles": ["puzzle-feed-albie", "puzzle-comb-albie", "puzzle-wrap-albie", "puzzle-hidden-compartment"],
+      "lookDescriptions": {
+        "albie": "His black spot is a perfect circle. Like an eye. Like a hole.",
+        "dresser": "It is impossibly heavy. Something behind it watches.",
+        "gap": "The darkness beyond the dresser breathes. You feel it on your neck."
+      }
+    },
+    {
+      "id": "wall-door",
+      "name": "The Door in the Walls",
+      "prose": "The door is small, barely three feet tall, set into the wall behind the dresser. It is made of the same wood as the dresser, the same peeling paint. But it is not wood. It is something else, something that has learned to look like wood.\n\nThe doorknob is warm. Pulses, almost. When you turn it, the door opens into a space that should not exist. A tunnel, narrow and low, lined with the same peeling wallpaper. But the wallpaper here is not paper. It is skin.\n\nAnd from the darkness ahead, you hear a sound. Not a whimper. A voice. Your voice, saying your name.\n\nAlbie whines, pressing closer. He does not want to go in. He knows what waits in the walls. But the way out is through. The way out is through the thing that has been waiting for you since you opened the front door.\n\nYou step into the tunnel. The door closes behind you. The walls breathe.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "tunnel": "It stretches forever. Or maybe it stretches one inch. You cannot tell.",
+        "walls": "They are warm. They pulse. They are alive.",
+        "voice": "It is your voice. It is not your voice."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-open-can",
+      "scene": "kitchen",
+      "requires": ["can-opener"],
+      "action": "use can opener on dog food",
+      "result": "The can opener bites into the metal with a shriek. The lid peels back, revealing a mass of brown meat. It smells terrible. It smells like hope.",
+      "reveals": ["dog-food"]
+    },
+    {
+      "id": "puzzle-feed-albie",
+      "scene": "bedroom",
+      "requires": ["dog-food"],
+      "action": "give dog food to albie",
+      "result": "Albie flinches at first, then the smell reaches him. He creeps forward, eyes never leaving your face. He eats desperately, his whole body shaking. When he is done, he looks at you with something like trust.",
+      "reveals": []
+    },
+    {
+      "id": "puzzle-comb-albie",
+      "scene": "bedroom",
+      "requires": ["flea-comb"],
+      "action": "use flea comb on albie",
+      "result": "You comb through Albie's matted fur. The fleas fall in black clumps. He whimpers but does not pull away. When you are done, he is still trembling, but the black rivers are gone. He is just a dog now, not a plague.",
+      "reveals": []
+    },
+    {
+      "id": "puzzle-wrap-albie",
+      "scene": "bedroom",
+      "requires": ["blanket"],
+      "action": "wrap albie in blanket",
+      "result": "You drape the blanket over Albie. He shudders beneath it, then settles. For the first time, his trembling stops. He looks at you with eyes that are no longer terrified, but tired. And ready.",
+      "reveals": []
+    },
+    {
+      "id": "puzzle-hidden-compartment",
+      "scene": "bedroom",
+      "requires": ["severed-foot"],
+      "action": "use severed foot on hidden compartment",
+      "result": "You place the severed foot into the gap behind the dresser. It fits perfectly, as if it were a key. The dresser lurches forward with a sound like a breaking bone. Behind it, the wall has been hollowed out. There is a door there. A small door, child-sized, leading into the darkness of the walls.",
+      "reveals": ["wall-door"],
+      "blocksExit": {
+        "scene": "bedroom",
+        "direction": "south",
+        "blockedMessage": "The dresser has shifted, blocking the hallway. You must understand what the foot reveals before you can leave."
+      }
+    }
+  ],
+  "winCondition": {
+    "scene": "wall-door",
+    "requires": [],
+    "description": "You rescued Albie, but the building had other plans. The door in the walls is not an exit. It is an invitation."
+  }
+}
