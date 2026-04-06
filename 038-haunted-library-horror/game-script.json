@@ -1,0 +1,231 @@
+{
+  "title": "Haunted Library Horror",
+  "slug": "haunted-library-horror",
+  "number": 38,
+  "artStyle": "VECTOR",
+  "layout": "vertical",
+  "setting": "The Whittaker Estate Library, a Victorian-era mansion library sealed for fifty years following the mysterious disappearance of Head Librarian Elias Vetter and three research assistants. Oak shelves stretch three stories high, filled with leather-bound volumes that shift when unwatched and whisper in dead languages.",
+  "characters": [
+    {
+      "id": "researcher",
+      "name": "The Researcher",
+      "description": "You, a paranormal investigator called to uncover the truth behind the library's sealing and the whispers that drive listeners to madness."
+    },
+    {
+      "id": "librarian-vetter",
+      "name": "Librarian Elias Vetter",
+      "description": "The former head librarian who vanished during the night of the 'Great Whispering', said to have become one with the library's cursed knowledge."
+    }
+  ],
+  "items": [
+    {
+      "id": "silver-key",
+      "name": "Silver Key",
+      "description": "An antiquated key with strange glyphs etched into its bow. It feels unnaturally cold and vibrates faintly when near certain books.",
+      "foundIn": "vestibule",
+      "usedIn": "reading-room",
+      "usedOn": "puzzle-display-case"
+    },
+    {
+      "id": "candle-wax",
+      "name": "Sealed Candle Wax",
+      "description": "A deep purple wax seal bearing the Whittaker family crest - a raven clutching an open book. It smells of ozone and old paper.",
+      "foundIn": "reading-room",
+      "usedIn": "restricted-stacks",
+      "usedOn": "puzzle-chain-lock"
+    },
+    {
+      "id": "brass-compass",
+      "name": "Brass Compass",
+      "description": "A navigational instrument whose needle spins wildly instead of pointing north. The casing is engraved with astrological symbols.",
+      "foundIn": "restricted-stacks",
+      "usedIn": "basement-archives",
+      "usedOn": "puzzle-water-clock"
+    },
+    {
+      "id": "damp-cloth",
+      "name": "Waterlogged Cloth",
+      "description": "A piece of linen saturated with basement dampness, embroidered with faint blue thread that appears to form shifting words when wet.",
+      "foundIn": "basement-archives",
+      "usedIn": "hidden-chamber",
+      "usedOn": "puzzle-book-altar"
+    },
+    {
+      "id": "ivory-quill",
+      "name": "Ivory Quill",
+      "description": "A writing feather carved from solid ivory, its tip stained with ink that rewrites itself when unobserved. Feels unnaturally warm to the touch.",
+      "foundIn": "hidden-chamber",
+      "usedIn": "librarian-office",
+      "usedOn": "final-puzzle"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "vestibule",
+      "name": "The Vestibule",
+      "prose": "Marble floors slick with condensation reflect the distorted light of a shattered chandelier overhead. The air tastes of dust and forgotten paper, carrying whispers that form just at the edge of comprehension—'...return the knowledge...' '...he walks between shelves...' Massive oak doors stand ajar to the south, their iron hinges screaming with unseen pressure. To the north, a grand staircase ascends to the reading gallery, each step vibrating with subsonic hums that make your teeth ache.",
+      "exits": {
+        "south": "reading-room",
+        "north": "reading-gallery"
+      },
+      "items": [
+        "silver-key"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "shattered-chandelier": "Crystal prisms lie scattered like teeth across the marble, each catching light to throw rainbow shards that move when not directly observed.",
+        "oak-doors": "The iron hinges are coated in a substance that resembles dried blood but smells of old paper and ink.",
+        "marble-floor": "Water pools in perfect geometric patterns that reconfigure themselves when reflected light shifts, forming temporary glyphs in the condensation."
+      }
+    },
+    {
+      "id": "reading-room",
+      "name": "The Reading Room",
+      "prose": "Long oak tables stand empty except for open books whose pages flutter despite still air. Whispering rises from the shelves like insect wings, forming coherent phrases in dead tongues: '...the key opens what locks the key...' '...he reads what was never written...' A velvet rope barrier blocks access to a spiral staircase descending into darkness, while the northern balconies overlook shelves that seem to breathe with slow, infinite expansions.",
+      "exits": {
+        "south": "vestibule",
+        "north": "restricted-stacks",
+        "down": "basement-archives"
+      },
+      "items": [
+        "candle-wax"
+      ],
+      "puzzles": [
+        "puzzle-display-case"
+      ],
+      "lookDescriptions": {
+        "open-books": "Pages show readable text one moment, complex mathematical proofs the next, then blank vellum—never the same content twice when observed.",
+        "velvet-rope": "The deep crimson fabric absorbs sound completely, creating a zone of dead silence that feels unnatural in the whispering library.",
+        "shelves": "Wood grain shifts when viewed peripherally, revealing faces screaming silently in the knots and whorls of aged oak."
+      }
+    },
+    {
+      "id": "restricted-stacks",
+      "name": "The Restricted Stacks",
+      "prose": "Temperature drops ten degrees upon entry, breath fogging in the air. Shelves here tilt at impossible angles, their contents defying gravity as books float eye-level before dropping silently. Whispering sharpens to distinct voices: Latin phrases, binary code, and what sounds like children counting in reverse. A pervasive smell of iron and ozone suggests recent electrical activity despite the obvious lack of power.",
+      "exits": {
+        "south": "reading-room",
+        "east": "basement-archives"
+      },
+      "items": [
+        "brass-compass"
+      ],
+      "puzzles": [
+        "puzzle-chain-lock"
+      ],
+      "lookDescriptions": {
+        "floating-books": "Leather bindings show no author names or titles, only symbols that rearrange when not observed—astronomical signs, alchemical glyphs, and unknown scripts.",
+        "temperature-vent": "Frost forms in perfect hexagonal patterns despite the absence of cooling machinery, melting upward against gravity.",
+        "shadow-corner": "Darkness pools here thicker than elsewhere, absorbing light so completely it appears as a literal hole in reality."
+      }
+    },
+    {
+      "id": "basement-archives",
+      "name": "The Basement Archives",
+      "prose": "Stone walls weep steadily, creating rivulets that carry sediment forming temporary maps before washing away. The air hangs thick with mold and the scent of drowned paper, while whispering takes on an echoing quality as if coming from submerged corridors. Rows of waterlogged shelves hold volumes swollen with moisture, their spines disintegrating at touch yet somehow still legible.",
+      "exits": {
+        "west": "restricted-stacks",
+        "up": "reading-room"
+      },
+      "items": [
+        "damp-cloth"
+      ],
+      "puzzles": [
+        "puzzle-water-clock"
+      ],
+      "lookDescriptions": {
+        "weeping-wall": "Water leaves trails that briefly form readable text in multiple languages before dissolving—warnings, dates, and coordinates that never repeat.",
+        "waterlogged-shelf": "Books feel unnaturally heavy, their pages fused into solid blocks that reveal different cross-sections when rotated—anatomical diagrams, star charts, and architectural plans.",
+        "drain-grate": "Gurgling sounds emerge not from water flow but from rhythmic breathing, slow and deliberate as something large sleeps beneath the stone."
+      }
+    },
+    {
+      "id": "hidden-chamber",
+      "name": "The Hidden Chamber",
+      "prose": "Behind a false bookcase activated by water pressure, a circular room defies architectural logic—its walls curve inward at the top to meet a ceiling that shouldn't fit within the mansion's footprint. Shelves here hold only perfect spheres of obsidian that whisper in perfect unison, creating harmonies that induce vivid visions of the library's founding and its terrible cost. The air vibrates at 17Hz, the resonant frequency of human eyeballs.",
+      "exits": {
+        "west": "basement-archives"
+      },
+      "items": [
+        "ivory-quill"
+      ],
+      "puzzles": [
+        "puzzle-book-altar"
+      ],
+      "lookDescriptions": {
+        "obsidian-spheres": "Perfect blackness that reflects no light yet shows perfect mirror images of the viewer—always slightly older, always wearing different clothing from different centuries.",
+        "academic-chalkboard": "Equations appear in dust that solve themselves when observed, then reset to greater complexity when unobserved, each solution more troubling than the last.",
+        "ceiling-apex": "Where walls meet the curved ceiling, shadows form persistent pentagrams that rotate counter to the room's apparent rotation, speeding with increased whisper volume."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-display-case",
+      "scene": "reading-room",
+      "requires": [
+        "silver-key"
+      ],
+      "action": "use silver-key on display-case",
+      "result": "The key turns in a lock you hadn't noticed before, releasing the catch on a glass case containing Librarian Vetter's personal journal. The journal reveals that the whispers are not random—they're coordinates and timestamps for when the library overlaps with a parallel version of itself.",
+      "reveals": [
+        "journal-clue"
+      ]
+    },
+    {
+      "id": "puzzle-chain-lock",
+      "scene": "restricted-stacks",
+      "requires": [
+        "candle-wax"
+      ],
+      "action": "use wax on chain-lock",
+      "result": "The purple wax melts at room temperature, flowing into the links of a heavy iron chain securing a forbidden tome. As it solidifies, it creates a temporary seal that deadens the whispers long enough to retrieve the Brass Compass from within the book's hollowed pages.",
+      "reveals": [
+        "brass-compass"
+      ]
+    },
+    {
+      "id": "puzzle-water-clock",
+      "scene": "basement-archives",
+      "requires": [
+        "brass-compass"
+      ],
+      "action": "use compass on water-clock",
+      "result": "The compass needle stops spinning and locks onto a position pointing straight down into the water clock's basin. When aligned, the flow reverses, pulling the plug from a drainage basin and lowering the water level to expose a stone pedestal holding the Waterlogged Cloth.",
+      "reveals": [
+        "damp-cloth"
+      ]
+    },
+    {
+      "id": "puzzle-book-altar",
+      "scene": "hidden-chamber",
+      "requires": [
+        "damp-cloth"
+      ],
+      "action": "use cloth on book-altar",
+      "result": "The damp cloth activates pressure plates in the altar floor, causing the obsidian spheres to rise and form a constellation matching the journal's coordinates. As they align, a section of wall slides aside to reveal a narrow passage lined with shelving that holds the Ivory Quill.",
+      "reveals": [
+        "ivory-quill"
+      ]
+    },
+    {
+      "id": "final-puzzle",
+      "scene": "librarian-office",
+      "requires": [
+        "ivory-quill"
+      ],
+      "action": "use quill on desk",
+      "result": "The ivory quill writes autonomously in Librarian Vetter's hand, completing a sentence left unfinished for fifty years: 'The knowledge was never mine to keep.' As the final period appears, the whispering ceases, the shelves still, and the library exhales after decades of holding its breath.",
+      "reveals": [
+        "truth-revealed"
+      ]
+    }
+  ],
+  "winCondition": {
+    "scene": "librarian-office",
+    "requires": [
+      "truth-revealed"
+    ],
+    "description": "The final whisper echoes not from the shelves but from your own thoughts, clear and final: 'Now you know why libraries burn.' The Whittaker Estate Library settles into eternal silence, its cursed knowledge returned to whatever depth spawned it. You leave the Researcher's Fee on the desk—a single silver key—and close the doors behind you. Some knowledge, it seems, is better left unfound."
+  }
+}
