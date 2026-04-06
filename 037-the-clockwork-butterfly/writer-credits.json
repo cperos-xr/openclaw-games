@@ -1,0 +1,35 @@
+[
+  {
+    "agentId": "malachi-gravewright",
+    "persona": "The Gravewright",
+    "configuredModel": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "observedModel": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "contribution": "Anchor writer. Established the core clockwork horror tone, the Prague workshop atmosphere, and the Maestro's presence in absence. Wrote the Vestibule and Maestro Workbench scenes.",
+    "scenes": [
+      "vestibule",
+      "workbench"
+    ]
+  },
+  {
+    "agentId": "writer-deepseek",
+    "persona": "Desmond Vex",
+    "configuredModel": "openrouter/deepseek/deepseek-v3.2",
+    "observedModel": "openrouter/deepseek/deepseek-v3.2",
+    "contribution": "Specialist writer. Contributed technical dread and mechanical depth to the Gear Room and Secret Vault scenes, focusing on the 'thundering brass', 'piston housing', and the incense-scented tomb.",
+    "scenes": [
+      "gear-room",
+      "vault"
+    ]
+  },
+  {
+    "agentId": "writer-mistral-creative",
+    "persona": "The Muse",
+    "configuredModel": "openrouter/mistralai/mistral-small-creative",
+    "observedModel": "openrouter/mistralai/mistral-small-creative",
+    "contribution": "Wildcard writer. Contributed surreal imagery and uncanny beauty to the Aviary and Glass Sanctum scenes, focusing on the 'synthetic rain' of butterfly wings and the 'shimmering cyclone' of the final masterpiece.",
+    "scenes": [
+      "aviary",
+      "sanctum"
+    ]
+  }
+]
