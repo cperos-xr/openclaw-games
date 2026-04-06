@@ -1,0 +1,240 @@
+{
+  "title": "The Whispering Gallery",
+  "slug": "the-whispering-gallery",
+  "number": 38,
+  "artStyle": "VECTOR",
+  "layout": "vertical-carnival",
+  "setting": "The Blackwood Museum of Antiquities. A haunted Victorian corridor where the echoes of the past are etched into the walls.",
+  "characters": [
+    {
+      "id": "silas-vane",
+      "name": "Dr. Silas Vane",
+      "description": "A specialist in acoustic remnants, sent to silence the gallery once and for all."
+    }
+  ],
+  "items": [
+    {
+      "id": "tuning-fork",
+      "name": "Tuning Fork",
+      "description": "A heavy steel fork designed to resonate at 440Hz. It hums with a faint, sympathetic vibration.",
+      "foundIn": "entrance",
+      "usedIn": "restoration",
+      "usedOn": "vibrating-case"
+    },
+    {
+      "id": "brass-dial",
+      "name": "Brass Dial",
+      "description": "A small, numbered dial from a Victorian safe mechanism. It reeks of machine oil.",
+      "foundIn": "restoration",
+      "usedIn": "gallery",
+      "usedOn": "wall-mechanism"
+    },
+    {
+      "id": "heavy-pry-bar",
+      "name": "Heavy Pry Bar",
+      "description": "A solid length of octagonal steel. Perfectly balanced for prying open old secrets.",
+      "foundIn": "sanctum",
+      "usedIn": "restoration",
+      "usedOn": "iron-hatch"
+    },
+    {
+      "id": "spectral-lens",
+      "name": "Spectral Lens",
+      "description": "A violet-tinted glass lens in a leather frame. It allows the wearer to see frequencies normally invisible to the eye.",
+      "foundIn": "vault",
+      "usedIn": "gallery",
+      "usedOn": "blank-fresco"
+    },
+    {
+      "id": "golden-metronome",
+      "name": "Golden Metronome",
+      "description": "A masterpiece of horology. Its tick is the only sound that can anchor the echoes.",
+      "foundIn": "gallery",
+      "usedIn": "echo-chamber",
+      "usedOn": "central-pedestal"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "entrance",
+      "name": "Grand Entrance",
+      "prose": "The Blackwood Museum is a cathedral of still air and frozen history. Shafts of cold moonlight cut through the dust motes, illuminating a massive marble statue of a weeping angel in the center of the hall. The air is so quiet it rings. clutched in the angel's cold, stone hand is a heavy-tuning-fork, vibrating with a frequency you can feel in your teeth. To the north, the arched entrance to the Whispering Gallery beckons, its darkness filled with the sound of a thousand overlapping secrets.",
+      "exits": {
+        "north": "gallery"
+      },
+      "items": [
+        "tuning-fork"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "weeping-angel": "The detail is exquisite. She looks as if she's listening to a sound you can't hear.",
+        "dust-motes": "They move in patterns that mimic sound-waves.",
+        "arched-entrance": "Faded gold lettering above reads: THE WHISPERING GALLERY."
+      }
+    },
+    {
+      "id": "gallery",
+      "name": "The Gallery",
+      "prose": "The curved corridor stretches into the gloom, its walls lined with blank, peeling frescoes. The 'whispering' effect is active—every footstep you take echoes back as a distorted voice, a legacy of the artifacts stored here. To the west, a heavy oak door leads to the restoration room. To the north, the hallway ends in a circular door marked 'ECHO CHAMBER'. High on the east wall, a hidden compartment is visible behind a sliding stone panel, missing its control interface.",
+      "exits": {
+        "south": "entrance",
+        "west": "restoration",
+        "north": "echo-chamber",
+        "up": "sanctum"
+      },
+      "items": [
+        "golden-metronome"
+      ],
+      "puzzles": [
+        "puzzle-staircase",
+        "puzzle-fresco"
+      ],
+      "lookDescriptions": {
+        "blank-frescoes": "The paint has flaked away, leaving only a grey, absorbent surface.",
+        "wall-panel": "A circular indentation in the stone looks exactly like the mounting for a brass-dial.",
+        "hidden-staircase": "A spiral of iron steps hidden within the masonry, currently retracted."
+      }
+    },
+    {
+      "id": "restoration",
+      "name": "Restoration Room",
+      "prose": "The restoration room is a laboratory of chemicals and antiquity. Workbenches are cluttered with half-restored jars and scalpels. In the corner, a reinforced glass-case is vibrating so violently it's a blur, emitting a steady, high-pitched whine. A heavy iron-hatch is bolted into the floor, leading to the museum's under-vaults. The smell of ether and old paper is nearly overwhelming.",
+      "exits": {
+        "east": "gallery",
+        "down": "vault"
+      },
+      "items": [
+        "brass-dial"
+      ],
+      "puzzles": [
+        "puzzle-seal",
+        "puzzle-hatch"
+      ],
+      "lookDescriptions": {
+        "vibrating-case": "The artifact inside is reacting to the latent energy in the building.",
+        "restoration-tools": "Modern 1890s equipment. Everything is kept in clinical order.",
+        "iron-hatch": "Reinforced with cross-bars. It requires serious leverage to open."
+      }
+    },
+    {
+      "id": "sanctum",
+      "name": "Curator Sanctum",
+      "prose": "The Curator's study is a private island above the museum floor. Bookcases climb to the ceiling, filed with journals on 'The Physics of Haunting.' A massive desk stands in the center, covered in unread correspondence. A heavy-duty-pry-bar rests against the mahogany shelves, its steel surface reflecting the moonlight from the high window. The voices from the gallery below are muffled here, reduced to a low, rhythmic breathing.",
+      "exits": {
+        "down": "gallery"
+      },
+      "items": [
+        "heavy-pry-bar"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "curator-desk": "Covered in notes about 'The Final Frequency.' The handwriting is erratic.",
+        "bookcases": "Thousands of volumes on the occult and the acoustic.",
+        "high-window": "Looking out at the foggy London streets. Reality feels very far away."
+      }
+    },
+    {
+      "id": "vault",
+      "name": "Under-Vault",
+      "prose": "The under-vault is a cold, stone-walled womb where the museum's most sensitive items are kept in lead-lined safety. The air is stagnant and smells of iron. In the center, an open chest reveals a single spectral-lens, its violet glass drawing the light toward it. There are no other exits; the silence here is so absolute it's deafening.",
+      "exits": {
+        "up": "restoration"
+      },
+      "items": [
+        "spectral-lens"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "lead-lining": "Designed to dampen frequencies. It's working.",
+        "vault-chest": "A heavy, brass-bound trunk. The lock has been neatly picked.",
+        "stone-walls": "Scratched with hundreds of small tallies. Someone was counting the seconds."
+      }
+    },
+    {
+      "id": "echo-chamber",
+      "name": "Echo Chamber",
+      "prose": "The destination. A perfect circular room at the end of the gallery. The walls are seamless, carved from a single piece of acoustic-reflective stone. The 'whispers' have reached a fever pitch here—a screaming wall of sound that vibrates in your very bones. In the center of the room stands a solitary central-pedestal, its top featuring a mounting plate designed for a rhythmic anchor. This is the source of the contagion.",
+      "exits": {
+        "south": "gallery"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-silence"
+      ],
+      "lookDescriptions": {
+        "circular-walls": "They seem to be moving, pulsing with the intensity of the noise.",
+        "central-pedestal": "The only motionless object in the room. It’s waiting for the end.",
+        "the-screaming": "It’s not sound anymore. It’s a physical force."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-seal",
+      "scene": "restoration",
+      "requires": [
+        "tuning-fork"
+      ],
+      "action": "use tuning-fork on case",
+      "result": "the tuning fork strikes the glass. The frequency matches perfectly, and the case shatters into harmless diamonds of glass, revealing a brass-dial.",
+      "reveals": [
+        "brass-dial"
+      ]
+    },
+    {
+      "id": "puzzle-staircase",
+      "scene": "gallery",
+      "requires": [
+        "brass-dial"
+      ],
+      "action": "use dial on mechanism",
+      "result": "You mount the dial and turn it to the sequence found in the Curator's notes. The masonry grinds aside, revealing the hidden staircase to the Sanctum.",
+      "reveals": [
+        "sanctum"
+      ],
+      "blocksExit": "up"
+    },
+    {
+      "id": "puzzle-hatch",
+      "scene": "restoration",
+      "requires": [
+        "heavy-pry-bar"
+      ],
+      "action": "use pry-bar on hatch",
+      "result": "With a pained groan of steel, the hatch is forced open. A narrow ladder leads down into the freezing darkness of the vault.",
+      "reveals": [
+        "vault"
+      ],
+      "blocksExit": "down"
+    },
+    {
+      "id": "puzzle-fresco",
+      "scene": "gallery",
+      "requires": [
+        "spectral-lens"
+      ],
+      "action": "use lens on fresco",
+      "result": "The violet lens reveals a hidden sequence of musical notes painted on the blank wall. A hidden compartment pops open, revealing a golden-metronome.",
+      "reveals": [
+        "golden-metronome"
+      ]
+    },
+    {
+      "id": "puzzle-silence",
+      "scene": "echo-chamber",
+      "requires": [
+        "golden-metronome"
+      ],
+      "action": "use metronome on pedestal",
+      "result": "The metronome begins its steady tick. The screams falter, drawn into the relentless rhythm of the golden anchor. The gallery goes silent.",
+      "reveals": []
+    }
+  ],
+  "winCondition": {
+    "scene": "echo-chamber",
+    "requires": [
+      "golden-metronome"
+    ],
+    "description": "The whispers fade. The museum is just a collection of stone and silence once more. You walk out into the dawn of a London morning, the only one who knows the truth of the Blackwood Museum. The end."
+  }
+}

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Clockwork Butterfly | Game #037</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../standard-game-style.css">
+</head>
+<body class="openclaw-game layout-vertical-carnival" data-layout="vertical-carnival">
+  <header>
+    <h1>THE CLOCKWORK BUTTERFLY</h1>
+    <div class="subtitle">OpenClaw Adventures - Game #037</div>
+  </header>
+
+  <div id="scene-name">THE VESTIBULE</div>
+
+  <div class="game-container">
+    <div class="art-panel">
+      <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+      </div>
+    </div>
+
+    <div class="text-panel">
+      <div id="text-display"></div>
+
+      <div id="command-status" class="status-line"></div>
+
+      <div class="command-bar">
+        <button class="cmd-btn active" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      </div>
+
+      <div class="subpanel targets-panel">
+        <h3>TARGETS</h3>
+        <div id="targets-bar"></div>
+      </div>
+
+      <div class="subpanel inventory-panel">
+        <h3>INVENTORY</h3>
+        <div id="inventory-bar">
+          <span class="empty-state">(empty)</span>
+        </div>
+      </div>
+
+      <div class="subpanel exits-panel">
+        <h3>EXITS</h3>
+        <div id="exits-bar"></div>
+      </div>
+
+      <div class="utility-bar">
+        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+        <button id="reset-game" class="utility-btn">RESET</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
+  </footer>
+
+  <script>
+window.GAME_DATA = {
+  "title": "The Clockwork Butterfly",
+  "slug": "the-clockwork-butterfly",
+  "number": 37,
+  "artStyle": "HYBRID",
+  "layout": "vertical-carnival",
+  "setting": "A mad horologist's workshop in 1888 Prague. Brass gears, hissing steam, and the unsettling sound of mechanical wings.",
+  "characters": [
+    {
+      "id": "apprentice",
+      "name": "The Apprentice",
+      "description": "A young man who has spent three years learning the secrets of brass and bone under Maestro Votto."
+    },
+    {
+      "id": "maestro-votto",
+      "name": "Maestro Votto",
+      "description": "Missing but felt in every gear. His last masterpiece is hidden somewhere in this glass dome."
+    }
+  ],
+  "items": [
+    {
+      "id": "winding-key",
+      "name": "Winding Key",
+      "description": "A heavy, brass key with a butterfly-shaped handle. It’s warm to the touch and hums with stored kinetic energy.",
+      "foundIn": "vestibule",
+      "usedIn": "workbench",
+      "usedOn": "puzzle-beetle"
+    },
+    {
+      "id": "brass-cog",
+      "name": "Brass Cog",
+      "description": "A perfectly machined gear, its teeth sharp and clean. It’s covered in a thin, iridescent oil.",
+      "foundIn": "workbench",
+      "usedIn": "gear-room",
+      "usedOn": "puzzle-lift"
+    },
+    {
+      "id": "heavy-mallet",
+      "name": "Heavy Mallet",
+      "description": "A lead-weighted hammer used for seating large gears. It shows signs of heavy, frantic use.",
+      "foundIn": "aviary",
+      "usedIn": "gear-room",
+      "usedOn": "puzzle-vault"
+    },
+    {
+      "id": "mercury-vial",
+      "name": "Mercury Vial",
+      "description": "A small glass bulb filled with shimmering liquid metal. It pulses in time with your heartbeat.",
+      "foundIn": "vault",
+      "usedIn": "workbench",
+      "usedOn": "puzzle-butterfly"
+    },
+    {
+      "id": "crystal-eye",
+      "name": "Crystal Eye",
+      "description": "A faceted diamond carved into the shape of an eye. It bends the light in ways that shouldn't be possible.",
+      "foundIn": "workbench",
+      "usedIn": "aviary",
+      "usedOn": "puzzle-sanctum"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "vestibule",
+      "name": "The Vestibule",
+      "prose": "The entrance to Votto’s sanctuary is a wall of sound—the overlapping, discordant ticking of three hundred clocks. Pendulums swing in a frantic, unsynced dance, and the air is close, smelling of lemon oil and dry wood. To the north, the heavy velvet curtains lead to the Maestro’s inner workbench. A grandfather clock in the corner has its face smashed, revealing a hollowed-out interior where a winding-key hangs on a silk thread.",
+      "exits": {
+        "north": "workbench"
+      },
+      "items": [
+        "winding-key"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "grandfather-clock": "The internal gears have been replaced by a small, velvet-lined shrine.",
+        "clocks": "They all show different times, but none of them match the hour outside.",
+        "velvet-curtains": "Heavy and dark, they muffle the sound from the workshop beyond."
+      }
+    },
+    {
+      "id": "workbench",
+      "name": "Maestro Workbench",
+      "prose": "The workshop is a disaster of genius. Sketches of mechanical insects are pinned to every available surface, and half-assembled automatons lie on the floor like fallen soldiers. In the center of the desk, a mechanical-beetle sits motionless, its back plate open and waiting. Near the back of the room, a large, iridescent clockwork-butterfly is mounted on a stand, its wings shivering. To the west, the heavy brass door to the gear room is ajar, releasing a gust of hot, metallic steam.",
+      "exits": {
+        "south": "vestibule",
+        "west": "gear-room",
+        "up": "aviary"
+      },
+      "items": [
+        "brass-cog",
+        "crystal-eye"
+      ],
+      "puzzles": [
+        "puzzle-beetle",
+        "puzzle-butterfly"
+      ],
+      "lookDescriptions": {
+        "mechanical-beetle": "A masterpiece of miniaturization. It needs a winding-key to find its legs.",
+        "sketches": "Anatomical drawings of butterflies merged with complex gear-ratios.",
+        "steam-door": "The heat coming from the other side is intense. The engine is running at full capacity."
+      }
+    },
+    {
+      "id": "gear-room",
+      "name": "The Gear Room",
+      "prose": "This is the heart of the tower—a three-story cathedral of thundering brass and hissing pistons. Massive gears, ten feet across, turn with a slow, grinding inevitability. The central elevator-mechanism is currently missing a critical alignment gear, its cage stuck at the level of the workbench room. The floor is made of cold, uneven stone, and one particular slab near the piston housing looks loose and hollow.",
+      "exits": {
+        "east": "workbench",
+        "down": "vault"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-lift",
+        "puzzle-vault"
+      ],
+      "lookDescriptions": {
+        "massive-gears": "They move with a force that would crush anything caught in their teeth.",
+        "piston-housing": "The metal is vibrating so hard it's a blur. The pressure is critical.",
+        "loose-stone": "It sounds different when stepped on. There's a void beneath it."
+      }
+    },
+    {
+      "id": "aviary",
+      "name": "The Aviary",
+      "prose": "The brass cage deposits you onto a platform of glass and steel. Above, the city roofs of Prague are visible through the dome, but the sky is obscured by thousands of mechanical butterflies clinging to the ribs of the cage. The sound of their wings is a gentle, synthetic rain. At the far end of the platform, a door shaped like a gargoyles-head blocks the path to the Maestro's final sanctuary. Its mouth is open, featuring a socket for a circular gemstone.",
+      "exits": {
+        "down": "workbench",
+        "north": "sanctum"
+      },
+      "items": [
+        "heavy-mallet"
+      ],
+      "puzzles": [
+        "puzzle-sanctum"
+      ],
+      "lookDescriptions": {
+        "gargoyle-lock": "The stone mouth is lined with silver sensors. It awaits the crystal-eye.",
+        "glass-ribs": "The butterflies are moving in a synchronized pattern, spelling out words you can't read.",
+        "city-view": "The world outside feels distant and irrelevant compared to the art in this room."
+      }
+    },
+    {
+      "id": "vault",
+      "name": "Secret Vault",
+      "prose": "The space beneath the gear room is a freezing stone cell, illuminated only by the faint red glow of the furnace above. It feels more like a tomb than a vault. In the center of the room, a padded velvet box sits on a pedestal, containing a single mercury-vial. The air is stagnant and smells of old incense. There are no other exits; the only way out is back up the ladder to the thunder of the gears.",
+      "exits": {
+        "up": "gear-room"
+      },
+      "items": [
+        "mercury-vial"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "pedestal": "Carved from black Basalt. It's perfectly level.",
+        "velvet-box": "Embossed with the Votto family crest—a butterfly with a gear at its heart.",
+        "incense-smell": "It’s the scent of a funeral, not a workshop."
+      }
+    },
+    {
+      "id": "sanctum",
+      "name": "The Glass Sanctum",
+      "prose": "The final room is a dome of pure light. The thousands of mechanical butterflies have taken flight here, creating a shimmering cyclone of iridescent metal. In the center stands the Maestro's final masterpiece—his own form, converted entirely into a clockwork automaton. He is motionless, a god of brass holding a single crystal rose. The city beyond the glass is a blur of movement, but here, time has finally stopped.",
+      "exits": {},
+      "items": [],
+      "puzzles": [],
+      "lookDescriptions": {
+        "clockwork-maestro": "The detail is impossible. You can see the mercury pulsing through the tubes in his neck.",
+        "crystal-rose": "It catches the sunlight and scatters it into a million spectrums.",
+        "shimmering-cyclone": "The wings hum a frequency that makes you feel peaceful, then nothing at all."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-beetle",
+      "scene": "workbench",
+      "requires": [
+        "winding-key"
+      ],
+      "action": "use winding-key on beetle",
+      "result": "The beetle chimes and scuttles across the desk, kicking a heavy brass-cog out of a drawer before powering down. You take the gear.",
+      "reveals": [
+        "brass-cog"
+      ]
+    },
+    {
+      "id": "puzzle-lift",
+      "scene": "gear-room",
+      "requires": [
+        "brass-cog"
+      ],
+      "action": "use cog on mechanism",
+      "result": "The gear slides into place and the mechanism screams into life. The brass cage in the workshop room descends, providing access to the Aviary.",
+      "reveals": [
+        "aviary"
+      ]
+    },
+    {
+      "id": "puzzle-vault",
+      "scene": "gear-room",
+      "requires": [
+        "heavy-mallet"
+      ],
+      "action": "use mallet on stone",
+      "result": "With a thunderous crack, the stone shatters. A narrow staircase is revealed, leading down into the darkness of the vault.",
+      "reveals": [
+        "vault"
+      ],
+      "blocksExit": "down"
+    },
+    {
+      "id": "puzzle-butterfly",
+      "scene": "workbench",
+      "requires": [
+        "mercury-vial"
+      ],
+      "action": "use mercury on butterfly",
+      "result": "The butterfly drinks the mercury and its wings erupt in iridescent light. It projects a hidden code onto the wall, and the desk drawer pops open to reveal a crystal-eye.",
+      "reveals": [
+        "crystal-eye"
+      ]
+    },
+    {
+      "id": "puzzle-sanctum",
+      "scene": "aviary",
+      "requires": [
+        "crystal-eye"
+      ],
+      "action": "use eye on lock",
+      "result": "The crystal eye fits the gargoyle's socket. The mouth snaps shut and the doors to the Glass Sanctum hiss open.",
+      "reveals": [
+        "sanctum"
+      ],
+      "blocksExit": "north"
+    }
+  ],
+  "winCondition": {
+    "scene": "sanctum",
+    "requires": [
+      "crystal-eye"
+    ],
+    "description": "The doors open. The mechanical symphony begins. Maestro Votto has achieved his final vision, and you are its only witness. The Clockwork Butterfly has taken flight. The end."
+  }
+};
+window.GAME_ART = {
+  "brass-cog": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">brass-cog</text>\n</svg>",
+  "BRASS-COG": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">brass-cog</text>\n</svg>",
+  "brass_cog": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">brass-cog</text>\n</svg>",
+  "scene-brass-cog": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">brass-cog</text>\n</svg>",
+  "item-brass-cog": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">brass-cog</text>\n</svg>",
+  "crystal-eye": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crystal-eye</text>\n</svg>",
+  "CRYSTAL-EYE": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crystal-eye</text>\n</svg>",
+  "crystal_eye": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crystal-eye</text>\n</svg>",
+  "scene-crystal-eye": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crystal-eye</text>\n</svg>",
+  "item-crystal-eye": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">crystal-eye</text>\n</svg>",
+  "heavy-mallet": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">heavy-mallet</text>\n</svg>",
+  "HEAVY-MALLET": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">heavy-mallet</text>\n</svg>",
+  "heavy_mallet": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">heavy-mallet</text>\n</svg>",
+  "scene-heavy-mallet": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">heavy-mallet</text>\n</svg>",
+  "item-heavy-mallet": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">heavy-mallet</text>\n</svg>",
+  "mercury-vial": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">mercury-vial</text>\n</svg>",
+  "MERCURY-VIAL": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">mercury-vial</text>\n</svg>",
+  "mercury_vial": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">mercury-vial</text>\n</svg>",
+  "scene-mercury-vial": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">mercury-vial</text>\n</svg>",
+  "item-mercury-vial": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">mercury-vial</text>\n</svg>",
+  "scene-aviary": "<img src=\"art/scene-aviary.png\" alt=\"scene-aviary\" loading=\"lazy\">",
+  "SCENE-AVIARY": "<img src=\"art/scene-aviary.png\" alt=\"scene-aviary\" loading=\"lazy\">",
+  "aviary": "<img src=\"art/scene-aviary.png\" alt=\"scene-aviary\" loading=\"lazy\">",
+  "AVIARY": "<img src=\"art/scene-aviary.png\" alt=\"scene-aviary\" loading=\"lazy\">",
+  "scene_aviary": "<img src=\"art/scene-aviary.png\" alt=\"scene-aviary\" loading=\"lazy\">",
+  "item-aviary": "<img src=\"art/scene-aviary.png\" alt=\"scene-aviary\" loading=\"lazy\">",
+  "scene-gear-room": "<img src=\"art/scene-gear-room.png\" alt=\"scene-gear-room\" loading=\"lazy\">",
+  "SCENE-GEAR-ROOM": "<img src=\"art/scene-gear-room.png\" alt=\"scene-gear-room\" loading=\"lazy\">",
+  "gear-room": "<img src=\"art/scene-gear-room.png\" alt=\"scene-gear-room\" loading=\"lazy\">",
+  "GEAR-ROOM": "<img src=\"art/scene-gear-room.png\" alt=\"scene-gear-room\" loading=\"lazy\">",
+  "scene_gear_room": "<img src=\"art/scene-gear-room.png\" alt=\"scene-gear-room\" loading=\"lazy\">",
+  "item-gear-room": "<img src=\"art/scene-gear-room.png\" alt=\"scene-gear-room\" loading=\"lazy\">",
+  "scene-sanctum": "<img src=\"art/scene-sanctum.png\" alt=\"scene-sanctum\" loading=\"lazy\">",
+  "SCENE-SANCTUM": "<img src=\"art/scene-sanctum.png\" alt=\"scene-sanctum\" loading=\"lazy\">",
+  "sanctum": "<img src=\"art/scene-sanctum.png\" alt=\"scene-sanctum\" loading=\"lazy\">",
+  "SANCTUM": "<img src=\"art/scene-sanctum.png\" alt=\"scene-sanctum\" loading=\"lazy\">",
+  "scene_sanctum": "<img src=\"art/scene-sanctum.png\" alt=\"scene-sanctum\" loading=\"lazy\">",
+  "item-sanctum": "<img src=\"art/scene-sanctum.png\" alt=\"scene-sanctum\" loading=\"lazy\">",
+  "scene-vault": "<img src=\"art/scene-vault.png\" alt=\"scene-vault\" loading=\"lazy\">",
+  "SCENE-VAULT": "<img src=\"art/scene-vault.png\" alt=\"scene-vault\" loading=\"lazy\">",
+  "vault": "<img src=\"art/scene-vault.png\" alt=\"scene-vault\" loading=\"lazy\">",
+  "VAULT": "<img src=\"art/scene-vault.png\" alt=\"scene-vault\" loading=\"lazy\">",
+  "scene_vault": "<img src=\"art/scene-vault.png\" alt=\"scene-vault\" loading=\"lazy\">",
+  "item-vault": "<img src=\"art/scene-vault.png\" alt=\"scene-vault\" loading=\"lazy\">",
+  "scene-vestibule": "<img src=\"art/scene-vestibule.png\" alt=\"scene-vestibule\" loading=\"lazy\">",
+  "SCENE-VESTIBULE": "<img src=\"art/scene-vestibule.png\" alt=\"scene-vestibule\" loading=\"lazy\">",
+  "vestibule": "<img src=\"art/scene-vestibule.png\" alt=\"scene-vestibule\" loading=\"lazy\">",
+  "VESTIBULE": "<img src=\"art/scene-vestibule.png\" alt=\"scene-vestibule\" loading=\"lazy\">",
+  "scene_vestibule": "<img src=\"art/scene-vestibule.png\" alt=\"scene-vestibule\" loading=\"lazy\">",
+  "item-vestibule": "<img src=\"art/scene-vestibule.png\" alt=\"scene-vestibule\" loading=\"lazy\">",
+  "scene-workbench": "<img src=\"art/scene-workbench.png\" alt=\"scene-workbench\" loading=\"lazy\">",
+  "SCENE-WORKBENCH": "<img src=\"art/scene-workbench.png\" alt=\"scene-workbench\" loading=\"lazy\">",
+  "workbench": "<img src=\"art/scene-workbench.png\" alt=\"scene-workbench\" loading=\"lazy\">",
+  "WORKBENCH": "<img src=\"art/scene-workbench.png\" alt=\"scene-workbench\" loading=\"lazy\">",
+  "scene_workbench": "<img src=\"art/scene-workbench.png\" alt=\"scene-workbench\" loading=\"lazy\">",
+  "item-workbench": "<img src=\"art/scene-workbench.png\" alt=\"scene-workbench\" loading=\"lazy\">",
+  "winding-key": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">winding-key</text>\n</svg>",
+  "WINDING-KEY": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">winding-key</text>\n</svg>",
+  "winding_key": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">winding-key</text>\n</svg>",
+  "scene-winding-key": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">winding-key</text>\n</svg>",
+  "item-winding-key": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#3e2723\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">winding-key</text>\n</svg>"
+};
+  </script>
+  <script src="../standard-game-runtime.js"></script>
+</body>
+</html>
