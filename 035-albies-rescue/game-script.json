@@ -4,7 +4,7 @@
   "number": 35,
   "setting": "A derelict apartment building, 1980s horror",
   "layout": "vertical-carnival",
-  "hintsEnabledByDefault": false,
+  "hintsEnabledByDefault": true,
   "characters": [
     {
       "id": "player",
@@ -114,7 +114,7 @@
     {
       "id": "living-room",
       "name": "The Living Room",
-      "prose": "The living room is a monument to collapse. A sofa, its stuffing ripped out and scattered like内脏, slumps against one wall. A television sits dark and dead on a stand, its screen a cracked mirror.\n\nOn the coffee table, beneath a drift of dust and debris, something waits. A blanket, once gray, now the color of everything that has died in this room.",
+      "prose": "The living room is a monument to collapse. A sofa, its stuffing ripped out and scattered like guts, slumps against one wall. A television sits dark and dead on a stand, its screen a cracked mirror.\n\nOn the coffee table, beneath a drift of dust and debris, something waits. A blanket, once gray, now the color of everything that has died in this room.",
       "exits": {
         "east": "entrance"
       },
@@ -159,7 +159,7 @@
     {
       "id": "bedroom",
       "name": "The Bedroom",
-      "prose": "The bedroom is small, the air thick with the smell of fear and wet fur. In the corner, huddled beneath a collapsed dresser, is a dog.\n\nAlbie is a small terrier, mostly white with a distinctive black spot over his left eye. He is trembling, his ribs visible beneath matted fur. Fleas crawl in black rivers across his skin. His eyes are wide, terrified, fixed on something behind the dresser that you cannot see.\n\nThe dresser is heavy, immovable by hand. But there is a narrow gap behind it, and something glints in the darkness there. A hidden compartment, perhaps. A place where things are stored.",
+      "prose": "The bedroom is small, the air thick with the smell of fear and wet fur. In the corner, huddled beneath a collapsed dresser, is a dog.\n\nAlbie is a small terrier, mostly white with a distinctive black spot over his left eye. He is trembling, his ribs visible beneath matted fur. Fleas crawl in black rivers across his skin. His eyes are wide, terrified, fixed on something behind the dresser that you cannot see.\n\nThe dresser is heavy, immovable by hand. But there is a narrow gap behind it, and something glints in the darkness there. A hidden compartment, perhaps. A place where things are stored.\n\nYou cannot go North again; the dresser is too close to the wall. The only way is back South to the hall.",
       "exits": {
         "south": "hallway"
       },
@@ -190,6 +190,7 @@
       "id": "puzzle-open-can",
       "scene": "kitchen",
       "requires": ["can-opener"],
+      "usedOn": "dog-food",
       "action": "use can opener on dog food",
       "result": "The can opener bites into the metal with a shriek. The lid peels back, revealing a mass of brown meat. It smells terrible. It smells like hope.",
       "reveals": ["dog-food"]
@@ -234,7 +235,11 @@
   ],
   "winCondition": {
     "scene": "wall-door",
-    "requires": [],
+    "requires": [
+      "puzzle-feed-albie",
+      "puzzle-comb-albie",
+      "puzzle-wrap-albie"
+    ],
     "description": "You rescued Albie, but the building had other plans. The door in the walls is not an exit. It is an invitation."
   }
 }
