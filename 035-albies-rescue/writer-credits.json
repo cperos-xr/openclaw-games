@@ -1,0 +1,23 @@
+[
+  {
+    "agentId": "malachi-gravewright",
+    "persona": "Signature Horror Voice",
+    "configuredModel": "openrouter/google/gemini-3-flash-preview",
+    "contribution": "Atmospheric dread and scene prose for the Entryway and Living Room.",
+    "scenes": ["scene-entryway", "scene-living-room"]
+  },
+  {
+    "agentId": "writer-mistral-creative",
+    "persona": "Surprise & Off-Angle Specialist",
+    "configuredModel": "mistral/mistral-large-latest",
+    "contribution": "Surreal environmental descriptions for the Kitchen and Bathroom.",
+    "scenes": ["scene-kitchen", "scene-bathroom"]
+  },
+  {
+    "agentId": "writer-dark-planet",
+    "persona": "Sensory Dread & Threat Implication",
+    "configuredModel": "openrouter/deepseek/deepseek-v3.2",
+    "contribution": "Technical dread and debris-themed hazard descriptions for the Bedroom and Fire Escape.",
+    "scenes": ["scene-bedroom", "scene-fire-escape"]
+  }
+]
