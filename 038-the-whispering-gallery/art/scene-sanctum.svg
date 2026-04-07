@@ -1,8 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="1024" height="576" viewBox="0 0 1024 576" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1024" height="576" fill="#3e2723"/>
-  <rect x="100" y="100" width="824" height="376" fill="#5d4037" stroke="#fff" stroke-width="1" opacity="0.2"/>
-  <text x="512" y="288" font-family="Garamond, serif" font-size="48" fill="#fff" text-anchor="middle">Curator Sanctum</text>
-  <text x="512" y="350" font-family="Garamond, serif" font-size="18" fill="#aaa" text-anchor="middle" font-style="italic">"The echoes are literally etched into the walls."</text>
-  <circle cx="512" cy="288" r="200" stroke="#fff" stroke-width="0.5" fill="none" opacity="0.1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <!-- Mahogany Wood Pattern -->
+    <pattern id="mahogany" width="40" height="100" patternUnits="userSpaceOnUse">
+      <rect width="40" height="100" fill="#2a0d08"/>
+      <line x1="10" y1="0" x2="10" y2="100" stroke="#1a0600" stroke-width="2"/>
+    </pattern>
+    <!-- Book Spines Pattern -->
+    <pattern id="book-spines" width="40" height="60" patternUnits="userSpaceOnUse">
+      <rect width="10" height="60" fill="#660000" stroke="#000" stroke-width="1"/>
+      <rect x="10" y="0" width="10" height="60" fill="#000066" stroke="#000" stroke-width="1"/>
+      <rect x="20" y="0" width="10" height="60" fill="#006600" stroke="#000" stroke-width="1"/>
+      <rect x="30" y="0" width="10" height="60" fill="#331a00" stroke="#000" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Layer 1: Background - Private Study -->
+  <rect width="640" height="400" fill="#0d0600"/>
+  
+  <!-- Layer 2: Bookcases and Books -->
+  <g id="bookcases" transform="translate(0, 0)">
+    <rect x="0" y="0" width="140" height="300" fill="url(#mahogany)" stroke="#000" stroke-width="3"/>
+    <rect x="500" y="0" width="140" height="300" fill="url(#mahogany)" stroke="#000" stroke-width="3"/>
+    <!-- Books Fill -->
+    <rect x="10" y="20" width="120" height="260" fill="url(#book-spines)"/>
+    <rect x="510" y="20" width="120" height="260" fill="url(#book-spines)"/>
+  </g>
+
+  <!-- Layer 3: Massive Central Desk -->
+  <g id="curator-desk" transform="translate(180, 180)">
+    <!-- Desk Structure (Desk Template style) -->
+    <path fill="#2a1d08" stroke="#000" stroke-width="4" d="M104.998 104.998v110.004h206.004V104.998H104.998zm288 112v46.004h30.004v-46.004h-30.004zm-157.488 16-8.668 26.004h36.364l-8.668-26.004h-19.028zm-157.488 44v18.004h430.004v-18.004H40.998zm14.004 36V496h17.996V371.729l58.73-58.731h-25.453l-33.277 33.277v-33.277H55.002zm289.996 0v46.004h94.004v-46.004h-94.004zM394.271 320a10.272 8 0 0 1 10.272 8 10.272 8 0 0 1-10.272 8A10.272 8 0 0 1 384 328a10.272 8 0 0 1 10.271-8zm-49.273 56.998v46.004h94.004v-46.004h-94.004z"/>
+    <!-- Unread Correspondence -->
+    <rect x="120" y="110" width="40" height="20" fill="#eee" stroke="#ccc" stroke-width="1" transform="rotate(10)"/>
+    <rect x="130" y="120" width="40" height="20" fill="#eee" stroke="#ccc" stroke-width="1" transform="rotate(-5)"/>
+  </g>
+
+  <!-- Layer 4: Interactive Item - Heavy Pry Bar -->
+  <g id="heavy-pry-bar" transform="translate(540, 100) scale(0.3)">
+     <path fill="#444" stroke="#000" stroke-width="4" d="M169 57v430h78V57h-78z"/>
+     <!-- Reflective moonlight -->
+     <rect x="175" y="60" width="10" height="420" fill="#000088" opacity="0.4"/>
+  </g>
+
+  <!-- Layer 5: High Window and Moonlight -->
+  <g id="high-window" transform="translate(250, 20)">
+    <rect width="140" height="100" fill="#000088" stroke="#333" stroke-width="4"/>
+    <line x1="70" y1="0" x2="70" y2="100" stroke="#333" stroke-width="2"/>
+    <line x1="0" y1="50" x2="140" y2="50" stroke="#333" stroke-width="2"/>
+    <!-- Moon Shaft -->
+    <path d="M 0 0 L 140 0 L 300 300 L 0 300 Z" fill="#000088" opacity="0.2"/>
+  </g>
+
+  <!-- Layer 6: Atmosphere - Muffled Voices glow -->
+  <rect width="640" height="400" fill="#AA00FF" opacity="0.02"/>
+  <ellipse cx="320" cy="380" rx="300" ry="20" fill="#000" opacity="0.6"/> <!-- Floor Shadow -->
 </svg>

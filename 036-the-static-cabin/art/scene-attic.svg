@@ -1,14 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="1024" height="576" viewBox="0 0 1024 576" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1024" height="576" fill="#212121"/>
-  <rect x="50" y="50" width="924" height="476" fill="#424242" stroke="#fff" stroke-width="2" opacity="0.3"/>
-  <text x="512" y="288" font-family="Courier New, monospace" font-size="48" fill="#fff" text-anchor="middle">Attic</text>
-  <text x="512" y="350" font-family="Courier New, monospace" font-size="20" fill="#aaa" text-anchor="middle">STATIC INTERFERENCE DETECTED</text>
-  <rect width="1024" height="576" fill="url(#static)" opacity="0.1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
   <defs>
-    <pattern id="static" width="4" height="4" patternUnits="userSpaceOnUse">
-      <rect width="1" height="1" fill="#fff"/>
-      <rect x="2" y="2" width="1" height="1" fill="#aaa"/>
+    <!-- Cedar Shingle Pattern (for Attic Ceiling) -->
+    <pattern id="cedar-shingle" width="40" height="20" patternUnits="userSpaceOnUse">
+      <rect width="40" height="20" fill="#3a1d08"/>
+      <path d="M 0 0 L 20 20 L 40 0" fill="none" stroke="#1a0d00" stroke-width="2"/>
+    </pattern>
+    <!-- Dust Motes Pattern -->
+    <pattern id="dust-motes" width="100" height="100" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="1" fill="#FFFFFF" opacity="0.3"/>
+      <circle cx="70" cy="50" r="1.5" fill="#FFFFFF" opacity="0.2"/>
+      <circle cx="40" cy="80" r="0.5" fill="#FFFFFF" opacity="0.1"/>
     </pattern>
   </defs>
+
+  <!-- Layer 1: Background - Deep Cedar Shadows -->
+  <rect width="640" height="400" fill="#0d0600"/>
+  <!-- Sloping Roof/Walls -->
+  <polygon points="0,0 320,100 0,400" fill="url(#cedar-shingle)"/>
+  <polygon points="640,0 320,100 640,400" fill="url(#cedar-shingle)"/>
+  
+  <!-- Layer 2: Beams with Burn Marks -->
+  <g id="beams" stroke="#000" stroke-width="6">
+    <line x1="320" y1="100" x2="320" y2="400" stroke="#1a0d00"/>
+    <line x1="100" y1="0" x2="250" y2="400" stroke="#2a1d08"/>
+    <line x1="540" y1="0" x2="390" y2="400" stroke="#2a1d08"/>
+    <!-- Scorched patches -->
+    <ellipse cx="200" cy="200" rx="15" ry="30" fill="#000" opacity="0.8"/>
+    <ellipse cx="450" cy="250" rx="20" ry="10" fill="#000" opacity="0.7"/>
+  </g>
+
+  <!-- Layer 3: Central Window with Solar-Flush Sky -->
+  <g id="window-solar" transform="translate(240, 100)">
+    <rect width="160" height="120" fill="#FF8800" stroke="#000" stroke-width="4"/>
+    <rect x="10" y="10" width="140" height="100" fill="#FF0000" opacity="0.5"/> <!-- Burn center -->
+    <!-- Window Bars (Template-inspired) -->
+    <line x1="80" y1="0" x2="80" y2="120" stroke="#000" stroke-width="4"/>
+    <line x1="0" y1="60" x2="160" y2="60" stroke="#000" stroke-width="2"/>
+  </g>
+
+  <!-- Layer 4: Floor (Trapdoor Entrance below) -->
+  <rect x="0" y="360" width="640" height="40" fill="#1a0d00"/>
+  <rect x="250" y="370" width="140" height="20" fill="#000"/> <!-- Trapdoor hole -->
+  
+  <!-- Layer 5: Item - Heavy Wrench -->
+  <g id="item-wrench" transform="translate(480, 280) scale(0.3)">
+    <!-- Wrench (Ref to Template) -->
+    <path fill="#333" stroke="#000" stroke-width="4" d="m413.72 19.395v98.64l-46.116 46.117-34.198-34.2-6.607 6.61-141.52 141.516 113.513 113.51-52.775 52.773.002 50.31h18.687v-42.568l47.3-47.3 21.4 21.4 148.122-148.124-60.165-60.164 67.447-67.45V19.395h-18.687v123.33L408.148 204.7l-27.332-27.333 51.59-51.59V19.395H413.72z"/>
+  </g>
+  
+  <!-- Layer 6: Atmospheric Dust Particles -->
+  <rect width="640" height="400" fill="url(#dust-motes)"/>
+  <!-- Solar Glow -->
+  <rect x="240" y="100" width="160" height="120" fill="#FFFF00" opacity="0.1"/>
+  <rect x="200" y="80" width="240" height="160" fill="#FF8800" opacity="0.05"/>
 </svg>

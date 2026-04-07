@@ -1,14 +1,67 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="1024" height="576" viewBox="0 0 1024 576" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1024" height="576" fill="#4e342e"/>
-  <rect x="50" y="50" width="924" height="476" fill="#6d4c41" stroke="#fff" stroke-width="2" opacity="0.3"/>
-  <text x="512" y="288" font-family="Courier New, monospace" font-size="48" fill="#fff" text-anchor="middle">Main Room</text>
-  <text x="512" y="350" font-family="Courier New, monospace" font-size="20" fill="#aaa" text-anchor="middle">STATIC INTERFERENCE DETECTED</text>
-  <rect width="1024" height="576" fill="url(#static)" opacity="0.1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
   <defs>
-    <pattern id="static" width="4" height="4" patternUnits="userSpaceOnUse">
-      <rect width="1" height="1" fill="#fff"/>
-      <rect x="2" y="2" width="1" height="1" fill="#aaa"/>
+    <!-- Wood paneling pattern -->
+    <pattern id="wood-panel" width="40" height="400" patternUnits="userSpaceOnUse">
+      <rect width="40" height="400" fill="#2a1d08"/>
+      <line x1="40" y1="0" x2="40" y2="400" stroke="#1a0d00" stroke-width="2"/>
+    </pattern>
+    <!-- Dithering for shadows -->
+    <pattern id="dither-shadow" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="2" height="2" fill="#000000"/>
+      <rect x="2" y="2" width="2" height="2" fill="#000000" opacity="0.5"/>
     </pattern>
   </defs>
+
+  <!-- Layer 1: Background - Wood Grain Walls -->
+  <rect width="640" height="400" fill="url(#wood-panel)"/>
+  
+  <!-- Layer 2: Structural Elements -->
+  <!-- Floor -->
+  <rect x="0" y="300" width="640" height="100" fill="#1a0d00"/>
+  <line x1="0" y1="300" x2="640" y2="300" stroke="#000" stroke-width="4"/>
+  <!-- Ceiling -->
+  <rect x="0" y="0" width="640" height="60" fill="#1a0d00"/>
+  <line x1="0" y1="60" x2="640" y2="60" stroke="#000" stroke-width="4"/>
+  
+  <!-- Layer 3: Midground Features -->
+  <!-- Cast-iron stove -->
+  <g id="stove" transform="translate(50, 180)">
+    <rect x="0" y="0" width="120" height="140" fill="#111" stroke="#333" stroke-width="3"/>
+    <rect x="10" y="10" width="100" height="80" fill="#000" stroke="#222" stroke-width="2"/>
+    <rect x="120" y="20" width="10" height="100" fill="#111"/> <!-- Flue -->
+    <path d="M 120 20 Q 140 0 140 -120" fill="none" stroke="#111" stroke-width="12"/>
+    <!-- Stove door (Interactive) -->
+    <rect x="20" y="100" width="80" height="30" fill="#151515" stroke="#444" stroke-width="2"/>
+    <circle cx="90" cy="115" r="4" fill="#FF8800"/> <!-- Latch -->
+  </g>
+
+  <!-- Radio Equipment Wall -->
+  <g id="radio-wall" transform="translate(350, 80)">
+    <rect x="0" y="0" width="250" height="200" fill="#111" stroke="#333" stroke-width="4"/>
+    <!-- Vacuum Tubes -->
+    <g transform="translate(20, 20) scale(0.25)">
+      <path fill="#FF8800" opacity="0.6" d="m133.2 25-53.69 94H432.5l-53.7-94H133.2zM25 137v46h462v-46H25zm32 64v46h46v-46H57zm352 0v46h46v-46h-46zM57 265v46h46v-46H57zm352 0v46h46v-46h-46zM57 329v78h46v-78H57zm352 0v78h46v-78h-46zM25 425v62h462v-62H25z"/>
+    </g>
+    <g transform="translate(80, 20) scale(0.25)">
+      <path fill="#FF8800" opacity="0.8" d="m133.2 25-53.69 94H432.5l-53.7-94H133.2zM25 137v46h462v-46H25zm32 64v46h46v-46H57zm352 0v46h46v-46h-46zM57 265v46h46v-46H57zm352 0v46h46v-46h-46zM57 329v78h46v-78H57zm352 0v78h46v-78h-46zM25 425v62h462v-62H25z"/>
+    </g>
+    <!-- Dials and Circuitry -->
+    <g transform="translate(20, 120) scale(0.2)">
+      <path fill="#33FF33" d="M228.844 32.22v114.218h17.687V32.218h-17.686zm-108.25.624c-15.507 0-28.094 12.586-28.094 28.093S105.087 89 120.594 89c12.655 0 23.34-8.372 26.844-19.875h44.937v77.313h17.688v-95H147.03c-3.888-10.837-14.262-18.593-26.436-18.593zm193.25 0c-15.507 0-28.063 12.586-28.063 28.093 0 12.124 7.677 22.45 18.44 26.376v59.124h17.655V87.844c11.596-3.452 20.063-14.193 20.063-26.906 0-15.508-12.587-28.094-28.094-28.094zM266.124 92.5v53.938h17.657V92.5h-17.655zm188.532 4.03c-15.507 0-28.094 12.588-28.094 28.095 0 13.083 8.948 24.074 21.063 27.188v27.468h-92.938v17.657h110.624v-46.342c10.223-4.192 17.407-14.233 17.407-25.97 0-15.507-12.557-28.094-28.064-28.094zM30.187 123.657v17.688H96.75v55.594h62.814V179.28h-45.126v-55.624h-84.25zm147.032 40.47v159.718h159.81v-159.72H177.22zm17.56 15.655h17.657v78.595l32.407 32.406h75.28v17.658H237.5l-2.594-2.594-10.75-10.75c-1.033 7.385-7.36 13.062-15.03 13.062-8.392 0-15.19-6.796-15.19-15.187 0-7.682 5.696-13.98 13.095-15l-9.655-9.658-2.594-2.593V179.78zm54.94.157h17.686v55.313h52.53l.002 17.688H249.72v-73zM53.124 217.375v89.969c-11.49 3.512-19.844 14.198-19.844 26.844 0 15.505 12.557 28.093 28.064 28.093s28.093-12.587 28.093-28.092c0-12.195-7.79-22.564-18.656-26.438v-72.72h88.782v-17.655H53.124zm301.563 0v17.656h53.968v-17.655h-53.97zm99.968 21.97c-10.898 0-20.342 6.21-25 15.28h-74.97l.002 17.688H427c2.325 13.168 13.824 23.187 27.656 23.187 15.507 0 28.063-12.588 28.063-28.094 0-15.507-12.557-28.062-28.062-28.062zm-349.062 15.28v17.688h53.97v-17.688h-53.97zm17.156 36.47v84.217c-11.498 3.513-19.875 14.2-19.875 26.844 0 15.506 12.587 28.094 28.094 28.094 15.506 0 28.06-12.588 28.06-28.094 0-12.194-7.766-22.564-18.624-26.437v-66.94h19.156v-17.686h-36.81zm231.938 0v17.686h45.156v95.283c-11.323 3.624-19.53 14.26-19.53 26.78-.002 15.506 12.585 28.063 28.092 28.063 15.507 0 28.063-12.557 28.063-28.062 0-12.32-7.935-22.778-18.97-26.563V291.095h-62.814zM192.375 341.53v54.033h17.688V341.53h-17.688zm36.47 0v86.564c-11.013 3.794-18.94 14.233-18.94 26.53 0 15.506 12.588 28.095 28.095 28.095s28.063-12.59 28.063-28.095c0-12.53-8.203-23.14-19.532-26.75V341.53h-17.686zm37.28 0v54.033h17.688l-.032-54.032h-17.655zm38.094 0v140.064h17.655V341.53H304.22z"/>
+    </g>
+  </g>
+
+  <!-- Layer 4: Trapdoor in Ceiling -->
+  <g id="ceiling-trapdoor" transform="translate(250, 10)">
+    <rect width="140" height="40" fill="#1a1a1a" stroke="#000" stroke-width="3"/>
+    <line x1="10" y1="20" x2="130" y2="20" stroke="#333" stroke-width="2"/>
+  </g>
+
+  <!-- Layer 5: Atmospheric Lighting -->
+  <!-- Phosphor Glow from the Radio -->
+  <rect x="350" y="80" width="250" height="200" fill="#33FF33" opacity="0.05"/>
+  <ellipse cx="475" cy="180" rx="150" ry="120" fill="#33FF33" opacity="0.03"/>
+  
+  <!-- Shadow cast by the stove -->
+  <rect x="170" y="320" width="100" height="80" fill="url(#dither-shadow)" opacity="0.3"/>
 </svg>

@@ -1,8 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="1024" height="576" viewBox="0 0 1024 576" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1024" height="576" fill="#212121"/>
-  <rect x="100" y="100" width="824" height="376" fill="#424242" stroke="#fff" stroke-width="1" opacity="0.2"/>
-  <text x="512" y="288" font-family="Garamond, serif" font-size="48" fill="#fff" text-anchor="middle">The Gallery</text>
-  <text x="512" y="350" font-family="Garamond, serif" font-size="18" fill="#aaa" text-anchor="middle" font-style="italic">"The echoes are literally etched into the walls."</text>
-  <circle cx="512" cy="288" r="200" stroke="#fff" stroke-width="0.5" fill="none" opacity="0.1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <!-- Peeling Fresco Pattern -->
+    <pattern id="peeling-fresco" width="100" height="100" patternUnits="userSpaceOnUse">
+      <rect width="100" height="100" fill="#222"/>
+      <path d="M 10 10 Q 30 0 50 10 T 90 10" fill="none" stroke="#555" stroke-width="2"/>
+      <rect x="20" y="30" width="30" height="40" fill="#333" opacity="0.4"/>
+    </pattern>
+    <!-- Dithered Shadow -->
+    <pattern id="dither-gallery" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="2" height="2" fill="#000000"/>
+      <rect x="2" y="2" width="2" height="2" fill="#000000" opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <!-- Layer 1: Background - Curved Corridor -->
+  <rect width="640" height="400" fill="#0a0a0a"/>
+  <!-- Curved Walls -->
+  <path d="M 0 0 Q 320 100 640 0 L 640 400 Q 320 300 0 400 Z" fill="url(#peeling-fresco)"/>
+  
+  <!-- Layer 2: Architecture - Doors and Panels -->
+  <!-- Restoration Room Door (West) -->
+  <g transform="translate(20, 100) scale(0.3)">
+    <path fill="#1a1a1a" stroke="#444" stroke-width="8" d="M105 41v398h302V41H105zm55 174c18.1 0 33 14.9 33 33s-14.9 33-33 33-33-14.9-33-33 14.9-33 33-33z"/>
+  </g>
+  
+  <!-- Echo Chamber Circular Door (North) -->
+  <g transform="translate(270, 80) scale(0.3)">
+    <path fill="#080808" stroke="#333" stroke-width="4" d="m226.063 24.22-9.782 32.624c12.992-2.652 26.423-4.032 40.19-4.032 10.475 0 20.766.82 30.81 2.376l-9.405-30.97h-51.813zm30.406 48.843c-99.627 0-180.19 80.53-180.19 180.156 0 99.624 80.563 180.155 180.19 180.155 99.624 0 180.155-80.53 180.155-180.156 0-99.627-80.53-180.157-180.156-180.157zm0 41.687c76.482 0 138.467 61.985 138.467 138.47 0 76.482-61.985 138.5-138.468 138.5-76.485 0-138.5-62.018-138.5-138.5 0-76.485 62.015-138.47 138.5-138.47zm-.033 38.938c-54.96 0-99.53 44.54-99.53 99.5s44.57 99.5 99.53 99.5 99.5-44.54 99.5-99.5-44.54-99.5-99.5-99.5z"/>
+  </g>
+
+  <!-- Hidden Staircase Panel (East) -->
+  <g transform="translate(500, 150) scale(0.25)">
+     <rect width="300" height="300" fill="#151515" stroke="#333" stroke-width="4"/>
+     <!-- Dial Indentation -->
+     <circle cx="150" cy="150" r="100" fill="#0a0a0a" stroke="#444" stroke-width="4"/>
+     <path d="M 150 50 L 150 250 M 50 150 L 250 150" stroke="#222" stroke-width="2"/>
+  </g>
+
+  <!-- Layer 3: Interactive Items - Golden Metronome (Hidden initially in logic, but visible here) -->
+  <g id="golden-metronome" transform="translate(520, 180) scale(0.15)" opacity="1">
+    <path fill="#FF8800" stroke="#000" stroke-width="4" d="M121 17v30h270V17H121zm16 48v46h30V65h-30zm208 0v46h30V65h-30zm-224 64v30h270v-30H121zM25 66.75V425.8l78-26V92.74zm462 0-78 25.99V399.8l78 26V267.5z"/>
+    <!-- Metronome Pendulum -->
+    <line x1="256" y1="400" x2="256" y2="100" stroke="#FFD700" stroke-width="12"/>
+    <circle cx="256" cy="150" r="20" fill="#FFD700"/>
+  </g>
+
+  <!-- Layer 4: Atmosphere - Distorted Echoes (Glow) -->
+  <rect width="640" height="400" fill="#AA00FF" opacity="0.03"/>
+  <ellipse cx="320" cy="200" rx="300" ry="200" fill="#000088" opacity="0.05"/>
+  
+  <!-- Layer 5: Shadow and Dithering -->
+  <rect x="0" y="300" width="640" height="100" fill="url(#dither-gallery)" opacity="0.5"/>
 </svg>

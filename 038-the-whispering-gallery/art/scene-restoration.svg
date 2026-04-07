@@ -1,8 +1,61 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="1024" height="576" viewBox="0 0 1024 576" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1024" height="576" fill="#263238"/>
-  <rect x="100" y="100" width="824" height="376" fill="#37474f" stroke="#fff" stroke-width="1" opacity="0.2"/>
-  <text x="512" y="288" font-family="Garamond, serif" font-size="48" fill="#fff" text-anchor="middle">Restoration Room</text>
-  <text x="512" y="350" font-family="Garamond, serif" font-size="18" fill="#aaa" text-anchor="middle" font-style="italic">"The echoes are literally etched into the walls."</text>
-  <circle cx="512" cy="288" r="200" stroke="#fff" stroke-width="0.5" fill="none" opacity="0.1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <!-- Workbench Pattern -->
+    <pattern id="workbench" width="50" height="50" patternUnits="userSpaceOnUse">
+      <rect width="50" height="50" fill="#2a1d08"/>
+      <line x1="0" y1="0" x2="50" y2="0" stroke="#110800" stroke-width="2"/>
+    </pattern>
+    <!-- Iron Hatch Pattern -->
+    <pattern id="iron-hatch" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="#151515"/>
+      <line x1="0" y1="0" x2="40" y2="0" stroke="#333" stroke-width="1"/>
+      <line x1="0" y1="0" x2="0" y2="40" stroke="#333" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Layer 1: Background - Cluttered Laboratory -->
+  <rect width="640" height="400" fill="#080a08"/>
+  <!-- Workbenches (Midground) -->
+  <rect x="0" y="220" width="300" height="180" fill="url(#workbench)" stroke="#000" stroke-width="3"/>
+  <rect x="340" y="220" width="300" height="180" fill="url(#workbench)" stroke="#000" stroke-width="3"/>
+
+  <!-- Layer 2: Laboratory Equipment -->
+  <!-- Cluttered jars and scalpels -->
+  <g id="equipment" transform="translate(50, 180)">
+    <rect x="10" y="0" width="20" height="40" fill="#000088" opacity="0.6" stroke="#444" stroke-width="1"/>
+    <rect x="40" y="10" width="15" height="30" fill="#006600" opacity="0.5" stroke="#444" stroke-width="1"/>
+    <line x1="70" y1="20" x2="100" y2="40" stroke="#aaa" stroke-width="2"/> <!-- Scalpel -->
+    <line x1="120" y1="10" x2="130" y2="40" stroke="#aaa" stroke-width="2"/>
+  </g>
+
+  <!-- Vibrating Case (Interactive) -->
+  <g id="vibrating-case" transform="translate(450, 80)">
+    <rect width="100" height="140" fill="#333" opacity="0.2" stroke="#FFD700" stroke-width="3"/>
+    <!-- Vibrating Outlines -->
+    <rect x="-2" y="-2" width="104" height="144" fill="none" stroke="#FF8800" stroke-width="1" opacity="0.5"/>
+    <rect x="2" y="2" width="96" height="136" fill="none" stroke="#FFFF00" stroke-width="1" opacity="0.5"/>
+    <!-- Brass Dial Inside (Ref Item Template style bits) -->
+    <g transform="translate(20, 40) scale(0.12)">
+       <path fill="#FF8800" stroke="#000" stroke-width="4" d="M25 66.75V425.8l78-26V92.74zm462 0-78 25.99V399.8l78 26V267.5z"/>
+    </g>
+  </g>
+
+  <!-- Layer 3: Floor and Iron Hatch -->
+  <g id="iron-hatch-group" transform="translate(260, 320)">
+    <rect width="120" height="70" fill="url(#iron-hatch)" stroke="#000" stroke-width="4"/>
+    <line x1="20" y1="0" x2="20" y2="70" stroke="#333" stroke-width="2"/>
+    <line x1="100" y1="0" x2="100" y2="70" stroke="#333" stroke-width="2"/>
+    <line x1="0" y1="35" x2="120" y2="35" stroke="#333" stroke-width="2"/>
+    <!-- Bolts/Cross-bars -->
+    <rect x="40" y="10" width="40" height="5" fill="#111"/>
+    <rect x="40" y="55" width="40" height="5" fill="#111"/>
+  </g>
+
+  <!-- Layer 4: Atmosphere - Chemicals and Energy -->
+  <!-- Ether Haze (Light green glow) -->
+  <rect width="640" height="400" fill="#33FF33" opacity="0.02"/>
+  <ellipse cx="500" cy="150" rx="100" ry="100" fill="#FFFF00" opacity="0.05"/> <!-- Energy glow -->
+  
+  <!-- Shadow from floor -->
+  <rect x="0" y="300" width="640" height="10" fill="#000" opacity="0.4"/>
 </svg>

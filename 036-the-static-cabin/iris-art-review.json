@@ -1,0 +1,8 @@
+{
+  "game": "036-the-static-cabin",
+  "reviewer": "Iris Vane",
+  "date": "2026-04-07",
+  "verdict": "PASS",
+  "notes": "All 6 scene SVGs regenerated in VECTOR mode with proper layered compositions. File sizes 2.9–5.5 KB. Apple II palette constraints respected (solid fills, thick strokes, no gradients, limited palette). Each scene matches its prose description. No placeholders, broken references, or symlinks. Coherent retro-horror aesthetic across all scenes.",
+  "scenes": ["porch", "main-room", "kitchenette", "attic", "cellar", "tower-base"]
+}
