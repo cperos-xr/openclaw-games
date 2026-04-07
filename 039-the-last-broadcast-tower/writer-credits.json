@@ -1,0 +1,26 @@
+[
+  {
+    "agentId": "writer-storyweaver",
+    "persona": "writer-storyweaver",
+    "configuredModel": "openrouter/stepfun/step-3.5-flash:free",
+    "observedModel": "openrouter/stepfun/step-3.5-flash:free",
+    "contribution": "Control Room — starting room prose establishing atmosphere, equipment wrongness, and the haunted broadcast motif",
+    "scenes": ["control-room"]
+  },
+  {
+    "agentId": "writer-qwen-free",
+    "persona": "writer-qwen-free",
+    "configuredModel": "openrouter/qwen/qwen3.6-plus:free",
+    "observedModel": "openrouter/qwen/qwen3.6-plus:free",
+    "contribution": "Generator Room and Supply Closet — industrial dread, mechanical details, claustrophobic tension",
+    "scenes": ["generator-room", "supply-closet"]
+  },
+  {
+    "agentId": "writer-dark-planet",
+    "persona": "writer-dark-planet",
+    "configuredModel": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "observedModel": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "contribution": "Broadcast Booth and Tower Top — sensory dread, psychological suffocation, terminal isolation, climactic atmospheric threat",
+    "scenes": ["broadcast-booth", "tower-top"]
+  }
+]

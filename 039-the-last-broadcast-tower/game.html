@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Last Broadcast Tower | Game #039</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../standard-game-style.css">
+</head>
+<body class="openclaw-game layout-vertical-carnival" data-layout="vertical-carnival">
+  <header>
+    <h1>THE LAST BROADCAST TOWER</h1>
+    <div class="subtitle">OpenClaw Adventures - Game #039</div>
+  </header>
+
+  <div id="scene-name">CONTROL ROOM</div>
+
+  <div class="game-container">
+    <div class="art-panel">
+      <div id="art-display">
+        <span class="no-art">[ART LOADING]</span>
+      </div>
+    </div>
+
+    <div class="text-panel">
+      <div id="text-display"></div>
+
+      <div id="command-status" class="status-line"></div>
+
+      <div class="command-bar">
+        <button class="cmd-btn active" data-cmd="look">LOOK</button>
+        <button class="cmd-btn" data-cmd="take">TAKE</button>
+        <button class="cmd-btn" data-cmd="use">USE</button>
+        <button class="cmd-btn" data-cmd="examine">EXAMINE</button>
+      </div>
+
+      <div class="subpanel targets-panel">
+        <h3>TARGETS</h3>
+        <div id="targets-bar"></div>
+      </div>
+
+      <div class="subpanel inventory-panel">
+        <h3>INVENTORY</h3>
+        <div id="inventory-bar">
+          <span class="empty-state">(empty)</span>
+        </div>
+      </div>
+
+      <div class="subpanel exits-panel">
+        <h3>EXITS</h3>
+        <div id="exits-bar"></div>
+      </div>
+
+      <div class="utility-bar">
+        <button id="hint-toggle" class="utility-btn">HINTS: OFF</button>
+        <button id="reset-game" class="utility-btn">RESET</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    OpenClaw Point and Click Studio | LOOK - TAKE - USE - EXAMINE | Click exits to move
+  </footer>
+
+  <script>
+window.GAME_DATA = {
+  "title": "The Last Broadcast Tower",
+  "slug": "the-last-broadcast-tower",
+  "number": 39,
+  "artStyle": "VECTOR",
+  "layout": "vertical-carnival",
+  "setting": "A remote AM radio broadcast tower in the Appalachian Mountains, 1979. Night shift. The automated overnight reel should be playing music, but the airwaves have begun carrying something else — voices that know your name, whispers that shouldn't exist on any frequency. You are the only operator on duty, and the tower is humming with a signal it was never meant to carry.",
+  "characters": [
+    {
+      "id": "operator",
+      "name": "The Operator",
+      "description": "You, the night-shift tower keeper. Alone in the Appalachians, monitoring a station that stopped being what it was supposed to be."
+    },
+    {
+      "id": "harlan-graves",
+      "name": "Harlan Graves",
+      "description": "Station Manager. Vanished two weeks ago. His logbook tells a story he never finished writing."
+    },
+    {
+      "id": "the-voice",
+      "name": "The Voice",
+      "description": "A presence on the airwaves. It calls out names. It reads secrets never spoken aloud. It is learning you."
+    }
+  ],
+  "items": [
+    {
+      "id": "generator-fuse",
+      "name": "Generator Fuse",
+      "description": "A replacement fuse for the tower's backup generator. Still in its worn cardboard sleeve, labeled 'FUSE 7 — 30A'.",
+      "foundIn": "supply-closet",
+      "usedIn": "generator-room",
+      "usedOn": "fuse-box"
+    },
+    {
+      "id": "fuel-can",
+      "name": "Fuel Can",
+      "description": "A dented metal canister, partially full of diesel fuel. It smells of oil and age.",
+      "foundIn": "generator-room",
+      "usedIn": "generator-room",
+      "usedOn": "generator"
+    },
+    {
+      "id": "logbook-key",
+      "name": "Logbook Key",
+      "description": "A small brass key on a tarnished chain, found looped through Harlan Graves' coffee mug. It fits the combination lock on his logbook.",
+      "foundIn": "generator-room",
+      "usedIn": "supply-closet",
+      "usedOn": "booth-door"
+    },
+    {
+      "id": "frequency-chart",
+      "name": "Frequency Chart",
+      "description": "A laminated AM frequency chart pinned to the Broadcast Booth wall. One band is circled in red marker: 790 kHz. The antenna alignment dial matches these markings.",
+      "foundIn": "broadcast-booth",
+      "usedIn": "broadcast-booth",
+      "usedOn": "antenna-access"
+    },
+    {
+      "id": "kill-code-fragment",
+      "name": "Kill Code Fragment",
+      "description": "A scrap of paper torn from Harlan's logbook, found in the Supply Closet. It reads: '...the word is SILE...'",
+      "foundIn": "supply-closet",
+      "usedIn": "tower-top",
+      "usedOn": "kill-terminal"
+    },
+    {
+      "id": "tape-splicer",
+      "name": "Tape Splicer",
+      "description": "A small metal splicing tool, its jaws designed to cut and join magnetic tape with precision. Found on the Supply Closet workbench.",
+      "foundIn": "supply-closet",
+      "usedIn": "control-room",
+      "usedOn": "tape-deck"
+    },
+    {
+      "id": "puzzle-enter-kill-code",
+      "name": "Kill Code Entered",
+      "description": "The code has been entered.",
+      "foundIn": "tower-top",
+      "usedIn": "tower-top",
+      "usedOn": "kill-terminal"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "control-room",
+      "name": "Control Room",
+      "prose": "The Control Room hums with a life of its own.\n\nYou've done this shift a hundred times. The routine is carved into your bones: check the generator panel, flip the logbook open, settle into the chair, watch the signal meters hold steady as the pre-recorded overnight reel spins its empty warmth. Tonight, the emergency lights cast the room in a bruised orange glow. The mixing desk's VU meter hasn't moved from the red in an hour, a stubborn spike that doesn't match the audio. You lean closer to the radio monitors—the wall of screens that should show clean signal bars—and hear it: through the hiss, layered voices, speaking words you can't quite catch, words that weren't on the reel.\n\nOn the center screen, something else. A face, faint in the static, looking directly at you. It's not from any broadcast you've ever logged.\n\nYour eyes drift to Station Manager Harlan Graves' logbook, its metal cover and four-digit combination lock cold under your hand. The generator panel flickers intermittently, the red \"FAULT — CHECK FUSES\" light burning steady above the message: \"FUSE 7 BLOWN. LOW FUEL.\" The backup generator should have kicked in automatically. It didn't.\n\nThe sound from the monitors shifts—a whisper of recognition, or maybe just another trick of the noise. In the corner of the room, the shadow by the door to the Generator Room seems to deepen, as if holding its breath. The equipment around you hums a little louder, as if listening.\n\nThe Operator can stand still, or they can move. The door south waits, the narrow east hallway to supplies offers another path. But the logbook's lock clicks under your fingers, a tiny mechanical sound that feels too loud, too deliberate. Whatever is in the static is waiting for an answer. The control room is no longer just a room—it's a threshold.",
+      "exits": {
+        "south": "generator-room",
+        "east": "supply-closet"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-splice-tape"
+      ],
+      "lookDescriptions": {
+        "mixing-desk": "The central console. Faders, knobs, vu meters — one needle stubbornly pinned in the red, unmoving despite the silence.",
+        "radio-monitor": "A wall of cathode-ray screens, each showing signal strength bars. The center screen flickers with a face that was never on any broadcast reel. It looks at you. You look away. It is still there.",
+        "logbook": "Harlan Graves' daily operations log. A four-digit combination lock seals its metal cover. The digits are worn smooth from use.",
+        "generator-panel": "A red warning light burns. BACKUP GENERATOR — FAULT. FUSE 7 BLOWN. LOW FUEL. The letters flicker, as if fighting to stay lit."
+      }
+    },
+    {
+      "id": "generator-room",
+      "name": "Generator Room",
+      "prose": "The stairs down taste like rust and old water. Your boots echo on concrete that sweats in the dark. Above, the Control Room thrums with broadcast signals; below, something dies slower.\n\nThe fluorescent tube overhead stutters — on, off, on — each flicker catching the generator in a different state of collapse. It's massive, iron-plated, crouched in the corner like a wounded animal. The red warning light pulses weakly, a dying heartbeat. You can smell it: burnt insulation, diesel fuel running thin, and underneath, the sweet rot of something that's been damp too long.\n\nThe generator groans. Not the clean mechanical complaint of normal operation, but a wet, grinding shudder that seems to come from deep in its housing. The fuel gauge reads EMPTY in cracked red letters. On the rusted shelf above, a dented canister waits — the last of the reserve.\n\nYour flashlight beam sweeps the wall. The fuse box gapes open, one slot charred black where Fuse 7 gave up. The casing is split, revealing the burnt filament inside. You'll need a replacement.\n\nNear the generator's base, bolted to the wall: a small magnetic box. It's sealed tight, but you can feel the weight of something inside. The generator will have to stop its death throes before you can claim it. For now, the dark watches. Water drips somewhere. The machine breathes.",
+      "exits": {
+        "north": "control-room"
+      },
+      "items": [
+        "fuel-can",
+        "logbook-key"
+      ],
+      "puzzles": [
+        "puzzle-fix-generator"
+      ],
+      "lookDescriptions": {
+        "generator": "The backup unit, massive and iron-housed, with a dying red eye. The fuel gauge reads empty. Its groans are too organic, too aware.",
+        "fuse-box": "A wall-mounted panel, one slot charred black. Fuse 7 blew hard enough to crack its casing. Something new needs to go there.",
+        "fuel-shelf": "A rusted metal shelf bolted above the generator. One dented canister sits there, sloshing faintly with every tremor in the floor."
+      }
+    },
+    {
+      "id": "supply-closet",
+      "name": "Supply Closet",
+      "prose": "You squeeze through the doorframe and the air changes — thicker here, packed with decades of dust and the metallic tang of unused things. The shelves bow inward like ribs. Your flashlight cuts a cone through suspended particles that don't settle right. Something in here shifts when you blink.\n\nThe pegboard on the left wall holds its tools in neat, militaristic rows. Third from the hangs the razor blade dispenser, still sealed in its original packaging. The blade inside gleams despite the gloom. Below, the workbench: a narrow surface cluttered with splicing equipment. The tape-splicer sits near the edge, its metal jaws slightly open, as if waiting.\n\nThe supply drawers line the opposite wall, each labeled in Harlan's obsessive handwriting. Most are stuck — the humidity has swollen the wood, or something else has wedged them from within. One label catches your light: SPOOL MAINTENANCE — DO NOT USE WITHOUT SUPERVISOR. The drawer yields with a reluctant squeak. Inside: leader tape, black and coiled like a sleeping snake.\n\nAt the back, a cabinet with a keyhole stares at you. You don't have the key. Not yet.\n\nThe closet is too small. Or the walls have moved closer since you entered. The labels on the drawers — you could swear they said something different a moment ago. The air is still. Too still. Like the room is holding its breath.",
+      "exits": {
+        "west": "control-room",
+        "east": "broadcast-booth"
+      },
+      "items": [
+        "generator-fuse",
+        "tape-splicer"
+      ],
+      "puzzles": [
+        "puzzle-unlock-booth"
+      ],
+      "lookDescriptions": {
+        "tool-pegboard": "A board of organized implements. The razor blade dispenser hangs third from the left, still sealed, gleaming faintly.",
+        "supply-drawers": "Labeled metal drawers. SPOOL MAINTENANCE is written in Harlan's tight, obsessive handwriting. The wood has swollen shut.",
+        "workbench": "A narrow surface cluttered with tape tools. The splicer sits near the edge, jaws parted, a small metal mouth waiting to be fed."
+      }
+    },
+    {
+      "id": "broadcast-booth",
+      "name": "Broadcast Booth",
+      "prose": "The silence here is not empty—it is thick, pressurized, pressing against your eardrums like cotton stuffed too deep. The booth's insulation does its job too well; it has severed you from the Control Room's restless hum, leaving only the rasp of your own breath and the wet, subterranean voice that seeps through the walls. It speaks in fragments, just loud enough to make you strain, just clear enough to hear your name whispered from a throat that has no lips.\n\nThe ON AIR light glares crimson above the desk, a wound in the dark. It should be dark. The station has run on automation for weeks, yet this sign pulses with forbidden life, casting long, trembling shadows that make the yellowed acoustic foam panels appear to breathe. You glance at the microphone—cold chrome, slick with recent use—and when you look back at the frequency chart, its angle has shifted. The boom arm holds it trained on your chest, as if waiting for you to speak into its throat.\n\nHarlan's desk is a chaos of half-finished thoughts: a cold coffee mug with a tarnished key looped through its handle, a faded photograph of a woman smiling too wide, papers scattered like startled birds. Beneath it, a small box holds his personal effects—a wristwatch stopped at 3:17, a pen with the cap chewed off. The bottom drawer resists, a brass keyhole winking in the gloom.\n\nInside, after the key turns, the logbook lies open. Harlan's final entry bleeds off the page: \"The voice knows things. It knows my name. It knows—\" The rest is torn away, as if ripped by fingers or teeth. In the margin, someone has written in a hurried hand: FRAGMENT: SILE. The air grows heavier, the voice clearer. It is no longer just speaking. It is learning the shape of your silence.",
+      "exits": {
+        "west": "supply-closet",
+        "up": "tower-top"
+      },
+      "items": [
+        "frequency-chart"
+      ],
+      "puzzles": [
+        "puzzle-align-antenna"
+      ],
+      "lookDescriptions": {
+        "on-air-light": "The red sign burns. It should be off. The station has been on automation for weeks, yet it glows with a hunger that feels personal.",
+        "microphone": "Cold chrome. When you look away, its angle seems to shift — pointing at you, waiting for a confession you haven't decided to make.",
+        "frequency-chart": "A laminated chart of AM frequencies. One band is circled in red marker: 790 kHz. The circle was drawn recently. The marker ink is still wet to the touch.",
+        "harlans-desk": "Station Manager Graves' desk. A coffee mug cold as a grave, a photograph of a woman smiling at a man who is no longer here, papers in panicked disarray.",
+        "locked-drawer": "The bottom drawer resists. A small brass keyhole, old and patient, waits for a key that was never meant to be found."
+      }
+    },
+    {
+      "id": "tower-top",
+      "name": "Tower Top",
+      "prose": "The wind does not blow—it tears. Up here, stripped of all buffering walls, you are raw nerve exposed to the storm's teeth. The tower shudders beneath your feet, a skeletal giant of steel and wire that hums with a low, forbidden frequency you feel in your molars, in the hollow of your throat. Each gust makes the antenna dance, its lattice structure singing against the darkening sky, and the air tastes of ozone and something older—like wet stone buried deep in the earth.\n\nThe frequency dial on the antenna's base is locked to 790 kHz, glowing faintly red in the storm's gloom. It should not be transmitting. Yet the hum intensifies, vibrating up the railing into your palms, as if the tower itself is straining to reach something beyond the clouds. The kill-code terminal is a squat metal box bolted to the cold iron railing, its four slots yawning empty, waiting for fragments that do not yet belong to you.\n\nThe anemometer spins wildly, its cups a blur—not measuring wind that is coming, but wind that is already here, already in the bones of the structure. Rain begins to sting your face, cold and slanting, and beyond the railing, the Appalachians fall away into an abyss where no light should exist. You are the highest point for miles, and something vast is turning its attention upward, drawn by the tower's song, using the steel as a conduit, using the storm as a veil.\n\nThe voice in your head has gone quiet. For now. But the silence feels less like relief and more like the held breath before a plunge.",
+      "exits": {
+        "down": "broadcast-booth"
+      },
+      "items": [],
+      "puzzles": [
+        "puzzle-enter-kill-code"
+      ],
+      "lookDescriptions": {
+        "antenna": "The tower's crown. Steel lattice humming in the storm. The frequency dial is set to 790 — wrong. It needs to be aligned using the chart from the booth.",
+        "kill-terminal": "A metal box with four slots. Each accepts a code fragment. Together they spell the word that will silence the broadcast. Or what's left of it.",
+        "wind-gauge": "The anemometer spins beyond its limits. The storm isn't coming. It's already here. It's in the tower. It's in you.",
+        "railing": "Cold iron, slick with rain. Beyond it, nothing but dropping darkness and the distant, indifferent outline of trees moving in a wind that is not wind."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "puzzle-fix-generator",
+      "scene": "generator-room",
+      "requires": [
+        "generator-fuse",
+        "fuel-can"
+      ],
+      "action": "Insert the replacement fuse into the charred Fuse 7 slot and pour fuel from the can into the generator's tank. The machine sputters, coughs, then stabilizes into a steady, healthy hum. A magnetic box on the wall clicks open, revealing the logbook-key inside.",
+      "result": "Generator restored. Logbook-key revealed.",
+      "reveals": [
+        "logbook-key"
+      ]
+    },
+    {
+      "id": "puzzle-unlock-booth",
+      "scene": "supply-closet",
+      "requires": [
+        "logbook-key"
+      ],
+      "action": "Use the tarnished brass key on the locked door at the back of the Supply Closet. The mechanism grinds, then yields. The door to the Broadcast Booth swings open, bringing with it the pressurized silence of the soundproof room.",
+      "result": "Broadcast Booth unlocked.",
+      "reveals": [],
+      "blocksExit": {
+        "east": "broadcast-booth"
+      }
+    },
+    {
+      "id": "puzzle-splice-tape",
+      "scene": "control-room",
+      "requires": [
+        "tape-splicer"
+      ],
+      "action": "Use the tape splicer on the jammed tape deck. You cut the tangled ribbon and splice in the correct overnight reel segment. The VU meter drops from red to normal range. Through the monitors, the layered voices quiet, replaced by the intended music. But in the sudden clarity, you catch one final whispered word: SILENCE.",
+      "result": "Tape deck repaired. Kill code word revealed: SILENCE.",
+      "reveals": []
+    },
+    {
+      "id": "puzzle-align-antenna",
+      "scene": "broadcast-booth",
+      "requires": [
+        "frequency-chart"
+      ],
+      "action": "Consult the frequency chart pinned to the wall and adjust the antenna alignment controls on the booth's remote panel. The dial shifts from 790 kHz to the correct frequency. Somewhere above, metal groans into alignment. The humming that vibrates in your teeth drops to a manageable thrum. The ladder to Tower Top is now accessible.",
+      "result": "Antenna aligned. Access to Tower Top granted.",
+      "reveals": [],
+      "blocksExit": {
+        "up": "tower-top"
+      }
+    },
+    {
+      "id": "puzzle-enter-kill-code",
+      "scene": "tower-top",
+      "requires": [
+        "kill-code-fragment"
+      ],
+      "action": "At the kill-terminal, enter the word SILENCE — learned from the spliced tape and reinforced by the fragment in Harlan's logbook. Each letter locks into place with a mechanical clack. When the final E drops, the hum ceases. The ON AIR light goes dark. The voice falls silent. For one heartbeat, there is only wind. Then, from somewhere below, Harlan Graves' voice speaks one last word: Run.",
+      "result": "Broadcast terminated. Game won.",
+      "reveals": [
+        "puzzle-enter-kill-code"
+      ],
+      "blocksExit": {}
+    }
+  ],
+  "winCondition": {
+    "scene": "tower-top",
+    "requires": [
+      "puzzle-enter-kill-code"
+    ],
+    "description": "Enter the kill code SILENCE at the terminal to terminate the broadcast. The voice falls silent. You have stopped the signal — but at what cost?"
+  }
+};
+window.GAME_ART = {};
+  </script>
+  <script src="../standard-game-runtime.js"></script>
+</body>
+</html>
