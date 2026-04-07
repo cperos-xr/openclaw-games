@@ -1,10 +1,44 @@
 [
   {
-    "agentId": "placeholder-writer",
-    "persona": "Placeholder Writer",
-    "configuredModel": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
-    "observedModel": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
-    "contribution": "Placeholder entry to satisfy pipeline credit requirement.",
-    "scenes": []
+    "agentId": "malachi-gravewright",
+    "persona": "Brand horror voice",
+    "configuredModel": "openrouter/openai/gpt-oss-20b:free",
+    "observedModel": "openrouter/openai/gpt-oss-20b:free",
+    "contribution": "Original scene drafting and atmospheric tension for all rooms, established the 1980s horror tone and environmental storytelling.",
+    "scenes": [
+      "entrance",
+      "hallway",
+      "hallway-closet",
+      "living-room",
+      "kitchen",
+      "bathroom",
+      "bedroom",
+      "wall-door"
+    ]
+  },
+  {
+    "agentId": "writer-qwen-free",
+    "persona": "Fast first-draft wildcard",
+    "configuredModel": "openrouter/qwen/qwen3.6-plus:free",
+    "observedModel": "openrouter/qwen/qwen3.6-plus:free",
+    "contribution": "Initial puzzle implementation and item placement logic, particularly the can-opener and hidden-compartment mechanics.",
+    "scenes": [
+      "kitchen",
+      "bedroom"
+    ]
+  },
+  {
+    "agentId": "brian-shakespeare",
+    "persona": "Story Director / Writer-Orchestrator",
+    "configuredModel": "openrouter/google/gemini-3-flash-preview",
+    "observedModel": "openrouter/google/gemini-3-flash-preview",
+    "contribution": "Narrative coherence fixes, win-condition logic, kanji removal, hallway art direction, and final script integration.",
+    "scenes": [
+      "living-room",
+      "kitchen",
+      "bedroom",
+      "hallway",
+      "wall-door"
+    ]
   }
 ]

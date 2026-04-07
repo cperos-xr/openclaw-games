@@ -122,6 +122,30 @@ window.GAME_DATA = {
       "foundIn": "living-room",
       "usedIn": "bedroom",
       "usedOn": "albie"
+    },
+    {
+      "id": "fed-albie",
+      "name": "FEED ALBIE",
+      "description": "Task completed.",
+      "foundIn": "entrance",
+      "usedIn": "entrance",
+      "usedOn": "albie"
+    },
+    {
+      "id": "combed-albie",
+      "name": "COMB ALBIE",
+      "description": "Task completed.",
+      "foundIn": "entrance",
+      "usedIn": "entrance",
+      "usedOn": "albie"
+    },
+    {
+      "id": "wrapped-albie",
+      "name": "WRAP ALBIE",
+      "description": "Task completed.",
+      "foundIn": "entrance",
+      "usedIn": "entrance",
+      "usedOn": "albie"
     }
   ],
   "scenes": [
@@ -281,33 +305,39 @@ window.GAME_DATA = {
     },
     {
       "id": "puzzle-feed-albie",
-      "scene": "bedroom",
+      "scene": "entrance",
       "requires": [
         "dog-food"
       ],
       "action": "give dog food to albie",
       "result": "Albie flinches at first, then the smell reaches him. He creeps forward, eyes never leaving your face. He eats desperately, his whole body shaking. When he is done, he looks at you with something like trust.",
-      "reveals": []
+      "reveals": [
+        "fed-albie"
+      ]
     },
     {
       "id": "puzzle-comb-albie",
-      "scene": "bedroom",
+      "scene": "entrance",
       "requires": [
         "flea-comb"
       ],
       "action": "use flea comb on albie",
       "result": "You comb through Albie's matted fur. The fleas fall in black clumps. He whimpers but does not pull away. When you are done, he is still trembling, but the black rivers are gone. He is just a dog now, not a plague.",
-      "reveals": []
+      "reveals": [
+        "combed-albie"
+      ]
     },
     {
       "id": "puzzle-wrap-albie",
-      "scene": "bedroom",
+      "scene": "entrance",
       "requires": [
         "blanket"
       ],
       "action": "wrap albie in blanket",
       "result": "You drape the blanket over Albie. He shudders beneath it, then settles. For the first time, his trembling stops. He looks at you with eyes that are no longer terrified, but tired. And ready.",
-      "reveals": []
+      "reveals": [
+        "wrapped-albie"
+      ]
     },
     {
       "id": "puzzle-hidden-compartment",
@@ -330,9 +360,9 @@ window.GAME_DATA = {
   "winCondition": {
     "scene": "wall-door",
     "requires": [
-      "puzzle-feed-albie",
-      "puzzle-comb-albie",
-      "puzzle-wrap-albie"
+      "fed-albie",
+      "combed-albie",
+      "wrapped-albie"
     ],
     "description": "You rescued Albie, but the building had other plans. The door in the walls is not an exit. It is an invitation."
   }
@@ -382,6 +412,12 @@ window.GAME_ART = {
   "HALLWAY-CLOSET": "<img src=\"art/scene-hallway-closet.png\" alt=\"scene-hallway-closet\" loading=\"lazy\">",
   "scene_hallway_closet": "<img src=\"art/scene-hallway-closet.png\" alt=\"scene-hallway-closet\" loading=\"lazy\">",
   "item-hallway-closet": "<img src=\"art/scene-hallway-closet.png\" alt=\"scene-hallway-closet\" loading=\"lazy\">",
+  "scene-hallway": "<img src=\"art/scene-hallway.png\" alt=\"scene-hallway\" loading=\"lazy\">",
+  "SCENE-HALLWAY": "<img src=\"art/scene-hallway.png\" alt=\"scene-hallway\" loading=\"lazy\">",
+  "hallway": "<img src=\"art/scene-hallway.png\" alt=\"scene-hallway\" loading=\"lazy\">",
+  "HALLWAY": "<img src=\"art/scene-hallway.png\" alt=\"scene-hallway\" loading=\"lazy\">",
+  "scene_hallway": "<img src=\"art/scene-hallway.png\" alt=\"scene-hallway\" loading=\"lazy\">",
+  "item-hallway": "<img src=\"art/scene-hallway.png\" alt=\"scene-hallway\" loading=\"lazy\">",
   "scene-kitchen": "<img src=\"art/scene-kitchen.png\" alt=\"scene-kitchen\" loading=\"lazy\">",
   "SCENE-KITCHEN": "<img src=\"art/scene-kitchen.png\" alt=\"scene-kitchen\" loading=\"lazy\">",
   "kitchen": "<img src=\"art/scene-kitchen.png\" alt=\"scene-kitchen\" loading=\"lazy\">",
@@ -398,10 +434,7 @@ window.GAME_ART = {
   "THE-SEVERED-FOOT": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">the-severed-foot</text>\n</svg>",
   "the_severed_foot": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">the-severed-foot</text>\n</svg>",
   "scene-the-severed-foot": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">the-severed-foot</text>\n</svg>",
-  "item-the-severed-foot": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">the-severed-foot</text>\n</svg>",
-  "scene-hallway": "<img src=\"art/scene-hallway.png\" alt=\"scene-hallway\" loading=\"lazy\">",
-  "hallway": "<img src=\"art/scene-hallway.png\" alt=\"scene-hallway\" loading=\"lazy\">",
-  "SCENE-HALLWAY": "<img src=\"art/scene-hallway.png\" alt=\"scene-hallway\" loading=\"lazy\">",
+  "item-the-severed-foot": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"64\" height=\"64\" viewBox=\"0 0 64 64\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"64\" height=\"64\" fill=\"#2a2a2a\" stroke=\"#c5a059\" stroke-width=\"2\"/>\n  <text x=\"32\" y=\"32\" font-family=\"Arial, sans-serif\" font-size=\"8\" fill=\"#ffffff\" text-anchor=\"middle\" dominant-baseline=\"middle\">the-severed-foot</text>\n</svg>"
 };
   </script>
   <script src="../standard-game-runtime.js"></script>

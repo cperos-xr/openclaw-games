@@ -57,6 +57,30 @@
       "foundIn": "living-room",
       "usedIn": "bedroom",
       "usedOn": "albie"
+    },
+    {
+      "id": "fed-albie",
+      "name": "FEED ALBIE",
+      "description": "Task completed.",
+      "foundIn": "entrance",
+      "usedIn": "entrance",
+      "usedOn": "albie"
+    },
+    {
+      "id": "combed-albie",
+      "name": "COMB ALBIE",
+      "description": "Task completed.",
+      "foundIn": "entrance",
+      "usedIn": "entrance",
+      "usedOn": "albie"
+    },
+    {
+      "id": "wrapped-albie",
+      "name": "WRAP ALBIE",
+      "description": "Task completed.",
+      "foundIn": "entrance",
+      "usedIn": "entrance",
+      "usedOn": "albie"
     }
   ],
   "scenes": [
@@ -103,7 +127,9 @@
       "exits": {
         "west": "hallway"
       },
-      "items": ["severed-foot"],
+      "items": [
+        "severed-foot"
+      ],
       "puzzles": [],
       "lookDescriptions": {
         "foot": "The missing toes are a clean amputation. Not torn. Not chewed. Cut.",
@@ -118,7 +144,9 @@
       "exits": {
         "east": "entrance"
       },
-      "items": ["blanket"],
+      "items": [
+        "blanket"
+      ],
       "puzzles": [],
       "lookDescriptions": {
         "sofa": "The stuffing has been torn out in frantic handfuls. By a dog, or by something else?",
@@ -133,8 +161,12 @@
       "exits": {
         "west": "entrance"
       },
-      "items": ["can-opener"],
-      "puzzles": ["puzzle-open-can"],
+      "items": [
+        "can-opener"
+      ],
+      "puzzles": [
+        "puzzle-open-can"
+      ],
       "lookDescriptions": {
         "sink": "Something pale floats in the stagnant water. You do not investigate.",
         "cabinets": "They are empty save for cockroaches, which scatter in the light.",
@@ -148,7 +180,9 @@
       "exits": {
         "east": "hallway"
       },
-      "items": ["flea-comb"],
+      "items": [
+        "flea-comb"
+      ],
       "puzzles": [],
       "lookDescriptions": {
         "tub": "The stain is in the shape of a body. You do not dwell on this.",
@@ -164,7 +198,12 @@
         "south": "hallway"
       },
       "items": [],
-      "puzzles": ["puzzle-feed-albie", "puzzle-comb-albie", "puzzle-wrap-albie", "puzzle-hidden-compartment"],
+      "puzzles": [
+        "puzzle-feed-albie",
+        "puzzle-comb-albie",
+        "puzzle-wrap-albie",
+        "puzzle-hidden-compartment"
+      ],
       "lookDescriptions": {
         "albie": "His black spot is a perfect circle. Like an eye. Like a hole.",
         "dresser": "It is impossibly heavy. Something behind it watches.",
@@ -189,43 +228,63 @@
     {
       "id": "puzzle-open-can",
       "scene": "kitchen",
-      "requires": ["can-opener"],
+      "requires": [
+        "can-opener"
+      ],
       "usedOn": "dog-food",
       "action": "use can opener on dog food",
       "result": "The can opener bites into the metal with a shriek. The lid peels back, revealing a mass of brown meat. It smells terrible. It smells like hope.",
-      "reveals": ["dog-food"]
+      "reveals": [
+        "dog-food"
+      ]
     },
     {
       "id": "puzzle-feed-albie",
-      "scene": "bedroom",
-      "requires": ["dog-food"],
+      "scene": "entrance",
+      "requires": [
+        "dog-food"
+      ],
       "action": "give dog food to albie",
       "result": "Albie flinches at first, then the smell reaches him. He creeps forward, eyes never leaving your face. He eats desperately, his whole body shaking. When he is done, he looks at you with something like trust.",
-      "reveals": []
+      "reveals": [
+        "fed-albie"
+      ]
     },
     {
       "id": "puzzle-comb-albie",
-      "scene": "bedroom",
-      "requires": ["flea-comb"],
+      "scene": "entrance",
+      "requires": [
+        "flea-comb"
+      ],
       "action": "use flea comb on albie",
       "result": "You comb through Albie's matted fur. The fleas fall in black clumps. He whimpers but does not pull away. When you are done, he is still trembling, but the black rivers are gone. He is just a dog now, not a plague.",
-      "reveals": []
+      "reveals": [
+        "combed-albie"
+      ]
     },
     {
       "id": "puzzle-wrap-albie",
-      "scene": "bedroom",
-      "requires": ["blanket"],
+      "scene": "entrance",
+      "requires": [
+        "blanket"
+      ],
       "action": "wrap albie in blanket",
       "result": "You drape the blanket over Albie. He shudders beneath it, then settles. For the first time, his trembling stops. He looks at you with eyes that are no longer terrified, but tired. And ready.",
-      "reveals": []
+      "reveals": [
+        "wrapped-albie"
+      ]
     },
     {
       "id": "puzzle-hidden-compartment",
       "scene": "bedroom",
-      "requires": ["severed-foot"],
+      "requires": [
+        "severed-foot"
+      ],
       "action": "use severed foot on hidden compartment",
       "result": "You place the severed foot into the gap behind the dresser. It fits perfectly, as if it were a key. The dresser lurches forward with a sound like a breaking bone. Behind it, the wall has been hollowed out. There is a door there. A small door, child-sized, leading into the darkness of the walls.",
-      "reveals": ["wall-door"],
+      "reveals": [
+        "wall-door"
+      ],
       "blocksExit": {
         "scene": "bedroom",
         "direction": "south",
@@ -236,9 +295,9 @@
   "winCondition": {
     "scene": "wall-door",
     "requires": [
-      "puzzle-feed-albie",
-      "puzzle-comb-albie",
-      "puzzle-wrap-albie"
+      "fed-albie",
+      "combed-albie",
+      "wrapped-albie"
     ],
     "description": "You rescued Albie, but the building had other plans. The door in the walls is not an exit. It is an invitation."
   }
