@@ -1,5 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <rect width="64" height="64" fill="#2a2a2a" stroke="#c5a059" stroke-width="2"/>
-  <text x="32" y="32" font-family="Arial, sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">can-of-dog-food</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#000000" />
+  <!-- Can Body -->
+  <rect x="16" y="16" width="32" height="40" fill="#AAAAAA" />
+  <!-- Can Top/Bottom Shading -->
+  <rect x="16" y="16" width="32" height="4" fill="#FFFFFF" opacity="0.3" />
+  <rect x="16" y="52" width="32" height="4" fill="#555555" opacity="0.3" />
+  <!-- Label -->
+  <rect x="16" y="28" width="32" height="16" fill="#884400" />
+  <!-- Label Detail (Meaty texture) -->
+  <rect x="20" y="32" width="24" height="2" fill="#552200" />
+  <rect x="24" y="38" width="16" height="2" fill="#552200" />
 </svg>

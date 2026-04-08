@@ -1,0 +1,26 @@
+[
+  {
+    "agentId": "malachi-gravewright",
+    "persona": "Malachi Gravewright — The Horror Maestro",
+    "configuredModel": "z-ai/glm-4.5-air:free",
+    "observedModel": "z-ai/glm-4.5-air:free",
+    "contribution": "Anchor writer. Authored atmospheric prose for 'fog-beach' (opening — isolation, wet sensory dread, the fog as a sentient presence) and 'lantern-room' (climactic confrontation — supernatural revelation, the lens etchings, the face-that-isn't-yours). Provided the core horror voice and thematic continuity for the island's malevolent presence.",
+    "scenes": ["fog-beach", "lantern-room"]
+  },
+  {
+    "agentId": "writer-qwen-free",
+    "persona": "Cipher — The Wildcard",
+    "configuredModel": "openrouter/qwen/qwen3.6-plus:free",
+    "observedModel": "openrouter/qwen/qwen3.6-plus:free",
+    "contribution": "Wildcard writer. Authored prose for 'keepers-cottage' (interrupted life — warm coffee gone cold, keys in the logbook, salt-bag ritual) and 'tower-base' (threshold anxiety — the stairs as a throat, the mineral taste of dread). Delivered surprising metaphors and unexpected angles on domestic horror.",
+    "scenes": ["keepers-cottage", "tower-base"]
+  },
+  {
+    "agentId": "writer-dark-planet",
+    "persona": "The Dark Scribe — Sensory Dread Specialist",
+    "configuredModel": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "observedModel": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "contribution": "Specialist in sensory horror and threat implication. Authored prose for 'cottage-cellar' (claustrophobic dread — wet stone, breathing walls, the wrongness of held brass) and 'foghorn-station' (auditory horror — the subsonic drone felt in molars, the foghorn as a malevolent voice). Focused on the physical, visceral wrongness of spaces.",
+    "scenes": ["cottage-cellar", "foghorn-station"]
+  }
+]

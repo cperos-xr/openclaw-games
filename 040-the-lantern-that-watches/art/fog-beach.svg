@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <!-- Background: Night sea -->
+  <rect width="640" height="400" fill="#000088" />
+  <!-- Land: Shoreline -->
+  <path d="M 0 350 L 640 320 L 640 400 L 0 400 Z" fill="#331a00" stroke="#000000" stroke-width="2" />
+  <!-- Patterned Fog overlay -->
+  <defs>
+    <pattern id="hatch-low" width="4" height="4" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="4" x2="4" y2="0" stroke="#FFFFFF" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="640" height="400" fill="url(#hatch-low)" opacity="0.4" />
+  <!-- Rocky outlines in fog -->
+  <path d="M 120 330 Q 150 250 200 320" fill="#111111" stroke="#000000" stroke-width="2" />
+  <path d="M 450 320 Q 500 280 550 310" fill="#111111" stroke="#000000" stroke-width="2" />
+</svg>

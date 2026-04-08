@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <!-- Background: Night Sky/Window -->
+  <rect width="640" height="400" fill="#000000" />
+  <rect x="120" y="40" width="400" height="240" fill="#000088" stroke="#333333" stroke-width="4" />
+  <!-- Glass Panels -->
+  <line x1="320" y1="40" x2="320" y2="280" stroke="#333333" stroke-width="2" />
+  <line x1="120" y1="140" x2="520" y2="140" stroke="#333333" stroke-width="2" />
+  <!-- Lens/Lamp -->
+  <ellipse cx="320" cy="180" rx="60" ry="100" fill="#FFFF00" opacity="0.3" stroke="#FFFF00" stroke-width="2" />
+  <circle cx="320" cy="180" r="20" fill="#FFFFFF" opacity="0.6" />
+  <!-- Metal structure -->
+  <path d="M 0 320 L 640 320 L 640 400 L 0 400 Z" fill="#111111" stroke="#000000" stroke-width="2" />
+</svg>

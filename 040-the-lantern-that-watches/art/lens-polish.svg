@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Small bottle/can -->
+  <rect x="22" y="24" width="20" height="30" fill="#333333" stroke="#FFFFFF" stroke-width="2" />
+  <rect x="25" y="14" width="14" height="10" fill="#111111" stroke="#FFFFFF" stroke-width="1" />
+  <!-- Label: Wiping rag/star logo -->
+  <rect x="24" y="32" width="16" height="12" fill="#0000FF" />
+  <circle cx="32" cy="38" r="4" fill="#FFFFFF" />
+  <path d="M 32 32 L 32 44 M 26 38 L 38 38" stroke="#0000FF" stroke-width="1" />
+  <!-- Rag bundled -->
+  <path d="M 40 45 Q 55 45 50 55 Q 40 60 42 45 Z" fill="#FFFFFF" opacity="0.8" />
+</svg>

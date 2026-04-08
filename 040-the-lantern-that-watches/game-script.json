@@ -1,0 +1,265 @@
+{
+  "title": "The Lantern That Watches",
+  "slug": "the-lantern-that-watches",
+  "number": 40,
+  "setting": "Blackwater Island, off the coast of Maine, October 1952. The lighthouse keeper Elias Harrow vanished three weeks ago. You are Coast Guard Petty Officer Thomas Reid, sent to investigate. The lantern room at the top of the tower still burns, though no one tends it. The fog has rolled in thick, the kind that swallows sound, and the island holds its breath.",
+  "characters": [
+    {
+      "id": "reid",
+      "name": "Petty Officer Thomas Reid",
+      "description": "Coast Guard investigator, 34, pragmatist with a gift for noticing what others overlook. Not a believer in ghosts, but the silence out here tests his resolve."
+    },
+    {
+      "id": "elias-harrow",
+      "name": "Elias Harrow",
+      "description": "The missing keeper. His journal speaks of 'the lantern's hunger' and names from before the island had a name."
+    },
+    {
+      "id": "the-lantern",
+      "name": "The Lantern",
+      "description": "A presence, not a person. It resides in the light at the top of the tower. It watches. It remembers."
+    }
+  ],
+  "items": [
+    {
+      "id": "lens-polish",
+      "name": "Lens Polish",
+      "description": "A tin of brass polish, long dried in its container. Smells faintly of turpentine and old metal.",
+      "foundIn": "lantern-room",
+      "usedIn": "lantern-room",
+      "usedOn": "fresnel-lens"
+    },
+    {
+      "id": "keeper-keys",
+      "name": "Keeper's Keys",
+      "description": "A heavy brass keyring found tucked into the logbook's spine. Three keys: one for the tower door, one for the cellar, one with a tag reading 'SUPPLY ROOM'.",
+      "foundIn": "keepers-cottage",
+      "usedIn": "keepers-cottage",
+      "usedOn": "cellar-door"
+    },
+    {
+      "id": "emergency-flare",
+      "name": "Emergency Flare",
+      "description": "A road flare, wrapped in oilcloth. Still strikes. Elias used this to 'signal back.'",
+      "foundIn": "fog-beach",
+      "usedIn": "fog-beach",
+      "usedOn": "shoreline-mark"
+    },
+    {
+      "id": "foghorn-lever",
+      "name": "Foghorn Lever",
+      "description": "A cast-iron lever, broken at the base. Elias removed it from the foghorn mechanism. The journal says it 'would not stay silent.'",
+      "foundIn": "cottage-cellar",
+      "usedIn": "foghorn-station",
+      "usedOn": "foghorn-housing"
+    },
+    {
+      "id": "salt-bag",
+      "name": "Bag of Sea Salt",
+      "description": "A muslin pouch filled with coarse salt, tied with red string. Elias marked it: 'For the threshold. Do not cross without it.'",
+      "foundIn": "keepers-cottage",
+      "usedIn": "tower-base",
+      "usedOn": "tower-doorway"
+    },
+    {
+      "id": "puzzle-enter-kill-code",
+      "name": "Kill Code Entered",
+      "description": "The code has been entered.",
+      "foundIn": "tower-top",
+      "usedIn": "tower-top",
+      "usedOn": "kill-terminal"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "fog-beach",
+      "name": "The Fog Beach",
+      "prose": "The boat scrapes ashore on wet stones, and you step into a fog so thick it feels like wading through cold wool. Visibility is ten feet, maybe less — the world reduced to the groan of waves, the bite of salt on your lips, and the slow drift of shapes that might be driftwood or might be something else. Your boots sink slightly in the saturated sand, each step leaving a print that the tide hasn't yet claimed. Near the water's edge, wrapped in oilcloth against the damp, lies your emergency flare — a stark crimson smudge in the monochrome gray. The fog doesn't just hide the island; it feels alive, pressing in from all sides, holding its breath. You can almost hear it listening.",
+      "exits": {
+        "northeast": "keepers-cottage"
+      },
+      "items": [
+        "emergency-flare"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "shoreline-mark": "A shallow depression in the sand at the water's edge, shaped like a handprint. The mark glows faintly when you look at it sideways."
+      }
+    },
+    {
+      "id": "keepers-cottage",
+      "name": "Keeper's Cottage",
+      "prose": "The cottage leans into the wind like a drunkard seeking shelter, its paint long surrendered to salt and time. The door hangs ajar, one hinge screaming its protest with every breath of breeze that slips inside. Warmth lingers in the air — not from a fire, but from the ghost of recent occupancy. On a scrubbed pine table sits a chipped mug, cold coffee congealed at the bottom, and Elias Harrow's logbook, its leather cover salt-stained and cracked. Tucked where the spine meets the pages, the keeper's keys gleam dull brass, heavy with promise. On a nearby shelf, a muslin pouch of coarse sea salt rests, tied with a fraying red string — Elias's insurance against whatever walks the fog. The place feels abandoned in a hurry, as if someone stepped out for a moment and never came back to finish their thought.",
+      "exits": {
+        "north": "tower-base",
+        "southwest": "fog-beach",
+        "down": "cottage-cellar"
+      },
+      "items": [
+        "keeper-keys",
+        "salt-bag"
+      ],
+      "puzzles": [
+        {
+          "id": "cellar-lock",
+          "scene": "keepers-cottage",
+          "requires": [
+            "keeper-keys"
+          ],
+          "action": "Use the cellar key to unlock the trapdoor in the cottage floor.",
+          "result": "The brass key turns with a gratifying click. The trapdoor's iron bindings creak as it releases, revealing the dark opening to the cellar below.",
+          "blocksExit": {
+            "down": "cottage-cellar"
+          }
+        }
+      ],
+      "lookDescriptions": {
+        "cellar-door": "A heavy wooden trapdoor set into the cottage floor, bound in iron straps. A keyhole gleams at its center."
+      }
+    },
+    {
+      "id": "cottage-cellar",
+      "name": "Cottage Cellar",
+      "prose": "The cellar door groans inward on rusted hinges, revealing a space that drinks light. Stone walls weep moisture onto a packed-earth floor, and the air hangs thick with the smell of wet rock and something older — rot that isn't quite decay, more like the breath of things best left buried. A single bare bulb swings faintly from the ceiling, casting jittering shadows that seem to move when you're not looking directly at them. The walls here breathe in a rhythm that doesn't match your own, slow and patient and deeply, deeply wrong.",
+      "exits": {
+        "up": "keepers-cottage"
+      },
+      "items": [
+        "foghorn-lever"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {}
+    },
+    {
+      "id": "tower-base",
+      "name": "Tower Base",
+      "prose": "The lighthouse foundation is rough-hewn granite, blocks fitted together with a precision that speaks of an era when men took pride in making things last. Darkness yawns at the base of the stone stairs, a throat opening upward into the tower's belly. Air rises from below — not warm, not cold, but carrying a mineral tang, like licking a battery, and it makes the hairs on your arms stand upright. Each step you don't take feels like a vote against gravity, as if the stairs themselves would rather you stay planted where you are, feet solid on the earth. The salt in your pouch seems to pulse faintly, not with magic, but with the weight of intention — Elias spread this very substance across the threshold not to keep something out, but to mark where the safety ends and the obligation begins. The tower doesn't call you up; it waits, indifferent, for you to decide if you're worthy of the climb.",
+      "exits": {
+        "south": "keepers-cottage",
+        "up": "foghorn-station"
+      },
+      "items": [],
+      "puzzles": [
+        {
+          "id": "threshold-salt",
+          "scene": "tower-base",
+          "requires": [
+            "salt-bag"
+          ],
+          "action": "Sprinkle salt across the threshold before ascending.",
+          "result": "The salt creates a faint line of protection across the stone floor. You step over it, feeling the weight of the island shift.",
+          "blocksExit": {
+            "up": "foghorn-station"
+          }
+        }
+      ],
+      "lookDescriptions": {
+        "tower-doorway": "The stone archway at the base of the tower, marked by a faint circle of salt already scattered by Elias across the threshold."
+      }
+    },
+    {
+      "id": "foghorn-station",
+      "name": "Foghorn Station",
+      "prose": "Halfway up the tower, the air thickens, not with moisture but with sound — or rather, the expectation of it. The foghorn mechanism looms before you, a massive brass horn the size of a coffin, its throat aimed eternally out to sea. It has been wailing. Not intermittently, not as a warning, but a continuous, subsonic drone that you feel in your molars before you hear it, a vibration that makes your vision blur at the edges. The air itself feels compressed, pressurized by the sheer wrongness of the noise pressing outward from the horn's maw. The foghorn lever is missing from its housing — Elias removed it, and it now lies cold on the iron grating. To reattach it is to silence not just a horn, but whatever has been answering its call across the water. The silence that follows won't be peace; it will be the pause before something decides whether to follow you upward or let you go.",
+      "exits": {
+        "down": "tower-base",
+        "up": "lantern-room"
+      },
+      "items": [],
+      "puzzles": [
+        {
+          "id": "foghorn-silence",
+          "scene": "foghorn-station",
+          "requires": [
+            "foghorn-lever"
+          ],
+          "action": "Reattach the foghorn lever to its housing to silence the horn that will not stop.",
+          "result": "The lever clicks into place. The foghorn gives one last mournful cry and falls silent. The way upward clears.",
+          "blocksExit": {
+            "up": "lantern-room"
+          }
+        }
+      ],
+      "lookDescriptions": {
+        "foghorn-housing": "The brass housing for the foghorn lever, empty and waiting. A socket gouged into the mechanism where the lever once sat."
+      }
+    },
+    {
+      "id": "lantern-room",
+      "name": "Lantern Room",
+      "prose": "At the top of the tower, the world narrows to a circle of glass and light. The Fresnel lens dominates the space, a beehive of prisms designed to turn a single flame into a beacon for miles — except the flame inside burns with a light that hurts to look at, too white, too sharp, like staring into a welder's arc. The lens surface is clouded with salt and time, obscuring whatever mechanism turns it, but etched faintly into the glass itself are names and dates, dozens of them, overlapping like a palimpsest of the vanished or the damned. The light turns in its slow, inexorable sweep, painting the room in alternating waves of brilliance and shadow, and in those moments when the beam passes directly over you, you don't see your reflection in the glass. You see something standing just behind you, wearing your face but missing the vital spark that makes you alive, and it is smiling.",
+      "exits": {},
+      "items": [
+        "lens-polish"
+      ],
+      "puzzles": [],
+      "lookDescriptions": {
+        "fresnel-lens": "A massive fresnel lens, its prisms clouded with salt spray. The surface is etched with overlapping names and dates, a ledger of the lost."
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "cellar-lock",
+      "scene": "keepers-cottage",
+      "requires": [
+        "keeper-keys"
+      ],
+      "action": "Use the cellar key to unlock the trapdoor in the cottage floor.",
+      "result": "The brass key turns with a gratifying click. The trapdoor's iron bindings creak as it releases, revealing the dark opening to the cellar below.",
+      "blocksExit": {
+        "down": "cottage-cellar"
+      }
+    },
+    {
+      "id": "threshold-salt",
+      "scene": "tower-base",
+      "requires": [
+        "salt-bag"
+      ],
+      "action": "Salt the threshold before ascending the tower stairs.",
+      "result": "The salt creates a faint line of protection across the stone floor. You step over it, feeling the weight of the island shift.",
+      "blocksExit": {
+        "up": "foghorn-station"
+      }
+    },
+    {
+      "id": "foghorn-silence",
+      "scene": "foghorn-station",
+      "requires": [
+        "foghorn-lever"
+      ],
+      "action": "Reattach the foghorn lever to silence the horn.",
+      "result": "The lever clicks into place. The foghorn gives one last mournful cry and falls silent. The way upward clears.",
+      "blocksExit": {
+        "up": "lantern-room"
+      }
+    },
+    {
+      "id": "lens-cleaning",
+      "scene": "lantern-room",
+      "requires": [
+        "lens-polish"
+      ],
+      "action": "Polish the Fresnel lens in the lantern room.",
+      "result": "The lens brightens, revealing something etched into the glass — a name, and a date. The lantern stops its rhythmic turning. The light steadies. Something looks back."
+    },
+    {
+      "id": "flares-beach",
+      "scene": "fog-beach",
+      "requires": [
+        "emergency-flare"
+      ],
+      "action": "Strike the flare at the shoreline mark to signal back.",
+      "result": "The flare burns crimson against the fog. For a moment, you see what has been watching from the treeline — not a person, not quite. The mark on the shore glows in response. The island releases its grip."
+    }
+  ],
+  "winCondition": {
+    "scene": "fog-beach",
+    "requires": [
+      "flares-beach",
+      "lens-cleaning"
+    ],
+    "description": "Having silenced the foghorn, salted the threshold, cleaned the lens, and struck the flare at the shore, you break the island's hold. The fog begins to lift. You can signal for extraction. Elias Harrow's fate is yours to carry, but you are not trapped — not yet."
+  }
+}
