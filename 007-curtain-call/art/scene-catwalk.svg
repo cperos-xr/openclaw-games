@@ -1,66 +1,49 @@
-<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background: Dark gridwalk -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <!-- Pattern for Metal Mesh Walkway -->
+    <pattern id="walkway-mesh" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 0 0 L 20 20 M 20 0 L 0 20" stroke="#4A0035" stroke-width="2"/>
+    </pattern>
+    <!-- Distant Lights Pattern -->
+    <pattern id="distant-lights" width="100" height="100" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="3" fill="#8B0000" opacity="0.4"/>
+      <circle cx="70" cy="50" r="2" fill="#33FF33" opacity="0.4"/>
+    </pattern>
+  </defs>
+  <!-- Background: Deep Void of the Fly Lofts (Upward View) -->
   <rect width="640" height="400" fill="#0A0008"/>
-  
-  <!-- Catwalk grid (metal walkway) -->
-  <rect x="20" y="150" width="600" height="20" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
-  <rect x="20" y="200" width="600" height="20" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
-  <rect x="20" y="250" width="600" height="20" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
-  
-  <!-- Grid supports -->
-  <rect x="40" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
-  <rect x="120" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
-  <rect x="200" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
-  <rect x="280" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
-  <rect x="360" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
-  <rect x="440" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
-  <rect x="520" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
-  <rect x="600" y="150" width="10" height="100" fill="#330028" stroke="#4A0035" stroke-width="1"/>
-  
-  <!-- Lighting control board -->
-  <rect x="50" y="100" width="100" height="80" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
-  <rect x="60" y="110" width="20" height="10" fill="#330028"/> <!-- Dead indicators -->
-  <rect x="60" y="130" width="20" height="10" fill="#330028"/>
-  <rect x="90" y="110" width="20" height="10" fill="#330028"/>
-  <rect x="90" y="130" width="20" height="10" fill="#FF0000"/> <!-- Few LEDs flickering weakly -->
-  <rect x="60" y="150" width="20" height="10" fill="#330028"/>
-  <rect x="90" y="150" width="20" height="10" fill="#00FF00"/> <!-- Few LEDs flickering weakly -->
-  
-  <!-- Cue sheet -->
-  <rect x="180" y="100" width="60" height="40" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
-  <rect x="190" y="110" width="10" height="20" fill="#FFFFFF"/> <!-- Circle -->
-  <rect x="210" y="110" width="20" height="20" fill="#FFFFFF"/> <!-- Triangle basis -->
-  <polygon points="220,110 240,130 200,130" fill="#FFFFFF"/> <!-- Triangle -->
-  <rect x="240" y="110" width="20" height="20" fill="#FFFFFF"/> <!-- Square -->
-  <rect x="260" y="110" width="20" height="20" fill="#FFFFFF"/> <!-- Cross basis -->
-  <rect x="260" y="120" width="20" height="5" fill="#FFFFFF"/>
-  <rect x="270" y="110" width="5" height="20" fill="#FFFFFF"/>
-  <line x1="190" y1="100" x2="230" y2="140" stroke="#FFFFFF" stroke-width="1"/> <!-- Crack lines -->
-  <line x1="230" y1="100" x2="190" y2="140" stroke="#FFFFFF" stroke-width="1"/>
-  
-  <!-- Ghost light (far below, tiny beacon) -->
-  <circle cx="320" cy="350" r="3" fill="#FFFF00"/>
-  <circle cx="320" cy="350" r="1" fill="#FFFFFF"/>
-  
-  <!-- Conductor's baton (on railing) -->
-  <rect x="400" y="140" width="5" height="30" fill="#0A0008" stroke="#FFFFFF" stroke-width="1"/> <!-- Ebony baton -->
-  <rect x="395" y="168" width="15" height="3" fill="#C0C0C0"/> <!-- Silver tip -->
-  
-  <!-- Grid stretching east over stage -->
-  <rect x="20" y="200" width="200" height="20" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
-  <rect x="20" y="250" width="200" height="20" fill="#1A0015" stroke="#4A0035" stroke-width="2"/>
-  
-  <!-- Collapsed grid (gap) -->
-  <line x1="220" y1="200" x2="220" y2="260" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="260" y1="200" x2="260" y2="260" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="220" y1="230" x2="260" y2="230" stroke="#2B001E" stroke-width="10"/> <!-- Gap -->
-  
-  <!-- Residual electricity hum (subtle lines) -->
-  <line x1="100" y1="80" x2="120" y2="90" stroke="#00FFFF" stroke-width="1"/>
-  <line x1="120" y1="90" x2="140" y2="80" stroke="#00FFFF" stroke-width="1"/>
-  <line x1="500" y1="80" x2="520" y2="90" stroke="#00FFFF" stroke-width="1"/>
-  <line x1="520" y1="90" x2="540" y2="80" stroke="#00FFFF" stroke-width="1"/>
-  
-  <!-- East exit to stage -->
-  <rect x="600" y="200" width="20" height="80" fill="#0A0008" stroke="#4A0035" stroke-width="2"/>
+  <rect width="640" height="400" fill="url(#distant-lights)"/>
+
+  <!-- Catwalk Lattice (Structure/Midground) -->
+  <g id="catwalk-structure" transform="translate(20, 150)">
+    <path d="M 0 0 L 600 0 L 600 80 L 0 80 Z" fill="#1A0015" stroke="#4A0035" stroke-width="4"/>
+    <!-- Mesh Flooring (Walking Surface) -->
+    <rect width="600" height="20" fill="url(#walkway-mesh)"/>
+    <!-- Guard Railing -->
+    <path d="M 0 -60 L 600 -60 M 0 -30 L 600 -30" stroke="#4A0035" stroke-width="3" opacity="0.8"/>
+    <path d="M 40 -60 L 40 80 M 160 -60 L 160 80 M 280 -60 L 280 80 M 400 -60 L 400 80 M 520 -60 L 520 80" stroke="#4A0035" stroke-width="2"/>
+  </g>
+
+  <!-- Lighting Rack (Upper Foreground) -->
+  <g id="lighting-rack" transform="translate(100, 20)">
+    <path d="M 0 0 L 440 0 L 440 20 L 0 20 Z" fill="#1A0015" stroke="#4A0035" stroke-width="3"/>
+    <!-- Hanging Spotlights (Silhouettes) -->
+    <path d="M 40 20 L 70 20 L 55 50 Z" fill="#330028" stroke="#4A0035" stroke-width="2"/>
+    <path d="M 160 20 L 190 20 L 175 50 Z" fill="#330028" stroke="#4A0035" stroke-width="2"/>
+    <path d="M 280 20 L 310 20 L 295 50 Z" fill="#330028" stroke="#4A0035" stroke-width="2"/>
+    <path d="M 400 20 L 430 20 L 415 50 Z" fill="#8B0000" stroke="#4A0035" stroke-width="2"/> <!-- Glowing Red Danger Light -->
+  </g>
+
+  <!-- Atmosheric Indicator: Catwalk Safety Sign -->
+  <g id="safety-sign" transform="translate(60, 170)">
+     <path d="M 0 0 L 40 0 L 40 40 L 0 40 Z" fill="#FFFF00" stroke="#000000" stroke-width="2"/>
+     <!-- Exclamation Symbol (Stencil/Safety) -->
+     <path d="M 20 8 L 20 25 M 20 30 L 20 34" fill="none" stroke="#000000" stroke-width="4"/>
+  </g>
+
+  <!-- Grounding the View: View Down to Stage Far Below -->
+  <g id="distant-stage" transform="translate(320, 320)">
+     <path d="M -150 0 L 150 0 L 100 80 L -100 80 Z" fill="#1A0015" opacity="0.3"/>
+     <path d="M -80 20 L 80 20" stroke="#FF8800" stroke-width="2" opacity="0.2"/>
+  </g>
 </svg>

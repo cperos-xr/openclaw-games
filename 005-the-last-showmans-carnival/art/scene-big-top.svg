@@ -1,57 +1,69 @@
 <svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background: Dark interior -->
+  <defs>
+    <!-- Dark fabric texture for tent -->
+    <pattern id="tent-texture" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="#400"/>
+      <line x1="0" y1="0" x2="20" y2="20" stroke="#300" stroke-width="1" opacity="0.3"/>
+    </pattern>
+    <!-- Muddy sawdust floor -->
+    <pattern id="mud-texture" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="#1a0d00"/>
+      <circle cx="10" cy="10" r="1.5" fill="#000" opacity="0.5"/>
+      <circle cx="30" cy="30" r="1" fill="#000" opacity="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Layer 1: Background - Deep Shadows -->
   <rect width="640" height="400" fill="#000000"/>
   
-  <!-- Ground (sawdust turned to black mud) -->
-  <rect y="320" width="640" height="80" fill="#000000"/>
-  
-  <!-- Tent canvas ceiling -->
-  <polygon points="320,20 640,150 640,50 320,80 0,50 0,150" fill="#8B0000" stroke="#000000" stroke-width="2"/>
-  <line x1="320" y1="20" x2="0" y2="150" stroke="#000000" stroke-width="1"/>
-  <line x1="320" y1="20" x2="640" y2="150" stroke="#000000" stroke-width="1"/>
-  <line x1="320" y1="20" x2="320" y2="150" stroke="#000000" stroke-width="1"/>
-  
-  <!-- Bleachers -->
-  <rect x="50" y="250" width="150" height="30" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <rect x="200" y="270" width="150" height="30" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <rect x="350" y="250" width="150" height="30" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <rect x="500" y="270" width="100" height="30" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  
-  <!-- Center ring -->
-  <ellipse cx="320" cy="320" rx="80" ry="30" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  
-  <!-- Stage -->
-  <rect x="250" y="150" width="140" height="40" fill="#DAA520" stroke="#000000" stroke-width="2"/>
-  
-  <!-- Safe -->
-  <rect x="270" y="160" width="40" height="30" fill="#696969" stroke="#000000" stroke-width="2"/>
-  <circle cx="290" cy="175" r="8" fill="#000000" stroke="#000000" stroke-width="1"/> <!-- Dial -->
-  <text x="275" y="180" font-family="serif" font-size="8" fill="#000000">Blackwood</text>
-  
-  <!-- Projector -->
-  <rect x="320" y="160" width="30" height="20" fill="#696969" stroke="#000000" stroke-width="2"/>
-  <rect x="340" y="165" width="10" height="5" fill="#000000"/> <!-- Lens mount -->
-  <line x1="335" y1="180" x2="335" y2="200" stroke="#000000" stroke-width="2"/> <!-- Tripod -->
-  <line x1="325" y1="180" x2="320" y2="200" stroke="#000000" stroke-width="2"/>
-  <line x1="345" y1="180" x2="350" y2="200" stroke="#000000" stroke-width="2"/>
-  
-  <!-- Costume rack -->
-  <rect x="50" y="180" width="80" height="60" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <line x1="50" y1="190" x2="130" y2="190" stroke="#000000" stroke-width="2"/> <!-- Rack -->
-  <!-- Sequined dresses -->
-  <polygon points="60,190 70,210 80,190" fill="#FF8C00" stroke="#000000" stroke-width="1"/>
-  <polygon points="90,190 100,210 110,190" fill="#0000FF" stroke="#000000" stroke-width="1"/>
-  <!-- Clown suit -->
-  <polygon points="120,190 130,220 140,190" fill="#FF0000" stroke="#000000" stroke-width="1"/>
-  <circle cx="130" cy="185" r="5" fill="#FFFFFF"/> <!-- Grin -->
-  
-  <!-- Overturned spotlight -->
-  <rect x="450" y="280" width="40" height="20" fill="#696969" stroke="#000000" stroke-width="2"/>
-  <circle cx="470" cy="290" r="10" fill="#000000" stroke="#000000" stroke-width="2"/> <!-- Cracked lens -->
-  <line x1="460" y1="290" x2="480" y2="290" stroke="#FFFFFF" stroke-width="1"/> <!-- Crack -->
-  <line x1="470" y1="280" x2="470" y2="300" stroke="#FFFFFF" stroke-width="1"/> <!-- Crack -->
-  
-  <!-- Trapdoor -->
-  <rect x="300" y="350" width="40" height="20" fill="#696969" stroke="#000000" stroke-width="2"/>
-  <circle cx="320" cy="360" r="5" fill="#000000"/> <!-- Iron ring -->
+  <!-- Layer 2: Tent Ceiling & Walls -->
+  <path d="M 0 0 L 320 60 L 640 0 L 640 180 L 320 220 L 0 180 Z" fill="url(#tent-texture)" stroke="#111" stroke-width="2"/>
+  <path d="M 320 60 L 320 220" stroke="#000" stroke-width="2" opacity="0.5"/> <!-- Tent pole/seam -->
+  <path d="M 160 30 L 160 200 M 480 30 L 480 200" stroke="#000" stroke-width="1" opacity="0.3"/>
+
+  <!-- Layer 3: Ground (Mud and debris) -->
+  <path d="M 0 320 Q 320 300 640 320 L 640 400 L 0 400 Z" fill="url(#mud-texture)"/>
+  <ellipse cx="320" cy="340" rx="120" ry="40" fill="#000" opacity="0.4"/> <!-- Center ring depression -->
+
+  <!-- Layer 4: Distant bleachers -->
+  <g id="bleachers" stroke="#000" stroke-width="1.5">
+    <rect x="40" y="240" width="120" height="15" fill="#3D2B1F" transform="skewX(-10)"/>
+    <rect x="30" y="255" width="140" height="15" fill="#2D1B0F" transform="skewX(-10)"/>
+    <rect x="480" y="240" width="120" height="15" fill="#3D2B1F" transform="skewX(10)"/>
+    <rect x="470" y="255" width="140" height="15" fill="#2D1B0F" transform="skewX(10)"/>
+  </g>
+
+  <!-- Layer 5: The Center Ring & Stage -->
+  <path d="M 240 330 L 400 330 L 420 370 L 220 370 Z" fill="#5A4A3A" stroke="#222"/> <!-- Stage platform -->
+  <path d="M 240 330 L 400 330 L 400 340 L 240 340 Z" fill="#DAA520" opacity="0.7"/> <!-- Golden trim -->
+
+  <!-- Layer 6: Key Objects -->
+  <!-- Safe (Iron/Heavy) -->
+  <g transform="translate(260, 280)">
+    <rect width="50" height="50" fill="#333" stroke="#000" stroke-width="2"/>
+    <circle cx="25" cy="25" r="12" fill="#222" stroke="#444" stroke-width="1.5"/> <!-- Dial -->
+    <path d="M 25 15 L 25 18 M 35 25 L 32 25 M 25 35 L 25 32 M 15 25 L 18 25" stroke="#666" stroke-width="1"/>
+    <!-- Ornate safe brand label graphic (no text) -->
+    <path d="M 15 8 Q 25 2 35 8" fill="none" stroke="#DAA520" stroke-width="0.8"/>
+  </g>
+
+  <!-- Projector on Tripod -->
+  <g transform="translate(360, 260)">
+    <path d="M 0 0 L -15 30 M 0 0 L 15 30 M 0 0 L 0 35" stroke="#111" stroke-width="2"/> <!-- Tripod -->
+    <rect x="-10" y="-15" width="30" height="20" fill="#222" stroke="#000" stroke-width="1.5"/> <!-- Body -->
+    <circle cx="25" cy="-5" r="8" fill="#111" stroke="#333" stroke-width="1.5"/> <!-- Big Lens -->
+    <rect x="5" y="-12" width="15" height="12" fill="#111" stroke="#000" stroke-width="1"/> <!-- Lens barrel -->
+  </g>
+
+  <!-- Trapdoor in floor -->
+  <path d="M 280 375 L 360 375 L 370 395 L 270 395 Z" fill="#221100" stroke="#000" stroke-width="1.5"/>
+  <circle cx="320" cy="385" r="4" fill="#666" stroke="#000" stroke-width="1"/> <!-- Iron ring handle -->
+
+  <!-- Layer 7: Atmosphere -->
+  <!-- Beams of dim light from above -->
+  <path d="M 320 0 L 100 400 L 540 400 Z" fill="#ffffff" opacity="0.03"/>
+  <!-- Dust motes -->
+  <circle cx="200" cy="150" r="1.5" fill="#fff" opacity="0.2"/>
+  <circle cx="400" cy="250" r="1" fill="#fff" opacity="0.3"/>
+  <circle cx="310" cy="80" r="1" fill="#fff" opacity="0.1"/>
 </svg>

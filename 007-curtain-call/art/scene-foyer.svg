@@ -1,48 +1,44 @@
-<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background: Deep burgundy/velvet black -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <!-- Pattern for Floor Tiles -->
+    <pattern id="floor-tiles" width="80" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 0 0 L 80 0 L 80 40 L 0 40 Z" fill="#1A0015" stroke="#330028" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <!-- Background: Deep Walls -->
   <rect width="640" height="400" fill="#2B001E"/>
-  
-  <!-- Marble floor (geometric pattern) -->
-  <rect x="0" y="300" width="640" height="100" fill="#1A0015"/>
-  <rect x="20" y="320" width="120" height="20" fill="#330028"/>
-  <rect x="160" y="320" width="120" height="20" fill="#330028"/>
-  <rect x="300" y="320" width="120" height="20" fill="#330028"/>
-  <rect x="440" y="320" width="120" height="20" fill="#330028"/>
-  <rect x="20" y="350" width="120" height="20" fill="#330028"/>
-  <rect x="160" y="350" width="120" height="20" fill="#330028"/>
-  <rect x="300" y="350" width="120" height="20" fill="#330028"/>
-  <rect x="440" y="350" width="120" height="20" fill="#330028"/>
-  
-  <!-- Chandelier (central geometric fixture) -->
-  <circle cx="320" cy="100" r="30" fill="#4A0035" stroke="#8B004B" stroke-width="4"/>
-  <rect x="300" y="80" width="40" height="10" fill="#8B004B"/>
-  <rect x="310" y="70" width="20" height="20" fill="#8B004B"/>
-  <line x1="320" y1="90" x2="320" y2="130" stroke="#FFFFFF" stroke-width="2"/>
-  <circle cx="320" cy="130" r="8" fill="#FFFF00"/>
-  
-  <!-- Ticket booth (shattered glass effect) -->
-  <rect x="100" y="150" width="80" height="60" fill="#1A0015" stroke="#4A0035" stroke-width="3"/>
-  <line x1="100" y1="180" x2="180" y2="180" stroke="#FFFFFF" stroke-width="1"/>
-  <line x1="140" y1="150" x2="140" y2="210" stroke="#FFFFFF" stroke-width="1"/>
-  <rect x="130" y="170" width="20" height="20" fill="#FF8800"/> <!-- Brass key -->
-  
-  <!-- Ornate doors (north exit) -->
-  <rect x="270" y="50" width="100" height="150" fill="#0A0008" stroke="#4A0035" stroke-width="3"/>
-  <rect x="290" y="70" width="60" height="20" fill="#1A0015"/>
-  <rect x="290" y="100" width="60" height="20" fill="#1A0015"/>
-  <rect x="290" y="130" width="60" height="20" fill="#1A0015"/>
-  <rect x="280" y="60" width="80" height="10" fill="#4A0035"/> <!-- Chain -->
-  <rect x="310" y="50" width="20" height="20" fill="#8B004B"/> <!-- Padlock -->
-  
-  <!-- Staircase (east, blocked) -->
-  <rect x="500" y="200" width="40" height="150" fill="#0A0008" stroke="#4A0035" stroke-width="2"/>
-  <rect x="480" y="220" width="80" height="20" fill="#1A0015"/> <!-- Fallen scenery -->
-  <rect x="460" y="240" width="120" height="20" fill="#1A0015"/>
-  <rect x="440" y="260" width="160" height="20" fill="#1A0015"/>
-  
-  <!-- Dust motes (small white dots) -->
-  <circle cx="200" cy="100" r="1" fill="#FFFFFF"/>
-  <circle cx="400" cy="150" r="1" fill="#FFFFFF"/>
-  <circle cx="100" cy="200" r="1" fill="#FFFFFF"/>
-  <circle cx="500" cy="100" r="1" fill="#FFFFFF"/>
+
+  <!-- Ornate Carpeted Passage Floor -->
+  <rect x="0" y="300" width="640" height="100" fill="url(#floor-tiles)"/>
+
+  <!-- Ticket Booth / Grand Entrance (Midground) -->
+  <g id="entrance-booth" transform="translate(220, 50)">
+    <path d="M 0 0 L 200 0 L 200 250 L 0 250 Z" fill="#0A0008" stroke="#4A0035" stroke-width="5"/>
+    <!-- Padlock (Atmospheric) -->
+    <path d="M 80 50 L 120 50 L 120 90 L 80 90 Z" fill="#8B004B" stroke="#000000" stroke-width="2"/>
+    <path d="M 85 50 C 85 30 115 30 115 50" fill="none" stroke="#8B004B" stroke-width="4"/>
+    <!-- Chains -->
+    <path d="M 0 60 L 200 60 M 0 80 L 200 80" stroke="#4A0035" stroke-width="3" opacity="0.6"/>
+  </g>
+
+  <!-- Brass Display Case (Prop Closet/Info) -->
+  <g id="display-case" transform="translate(60, 150)">
+    <path d="M 0 0 L 100 0 L 100 120 L 0 120 Z" fill="#1A0015" stroke="#4A0035" stroke-width="3"/>
+    <!-- Silhouette: Ornate Key Hook -->
+    <path d="M 30 20 L 70 20 L 70 60 L 30 60 Z" fill="#8B0000" opacity="0.4"/>
+    <path d="M 50 30 C 60 30 60 50 50 50 C 40 50 40 30 50 30" fill="none" stroke="#FF8800" stroke-width="2"/>
+  </g>
+
+  <!-- Fallen Scenery / Debris -->
+  <g id="debris" transform="translate(480, 220)">
+    <path d="M -80 0 L 80 0 L 40 100 L -40 100 Z" fill="#1A0015" stroke="#4A0035" stroke-width="3"/>
+    <path d="M -40 20 L 60 20 M -20 40 L 40 40" stroke="#0A0008" stroke-width="2"/>
+  </g>
+
+  <!-- Light Source: Wall Sconce -->
+  <g id="wall-sconce" transform="translate(320, 30)">
+     <path d="M -15 0 L 15 0 L 0 50 Z" fill="#8B004B" />
+     <circle cx="0" cy="0" r="20" fill="#FF8800" opacity="0.1"/>
+     <circle cx="0" cy="0" r="5" fill="#FFFF00"/>
+  </g>
 </svg>

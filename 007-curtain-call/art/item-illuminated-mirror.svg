@@ -1,27 +1,15 @@
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background: Clear -->
-  <rect width="64" height="64" fill="none"/>
-  
-  <!-- Makeup kit mirror base -->
-  <rect x="20" y="20" width="24" height="20" fill="#8B004B" stroke="#AA00FF" stroke-width="2"/>
-  
-  <!-- Mirror surface -->
-  <rect x="24" y="24" width="16" height="12" fill="#1A0015" stroke="#FFFFFF" stroke-width="1"/>
-  
-  <!-- Crack in mirror -->
-  <line x1="24" y1="24" x2="40" y2="36" stroke="#FFFFFF" stroke-width="1"/>
-  
-  <!-- Focused beam of light -->
-  <rect x="32" y="16" width="4" height="8" fill="#FFFF00"/>
-  <rect x="30" y="12" width="8" height="4" fill="#FFFF00"/>
-  <rect x="28" y="8" width="12" height="4" fill="#FFFF00"/>
-  <rect x="26" y="4" width="16" height="4" fill="#FFFF00"/>
-  
-  <!-- Glow effect -->
-  <circle cx="32" cy="20" r="6" fill="#FFFF00" opacity="0.3"/>
-  <circle cx="32" cy="20" r="4" fill="#FFFF00" opacity="0.2"/>
-  
-  <!-- Humming sound waves -->
-  <path d="M20,28 Q24,24 28,28" stroke="#FFFFFF" stroke-width="1" fill="none"/>
-  <path d="M28,28 Q32,24 36,28" stroke="#FFFFFF" stroke-width="1" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Mirror Frame (Ornate) -->
+  <path d="M 16 10 L 48 10 L 48 54 L 16 54 Z" fill="#8B004B" stroke="#AA00FF" stroke-width="2"/>
+  <path d="M 20 14 L 44 14 L 44 50 L 20 50 Z" fill="#1A0015" stroke="#FFFFFF" stroke-width="1"/>
+  <!-- Light Bulbs (Surrounding) -->
+  <circle cx="16" cy="18" r="3" fill="#FFFF00"/>
+  <circle cx="16" cy="32" r="3" fill="#FFFF00"/>
+  <circle cx="16" cy="46" r="3" fill="#FFFF00"/>
+  <circle cx="48" cy="18" r="3" fill="#FFFF00"/>
+  <circle cx="48" cy="32" r="3" fill="#FFFF00"/>
+  <circle cx="48" cy="46" r="3" fill="#FFFF00"/>
+  <circle cx="32" cy="10" r="3" fill="#FFFF00"/>
+  <!-- Mirror Reflection (Glint) -->
+  <path d="M 28 20 L 40 32 M 34 22 L 38 26" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.4"/>
 </svg>

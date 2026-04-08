@@ -1,63 +1,80 @@
 <svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background: Dark interior -->
+  <defs>
+    <!-- Purple velvet texture -->
+    <pattern id="velvet-texture" width="30" height="30" patternUnits="userSpaceOnUse">
+      <rect width="30" height="30" fill="#4B0082"/>
+      <path d="M 0 0 L 30 30" stroke="#310062" stroke-width="2" opacity="0.4"/>
+    </pattern>
+    <!-- Dark wood for wagon interior -->
+    <pattern id="wagon-wood" width="50" height="10" patternUnits="userSpaceOnUse">
+      <rect width="50" height="10" fill="#2D1B0F"/>
+      <line x1="0" y1="0" x2="50" y2="0" stroke="#1D0B00" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Layer 1: Background - Black Void -->
   <rect width="640" height="400" fill="#000000"/>
   
-  <!-- Wagon walls -->
-  <rect x="50" y="50" width="540" height="300" fill="#9400D3" stroke="#000000" stroke-width="3"/>
-  
-  <!-- Velvet drapes -->
-  <rect x="60" y="60" width="520" height="20" fill="#8B0000" stroke="#000000" stroke-width="2"/>
-  <path d="M60,80 Q100,120 140,80 Q180,40 220,80 Q260,120 300,80 Q340,40 380,80 Q420,120 460,80 Q500,40 540,80 L540,350 L60,350 Z" fill="#8B0000" stroke="#000000" stroke-width="1"/>
-  
-  <!-- Round table -->
-  <ellipse cx="320" cy="250" rx="80" ry="30" fill="#9400D3" stroke="#000000" stroke-width="2"/>
-  <rect x="240" y="280" width="160" height="40" fill="#9400D3" stroke="#000000" stroke-width="2"/> <!-- Table leg -->
-  
-  <!-- Purple silk tablecloth -->
-  <ellipse cx="320" cy="250" rx="85" ry="35" fill="#9400D3" stroke="#000000" stroke-width="1"/>
-  
-  <!-- Crystal ball -->
-  <circle cx="320" cy="220" r="30" fill="#ADD8E6" stroke="#000000" stroke-width="2"/>
-  <circle cx="320" cy="220" r="20" fill="#E0FFFF" opacity="0.5"/> <!-- Glow -->
-  <circle cx="320" cy="220" r="10" fill="#FFFFFF" opacity="0.3"/> <!-- Inner glow -->
-  <rect x="290" y="250" width="60" height="10" fill="#DAA520" stroke="#000000" stroke-width="1"/> <!-- Base -->
-  
-  <!-- Tarot cards on table -->
-  <rect x="250" y="240" width="20" height="30" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
-  <rect x="280" y="235" width="20" height="30" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
-  <rect x="310" y="240" width="20" height="30" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
-  <text x="255" y="255" font-family="serif" font-size="6" fill="#000000">Tower</text>
-  <text x="283" y="250" font-family="serif" font-size="6" fill="#000000">Hanged</text>
-  <text x="315" y="255" font-family="serif" font-size="6" fill="#000000">Death</text>
-  
-  <!-- Shelves with jars -->
-  <rect x="100" y="150" width="150" height="10" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <rect x="400" y="150" width="150" height="10" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  
-  <!-- Jars -->
-  <rect x="110" y="120" width="20" height="30" fill="#ADD8E6" stroke="#000000" stroke-width="1"/>
-  <rect x="140" y="125" width="20" height="25" fill="#ADD8E6" stroke="#000000" stroke-width="1"/>
-  <rect x="170" y="120" width="20" height="30" fill="#ADD8E6" stroke="#000000" stroke-width="1"/>
-  <rect x="410" y="120" width="20" height="30" fill="#ADD8E6" stroke="#000000" stroke-width="1"/>
-  <rect x="440" y="125" width="20" height="25" fill="#ADD8E6" stroke="#000000" stroke-width="1"/>
-  <rect x="470" y="120" width="20" height="30" fill="#ADD8E6" stroke="#000000" stroke-width="1"/>
-  
-  <!-- Poster of Madame Vesper -->
-  <rect x="250" y="80" width="140" height="100" fill="#FF8C00" stroke="#000000" stroke-width="2"/>
-  <circle cx="320" cy="110" r="20" fill="#FF8C00" stroke="#000000" stroke-width="2"/> <!-- Head -->
-  <ellipse cx="320" cy="130" rx="25" ry="15" fill="#9400D3" stroke="#000000" stroke-width="1"/> <!-- Body -->
-  <text x="270" y="165" font-family="serif" font-size="10" fill="#000000">See Your Fate - 25¢</text>
-  
-  <!-- Rabbit foot -->
-  <ellipse cx="120" cy="135" rx="8" ry="5" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
-  
-  <!-- Dried flowers -->
-  <circle cx="150" cy="135" r="4" fill="#FF8C00"/>
-  <circle cx="155" cy="130" r="4" fill="#FF8C00"/>
-  <circle cx="145" cy="130" r="4" fill="#FF8C00"/>
-  
-  <!-- Animal bones -->
-  <rect x="420" y="130" width="15" height="4" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
-  <circle cx="420" cy="132" r="3" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
-  <circle cx="435" cy="132" r="3" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+  <!-- Layer 2: Wagon Interior Walls -->
+  <rect x="40" y="40" width="560" height="320" fill="url(#wagon-wood)" stroke="#111" stroke-width="2"/>
+
+  <!-- Layer 3: Heavy Drapes -->
+  <g id="drapes" fill="#600" stroke="#200" stroke-width="1.5">
+    <path d="M 40 40 L 120 40 L 120 360 L 40 360 Z"/> <!-- Left drape -->
+    <path d="M 520 40 L 600 40 L 600 360 L 520 360 Z"/> <!-- Right drape -->
+    <path d="M 120 40 Q 320 120 520 40 L 520 80 Q 320 160 120 80 Z"/> <!-- Valance -->
+  </g>
+
+  <!-- Layer 4: Floating Atmosphere (Herbs/Smoke) -->
+  <g opacity="0.3" fill="#fff">
+    <circle cx="100" cy="100" r="1.5"/>
+    <circle cx="540" cy="120" r="1"/>
+    <path d="M 320 200 Q 330 180 320 160 Q 310 140 320 120" fill="none" stroke="#fff" stroke-width="1" opacity="0.2"/>
+  </g>
+
+  <!-- Layer 5: Fortune Teller's Table -->
+  <g id="table" transform="translate(320, 300)">
+    <ellipse cx="0" cy="0" rx="100" ry="35" fill="url(#velvet-texture)" stroke="#2D0B40" stroke-width="2"/>
+    <path d="M -80 15 Q -100 0 -80 -15" fill="none" stroke="#7B68EE" stroke-width="1.5" opacity="0.5"/> <!-- Tablecloth fold -->
+  </g>
+
+  <!-- Layer 6: Crystal Ball & Tarot -->
+  <g id="crystal-ball" transform="translate(320, 260)">
+    <!-- Ornate Gold Base -->
+    <path d="M -25 25 L 25 25 L 30 35 L -30 35 Z" fill="#DAA520" stroke="#8B6508" stroke-width="1.5"/>
+    <!-- The Ball -->
+    <circle cx="0" cy="0" r="35" fill="#E0FFFF" stroke="#B0E0E6" stroke-width="1" opacity="0.8"/>
+    <circle cx="0" cy="0" r="30" fill="#F0FFFF" opacity="0.4"/>
+    <!-- Inner swirling mist (no text) -->
+    <path d="M -15 -10 Q 0 0 15 -10 Q 0 10 -15 20" fill="none" stroke="#fff" stroke-width="1" opacity="0.3"/>
+  </g>
+
+  <!-- Tarot Cards (Visual icons, no text names anymore) -->
+  <g id="tarot-spread" transform="translate(260, 280)">
+    <rect x="0" y="0" width="22" height="35" rx="2" fill="#fff" stroke="#000" stroke-width="1" transform="rotate(-15)"/>
+    <rect x="30" y="-10" width="22" height="35" rx="2" fill="#fff" stroke="#000" stroke-width="1"/>
+    <rect x="65" y="0" width="22" height="35" rx="2" fill="#fff" stroke="#000" stroke-width="1" transform="rotate(15)"/>
+    <!-- Abstract Tarot Art (Death/Hanged/Tower icons) -->
+    <circle cx="41" cy="5" r="4" fill="#000" opacity="0.8"/> <!-- Skull-like for Death card -->
+    <path d="M 6 10 L 16 10 L 11 25 Z" fill="#800" transform="rotate(-15)"/> <!-- Tower-like -->
+    <path d="M 75 10 L 85 25" stroke="#008" stroke-width="2" transform="rotate(15)"/> <!-- Hanged-like -->
+  </g>
+
+  <!-- Layer 7: Poster (Madame Vesper's Silhouette) -->
+  <g transform="translate(260, 60)">
+    <rect width="120" height="90" fill="#EEDD82" stroke="#8B6508" stroke-width="2"/>
+    <!-- The "See Your Fate" Poster Graphic -->
+    <circle cx="60" cy="35" r="18" fill="none" stroke="#222" stroke-width="2"/> <!-- Moon border -->
+    <path d="M 50 45 Q 60 25 70 45" fill="#222"/> <!-- Stylized silhouette head -->
+    <path d="M 30 75 Q 60 70 90 75" fill="none" stroke="#222" stroke-width="1.5"/> <!-- Decorative line -->
+    <path d="M 55 70 L 65 70 M 60 65 L 60 75" stroke="#222" stroke-width="1"/> <!-- A small star/cross icon -->
+  </g>
+
+  <!-- Layer 8: Final Polish - Shadows & Low Light -->
+  <rect width="640" height="400" fill="#000" opacity="0.2"/>
+  <radialGradient id="lamp-glow" cx="320" cy="260" r="200" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="#ADD8E6" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="640" height="400" fill="url(#lamp-glow)"/>
 </svg>

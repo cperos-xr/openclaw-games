@@ -1,66 +1,72 @@
 <svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background: Dark electronics room -->
-  <rect width="640" height="400" fill="#000000"/>
+  <!-- Background: Sonar Room - Dark electronics/monitoring hub -->
+  <rect width="640" height="400" fill="#00000a"/>
   
-  <!-- Ceiling -->
-  <rect x="0" y="0" width="640" height="20" fill="#000011"/>
-  
-  <!-- Left wall - Monitor bank -->
-  <rect x="20" y="50" width="120" height="80" fill="#000000" stroke="#003366" stroke-width="2"/>
-  <rect x="25" y="55" width="110" height="70" fill="#000022"/>
-  <line x1="30" y1="60" x2="130" y2="60" stroke="#00FF00" stroke-width="1" opacity="0.3"/>
-  <line x1="30" y1="70" x2="130" y2="70" stroke="#00FF00" stroke-width="1" opacity="0.3"/>
-  <line x1="30" y1="80" x2="130" y2="80" stroke="#00FF00" stroke-width="1" opacity="0.3"/>
-  <line x1="30" y1="90" x2="130" y2="90" stroke="#00FF00" stroke-width="1" opacity="0.3"/>
-  <line x1="30" y1="100" x2="130" y2="100" stroke="#00FF00" stroke-width="1" opacity="0.3"/>
-  <line x1="30" y1="110" x2="130" y2="110" stroke="#00FF00" stroke-width="1" opacity="0.3"/>
-  <line x1="30" y1="120" x2="130" y2="120" stroke="#00FF00" stroke-width="1" opacity="0.3"/>
-  
-  <rect x="20" y="150" width="120" height="80" fill="#000000" stroke="#003366" stroke-width="2"/>
-  <rect x="25" y="155" width="110" height="70" fill="#000022"/>
-  <circle cx="80" cy="190" r="20" fill="#00FF00" opacity="0.1"/>
-  <line x1="60" y1="190" x2="100" y2="190" stroke="#00FF00" stroke-width="2"/>
-  
-  <!-- Center - Console -->
-  <rect x="200" y="200" width="240" height="100" fill="#000022" stroke="#003366" stroke-width="2"/>
-  <rect x="210" y="210" width="220" height="80" fill="#000011"/>
-  
-  <!-- Console dials and switches -->
-  <circle cx="240" cy="250" r="15" fill="#000000" stroke="#003366" stroke-width="2"/>
-  <circle cx="280" cy="250" r="15" fill="#000000" stroke="#003366" stroke-width="2"/>
-  <circle cx="320" cy="250" r="15" fill="#000000" stroke="#003366" stroke-width="2"/>
-  <rect x="350" y="240" width="30" height="20" fill="#000000" stroke="#003366" stroke-width="1"/>
-  <rect x="390" y="240" width="30" height="20" fill="#000000" stroke="#003366" stroke-width="1"/>
-  
-  <!-- Open panel with wires -->
-  <rect x="210" y="280" width="80" height="20" fill="#000000" stroke="#003366" stroke-width="1"/>
-  <line x1="220" y1="285" x2="220" y2="295" stroke="#FF0000" stroke-width="2"/>
-  <line x1="240" y1="285" x2="240" y2="295" stroke="#00FF00" stroke-width="2"/>
-  <line x1="260" y1="285" x2="260" y2="295" stroke="#0000FF" stroke-width="2"/>
-  <line x1="280" y1="285" x2="280" y2="295" stroke="#FFFF00" stroke-width="2"/>
-  
-  <!-- Large sonar screen -->
-  <rect x="450" y="50" width="160" height="120" fill="#000000" stroke="#003366" stroke-width="3"/>
-  <rect x="455" y="55" width="150" height="110" fill="#000022"/>
-  <circle cx="530" cy="110" r="40" fill="none" stroke="#00FF00" stroke-width="1" opacity="0.3"/>
-  <circle cx="530" cy="110" r="30" fill="none" stroke="#00FF00" stroke-width="1" opacity="0.3"/>
-  <circle cx="530" cy="110" r="20" fill="none" stroke="#00FF00" stroke-width="1" opacity="0.3"/>
-  <circle cx="530" cy="110" r="10" fill="#00FF00" opacity="0.5"/>
-  
-  <!-- Shadow on sonar -->
-  <path d="M500,80 Q520,60 540,80 Q560,100 540,120 Q520,140 500,120 Q480,100 500,80" fill="#000000" opacity="0.7"/>
-  
-  <!-- Clipboard -->
-  <rect x="480" y="200" width="40" height="60" fill="#000022" stroke="#220000" stroke-width="2"/>
-  <line x1="485" y1="210" x2="515" y2="210" stroke="#00FF00" stroke-width="1"/>
-  <line x1="485" y1="220" x2="515" y2="220" stroke="#00FF00" stroke-width="1"/>
-  <line x1="485" y1="230" x2="515" y2="230" stroke="#00FF00" stroke-width="1"/>
-  
-  <!-- Engineering door -->
-  <rect x="500" y="300" width="60" height="80" fill="#000022" stroke="#FF0000" stroke-width="3"/>
-  <rect x="520" y="320" width="20" height="20" fill="#FF0000" opacity="0.5"/>
-  <text x="510" y="355" font-family="monospace" font-size="6" fill="#FF0000">ENGINEERING</text>
-  
+  <!-- Monitoring Bank - Left Wall -->
+  <!-- Monitor 1: Static/Scanning -->
+  <rect x="20" y="40" width="130" height="90" fill="#17202a" stroke="#2c3e50" stroke-width="3"/>
+  <rect x="25" y="45" width="120" height="80" fill="#000" stroke="#1c2833" stroke-width="1"/>
+  <path d="M30 60 H140 M30 80 H140 M30 100 H140" stroke="#2ecc71" stroke-width="1" opacity="0.3" />
+  <!-- Scanning line -->
+  <line x1="25" y1="45" x2="145" y2="45" stroke="#2ecc71" stroke-width="2" opacity="0.8">
+    <animate attributeName="y1" values="45;125;45" dur="4s" repeatCount="indefinite" />
+    <animate attributeName="y2" values="45;125;45" dur="4s" repeatCount="indefinite" />
+  </line>
+
+  <!-- Monitor 2: Waveform/Heartbeat -->
+  <rect x="20" y="150" width="130" height="90" fill="#17202a" stroke="#2c3e50" stroke-width="3"/>
+  <rect x="25" y="155" width="120" height="80" fill="#000" stroke="#1c2833" stroke-width="1"/>
+  <path d="M30 195 Q50 165 70 195 T110 195 T140 195" fill="none" stroke="#2ecc71" stroke-width="2" opacity="0.6">
+    <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2s" repeatCount="indefinite" />
+  </path>
+
+  <!-- Central Operator Console -->
+  <path d="M180 220 L460 220 L440 320 L200 320 Z" fill="#1c2833" stroke="#2c3e50" stroke-width="3"/>
+  <g transform="translate(200, 230)">
+    <!-- Switches and dials -->
+    <circle cx="30" cy="30" r="12" fill="#000" stroke="#2c3e50" stroke-width="2"/>
+    <rect x="28" y="24" width="4" height="12" fill="#555" transform="rotate(45, 30, 30)" />
+    
+    <circle cx="70" cy="30" r="12" fill="#000" stroke="#2c3e50" stroke-width="2"/>
+    <rect x="68" y="24" width="4" height="12" fill="#f1c40f" transform="rotate(-30, 70, 30)" />
+    
+    <rect x="110" y="20" width="30" height="20" fill="#000" stroke="#2c3e50" stroke-width="2" />
+    <circle cx="125" cy="30" r="4" fill="#ff4444" opacity="0.6" />
+  </g>
+
+  <!-- Large Sonar Navigation Screen - Main Focal Point -->
+  <rect x="440" y="40" width="180" height="140" fill="#17202a" stroke="#2c3e50" stroke-width="4"/>
+  <rect x="450" y="50" width="160" height="120" fill="#000"/>
+  <!-- Sonar concentric circles -->
+  <g fill="none" stroke="#2ecc71" opacity="0.3">
+    <circle cx="530" cy="110" r="50" />
+    <circle cx="530" cy="110" r="35" />
+    <circle cx="530" cy="110" r="20" />
+    <circle cx="530" cy="110" r="5" fill="#2ecc71" opacity="0.6" />
+    <!-- Scanning beam -->
+    <line x1="530" y1="110" x2="580" y2="110" stroke-width="2" opacity="0.8">
+      <animateTransform attributeName="transform" type="rotate" from="0 530 110" to="360 530 110" dur="5s" repeatCount="indefinite" />
+    </line>
+  </g>
+  <!-- Shadow/Interference on sonar -->
+  <circle cx="490" cy="90" r="15" fill="#000" opacity="0.7">
+    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="8s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- clipboard/Log - Replaced text with lines -->
+  <rect x="480" y="210" width="50" height="70" fill="#1c2833" stroke="#2c3e50" stroke-width="2"/>
+  <path d="M490 230 H520 M490 240 H510 M490 250 H525" stroke="#7f8c8d" stroke-width="1" />
+
+  <!-- Engineering access door - Bottom right -->
+  <rect x="520" y="300" width="80" height="90" rx="5" ry="5" fill="#1a1a1a" stroke="#c0392b" stroke-width="3"/>
+  <!-- Keycard slot icon -->
+  <rect x="580" y="340" width="5" height="20" fill="#000" stroke="#e74c3c" stroke-width="1" />
+  <!-- Replaced "ENGINEERING" text with a gear symbol icon -->
+  <g transform="translate(560, 345) scale(0.6)">
+    <circle cx="0" cy="0" r="15" fill="none" stroke="#e74c3c" stroke-width="3" stroke-dasharray="8 4" />
+    <circle cx="0" cy="0" r="6" fill="none" stroke="#e74c3c" stroke-width="2" />
+  </g>
+
   <!-- Floor details -->
-  <rect x="0" y="380" width="640" height="20" fill="#000011"/>
+  <path d="M0 380 H640 V400 H0 Z" fill="#0a0a0a" stroke="#1c2833" stroke-width="1" />
 </svg>

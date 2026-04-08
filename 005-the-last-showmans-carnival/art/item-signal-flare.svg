@@ -1,18 +1,47 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <!-- Signal Flare -->
-  <!-- Flare gun body -->
-  <rect x="16" y="30" width="32" height="16" fill="#696969" stroke="#000000" stroke-width="2"/>
-  <!-- Barrel -->
-  <rect x="40" y="24" width="16" height="12" fill="#696969" stroke="#000000" stroke-width="2"/>
-  <!-- Handle -->
-  <rect x="20" y="46" width="12" height="12" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <!-- Trigger -->
-  <rect x="32" y="38" width="6" height="6" fill="#696969" stroke="#000000" stroke-width="1"/>
-  <!-- Flare (red tip) -->
-  <rect x="52" y="26" width="8" height="8" fill="#FF0000" stroke="#000000" stroke-width="2"/>
-  <!-- Flare glow -->
-  <circle cx="56" cy="30" r="8" fill="#FF0000" opacity="0.3"/>
-  <circle cx="56" cy="30" r="4" fill="#FF4500" opacity="0.5"/>
-  <!-- Sight -->
-  <rect x="44" y="22" width="4" height="4" fill="#696969" stroke="#000000" stroke-width="1"/>
+  <defs>
+    <!-- Metallic gunmetal texture -->
+    <linearGradient id="metal-gun" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#444"/>
+      <stop offset="50%" stop-color="#222"/>
+      <stop offset="100%" stop-color="#111"/>
+    </linearGradient>
+    <!-- Flare glow -->
+    <radialGradient id="flare-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff0000" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#ff0000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Layer 1: Background shadow -->
+  <ellipse cx="32" cy="58" rx="25" ry="4" fill="#000" opacity="0.4"/>
+
+  <!-- Layer 2: Flare Gun Chassis (Heavy Iron) -->
+  <g id="flare-gun" transform="rotate(-10, 32, 32)">
+    <!-- Handle (Wooden) -->
+    <path d="M 12 40 L 22 40 L 26 58 L 14 60 Z" fill="#3D2B1F" stroke="#111" stroke-width="1.5"/>
+    <path d="M 14 45 L 20 45" stroke="#2D1B0F" stroke-width="2" opacity="0.5"/> <!-- Grip lines -->
+
+    <!-- Main Body/Receiver -->
+    <path d="M 18 30 L 48 30 L 48 45 L 20 45 L 18 32 Z" fill="url(#metal-gun)" stroke="#000" stroke-width="2"/>
+    
+    <!-- Heavy Barrel -->
+    <path d="M 45 25 L 60 25 L 60 38 L 45 38 Z" fill="url(#metal-gun)" stroke="#000" stroke-width="2"/>
+    <!-- Pivot screw for break-action -->
+    <circle cx="45" cy="35" r="2.5" fill="#555" stroke="#111" stroke-width="1"/>
+    
+    <!-- Trigger Guard & Hammer -->
+    <path d="M 22 45 Q 28 55 35 45" fill="none" stroke="#111" stroke-width="2"/> <!-- Guard -->
+    <path d="M 18 30 L 14 22 L 18 25" fill="#222" stroke="#000" stroke-width="1"/> <!-- Stylized hammer -->
+  </g>
+
+  <!-- Layer 3: The Red Flare Capsule -->
+  <g transform="translate(54, 26)">
+    <circle cx="0" cy="0" r="12" fill="url(#flare-glow)"/>
+    <path d="M -4 -4 L 4 -4 L 4 4 L -4 4 Z" fill="#f00" stroke="#800" stroke-width="1"/> <!-- Tip sticking out -->
+    <path d="M -2 -2 L 2 -2" stroke="#fff" stroke-width="1" opacity="0.4"/>
+  </g>
+
+  <!-- Layer 4: Distant details (no text) -->
+  <path d="M 30 35 L 35 35" stroke="#555" stroke-width="1"/> <!-- Safety switch hint -->
 </svg>

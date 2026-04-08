@@ -1,18 +1,29 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <!-- Bell body -->
-  <ellipse cx="32" cy="30" rx="18" ry="22" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  <!-- Dark weathered bronze bell with ancient engravings -->
   
-  <!-- Bell crown -->
-  <rect x="28" y="10" width="8" height="12" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
+  <!-- Bell Body -->
+  <path d="M32 10 
+           C 18 10, 10 22, 8 46
+           L 56 46
+           C 54 22, 46 10, 32 10 Z" 
+        fill="#4A3C2C" stroke="#1A1510" stroke-width="2"/>
   
-  <!-- Bell loop -->
-  <ellipse cx="32" cy="12" rx="6" ry="4" fill="#C0C0C0" stroke="#000000" stroke-width="2"/>
-  
-  <!-- Engraving: VEX -->
-  <text x="32" y="32" text-anchor="middle" fill="#000000" font-size="10" font-weight="bold">VEX</text>
-  
-  <!-- Sound wave resonance -->
-  <path d="M32,52 Q28,58 32,64" stroke="#FFFFFF" stroke-width="1" fill="none" opacity="0.7"/>
-  <path d="M32,52 Q36,58 32,64" stroke="#FFFFFF" stroke-width="1" fill="none" opacity="0.7"/>
-  
+  <!-- Weathered Texture / Oxidation (dark green spots) -->
+  <circle cx="20" cy="25" r="2" fill="#2D3A25" opacity="0.4"/>
+  <circle cx="42" cy="35" r="3" fill="#2D3A25" opacity="0.3"/>
+  <circle cx="28" cy="40" r="1.5" fill="#2D3A25" opacity="0.5"/>
+
+  <!-- Ancient Engravings (Vex Sigil) -->
+  <path d="M25 28 L32 38 L39 28" fill="none" stroke="#2A2015" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M28 32 L36 32" fill="none" stroke="#2A2015" stroke-width="1.5"/>
+  <circle cx="32" cy="26" r="2" fill="none" stroke="#2A2015" stroke-width="1"/>
+
+  <!-- Bell Rim Base -->
+  <path d="M6 46 Q 32 54 58 46 L 60 52 Q 32 60 4 52 Z" fill="#3A2E20" stroke="#1A1510" stroke-width="2"/>
+
+  <!-- Heavy Clapper -->
+  <circle cx="32" cy="52" r="5" fill="#1A1510"/>
+
+  <!-- Handle / Hook -->
+  <path d="M28 10 Q 32 2 36 10" fill="none" stroke="#2A2015" stroke-width="3" stroke-linecap="round"/>
 </svg>

@@ -26,16 +26,18 @@
   <rect x="490" y="120" width="20" height="30" fill="#8B4513" stroke="#000000" stroke-width="1"/>
   <rect x="520" y="120" width="20" height="30" fill="#8B4513" stroke="#000000" stroke-width="1"/>
   
-  <!-- Labels on jars (simple text) -->
-  <text x="75" y="90" fill="#FFFFFF" font-size="6">ORGAN</text>
-  <text x="105" y="90" fill="#FFFFFF" font-size="6">SOIL</text>
-  <text x="75" y="140" fill="#FFFFFF" font-size="6">ORGAN</text>
-  <text x="105" y="140" fill="#FFFFFF" font-size="6">SOIL</text>
-  
-  <text x="495" y="90" fill="#FFFFFF" font-size="6">ORGAN</text>
-  <text x="525" y="90" fill="#FFFFFF" font-size="6">SOIL</text>
-  <text x="495" y="140" fill="#FFFFFF" font-size="6">ORGAN</text>
-  <text x="525" y="140" fill="#FFFFFF" font-size="6">SOIL</text>
+  <!-- Shelf labels (dithered scribbles) -->
+  <g opacity="0.6">
+    <path d="M 72 90 L 88 90 M 75 92 L 85 92" stroke="#FFFFFF" stroke-width="0.5"/>
+    <path d="M 102 90 L 118 90 M 105 92 L 115 92" stroke="#FFFFFF" stroke-width="0.5"/>
+    <path d="M 72 140 L 88 140 M 75 142 L 85 142" stroke="#FFFFFF" stroke-width="0.5"/>
+    <path d="M 102 140 L 118 140 M 105 142 L 115 142" stroke="#FFFFFF" stroke-width="0.5"/>
+    
+    <path d="M 492 90 L 508 90 M 495 92 L 505 92" stroke="#FFFFFF" stroke-width="0.5"/>
+    <path d="M 522 90 L 538 90 M 525 92 L 535 92" stroke="#FFFFFF" stroke-width="0.5"/>
+    <path d="M 492 140 L 508 140 M 495 142 L 505 142" stroke="#FFFFFF" stroke-width="0.5"/>
+    <path d="M 522 140 L 538 140 M 525 142 L 535 142" stroke="#FFFFFF" stroke-width="0.5"/>
+  </g>
   
   <!-- White salt circle -->
   <circle cx="320" cy="250" r="60" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>

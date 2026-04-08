@@ -1,15 +1,38 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <!-- Sonar Ping Device -->
-  <rect x="14" y="12" width="36" height="40" fill="#4A4A4A" stroke="#000000" stroke-width="2"/>
-  <rect x="16" y="14" width="32" height="20" fill="#000000" stroke="#000000" stroke-width="1"/>
-  <!-- Cracked screen -->
-  <line x1="20" y1="18" x2="30" y2="28" stroke="#666666" stroke-width="1"/>
-  <line x1="30" y1="18" x2="20" y2="28" stroke="#666666" stroke-width="1"/>
-  <!-- Ping indicator -->
-  <circle cx="32" cy="44" r="8" fill="#00FF00" opacity="0.3"/>
-  <circle cx="32" cy="44" r="5" fill="#00FF00" opacity="0.2"/>
-  <circle cx="32" cy="44" r="2" fill="#00FF00" opacity="0.5"/>
-  <!-- Buttons -->
-  <rect x="18" y="40" width="10" height="6" fill="#000000" stroke="#000000" stroke-width="1"/>
-  <rect x="36" y="40" width="10" height="6" fill="#000000" stroke="#000000" stroke-width="1"/>
+  <!-- item-sonar-ping-device.svg: Deep Sea Industrial Horror Style -->
+  <!-- Handheld unit - Heavy, dark grey, industrial -->
+  <rect x="14" y="10" width="36" height="44" rx="3" ry="3" fill="#2a2a2a" stroke="#111" stroke-width="2"/>
+  <rect x="18" y="14" width="28" height="22" rx="1" ry="1" fill="#000" stroke="#111" stroke-width="1.5"/>
+  
+  <!-- "Ping" / Cracked screen - Replaced with Radar/Pulse indicator -->
+  <!-- Dynamic sonar pulse icon - Replaced simple circle/text with paths -->
+  <path d="M22 25 Q32 15 42 25" fill="none" stroke="#33ff33" stroke-width="1.5" opacity="0.6">
+    <animate attributeName="opacity" values="0.1;0.8;0.1" dur="2s" repeatCount="indefinite" />
+  </path>
+  <path d="M25 28 Q32 20 39 28" fill="none" stroke="#33ff33" stroke-width="1.5" opacity="0.4">
+    <animate attributeName="opacity" values="0.1;0.8;0.1" dur="2s" begin="0.5s" repeatCount="indefinite" />
+  </path>
+  <path d="M28 31 Q32 25 36 31" fill="none" stroke="#33ff33" stroke-width="1.5" opacity="0.2">
+    <animate attributeName="opacity" values="0.1;0.8;0.1" dur="2s" begin="1s" repeatCount="indefinite" />
+  </path>
+  
+  <!-- Radar dot representing a 'blip' -->
+  <circle cx="38" cy="18" r="1.5" fill="#ffcc00">
+    <animate attributeName="opacity" values="0.2;1;0.2" dur="0.8s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Buttons - Industrial, Heavy-duty -->
+  <g fill="#111" stroke="#333" stroke-width="1.5">
+    <circle cx="23" cy="45" r="3.5" />
+    <circle cx="32" cy="45" r="3.5" />
+    <circle cx="41" cy="45" r="3.5" />
+  </g>
+  
+  <!-- Port/Connector for technical feel -->
+  <rect x="28" y="54" width="8" height="4" fill="#000" stroke="#222" stroke-width="1"/>
+  <line x1="30" y1="56" x2="34" y2="56" stroke="#555" stroke-width="1" />
+  
+  <!-- Corrosion/Rust -->
+  <rect x="42" y="10" width="8" height="20" fill="#8B4513" opacity="0.1" />
+  <rect x="14" y="30" width="4" height="15" fill="#8B4513" opacity="0.1" />
 </svg>

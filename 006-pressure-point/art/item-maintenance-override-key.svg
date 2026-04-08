@@ -1,13 +1,23 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <!-- Maintenance Override Key -->
-  <rect x="16" y="12" width="32" height="20" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <rect x="20" y="16" width="24" height="12" fill="#A0522D" stroke="#000000" stroke-width="1"/>
+  <!-- item-maintenance-override-key.svg: Deep Sea Industrial Horror Style -->
+  <!-- Key handle - Heavy-duty, industrial -->
+  <rect x="12" y="10" width="40" height="24" rx="4" ry="4" fill="#2a2a2a" stroke="#000" stroke-width="2"/>
+  <rect x="15" y="13" width="34" height="18" rx="2" ry="2" fill="#333" stroke="#111" stroke-width="1"/>
+  
+  <!-- "Maintenance" indicator light -->
+  <circle cx="20" cy="22" r="2" fill="#ffaa00" />
+  <circle cx="27" cy="22" r="2" fill="#555" />
+  <circle cx="34" cy="22" r="2" fill="#555" />
+  
   <!-- Key shaft -->
-  <rect x="28" y="32" width="8" height="20" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <!-- Key teeth -->
-  <rect x="24" y="48" width="6" height="6" fill="#8B4513" stroke="#000000" stroke-width="1"/>
-  <rect x="34" y="44" width="6" height="10" fill="#8B4513" stroke="#000000" stroke-width="1"/>
-  <!-- Text -->
-  <text x="18" y="26" font-family="monospace" font-size="4" fill="#FFFFFF">ENGINEERING</text>
-  <text x="22" y="32" font-family="monospace" font-size="4" fill="#FFFFFF">OVERRIDE</text>
+  <rect x="28" y="32" width="8" height="24" fill="#444" stroke="#000" stroke-width="2"/>
+  
+  <!-- Key teeth - Industrial pattern -->
+  <path d="M28,42 H22 V47 H28 V52 H22 V57 H28" fill="#444" stroke="#000" stroke-width="1.5" />
+  <path d="M36,44 H42 V49 H36 V54 H42 V59 H36" fill="#444" stroke="#000" stroke-width="1.5" />
+  
+  <!-- Rust and Grime -->
+  <path d="M12,18 Q15,22 18,15" fill="none" stroke="#8B4513" stroke-width="1" opacity="0.4" />
+  <path d="M40,28 Q45,32 50,25" fill="none" stroke="#8B4513" stroke-width="1" opacity="0.3" />
+  <rect x="30" y="40" width="4" height="6" fill="#8B4513" opacity="0.4" />
 </svg>

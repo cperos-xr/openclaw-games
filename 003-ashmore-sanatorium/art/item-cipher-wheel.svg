@@ -1,24 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <!-- Cipher Wheel - Inventory Icon -->
-  <rect x="0" y="0" width="64" height="64" fill="#2A2A44"/>
-  <!-- Outer brass ring -->
-  <circle cx="32" cy="32" r="22" fill="#B8860B" stroke="#000000" stroke-width="2"/>
-  <!-- Middle glass ring -->
-  <circle cx="32" cy="32" r="16" fill="#AAEEFF" opacity="0.4" stroke="#000000" stroke-width="1"/>
-  <!-- Inner brass ring -->
-  <circle cx="32" cy="32" r="10" fill="#DAA520" stroke="#000000" stroke-width="2"/>
-  <!-- Center crystal -->
-  <circle cx="32" cy="32" r="5" fill="#AAEEFF" stroke="#000000" stroke-width="1"/>
-  <!-- Dial markers -->
-  <line x1="32" y1="12" x2="32" y2="18" stroke="#000000" stroke-width="2"/>
-  <line x1="32" y1="46" x2="32" y2="52" stroke="#000000" stroke-width="2"/>
-  <line x1="12" y1="32" x2="18" y2="32" stroke="#000000" stroke-width="2"/>
-  <line x1="46" y1="32" x2="52" y2="32" stroke="#000000" stroke-width="2"/>
-  <!-- Frozen dials -->
-  <circle cx="32" cy="20" r="2" fill="#FFFFFF"/>
-  <circle cx="44" cy="32" r="2" fill="#FFFFFF"/>
-  <circle cx="32" cy="44" r="2" fill="#FFFFFF"/>
-  <circle cx="20" cy="32" r="2" fill="#FFFFFF"/>
-  <!-- Frost on edges -->
-  <rect x="10" y="28" width="6" height="8" fill="#AAEEFF" opacity="0.3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Layer 1: Outer Cipher Ring - Brass wheel -->
+  <circle cx="32" cy="32" r="28" fill="#B8860B" stroke="#000" stroke-width="2.5"/>
+  <!-- Outer Ring details (notches for characters) -->
+  <path d="M 32 4 L 32 8 M 60 32 L 56 32 M 32 60 L 32 56 M 4 32 L 8 32" stroke="#000" stroke-width="1.5"/>
+  <path d="M 12 12 L 15 15 M 52 12 L 49 15 M 12 52 L 15 49 M 52 52 L 49 49" stroke="#000" stroke-width="1.2"/>
+  
+  <!-- Layer 2: Inner Cipher Wheel - Steel center -->
+  <circle cx="32" cy="32" r="18" fill="#5A5A7A" stroke="#000" stroke-width="2"/>
+  <!-- Inner Ring detail (characters/symbols marked) -->
+  <path d="M 32 14 L 32 18 M 50 32 L 46 32 M 32 50 L 32 46 M 14 32 L 18 32" stroke="#AAEEFF" stroke-width="1" opacity="0.6"/>
+  
+  <!-- Layer 3: Central Pivot/Bolt - Sanatorium hardware style -->
+  <circle cx="32" cy="32" r="6" fill="#4B3A2F" stroke="#000" stroke-width="1.5"/>
+  <rect x="30" y="30" width="4" height="4" fill="#000"/>
+  
+  <!-- Surface Texture (Engravings) -->
+  <path d="M 38 32 Q 32 26 26 32 Q 32 38 38 32" fill="none" stroke="#AAEEFF" stroke-width="0.8" opacity="0.3"/>
+  <path d="M 10 32 Q 32 10 54 32" fill="none" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="2"/>
 </svg>

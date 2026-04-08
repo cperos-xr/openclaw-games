@@ -1,20 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <!-- Battery Cell - Inventory Icon -->
-  <rect x="0" y="0" width="64" height="64" fill="#2A2A44"/>
-  <!-- Battery casing -->
-  <rect x="20" y="12" width="24" height="40" fill="#444466" stroke="#000000" stroke-width="2"/>
-  <!-- Top cap -->
-  <rect x="22" y="14" width="20" height="6" fill="#555577" stroke="#000000" stroke-width="1"/>
-  <!-- Bottom -->
-  <rect x="22" y="46" width="20" height="4" fill="#555577" stroke="#000000" stroke-width="1"/>
-  <!-- Inner blue glow -->
-  <ellipse cx="32" cy="32" rx="8" ry="12" fill="#0000FF" opacity="0.5"/>
-  <ellipse cx="32" cy="32" rx="5" ry="8" fill="#AAEEFF" opacity="0.7"/>
-  <!-- Pulsing effect -->
-  <ellipse cx="32" cy="32" rx="3" ry="5" fill="#FFFFFF" opacity="0.8"/>
-  <!-- Metallic bands -->
-  <rect x="20" y="22" width="24" height="3" fill="#B8860B" stroke="#000000" stroke-width="1"/>
-  <rect x="20" y="39" width="24" height="3" fill="#B8860B" stroke="#000000" stroke-width="1"/>
-  <!-- Frost on top -->
-  <rect x="24" y="14" width="16" height="2" fill="#AAEEFF" opacity="0.3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Layer 1: Battery Shell (Medical Glass/Cylinder style) -->
+  <path d="M 18 10 L 46 10 L 48 12 L 48 50 L 46 54 L 18 54 L 16 50 L 16 12 Z" fill="#4B3A2F" stroke="#000" stroke-width="2"/>
+  
+  <!-- Layer 2: Electrolyte Liquid (Vials/Cells often had colored liquid) -->
+  <path d="M 20 18 L 44 18 L 44 48 L 20 48 Z" fill="#555577" stroke="#000" stroke-width="1.5"/>
+  <!-- Liquid level line -->
+  <path d="M 20 22 L 44 22" stroke="#AAEEFF" stroke-width="0.5" opacity="0.4"/>
+  
+  <!-- Layer 3: Metal Contact Terminals (Top) -->
+  <rect x="24" y="2" width="16" height="8" rx="2" fill="#B8860B" stroke="#000" stroke-width="1.5"/>
+  <!-- Decorative wiring/contact plates -->
+  <path d="M 28 10 L 28 54 M 36 10 L 36 54" stroke="#B8860B" stroke-width="2" opacity="0.3"/>
+  
+  <!-- "Battery" Indicators (Label or marks on shell) -->
+  <path d="M 20 48 L 44 48" stroke="#B8860B" stroke-width="3"/>
+  <!-- Small contact plate base -->
+  <path d="M 22 54 L 42 54 L 42 60 L 22 60 Z" fill="#4B3A2F" stroke="#000" stroke-width="2"/>
+  
+  <!-- Highlights (Glass reflections) -->
+  <path d="M 18 15 L 22 15 L 22 45 L 18 45" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.2"/>
 </svg>

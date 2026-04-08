@@ -1,66 +1,58 @@
 <svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background: Industrial mechanical space -->
-  <rect width="640" height="400" fill="#000011"/>
+  <!-- Background: Engineering Bay - Industrial mechanical space -->
+  <rect width="640" height="400" fill="#0c0c12"/>
   
-  <!-- Ceiling with pipes -->
-  <rect x="0" y="0" width="640" height="30" fill="#000000"/>
-  <rect x="0" y="30" width="640" height="5" fill="#222222"/>
-  <rect x="0" y="35" width="640" height="3" fill="#333333"/>
-  <rect x="0" y="38" width="640" height="2" fill="#444444"/>
+  <!-- Piping and Ceiling structures -->
+  <g stroke="#1c2833" stroke-width="4">
+    <path d="M0 40 H640" />
+    <path d="M0 60 H640" />
+    <path d="M100 0 V40 M250 0 V60 M400 0 V40 M550 0 V60" stroke-width="6" />
+  </g>
   
-  <!-- Steam/steam tendrils -->
-  <path d="M100,40 Q110,80 100,120 Q90,160 100,200" stroke="#666666" stroke-width="1" fill="none" opacity="0.3"/>
-  <path d="M200,40 Q210,70 200,100 Q190,130 200,160" stroke="#666666" stroke-width="1" fill="none" opacity="0.3"/>
-  <path d="M400,40 Q410,90 400,140 Q390,190 400,240" stroke="#666666" stroke-width="1" fill="none" opacity="0.3"/>
-  <path d="M500,40 Q510,60 500,80 Q490,100 500,120" stroke="#666666" stroke-width="1" fill="none" opacity="0.3"/>
+  <!-- Steam vents - Hand-coded atmospheric vector Indicators -->
+  <g stroke="#ffffff" stroke-width="1.5" opacity="0.15">
+    <path d="M100 65 Q115 100 100 135" >
+      <animate attributeName="opacity" values="0.05;0.3;0.05" dur="3s" repeatCount="indefinite" />
+    </path>
+    <path d="M400 65 Q385 100 400 135" >
+      <animate attributeName="opacity" values="0.05;0.3;0.05" dur="3.5s" repeatCount="indefinite" />
+    </path>
+  </g>
   
-  <!-- Central pressure valve -->
-  <circle cx="320" cy="200" r="60" fill="#000022" stroke="#222222" stroke-width="4"/>
-  <circle cx="320" cy="200" r="50" fill="#000011" stroke="#333333" stroke-width="2"/>
-  <line x1="320" y1="150" x2="320" y2="250" stroke="#333333" stroke-width="4"/>
-  <line x1="270" y1="200" x2="370" y2="200" stroke="#333333" stroke-width="4"/>
-  <rect x="310" y="140" width="20" height="20" fill="#4A4A4A"/>
-  
-  <!-- Oxygen canister -->
-  <rect x="500" y="150" width="40" height="100" fill="#000022" stroke="#222222" stroke-width="2"/>
-  <rect x="510" y="160" width="20" height="10" fill="#00FF00" opacity="0.5"/>
-  <line x1="500" y1="200" x2="540" y2="200" stroke="#222222" stroke-width="1"/>
-  <line x1="500" y1="220" x2="540" y2="220" stroke="#222222" stroke-width="1"/>
-  <rect x="515" y="250" width="10" height="5" fill="#00FF00"/>
-  
-  <!-- Workbench -->
-  <rect x="100" y="280" width="180" height="60" fill="#000022" stroke="#222222" stroke-width="2"/>
-  <rect x="110" y="290" width="160" height="40" fill="#000011"/>
-  
-  <!-- Tools and components on workbench -->
-  <rect x="120" y="295" width="15" height="5" fill="#666666"/>
-  <rect x="140" y="295" width="10" height="8" fill="#666666"/>
-  <rect x="160" y="295" width="20" height="5" fill="#4A4A4A"/>
-  <rect x="190" y="295" width="15" height="10" fill="#000022" stroke="#222222" stroke-width="1"/>
-  <rect x="220" y="295" width="10" height="5" fill="#666666"/>
-  <rect x="240" y="295" width="20" height="10" fill="#000022" stroke="#222222" stroke-width="1"/>
-  
-  <!-- Generator casings -->
-  <rect x="20" y="100" width="80" height="120" fill="#000022" stroke="#222222" stroke-width="2"/>
-  <rect x="30" y="110" width="60" height="20" fill="#000011"/>
-  <rect x="30" y="140" width="60" height="20" fill="#000011"/>
-  <rect x="30" y="170" width="60" height="20" fill="#000011"/>
-  
-  <rect x="540" y="100" width="80" height="120" fill="#000022" stroke="#222222" stroke-width="2"/>
-  <rect x="550" y="110" width="60" height="20" fill="#000011"/>
-  <rect x="550" y="140" width="60" height="20" fill="#000011"/>
-  <rect x="550" y="170" width="60" height="20" fill="#000011"/>
-  
-  <!-- Viewport to abyss -->
-  <rect x="350" y="100" width="120" height="80" fill="#000000" stroke="#222222" stroke-width="3"/>
-  <rect x="355" y="105" width="110" height="70" fill="#000000"/>
-  <path d="M380,140 Q400,120 420,140 Q440,160 420,180 Q400,200 380,180 Q360,160 380,140" fill="#001100" opacity="0.5"/>
-  
-  <!-- Airlock hatch -->
-  <rect x="20" y="320" width="60" height="60" fill="#000022" stroke="#FF0000" stroke-width="3"/>
-  <circle cx="50" cy="350" r="15" fill="#000000" stroke="#FF0000" stroke-width="2"/>
-  <text x="30" y="395" font-family="monospace" font-size="6" fill="#FF0000">AIRLOCK</text>
-  
+  <!-- Central Heavy Pressure Valve - Main focal point -->
+  <circle cx="320" cy="200" r="70" fill="#17202a" stroke="#2c3e50" stroke-width="5"/>
+  <circle cx="320" cy="200" r="55" fill="#1c2833" stroke="#2c3e50" stroke-width="2"/>
+  <g stroke="#2c3e50" stroke-width="6" stroke-linecap="round">
+    <line x1="320" y1="145" x2="320" y2="255" />
+    <line x1="265" y1="200" x2="375" y2="200" />
+  </g>
+  <!-- Pressure indicator gauge icon -->
+  <circle cx="280" cy="160" r="12" fill="#000" stroke="#2ecc71" stroke-width="1.5"/>
+  <path d="M280 160 L288 152" stroke="#ff4444" stroke-width="2" />
+
+  <!-- Oxygen Storage/Canister Rack -->
+  <rect x="500" y="150" width="60" height="120" fill="#17202a" stroke="#2c3e50" stroke-width="2"/>
+  <rect x="515" y="165" width="30" height="90" rx="5" ry="5" fill="#0b5345" stroke="#145a32" stroke-width="2" opacity="0.8"/>
+  <path d="M515 210 H545" stroke="#145a32" stroke-width="1.5" />
+
+  <!-- Heavy Workbench -->
+  <path d="M100 280 L280 280 L270 340 L110 340 Z" fill="#1c2833" stroke="#2c3e50" stroke-width="3"/>
+  <!-- Components/Tools - Replaced placeholders with silhouettes -->
+  <rect x="130" y="285" width="20" height="4" fill="#333" />
+  <path d="M160 285 L180 285 L185 295 L155 295 Z" fill="#444" stroke="#111" stroke-width="1" />
+  <circle cx="210" cy="290" r="3" fill="#8B4513" opacity="0.6" />
+
+  <!-- Viewport to the dark abyss -->
+  <rect x="350" y="100" width="120" height="85" fill="#000" stroke="#1c2833" stroke-width="4"/>
+  <path d="M370 120 Q410 100 450 120" stroke="#2ecc71" stroke-width="1.5" opacity="0.1" />
+
+  <!-- Airlock hatch - Bottom left -->
+  <rect x="25" y="325" width="50" height="50" rx="5" ry="5" fill="#1a1a1a" stroke="#c0392b" stroke-width="2.5"/>
+  <circle cx="50" cy="350" r="12" fill="none" stroke="#e74c3c" stroke-width="2" opacity="0.5"/>
+  <!-- Red arrow indicator -->
+  <path d="M50 340 V360 M45 355 L50 360 L55 355" stroke="#e74c3c" stroke-width="2" />
+
   <!-- Floor details -->
-  <rect x="0" y="380" width="640" height="20" fill="#000011"/>
+  <path d="M0 380 H640 V400 H0 Z" fill="#0a0a0a" stroke="#1c2833" stroke-width="1" />
+  <line x1="320" y1="380" x2="320" y2="400" stroke="#1c2833" stroke-width="1" />
 </svg>

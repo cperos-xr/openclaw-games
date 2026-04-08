@@ -1,15 +1,35 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <!-- Broken Lever -->
-  <!-- Main shaft -->
-  <rect x="28" y="10" width="8" height="44" fill="#696969" stroke="#000000" stroke-width="2"/>
-  <!-- Handle (chewed up end) -->
-  <rect x="24" y="44" width="16" height="10" fill="#696969" stroke="#000000" stroke-width="2"/>
-  <rect x="26" y="50" width="4" height="4" fill="#8B4513" stroke="#000000" stroke-width="1"/> <!-- Chewed -->
-  <rect x="34" y="48" width="4" height="4" fill="#8B4513" stroke="#000000" stroke-width="1"/> <!-- Chewed -->
-  <!-- Top attachment point -->
-  <rect x="26" y="6" width="12" height="6" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <circle cx="32" cy="9" r="2" fill="#000000"/> <!-- Hole -->
-  <!-- Rust and damage -->
-  <rect x="30" y="18" width="4" height="2" fill="#006600"/> <!-- Rust -->
-  <rect x="29" y="25" width="6" height="2" fill="#006600"/> <!-- Rust -->
+  <defs>
+    <!-- Dark polished wood/metal texture -->
+    <pattern id="metal-pitted" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#333"/>
+      <circle cx="5" cy="5" r="1" fill="#222"/>
+    </pattern>
+  </defs>
+
+  <!-- Layer 1: Background Shadow -->
+  <ellipse cx="32" cy="58" rx="20" ry="3" fill="#000" opacity="0.4"/>
+
+  <!-- Layer 2: Main Lever Shaft (Broken/Snagged) -->
+  <g id="lever-shaft" transform="rotate(-15, 32, 32)">
+    <!-- Lever Body -->
+    <path d="M 28 50 L 36 50 L 38 10 Q 32 5 26 10 Z" fill="url(#metal-pitted)" stroke="#111" stroke-width="1.5"/>
+    
+    <!-- Fracture Point (The Jagged Break at the Top) -->
+    <path d="M 26 10 Q 30 15 32 10 Q 35 18 38 10 Q 32 12 26 10" fill="#DAA520" stroke="#8B6508" stroke-width="1"/> <!-- Shiny metallic fracture -->
+    
+    <!-- Rusted Base/Pivot -->
+    <path d="M 20 50 L 44 50 L 48 60 L 16 60 Z" fill="#2D1B0F" stroke="#111" stroke-width="1.5"/>
+    <path d="M 24 55 L 40 55" stroke="#8B4513" stroke-width="2" opacity="0.6"/> <!-- Rust streaks -->
+  </g>
+
+  <!-- Layer 3: Handle (Ornate, cracked) -->
+  <g transform="translate(40, 15) rotate(15)">
+    <circle cx="0" cy="0" r="10" fill="#3D2B1F" stroke="#111" stroke-width="1.5"/> <!-- Handle grip -->
+    <path d="M -5 -5 L 5 5 M -5 5 L 5 -5" stroke="#111" stroke-width="2" opacity="0.5"/> <!-- Surface cracks -->
+  </g>
+
+  <!-- Layer 4: Detail & Highlights -->
+  <path d="M 30 20 L 32 45" stroke="#fff" stroke-width="1" opacity="0.1"/> <!-- Distant glint -->
+  <circle cx="32" cy="55" r="3" fill="#DAA520" stroke="#8B6508"/> <!-- Pivot bolt -->
 </svg>

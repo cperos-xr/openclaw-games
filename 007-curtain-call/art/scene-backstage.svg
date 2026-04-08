@@ -1,53 +1,45 @@
-<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background: Dusty backstage -->
-  <rect width="640" height="400" fill="#1A0015"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <defs>
+    <!-- Heavy Velvet Texture/Hatch -->
+    <pattern id="velvet" width="10" height="10" patternUnits="userSpaceOnUse">
+      <path d="M 0 5 L 10 5" stroke="#2B001E" stroke-width="2" />
+    </pattern>
+  </defs>
+  <!-- Background: Deep Void -->
+  <rect width="640" height="400" fill="#0A0008"/>
   
-  <!-- Floor -->
+  <!-- Backstage Area (Midground) -->
+  <g id="backstage-depth">
+    <path d="M 50 350 L 590 350 L 590 50 L 50 50 Z" fill="#1A0015" stroke="#4A0035" stroke-width="4"/>
+    <path d="M 120 180 L 120 350 M 520 180 L 520 350" stroke="#4A0035" stroke-width="6" opacity="0.6"/>
+  </g>
+
+  <!-- Heavy Theater Flats (Side Wings) -->
+  <g id="scenery-flats">
+    <!-- Painted Landscape Flat -->
+    <path d="M 20 100 L 100 100 L 100 350 L 20 350 Z" fill="url(#velvet)" />
+    <path d="M 20 100 L 100 100 L 100 350" fill="none" stroke="#4A0035" stroke-width="2"/>
+    <!-- Castle Turret Flat -->
+    <path d="M 540 80 L 620 80 L 620 350 L 540 350 Z" fill="#330028" stroke="#5B004A" stroke-width="3"/>
+  </g>
+
+  <!-- Prop Storage/Table -->
+  <g id="prop-table" transform="translate(400, 250)">
+    <path d="M 0 0 L 180 0 L 180 100 L 0 100 Z" fill="#2B001E" stroke="#4A0035" stroke-width="3"/>
+    <!-- Prop Silhouettes (Hand Coded) -->
+    <path d="M 20 10 L 40 10 C 40 40 20 40 20 10" fill="#8B0000"/> <!-- Blood bucket -->
+    <path d="M 60 40 L 100 20 L 140 40" fill="none" stroke="#C0C0C0" stroke-width="4"/> <!-- Coil of rope -->
+  </g>
+
+  <!-- Atmospheric Indicator: Exit Light -->
+  <g id="exit-indicator" transform="translate(560, 60)">
+    <circle cx="20" cy="20" r="15" fill="#FF0000" opacity="0.3"/>
+    <circle cx="20" cy="20" r="8" fill="#FF0000"/>
+    <!-- Directional arrow (Stage Marker Style) -->
+    <path d="M 10 20 L 30 20 M 24 14 L 30 20 L 24 26" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+  </g>
+
+  <!-- Floor/Foreground -->
   <rect x="0" y="350" width="640" height="50" fill="#0A0008"/>
-  
-  <!-- Walls -->
-  <rect x="0" y="0" width="640" height="50" fill="#0A0008"/>
-  <rect x="0" y="0" width="50" height="350" fill="#0A0008"/>
-  <rect x="590" y="0" width="50" height="350" fill="#0A0008"/>
-  
-  <!-- Cracked mirror (on west wall) -->
-  <rect x="100" y="100" width="120" height="200" fill="#330028" stroke="#4A0035" stroke-width="2"/>
-  <!-- Cracks -->
-  <line x1="120" y1="100" x2="160" y2="180" stroke="#FFFFFF" stroke-width="1"/>
-  <line x1="160" y1="100" x2="180" y2="150" stroke="#FFFFFF" stroke-width="1"/>
-  <line x1="140" y1="150" x2="160" y2="200" stroke="#FFFFFF" stroke-width="1"/>
-  <line x1="110" y1="120" x2="130" y2="170" stroke="#FFFFFF" stroke-width="1"/>
-  
-  <!-- Wooden flats (leaning against walls) -->
-  <rect x="20" y="200" width="80" height="100" fill="#330028" stroke="#4A0035" stroke-width="2"/> <!-- Painted forest -->
-  <rect x="100" y="200" width="100" height="80" fill="#4A0035" stroke="#5B004A" stroke-width="2"/> <!-- Castle turrets -->
-  <rect x="220" y="200" width="80" height="120" fill="#330028" stroke="#4A0035" stroke-width="2"/> <!-- Interior walls -->
-  <rect x="540" y="200" width="80" height="100" fill="#4A0035" stroke="#5B004A" stroke-width="2"/> <!-- More flats -->
-  
-  <!-- Ladder (south, broken) -->
-  <rect x="300" y="200" width="20" height="100" fill="#330028" stroke="#4A0035" stroke-width="2"/>
-  <rect x="290" y="210" width="40" height="10" fill="#330028" stroke="#4A0035" stroke-width="1"/> <!-- Bottom rung -->
-  <rect x="290" y="240" width="40" height="10" fill="#330028" stroke="#4A0035" stroke-width="1"/> <!-- Second rung -->
-  <line x1="290" y1="270" x2="330" y2="270" stroke="#FFFFFF" stroke-width="1"/> <!-- Missing rung (gap) -->
-  <line x1="290" y1="300" x2="330" y2="300" stroke="#FFFFFF" stroke-width="1"/> <!-- Missing rung (gap) -->
-  <rect x="290" y="330" width="40" height="10" fill="#330028" stroke="#4A0035" stroke-width="1"/> <!-- Top rung -->
-  
-  <!-- Workbench -->
-  <rect x="400" y="250" width="150" height="80" fill="#2B001E" stroke="#4A0035" stroke-width="2"/>
-  <rect x="410" y="260" width="20" height="10" fill="#330028"/> <!-- Screwdriver -->
-  <rect x="440" y="260" width="10" height="20" fill="#330028"/> <!-- Coil of rope -->
-  <rect x="470" y="260" width="30" height="15" fill="#8B0000"/> <!-- Tin of stage blood -->
-  
-  <!-- Ropes -->
-  <line x1="100" y1="50" x2="80" y2="150" stroke="#330028" stroke-width="3"/>
-  <line x1="120" y1="60" x2="100" y2="160" stroke="#330028" stroke-width="3"/>
-  <line x1="580" y1="50" x2="560" y2="150" stroke="#330028" stroke-width="3"/>
-  <line x1="560" y1="60" x2="580" y2="160" stroke="#330028" stroke-width="3"/>
-  
-  <!-- Hallway to dressing rooms (south exit) -->
-  <rect x="290" y="340" width="60" height="10" fill="#0A0008"/>
-  <rect x="295" y="340" width="50" height="5" fill="#1A0015"/>
-  
-  <!-- Ladder up to catwalk (exit up) -->
-  <rect x="300" y="50" width="20" height="30" fill="#330028" stroke="#4A0035" stroke-width="2"/>
+  <path d="M 0 350 L 640 350" stroke="#4A0035" stroke-width="2"/>
 </svg>

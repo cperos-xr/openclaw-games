@@ -59,7 +59,9 @@
   <rect x="455" y="105" width="70" height="140" fill="#6A4A3A" stroke="#000000" stroke-width="2"/>
   <circle cx="525" cy="175" r="5" fill="#B8860B" stroke="#000000" stroke-width="2"/>
   <!-- Gold lettering -->
-  <text x="490" y="90" font-family="monospace" font-size="10" fill="#DAA520" text-anchor="middle">RECORDS</text>
+  <!-- "RECORDS" sign-simulated marks -->
+  <path d="M475 88 L480 88 M483 88 L488 88 M491 88 L496 88 M499 88 L505 88" stroke="#DAA520" stroke-width="1.5"/>
+  <path d="M480 92 L490 92 M495 92 L500 92" stroke="#DAA520" stroke-width="1.2"/>
   
   <!-- The Warden (hulking figure) -->
   <rect x="320" y="120" width="40" height="130" fill="#3A3A5A" stroke="#000000" stroke-width="3"/>

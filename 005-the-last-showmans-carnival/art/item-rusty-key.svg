@@ -1,14 +1,38 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <!-- Rusty Key -->
-  <rect x="10" y="28" width="44" height="8" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <!-- Bow (handle) -->
-  <circle cx="18" cy="32" r="10" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <circle cx="18" cy="32" r="6" fill="#000000"/>
-  <!-- Bit (teeth) -->
-  <rect x="46" y="36" width="8" height="4" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <rect x="50" y="40" width="4" height="4" fill="#8B4513" stroke="#000000" stroke-width="2"/>
-  <!-- Rust spots -->
-  <circle cx="25" cy="30" r="2" fill="#006600"/>
-  <circle cx="35" cy="32" r="2" fill="#006600"/>
-  <circle cx="45" cy="34" r="2" fill="#006600"/>
+  <defs>
+    <!-- Heavy Rust Texture Pattern -->
+    <pattern id="rust-texture" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#2D1B0F"/>
+      <path d="M 0 5 L 10 5" stroke="#3D2B1F" stroke-width="1" opacity="0.3"/>
+      <circle cx="5" cy="5" r="1.5" fill="#8B4513" opacity="0.4"/>
+    </pattern>
+  </defs>
+
+  <!-- Layer 1: Casting Shadow -->
+  <ellipse cx="32" cy="50" rx="25" ry="4" fill="#000" opacity="0.4"/>
+
+  <!-- Layer 2: The Key Body (Heavy, Iron, Rusted) -->
+  <g id="rusty-iron-key" transform="rotate(-15, 32, 32)">
+    <!-- The Bow (Ornate Ring Handle) -->
+    <path d="M 10 32 A 10 10 0 1 1 30 32 A 10 10 0 1 1 10 32 Z M 16 32 A 4 4 0 1 0 24 32 A 4 4 0 1 0 16 32 Z" fill="url(#rust-texture)" stroke="#111" stroke-width="1.5"/>
+    
+    <!-- The Shaft -->
+    <rect x="28" y="30" width="28" height="4" rx="1" fill="url(#rust-texture)" stroke="#111" stroke-width="1"/>
+    
+    <!-- The Bit (Teeth) - Ornate/Complicated looking -->
+    <path d="M 48 34 L 48 44 L 52 44 L 52 40 L 56 40 L 56 34 Z" fill="#2D1B0F" stroke="#111" stroke-width="1"/>
+    <!-- Iron casting pits -->
+    <circle cx="50" cy="37" r="1.5" fill="#000" opacity="0.3"/>
+    
+    <!-- Flaking Rust (the 'Green' and 'Brown' oxidation layers) -->
+    <g opacity="0.6">
+      <circle cx="45" cy="32" r="1.5" fill="#8B4513"/>
+      <circle cx="34" cy="31" r="1" fill="#8B4513"/>
+      <circle cx="20" cy="28" r="2" fill="#2F4F2F"/> <!-- Verdigris hint for old bronze alloy mix -->
+    </g>
+  </g>
+
+  <!-- Layer 3: Occasional Glints on Edge -->
+  <path d="M 30 33 L 45 33" stroke="#fff" stroke-width="0.5" opacity="0.1"/>
+  <circle cx="15" cy="35" r="1.5" fill="#fff" opacity="0.2"/>
 </svg>
