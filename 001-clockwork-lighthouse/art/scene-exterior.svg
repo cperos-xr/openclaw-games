@@ -1,44 +1,46 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
-  <rect width="640" height="400" fill="#000088"/>
-  <rect x="200" y="100" width="240" height="300" fill="#AA00FF"/>
-  <rect x="220" y="120" width="200" height="260" fill="#000000"/>
-  <rect x="240" y="140" width="160" height="220" fill="#AA00FF"/>
-  <rect x="260" y="160" width="120" height="180" fill="#000000"/>
-  <rect x="280" y="180" width="80" height="140" fill="#AA00FF"/>
-  <rect x="300" y="200" width="40" height="100" fill="#000000"/>
-  <rect x="320" y="220" width="20" height="60" fill="#AA00FF"/>
-  <rect x="200" y="100" width="240" height="20" fill="#FF8800"/>
-  <rect x="200" y="120" width="20" height="260" fill="#FF8800"/>
-  <rect x="420" y="120" width="20" height="260" fill="#FF8800"/>
-  <line x1="200" y1="100" x2="440" y2="100" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="200" y1="380" x2="440" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="200" y1="100" x2="200" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="440" y1="100" x2="440" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <rect x="220" y="360" width="200" height="20" fill="#FF8800"/>
-  <line x1="220" y1="360" x2="420" y2="360" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="220" y1="360" x2="220" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="420" y1="360" x2="420" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <text x="240" y="375" font-family="Arial" font-size="12" fill="#FFFFFF">ALISTAIR CHRONOS</text>
-  <text x="240" y="390" font-family="Arial" font-size="12" fill="#FFFFFF">KEEPER OF TIME</text>
-  <line x1="200" y1="100" x2="220" y2="120" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="440" y1="100" x2="420" y2="120" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="220" y1="120" x2="220" y2="360" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="420" y1="120" x2="420" y2="360" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="220" y1="360" x2="240" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="420" y1="360" x2="400" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="240" y1="380" x2="400" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="200" y1="100" x2="220" y2="120" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="440" y1="100" x2="420" y2="120" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="220" y1="120" x2="220" y2="360" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="420" y1="120" x2="420" y2="360" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="220" y1="360" x2="240" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="420" y1="360" x2="400" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="240" y1="380" x2="400" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="200" y1="100" x2="220" y2="120" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="440" y1="100" x2="420" y2="120" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="220" y1="120" x2="220" y2="360" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="420" y1="120" x2="420" y2="360" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="220" y1="360" x2="240" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="420" y1="360" x2="400" y2="380" stroke="#FFFFFF" stroke-width="2"/>
-  <line x1="240" y1="380" x2="400" y2="380" stroke="#FFFFFF" stroke-width="2"/>
+  <defs>
+    <pattern id="dither" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="2" height="2" fill="#000000" opacity="0.5"/>
+      <rect x="2" y="2" width="2" height="2" fill="#000000" opacity="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Background: Stormy Sky -->
+  <rect width="640" height="400" fill="#000033" />
+  <path d="M 0 0 L 640 0 L 640 150 Q 320 180 0 150 Z" fill="#111122" />
+  
+  <!-- Lightning Bolt -->
+  <path d="M 450 0 L 430 80 L 460 70 L 440 150" stroke="#FFFF00" stroke-width="3" fill="none" />
+
+  <!-- Midground: Churning Ocean -->
+  <path d="M 0 250 Q 80 230 160 250 Q 240 270 320 250 Q 400 230 480 250 Q 560 270 640 250 L 640 400 L 0 400 Z" fill="#000088" />
+  <path d="M 0 280 Q 100 260 200 280 Q 300 300 400 280 Q 500 260 600 280 L 640 280 L 640 400 L 0 400 Z" fill="#000044" />
+  
+  <!-- Cliffside -->
+  <path d="M 0 150 L 120 180 L 150 280 L 100 400 L 0 400 Z" fill="#222222" stroke="#000000" stroke-width="2" />
+  <path d="M 0 150 L 120 180 L 150 280 L 100 400 L 0 400 Z" fill="url(#dither)" />
+
+  <!-- The Lighthouse -->
+  <g id="lighthouse" transform="translate(60, 40)">
+    <!-- Base/Tower -->
+    <path d="M 20 120 L 60 120 L 55 20 L 25 20 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2" />
+    <!-- Red stripes -->
+    <path d="M 23 45 L 57 45 L 56 65 L 24 65 Z" fill="#FF0000" />
+    <path d="M 21 90 L 59 90 L 58 110 L 22 110 Z" fill="#FF0000" />
+    <!-- Lantern Room -->
+    <rect x="25" y="0" width="30" height="20" fill="#333333" stroke="#000000" stroke-width="2" />
+    <rect x="30" y="5" width="20" height="10" fill="#FFFF00" />
+    <!-- Roof -->
+    <path d="M 20 0 L 60 0 L 40 -15 Z" fill="#333333" stroke="#000000" stroke-width="2" />
+    <!-- Light Beam -->
+    <path d="M 40 10 L 400 -50 L 420 150 Z" fill="#FFFF00" opacity="0.2" />
+  </g>
+
+  <!-- Foreground: Crashing Waves -->
+  <path d="M 120 280 Q 140 260 160 280 Q 180 300 200 280" stroke="#FFFFFF" stroke-width="3" fill="none" opacity="0.6" />
+  <path d="M 100 320 Q 130 300 160 320" stroke="#FFFFFF" stroke-width="4" fill="none" opacity="0.4" />
+  
+  <!-- Frame -->
+  <rect width="640" height="400" fill="none" stroke="#000000" stroke-width="4" />
 </svg>
